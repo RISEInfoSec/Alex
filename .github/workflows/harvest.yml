@@ -1,0 +1,105 @@
+name: Harvest bibliographic metadata
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_id:
+        description: "Start record ID"
+        required: false
+        default: "1"
+      end_id:
+        description: "End record ID"
+        required: false
+        default: "25"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: harvest-metadata
+  cancel-in-progress: false
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run harvester
+        env:
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+        run: |
+          python scripts/harvest_osint_metadata.py             --input osint_cyber_paper_library_206_v7_enriched.xlsx             --sheet Cyber_Corpus             --start-id "${{ github.event.inputs.start_id || '1' }}"             --end-id "${{ github.event.inputs.end_id || '25' }}"             --output osint_cyber_paper_library_harvested.xlsx             --cache .harvest_cache.json             --semantic-scholar
+
+      - name: Replace canonical workbook
+        run: mv osint_cyber_paper_library_harvested.xlsx osint_cyber_paper_library_206_v7_enriched.xlsx
+
+      - name: Rebuild CSV and JSON for site
+        run: |
+          python - <<'PY'
+          import json, pandas as pd
+          from pathlib import Path
+          repo = Path(".")
+          df = pd.read_excel(repo / "osint_cyber_paper_library_206_v7_enriched.xlsx", sheet_name="Cyber_Corpus")
+          (repo / "data").mkdir(exist_ok=True)
+          df.to_csv(repo / "data" / "osint_cyber_papers.csv", index=False)
+
+          def split_multi(v):
+              if pd.isna(v): return []
+              vals = []
+              for x in str(v).replace("|",";").split(";"):
+                  x = x.strip()
+                  if x:
+                      vals.append(x)
+              seen, out = set(), []
+              for x in vals:
+                  k = x.lower()
+                  if k not in seen:
+                      seen.add(k)
+                      out.append(x)
+              return out
+
+          papers = []
+          for _, row in df.iterrows():
+              doi = str(row.get("DOI","")).strip() if pd.notna(row.get("DOI","")) else ""
+              src = str(row.get("Source_URL","")).strip() if pd.notna(row.get("Source_URL","")) else ""
+              link = f"https://doi.org/{doi}" if doi else src
+              papers.append({
+                  "id": int(row["ID"]) if pd.notna(row["ID"]) else None,
+                  "title": str(row.get("Title","")).strip(),
+                  "author": str(row.get("Authors","")).strip(),
+                  "year": int(row["Year"]) if pd.notna(row.get("Year")) else "",
+                  "venue": str(row.get("Venue","")).strip(),
+                  "summary": str(row.get("Abstract","")).strip(),
+                  "keywords": split_multi(row.get("Keywords","")),
+                  "osint_source": split_multi(row.get("OSINT_Source_Types","")),
+                  "category": str(row.get("Category","")).strip(),
+                  "investigation_type": str(row.get("Investigation_Type","")).strip(),
+                  "tags": split_multi(row.get("Tags","")),
+                  "link": link,
+                  "source_url": src,
+                  "doi": doi
+              })
+          (repo / "papers.json").write_text(json.dumps(papers, ensure_ascii=False, indent=2), encoding="utf-8")
+          PY
+
+      - name: Commit updated dataset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add osint_cyber_paper_library_206_v7_enriched.xlsx data/osint_cyber_papers.csv papers.json .harvest_cache.json
+          git diff --cached --quiet || git commit -m "Harvest bibliographic metadata"
+          git push
