@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1040" viewBox="0 0 1500 1040">
+<style>
+.t{font:700 30px Arial;fill:#0b3d62}.s{font:600 18px Arial;fill:#1b2633}.b{fill:#fff;stroke:#1f6feb;stroke-width:2;rx:12;ry:12}.q{fill:#eef4fb;stroke:#8bb8ff;stroke-width:2;rx:12;ry:12}.tx{font:15px Arial;fill:#1b2633}.sm{font:13px Arial;fill:#425466}.a{stroke:#3b82f6;stroke-width:3;fill:none;marker-end:url(#m)}
+</style>
+<defs><marker id="m" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#3b82f6"/></marker></defs>
+<text x="30" y="40" class="t">Alex Architecture v2.1</text>
+<text x="30" y="75" class="s">Gap-closed specification: comprehensive discovery, citation chaining, quality gate, human review, publication</text>
+
+<rect x="40" y="120" width="250" height="160" class="q"/>
+<text x="60" y="155" class="tx">Discovery source universe</text>
+<text x="60" y="180" class="sm">Google Scholar / Semantic Scholar / CORE / BASE / Dimensions</text>
+<text x="60" y="200" class="sm">OpenAlex / Crossref / arXiv / Zenodo / GitHub</text>
+<text x="60" y="220" class="sm">IEEE / ACM / USENIX / DFRWS / FIRST / SANS / Black Hat</text>
+<text x="60" y="240" class="sm">RAND / CSIS / Atlantic Council / NATO StratCom COE / Bellingcat</text>
+
+<rect x="350" y="120" width="210" height="80" class="b"/>
+<text x="375" y="155" class="tx">discover.yml</text>
+<text x="375" y="175" class="sm">API/feed/source discovery</text>
+
+<rect x="350" y="220" width="210" height="80" class="b"/>
+<text x="375" y="255" class="tx">discover_manual_assist.yml</text>
+<text x="375" y="275" class="sm">manual/assisted sources</text>
+
+<rect x="620" y="170" width="220" height="80" class="b"/>
+<text x="645" y="205" class="tx">Candidate pool</text>
+<text x="645" y="225" class="sm">discovery_candidates.csv</text>
+
+<rect x="900" y="170" width="220" height="80" class="b"/>
+<text x="925" y="205" class="tx">citation_chain.yml</text>
+<text x="925" y="225" class="sm">references / cited-by / author chaining</text>
+
+<rect x="1180" y="170" width="220" height="80" class="b"/>
+<text x="1205" y="205" class="tx">quality_gate.yml</text>
+<text x="1205" y="225" class="sm">score and route candidates</text>
+
+<path d="M290 165 L350 165" class="a"/><path d="M290 245 L350 245" class="a"/><path d="M560 210 L620 210" class="a"/><path d="M840 210 L900 210" class="a"/><path d="M1120 210 L1180 210" class="a"/>
+
+<rect x="1180" y="320" width="220" height="70" class="b"/>
+<text x="1205" y="350" class="tx">Auto-include</text>
+<text x="1205" y="370" class="sm">accepted into corpus</text>
+
+<rect x="1180" y="410" width="220" height="70" class="b"/>
+<text x="1205" y="440" class="tx">Review queue</text>
+<text x="1205" y="460" class="sm">human confirmation</text>
+
+<rect x="1180" y="500" width="220" height="70" class="b"/>
+<text x="1205" y="530" class="tx">Rejected candidates</text>
+<text x="1205" y="550" class="sm">questionable / unverifiable</text>
+
+<path d="M1290 250 L1290 320" class="a"/><path d="M1290 250 L1290 410" class="a"/><path d="M1290 250 L1290 500" class="a"/>
+
+<rect x="620" y="410" width="220" height="80" class="b"/>
+<text x="645" y="445" class="tx">harvest.yml</text>
+<text x="645" y="465" class="sm">DOI / authors / venue / abstract</text>
+
+<rect x="900" y="410" width="220" height="80" class="b"/>
+<text x="925" y="445" class="tx">tag_new_papers.yml</text>
+<text x="925" y="465" class="sm">category / keywords / tags / tiers</text>
+
+<rect x="620" y="550" width="220" height="80" class="b"/>
+<text x="645" y="585" class="tx">Accepted master corpus</text>
+<text x="645" y="605" class="sm">public accepted dataset only</text>
+
+<rect x="900" y="550" width="220" height="80" class="b"/>
+<text x="925" y="585" class="tx">rebuild_site.yml</text>
+<text x="925" y="605" class="sm">CSV + JSON rebuild</text>
+
+<rect x="1180" y="550" width="220" height="80" class="b"/>
+<text x="1205" y="585" class="tx">pages.yml</text>
+<text x="1205" y="605" class="sm">GitHub Pages deployment</text>
+
+<path d="M1290 390 L840 450" class="a"/><path d="M840 450 L900 450" class="a"/><path d="M730 490 L730 550" class="a"/><path d="M840 590 L900 590" class="a"/><path d="M1120 590 L1180 590" class="a"/>
+
+<text x="30" y="730" class="s">Required config and governance artifacts</text>
+<rect x="40" y="760" width="300" height="220" class="q"/>
+<text x="60" y="795" class="tx">Config</text>
+<text x="60" y="820" class="sm">source_registry.json</text>
+<text x="60" y="840" class="sm">query_registry.json</text>
+<text x="60" y="860" class="sm">journal_targets.json</text>
+<text x="60" y="880" class="sm">conference_targets.json</text>
+<text x="60" y="900" class="sm">thinktank_targets.json</text>
+<text x="60" y="920" class="sm">venue_whitelist.json / venue_blacklist.json</text>
+<text x="60" y="940" class="sm">quality_thresholds.json / manual_assist_sources.json</text>
+
+<rect x="390" y="760" width="300" height="220" class="q"/>
+<text x="410" y="795" class="tx">Internal data products</text>
+<text x="410" y="820" class="sm">discovery_candidates.csv</text>
+<text x="410" y="840" class="sm">review_queue.csv</text>
+<text x="410" y="860" class="sm">rejected_candidates.csv</text>
+<text x="410" y="880" class="sm">quality_metrics.csv</text>
+
+<rect x="740" y="760" width="300" height="220" class="q"/>
+<text x="760" y="795" class="tx">Quality policy</text>
+<text x="760" y="820" class="sm">prefer omission over contamination</text>
+<text x="760" y="840" class="sm">human review for uncertainty</text>
+<text x="760" y="860" class="sm">public corpus separated from provisional items</text>
+
+</svg>
