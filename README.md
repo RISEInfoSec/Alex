@@ -1,21 +1,19 @@
-# OSINT + Cybersecurity Research Library
+# Alex Architecture v2.1
 
-This package includes GitHub Actions to:
+This is the **gap-closed package spec** produced after QA review.
 
-- harvest bibliographic metadata in **manual batches**
-- run an **automatic full enrichment pass** across all records in sequential batches
-- deploy the site to **GitHub Pages**
+It explicitly closes the design/spec omissions identified in v2 by adding:
+- Google Scholar
+- Dimensions
+- GitHub discovery
+- the two missing journals
+- manual-assist discovery flow
+- citation chaining requirement
+- quality gate requirement
+- review queue and rejected-candidate requirement
 
-## Workflows
-
-- `.github/workflows/harvest.yml` — manual batch harvester
-- `.github/workflows/harvest_all.yml` — automatically runs all batches in sequence
-- `.github/workflows/pages.yml` — deploys GitHub Pages
-
-## Required setup
-
-Add repository secret:
-
-- `HARVEST_MAILTO`
-
-Then set **Settings → Pages → Source** to **GitHub Actions**.
+Key docs:
+- `docs/alex_architecture_v2_1.md`
+- `docs/qa_matrix_v2_1.md`
+- `docs/alex_architecture_v2_1_diagrams.md`
+- `docs/alex_architecture_v2_1.svg`
