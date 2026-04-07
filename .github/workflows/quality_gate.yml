@@ -1,0 +1,6 @@
+name: Quality gate
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Citation chaining', 'Manual-assist discovery queue']
+    types: [completed]
