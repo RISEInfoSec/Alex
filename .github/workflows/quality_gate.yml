@@ -4,6 +4,8 @@ on:
   workflow_run:
     workflows: ["Citation chain"]
     types: [completed]
+permissions:
+  contents: write
 jobs:
   score:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
