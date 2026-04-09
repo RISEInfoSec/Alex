@@ -1,6 +1,8 @@
 name: Harvest
 on:
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   harvest:
     runs-on: ubuntu-latest
