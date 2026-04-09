@@ -1,6 +1,25 @@
-name: Citation chaining
+name: Citation chain
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ['Discover new OSINT research papers']
+    workflows: ["Discover"]
     types: [completed]
+jobs:
+  chain:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - env:
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+        run: python -m alex.cli chain
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/discovery_candidates.csv .alex_cache.json
+          git diff --cached --quiet || git commit -m "Citation chain candidates"
+          git push

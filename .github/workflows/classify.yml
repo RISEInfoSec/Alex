@@ -1,11 +1,11 @@
-name: Quality gate
+name: Classify
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Citation chain"]
+    workflows: ["Harvest"]
     types: [completed]
 jobs:
-  score:
+  classify:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
@@ -14,10 +14,13 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install -r requirements.txt
-      - run: python -m alex.cli score
+      - env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
+        run: python -m alex.cli classify
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/quality_metrics.csv data/review_queue.csv data/rejected_candidates.csv data/accepted_candidates.csv
-          git diff --cached --quiet || git commit -m "Quality gate results"
+          git add data/accepted_classified.csv
+          git diff --cached --quiet || git commit -m "Classify accepted papers"
           git push
