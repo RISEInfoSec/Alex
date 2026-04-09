@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "23 3 * * 1"
+permissions:
+  contents: write
 jobs:
   discover:
     runs-on: ubuntu-latest
