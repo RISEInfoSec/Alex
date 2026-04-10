@@ -35,16 +35,14 @@ def run() -> None:
 
     for query in queries:
         for item in openalex.search(client, query, os.getenv("HARVEST_MAILTO", "")):
-            ids = item.get("ids") or {}
-            authors = "; ".join((a.get("author") or {}).get("display_name", "") for a in (item.get("authorships") or []) if (a.get("author") or {}).get("display_name"))
             add_row(
                 item.get("title", ""),
                 "OpenAlex",
-                authors=authors,
+                authors=openalex.author_names(item),
                 year=item.get("publication_year", ""),
-                venue=((item.get("primary_location") or {}).get("source") or {}).get("display_name", ""),
-                doi=(ids.get("doi", "") or "").replace("https://doi.org/", ""),
-                source_url=(item.get("primary_location") or {}).get("landing_page_url", ""),
+                venue=openalex.venue_name(item),
+                doi=openalex.doi(item),
+                source_url=openalex.landing_url(item),
                 citation_count=item.get("cited_by_count", 0),
                 reference_count=len(item.get("referenced_works") or []),
                 discovery_query=query,

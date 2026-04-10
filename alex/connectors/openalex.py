@@ -29,3 +29,24 @@ def cited_by_api_url(work: dict[str, Any]) -> str:
 def fetch_cited_by(client: HttpClient, cited_by_url: str) -> list[dict[str, Any]]:
     data = client.get_json(cited_by_url)
     return (data or {}).get("results", [])
+
+
+def venue_name(work: dict[str, Any]) -> str:
+    return ((work.get("primary_location") or {}).get("source") or {}).get("display_name", "")
+
+
+def doi(work: dict[str, Any]) -> str:
+    raw = (work.get("ids") or {}).get("doi", "") or ""
+    return raw.replace("https://doi.org/", "")
+
+
+def landing_url(work: dict[str, Any]) -> str:
+    return (work.get("primary_location") or {}).get("landing_page_url", "")
+
+
+def author_names(work: dict[str, Any]) -> str:
+    return "; ".join(
+        (a.get("author") or {}).get("display_name", "")
+        for a in (work.get("authorships") or [])
+        if (a.get("author") or {}).get("display_name")
+    )

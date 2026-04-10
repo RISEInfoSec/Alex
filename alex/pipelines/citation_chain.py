@@ -29,12 +29,12 @@ def run() -> None:
                     seen.add(key)
                     rows.append({
                         "title": ct,
-                        "authors": "",
+                        "authors": openalex.author_names(cited),
                         "year": cited.get("publication_year", ""),
-                        "venue": ((cited.get("primary_location") or {}).get("source") or {}).get("display_name", ""),
-                        "doi": ((cited.get("ids") or {}).get("doi", "") or "").replace("https://doi.org/", ""),
+                        "venue": openalex.venue_name(cited),
+                        "doi": openalex.doi(cited),
                         "abstract": "",
-                        "source_url": (cited.get("primary_location") or {}).get("landing_page_url", ""),
+                        "source_url": openalex.landing_url(cited),
                         "discovery_source": "OpenAlex citation chain",
                         "discovery_query": title,
                         "inclusion_path": "forward chaining",
