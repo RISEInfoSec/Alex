@@ -93,7 +93,7 @@ def run() -> None:
                 discovery_query=query,
             )
 
-        for item in arxiv.search(query):
+        for item in arxiv.search(client, query):
             add_row(
                 item.get("title", ""),
                 "arXiv",
