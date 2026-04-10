@@ -22,7 +22,10 @@ def save_json(path: Path, obj) -> None:
 
 def load_df(path: Path) -> pd.DataFrame:
     if path.exists():
-        return pd.read_csv(path)
+        try:
+            return pd.read_csv(path)
+        except pd.errors.EmptyDataError:
+            return pd.DataFrame()
     return pd.DataFrame()
 
 def save_df(path: Path, df: pd.DataFrame) -> None:

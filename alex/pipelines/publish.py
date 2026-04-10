@@ -31,7 +31,7 @@ def run() -> None:
             "link": link,
             "source_url": src,
             "doi": doi,
-            "seminal": row.get("Seminal_Flag", "FALSE") == "TRUE",
+            "seminal": str(row.get("Seminal_Flag", "FALSE")).upper() == "TRUE",
             "quality_tier": row.get("Quality_Tier", "Standard"),
         })
     save_json(root_file("data", "papers.json"), papers)
