@@ -39,7 +39,7 @@ def run() -> None:
     metrics = []
     accepted, review, rejected = [], [], []
 
-    for i, (idx, row) in enumerate(df.iterrows()):
+    for i, (_, row) in enumerate(df.iterrows()):
         v = venue_score(row.get("venue", ""), whitelist)
         c = citation_score(_safe_float(row.get("citation_count")), _safe_int_year(row.get("year")))
         i_score = institution_score(row.get("authors", ""))
