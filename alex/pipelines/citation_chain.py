@@ -16,7 +16,11 @@ def run() -> None:
     rows = []
     seen = set(normalize_title(str(t)) for t in df["title"].tolist())
 
-    for _, row in df.head(100).iterrows():
+    # Sort by citation count descending so highest-quality candidates get chained first
+    sorted_df = df.copy()
+    sorted_df["citation_count"] = pd.to_numeric(sorted_df["citation_count"], errors="coerce").fillna(0)
+    sorted_df = sorted_df.sort_values("citation_count", ascending=False).head(100)
+    for _, row in sorted_df.iterrows():
         title = clean(row.get("title"))
         # openalex title search
         results = openalex.search(client, title, os.getenv("HARVEST_MAILTO", ""), per_page=3)
