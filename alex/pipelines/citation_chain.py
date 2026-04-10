@@ -41,30 +41,35 @@ def run() -> None:
                         "citation_count": cited.get("cited_by_count", 0),
                         "reference_count": len(cited.get("referenced_works") or []),
                     })
-        # semantic scholar
+        # Semantic Scholar backward chaining
         ss_results = semantic_scholar.search(client, title, limit=3)
         for item in ss_results:
             for ref in semantic_scholar.references(item)[:5]:
                 pid = ref.get("paperId")
-                if pid:
-                    rt = f"Referenced paper {pid}"
-                    key = normalize_title(rt)
-                    if key not in seen:
-                        seen.add(key)
-                        rows.append({
-                            "title": rt,
-                            "authors": "",
-                            "year": "",
-                            "venue": "",
-                            "doi": "",
-                            "abstract": "",
-                            "source_url": "",
-                            "discovery_source": "Semantic Scholar citation chain",
-                            "discovery_query": title,
-                            "inclusion_path": "backward chaining",
-                            "citation_count": "",
-                            "reference_count": "",
-                        })
+                if not pid:
+                    continue
+                paper = semantic_scholar.get_paper(client, pid)
+                if not paper or not paper.get("title"):
+                    continue
+                rt = clean(paper["title"])
+                key = normalize_title(rt)
+                if key and key not in seen:
+                    seen.add(key)
+                    ext = paper.get("externalIds") or {}
+                    rows.append({
+                        "title": rt,
+                        "authors": "; ".join(a.get("name", "") for a in (paper.get("authors") or []) if a.get("name")),
+                        "year": paper.get("year", ""),
+                        "venue": paper.get("venue", ""),
+                        "doi": ext.get("DOI", ""),
+                        "abstract": clean(paper.get("abstract", "")),
+                        "source_url": paper.get("url", ""),
+                        "discovery_source": "Semantic Scholar citation chain",
+                        "discovery_query": title,
+                        "inclusion_path": "backward chaining",
+                        "citation_count": paper.get("citationCount", 0),
+                        "reference_count": "",
+                    })
 
     if rows:
         add_df = pd.DataFrame(rows)
