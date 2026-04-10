@@ -14,7 +14,7 @@ def run() -> None:
         return
 
     rows = []
-    seen = set(normalize_title(t) for t in df.get("title", []).tolist())
+    seen = set(normalize_title(str(t)) for t in df["title"].tolist())
 
     for _, row in df.head(100).iterrows():
         title = clean(row.get("title"))

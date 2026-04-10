@@ -4,7 +4,7 @@ import pandas as pd
 from alex.utils.io import load_df, save_df, root_file
 from alex.utils.http import HttpClient
 from alex.connectors import crossref, openalex, semantic_scholar
-from alex.utils.text import clean, strip_html_tags
+from alex.utils.text import clean
 
 def run() -> None:
     df = load_df(root_file("data", "accepted_candidates.csv"))
