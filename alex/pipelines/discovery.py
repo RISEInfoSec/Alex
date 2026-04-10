@@ -1,7 +1,7 @@
 from __future__ import annotations
 import os
 import pandas as pd
-from alex.utils.io import load_json, save_df, root_file
+from alex.utils.io import load_json, load_df, save_df, root_file
 from alex.utils.http import HttpClient
 from alex.utils.text import clean, normalize_title
 from alex.connectors import openalex, crossref, semantic_scholar, core, arxiv, zenodo, github_search
@@ -11,6 +11,15 @@ def run() -> None:
     client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
     rows = []
     seen = set()
+
+    # Load existing candidates to avoid re-adding known papers
+    existing_path = root_file("data", "discovery_candidates.csv")
+    existing_df = load_df(existing_path)
+    if not existing_df.empty:
+        for t in existing_df["title"].tolist():
+            key = normalize_title(str(t))
+            if key:
+                seen.add(key)
 
     def add_row(title: str, source: str, **kwargs):
         key = normalize_title(title)
@@ -129,6 +138,12 @@ def run() -> None:
                 citation_count=0,
             )
 
-    df = pd.DataFrame(rows)
-    save_df(root_file("data", "discovery_candidates.csv"), df)
-    print(f"Discovered {len(df)} candidates")
+    new_df = pd.DataFrame(rows)
+    if not existing_df.empty and not new_df.empty:
+        df = pd.concat([existing_df, new_df], ignore_index=True)
+    elif not new_df.empty:
+        df = new_df
+    else:
+        df = existing_df
+    save_df(existing_path, df)
+    print(f"Discovered {len(rows)} new candidates ({len(df)} total)")
