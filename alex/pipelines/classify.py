@@ -36,7 +36,7 @@ FALLBACK = {
 }
 
 
-def _safe_citation_count(row: dict) -> float:
+def _safe_citation_count(row) -> float:
     try:
         return float(row.get("citation_count") or 0)
     except (ValueError, TypeError):
