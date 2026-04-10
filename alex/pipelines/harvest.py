@@ -1,7 +1,7 @@
 from __future__ import annotations
 import os
 import pandas as pd
-from alex.utils.io import load_df, save_df, root_file
+from alex.utils.io import load_df, save_df, root_file, validate_columns
 from alex.utils.http import HttpClient
 from alex.connectors import crossref, openalex, semantic_scholar
 from alex.utils.text import clean
@@ -11,6 +11,7 @@ def run() -> None:
     if df.empty:
         print("No accepted candidates to harvest.")
         return
+    validate_columns(df, ["title", "doi", "authors", "venue", "abstract"], "accepted_candidates.csv")
 
     client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
     harvested = []

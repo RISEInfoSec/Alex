@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from alex.utils.io import load_df, save_df, load_json, root_file
+from alex.utils.io import load_df, save_df, load_json, root_file, validate_columns
 from alex.utils.scoring import venue_score, citation_score, institution_score, usage_score, relevance_score
 from alex.utils.text import clean
 
@@ -30,6 +30,7 @@ def run() -> None:
     if df.empty:
         print("No discovery candidates to score.")
         return
+    validate_columns(df, ["title", "authors", "year", "venue", "doi", "citation_count"], "discovery_candidates.csv")
 
     whitelist = load_json(root_file("config", "venue_whitelist.json"))["high_trust"]
     queries = load_json(root_file("config", "query_registry.json"))["queries"]

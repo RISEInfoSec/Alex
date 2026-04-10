@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import requests
 
-from alex.utils.io import load_df, save_df, root_file
+from alex.utils.io import load_df, save_df, root_file, validate_columns
 from alex.utils.text import clean, unique_keep
 
 logger = logging.getLogger(__name__)
@@ -78,6 +78,7 @@ def run() -> None:
     if df.empty:
         print("No harvested accepted candidates to classify.")
         return
+    validate_columns(df, ["title", "abstract", "venue", "authors", "citation_count"], "accepted_harvested.csv")
     rows = []
     for _, row in df.iterrows():
         payload = {

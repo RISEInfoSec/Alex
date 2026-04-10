@@ -1,7 +1,10 @@
 from __future__ import annotations
 import json
+import logging
 from pathlib import Path
 import pandas as pd
+
+logger = logging.getLogger(__name__)
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "data"
@@ -28,3 +31,10 @@ def save_df(path: Path, df: pd.DataFrame) -> None:
 
 def root_file(*parts: str) -> Path:
     return ROOT.joinpath(*parts)
+
+
+def validate_columns(df: pd.DataFrame, required: list[str], context: str = "") -> None:
+    """Log a warning if the DataFrame is missing expected columns."""
+    missing = [c for c in required if c not in df.columns]
+    if missing:
+        logger.warning("Missing columns in %s: %s", context or "DataFrame", missing)
