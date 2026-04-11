@@ -102,17 +102,6 @@ def run() -> None:
                 discovery_query=query,
             )
 
-        for item in arxiv.search(client, query):
-            add_row(
-                item.get("title", ""),
-                "arXiv",
-                authors="; ".join(item.get("authors") or []),
-                year=item.get("year", ""),
-                abstract=item.get("abstract", ""),
-                source_url=item.get("source_url", ""),
-                discovery_query=query,
-            )
-
         for item in zenodo.search(client, query):
             meta = item.get("metadata") or {}
             creators = "; ".join(c.get("name", "") for c in (meta.get("creators") or []) if c.get("name"))
@@ -137,6 +126,21 @@ def run() -> None:
                 discovery_query=query,
                 citation_count=0,
             )
+
+    # arXiv RSS — single fetch + client-side keyword filter (outside per-query loop)
+    arxiv_config = load_json(root_file("config", "arxiv_categories.json"))
+    rss_papers = arxiv.fetch_rss(arxiv_config["categories"])
+    relevant = arxiv.filter_relevant(rss_papers, queries, arxiv_config.get("min_keyword_matches", 2))
+    for item in relevant:
+        add_row(
+            item.get("title", ""),
+            "arXiv RSS",
+            authors=item.get("authors", ""),
+            year=item.get("year", ""),
+            abstract=item.get("abstract", ""),
+            source_url=item.get("source_url", ""),
+            discovery_query="; ".join(item.get("matched_queries", [])),
+        )
 
     new_df = pd.DataFrame(rows)
     if not existing_df.empty and not new_df.empty:
