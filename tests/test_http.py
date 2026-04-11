@@ -95,3 +95,49 @@ class TestHttpClientCache:
                 result = client.get_json("https://example.com/api")
             assert result is None
             assert len(client.cache) == 0
+
+
+class TestGetRaw:
+    def test_returns_text_and_caches(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            mock_resp = MagicMock()
+            mock_resp.text = "<rss><channel></channel></rss>"
+            mock_resp.raise_for_status = MagicMock()
+            with patch.object(client.session, "get", return_value=mock_resp):
+                result = client.get_raw("https://example.com/rss")
+            assert result == "<rss><channel></channel></rss>"
+            # Second call hits cache
+            with patch.object(client.session, "get") as mock_get:
+                result2 = client.get_raw("https://example.com/rss")
+                mock_get.assert_not_called()
+            assert result2 == "<rss><channel></channel></rss>"
+
+    def test_failure_returns_none_not_cached(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            import requests as req
+            with patch.object(client.session, "get", side_effect=req.exceptions.ConnectionError("fail")):
+                result = client.get_raw("https://example.com/rss")
+            assert result is None
+            assert len(client.cache) == 0
+
+    def test_cache_key_distinct_from_get_json(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            mock_resp = MagicMock()
+            mock_resp.text = "raw text"
+            mock_resp.raise_for_status = MagicMock()
+            mock_resp.json.return_value = {"json": True}
+            with patch.object(client.session, "get", return_value=mock_resp):
+                raw = client.get_raw("https://example.com/api")
+                js = client.get_json("https://example.com/api")
+            assert raw == "raw text"
+            assert js == {"json": True}
+            assert len(client.cache) == 2

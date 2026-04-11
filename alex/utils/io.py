@@ -36,8 +36,15 @@ def root_file(*parts: str) -> Path:
     return ROOT.joinpath(*parts)
 
 
-def validate_columns(df: pd.DataFrame, required: list[str], context: str = "") -> None:
-    """Log a warning if the DataFrame is missing expected columns."""
+def validate_columns(df: pd.DataFrame, required: list[str], context: str = "") -> list[str]:
+    """Check that a DataFrame has all required columns.
+
+    Returns the list of missing column names (empty if all present).
+    Raises ValueError if any are missing.
+    """
     missing = [c for c in required if c not in df.columns]
     if missing:
-        logger.warning("Missing columns in %s: %s", context or "DataFrame", missing)
+        msg = f"Missing columns in {context or 'DataFrame'}: {missing}"
+        logger.error(msg)
+        raise ValueError(msg)
+    return missing

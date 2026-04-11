@@ -1,7 +1,9 @@
 import json
+import pytest
 from unittest.mock import patch
 import pandas as pd
 from alex.pipelines import quality_gate, publish
+from alex.utils.io import validate_columns
 
 
 class TestQualityGate:
@@ -80,3 +82,208 @@ class TestPublish:
         assert paper["seminal"] is True
         assert paper["quality_tier"] == "High"
         assert "Social Media" in paper["osint_source"]
+
+
+class TestValidateColumns:
+    def test_all_columns_present(self):
+        df = pd.DataFrame({"title": ["x"], "authors": ["y"]})
+        assert validate_columns(df, ["title", "authors"]) == []
+
+    def test_missing_columns_raises(self):
+        df = pd.DataFrame({"title": ["x"]})
+        with pytest.raises(ValueError, match="Missing columns.*authors"):
+            validate_columns(df, ["title", "authors"], "test.csv")
+
+    def test_empty_required_list(self):
+        df = pd.DataFrame({"title": ["x"]})
+        assert validate_columns(df, []) == []
+
+    def test_context_in_error_message(self):
+        df = pd.DataFrame()
+        with pytest.raises(ValueError, match="my_file.csv"):
+            validate_columns(df, ["col"], "my_file.csv")
+
+
+class TestClassify:
+    def test_classify_with_no_api_key_uses_fallback(self, tmp_path):
+        """Without OPENAI_API_KEY, classify uses fallback defaults."""
+        harvested = pd.DataFrame([{
+            "title": "OSINT Methods for Cyber Investigations",
+            "authors": "Alice Smith",
+            "year": "2024",
+            "venue": "IEEE S&P",
+            "doi": "10.1234/test",
+            "abstract": "A paper about open source intelligence.",
+            "source_url": "https://example.com",
+            "citation_count": 600,
+            "reference_count": 10,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert len(result) == 1
+        assert result.iloc[0]["Category"] == "Other"
+        assert result.iloc[0]["Quality_Tier"] == "Standard"
+        # 600 citations >= 500 threshold
+        assert str(result.iloc[0]["Seminal_Flag"]).upper() == "TRUE"
+
+    def test_classify_with_mocked_openai(self, tmp_path):
+        """With a mocked OpenAI response, classify populates fields correctly."""
+        harvested = pd.DataFrame([{
+            "title": "Dark Web OSINT",
+            "authors": "Bob Jones",
+            "year": "2023",
+            "venue": "USENIX",
+            "doi": "",
+            "abstract": "Investigating dark web marketplaces.",
+            "source_url": "https://example.com",
+            "citation_count": 10,
+            "reference_count": 5,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        mock_llm_response = {
+            "Category": "Digital Forensics",
+            "Investigation_Type": "Dark Web Analysis",
+            "OSINT_Source_Types": ["Dark Web", "Public Records"],
+            "Keywords": ["dark web", "marketplace"],
+            "Tags": ["forensics"],
+            "Quality_Tier": "High",
+        }
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.classify.call_openai", return_value=mock_llm_response):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert len(result) == 1
+        assert result.iloc[0]["Category"] == "Digital Forensics"
+        assert result.iloc[0]["Investigation_Type"] == "Dark Web Analysis"
+        assert result.iloc[0]["Quality_Tier"] == "High"
+        assert "Dark Web" in result.iloc[0]["OSINT_Source_Types"]
+
+    def test_classify_missing_columns_raises(self, tmp_path):
+        """Missing required columns should raise ValueError."""
+        bad_df = pd.DataFrame([{"title": "Test"}])  # missing abstract, venue, authors, citation_count
+        (tmp_path / "data").mkdir(parents=True)
+        bad_df.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            from alex.pipelines import classify
+            with pytest.raises(ValueError, match="Missing columns"):
+                classify.run()
+
+
+class TestHarvest:
+    def test_harvest_crossref_fallback(self, tmp_path):
+        """Harvest enriches papers via Crossref when DOI is present."""
+        accepted = pd.DataFrame([{
+            "title": "Test Paper",
+            "authors": "Original Author",
+            "year": "2024",
+            "venue": "",
+            "doi": "10.1234/test",
+            "abstract": "",
+            "source_url": "",
+            "citation_count": 0,
+            "reference_count": 0,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        accepted.to_csv(tmp_path / "data" / "accepted_candidates.csv", index=False)
+
+        mock_crossref = {
+            "DOI": "10.1234/test",
+            "URL": "https://doi.org/10.1234/test",
+            "container-title": ["IEEE S&P"],
+            "author": [{"given": "Alice", "family": "Smith"}],
+            "abstract": "<p>Enriched abstract from Crossref.</p>",
+        }
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=mock_crossref), \
+             patch("alex.pipelines.harvest.HttpClient"):
+            from alex.pipelines import harvest
+            harvest.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        assert len(result) == 1
+        assert result.iloc[0]["venue"] == "IEEE S&P"
+        assert result.iloc[0]["authors"] == "Alice Smith"
+        assert "Enriched abstract" in result.iloc[0]["abstract"]
+        assert result.iloc[0]["harvest_source"] == "Crossref DOI"
+
+    def test_harvest_openalex_fallback_when_no_abstract(self, tmp_path):
+        """When Crossref has no abstract, harvest falls through to OpenAlex."""
+        accepted = pd.DataFrame([{
+            "title": "Test Paper No DOI",
+            "authors": "",
+            "year": "2023",
+            "venue": "",
+            "doi": "",
+            "abstract": "",
+            "source_url": "",
+            "citation_count": 0,
+            "reference_count": 0,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        # Write with empty-string preservation to avoid NaN round-trip issues
+        accepted.to_csv(tmp_path / "data" / "accepted_candidates.csv", index=False)
+
+        mock_oa_work = {
+            "primary_location": {
+                "source": {"display_name": "OpenAlex Venue"},
+                "landing_page_url": "https://openalex.org/W123",
+            },
+            "ids": {"doi": "https://doi.org/10.5678/oa"},
+            "cited_by_count": 42,
+            "referenced_works": ["W1", "W2"],
+        }
+
+        def _load_accepted(path):
+            """Read CSV preserving empty strings instead of NaN."""
+            return pd.read_csv(path, keep_default_na=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.load_df", side_effect=_load_accepted), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None), \
+             patch("alex.connectors.openalex.search", return_value=[mock_oa_work]), \
+             patch("alex.connectors.semantic_scholar.search", return_value=[]), \
+             patch("alex.pipelines.harvest.HttpClient"):
+            from alex.pipelines import harvest
+            harvest.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        assert len(result) == 1
+        assert result.iloc[0]["venue"] == "OpenAlex Venue"
+        assert result.iloc[0]["citation_count"] == 42
+
+    def test_harvest_missing_columns_raises(self, tmp_path):
+        """Missing required columns should raise ValueError."""
+        bad_df = pd.DataFrame([{"title": "Test"}])
+        (tmp_path / "data").mkdir(parents=True)
+        bad_df.to_csv(tmp_path / "data" / "accepted_candidates.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            from alex.pipelines import harvest
+            with pytest.raises(ValueError, match="Missing columns"):
+                harvest.run()
