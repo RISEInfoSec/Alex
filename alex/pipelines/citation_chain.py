@@ -72,7 +72,7 @@ def run() -> None:
                         "discovery_query": title,
                         "inclusion_path": "backward chaining",
                         "citation_count": paper.get("citationCount", 0),
-                        "reference_count": "",
+                        "reference_count": 0,
                     })
 
     if rows:

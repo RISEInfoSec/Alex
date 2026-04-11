@@ -18,7 +18,7 @@ def run() -> None:
     if not existing_df.empty:
         for t in existing_df["title"].tolist():
             key = normalize_title(str(t))
-            if key:
+            if key and key != "nan":
                 seen.add(key)
 
     def add_row(title: str, source: str, **kwargs):
