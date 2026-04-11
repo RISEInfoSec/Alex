@@ -36,6 +36,30 @@ class HttpClient:
     def _save_cache(self) -> None:
         CACHE.write_text(json.dumps(self.cache, ensure_ascii=False, indent=2), encoding="utf-8")
 
+    def get_raw(
+        self,
+        url: str,
+        params: Optional[dict[str, Any]] = None,
+        headers: Optional[dict[str, str]] = None,
+        timeout: int = 30,
+    ) -> str | None:
+        """HTTP GET returning raw response text. Cached, rate-limited, logged on failure."""
+        key = json.dumps({"url": url, "params": params or {}, "headers": headers or {}, "_raw": True}, sort_keys=True)
+        if key in self.cache:
+            return self.cache[key]
+        try:
+            r = self.session.get(url, params=params, headers=headers, timeout=timeout)
+            r.raise_for_status()
+            text = r.text
+            self.cache[key] = text
+            self._save_cache()
+            return text
+        except requests.exceptions.RequestException as exc:
+            logger.warning("HTTP request failed for %s: %s", url, exc)
+            return None
+        finally:
+            time.sleep(0.5)
+
     def get_json(
         self,
         url: str,
