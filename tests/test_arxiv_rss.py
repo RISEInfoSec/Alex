@@ -78,6 +78,19 @@ class TestFilterRelevant:
         result = filter_relevant(papers, SAMPLE_QUERIES, min_matches=2)
         assert len(result) == 1
 
+    def test_punctuation_stripped_from_tokens(self):
+        """Hyphenated and punctuated terms still match query words."""
+        papers = [{"title": "OSINT-based cybersecurity, research", "abstract": "A methodology review."}]
+        # "osint" should match from "OSINT-based", "cybersecurity" from "cybersecurity,"
+        result = filter_relevant(papers, SAMPLE_QUERIES, min_matches=2)
+        assert len(result) == 1
+
+    def test_does_not_mutate_input_papers(self):
+        papers = [{"title": "OSINT Cybersecurity Research", "abstract": "Open source intelligence methodology."}]
+        original_keys = set(papers[0].keys())
+        filter_relevant(papers, SAMPLE_QUERIES, min_matches=1)
+        assert set(papers[0].keys()) == original_keys  # no matched_queries added to original
+
 
 RSS_FIXTURE = """<?xml version='1.0' encoding='UTF-8'?>
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
@@ -193,3 +206,19 @@ class TestFetchRss:
             fetch_rss(["cs.CR", "cs.AI", "cs.CY"])
         called_url = mock_get.call_args[0][0]
         assert "cs.CR+cs.AI+cs.CY" in called_url
+
+    def test_newline_separated_authors(self):
+        rss = """<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel><title>test</title>
+    <item>
+      <title>Test Paper</title>
+      <link>https://arxiv.org/abs/2603.00002</link>
+      <description>Abstract: Some abstract text here.</description>
+      <dc:creator>Alice Smith\nBob Jones\nCharlie Brown</dc:creator>
+    </item>
+  </channel>
+</rss>"""
+        with patch("alex.connectors.arxiv.requests.get", return_value=self._mock_response(rss)):
+            papers = fetch_rss(["cs.CR"])
+        assert papers[0]["authors"] == "Alice Smith; Bob Jones; Charlie Brown"

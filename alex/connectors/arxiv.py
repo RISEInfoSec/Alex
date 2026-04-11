@@ -15,19 +15,27 @@ _NS = {"dc": "http://purl.org/dc/elements/1.1/"}
 _ABSTRACT_RE = re.compile(r"Abstract:\s*", re.IGNORECASE)
 
 
+def _tokenize(text: str) -> set[str]:
+    """Split text into a set of lowercase word tokens, stripping punctuation."""
+    return set(re.findall(r"\w+", text.lower()))
+
+
 def filter_relevant(papers: list[dict], queries: list[str], min_matches: int = 2) -> list[dict]:
-    """Keep only papers matching >= min_matches queries using word-boundary matching."""
-    query_word_sets = [set(q.lower().split()) for q in queries]
+    """Keep only papers matching >= min_matches queries using word-boundary matching.
+
+    Returns a new list; input paper dicts are not mutated.
+    """
+    query_word_sets = [_tokenize(q) for q in queries]
     result = []
     for paper in papers:
-        haystack = set(f"{paper.get('title', '')} {paper.get('abstract', '')}".lower().split())
+        haystack = _tokenize(f"{paper.get('title', '')} {paper.get('abstract', '')}")
         matched = []
         for query, words in zip(queries, query_word_sets):
             if words.issubset(haystack):
                 matched.append(query)
         if len(matched) >= min_matches:
-            paper["matched_queries"] = matched
-            result.append(paper)
+            out = {**paper, "matched_queries": matched}
+            result.append(out)
     return result
 
 
@@ -36,7 +44,7 @@ def fetch_rss(categories: list[str]) -> list[dict]:
     url = _ARXIV_RSS_URL.format(categories="+".join(categories))
     logger.info("Fetching arXiv RSS feed: %s", url)
     try:
-        resp = requests.get(url, timeout=60)
+        resp = requests.get(url, timeout=60, headers={"User-Agent": "AlexResearchLibrary/2.1.1"})
         resp.raise_for_status()
     except requests.exceptions.RequestException as exc:
         logger.warning("arXiv RSS fetch failed: %s", exc)
@@ -77,6 +85,8 @@ def fetch_rss(categories: list[str]) -> list[dict]:
             continue
 
         # Parse authors from dc:creator (comma or newline separated), join with "; "
+        # Note: arXiv RSS uses "Firstname Lastname" ordering, so comma splitting is safe.
+        # If the format were "Lastname, Firstname", this would need different handling.
         authors = ""
         if creator_el is not None and creator_el.text:
             raw = creator_el.text
