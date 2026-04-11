@@ -12,6 +12,18 @@ def search(client: HttpClient, query: str, limit: int = 25) -> list[dict[str, An
     })
     return (data or {}).get("data", [])
 
+PAPER = "https://api.semanticscholar.org/graph/v1/paper"
+
+
+def get_paper(client: HttpClient, paper_id: str) -> dict[str, Any] | None:
+    """Fetch a single paper by Semantic Scholar paper ID."""
+    data = client.get_json(
+        f"{PAPER}/{paper_id}",
+        params={"fields": "title,abstract,authors,venue,year,citationCount,externalIds,url"},
+    )
+    return data
+
+
 def references(item: dict[str, Any]) -> list[dict[str, Any]]:
     return item.get("references") or []
 

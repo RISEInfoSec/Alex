@@ -1,16 +1,17 @@
 from __future__ import annotations
 import os
 import pandas as pd
-from alex.utils.io import load_df, save_df, root_file
+from alex.utils.io import load_df, save_df, root_file, validate_columns
 from alex.utils.http import HttpClient
 from alex.connectors import crossref, openalex, semantic_scholar
-from alex.utils.text import clean, strip_html_tags
+from alex.utils.text import clean
 
 def run() -> None:
     df = load_df(root_file("data", "accepted_candidates.csv"))
     if df.empty:
         print("No accepted candidates to harvest.")
         return
+    validate_columns(df, ["title", "doi", "authors", "venue", "abstract"], "accepted_candidates.csv")
 
     client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
     harvested = []
@@ -38,9 +39,9 @@ def run() -> None:
             oa = openalex.search(client, title, os.getenv("HARVEST_MAILTO", ""), per_page=1)
             if oa:
                 work = oa[0]
-                best["doi"] = clean(((work.get("ids") or {}).get("doi", "") or "")).replace("https://doi.org/", "") or best.get("doi", "")
-                best["venue"] = ((work.get("primary_location") or {}).get("source") or {}).get("display_name", "") or best.get("venue", "")
-                best["source_url"] = (work.get("primary_location") or {}).get("landing_page_url", "") or best.get("source_url", "")
+                best["doi"] = clean(openalex.doi(work)) or best.get("doi", "")
+                best["venue"] = openalex.venue_name(work) or best.get("venue", "")
+                best["source_url"] = openalex.landing_url(work) or best.get("source_url", "")
                 best["citation_count"] = work.get("cited_by_count", best.get("citation_count", 0))
                 best["reference_count"] = len(work.get("referenced_works") or [])
                 best["harvest_source"] = best.get("harvest_source", "OpenAlex search")

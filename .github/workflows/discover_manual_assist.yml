@@ -5,3 +5,23 @@ on:
     - cron: '5 4 * * 1'
 permissions:
   contents: write
+jobs:
+  manual-assist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: |
+          echo "Manual-assist discovery sources (Google Scholar, Dimensions, BASE)"
+          echo "require human-assisted review. This workflow logs a reminder."
+          echo ""
+          echo "To add papers from these sources:"
+          echo "  1. Search manually on Google Scholar / Dimensions / BASE"
+          echo "  2. Add rows to data/discovery_candidates.csv"
+          echo "  3. Run the quality gate: python -m alex.cli score"
+          echo ""
+          echo "Sources requiring manual assist:"
+          python -c "import json; print(json.dumps(json.load(open('config/manual_assist_sources.json')), indent=2))"

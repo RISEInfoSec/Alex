@@ -1,9 +1,16 @@
 from __future__ import annotations
 import argparse
+import logging
 from alex.pipelines import discovery, citation_chain, quality_gate, harvest, classify, publish
 
+
 def main():
-    ap = argparse.ArgumentParser()
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+    ap = argparse.ArgumentParser(prog="alex", description="OSINT research corpus pipeline")
     ap.add_argument("command", choices=["discover", "chain", "score", "harvest", "classify", "publish"])
     args = ap.parse_args()
     {
@@ -14,6 +21,7 @@ def main():
         "classify": classify.run,
         "publish": publish.run,
     }[args.command]()
+
 
 if __name__ == "__main__":
     main()
