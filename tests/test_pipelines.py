@@ -1,7 +1,9 @@
 import json
+import pytest
 from unittest.mock import patch
 import pandas as pd
 from alex.pipelines import quality_gate, publish
+from alex.utils.io import validate_columns
 
 
 class TestQualityGate:
@@ -80,3 +82,23 @@ class TestPublish:
         assert paper["seminal"] is True
         assert paper["quality_tier"] == "High"
         assert "Social Media" in paper["osint_source"]
+
+
+class TestValidateColumns:
+    def test_all_columns_present(self):
+        df = pd.DataFrame({"title": ["x"], "authors": ["y"]})
+        assert validate_columns(df, ["title", "authors"]) == []
+
+    def test_missing_columns_raises(self):
+        df = pd.DataFrame({"title": ["x"]})
+        with pytest.raises(ValueError, match="Missing columns.*authors"):
+            validate_columns(df, ["title", "authors"], "test.csv")
+
+    def test_empty_required_list(self):
+        df = pd.DataFrame({"title": ["x"]})
+        assert validate_columns(df, []) == []
+
+    def test_context_in_error_message(self):
+        df = pd.DataFrame()
+        with pytest.raises(ValueError, match="my_file.csv"):
+            validate_columns(df, ["col"], "my_file.csv")
