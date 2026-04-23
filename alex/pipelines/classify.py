@@ -74,9 +74,13 @@ def call_openai(row: dict) -> dict:
 
 
 def run() -> None:
+    output_path = root_file("data", "accepted_classified.csv")
     df = load_df(root_file("data", "accepted_harvested.csv"))
     if df.empty:
         print("No harvested accepted candidates to classify.")
+        # Write an empty file so downstream workflows can `git add` without
+        # failing; the next stage sees an empty DataFrame and no-ops cleanly.
+        save_df(output_path, pd.DataFrame())
         return
     validate_columns(df, ["title", "abstract", "venue", "authors", "citation_count"], "accepted_harvested.csv")
     rows = []
@@ -97,5 +101,5 @@ def run() -> None:
         out["Quality_Tier"] = tags.get("Quality_Tier", "Standard")
         out["Seminal_Flag"] = "TRUE" if _safe_citation_count(row) >= 500 else "FALSE"
         rows.append(out)
-    save_df(root_file("data", "accepted_classified.csv"), pd.DataFrame(rows))
+    save_df(output_path, pd.DataFrame(rows))
     print(f"Classified {len(rows)} papers")

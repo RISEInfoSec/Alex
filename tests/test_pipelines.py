@@ -108,6 +108,21 @@ class TestPublish:
         assert papers[0]["title"] == "Sparse Paper"
         assert papers[0]["seminal"] is False
 
+    def test_empty_input_produces_empty_outputs(self, tmp_path):
+        # When accepted_classified.csv is missing (upstream had no data),
+        # publish must still write both output files so the workflow's
+        # `git add` step doesn't abort with "pathspec did not match".
+        (tmp_path / "data").mkdir(parents=True)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            publish.run()
+
+        assert (tmp_path / "data" / "osint_cyber_papers.csv").exists()
+        assert (tmp_path / "data" / "papers.json").exists()
+        assert json.loads((tmp_path / "data" / "papers.json").read_text()) == []
+
 
 class TestValidateColumns:
     def test_all_columns_present(self):
@@ -212,6 +227,19 @@ class TestClassify:
             with pytest.raises(ValueError, match="Missing columns"):
                 classify.run()
 
+    def test_classify_empty_input_produces_empty_output(self, tmp_path):
+        # Upstream with no work to do must still produce an output file so
+        # the workflow's `git add` doesn't fail with "pathspec did not match".
+        (tmp_path / "data").mkdir(parents=True)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            from alex.pipelines import classify
+            classify.run()
+
+        assert (tmp_path / "data" / "accepted_classified.csv").exists()
+
 
 class TestHarvest:
     def test_harvest_crossref_fallback(self, tmp_path):
@@ -312,3 +340,16 @@ class TestHarvest:
             from alex.pipelines import harvest
             with pytest.raises(ValueError, match="Missing columns"):
                 harvest.run()
+
+    def test_harvest_empty_input_produces_empty_output(self, tmp_path):
+        # Upstream with no work to do must still produce an output file so
+        # the workflow's `git add` doesn't fail with "pathspec did not match".
+        (tmp_path / "data").mkdir(parents=True)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            from alex.pipelines import harvest
+            harvest.run()
+
+        assert (tmp_path / "data" / "accepted_harvested.csv").exists()
