@@ -1,9 +1,6 @@
 name: Harvest
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Quality gate"]
-    types: [completed]
 permissions:
   contents: write
 concurrency:

@@ -1,9 +1,6 @@
 name: Citation chain
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Discover"]
-    types: [completed]
 permissions:
   contents: write
 concurrency:

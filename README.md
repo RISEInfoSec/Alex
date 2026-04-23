@@ -153,40 +153,43 @@ python -m alex.cli publish
 
 ## GitHub Actions included
 
-Pipeline workflows (each commits its output to `main`):
+### Automated
+- **`pipeline.yml`** — scheduled **Mon 03:23 UTC**. A single workflow that runs all six pipeline stages sequentially in one job, then deploys to GitHub Pages as a second job. Uses one runner for all data stages (faster than split workflows and sidesteps GitHub's 3-level `workflow_run` cascade cap).
+- `pages.yml` — GitHub Pages deploy on push to `main`. Covers non-pipeline pushes (e.g. human merges); `pipeline.yml` has its own Pages deploy job for the automated run.
+- `discover_manual_assist.yml` — scheduled Mon 04:05 UTC reminder for human-curated sources (Google Scholar / Dimensions / BASE).
 
-- `discover.yml` — scheduled Mon 03:23 UTC
-- `citation_chain.yml` — chains from Discover
-- `quality_gate.yml` — chains from Citation chain
-- `harvest.yml` — chains from Quality gate
-- `classify.yml` — chains from Harvest
-- `publish.yml` — chains from Classify
-- `tag_new_papers.yml` — manual re-tag via LLM
-- `rebuild_site.yml` — manual re-publish
+### Manual (`workflow_dispatch` only)
+Kept as ad-hoc debug tools that run a single stage:
 
-Deployment and auxiliary:
+- `discover.yml`, `citation_chain.yml`, `quality_gate.yml`, `harvest.yml`, `classify.yml`, `publish.yml`
+- `tag_new_papers.yml` — re-tag already-harvested papers via LLM
+- `rebuild_site.yml` — regenerate site assets from existing classified corpus
 
-- `pages.yml` — GitHub Pages deploy on push to `main`
-- `discover_manual_assist.yml` — scheduled reminder for Google Scholar / Dimensions / BASE
+None of these auto-trigger anything else. Use them when you want to re-run a single stage without walking the whole chain.
 
-### Data flow and cadence
+### Data flow
 
 ```mermaid
 flowchart TB
     classDef cron fill:#fef3c7,stroke:#f59e0b,color:#78350f
-    classDef wf fill:#dbeafe,stroke:#3b82f6,color:#1e3a8a
+    classDef step fill:#dbeafe,stroke:#3b82f6,color:#1e3a8a
     classDef data fill:#ede9fe,stroke:#8b5cf6,color:#4c1d95
     classDef deploy fill:#d1fae5,stroke:#10b981,color:#064e3b
 
     cronMon["⏰ Mon 03:23 UTC"]:::cron
 
-    discover["Discover"]:::wf
-    citation["Citation chain"]:::wf
-    quality["Quality gate"]:::wf
-    harvest["Harvest"]:::wf
-    classify["Classify (LLM)"]:::wf
-    publish["Publish assets"]:::wf
-    pages["Pages deploy"]:::deploy
+    subgraph pipeline_job["pipeline.yml — pipeline job (single runner)"]
+        discover["Discover"]:::step
+        citation["Citation chain"]:::step
+        quality["Quality gate"]:::step
+        harvest["Harvest"]:::step
+        classify["Classify (LLM)"]:::step
+        publish["Publish assets"]:::step
+    end
+
+    subgraph deploy_job["pipeline.yml — deploy job"]
+        pages["Pages deploy"]:::deploy
+    end
 
     dc[("discovery_candidates.csv")]:::data
     ac[("accepted_candidates.csv")]:::data
@@ -195,13 +198,8 @@ flowchart TB
     site[("data/papers.json<br/>data/osint_cyber_papers.csv")]:::data
 
     cronMon --> discover
-
-    discover -- workflow_run --> citation
-    citation -- workflow_run --> quality
-    quality -- workflow_run --> harvest
-    harvest -- workflow_run --> classify
-    classify -- workflow_run --> publish
-    publish -- "git push main" --> pages
+    discover --> citation --> quality --> harvest --> classify --> publish
+    publish -- needs --> pages
 
     discover -.writes.-> dc
     citation -.augments.-> dc
@@ -218,13 +216,9 @@ flowchart TB
 
 **Weekly cycle in practice:**
 
-One cron tick kicks off the whole pipeline. `Discover` fires Monday 03:23 UTC and each stage chains into the next via `workflow_run` on success:
+One cron tick kicks off the whole pipeline. `pipeline.yml` runs every stage sequentially in a single job — each stage commits its output to `main` with a clear message so git log still reads as a per-stage audit trail — then a second job deploys the refreshed site to GitHub Pages.
 
-```
-Discover → Citation chain → Quality gate → Harvest → Classify → Publish → Pages deploy
-```
-
-A full end-to-end run takes roughly 15–30 minutes, driven mostly by API-call volume in `Citation chain` (Semantic Scholar) and `Classify` (OpenAI). The site is refreshed at most once per week on Monday; manual re-runs via `workflow_dispatch` on any stage are available for ad-hoc updates.
+A full end-to-end run takes roughly 15–30 minutes, driven mostly by API-call volume in `Citation chain` (Semantic Scholar) and `Classify` (OpenAI). The site is refreshed at most once per week on Monday; manual re-runs via `workflow_dispatch` on any individual stage workflow are available for ad-hoc updates.
 
 The parallel `Manual-assist discovery queue` reminder fires Monday 04:05 UTC for human curation of Google Scholar / Dimensions / BASE. Candidates added by hand before the following Monday are picked up on the next cycle.
 
