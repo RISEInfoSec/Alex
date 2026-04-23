@@ -8,6 +8,10 @@ def run() -> None:
         print("No classified accepted corpus to publish.")
         return
 
+    # Pandas reads empty CSV cells as NaN, which json.dumps would emit as
+    # literal `NaN` (invalid JSON). Coerce to empty strings before export.
+    df = df.fillna("")
+
     public = df.copy()
     save_df(root_file("data", "osint_cyber_papers.csv"), public)
 
