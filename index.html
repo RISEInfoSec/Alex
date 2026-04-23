@@ -209,10 +209,23 @@ const investigationEl = document.getElementById('investigationFilter');
 const resultsEl = document.getElementById('results');
 const summaryEl = document.getElementById('summary');
 
+// Defensively split any tag/keyword/source element that contains a comma
+// or semicolon — guards against legacy or manually-authored data where
+// multi-value cells survived as a single joined string.
+function flattenMulti(arr) {
+  return (arr || [])
+    .flatMap(x => String(x).split(/[,;|]/).map(s => s.trim()).filter(Boolean));
+}
+
 fetch('data/papers.json')
   .then(res => res.json())
   .then(data => {
-    papers = data;
+    papers = data.map(p => ({
+      ...p,
+      tags: flattenMulti(p.tags),
+      keywords: flattenMulti(p.keywords),
+      osint_source: flattenMulti(p.osint_source),
+    }));
     populateFilters(papers);
     displayPapers(papers);
   });
