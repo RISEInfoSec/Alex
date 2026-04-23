@@ -1,4 +1,4 @@
-from alex.utils.scoring import venue_score, citation_score, institution_score, usage_score, relevance_score
+from alex.utils.scoring import venue_score, citation_score, institution_score, relevance_score
 
 
 class TestVenueScore:
@@ -52,21 +52,6 @@ class TestInstitutionScore:
 
     def test_mit(self):
         assert institution_score("Researcher at MIT") == 0.8
-
-
-class TestUsageScore:
-    def test_no_data(self):
-        assert usage_score() == 0.0
-
-    def test_downloads_only(self):
-        assert usage_score(downloads=500) == 0.5
-
-    def test_all_metrics(self):
-        score = usage_score(downloads=1000, stars=500, altmetric=100)
-        assert score == 1.0
-
-    def test_capped(self):
-        assert usage_score(downloads=99999) == 1.0
 
 
 class TestRelevanceScore:

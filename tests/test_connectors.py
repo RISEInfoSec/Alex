@@ -47,6 +47,33 @@ class TestOpenAlexAccessors:
     def test_references_missing(self):
         assert openalex.references({}) == []
 
+    def test_author_institutions(self):
+        work = {"authorships": [
+            {"institutions": [{"display_name": "MIT"}, {"display_name": "Stanford"}]},
+            {"institutions": [{"display_name": "MIT"}]},  # duplicate should dedupe
+            {"institutions": []},
+        ]}
+        assert openalex.author_institutions(work) == "MIT; Stanford"
+
+    def test_author_institutions_missing(self):
+        assert openalex.author_institutions({}) == ""
+        assert openalex.author_institutions({"authorships": None}) == ""
+
+    def test_abstract_reconstructs_inverted_index(self):
+        work = {"abstract_inverted_index": {
+            "Cybersecurity": [0, 4],
+            "is": [1],
+            "a": [2],
+            "discipline": [3],
+            "research": [5],
+        }}
+        assert openalex.abstract(work) == "Cybersecurity is a discipline Cybersecurity research"
+
+    def test_abstract_missing(self):
+        assert openalex.abstract({}) == ""
+        assert openalex.abstract({"abstract_inverted_index": None}) == ""
+        assert openalex.abstract({"abstract_inverted_index": {}}) == ""
+
 
 class TestCrossrefParsing:
     def test_abstract_strips_html(self):
