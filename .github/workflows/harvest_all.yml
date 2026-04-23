@@ -5,6 +5,9 @@ on:
     - cron: '31 3 * * 0'
 permissions:
   contents: write
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
   harvest:
     runs-on: ubuntu-latest
