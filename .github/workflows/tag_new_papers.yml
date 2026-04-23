@@ -16,7 +16,7 @@ jobs:
           python-version: "3.11"
       - run: pip install -r requirements.txt
       - env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
         run: python -m alex.cli classify
       - run: |
