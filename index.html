@@ -181,7 +181,7 @@
     <div class="actions">
       <button id="clearBtn" class="secondary">Clear filters</button>
       <a class="button secondary" href="data/osint_cyber_papers.csv">Download CSV</a>
-      <a class="button secondary" href="papers.json">Download JSON</a>
+      <a class="button secondary" href="data/papers.json">Download JSON</a>
     </div>
   </div>
 
@@ -209,7 +209,7 @@ const investigationEl = document.getElementById('investigationFilter');
 const resultsEl = document.getElementById('results');
 const summaryEl = document.getElementById('summary');
 
-fetch('papers.json')
+fetch('data/papers.json')
   .then(res => res.json())
   .then(data => {
     papers = data;
