@@ -106,7 +106,18 @@ def run() -> None:
                 discovery_query=query,
             )
 
-        for item in semantic_scholar.search(client, query):
+        for item in semantic_scholar.search(
+            client,
+            query,
+            api_key=os.getenv("SEMANTIC_SCHOLAR_API_KEY", ""),
+            from_date=from_date,
+            until_date=until_date,
+            # Cap Semantic Scholar pagination tighter than the other sources:
+            # even with an API key the free-plus tier is 100 req/5min. Without
+            # a key the API will 429 quickly, and we'll fall back to whatever
+            # page 1 returned.
+            max_pages=2,
+        ):
             add_row(
                 item.get("title", ""),
                 "Semantic Scholar",
