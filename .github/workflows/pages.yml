@@ -7,6 +7,9 @@ permissions:
   contents: read
   pages: write
   id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,8 +17,14 @@ jobs:
       name: github-pages
     steps:
       - uses: actions/checkout@v4
+      - name: Stage site files
+        run: |
+          mkdir -p _site/data
+          cp index.html _site/
+          cp data/papers.json _site/data/
+          cp data/osint_cyber_papers.csv _site/data/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - uses: actions/deploy-pages@v4
