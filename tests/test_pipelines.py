@@ -83,6 +83,31 @@ class TestPublish:
         assert paper["quality_tier"] == "High"
         assert "Social Media" in paper["osint_source"]
 
+    def test_json_output_is_valid_when_fields_are_missing(self, tmp_path):
+        # Empty CSV cells become NaN in pandas; without coercion,
+        # json.dumps emits literal `NaN` and the site fails to parse.
+        classified = pd.DataFrame([{
+            "title": "Sparse Paper", "authors": "", "year": "",
+            "venue": "", "doi": "", "abstract": "", "source_url": "",
+            "Category": "", "Investigation_Type": "",
+            "OSINT_Source_Types": "", "Keywords": "", "Tags": "",
+            "Seminal_Flag": "", "Quality_Tier": "",
+        }])
+        classified_path = tmp_path / "data" / "accepted_classified.csv"
+        classified_path.parent.mkdir(parents=True)
+        classified.to_csv(classified_path, index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            publish.run()
+
+        raw = (tmp_path / "data" / "papers.json").read_text()
+        assert "NaN" not in raw
+        papers = json.loads(raw)
+        assert papers[0]["title"] == "Sparse Paper"
+        assert papers[0]["seminal"] is False
+
 
 class TestValidateColumns:
     def test_all_columns_present(self):
