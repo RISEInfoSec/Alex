@@ -7,9 +7,13 @@ from alex.connectors import crossref, openalex, semantic_scholar
 from alex.utils.text import clean
 
 def run() -> None:
+    output_path = root_file("data", "accepted_harvested.csv")
     df = load_df(root_file("data", "accepted_candidates.csv"))
     if df.empty:
         print("No accepted candidates to harvest.")
+        # Write an empty file so downstream workflows can `git add` without
+        # failing; the next stage sees an empty DataFrame and no-ops cleanly.
+        save_df(output_path, pd.DataFrame())
         return
     validate_columns(df, ["title", "doi", "authors", "venue", "abstract"], "accepted_candidates.csv")
 
@@ -60,5 +64,5 @@ def run() -> None:
 
         harvested.append(best)
 
-    save_df(root_file("data", "accepted_harvested.csv"), pd.DataFrame(harvested))
+    save_df(output_path, pd.DataFrame(harvested))
     print(f"Harvested {len(harvested)} accepted candidates")

@@ -1,11 +1,19 @@
 from __future__ import annotations
+import pandas as pd
 from alex.utils.io import load_df, save_df, save_json, root_file
 from alex.utils.text import split_multi
 
 def run() -> None:
+    public_csv = root_file("data", "osint_cyber_papers.csv")
+    papers_json = root_file("data", "papers.json")
     df = load_df(root_file("data", "accepted_classified.csv"))
     if df.empty:
         print("No classified accepted corpus to publish.")
+        # Write empty outputs so downstream workflows can `git add` without
+        # failing. The workflow's `git diff --cached --quiet || commit` guard
+        # means nothing gets committed if content is unchanged.
+        save_df(public_csv, pd.DataFrame())
+        save_json(papers_json, [])
         return
 
     # Pandas reads empty CSV cells as NaN, which json.dumps would emit as
@@ -13,7 +21,7 @@ def run() -> None:
     df = df.fillna("")
 
     public = df.copy()
-    save_df(root_file("data", "osint_cyber_papers.csv"), public)
+    save_df(public_csv, public)
 
     papers = []
     for i, (_, row) in enumerate(public.iterrows()):
@@ -38,5 +46,5 @@ def run() -> None:
             "seminal": str(row.get("Seminal_Flag", "FALSE")).upper() == "TRUE",
             "quality_tier": row.get("Quality_Tier", "Standard"),
         })
-    save_json(root_file("data", "papers.json"), papers)
+    save_json(papers_json, papers)
     print(f"Published {len(papers)} papers")
