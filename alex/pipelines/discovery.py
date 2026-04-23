@@ -11,10 +11,11 @@ from alex.connectors import openalex, crossref, semantic_scholar, core, arxiv, z
 # each run sweeps only the past 7 days so we catch what's truly new without
 # re-fetching the same top-relevance-ranked results every week.
 DISCOVER_WINDOW_DAYS = 7
-# Pagination ceiling per query per source. 5 pages of 25 = up to 125 results
-# per query per source per run; empirically more than enough for a 7-day
-# window on cyber-security keywords.
-DISCOVER_MAX_PAGES = 5
+# Pagination ceiling per query per source. 10 pages of 25 = up to 250 results
+# per query per source per run. Broad queries like "cybersecurity" already
+# fill 3+ pages in 7 days against OpenAlex; the headroom matters. Narrow
+# queries hit the short-page early-stop well before this cap.
+DISCOVER_MAX_PAGES = 10
 
 
 def run() -> None:
