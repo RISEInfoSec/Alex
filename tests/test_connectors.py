@@ -1,4 +1,4 @@
-from alex.connectors import openalex, crossref, semantic_scholar
+from alex.connectors import openalex, crossref, semantic_scholar, core, zenodo, github_search
 
 
 class TestOpenAlexAccessors:
@@ -186,3 +186,101 @@ class TestSemanticScholarParsing:
 
     def test_citations_missing(self):
         assert semantic_scholar.citations({}) == []
+
+
+class TestCoreSearch:
+    def test_default_is_single_page_no_filter(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"results": [{"id": 1}]}
+        result = core.search(client, "osint")
+        assert result == [{"id": 1}]
+        assert client.get_json.call_count == 1
+        params = client.get_json.call_args.kwargs["params"]
+        assert params["q"] == "osint"
+        assert params["offset"] == 0
+
+    def test_date_window_appends_to_q(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"results": []}
+        core.search(client, "osint", from_date="2026-04-16", until_date="2026-04-23")
+        params = client.get_json.call_args.kwargs["params"]
+        assert "publishedDate>=2026-04-16" in params["q"]
+        assert "publishedDate<=2026-04-23" in params["q"]
+
+    def test_pagination_increments_offset(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.side_effect = [
+            {"results": [{"id": 1}, {"id": 2}, {"id": 3}]},  # full
+            {"results": [{"id": 4}]},                         # short
+        ]
+        result = core.search(client, "osint", limit=3, max_pages=5)
+        assert len(result) == 4
+        offsets = [c.kwargs["params"]["offset"] for c in client.get_json.call_args_list]
+        assert offsets == [0, 3]
+
+
+class TestZenodoSearch:
+    def test_default_is_single_page_no_filter(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"hits": {"hits": [{"id": 1}]}}
+        result = zenodo.search(client, "osint")
+        assert result == [{"id": 1}]
+        params = client.get_json.call_args.kwargs["params"]
+        assert params["q"] == "osint"
+        assert params["page"] == 1
+
+    def test_date_window_adds_lucene_range(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"hits": {"hits": []}}
+        zenodo.search(client, "osint", from_date="2026-04-16", until_date="2026-04-23")
+        params = client.get_json.call_args.kwargs["params"]
+        assert "publication_date:[2026-04-16 TO 2026-04-23]" in params["q"]
+
+    def test_pagination_increments_page(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.side_effect = [
+            {"hits": {"hits": [{"id": 1}, {"id": 2}, {"id": 3}]}},
+            {"hits": {"hits": [{"id": 4}]}},
+        ]
+        result = zenodo.search(client, "osint", size=3, max_pages=5)
+        assert len(result) == 4
+        pages = [c.kwargs["params"]["page"] for c in client.get_json.call_args_list]
+        assert pages == [1, 2]
+
+
+class TestGithubSearch:
+    def test_default_is_single_page_no_filter(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"items": [{"full_name": "a/b"}]}
+        result = github_search.search(client, "osint")
+        assert result == [{"full_name": "a/b"}]
+        params = client.get_json.call_args.kwargs["params"]
+        assert params["q"] == "osint"
+        assert params["page"] == 1
+
+    def test_date_window_adds_pushed_qualifier(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"items": []}
+        github_search.search(client, "osint", from_date="2026-04-16", until_date="2026-04-23")
+        params = client.get_json.call_args.kwargs["params"]
+        assert "pushed:2026-04-16..2026-04-23" in params["q"]
+
+    def test_pagination_increments_page(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.side_effect = [
+            {"items": [{"id": 1}, {"id": 2}, {"id": 3}]},
+            {"items": [{"id": 4}]},
+        ]
+        result = github_search.search(client, "osint", per_page=3, max_pages=5)
+        assert len(result) == 4
+        pages = [c.kwargs["params"]["page"] for c in client.get_json.call_args_list]
+        assert pages == [1, 2]

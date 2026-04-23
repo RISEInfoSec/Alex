@@ -120,7 +120,14 @@ def run() -> None:
                 discovery_query=query,
             )
 
-        for item in core.search(client, query, api_key=os.getenv("CORE_API_KEY", "")):
+        for item in core.search(
+            client,
+            query,
+            api_key=os.getenv("CORE_API_KEY", ""),
+            from_date=from_date,
+            until_date=until_date,
+            max_pages=DISCOVER_MAX_PAGES,
+        ):
             add_row(
                 item.get("title", ""),
                 "CORE",
@@ -133,7 +140,13 @@ def run() -> None:
                 discovery_query=query,
             )
 
-        for item in zenodo.search(client, query):
+        for item in zenodo.search(
+            client,
+            query,
+            from_date=from_date,
+            until_date=until_date,
+            max_pages=DISCOVER_MAX_PAGES,
+        ):
             meta = item.get("metadata") or {}
             creators = "; ".join(c.get("name", "") for c in (meta.get("creators") or []) if c.get("name"))
             add_row(
@@ -147,7 +160,14 @@ def run() -> None:
                 discovery_query=query,
             )
 
-        for item in github_search.search(client, query + " research paper osint cybersecurity", token=os.getenv("GITHUB_TOKEN", "")):
+        for item in github_search.search(
+            client,
+            query + " research paper osint cybersecurity",
+            token=os.getenv("GITHUB_TOKEN", ""),
+            from_date=from_date,
+            until_date=until_date,
+            max_pages=DISCOVER_MAX_PAGES,
+        ):
             add_row(
                 item.get("full_name", ""),
                 "GitHub",
