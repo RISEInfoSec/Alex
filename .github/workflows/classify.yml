@@ -2,7 +2,7 @@ name: Classify
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Harvest"]
+    workflows: ["Harvest", "Harvest all metadata automatically"]
     types: [completed]
 permissions:
   contents: write
