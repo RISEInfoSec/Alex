@@ -9,9 +9,10 @@ Create repository secret:
 - Source: GitHub Actions
 
 ## Workflows
-- **Harvest bibliographic metadata**: run specific ID ranges manually
-- **Harvest all metadata automatically**: runs through the whole corpus in sequential 25-record batches
-- **Deploy GitHub Pages**: publishes the site
+- **Discover**: scheduled Mon 03:23 UTC. Kicks off the full weekly pipeline — chains through Citation chain → Quality gate → Harvest → Classify → Publish → Pages deploy via `workflow_run` on success.
+- **Harvest**: chained from Quality gate; also runs on manual dispatch.
+- **Tag new papers / Rebuild site assets**: manual dispatch only, for ad-hoc re-tagging or republishing.
+- **Pages**: deploys the site on any push to `main`.
 
 ## Recommended first use
-Run **Harvest all metadata automatically** once after uploading the repository.
+Manually dispatch **Discover** once after uploading the repository to seed the pipeline end-to-end.

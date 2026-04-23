@@ -1,6 +1,9 @@
 name: Harvest
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Quality gate"]
+    types: [completed]
 permissions:
   contents: write
 concurrency:
@@ -8,6 +11,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   harvest:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

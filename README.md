@@ -158,9 +158,8 @@ Pipeline workflows (each commits its output to `main`):
 - `discover.yml` — scheduled Mon 03:23 UTC
 - `citation_chain.yml` — chains from Discover
 - `quality_gate.yml` — chains from Citation chain
-- `harvest.yml` — manual dispatch only
-- `harvest_all.yml` — scheduled Sun 03:31 UTC
-- `classify.yml` — chains from Harvest / Harvest all
+- `harvest.yml` — chains from Quality gate
+- `classify.yml` — chains from Harvest
 - `publish.yml` — chains from Classify
 - `tag_new_papers.yml` — manual re-tag via LLM
 - `rebuild_site.yml` — manual re-publish
@@ -180,12 +179,11 @@ flowchart TB
     classDef deploy fill:#d1fae5,stroke:#10b981,color:#064e3b
 
     cronMon["⏰ Mon 03:23 UTC"]:::cron
-    cronSun["⏰ Sun 03:31 UTC"]:::cron
 
     discover["Discover"]:::wf
     citation["Citation chain"]:::wf
     quality["Quality gate"]:::wf
-    harvest["Harvest all metadata"]:::wf
+    harvest["Harvest"]:::wf
     classify["Classify (LLM)"]:::wf
     publish["Publish assets"]:::wf
     pages["Pages deploy"]:::deploy
@@ -197,10 +195,10 @@ flowchart TB
     site[("data/papers.json<br/>data/osint_cyber_papers.csv")]:::data
 
     cronMon --> discover
-    cronSun --> harvest
 
     discover -- workflow_run --> citation
     citation -- workflow_run --> quality
+    quality -- workflow_run --> harvest
     harvest -- workflow_run --> classify
     classify -- workflow_run --> publish
     publish -- "git push main" --> pages
@@ -220,11 +218,15 @@ flowchart TB
 
 **Weekly cycle in practice:**
 
-1. **Monday 03:23 UTC** — `Discover` fires, then auto-chains through `Citation chain` → `Quality gate`. New `data/accepted_candidates.csv` is produced.
-2. **Sunday 03:31 UTC** — `Harvest all metadata` reads the accepted list and auto-chains through `Classify` → `Publish assets`.
-3. **After publish pushes to `main`** — `pages.yml` deploys the refreshed `data/papers.json` to GitHub Pages.
+One cron tick kicks off the whole pipeline. `Discover` fires Monday 03:23 UTC and each stage chains into the next via `workflow_run` on success:
 
-The gap between discovery (Monday) and harvest (following Sunday) is intentional buffer for the Monday `Manual-assist discovery queue` reminder to be acted on — papers added by hand during the week are picked up by Sunday's run.
+```
+Discover → Citation chain → Quality gate → Harvest → Classify → Publish → Pages deploy
+```
+
+A full end-to-end run takes roughly 15–30 minutes, driven mostly by API-call volume in `Citation chain` (Semantic Scholar) and `Classify` (OpenAI). The site is refreshed at most once per week on Monday; manual re-runs via `workflow_dispatch` on any stage are available for ad-hoc updates.
+
+The parallel `Manual-assist discovery queue` reminder fires Monday 04:05 UTC for human curation of Google Scholar / Dimensions / BASE. Candidates added by hand before the following Monday are picked up on the next cycle.
 
 ## Important operational notes
 
