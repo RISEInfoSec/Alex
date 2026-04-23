@@ -1,0 +1,97 @@
+name: Pipeline
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 3 * * 1"
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: pipeline
+  cancel-in-progress: false
+jobs:
+  pipeline:
+    # The full chain in one job so all six stages share a single runner.
+    # Each stage commits its own output, preserving a per-stage audit trail
+    # in git history. Running as one job also side-steps the 3-level cap on
+    # workflow_run cascades (we hit this in the split-workflow layout).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Discover
+        env:
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+          CORE_API_KEY: ${{ secrets.CORE_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m alex.cli discover
+          git add data/discovery_candidates.csv
+          git diff --cached --quiet || git commit -m "Discover candidates"
+          git push
+      - name: Citation chain
+        env:
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+        run: |
+          python -m alex.cli chain
+          git add data/discovery_candidates.csv
+          git diff --cached --quiet || git commit -m "Citation chain candidates"
+          git push
+      - name: Quality gate
+        run: |
+          python -m alex.cli score
+          git add data/quality_metrics.csv data/review_queue.csv data/rejected_candidates.csv data/accepted_candidates.csv
+          git diff --cached --quiet || git commit -m "Quality gate results"
+          git push
+      - name: Harvest
+        env:
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+        run: |
+          python -m alex.cli harvest
+          git add data/accepted_harvested.csv
+          git diff --cached --quiet || git commit -m "Harvest metadata"
+          git push
+      - name: Classify
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
+        run: |
+          python -m alex.cli classify
+          git add data/accepted_classified.csv
+          git diff --cached --quiet || git commit -m "Classify accepted papers"
+          git push
+      - name: Publish
+        run: |
+          python -m alex.cli publish
+          git add data/osint_cyber_papers.csv data/papers.json
+          git diff --cached --quiet || git commit -m "Publish public corpus"
+          git push
+  deploy:
+    # Pages deploy in a separate job so it can run under the github-pages
+    # environment. Checks out main after the pipeline job's pushes so the
+    # published assets are already on disk.
+    needs: pipeline
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stage site files
+        run: |
+          mkdir -p _site/data
+          cp index.html _site/
+          cp data/papers.json _site/data/
+          cp data/osint_cyber_papers.csv _site/data/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - uses: actions/deploy-pages@v4

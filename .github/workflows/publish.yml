@@ -1,9 +1,6 @@
 name: Publish assets
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Classify"]
-    types: [completed]
 permissions:
   contents: write
 concurrency:
