@@ -153,13 +153,78 @@ python -m alex.cli publish
 
 ## GitHub Actions included
 
-- `discover.yml`
-- `citation_chain.yml`
-- `quality_gate.yml`
-- `harvest.yml`
-- `classify.yml`
-- `publish.yml`
-- `pages.yml`
+Pipeline workflows (each commits its output to `main`):
+
+- `discover.yml` — scheduled Mon 03:23 UTC
+- `citation_chain.yml` — chains from Discover
+- `quality_gate.yml` — chains from Citation chain
+- `harvest.yml` — manual dispatch only
+- `harvest_all.yml` — scheduled Sun 03:31 UTC
+- `classify.yml` — chains from Harvest / Harvest all
+- `publish.yml` — chains from Classify
+- `tag_new_papers.yml` — manual re-tag via LLM
+- `rebuild_site.yml` — manual re-publish
+
+Deployment and auxiliary:
+
+- `pages.yml` — GitHub Pages deploy on push to `main`
+- `discover_manual_assist.yml` — scheduled reminder for Google Scholar / Dimensions / BASE
+
+### Data flow and cadence
+
+```mermaid
+flowchart TB
+    classDef cron fill:#fef3c7,stroke:#f59e0b,color:#78350f
+    classDef wf fill:#dbeafe,stroke:#3b82f6,color:#1e3a8a
+    classDef data fill:#ede9fe,stroke:#8b5cf6,color:#4c1d95
+    classDef deploy fill:#d1fae5,stroke:#10b981,color:#064e3b
+
+    cronMon["⏰ Mon 03:23 UTC"]:::cron
+    cronSun["⏰ Sun 03:31 UTC"]:::cron
+
+    discover["Discover"]:::wf
+    citation["Citation chain"]:::wf
+    quality["Quality gate"]:::wf
+    harvest["Harvest all metadata"]:::wf
+    classify["Classify (LLM)"]:::wf
+    publish["Publish assets"]:::wf
+    pages["Pages deploy"]:::deploy
+
+    dc[("discovery_candidates.csv")]:::data
+    ac[("accepted_candidates.csv")]:::data
+    ah[("accepted_harvested.csv")]:::data
+    acl[("accepted_classified.csv")]:::data
+    site[("data/papers.json<br/>data/osint_cyber_papers.csv")]:::data
+
+    cronMon --> discover
+    cronSun --> harvest
+
+    discover -- workflow_run --> citation
+    citation -- workflow_run --> quality
+    harvest -- workflow_run --> classify
+    classify -- workflow_run --> publish
+    publish -- "git push main" --> pages
+
+    discover -.writes.-> dc
+    citation -.augments.-> dc
+    dc -.reads.-> quality
+    quality -.writes.-> ac
+    ac -.reads.-> harvest
+    harvest -.writes.-> ah
+    ah -.reads.-> classify
+    classify -.writes.-> acl
+    acl -.reads.-> publish
+    publish -.writes.-> site
+    site -.fetched by frontend.-> pages
+```
+
+**Weekly cycle in practice:**
+
+1. **Monday 03:23 UTC** — `Discover` fires, then auto-chains through `Citation chain` → `Quality gate`. New `data/accepted_candidates.csv` is produced.
+2. **Sunday 03:31 UTC** — `Harvest all metadata` reads the accepted list and auto-chains through `Classify` → `Publish assets`.
+3. **After publish pushes to `main`** — `pages.yml` deploys the refreshed `data/papers.json` to GitHub Pages.
+
+The gap between discovery (Monday) and harvest (following Sunday) is intentional buffer for the Monday `Manual-assist discovery queue` reminder to be acted on — papers added by hand during the week are picked up by Sunday's run.
 
 ## Important operational notes
 
