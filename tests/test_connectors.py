@@ -75,6 +75,48 @@ class TestOpenAlexAccessors:
         assert openalex.abstract({"abstract_inverted_index": {}}) == ""
 
 
+class TestOpenAlexSearch:
+    def test_default_is_single_page_no_filter(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"results": [{"title": "A"}]}
+        result = openalex.search(client, "cybersecurity", mailto="me@example.com")
+        assert result == [{"title": "A"}]
+        # Single request, no filter param, page=1
+        assert client.get_json.call_count == 1
+        params = client.get_json.call_args.kwargs["params"]
+        assert params["search"] == "cybersecurity"
+        assert params["page"] == 1
+        assert params["mailto"] == "me@example.com"
+        assert "filter" not in params
+
+    def test_date_window_adds_filter(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"results": []}
+        openalex.search(client, "osint", from_date="2026-04-16", until_date="2026-04-23")
+        params = client.get_json.call_args.kwargs["params"]
+        assert params["filter"] == "from_publication_date:2026-04-16,to_publication_date:2026-04-23"
+
+    def test_pagination_stops_on_short_page(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.side_effect = [
+            {"results": [{"id": 1}, {"id": 2}, {"id": 3}]},  # full
+            {"results": [{"id": 4}, {"id": 5}]},              # short -> stop
+        ]
+        result = openalex.search(client, "osint", per_page=3, max_pages=5)
+        assert len(result) == 5
+        assert client.get_json.call_count == 2
+
+    def test_pagination_respects_max_pages(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"results": [{"id": 1}, {"id": 2}, {"id": 3}]}  # always full
+        openalex.search(client, "osint", per_page=3, max_pages=2)
+        assert client.get_json.call_count == 2  # capped
+
+
 class TestCrossrefParsing:
     def test_abstract_strips_html(self):
         item = {"abstract": "<jats:p>Hello <b>world</b></jats:p>"}
@@ -93,6 +135,41 @@ class TestCrossrefParsing:
     def test_venue_missing(self):
         item = {"container-title": []}
         assert crossref.venue(item) == ""
+
+
+class TestCrossrefSearch:
+    def test_default_is_single_page_no_filter(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"message": {"items": [{"DOI": "1"}]}}
+        result = crossref.search(client, "osint")
+        assert result == [{"DOI": "1"}]
+        assert client.get_json.call_count == 1
+        params = client.get_json.call_args.kwargs["params"]
+        assert params["query.title"] == "osint"
+        assert params["offset"] == 0
+        assert "filter" not in params
+
+    def test_date_window_adds_filter(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"message": {"items": []}}
+        crossref.search(client, "osint", from_date="2026-04-16", until_date="2026-04-23")
+        params = client.get_json.call_args.kwargs["params"]
+        assert params["filter"] == "from-pub-date:2026-04-16,until-pub-date:2026-04-23"
+
+    def test_pagination_increments_offset(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.side_effect = [
+            {"message": {"items": [{"DOI": "1"}, {"DOI": "2"}, {"DOI": "3"}]}},  # full
+            {"message": {"items": [{"DOI": "4"}]}},                               # short -> stop
+        ]
+        result = crossref.search(client, "osint", rows=3, max_pages=5)
+        assert len(result) == 4
+        # First call offset=0, second offset=3
+        offsets = [c.kwargs["params"]["offset"] for c in client.get_json.call_args_list]
+        assert offsets == [0, 3]
 
 
 class TestSemanticScholarParsing:

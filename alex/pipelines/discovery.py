@@ -1,14 +1,28 @@
 from __future__ import annotations
 import os
+from datetime import datetime, timedelta, timezone
 import pandas as pd
 from alex.utils.io import load_json, load_df, save_df, root_file
 from alex.utils.http import HttpClient
 from alex.utils.text import clean, normalize_title
 from alex.connectors import openalex, crossref, semantic_scholar, core, arxiv, zenodo, github_search
 
+# Rolling window for date-filtered sources. Matches the weekly cron cadence —
+# each run sweeps only the past 7 days so we catch what's truly new without
+# re-fetching the same top-relevance-ranked results every week.
+DISCOVER_WINDOW_DAYS = 7
+# Pagination ceiling per query per source. 5 pages of 25 = up to 125 results
+# per query per source per run; empirically more than enough for a 7-day
+# window on cyber-security keywords.
+DISCOVER_MAX_PAGES = 5
+
+
 def run() -> None:
     queries = load_json(root_file("config", "query_registry.json"))["queries"]
     client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
+    today = datetime.now(timezone.utc).date()
+    from_date = (today - timedelta(days=DISCOVER_WINDOW_DAYS)).isoformat()
+    until_date = today.isoformat()
     rows = []
     seen = set()
 
@@ -44,7 +58,14 @@ def run() -> None:
         rows.append(row)
 
     for query in queries:
-        for item in openalex.search(client, query, os.getenv("HARVEST_MAILTO", "")):
+        for item in openalex.search(
+            client,
+            query,
+            os.getenv("HARVEST_MAILTO", ""),
+            from_date=from_date,
+            until_date=until_date,
+            max_pages=DISCOVER_MAX_PAGES,
+        ):
             add_row(
                 item.get("title", ""),
                 "OpenAlex",
@@ -60,7 +81,13 @@ def run() -> None:
                 discovery_query=query,
             )
 
-        for item in crossref.search(client, query):
+        for item in crossref.search(
+            client,
+            query,
+            from_date=from_date,
+            until_date=until_date,
+            max_pages=DISCOVER_MAX_PAGES,
+        ):
             authors = "; ".join(
                 f"{a.get('given','')} {a.get('family','')}".strip()
                 for a in (item.get("author") or [])
