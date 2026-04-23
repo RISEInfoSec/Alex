@@ -1,6 +1,6 @@
 import json
 import pytest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 import pandas as pd
 from alex.pipelines import quality_gate, publish
 from alex.utils.io import validate_columns
@@ -353,3 +353,36 @@ class TestHarvest:
             harvest.run()
 
         assert (tmp_path / "data" / "accepted_harvested.csv").exists()
+
+
+class TestDiscoveryAbstractEnrichment:
+    def test_enriches_row_missing_abstract_with_doi(self):
+        from alex.pipelines.discovery import _enrich_missing_abstracts
+
+        rows = [
+            {"doi": "10.1234/has-abstract", "abstract": "already present"},
+            {"doi": "10.1234/needs-abstract", "abstract": ""},
+            {"doi": "", "abstract": ""},  # no DOI -> skipped
+        ]
+        mock_work = {"abstract_inverted_index": {"Cybersecurity": [0], "research": [1]}}
+
+        with patch("alex.pipelines.discovery.openalex.get_by_doi",
+                   side_effect=[mock_work]) as mock_get:
+            _enrich_missing_abstracts(rows, client=MagicMock(), mailto="")
+
+        # Only the second row (missing abstract + has DOI) triggers a lookup
+        assert mock_get.call_count == 1
+        assert rows[0]["abstract"] == "already present"  # untouched
+        assert rows[1]["abstract"] == "Cybersecurity research"  # filled
+        assert rows[2]["abstract"] == ""  # skipped (no DOI)
+
+    def test_lookup_returning_no_abstract_leaves_row_unchanged(self):
+        from alex.pipelines.discovery import _enrich_missing_abstracts
+
+        rows = [{"doi": "10.1234/no-abstract-returned", "abstract": ""}]
+
+        with patch("alex.pipelines.discovery.openalex.get_by_doi",
+                   return_value={"abstract_inverted_index": {}}):
+            _enrich_missing_abstracts(rows, client=MagicMock(), mailto="")
+
+        assert rows[0]["abstract"] == ""
