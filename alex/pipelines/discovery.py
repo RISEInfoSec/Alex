@@ -145,6 +145,13 @@ def run() -> None:
             discovery_query="; ".join(item.get("matched_queries", [])),
         )
 
+    # Enrich abstracts at discovery time so quality_gate's relevance scoring
+    # sees full text. Sources like Crossref often omit abstracts from search
+    # results; when a row has a DOI, a follow-up OpenAlex lookup fills the gap
+    # cheaply. Harvest still runs later for authoritative metadata, but it no
+    # longer needs to hunt for abstracts as its primary job.
+    _enrich_missing_abstracts(rows, client, os.getenv("HARVEST_MAILTO", ""))
+
     new_df = pd.DataFrame(rows)
     if not existing_df.empty and not new_df.empty:
         df = pd.concat([existing_df, new_df], ignore_index=True)
@@ -154,3 +161,25 @@ def run() -> None:
         df = existing_df
     save_df(existing_path, df)
     print(f"Discovered {len(rows)} new candidates ({len(df)} total)")
+
+
+def _enrich_missing_abstracts(rows: list[dict], client: HttpClient, mailto: str) -> None:
+    """Fill missing abstracts via an OpenAlex-by-DOI lookup.
+
+    Only targets rows that have a DOI but no abstract. OpenAlex's
+    abstract_inverted_index has broad coverage and the endpoint is polite-API
+    friendly, so this adds at most one extra request per abstract-less row.
+    Mutates rows in place.
+    """
+    enriched = 0
+    for row in rows:
+        if row.get("abstract") or not row.get("doi"):
+            continue
+        work = openalex.get_by_doi(client, row["doi"], mailto)
+        if work:
+            text = openalex.abstract(work)
+            if text:
+                row["abstract"] = text
+                enriched += 1
+    if enriched:
+        print(f"Enriched {enriched} abstracts via OpenAlex DOI lookup")
