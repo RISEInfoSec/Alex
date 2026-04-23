@@ -28,8 +28,8 @@ class TestQualityGate:
         (config_dir / "venue_whitelist.json").write_text(json.dumps({"high_trust": ["IEEE"]}))
         (config_dir / "query_registry.json").write_text(json.dumps({"queries": ["OSINT", "cybersecurity"]}))
         (config_dir / "quality_weights.json").write_text(json.dumps({
-            "venue": 0.30, "citations": 0.35, "institution": 0.15,
-            "relevance": 0.20,
+            "venue": 0.35, "citations": 0.40, "relevance": 0.25,
+            "institution_bonus": 10.0,
             "auto_include_threshold": 75.0, "review_threshold": 45.0,
         }))
 

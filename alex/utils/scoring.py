@@ -1,5 +1,5 @@
 from __future__ import annotations
-from math import log1p
+from math import log1p, isnan
 from typing import Any
 from .text import clean
 
@@ -12,10 +12,17 @@ def venue_score(venue: Any, whitelist: list[str]) -> float:
 
 
 def citation_score(citations: float | None, year: int | None, current_year: int = 2026) -> float:
-    if citations is None or citations == 0:
+    try:
+        c = float(citations) if citations is not None else 0.0
+    except (ValueError, TypeError):
+        return 0.0
+    # Papers with missing citation data (NaN) should score 0, not the previous
+    # silent max — `min(1.0, NaN)` returned 1.0 because NaN comparisons are
+    # falsy. Guard explicitly.
+    if not c or isnan(c):
         return 0.0
     age = max(1, current_year - year + 1) if year else 1
-    normalized = citations / age
+    normalized = c / age
     return min(1.0, log1p(normalized) / log1p(100))
 
 

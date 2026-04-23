@@ -50,3 +50,15 @@ def author_names(work: dict[str, Any]) -> str:
         for a in (work.get("authorships") or [])
         if (a.get("author") or {}).get("display_name")
     )
+
+
+def author_institutions(work: dict[str, Any]) -> str:
+    names: list[str] = []
+    seen: set[str] = set()
+    for authorship in (work.get("authorships") or []):
+        for inst in (authorship.get("institutions") or []):
+            name = (inst.get("display_name") or "").strip()
+            if name and name not in seen:
+                seen.add(name)
+                names.append(name)
+    return "; ".join(names)

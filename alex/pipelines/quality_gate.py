@@ -40,23 +40,34 @@ def run() -> None:
     metrics = []
     accepted, review, rejected = [], [], []
 
+    institution_bonus = float(weights.get("institution_bonus", 0.0))
+
     for i, (_, row) in enumerate(df.iterrows()):
         v = venue_score(row.get("venue", ""), whitelist)
         c = citation_score(_safe_float(row.get("citation_count")), _safe_int_year(row.get("year")))
-        i_score = institution_score(row.get("authors", ""))
+        # Read the dedicated affiliations field (populated by OpenAlex connector).
+        # Falls back to authors for rows ingested before the field existed, though
+        # those typically hold names only and won't hit the trusted keywords.
+        affiliations_text = row.get("affiliations", "") or row.get("authors", "")
+        i_score = institution_score(affiliations_text)
         r = relevance_score(row.get("title", ""), row.get("abstract", ""), queries)
-        total = 100 * (
+        base = 100 * (
             v * weights["venue"]
             + c * weights["citations"]
-            + i_score * weights["institution"]
             + r * weights["relevance"]
         )
+        # Institution is an additive bonus: papers from trusted institutions get
+        # a bounded boost, but papers without institutional data aren't penalised
+        # on a signal we can't reliably measure.
+        bonus = institution_bonus if i_score >= 0.7 else 0.0
+        total = min(100.0, base + bonus)
         out = dict(row)
         out["candidate_id"] = i + 1
         out["scored_at"] = now
         out["venue_score"] = round(v * 100, 2)
         out["citation_score"] = round(c * 100, 2)
         out["institution_score"] = round(i_score * 100, 2)
+        out["institution_bonus"] = round(bonus, 2)
         out["relevance_score"] = round(r * 100, 2)
         out["total_quality_score"] = round(total, 2)
 

@@ -29,6 +29,7 @@ def run() -> None:
         row = {
             "title": clean(title),
             "authors": clean(kwargs.get("authors")),
+            "affiliations": clean(kwargs.get("affiliations")),
             "year": clean(kwargs.get("year")),
             "venue": clean(kwargs.get("venue")),
             "doi": clean(kwargs.get("doi")),
@@ -48,6 +49,7 @@ def run() -> None:
                 item.get("title", ""),
                 "OpenAlex",
                 authors=openalex.author_names(item),
+                affiliations=openalex.author_institutions(item),
                 year=item.get("publication_year", ""),
                 venue=openalex.venue_name(item),
                 doi=openalex.doi(item),
