@@ -209,10 +209,41 @@ const investigationEl = document.getElementById('investigationFilter');
 const resultsEl = document.getElementById('results');
 const summaryEl = document.getElementById('summary');
 
+// Defensively split any tag/keyword/source element that contains a comma
+// or semicolon — guards against legacy or manually-authored data where
+// multi-value cells survived as a single joined string.
+function flattenMulti(arr) {
+  return (arr || [])
+    .flatMap(x => String(x).split(/[,;|]/).map(s => s.trim()).filter(Boolean));
+}
+
+function escapeHtml(s) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Accept only http(s), protocol-relative, absolute paths, or fragments.
+// Blocks javascript:, data:, vbscript: and other script-bearing schemes.
+function safeHref(u) {
+  const s = String(u ?? '').trim();
+  if (!s) return '';
+  if (/^(https?:\/\/|\/\/|\/|\.\/|#)/i.test(s)) return escapeHtml(s);
+  return '';
+}
+
 fetch('data/papers.json')
   .then(res => res.json())
   .then(data => {
-    papers = data;
+    papers = data.map(p => ({
+      ...p,
+      tags: flattenMulti(p.tags),
+      keywords: flattenMulti(p.keywords),
+      osint_source: flattenMulti(p.osint_source),
+    }));
     populateFilters(papers);
     displayPapers(papers);
   });
@@ -267,23 +298,27 @@ function displayPapers(list) {
     const div = document.createElement('div');
     div.className = 'section';
     const tags = (p.tags || []).slice(0, 14).map(t =>
-      `<span class="tag" onclick="filterByTag(${JSON.stringify(t)})">${t}</span>`
+      `<span class="tag" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`
     ).join('');
 
     const keywordTags = (p.keywords || []).slice(0, 6).map(t =>
-      `<span class="tag secondary" onclick="filterByTag(${JSON.stringify(t)})">${t}</span>`
+      `<span class="tag secondary" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`
     ).join('');
 
+    const paperHref = safeHref(p.link);
+    const sourceHref = safeHref(p.source_url);
+    const doiHref = p.doi ? safeHref(`https://doi.org/${p.doi}`) : '';
+
     const links = [
-      p.link ? `<a href="${p.link}" target="_blank" rel="noopener">View Paper</a>` : '',
-      p.source_url && p.source_url !== p.link ? `<a href="${p.source_url}" target="_blank" rel="noopener">Source Page</a>` : '',
-      p.doi ? `<a href="https://doi.org/${p.doi}" target="_blank" rel="noopener">DOI</a>` : ''
+      paperHref ? `<a href="${paperHref}" target="_blank" rel="noopener">View Paper</a>` : '',
+      sourceHref && sourceHref !== paperHref ? `<a href="${sourceHref}" target="_blank" rel="noopener">Source Page</a>` : '',
+      doiHref ? `<a href="${doiHref}" target="_blank" rel="noopener">DOI</a>` : ''
     ].filter(Boolean).join(' | ');
 
     div.innerHTML = `
-      <h3>${p.title || ''}</h3>
-      <p class="meta"><strong>${p.author || 'Author metadata incomplete'}</strong> (${p.year || ''})${p.venue ? ' · ' + p.venue : ''}</p>
-      <p>${p.summary || ''}</p>
+      <h3>${escapeHtml(p.title || '')}</h3>
+      <p class="meta"><strong>${escapeHtml(p.author || 'Author metadata incomplete')}</strong> (${escapeHtml(p.year || '')})${p.venue ? ' · ' + escapeHtml(p.venue) : ''}</p>
+      <p>${escapeHtml(p.summary || '')}</p>
       <p>${tags}</p>
       ${keywordTags ? `<p>${keywordTags}</p>` : ''}
       <p>${links}</p>
@@ -299,6 +334,13 @@ function displayPapers(list) {
 function applyFilters() {
   displayPapers(papers.filter(paperMatches));
 }
+
+// Delegated handler for tag chips — avoids inline onclick and keeps the
+// click target isolated from user-controlled attribute values.
+resultsEl.addEventListener('click', (e) => {
+  const tagEl = e.target.closest('.tag');
+  if (tagEl && tagEl.dataset.tag) filterByTag(tagEl.dataset.tag);
+});
 
 [searchEl, sourceEl, categoryEl, keywordEl, yearEl, investigationEl].forEach(el => {
   el.addEventListener(el.tagName === 'INPUT' ? 'input' : 'change', applyFilters);
