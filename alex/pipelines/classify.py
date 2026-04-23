@@ -7,7 +7,7 @@ import pandas as pd
 import requests
 
 from alex.utils.io import load_df, save_df, root_file, validate_columns
-from alex.utils.text import clean, unique_keep
+from alex.utils.text import clean, normalize_title, unique_keep
 
 logger = logging.getLogger(__name__)
 
@@ -73,14 +73,24 @@ def call_openai(row: dict) -> dict:
         return dict(FALLBACK)
 
 
+def _dedup_key(row) -> str:
+    """Dedup key for a paper row: normalised DOI if present, else normalised title."""
+    doi = clean(row.get("doi", "")).lower()
+    if doi:
+        return f"doi:{doi}"
+    return f"title:{normalize_title(clean(row.get('title', '')))}"
+
+
 def run() -> None:
     output_path = root_file("data", "accepted_classified.csv")
     df = load_df(root_file("data", "accepted_harvested.csv"))
     if df.empty:
         print("No harvested accepted candidates to classify.")
-        # Write an empty file so downstream workflows can `git add` without
-        # failing; the next stage sees an empty DataFrame and no-ops cleanly.
-        save_df(output_path, pd.DataFrame())
+        # Additive model: don't overwrite the existing published corpus on
+        # empty input. Only create an empty placeholder if no corpus exists
+        # yet (so downstream workflows can still `git add` cleanly).
+        if not output_path.exists():
+            save_df(output_path, pd.DataFrame())
         return
     validate_columns(df, ["title", "abstract", "venue", "authors", "citation_count"], "accepted_harvested.csv")
     rows = []
@@ -101,5 +111,22 @@ def run() -> None:
         out["Quality_Tier"] = tags.get("Quality_Tier", "Standard")
         out["Seminal_Flag"] = "TRUE" if _safe_citation_count(row) >= 500 else "FALSE"
         rows.append(out)
-    save_df(output_path, pd.DataFrame(rows))
-    print(f"Classified {len(rows)} papers")
+
+    new_df = pd.DataFrame(rows)
+
+    # Additive merge: preserve every paper ever classified. Fresh classifier
+    # output wins on conflict (newer metadata, latest tags). Dedup by DOI
+    # where available, falling back to normalised title. Earlier seed rows
+    # without scoring columns coexist with pipeline-generated rows via
+    # column union (missing fields fill as NaN, which publish.fillna('')
+    # collapses to empty strings).
+    existing = load_df(output_path)
+    if existing.empty:
+        merged: pd.DataFrame = new_df
+    else:
+        new_keys = list({_dedup_key(row) for _, row in new_df.iterrows()})
+        existing_keep = existing[~existing.apply(_dedup_key, axis=1).isin(new_keys)]
+        merged = pd.concat([existing_keep, new_df], ignore_index=True)
+
+    save_df(output_path, merged)
+    print(f"Classified {len(rows)} new papers; corpus now {len(merged)} (was {len(existing)})")
