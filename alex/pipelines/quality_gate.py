@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 import pandas as pd
 
 from alex.utils.io import load_df, save_df, load_json, root_file, validate_columns
-from alex.utils.scoring import venue_score, citation_score, institution_score, usage_score, relevance_score
+from alex.utils.scoring import venue_score, citation_score, institution_score, relevance_score
 from alex.utils.text import clean
 
 logger = logging.getLogger(__name__)
@@ -44,13 +44,11 @@ def run() -> None:
         v = venue_score(row.get("venue", ""), whitelist)
         c = citation_score(_safe_float(row.get("citation_count")), _safe_int_year(row.get("year")))
         i_score = institution_score(row.get("authors", ""))
-        u = usage_score()
         r = relevance_score(row.get("title", ""), row.get("abstract", ""), queries)
         total = 100 * (
             v * weights["venue"]
             + c * weights["citations"]
             + i_score * weights["institution"]
-            + u * weights["usage"]
             + r * weights["relevance"]
         )
         out = dict(row)
@@ -59,7 +57,6 @@ def run() -> None:
         out["venue_score"] = round(v * 100, 2)
         out["citation_score"] = round(c * 100, 2)
         out["institution_score"] = round(i_score * 100, 2)
-        out["usage_score"] = round(u * 100, 2)
         out["relevance_score"] = round(r * 100, 2)
         out["total_quality_score"] = round(total, 2)
 

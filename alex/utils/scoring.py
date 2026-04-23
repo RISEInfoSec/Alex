@@ -27,15 +27,34 @@ def institution_score(affiliations: Any) -> float:
     return 0.4 if text else 0.2
 
 
-def usage_score(downloads: float | None = None, stars: float | None = None, altmetric: float | None = None) -> float:
-    parts: list[float] = []
-    for value, scale in ((downloads, 1000), (stars, 500), (altmetric, 100)):
-        if value is not None:
-            parts.append(min(1.0, value / scale))
-    return sum(parts) / len(parts) if parts else 0.0
+_RELEVANCE_STOPWORDS = {
+    "a", "an", "and", "at", "by", "for", "from", "in", "of", "on", "or",
+    "the", "to", "with",
+}
+
+
+def _query_keywords(queries: list[str]) -> set[str]:
+    """Extract meaningful keywords from query phrases for relevance matching.
+
+    Tokenises each query on whitespace, drops stopwords, and keeps tokens >= 3
+    chars. Returns a deduplicated set for substring matching against paper
+    title/abstract text.
+    """
+    keywords: set[str] = set()
+    for q in queries:
+        for word in clean(q).lower().split():
+            if len(word) >= 3 and word not in _RELEVANCE_STOPWORDS:
+                keywords.add(word)
+    return keywords
 
 
 def relevance_score(title: Any, abstract: Any, queries: list[str]) -> float:
     haystack = f"{clean(title)} {clean(abstract)}".lower()
-    hits = sum(1 for q in queries if q.lower() in haystack)
-    return min(1.0, hits / max(1, len(queries) / 4))
+    keywords = _query_keywords(queries)
+    if not keywords:
+        return 0.0
+    hits = sum(1 for k in keywords if k in haystack)
+    # Max score when roughly a third of the keywords are present — keeps the
+    # ceiling reachable for papers with abstracts and strong on-topic titles,
+    # while still meaningfully ranking weaker matches.
+    return min(1.0, hits / max(1, len(keywords) / 3))
