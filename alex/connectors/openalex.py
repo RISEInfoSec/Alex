@@ -1,16 +1,48 @@
 from __future__ import annotations
 from typing import Any
 from alex.utils.http import HttpClient
+from alex.utils.paginate import paginate
 from alex.utils.text import clean
 
 OPENALEX = "https://api.openalex.org/works"
 
-def search(client: HttpClient, query: str, mailto: str = "", per_page: int = 25) -> list[dict[str, Any]]:
-    params = {"search": query, "per-page": per_page}
-    if mailto:
-        params["mailto"] = mailto
-    data = client.get_json(OPENALEX, params=params)
-    return (data or {}).get("results", [])
+
+def search(
+    client: HttpClient,
+    query: str,
+    mailto: str = "",
+    per_page: int = 25,
+    *,
+    from_date: str | None = None,
+    until_date: str | None = None,
+    max_pages: int = 1,
+) -> list[dict[str, Any]]:
+    """Search OpenAlex works.
+
+    Default behaviour (max_pages=1, no date window) matches the prior
+    single-page relevance-ranked fetch — preserved for lookup-style callers
+    like harvest and citation_chain that want only a tiny sample.
+
+    Pass `from_date`/`until_date` (ISO YYYY-MM-DD) to filter by publication
+    date, and `max_pages > 1` to paginate across result pages. Used by
+    discover to sweep the rolling 7-day window.
+    """
+    filters = []
+    if from_date:
+        filters.append(f"from_publication_date:{from_date}")
+    if until_date:
+        filters.append(f"to_publication_date:{until_date}")
+
+    def fetch_page(page_num: int) -> list[dict[str, Any]]:
+        params: dict[str, Any] = {"search": query, "per-page": per_page, "page": page_num}
+        if mailto:
+            params["mailto"] = mailto
+        if filters:
+            params["filter"] = ",".join(filters)
+        data = client.get_json(OPENALEX, params=params) or {}
+        return data.get("results", []) or []
+
+    return paginate(fetch_page, page_size=per_page, max_pages=max_pages)
 
 def get_by_doi(client: HttpClient, doi: str, mailto: str = "") -> dict[str, Any] | None:
     params = {"filter": f"doi:https://doi.org/{doi}"}
