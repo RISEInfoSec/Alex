@@ -53,6 +53,7 @@ def run() -> None:
                 year=item.get("publication_year", ""),
                 venue=openalex.venue_name(item),
                 doi=openalex.doi(item),
+                abstract=openalex.abstract(item),
                 source_url=openalex.landing_url(item),
                 citation_count=item.get("cited_by_count", 0),
                 reference_count=len(item.get("referenced_works") or []),

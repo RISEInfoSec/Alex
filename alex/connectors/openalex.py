@@ -52,6 +52,24 @@ def author_names(work: dict[str, Any]) -> str:
     )
 
 
+def abstract(work: dict[str, Any]) -> str:
+    """Reconstruct abstract from OpenAlex's `abstract_inverted_index` format.
+
+    OpenAlex serialises abstracts as a token -> position-list map so the same
+    word at multiple positions shares a single entry. Rebuild the linear text
+    by emitting each token at each of its positions.
+    """
+    inverted = work.get("abstract_inverted_index") or {}
+    if not inverted:
+        return ""
+    positions: list[tuple[int, str]] = []
+    for word, locs in inverted.items():
+        for pos in (locs or []):
+            positions.append((pos, word))
+    positions.sort(key=lambda p: p[0])
+    return " ".join(word for _, word in positions)
+
+
 def author_institutions(work: dict[str, Any]) -> str:
     names: list[str] = []
     seen: set[str] = set()
