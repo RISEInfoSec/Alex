@@ -188,6 +188,70 @@ class TestSemanticScholarParsing:
         assert semantic_scholar.citations({}) == []
 
 
+class TestSemanticScholarSearch:
+    def test_default_is_single_page_no_filter_no_auth(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"data": [{"title": "A"}]}
+        result = semantic_scholar.search(client, "osint")
+        assert result == [{"title": "A"}]
+        assert client.get_json.call_count == 1
+        kwargs = client.get_json.call_args.kwargs
+        assert kwargs["params"]["query"] == "osint"
+        assert kwargs["params"]["offset"] == 0
+        assert "publicationDateOrYear" not in kwargs["params"]
+        assert kwargs.get("headers") is None  # no api_key -> no header
+
+    def test_api_key_sets_header(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"data": []}
+        semantic_scholar.search(client, "osint", api_key="abc123")
+        kwargs = client.get_json.call_args.kwargs
+        assert kwargs["headers"] == {"x-api-key": "abc123"}
+
+    def test_date_window_sets_param(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"data": []}
+        semantic_scholar.search(client, "osint", from_date="2026-04-16", until_date="2026-04-23")
+        params = client.get_json.call_args.kwargs["params"]
+        assert params["publicationDateOrYear"] == "2026-04-16:2026-04-23"
+
+    def test_client_side_filter_drops_out_of_window_results(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        # Simulate an API that ignores the filter and returns mixed dates
+        client.get_json.return_value = {"data": [
+            {"title": "in window", "publicationDate": "2026-04-18"},
+            {"title": "too old",   "publicationDate": "2020-01-01"},
+            {"title": "too new",   "publicationDate": "2030-01-01"},
+            {"title": "no date but in-year", "year": 2026},
+            {"title": "no date wrong year", "year": 1999},
+        ]}
+        result = semantic_scholar.search(
+            client, "osint", from_date="2026-04-16", until_date="2026-04-23",
+        )
+        titles = {r["title"] for r in result}
+        assert "in window" in titles
+        assert "no date but in-year" in titles  # year fallback keeps it
+        assert "too old" not in titles
+        assert "too new" not in titles
+        assert "no date wrong year" not in titles
+
+    def test_pagination_increments_offset(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.side_effect = [
+            {"data": [{"title": f"p{i}"} for i in range(3)]},  # full
+            {"data": [{"title": "last"}]},                     # short
+        ]
+        result = semantic_scholar.search(client, "osint", limit=3, max_pages=5)
+        assert len(result) == 4
+        offsets = [c.kwargs["params"]["offset"] for c in client.get_json.call_args_list]
+        assert offsets == [0, 3]
+
+
 class TestCoreSearch:
     def test_default_is_single_page_no_filter(self):
         from unittest.mock import MagicMock
