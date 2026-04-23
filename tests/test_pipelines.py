@@ -228,8 +228,8 @@ class TestClassify:
                 classify.run()
 
     def test_classify_empty_input_produces_empty_output(self, tmp_path):
-        # Upstream with no work to do must still produce an output file so
-        # the workflow's `git add` doesn't fail with "pathspec did not match".
+        # Empty harvested + no existing corpus: create empty file so the
+        # workflow's `git add` step doesn't fail on a missing pathspec.
         (tmp_path / "data").mkdir(parents=True)
 
         with patch("alex.utils.io.ROOT", tmp_path), \
@@ -239,6 +239,82 @@ class TestClassify:
             classify.run()
 
         assert (tmp_path / "data" / "accepted_classified.csv").exists()
+
+    def test_classify_empty_input_preserves_existing_corpus(self, tmp_path):
+        # Additive model: an empty harvest run must NOT wipe the published
+        # corpus. The existing accepted_classified.csv stays untouched.
+        (tmp_path / "data").mkdir(parents=True)
+        existing = pd.DataFrame([{"title": "Seed Paper", "doi": "10.1234/seed", "Category": "OSINT"}])
+        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        mtime_before = (tmp_path / "data" / "accepted_classified.csv").stat().st_mtime_ns
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            from alex.pipelines import classify
+            classify.run()
+
+        mtime_after = (tmp_path / "data" / "accepted_classified.csv").stat().st_mtime_ns
+        assert mtime_before == mtime_after  # untouched
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert len(result) == 1
+        assert result.iloc[0]["title"] == "Seed Paper"
+
+    def test_classify_appends_to_existing_corpus(self, tmp_path):
+        # Additive model: newly classified rows are merged into the existing
+        # corpus, not overwriting it. Dedup by DOI; new DOI -> appended.
+        (tmp_path / "data").mkdir(parents=True)
+        existing = pd.DataFrame([{
+            "title": "Old Paper", "authors": "A", "year": "2020", "venue": "",
+            "doi": "10.1/old", "abstract": "", "source_url": "", "citation_count": 0,
+            "Category": "Seed", "Investigation_Type": "", "OSINT_Source_Types": "",
+            "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+        }])
+        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        harvested = pd.DataFrame([{
+            "title": "New Paper", "authors": "B", "year": "2025", "venue": "IEEE",
+            "doi": "10.1/new", "abstract": "abstract", "source_url": "", "citation_count": 10,
+        }])
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert len(result) == 2
+        dois = set(result["doi"].astype(str).tolist())
+        assert dois == {"10.1/old", "10.1/new"}
+
+    def test_classify_new_wins_on_doi_conflict(self, tmp_path):
+        # Same DOI in both existing and new: new classification replaces old.
+        (tmp_path / "data").mkdir(parents=True)
+        existing = pd.DataFrame([{
+            "title": "Old Title", "authors": "A", "year": "2020", "venue": "",
+            "doi": "10.1/same", "abstract": "", "source_url": "", "citation_count": 0,
+            "Category": "Old Category", "Investigation_Type": "", "OSINT_Source_Types": "",
+            "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+        }])
+        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        harvested = pd.DataFrame([{
+            "title": "Updated Title", "authors": "B", "year": "2025", "venue": "IEEE",
+            "doi": "10.1/same", "abstract": "new", "source_url": "", "citation_count": 50,
+        }])
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert len(result) == 1  # deduped
+        assert result.iloc[0]["title"] == "Updated Title"  # new won
 
 
 class TestHarvest:
