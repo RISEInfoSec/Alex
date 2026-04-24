@@ -540,6 +540,7 @@ class TestHarvest:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load", return_value={}), \
              patch("alex.connectors.crossref.get_by_doi", return_value=mock_crossref), \
              patch("alex.pipelines.harvest.HttpClient"):
             from alex.pipelines import harvest
@@ -586,6 +587,7 @@ class TestHarvest:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load", return_value={}), \
              patch("alex.pipelines.harvest.load_df", side_effect=_load_accepted), \
              patch("alex.connectors.crossref.get_by_doi", return_value=None), \
              patch("alex.connectors.openalex.search", return_value=[mock_oa_work]), \
@@ -625,6 +627,73 @@ class TestHarvest:
 
         assert (tmp_path / "data" / "accepted_harvested.csv").exists()
 
+    def _accepted_with_no_abstract(self, tmp_path):
+        accepted = pd.DataFrame([{
+            "title": "Untitled paper",
+            "authors": "", "year": "2024", "venue": "",
+            "doi": "", "abstract": "", "source_url": "",
+            "citation_count": 0, "reference_count": 0,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        accepted.to_csv(tmp_path / "data" / "accepted_candidates.csv", index=False)
+
+        def _load(path):
+            return pd.read_csv(path, keep_default_na=False)
+        return _load
+
+    def test_harvest_skips_s2_when_disabled_in_config(self, tmp_path, monkeypatch):
+        # S2 disabled (default) -> per-candidate fallback never fires, even
+        # if the candidate is missing an abstract.
+        monkeypatch.setenv("SEMANTIC_SCHOLAR_API_KEY", "k_test")
+        loader = self._accepted_with_no_abstract(tmp_path)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load",
+                   return_value={"connectors": {"semantic_scholar": {"enabled": False}}}), \
+             patch("alex.pipelines.harvest.load_df", side_effect=loader), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.connectors.semantic_scholar.search") as s2_mock, \
+             patch("alex.pipelines.harvest.HttpClient"):
+            from alex.pipelines import harvest
+            harvest.run()
+        s2_mock.assert_not_called()
+
+    def test_harvest_skips_s2_when_enabled_but_no_key(self, tmp_path, monkeypatch):
+        monkeypatch.delenv("SEMANTIC_SCHOLAR_API_KEY", raising=False)
+        loader = self._accepted_with_no_abstract(tmp_path)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load",
+                   return_value={"connectors": {"semantic_scholar": {"enabled": True}}}), \
+             patch("alex.pipelines.harvest.load_df", side_effect=loader), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.connectors.semantic_scholar.search") as s2_mock, \
+             patch("alex.pipelines.harvest.HttpClient"):
+            from alex.pipelines import harvest
+            harvest.run()
+        s2_mock.assert_not_called()
+
+    def test_harvest_calls_s2_when_enabled_and_keyed(self, tmp_path, monkeypatch):
+        monkeypatch.setenv("SEMANTIC_SCHOLAR_API_KEY", "k_test")
+        loader = self._accepted_with_no_abstract(tmp_path)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load",
+                   return_value={"connectors": {"semantic_scholar": {"enabled": True}}}), \
+             patch("alex.pipelines.harvest.load_df", side_effect=loader), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.connectors.semantic_scholar.search", return_value=[]) as s2_mock, \
+             patch("alex.pipelines.harvest.HttpClient"):
+            from alex.pipelines import harvest
+            harvest.run()
+        s2_mock.assert_called()
+
 
 class TestDiscoveryAbstractEnrichment:
     def test_enriches_row_missing_abstract_with_doi(self):
@@ -637,12 +706,18 @@ class TestDiscoveryAbstractEnrichment:
         ]
         mock_work = {"abstract_inverted_index": {"Cybersecurity": [0], "research": [1]}}
 
-        with patch("alex.pipelines.discovery.openalex.get_by_doi",
-                   side_effect=[mock_work]) as mock_get:
+        with patch(
+            "alex.pipelines.discovery.openalex.get_many_by_doi",
+            return_value={"10.1234/needs-abstract": mock_work},
+        ) as mock_get:
             _enrich_missing_abstracts(rows, client=MagicMock(), mailto="")
 
-        # Only the second row (missing abstract + has DOI) triggers a lookup
+        # One batched call regardless of row count
         assert mock_get.call_count == 1
+        # Only the abstract-less DOI is requested (deduped)
+        called_dois = mock_get.call_args.args[1]
+        assert called_dois == ["10.1234/needs-abstract"]
+
         assert rows[0]["abstract"] == "already present"  # untouched
         assert rows[1]["abstract"] == "Cybersecurity research"  # filled
         assert rows[2]["abstract"] == ""  # skipped (no DOI)
@@ -652,11 +727,219 @@ class TestDiscoveryAbstractEnrichment:
 
         rows = [{"doi": "10.1234/no-abstract-returned", "abstract": ""}]
 
-        with patch("alex.pipelines.discovery.openalex.get_by_doi",
-                   return_value={"abstract_inverted_index": {}}):
+        with patch(
+            "alex.pipelines.discovery.openalex.get_many_by_doi",
+            return_value={"10.1234/no-abstract-returned": {"abstract_inverted_index": {}}},
+        ):
             _enrich_missing_abstracts(rows, client=MagicMock(), mailto="")
 
         assert rows[0]["abstract"] == ""
+
+    def test_dedupes_dois_across_rows(self):
+        # Same DOI from two connectors should only be requested once.
+        from alex.pipelines.discovery import _enrich_missing_abstracts
+
+        rows = [
+            {"doi": "10.1234/dup", "abstract": ""},
+            {"doi": "https://doi.org/10.1234/DUP", "abstract": ""},  # prefix + case variant
+            {"doi": "10.1234/other", "abstract": ""},
+        ]
+        with patch(
+            "alex.pipelines.discovery.openalex.get_many_by_doi",
+            return_value={},
+        ) as mock_get:
+            _enrich_missing_abstracts(rows, client=MagicMock(), mailto="")
+
+        called_dois = mock_get.call_args.args[1]
+        # 10.1234/dup appears in two rows but is requested once after normalisation
+        assert sorted(called_dois) == ["10.1234/dup", "10.1234/other"]
+
+    def test_skips_call_when_no_rows_need_enrichment(self):
+        from alex.pipelines.discovery import _enrich_missing_abstracts
+
+        rows = [
+            {"doi": "10.1/x", "abstract": "present"},
+            {"doi": "", "abstract": ""},
+        ]
+        with patch("alex.pipelines.discovery.openalex.get_many_by_doi") as mock_get:
+            _enrich_missing_abstracts(rows, client=MagicMock(), mailto="")
+        mock_get.assert_not_called()
+
+
+class TestDiscoveryConnectorGating:
+    """Discovery should respect the connectors block in query_registry.json."""
+
+    def _write_config(self, tmp_path, connectors):
+        config_dir = tmp_path / "config"
+        config_dir.mkdir(parents=True, exist_ok=True)
+        (config_dir / "query_registry.json").write_text(json.dumps({
+            "queries": ["osint"],
+            "connectors": connectors,
+        }))
+        (config_dir / "arxiv_categories.json").write_text(json.dumps({
+            "categories": ["cs.CR"], "min_keyword_matches": 2,
+        }))
+        (tmp_path / "data").mkdir(parents=True, exist_ok=True)
+
+    def _patch_paths(self, tmp_path):
+        return [
+            patch("alex.utils.io.ROOT", tmp_path),
+            patch("alex.utils.io.DATA_DIR", tmp_path / "data"),
+            patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"),
+        ]
+
+    def test_disabled_connectors_are_not_called(self, tmp_path):
+        self._write_config(tmp_path, {
+            "openalex": {"enabled": True},
+            "crossref": {"enabled": False},
+            "semantic_scholar": {"enabled": False},
+            "core": {"enabled": False},
+            "zenodo": {"enabled": False},
+            "github": {"enabled": False},
+            "arxiv_rss": {"enabled": False},
+        })
+
+        with self._patch_paths(tmp_path)[0], \
+             self._patch_paths(tmp_path)[1], \
+             self._patch_paths(tmp_path)[2], \
+             patch("alex.pipelines.discovery.openalex.search", return_value=[]) as oa, \
+             patch("alex.pipelines.discovery.crossref.search") as cr, \
+             patch("alex.pipelines.discovery.semantic_scholar.search") as s2, \
+             patch("alex.pipelines.discovery.core.search") as core_mock, \
+             patch("alex.pipelines.discovery.zenodo.search") as zen, \
+             patch("alex.pipelines.discovery.github_search.search") as gh, \
+             patch("alex.pipelines.discovery.arxiv.fetch_rss") as rss:
+            from alex.pipelines import discovery
+            discovery.run()
+
+        oa.assert_called()
+        cr.assert_not_called()
+        s2.assert_not_called()
+        core_mock.assert_not_called()
+        zen.assert_not_called()
+        gh.assert_not_called()
+        rss.assert_not_called()
+
+    def test_semantic_scholar_skipped_when_enabled_but_no_api_key(self, tmp_path, monkeypatch):
+        monkeypatch.delenv("SEMANTIC_SCHOLAR_API_KEY", raising=False)
+        self._write_config(tmp_path, {
+            "openalex": {"enabled": False},
+            "crossref": {"enabled": False},
+            "semantic_scholar": {"enabled": True},
+            "core": {"enabled": False},
+            "zenodo": {"enabled": False},
+            "github": {"enabled": False},
+            "arxiv_rss": {"enabled": False},
+        })
+
+        with self._patch_paths(tmp_path)[0], \
+             self._patch_paths(tmp_path)[1], \
+             self._patch_paths(tmp_path)[2], \
+             patch("alex.pipelines.discovery.semantic_scholar.search") as s2:
+            from alex.pipelines import discovery
+            discovery.run()
+
+        s2.assert_not_called()
+
+    def test_semantic_scholar_called_when_key_present(self, tmp_path, monkeypatch):
+        monkeypatch.setenv("SEMANTIC_SCHOLAR_API_KEY", "k_test")
+        self._write_config(tmp_path, {
+            "openalex": {"enabled": False},
+            "crossref": {"enabled": False},
+            "semantic_scholar": {"enabled": True},
+            "core": {"enabled": False},
+            "zenodo": {"enabled": False},
+            "github": {"enabled": False},
+            "arxiv_rss": {"enabled": False},
+        })
+
+        with self._patch_paths(tmp_path)[0], \
+             self._patch_paths(tmp_path)[1], \
+             self._patch_paths(tmp_path)[2], \
+             patch("alex.pipelines.discovery.semantic_scholar.search", return_value=[]) as s2:
+            from alex.pipelines import discovery
+            discovery.run()
+
+        s2.assert_called()
+        assert s2.call_args.kwargs.get("api_key") == "k_test"
+
+    def test_connectors_run_in_parallel_per_query(self, tmp_path):
+        # All enabled sources for one query should be submitted to the
+        # thread pool together, not called sequentially.
+        config_dir = tmp_path / "config"
+        config_dir.mkdir(parents=True, exist_ok=True)
+        (config_dir / "query_registry.json").write_text(json.dumps({
+            "queries": ["q1"],
+            "connectors": {
+                "openalex": {"enabled": True},
+                "crossref": {"enabled": True},
+                "semantic_scholar": {"enabled": False},
+                "core": {"enabled": False},
+                "zenodo": {"enabled": True},
+                "github": {"enabled": True},
+                "arxiv_rss": {"enabled": False},
+            },
+        }))
+        (config_dir / "arxiv_categories.json").write_text(json.dumps({
+            "categories": ["cs.CR"], "min_keyword_matches": 2,
+        }))
+        (tmp_path / "data").mkdir(parents=True, exist_ok=True)
+
+        # Patch the executor so we can confirm tasks are submitted as a batch
+        from concurrent.futures import ThreadPoolExecutor
+        original_submit = ThreadPoolExecutor.submit
+        submitted = []
+
+        def tracking_submit(self, fn, *args, **kwargs):
+            submitted.append(fn)
+            return original_submit(self, fn, *args, **kwargs)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.discovery.openalex.search", return_value=[]), \
+             patch("alex.pipelines.discovery.crossref.search", return_value=[]), \
+             patch("alex.pipelines.discovery.zenodo.search", return_value=[]), \
+             patch("alex.pipelines.discovery.github_search.search", return_value=[]), \
+             patch.object(ThreadPoolExecutor, "submit", tracking_submit):
+            from alex.pipelines import discovery
+            discovery.run()
+
+        # Four enabled connectors -> four parallel submissions for the one query
+        assert len(submitted) == 4
+
+    def test_core_circuit_break_after_consecutive_empty(self, tmp_path):
+        # Three queries; CORE returns empty for all → after threshold the
+        # later queries don't call CORE at all.
+        config_dir = tmp_path / "config"
+        config_dir.mkdir(parents=True, exist_ok=True)
+        (config_dir / "query_registry.json").write_text(json.dumps({
+            "queries": ["q1", "q2", "q3", "q4", "q5"],
+            "connectors": {
+                "openalex": {"enabled": False},
+                "crossref": {"enabled": False},
+                "semantic_scholar": {"enabled": False},
+                "core": {"enabled": True, "circuit_break_5xx": 2},
+                "zenodo": {"enabled": False},
+                "github": {"enabled": False},
+                "arxiv_rss": {"enabled": False},
+            },
+        }))
+        (config_dir / "arxiv_categories.json").write_text(json.dumps({
+            "categories": ["cs.CR"], "min_keyword_matches": 2,
+        }))
+        (tmp_path / "data").mkdir(parents=True, exist_ok=True)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.discovery.core.search", return_value=[]) as core_mock:
+            from alex.pipelines import discovery
+            discovery.run()
+
+        # Threshold is 2 → first two queries call CORE, then circuit trips
+        # and remaining three are skipped.
+        assert core_mock.call_count == 2
 
 
 class TestRescore:

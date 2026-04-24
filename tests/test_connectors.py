@@ -117,6 +117,64 @@ class TestOpenAlexSearch:
         assert client.get_json.call_count == 2  # capped
 
 
+class TestOpenAlexBatchByDoi:
+    def test_returns_empty_for_empty_input(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        assert openalex.get_many_by_doi(client, []) == {}
+        client.get_json.assert_not_called()
+
+    def test_single_chunk_below_batch_size(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"results": [
+            {"ids": {"doi": "https://doi.org/10.1/a"}, "abstract_inverted_index": {"x": [0]}},
+            {"ids": {"doi": "https://doi.org/10.1/b"}, "abstract_inverted_index": {"y": [0]}},
+        ]}
+        out = openalex.get_many_by_doi(client, ["10.1/a", "10.1/b"], mailto="me@example.com")
+        assert client.get_json.call_count == 1
+        params = client.get_json.call_args.kwargs["params"]
+        assert params["filter"].startswith("doi:")
+        assert "https://doi.org/10.1/a" in params["filter"]
+        assert "https://doi.org/10.1/b" in params["filter"]
+        assert params["per-page"] == 50
+        assert params["mailto"] == "me@example.com"
+        assert set(out.keys()) == {"10.1/a", "10.1/b"}
+
+    def test_chunks_above_batch_size(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"results": []}
+        # 75 unique DOIs -> 2 chunks (50 + 25)
+        dois = [f"10.1/x{i}" for i in range(75)]
+        openalex.get_many_by_doi(client, dois)
+        assert client.get_json.call_count == 2
+
+    def test_dedupes_input_dois(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"results": []}
+        # 60 entries but only 30 unique -> single chunk
+        dois = [f"10.1/x{i % 30}" for i in range(60)]
+        openalex.get_many_by_doi(client, dois)
+        assert client.get_json.call_count == 1
+
+    def test_normalises_doi_prefix_and_case(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"results": [
+            {"ids": {"doi": "https://doi.org/10.1/CASE"}, "abstract_inverted_index": {}},
+        ]}
+        # Mixed prefix/case input — internal dedupe should collapse them
+        out = openalex.get_many_by_doi(client, [
+            "10.1/case",
+            "https://doi.org/10.1/CASE",
+        ])
+        assert client.get_json.call_count == 1
+        # Output map keyed on lowercase, prefix-stripped form
+        assert "10.1/case" in out
+
+
 class TestCrossrefParsing:
     def test_abstract_strips_html(self):
         item = {"abstract": "<jats:p>Hello <b>world</b></jats:p>"}

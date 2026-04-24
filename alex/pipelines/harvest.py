@@ -1,10 +1,15 @@
 from __future__ import annotations
+import logging
 import os
 import pandas as pd
 from alex.utils.io import load_df, save_df, root_file, validate_columns
 from alex.utils.http import HttpClient
+from alex.utils import connector_config
 from alex.connectors import crossref, openalex, semantic_scholar
 from alex.utils.text import clean
+
+logger = logging.getLogger(__name__)
+
 
 def run() -> None:
     output_path = root_file("data", "accepted_harvested.csv")
@@ -16,6 +21,20 @@ def run() -> None:
         save_df(output_path, pd.DataFrame())
         return
     validate_columns(df, ["title", "doi", "authors", "venue", "abstract"], "accepted_candidates.csv")
+
+    # Honour the same connectors gate that discovery uses. If S2 is disabled
+    # (or enabled without a key), the per-candidate fallback below is skipped
+    # — no point burning 3 retries × N candidates against a 429 wall.
+    config = connector_config.load()
+    s2_key = os.getenv("SEMANTIC_SCHOLAR_API_KEY", "")
+    enable_s2 = connector_config.is_enabled(config, "semantic_scholar", default=False)
+    if enable_s2 and not s2_key:
+        logger.warning(
+            "Harvest: Semantic Scholar enabled in config but "
+            "SEMANTIC_SCHOLAR_API_KEY is unset; skipping S2 fallback for "
+            "missing abstracts."
+        )
+        enable_s2 = False
 
     client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
     harvested = []
@@ -50,8 +69,8 @@ def run() -> None:
                 best["reference_count"] = len(work.get("referenced_works") or [])
                 best["harvest_source"] = best.get("harvest_source", "OpenAlex search")
 
-        if not best.get("abstract"):
-            ss = semantic_scholar.search(client, title, limit=1)
+        if enable_s2 and not best.get("abstract"):
+            ss = semantic_scholar.search(client, title, api_key=s2_key, limit=1)
             if ss:
                 item = ss[0]
                 best["abstract"] = clean(item.get("abstract", "")) or best.get("abstract", "")

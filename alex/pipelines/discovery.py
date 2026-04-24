@@ -1,11 +1,26 @@
 from __future__ import annotations
+import logging
 import os
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
+from typing import Any, Callable
 import pandas as pd
 from alex.utils.io import load_json, load_df, save_df, root_file
 from alex.utils.http import HttpClient
 from alex.utils.text import clean, normalize_title
+from alex.utils import connector_config
 from alex.connectors import openalex, crossref, semantic_scholar, core, arxiv, zenodo, github_search
+
+logger = logging.getLogger(__name__)
+
+# Per-query connector fan-out width. Six is the number of paginated
+# connectors. Parallelism here is strictly *across* independent APIs
+# (OpenAlex / Crossref / S2 / CORE / Zenodo / GitHub each have their own
+# rate-limit budget). Within a single source, pagination stays serial:
+# HttpClient.get_json's polite-delay (`time.sleep(0.5)` in finally) gates
+# page N+1 inside that source's thread. We never issue concurrent requests
+# to the same upstream API.
+DISCOVER_CONNECTOR_WORKERS = 6
 
 # Rolling window for date-filtered sources. Matches the weekly cron cadence —
 # each run sweeps only the past 7 days so we catch what's truly new without
@@ -17,10 +32,44 @@ DISCOVER_WINDOW_DAYS = 7
 # queries hit the short-page early-stop well before this cap.
 DISCOVER_MAX_PAGES = 10
 
+# When CORE is enabled, this many consecutive zero-result queries trip the
+# in-run circuit break and skip CORE for the rest of the run. Conservative
+# default — empty results mid-run could be legit, but three in a row almost
+# always means the API is down (the prior failure mode that motivated the
+# gate in the first place).
+DEFAULT_CORE_CIRCUIT_BREAK = 3
+
 
 def run() -> None:
-    queries = load_json(root_file("config", "query_registry.json"))["queries"]
+    config = connector_config.load()
+    queries = config["queries"]
     client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
+
+    # Resolve which connectors to call this run. Disabled connectors are
+    # skipped entirely — no request, no polite-delay, no log spam. S2 also
+    # needs an API key (free public tier 429s on every call within seconds).
+    enable_openalex = connector_config.is_enabled(config, "openalex")
+    enable_crossref = connector_config.is_enabled(config, "crossref")
+    enable_arxiv = connector_config.is_enabled(config, "arxiv_rss")
+    enable_zenodo = connector_config.is_enabled(config, "zenodo")
+    enable_github = connector_config.is_enabled(config, "github")
+
+    s2_key = os.getenv("SEMANTIC_SCHOLAR_API_KEY", "")
+    enable_s2 = connector_config.is_enabled(config, "semantic_scholar", default=False)
+    if enable_s2 and not s2_key:
+        logger.warning(
+            "Semantic Scholar enabled in config but SEMANTIC_SCHOLAR_API_KEY is "
+            "unset; skipping connector. The free public tier 429s on every call."
+        )
+        enable_s2 = False
+
+    enable_core = connector_config.is_enabled(config, "core", default=False)
+    core_break_threshold = int(
+        connector_config.setting(config, "core", "circuit_break_5xx", DEFAULT_CORE_CIRCUIT_BREAK)
+        or DEFAULT_CORE_CIRCUIT_BREAK
+    )
+    core_consecutive_empty = 0
+    core_tripped = False
     today = datetime.now(timezone.utc).date()
     from_date = (today - timedelta(days=DISCOVER_WINDOW_DAYS)).isoformat()
     until_date = today.isoformat()
@@ -58,15 +107,89 @@ def run() -> None:
         }
         rows.append(row)
 
+    mailto = os.getenv("HARVEST_MAILTO", "")
+    core_api_key = os.getenv("CORE_API_KEY", "")
+    github_token = os.getenv("GITHUB_TOKEN", "")
+
     for query in queries:
-        for item in openalex.search(
-            client,
-            query,
-            os.getenv("HARVEST_MAILTO", ""),
-            from_date=from_date,
-            until_date=until_date,
-            max_pages=DISCOVER_MAX_PAGES,
-        ):
+        # Build the connector tasks that run for this query. Each entry is
+        # (source_name, callable_returning_results). The thread pool lets
+        # OpenAlex / Crossref / S2 / CORE / Zenodo / GitHub progress *in
+        # parallel* — they're separate APIs with separate rate limits — while
+        # pagination *within* each connector stays serial via the polite
+        # delay inside HttpClient.get_json. We never issue concurrent
+        # requests to the same upstream API.
+        tasks: list[tuple[str, Callable[[], list[dict[str, Any]]]]] = []
+        if enable_openalex:
+            tasks.append(("OpenAlex", lambda q=query: openalex.search(
+                client, q, mailto,
+                from_date=from_date, until_date=until_date,
+                max_pages=DISCOVER_MAX_PAGES,
+            )))
+        if enable_crossref:
+            tasks.append(("Crossref", lambda q=query: crossref.search(
+                client, q,
+                from_date=from_date, until_date=until_date,
+                max_pages=DISCOVER_MAX_PAGES,
+            )))
+        if enable_s2:
+            tasks.append(("Semantic Scholar", lambda q=query: semantic_scholar.search(
+                client, q, api_key=s2_key,
+                from_date=from_date, until_date=until_date,
+                # Cap S2 pagination tighter — keyed tier is 1 req/sec
+                # shared across the key.
+                max_pages=2,
+            )))
+        if enable_core and not core_tripped:
+            tasks.append(("CORE", lambda q=query: core.search(
+                client, q, api_key=core_api_key,
+                from_date=from_date, until_date=until_date,
+                max_pages=DISCOVER_MAX_PAGES,
+            )))
+        if enable_zenodo:
+            tasks.append(("Zenodo", lambda q=query: zenodo.search(
+                client, q,
+                from_date=from_date, until_date=until_date,
+                max_pages=DISCOVER_MAX_PAGES,
+            )))
+        if enable_github:
+            tasks.append(("GitHub", lambda q=query: github_search.search(
+                client, q + " research paper osint cybersecurity",
+                token=github_token,
+                from_date=from_date, until_date=until_date,
+                max_pages=DISCOVER_MAX_PAGES,
+            )))
+
+        if not tasks:
+            continue
+
+        # Iterate results in the original task order so dedup via `seen` is
+        # reproducible across runs (first source wins for a given title).
+        results: dict[str, list] = {}
+        with ThreadPoolExecutor(max_workers=DISCOVER_CONNECTOR_WORKERS) as ex:
+            futures = {ex.submit(fn): name for name, fn in tasks}
+            for fut, name in futures.items():
+                try:
+                    results[name] = fut.result()
+                except Exception as exc:
+                    logger.warning("%s connector failed for query %r: %s", name, query, exc)
+                    results[name] = []
+
+        # Update CORE circuit-break based on this query's outcome.
+        if enable_core and not core_tripped and "CORE" in results:
+            if not results["CORE"]:
+                core_consecutive_empty += 1
+                if core_consecutive_empty >= core_break_threshold:
+                    core_tripped = True
+                    logger.warning(
+                        "CORE returned zero results for %d consecutive queries; "
+                        "circuit-breaking and skipping CORE for the rest of the run.",
+                        core_consecutive_empty,
+                    )
+            else:
+                core_consecutive_empty = 0
+
+        for item in results.get("OpenAlex", []):
             add_row(
                 item.get("title", ""),
                 "OpenAlex",
@@ -81,14 +204,7 @@ def run() -> None:
                 reference_count=len(item.get("referenced_works") or []),
                 discovery_query=query,
             )
-
-        for item in crossref.search(
-            client,
-            query,
-            from_date=from_date,
-            until_date=until_date,
-            max_pages=DISCOVER_MAX_PAGES,
-        ):
+        for item in results.get("Crossref", []):
             authors = "; ".join(
                 f"{a.get('given','')} {a.get('family','')}".strip()
                 for a in (item.get("author") or [])
@@ -105,19 +221,7 @@ def run() -> None:
                 source_url=item.get("URL", ""),
                 discovery_query=query,
             )
-
-        for item in semantic_scholar.search(
-            client,
-            query,
-            api_key=os.getenv("SEMANTIC_SCHOLAR_API_KEY", ""),
-            from_date=from_date,
-            until_date=until_date,
-            # Cap Semantic Scholar pagination tighter than the other sources:
-            # even with an API key the free-plus tier is 100 req/5min. Without
-            # a key the API will 429 quickly, and we'll fall back to whatever
-            # page 1 returned.
-            max_pages=2,
-        ):
+        for item in results.get("Semantic Scholar", []):
             add_row(
                 item.get("title", ""),
                 "Semantic Scholar",
@@ -130,15 +234,7 @@ def run() -> None:
                 citation_count=item.get("citationCount", 0),
                 discovery_query=query,
             )
-
-        for item in core.search(
-            client,
-            query,
-            api_key=os.getenv("CORE_API_KEY", ""),
-            from_date=from_date,
-            until_date=until_date,
-            max_pages=DISCOVER_MAX_PAGES,
-        ):
+        for item in results.get("CORE", []):
             add_row(
                 item.get("title", ""),
                 "CORE",
@@ -150,14 +246,7 @@ def run() -> None:
                 source_url=item.get("downloadUrl", "") or item.get("sourceFulltextUrls", [""])[0] if item.get("sourceFulltextUrls") else "",
                 discovery_query=query,
             )
-
-        for item in zenodo.search(
-            client,
-            query,
-            from_date=from_date,
-            until_date=until_date,
-            max_pages=DISCOVER_MAX_PAGES,
-        ):
+        for item in results.get("Zenodo", []):
             meta = item.get("metadata") or {}
             creators = "; ".join(c.get("name", "") for c in (meta.get("creators") or []) if c.get("name"))
             add_row(
@@ -170,15 +259,7 @@ def run() -> None:
                 source_url=(item.get("links") or {}).get("html", ""),
                 discovery_query=query,
             )
-
-        for item in github_search.search(
-            client,
-            query + " research paper osint cybersecurity",
-            token=os.getenv("GITHUB_TOKEN", ""),
-            from_date=from_date,
-            until_date=until_date,
-            max_pages=DISCOVER_MAX_PAGES,
-        ):
+        for item in results.get("GitHub", []):
             add_row(
                 item.get("full_name", ""),
                 "GitHub",
@@ -190,19 +271,20 @@ def run() -> None:
             )
 
     # arXiv RSS — single fetch + client-side keyword filter (outside per-query loop)
-    arxiv_config = load_json(root_file("config", "arxiv_categories.json"))
-    rss_papers = arxiv.fetch_rss(arxiv_config["categories"])
-    relevant = arxiv.filter_relevant(rss_papers, queries, arxiv_config.get("min_keyword_matches", 2))
-    for item in relevant:
-        add_row(
-            item.get("title", ""),
-            "arXiv RSS",
-            authors=item.get("authors", ""),
-            year=item.get("year", ""),
-            abstract=item.get("abstract", ""),
-            source_url=item.get("source_url", ""),
-            discovery_query="; ".join(item.get("matched_queries", [])),
-        )
+    if enable_arxiv:
+        arxiv_config = load_json(root_file("config", "arxiv_categories.json"))
+        rss_papers = arxiv.fetch_rss(arxiv_config["categories"])
+        relevant = arxiv.filter_relevant(rss_papers, queries, arxiv_config.get("min_keyword_matches", 2))
+        for item in relevant:
+            add_row(
+                item.get("title", ""),
+                "arXiv RSS",
+                authors=item.get("authors", ""),
+                year=item.get("year", ""),
+                abstract=item.get("abstract", ""),
+                source_url=item.get("source_url", ""),
+                discovery_query="; ".join(item.get("matched_queries", [])),
+            )
 
     # Enrich abstracts at discovery time so quality_gate's relevance scoring
     # sees full text. Sources like Crossref often omit abstracts from search
@@ -223,22 +305,37 @@ def run() -> None:
 
 
 def _enrich_missing_abstracts(rows: list[dict], client: HttpClient, mailto: str) -> None:
-    """Fill missing abstracts via an OpenAlex-by-DOI lookup.
+    """Fill missing abstracts via batched OpenAlex DOI lookups.
 
-    Only targets rows that have a DOI but no abstract. OpenAlex's
-    abstract_inverted_index has broad coverage and the endpoint is polite-API
-    friendly, so this adds at most one extra request per abstract-less row.
-    Mutates rows in place.
+    Targets rows that have a DOI but no abstract. Dedupes DOIs (the same DOI
+    can show up across multiple connector results) and resolves them in one
+    batched OpenAlex call per 50 DOIs — a ~400-row pool drops from ~400
+    serial requests to ~8. Mutates rows in place.
     """
+    needed: list[str] = []
+    seen: set[str] = set()
+    for row in rows:
+        if row.get("abstract") or not row.get("doi"):
+            continue
+        bare = (row["doi"] or "").replace("https://doi.org/", "").strip().lower()
+        if bare and bare not in seen:
+            seen.add(bare)
+            needed.append(bare)
+    if not needed:
+        return
+
+    work_map = openalex.get_many_by_doi(client, needed, mailto)
     enriched = 0
     for row in rows:
         if row.get("abstract") or not row.get("doi"):
             continue
-        work = openalex.get_by_doi(client, row["doi"], mailto)
-        if work:
-            text = openalex.abstract(work)
-            if text:
-                row["abstract"] = text
-                enriched += 1
+        bare = (row["doi"] or "").replace("https://doi.org/", "").strip().lower()
+        work = work_map.get(bare)
+        if not work:
+            continue
+        text = openalex.abstract(work)
+        if text:
+            row["abstract"] = text
+            enriched += 1
     if enriched:
-        print(f"Enriched {enriched} abstracts via OpenAlex DOI lookup")
+        print(f"Enriched {enriched} abstracts via OpenAlex DOI lookup ({len(needed)} unique DOIs)")
