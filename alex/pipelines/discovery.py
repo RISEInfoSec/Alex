@@ -293,6 +293,14 @@ def run() -> None:
         relevant = arxiv.filter_relevant(
             api_papers, queries, arxiv_config.get("min_keyword_matches", 1)
         )
+        # Surface the post-filter count so a misconfigured filter (e.g.
+        # min_keyword_matches=2 on the strict subset matcher) doesn't silently
+        # drop the entire arXiv contribution like it did in run 24909276934.
+        logger.info(
+            "arXiv: %d papers from API -> %d after relevance filter (min_matches=%d)",
+            len(api_papers), len(relevant),
+            arxiv_config.get("min_keyword_matches", 1),
+        )
         for item in relevant:
             add_row(
                 item.get("title", ""),
