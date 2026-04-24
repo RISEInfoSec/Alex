@@ -8,6 +8,7 @@ import pandas as pd
 from alex.utils.io import load_json, load_df, save_df, root_file
 from alex.utils.http import HttpClient
 from alex.utils.text import clean, normalize_title
+from alex.utils import connector_config
 from alex.connectors import openalex, crossref, semantic_scholar, core, arxiv, zenodo, github_search
 
 logger = logging.getLogger(__name__)
@@ -39,32 +40,22 @@ DISCOVER_MAX_PAGES = 10
 DEFAULT_CORE_CIRCUIT_BREAK = 3
 
 
-def _connector_enabled(config: dict, name: str, default: bool = True) -> bool:
-    block = (config.get("connectors") or {}).get(name) or {}
-    return bool(block.get("enabled", default))
-
-
-def _connector_setting(config: dict, name: str, key: str, default=None):
-    block = (config.get("connectors") or {}).get(name) or {}
-    return block.get(key, default)
-
-
 def run() -> None:
-    config = load_json(root_file("config", "query_registry.json"))
+    config = connector_config.load()
     queries = config["queries"]
     client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
 
     # Resolve which connectors to call this run. Disabled connectors are
     # skipped entirely — no request, no polite-delay, no log spam. S2 also
     # needs an API key (free public tier 429s on every call within seconds).
-    enable_openalex = _connector_enabled(config, "openalex")
-    enable_crossref = _connector_enabled(config, "crossref")
-    enable_arxiv = _connector_enabled(config, "arxiv_rss")
-    enable_zenodo = _connector_enabled(config, "zenodo")
-    enable_github = _connector_enabled(config, "github")
+    enable_openalex = connector_config.is_enabled(config, "openalex")
+    enable_crossref = connector_config.is_enabled(config, "crossref")
+    enable_arxiv = connector_config.is_enabled(config, "arxiv_rss")
+    enable_zenodo = connector_config.is_enabled(config, "zenodo")
+    enable_github = connector_config.is_enabled(config, "github")
 
     s2_key = os.getenv("SEMANTIC_SCHOLAR_API_KEY", "")
-    enable_s2 = _connector_enabled(config, "semantic_scholar", default=False)
+    enable_s2 = connector_config.is_enabled(config, "semantic_scholar", default=False)
     if enable_s2 and not s2_key:
         logger.warning(
             "Semantic Scholar enabled in config but SEMANTIC_SCHOLAR_API_KEY is "
@@ -72,9 +63,9 @@ def run() -> None:
         )
         enable_s2 = False
 
-    enable_core = _connector_enabled(config, "core", default=False)
+    enable_core = connector_config.is_enabled(config, "core", default=False)
     core_break_threshold = int(
-        _connector_setting(config, "core", "circuit_break_5xx", DEFAULT_CORE_CIRCUIT_BREAK)
+        connector_config.setting(config, "core", "circuit_break_5xx", DEFAULT_CORE_CIRCUIT_BREAK)
         or DEFAULT_CORE_CIRCUIT_BREAK
     )
     core_consecutive_empty = 0

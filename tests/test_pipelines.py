@@ -540,6 +540,7 @@ class TestHarvest:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load", return_value={}), \
              patch("alex.connectors.crossref.get_by_doi", return_value=mock_crossref), \
              patch("alex.pipelines.harvest.HttpClient"):
             from alex.pipelines import harvest
@@ -586,6 +587,7 @@ class TestHarvest:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load", return_value={}), \
              patch("alex.pipelines.harvest.load_df", side_effect=_load_accepted), \
              patch("alex.connectors.crossref.get_by_doi", return_value=None), \
              patch("alex.connectors.openalex.search", return_value=[mock_oa_work]), \
@@ -624,6 +626,73 @@ class TestHarvest:
             harvest.run()
 
         assert (tmp_path / "data" / "accepted_harvested.csv").exists()
+
+    def _accepted_with_no_abstract(self, tmp_path):
+        accepted = pd.DataFrame([{
+            "title": "Untitled paper",
+            "authors": "", "year": "2024", "venue": "",
+            "doi": "", "abstract": "", "source_url": "",
+            "citation_count": 0, "reference_count": 0,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        accepted.to_csv(tmp_path / "data" / "accepted_candidates.csv", index=False)
+
+        def _load(path):
+            return pd.read_csv(path, keep_default_na=False)
+        return _load
+
+    def test_harvest_skips_s2_when_disabled_in_config(self, tmp_path, monkeypatch):
+        # S2 disabled (default) -> per-candidate fallback never fires, even
+        # if the candidate is missing an abstract.
+        monkeypatch.setenv("SEMANTIC_SCHOLAR_API_KEY", "k_test")
+        loader = self._accepted_with_no_abstract(tmp_path)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load",
+                   return_value={"connectors": {"semantic_scholar": {"enabled": False}}}), \
+             patch("alex.pipelines.harvest.load_df", side_effect=loader), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.connectors.semantic_scholar.search") as s2_mock, \
+             patch("alex.pipelines.harvest.HttpClient"):
+            from alex.pipelines import harvest
+            harvest.run()
+        s2_mock.assert_not_called()
+
+    def test_harvest_skips_s2_when_enabled_but_no_key(self, tmp_path, monkeypatch):
+        monkeypatch.delenv("SEMANTIC_SCHOLAR_API_KEY", raising=False)
+        loader = self._accepted_with_no_abstract(tmp_path)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load",
+                   return_value={"connectors": {"semantic_scholar": {"enabled": True}}}), \
+             patch("alex.pipelines.harvest.load_df", side_effect=loader), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.connectors.semantic_scholar.search") as s2_mock, \
+             patch("alex.pipelines.harvest.HttpClient"):
+            from alex.pipelines import harvest
+            harvest.run()
+        s2_mock.assert_not_called()
+
+    def test_harvest_calls_s2_when_enabled_and_keyed(self, tmp_path, monkeypatch):
+        monkeypatch.setenv("SEMANTIC_SCHOLAR_API_KEY", "k_test")
+        loader = self._accepted_with_no_abstract(tmp_path)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load",
+                   return_value={"connectors": {"semantic_scholar": {"enabled": True}}}), \
+             patch("alex.pipelines.harvest.load_df", side_effect=loader), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.connectors.semantic_scholar.search", return_value=[]) as s2_mock, \
+             patch("alex.pipelines.harvest.HttpClient"):
+            from alex.pipelines import harvest
+            harvest.run()
+        s2_mock.assert_called()
 
 
 class TestDiscoveryAbstractEnrichment:
