@@ -10,6 +10,19 @@ from alex.utils.text import clean
 
 logger = logging.getLogger(__name__)
 
+# DOI prefixes Crossref does not index — sending these to crossref.get_by_doi
+# always 404s and burns ~1-2s per row in HTTP latency + polite delay. Both
+# Zenodo and arXiv have their own DOI registrars; we have purpose-specific
+# connectors for them elsewhere.
+_NON_CROSSREF_DOI_PREFIXES = ("10.5281/", "10.48550/arxiv")
+
+
+def _is_crossref_indexed_doi(doi: str) -> bool:
+    if not doi:
+        return False
+    lo = doi.lower()
+    return not any(lo.startswith(p) for p in _NON_CROSSREF_DOI_PREFIXES)
+
 
 def run() -> None:
     output_path = root_file("data", "accepted_harvested.csv")
@@ -44,7 +57,7 @@ def run() -> None:
         doi = clean(row.get("doi"))
         best = dict(row)
 
-        if doi:
+        if _is_crossref_indexed_doi(doi):
             cr = crossref.get_by_doi(client, doi)
             if cr:
                 best["doi"] = clean(cr.get("DOI", doi))

@@ -14,6 +14,26 @@ class TestClean:
     def test_empty_string(self):
         assert clean("") == ""
 
+    def test_nan_float_returns_empty(self):
+        # pandas reads empty CSV cells as float NaN. Without this guard the
+        # literal string "nan" leaked through to downstream stages — most
+        # visibly harvest sending DOI=nan to Crossref and getting a 404.
+        assert clean(float("nan")) == ""
+
+    def test_nan_through_pandas_roundtrip_returns_empty(self):
+        import io
+        import pandas as pd
+        df = pd.DataFrame([{"doi": ""}])
+        roundtripped = pd.read_csv(io.StringIO(df.to_csv(index=False)))
+        assert clean(roundtripped["doi"].iloc[0]) == ""
+
+    def test_zero_still_renders(self):
+        # Guard against the old `str(v or "")` regression where 0 became "".
+        assert clean(0) == "0"
+
+    def test_false_still_renders(self):
+        assert clean(False) == "False"
+
 
 class TestNormalizeTitle:
     def test_lowercases(self):
