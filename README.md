@@ -183,6 +183,7 @@ flowchart TB
         citation["Citation chain"]:::step
         quality["Quality gate"]:::step
         harvest["Harvest"]:::step
+        rescorestep["Rescore"]:::step
         classify["Classify (LLM)"]:::step
         publish["Publish assets"]:::step
     end
@@ -198,7 +199,7 @@ flowchart TB
     site[("data/papers.json<br/>data/osint_cyber_papers.csv")]:::data
 
     cronMon --> discover
-    discover --> citation --> quality --> harvest --> classify --> publish
+    discover --> citation --> quality --> harvest --> rescorestep --> classify --> publish
     publish -- needs --> pages
 
     discover -.writes.-> dc
@@ -207,6 +208,8 @@ flowchart TB
     quality -.writes.-> ac
     ac -.reads.-> harvest
     harvest -.writes.-> ah
+    ah -.reads.-> rescorestep
+    rescorestep -.filters.-> ah
     ah -.reads.-> classify
     classify -.writes.-> acl
     acl -.reads.-> publish

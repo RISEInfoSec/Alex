@@ -2,7 +2,7 @@ import json
 import pytest
 from unittest.mock import patch, MagicMock
 import pandas as pd
-from alex.pipelines import quality_gate, publish
+from alex.pipelines import quality_gate, publish, rescore
 from alex.utils.io import validate_columns
 
 
@@ -31,6 +31,7 @@ class TestQualityGate:
             "venue": 0.35, "citations": 0.40, "relevance": 0.25,
             "institution_bonus": 10.0,
             "auto_include_threshold": 75.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
         }))
 
         with patch("alex.utils.io.ROOT", tmp_path), \
@@ -47,11 +48,65 @@ class TestQualityGate:
         assert len(metrics) == 2
         assert "candidate_id" in metrics.columns
         assert "scored_at" in metrics.columns
-        assert len(accepted) + len(review) + len(rejected) == 2
+        # accepted_candidates.csv is the enrichment pool (auto-include + review);
+        # review_queue.csv is a subset. Every row ends up in either
+        # enrichment-pool OR rejected.
+        assert len(accepted) + len(rejected) == 2
+        if len(review) > 0:
+            assert set(review["title"]).issubset(set(accepted["title"]))
         # The IEEE paper with high citations from MIT should score highest
         high_score = metrics.loc[metrics["title"].str.contains("High Quality"), "total_quality_score"].iloc[0]
         low_score = metrics.loc[metrics["title"].str.contains("Mediocre"), "total_quality_score"].iloc[0]
         assert high_score > low_score
+
+    def test_preprint_routing_uses_separate_thresholds(self, tmp_path):
+        """arXiv papers route on lower preprint thresholds so they don't
+        get penalised for the structural lack of venue/citation signal."""
+        # Two near-identical rows differing only in discovery_source. The
+        # relevance-heavy arXiv preprint should auto-include under preprint
+        # thresholds; the same content from a non-preprint source should
+        # not reach the regular threshold.
+        candidates = pd.DataFrame([
+            {"title": "OSINT methodology", "authors": "A", "year": "2025",
+             "venue": "arXiv", "doi": "", "abstract": "OSINT cybersecurity",
+             "source_url": "", "discovery_source": "arXiv RSS",
+             "discovery_query": "OSINT", "inclusion_path": "discovery",
+             "citation_count": 0, "reference_count": 0},
+            {"title": "OSINT methodology elsewhere", "authors": "A", "year": "2025",
+             "venue": "Unknown Journal", "doi": "", "abstract": "OSINT cybersecurity",
+             "source_url": "", "discovery_source": "OpenAlex",
+             "discovery_query": "OSINT", "inclusion_path": "discovery",
+             "citation_count": 0, "reference_count": 0},
+        ])
+        (tmp_path / "data").mkdir(parents=True)
+        candidates.to_csv(tmp_path / "data" / "discovery_candidates.csv", index=False)
+
+        config_dir = tmp_path / "config"
+        config_dir.mkdir()
+        (config_dir / "venue_whitelist.json").write_text(json.dumps({"high_trust": ["IEEE"]}))
+        (config_dir / "query_registry.json").write_text(json.dumps({"queries": ["OSINT", "cybersecurity"]}))
+        (config_dir / "quality_weights.json").write_text(json.dumps({
+            "venue": 0.35, "citations": 0.40, "relevance": 0.25,
+            "institution_bonus": 10.0,
+            "auto_include_threshold": 75.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
+        }))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            quality_gate.run()
+
+        metrics = pd.read_csv(tmp_path / "data" / "quality_metrics.csv")
+        preprint_row = metrics[metrics["discovery_source"] == "arXiv RSS"].iloc[0]
+        non_preprint_row = metrics[metrics["discovery_source"] == "OpenAlex"].iloc[0]
+
+        assert bool(preprint_row["is_preprint"]) is True
+        assert bool(non_preprint_row["is_preprint"]) is False
+        # Same total (same venue+citation+relevance signal), different routing
+        assert preprint_row["total_quality_score"] == non_preprint_row["total_quality_score"]
+        assert preprint_row["recommended_action"] == "auto-include"
+        assert non_preprint_row["recommended_action"] in ("human review", "reject")
 
 
 class TestPublish:
@@ -462,3 +517,83 @@ class TestDiscoveryAbstractEnrichment:
             _enrich_missing_abstracts(rows, client=MagicMock(), mailto="")
 
         assert rows[0]["abstract"] == ""
+
+
+class TestRescore:
+    def _setup_config(self, tmp_path):
+        config_dir = tmp_path / "config"
+        config_dir.mkdir()
+        (config_dir / "venue_whitelist.json").write_text(json.dumps({"high_trust": ["IEEE"]}))
+        (config_dir / "query_registry.json").write_text(json.dumps({"queries": ["OSINT", "cybersecurity"]}))
+        (config_dir / "quality_weights.json").write_text(json.dumps({
+            "venue": 0.35, "citations": 0.40, "relevance": 0.25,
+            "institution_bonus": 10.0,
+            "auto_include_threshold": 75.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
+        }))
+
+    def test_empty_input_preserves_existing(self, tmp_path):
+        # No harvested file -> create empty and return (matches pattern of
+        # the rest of the pipeline's empty-input handling).
+        (tmp_path / "data").mkdir(parents=True)
+        self._setup_config(tmp_path)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            rescore.run()
+        # No harvested file existed; rescore shouldn't create spurious outputs.
+        assert not (tmp_path / "data" / "rescore_metrics.csv").exists()
+
+    def test_filters_to_auto_include_tier(self, tmp_path):
+        # Two rows: one that meets the regular auto-include with full abstract,
+        # one that falls below and should drop out after rescoring.
+        harvested = pd.DataFrame([
+            {"title": "OSINT methodology and cybersecurity",
+             "authors": "A", "year": "2025", "venue": "IEEE S&P",
+             "doi": "10.1/x", "abstract": "OSINT methodology cybersecurity",
+             "source_url": "", "discovery_source": "OpenAlex",
+             "citation_count": 200, "is_preprint": False},
+            {"title": "Unrelated cooking recipes",
+             "authors": "B", "year": "2025", "venue": "Food Journal",
+             "doi": "10.1/y", "abstract": "broccoli and cheese",
+             "source_url": "", "discovery_source": "OpenAlex",
+             "citation_count": 0, "is_preprint": False},
+        ])
+        (tmp_path / "data").mkdir(parents=True)
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        self._setup_config(tmp_path)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            rescore.run()
+
+        accepted = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        assert len(accepted) == 1
+        assert "OSINT" in accepted.iloc[0]["title"]
+        # rescore_metrics keeps both rows for audit
+        metrics = pd.read_csv(tmp_path / "data" / "rescore_metrics.csv")
+        assert len(metrics) == 2
+
+    def test_preprint_threshold_applied(self, tmp_path):
+        # An arXiv preprint with no citations but relevant title clears the
+        # preprint threshold even though it wouldn't clear the regular one.
+        harvested = pd.DataFrame([{
+            "title": "OSINT cybersecurity methodology",
+            "authors": "A", "year": "2025", "venue": "arXiv",
+            "doi": "", "abstract": "OSINT investigation cybersecurity",
+            "source_url": "", "discovery_source": "arXiv RSS",
+            "citation_count": 0, "is_preprint": True,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        self._setup_config(tmp_path)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            rescore.run()
+
+        accepted = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        assert len(accepted) == 1
+        assert bool(accepted.iloc[0]["is_preprint"]) is True

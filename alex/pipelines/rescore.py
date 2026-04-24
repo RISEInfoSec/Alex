@@ -1,0 +1,100 @@
+"""Post-harvest rescore step.
+
+Papers enter quality_gate with whatever abstract the initial discovery
+connector shipped. Harvest then re-fetches authoritative metadata and fills
+in gaps (Crossref abstracts, OpenAlex abstract_inverted_index, Semantic
+Scholar). This stage re-runs relevance_score against the now-enriched text
+and applies the final auto-include gate — with separate preprint routing
+so arXiv/bioRxiv/medRxiv/SSRN papers get a realistic threshold.
+
+Input:  data/accepted_harvested.csv   (harvest's output — enrichment pool)
+Output: data/accepted_harvested.csv   (filtered to auto-include tier)
+        data/rescore_metrics.csv      (full rescored set, for debugging)
+"""
+
+from __future__ import annotations
+import logging
+
+import pandas as pd
+
+from alex.utils.io import load_df, save_df, load_json, root_file
+from alex.utils.scoring import venue_score, citation_score, institution_score, relevance_score
+# Reuse preprint detection from the initial gate so classification is
+# consistent across both stages.
+from alex.pipelines.quality_gate import _is_preprint, _safe_float, _safe_int_year
+
+logger = logging.getLogger(__name__)
+
+
+def run() -> None:
+    harvested_path = root_file("data", "accepted_harvested.csv")
+    df = load_df(harvested_path)
+    if df.empty:
+        print("No harvested candidates to rescore.")
+        # Don't overwrite with an empty file if the file already exists —
+        # same safety pattern as classify.py's additive corpus logic.
+        if not harvested_path.exists():
+            save_df(harvested_path, pd.DataFrame())
+        return
+
+    whitelist = load_json(root_file("config", "venue_whitelist.json"))["high_trust"]
+    queries = load_json(root_file("config", "query_registry.json"))["queries"]
+    weights = load_json(root_file("config", "quality_weights.json"))
+
+    institution_bonus = float(weights.get("institution_bonus", 0.0))
+    auto_include = float(weights["auto_include_threshold"])
+    preprint_auto = float(weights.get("preprint_auto_include_threshold", auto_include))
+
+    rescored_rows = []
+    for _, row in df.iterrows():
+        v = venue_score(row.get("venue", ""), whitelist)
+        c = citation_score(_safe_float(row.get("citation_count")), _safe_int_year(row.get("year")))
+        affiliations_text = row.get("affiliations", "") or row.get("authors", "")
+        i_score = institution_score(affiliations_text)
+        r = relevance_score(row.get("title", ""), row.get("abstract", ""), queries)
+        base = 100 * (
+            v * weights["venue"]
+            + c * weights["citations"]
+            + r * weights["relevance"]
+        )
+        bonus = institution_bonus if i_score >= 0.7 else 0.0
+        total = min(100.0, base + bonus)
+        preprint = _is_preprint(row)
+
+        out = dict(row)
+        out["is_preprint"] = preprint
+        out["venue_score"] = round(v * 100, 2)
+        out["citation_score"] = round(c * 100, 2)
+        out["institution_score"] = round(i_score * 100, 2)
+        out["institution_bonus"] = round(bonus, 2)
+        out["relevance_score"] = round(r * 100, 2)
+        out["total_quality_score"] = round(total, 2)
+        rescored_rows.append(out)
+
+    rescored = pd.DataFrame(rescored_rows)
+
+    # Per-row auto-include threshold. Preprints on their own ladder.
+    def _passes(row) -> bool:
+        threshold = preprint_auto if row["is_preprint"] else auto_include
+        return row["total_quality_score"] >= threshold
+
+    accepted_df: pd.DataFrame = rescored[rescored.apply(_passes, axis=1)]
+
+    # Full rescored corpus to a metrics file for debugging / audit
+    save_df(root_file("data", "rescore_metrics.csv"), rescored)
+    # Filtered auto-include tier back into accepted_harvested.csv — this is
+    # what classify reads next.
+    save_df(harvested_path, accepted_df)
+
+    promoted = len(accepted_df)
+    total_rescored = len(rescored)
+    preprints_in = int(rescored["is_preprint"].sum()) if len(rescored) else 0
+    preprints_out = int(accepted_df["is_preprint"].sum()) if len(accepted_df) else 0
+    logger.info(
+        "Rescore: %d rows -> %d auto-include (preprints: %d/%d)",
+        total_rescored, promoted, preprints_out, preprints_in,
+    )
+    print(
+        f"Rescored {total_rescored}; {promoted} meet auto-include "
+        f"(preprints: {preprints_out}/{preprints_in})"
+    )

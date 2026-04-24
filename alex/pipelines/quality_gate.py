@@ -10,6 +10,11 @@ from alex.utils.text import clean
 
 logger = logging.getLogger(__name__)
 
+# Discovery sources that produce preprints — these get a separate scoring
+# ladder because they structurally lack venue/citation/institution signal
+# (new papers, not yet indexed in whitelisted venues, zero citations).
+_PREPRINT_SOURCES = {"arXiv RSS"}
+
 
 def _safe_float(val, default: float = 0.0) -> float:
     try:
@@ -23,6 +28,10 @@ def _safe_int_year(val) -> int | None:
     if s.isdigit():
         return int(s)
     return None
+
+
+def _is_preprint(row) -> bool:
+    return clean(row.get("discovery_source", "")) in _PREPRINT_SOURCES
 
 
 def run() -> None:
@@ -41,6 +50,14 @@ def run() -> None:
     accepted, review, rejected = [], [], []
 
     institution_bonus = float(weights.get("institution_bonus", 0.0))
+
+    # Regular (peer-reviewed) thresholds
+    auto_include = float(weights["auto_include_threshold"])
+    review_cutoff = float(weights["review_threshold"])
+    # Preprint-specific thresholds (arXiv etc). Fall back to regular thresholds
+    # if not configured so the change is backwards-compatible.
+    preprint_auto = float(weights.get("preprint_auto_include_threshold", auto_include))
+    preprint_review = float(weights.get("preprint_review_threshold", review_cutoff))
 
     for i, (_, row) in enumerate(df.iterrows()):
         v = venue_score(row.get("venue", ""), whitelist)
@@ -61,9 +78,18 @@ def run() -> None:
         # on a signal we can't reliably measure.
         bonus = institution_bonus if i_score >= 0.7 else 0.0
         total = min(100.0, base + bonus)
+        preprint = _is_preprint(row)
+        # Preprints ride on a separate ladder — they can't reach regular
+        # thresholds because they lack venue/citation/institution signal by
+        # nature (new papers, not yet indexed in whitelisted venues, zero
+        # citations). Relevance-heavy preprints still deserve a slot.
+        t_auto = preprint_auto if preprint else auto_include
+        t_review = preprint_review if preprint else review_cutoff
+
         out = dict(row)
         out["candidate_id"] = i + 1
         out["scored_at"] = now
+        out["is_preprint"] = preprint
         out["venue_score"] = round(v * 100, 2)
         out["citation_score"] = round(c * 100, 2)
         out["institution_score"] = round(i_score * 100, 2)
@@ -71,11 +97,11 @@ def run() -> None:
         out["relevance_score"] = round(r * 100, 2)
         out["total_quality_score"] = round(total, 2)
 
-        if total >= weights["auto_include_threshold"]:
+        if total >= t_auto:
             out["review_reason"] = ""
             out["recommended_action"] = "auto-include"
             accepted.append(out)
-        elif total >= weights["review_threshold"]:
+        elif total >= t_review:
             out["review_reason"] = "Quality uncertain or moderate"
             out["recommended_action"] = "human review"
             review.append(out)
@@ -88,6 +114,14 @@ def run() -> None:
     save_df(root_file("data", "quality_metrics.csv"), pd.DataFrame(metrics))
     save_df(root_file("data", "review_queue.csv"), pd.DataFrame(review))
     save_df(root_file("data", "rejected_candidates.csv"), pd.DataFrame(rejected))
-    save_df(root_file("data", "accepted_candidates.csv"), pd.DataFrame(accepted))
-    logger.info("Quality gate: Accepted=%d Review=%d Rejected=%d", len(accepted), len(review), len(rejected))
-    print(f"Accepted={len(accepted)} Review={len(review)} Rejected={len(rejected)}")
+    # accepted_candidates.csv contains BOTH auto-include and human-review tiers
+    # so harvest enriches everything worth a second look. The post-harvest
+    # rescore stage (alex.pipelines.rescore) filters back down to auto-include
+    # once abstracts are fully populated. review_queue.csv still lists the
+    # human-review tier as a separate informational output.
+    enrichment_pool = accepted + review
+    save_df(root_file("data", "accepted_candidates.csv"), pd.DataFrame(enrichment_pool))
+    logger.info("Quality gate: Accepted=%d Review=%d Rejected=%d (for harvest: %d)",
+                len(accepted), len(review), len(rejected), len(enrichment_pool))
+    print(f"Accepted={len(accepted)} Review={len(review)} Rejected={len(rejected)} "
+          f"(enrichment pool: {len(enrichment_pool)})")
