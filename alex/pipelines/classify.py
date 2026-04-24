@@ -84,7 +84,8 @@ def _dedup_key(row) -> str:
 def run() -> None:
     output_path = root_file("data", "accepted_classified.csv")
     df = load_df(root_file("data", "accepted_harvested.csv"))
-    if df.empty:
+    rescored = load_df(root_file("data", "rescore_metrics.csv"))
+    if df.empty and rescored.empty:
         print("No harvested accepted candidates to classify.")
         # Additive model: don't overwrite the existing published corpus on
         # empty input. Only create an empty placeholder if no corpus exists
@@ -92,40 +93,50 @@ def run() -> None:
         if not output_path.exists():
             save_df(output_path, pd.DataFrame())
         return
-    validate_columns(df, ["title", "abstract", "venue", "authors", "citation_count"], "accepted_harvested.csv")
+
+    if not df.empty:
+        validate_columns(df, ["title", "abstract", "venue", "authors", "citation_count"], "accepted_harvested.csv")
+
     rows = []
-    for _, row in df.iterrows():
-        payload = {
-            "title": clean(row.get("title")),
-            "abstract": clean(row.get("abstract")),
-            "venue": clean(row.get("venue")),
-            "authors": clean(row.get("authors")),
-        }
-        tags = call_openai(payload)
-        out = dict(row)
-        out["Category"] = tags.get("Category", "Other")
-        out["Investigation_Type"] = tags.get("Investigation_Type", "Other")
-        out["OSINT_Source_Types"] = "; ".join(unique_keep(tags.get("OSINT_Source_Types", [])))
-        out["Keywords"] = "; ".join(unique_keep(tags.get("Keywords", [])))
-        out["Tags"] = "; ".join(unique_keep(tags.get("Tags", [])))
-        out["Quality_Tier"] = tags.get("Quality_Tier", "Standard")
-        out["Seminal_Flag"] = "TRUE" if _safe_citation_count(row) >= 500 else "FALSE"
-        rows.append(out)
+    if not df.empty:
+        for _, row in df.iterrows():
+            payload = {
+                "title": clean(row.get("title")),
+                "abstract": clean(row.get("abstract")),
+                "venue": clean(row.get("venue")),
+                "authors": clean(row.get("authors")),
+            }
+            tags = call_openai(payload)
+            out = dict(row)
+            out["Category"] = tags.get("Category", "Other")
+            out["Investigation_Type"] = tags.get("Investigation_Type", "Other")
+            out["OSINT_Source_Types"] = "; ".join(unique_keep(tags.get("OSINT_Source_Types", [])))
+            out["Keywords"] = "; ".join(unique_keep(tags.get("Keywords", [])))
+            out["Tags"] = "; ".join(unique_keep(tags.get("Tags", [])))
+            out["Quality_Tier"] = tags.get("Quality_Tier", "Standard")
+            out["Seminal_Flag"] = "TRUE" if _safe_citation_count(row) >= 500 else "FALSE"
+            rows.append(out)
 
     new_df = pd.DataFrame(rows)
 
     # Additive merge: preserve every paper ever classified. Fresh classifier
-    # output wins on conflict (newer metadata, latest tags). Dedup by DOI
-    # where available, falling back to normalised title. Earlier seed rows
-    # without scoring columns coexist with pipeline-generated rows via
-    # column union (missing fields fill as NaN, which publish.fillna('')
-    # collapses to empty strings).
+    # output wins on conflict (newer metadata, latest tags). When rescore
+    # metrics are available, treat that current window as authoritative:
+    # rows reconsidered this run are removed from the existing corpus, then
+    # only the surviving accepted rows are added back.
     existing = load_df(output_path)
+    rescored_keys = set()
+    if not rescored.empty:
+        rescored_keys = {_dedup_key(row) for _, row in rescored.iterrows()}
+    new_keys = {_dedup_key(row) for _, row in new_df.iterrows()}
+    replacement_keys = rescored_keys or new_keys
+
     if existing.empty:
         merged: pd.DataFrame = new_df
+    elif not replacement_keys:
+        merged = existing
     else:
-        new_keys = list({_dedup_key(row) for _, row in new_df.iterrows()})
-        existing_keep = existing[~existing.apply(_dedup_key, axis=1).isin(new_keys)]
+        existing_keep = existing[~existing.apply(_dedup_key, axis=1).isin(replacement_keys)]
         merged = pd.concat([existing_keep, new_df], ignore_index=True)
 
     save_df(output_path, merged)

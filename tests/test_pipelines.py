@@ -371,6 +371,90 @@ class TestClassify:
         assert len(result) == 1  # deduped
         assert result.iloc[0]["title"] == "Updated Title"  # new won
 
+    def test_classify_prunes_rows_rescored_out_this_run(self, tmp_path):
+        # If a previously published paper is reconsidered by the current
+        # rescore window but does not survive back into accepted_harvested,
+        # classify must remove it from the additive corpus.
+        (tmp_path / "data").mkdir(parents=True)
+        existing = pd.DataFrame([
+            {
+                "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+                "doi": "10.1/drop", "abstract": "old abstract", "source_url": "", "citation_count": 10,
+                "Category": "Old", "Investigation_Type": "", "OSINT_Source_Types": "",
+                "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+            },
+            {
+                "title": "Historical Paper", "authors": "B", "year": "2023", "venue": "USENIX",
+                "doi": "10.1/keep", "abstract": "historical abstract", "source_url": "", "citation_count": 5,
+                "Category": "Seed", "Investigation_Type": "", "OSINT_Source_Types": "",
+                "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+            },
+        ])
+        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+
+        # The current rescore window reconsidered Dropped Paper but rejected it,
+        # while newly accepting New Paper.
+        accepted = pd.DataFrame([{
+            "title": "New Paper", "authors": "C", "year": "2025", "venue": "IEEE",
+            "doi": "10.1/new", "abstract": "new abstract", "source_url": "", "citation_count": 50,
+        }])
+        accepted.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        rescored = pd.DataFrame([
+            {
+                "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+                "doi": "10.1/drop", "abstract": "newly rescored abstract", "source_url": "",
+                "citation_count": 10, "total_quality_score": 20.0, "is_preprint": False,
+            },
+            {
+                "title": "New Paper", "authors": "C", "year": "2025", "venue": "IEEE",
+                "doi": "10.1/new", "abstract": "new abstract", "source_url": "",
+                "citation_count": 50, "total_quality_score": 80.0, "is_preprint": False,
+            },
+        ])
+        rescored.to_csv(tmp_path / "data" / "rescore_metrics.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        dois = set(result["doi"].astype(str).tolist())
+        assert dois == {"10.1/keep", "10.1/new"}
+        assert "10.1/drop" not in dois
+
+    def test_classify_empty_accepts_can_still_prune_rescored_out_rows(self, tmp_path):
+        # If rescore rejects everything this run, classify still needs to prune
+        # the current window from the existing corpus rather than returning
+        # early and leaving stale rows published.
+        (tmp_path / "data").mkdir(parents=True)
+        existing = pd.DataFrame([{
+            "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+            "doi": "10.1/drop", "abstract": "old abstract", "source_url": "", "citation_count": 10,
+            "Category": "Old", "Investigation_Type": "", "OSINT_Source_Types": "",
+            "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+        }])
+        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        pd.DataFrame().to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        rescored = pd.DataFrame([{
+            "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+            "doi": "10.1/drop", "abstract": "newly rescored abstract", "source_url": "",
+            "citation_count": 10, "total_quality_score": 20.0, "is_preprint": False,
+        }])
+        rescored.to_csv(tmp_path / "data" / "rescore_metrics.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert result.empty
+
 
 class TestHarvest:
     def test_harvest_crossref_fallback(self, tmp_path):
@@ -541,8 +625,11 @@ class TestRescore:
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
             rescore.run()
-        # No harvested file existed; rescore shouldn't create spurious outputs.
-        assert not (tmp_path / "data" / "rescore_metrics.csv").exists()
+        # Even on an empty run, emit the metrics placeholder so workflow
+        # `git add` steps do not fail on a missing path.
+        assert (tmp_path / "data" / "rescore_metrics.csv").exists()
+        metrics = pd.read_csv(tmp_path / "data" / "rescore_metrics.csv")
+        assert metrics.empty
 
     def test_filters_to_auto_include_tier(self, tmp_path):
         # Two rows: one that meets the regular auto-include with full abstract,

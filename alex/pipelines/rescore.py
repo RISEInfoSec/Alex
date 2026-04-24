@@ -25,12 +25,28 @@ from alex.pipelines.quality_gate import _is_preprint, _safe_float, _safe_int_yea
 
 logger = logging.getLogger(__name__)
 
+_EMPTY_RESCORE_COLUMNS = [
+    "title",
+    "doi",
+    "is_preprint",
+    "venue_score",
+    "citation_score",
+    "institution_score",
+    "institution_bonus",
+    "relevance_score",
+    "total_quality_score",
+]
+
 
 def run() -> None:
     harvested_path = root_file("data", "accepted_harvested.csv")
+    metrics_path = root_file("data", "rescore_metrics.csv")
     df = load_df(harvested_path)
     if df.empty:
         print("No harvested candidates to rescore.")
+        # Always emit the metrics placeholder so workflow `git add` steps do
+        # not fail on empty weeks.
+        save_df(metrics_path, pd.DataFrame(columns=_EMPTY_RESCORE_COLUMNS))
         # Don't overwrite with an empty file if the file already exists —
         # same safety pattern as classify.py's additive corpus logic.
         if not harvested_path.exists():
@@ -81,7 +97,7 @@ def run() -> None:
     accepted_df: pd.DataFrame = rescored[rescored.apply(_passes, axis=1)]
 
     # Full rescored corpus to a metrics file for debugging / audit
-    save_df(root_file("data", "rescore_metrics.csv"), rescored)
+    save_df(metrics_path, rescored)
     # Filtered auto-include tier back into accepted_harvested.csv — this is
     # what classify reads next.
     save_df(harvested_path, accepted_df)
