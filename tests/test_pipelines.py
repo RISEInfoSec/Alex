@@ -376,6 +376,7 @@ class TestClassify:
         # rescore window but does not survive back into accepted_harvested,
         # classify must remove it from the additive corpus.
         (tmp_path / "data").mkdir(parents=True)
+        run_id = "run-123"
         existing = pd.DataFrame([
             {
                 "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
@@ -397,6 +398,7 @@ class TestClassify:
         accepted = pd.DataFrame([{
             "title": "New Paper", "authors": "C", "year": "2025", "venue": "IEEE",
             "doi": "10.1/new", "abstract": "new abstract", "source_url": "", "citation_count": 50,
+            "rescore_run_id": run_id,
         }])
         accepted.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
         rescored = pd.DataFrame([
@@ -404,11 +406,96 @@ class TestClassify:
                 "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
                 "doi": "10.1/drop", "abstract": "newly rescored abstract", "source_url": "",
                 "citation_count": 10, "total_quality_score": 20.0, "is_preprint": False,
+                "rescore_run_id": run_id,
             },
             {
                 "title": "New Paper", "authors": "C", "year": "2025", "venue": "IEEE",
                 "doi": "10.1/new", "abstract": "new abstract", "source_url": "",
                 "citation_count": 50, "total_quality_score": 80.0, "is_preprint": False,
+                "rescore_run_id": run_id,
+            },
+        ])
+        rescored.to_csv(tmp_path / "data" / "rescore_metrics.csv", index=False)
+        (tmp_path / "data" / ".rescore_window.json").write_text(json.dumps({"run_id": run_id}))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        dois = set(result["doi"].astype(str).tolist())
+        assert dois == {"10.1/keep", "10.1/new"}
+        assert "10.1/drop" not in dois
+        assert not (tmp_path / "data" / ".rescore_window.json").exists()
+
+    def test_classify_empty_accepts_can_still_prune_rescored_out_rows(self, tmp_path):
+        # If rescore rejects everything this run, classify still needs to prune
+        # the current window from the existing corpus rather than returning
+        # early and leaving stale rows published.
+        (tmp_path / "data").mkdir(parents=True)
+        run_id = "run-456"
+        existing = pd.DataFrame([{
+            "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+            "doi": "10.1/drop", "abstract": "old abstract", "source_url": "", "citation_count": 10,
+            "Category": "Old", "Investigation_Type": "", "OSINT_Source_Types": "",
+            "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+        }])
+        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        pd.DataFrame(columns=["title", "rescore_run_id"]).to_csv(
+            tmp_path / "data" / "accepted_harvested.csv", index=False
+        )
+        rescored = pd.DataFrame([{
+            "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+            "doi": "10.1/drop", "abstract": "newly rescored abstract", "source_url": "",
+            "citation_count": 10, "total_quality_score": 20.0, "is_preprint": False,
+            "rescore_run_id": run_id,
+        }])
+        rescored.to_csv(tmp_path / "data" / "rescore_metrics.csv", index=False)
+        (tmp_path / "data" / ".rescore_window.json").write_text(json.dumps({"run_id": run_id}))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert result.empty
+
+    def test_classify_ignores_stale_rescore_metrics_without_window_token(self, tmp_path):
+        # Manual classify runs should not prune against a stale metrics file if
+        # the current rescore window token is absent.
+        (tmp_path / "data").mkdir(parents=True)
+        existing = pd.DataFrame([
+            {
+                "title": "Historical Paper", "authors": "B", "year": "2023", "venue": "USENIX",
+                "doi": "10.1/keep", "abstract": "historical abstract", "source_url": "", "citation_count": 5,
+                "Category": "Seed", "Investigation_Type": "", "OSINT_Source_Types": "",
+                "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+            },
+            {
+                "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+                "doi": "10.1/drop", "abstract": "old abstract", "source_url": "", "citation_count": 10,
+                "Category": "Old", "Investigation_Type": "", "OSINT_Source_Types": "",
+                "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+            },
+        ])
+        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        accepted = pd.DataFrame([{
+            "title": "New Paper", "authors": "C", "year": "2025", "venue": "IEEE",
+            "doi": "10.1/new", "abstract": "new abstract", "source_url": "", "citation_count": 50,
+        }])
+        accepted.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        rescored = pd.DataFrame([
+            {
+                "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+                "doi": "10.1/drop", "abstract": "newly rescored abstract", "source_url": "",
+                "citation_count": 10, "total_quality_score": 20.0, "is_preprint": False,
+                "rescore_run_id": "stale-run",
             },
         ])
         rescored.to_csv(tmp_path / "data" / "rescore_metrics.csv", index=False)
@@ -422,38 +509,7 @@ class TestClassify:
 
         result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
         dois = set(result["doi"].astype(str).tolist())
-        assert dois == {"10.1/keep", "10.1/new"}
-        assert "10.1/drop" not in dois
-
-    def test_classify_empty_accepts_can_still_prune_rescored_out_rows(self, tmp_path):
-        # If rescore rejects everything this run, classify still needs to prune
-        # the current window from the existing corpus rather than returning
-        # early and leaving stale rows published.
-        (tmp_path / "data").mkdir(parents=True)
-        existing = pd.DataFrame([{
-            "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
-            "doi": "10.1/drop", "abstract": "old abstract", "source_url": "", "citation_count": 10,
-            "Category": "Old", "Investigation_Type": "", "OSINT_Source_Types": "",
-            "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
-        }])
-        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
-        pd.DataFrame().to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
-        rescored = pd.DataFrame([{
-            "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
-            "doi": "10.1/drop", "abstract": "newly rescored abstract", "source_url": "",
-            "citation_count": 10, "total_quality_score": 20.0, "is_preprint": False,
-        }])
-        rescored.to_csv(tmp_path / "data" / "rescore_metrics.csv", index=False)
-
-        with patch("alex.utils.io.ROOT", tmp_path), \
-             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
-             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
-            from alex.pipelines import classify
-            classify.run()
-
-        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
-        assert result.empty
+        assert dois == {"10.1/keep", "10.1/drop", "10.1/new"}
 
 
 class TestHarvest:
@@ -630,6 +686,7 @@ class TestRescore:
         assert (tmp_path / "data" / "rescore_metrics.csv").exists()
         metrics = pd.read_csv(tmp_path / "data" / "rescore_metrics.csv")
         assert metrics.empty
+        assert not (tmp_path / "data" / ".rescore_window.json").exists()
 
     def test_filters_to_auto_include_tier(self, tmp_path):
         # Two rows: one that meets the regular auto-include with full abstract,
@@ -656,10 +713,14 @@ class TestRescore:
             rescore.run()
 
         accepted = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        metrics = pd.read_csv(tmp_path / "data" / "rescore_metrics.csv")
+        token = json.loads((tmp_path / "data" / ".rescore_window.json").read_text())
+        assert accepted.iloc[0]["rescore_run_id"] == token["run_id"]
+        assert metrics["rescore_run_id"].nunique() == 1
+        assert metrics["rescore_run_id"].iloc[0] == token["run_id"]
         assert len(accepted) == 1
         assert "OSINT" in accepted.iloc[0]["title"]
         # rescore_metrics keeps both rows for audit
-        metrics = pd.read_csv(tmp_path / "data" / "rescore_metrics.csv")
         assert len(metrics) == 2
 
     def test_preprint_threshold_applied(self, tmp_path):
@@ -682,5 +743,9 @@ class TestRescore:
             rescore.run()
 
         accepted = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        metrics = pd.read_csv(tmp_path / "data" / "rescore_metrics.csv")
+        token = json.loads((tmp_path / "data" / ".rescore_window.json").read_text())
         assert len(accepted) == 1
         assert bool(accepted.iloc[0]["is_preprint"]) is True
+        assert accepted.iloc[0]["rescore_run_id"] == token["run_id"]
+        assert metrics["rescore_run_id"].iloc[0] == token["run_id"]

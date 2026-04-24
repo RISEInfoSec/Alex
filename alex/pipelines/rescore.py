@@ -13,21 +13,29 @@ Output: data/accepted_harvested.csv   (filtered to auto-include tier)
 """
 
 from __future__ import annotations
+import json
 import logging
+from uuid import uuid4
 
 import pandas as pd
 
 from alex.utils.io import load_df, save_df, load_json, root_file
-from alex.utils.scoring import venue_score, citation_score, institution_score, relevance_score
-# Reuse preprint detection from the initial gate so classification is
-# consistent across both stages.
-from alex.pipelines.quality_gate import _is_preprint, _safe_float, _safe_int_year
+from alex.utils.scoring import (
+    venue_score,
+    citation_score,
+    institution_score,
+    relevance_score,
+    safe_float,
+    safe_int_year,
+    is_preprint,
+)
 
 logger = logging.getLogger(__name__)
 
 _EMPTY_RESCORE_COLUMNS = [
     "title",
     "doi",
+    "rescore_run_id",
     "is_preprint",
     "venue_score",
     "citation_score",
@@ -41,12 +49,15 @@ _EMPTY_RESCORE_COLUMNS = [
 def run() -> None:
     harvested_path = root_file("data", "accepted_harvested.csv")
     metrics_path = root_file("data", "rescore_metrics.csv")
+    window_path = root_file("data", ".rescore_window.json")
     df = load_df(harvested_path)
     if df.empty:
         print("No harvested candidates to rescore.")
         # Always emit the metrics placeholder so workflow `git add` steps do
         # not fail on empty weeks.
         save_df(metrics_path, pd.DataFrame(columns=_EMPTY_RESCORE_COLUMNS))
+        if window_path.exists():
+            window_path.unlink()
         # Don't overwrite with an empty file if the file already exists —
         # same safety pattern as classify.py's additive corpus logic.
         if not harvested_path.exists():
@@ -60,11 +71,12 @@ def run() -> None:
     institution_bonus = float(weights.get("institution_bonus", 0.0))
     auto_include = float(weights["auto_include_threshold"])
     preprint_auto = float(weights.get("preprint_auto_include_threshold", auto_include))
+    run_id = uuid4().hex
 
     rescored_rows = []
     for _, row in df.iterrows():
         v = venue_score(row.get("venue", ""), whitelist)
-        c = citation_score(_safe_float(row.get("citation_count")), _safe_int_year(row.get("year")))
+        c = citation_score(safe_float(row.get("citation_count")), safe_int_year(row.get("year")))
         affiliations_text = row.get("affiliations", "") or row.get("authors", "")
         i_score = institution_score(affiliations_text)
         r = relevance_score(row.get("title", ""), row.get("abstract", ""), queries)
@@ -75,9 +87,10 @@ def run() -> None:
         )
         bonus = institution_bonus if i_score >= 0.7 else 0.0
         total = min(100.0, base + bonus)
-        preprint = _is_preprint(row)
+        preprint = is_preprint(row)
 
         out = dict(row)
+        out["rescore_run_id"] = run_id
         out["is_preprint"] = preprint
         out["venue_score"] = round(v * 100, 2)
         out["citation_score"] = round(c * 100, 2)
@@ -101,6 +114,7 @@ def run() -> None:
     # Filtered auto-include tier back into accepted_harvested.csv — this is
     # what classify reads next.
     save_df(harvested_path, accepted_df)
+    window_path.write_text(json.dumps({"run_id": run_id}), encoding="utf-8")
 
     promoted = len(accepted_df)
     total_rescored = len(rescored)

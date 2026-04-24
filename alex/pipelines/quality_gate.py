@@ -5,33 +5,17 @@ from datetime import datetime, timezone
 import pandas as pd
 
 from alex.utils.io import load_df, save_df, load_json, root_file, validate_columns
-from alex.utils.scoring import venue_score, citation_score, institution_score, relevance_score
-from alex.utils.text import clean
+from alex.utils.scoring import (
+    venue_score,
+    citation_score,
+    institution_score,
+    relevance_score,
+    safe_float,
+    safe_int_year,
+    is_preprint,
+)
 
 logger = logging.getLogger(__name__)
-
-# Discovery sources that produce preprints — these get a separate scoring
-# ladder because they structurally lack venue/citation/institution signal
-# (new papers, not yet indexed in whitelisted venues, zero citations).
-_PREPRINT_SOURCES = {"arXiv RSS"}
-
-
-def _safe_float(val, default: float = 0.0) -> float:
-    try:
-        return float(val) if val is not None and val != "" else default
-    except (ValueError, TypeError):
-        return default
-
-
-def _safe_int_year(val) -> int | None:
-    s = clean(val)
-    if s.isdigit():
-        return int(s)
-    return None
-
-
-def _is_preprint(row) -> bool:
-    return clean(row.get("discovery_source", "")) in _PREPRINT_SOURCES
 
 
 def run() -> None:
@@ -56,12 +40,16 @@ def run() -> None:
     review_cutoff = float(weights["review_threshold"])
     # Preprint-specific thresholds (arXiv etc). Fall back to regular thresholds
     # if not configured so the change is backwards-compatible.
+    # Monitor the preprint-tier promotion rate in rescore output (`preprints: X/Y`);
+    # tune `preprint_auto_include_threshold` up if the preprint tier floods the
+    # corpus — the default 35 is permissive given preprints score mostly on
+    # relevance + institution bonus.
     preprint_auto = float(weights.get("preprint_auto_include_threshold", auto_include))
     preprint_review = float(weights.get("preprint_review_threshold", review_cutoff))
 
     for i, (_, row) in enumerate(df.iterrows()):
         v = venue_score(row.get("venue", ""), whitelist)
-        c = citation_score(_safe_float(row.get("citation_count")), _safe_int_year(row.get("year")))
+        c = citation_score(safe_float(row.get("citation_count")), safe_int_year(row.get("year")))
         # Read the dedicated affiliations field (populated by OpenAlex connector).
         # Falls back to authors for rows ingested before the field existed, though
         # those typically hold names only and won't hit the trusted keywords.
@@ -78,7 +66,7 @@ def run() -> None:
         # on a signal we can't reliably measure.
         bonus = institution_bonus if i_score >= 0.7 else 0.0
         total = min(100.0, base + bonus)
-        preprint = _is_preprint(row)
+        preprint = is_preprint(row)
         # Preprints ride on a separate ladder — they can't reach regular
         # thresholds because they lack venue/citation/institution signal by
         # nature (new papers, not yet indexed in whitelisted venues, zero

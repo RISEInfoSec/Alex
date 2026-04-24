@@ -61,9 +61,10 @@ jobs:
           git push
       - name: Rescore
         run: |
-          python -m alex.cli rescore
+          SUMMARY=$(python -m alex.cli rescore | tail -n1)
+          echo "$SUMMARY"
           git add data/accepted_harvested.csv data/rescore_metrics.csv
-          git diff --cached --quiet || git commit -m "Post-harvest rescore"
+          git diff --cached --quiet || git commit -m "Post-harvest rescore: ${SUMMARY:-no summary}"
           git push
       - name: Classify
         env:

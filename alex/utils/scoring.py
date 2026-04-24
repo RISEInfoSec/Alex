@@ -3,6 +3,29 @@ from math import log1p, isnan
 from typing import Any
 from .text import clean
 
+# Discovery sources that produce preprints — these route on a separate
+# scoring ladder because they structurally lack venue/citation/institution
+# signal (new papers, not yet indexed in whitelisted venues, zero citations).
+PREPRINT_SOURCES = {"arXiv RSS"}
+
+
+def safe_float(val: Any, default: float = 0.0) -> float:
+    try:
+        return float(val) if val is not None and val != "" else default
+    except (ValueError, TypeError):
+        return default
+
+
+def safe_int_year(val: Any) -> int | None:
+    s = clean(val)
+    if s.isdigit():
+        return int(s)
+    return None
+
+
+def is_preprint(row: Any) -> bool:
+    return clean(row.get("discovery_source", "")) in PREPRINT_SOURCES
+
 
 def venue_score(venue: Any, whitelist: list[str]) -> float:
     v = clean(venue)

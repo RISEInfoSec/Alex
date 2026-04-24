@@ -81,10 +81,37 @@ def _dedup_key(row) -> str:
     return f"title:{normalize_title(clean(row.get('title', '')))}"
 
 
+def _load_rescore_window_run_id() -> str:
+    path = root_file("data", ".rescore_window.json")
+    if not path.exists():
+        return ""
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        logger.warning("Ignoring malformed rescore window token: %s", path)
+        return ""
+    return clean(data.get("run_id", ""))
+
+
+def _rows_match_run_id(df: pd.DataFrame, run_id: str, context: str) -> bool:
+    if df.empty:
+        return True
+    if "rescore_run_id" not in df.columns:
+        logger.warning("Ignoring rescore pruning: %s missing rescore_run_id", context)
+        return False
+    values = {clean(v) for v in df["rescore_run_id"].tolist() if clean(v)}
+    if values != {run_id}:
+        logger.warning("Ignoring rescore pruning: %s run_id mismatch (%s)", context, sorted(values))
+        return False
+    return True
+
+
 def run() -> None:
     output_path = root_file("data", "accepted_classified.csv")
+    window_path = root_file("data", ".rescore_window.json")
     df = load_df(root_file("data", "accepted_harvested.csv"))
     rescored = load_df(root_file("data", "rescore_metrics.csv"))
+    window_run_id = _load_rescore_window_run_id()
     if df.empty and rescored.empty:
         print("No harvested accepted candidates to classify.")
         # Additive model: don't overwrite the existing published corpus on
@@ -92,6 +119,8 @@ def run() -> None:
         # yet (so downstream workflows can still `git add` cleanly).
         if not output_path.exists():
             save_df(output_path, pd.DataFrame())
+        if window_path.exists():
+            window_path.unlink()
         return
 
     if not df.empty:
@@ -126,7 +155,8 @@ def run() -> None:
     # only the surviving accepted rows are added back.
     existing = load_df(output_path)
     rescored_keys = set()
-    if not rescored.empty:
+    if window_run_id and _rows_match_run_id(rescored, window_run_id, "rescore_metrics.csv") \
+       and _rows_match_run_id(df, window_run_id, "accepted_harvested.csv"):
         rescored_keys = {_dedup_key(row) for _, row in rescored.iterrows()}
     new_keys = {_dedup_key(row) for _, row in new_df.iterrows()}
     replacement_keys = rescored_keys or new_keys
@@ -140,4 +170,6 @@ def run() -> None:
         merged = pd.concat([existing_keep, new_df], ignore_index=True)
 
     save_df(output_path, merged)
+    if window_path.exists():
+        window_path.unlink()
     print(f"Classified {len(rows)} new papers; corpus now {len(merged)} (was {len(existing)})")
