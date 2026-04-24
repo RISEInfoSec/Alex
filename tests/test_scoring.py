@@ -1,4 +1,21 @@
-from alex.utils.scoring import venue_score, citation_score, institution_score, relevance_score
+from alex.utils.scoring import venue_score, citation_score, institution_score, relevance_score, is_preprint
+
+
+class TestIsPreprint:
+    def test_new_arxiv_label_is_preprint(self):
+        assert is_preprint({"discovery_source": "arXiv"}) is True
+
+    def test_legacy_arxiv_rss_label_is_preprint(self):
+        # Back-compat: existing rows in data/discovery_candidates.csv from
+        # before the RSS->API switch still carry "arXiv RSS" — they must
+        # keep routing through the preprint threshold.
+        assert is_preprint({"discovery_source": "arXiv RSS"}) is True
+
+    def test_non_preprint_source(self):
+        assert is_preprint({"discovery_source": "OpenAlex"}) is False
+
+    def test_missing_source_field(self):
+        assert is_preprint({}) is False
 
 
 class TestVenueScore:

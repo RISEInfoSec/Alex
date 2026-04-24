@@ -6,7 +6,9 @@ from .text import clean
 # Discovery sources that produce preprints — these route on a separate
 # scoring ladder because they structurally lack venue/citation/institution
 # signal (new papers, not yet indexed in whitelisted venues, zero citations).
-PREPRINT_SOURCES = {"arXiv RSS"}
+# `arXiv RSS` is the legacy label kept for back-compat with rows already
+# in data/discovery_candidates.csv from the prior connector implementation.
+PREPRINT_SOURCES = {"arXiv", "arXiv RSS"}
 
 
 def safe_float(val: Any, default: float = 0.0) -> float:

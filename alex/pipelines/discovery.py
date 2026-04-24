@@ -50,7 +50,12 @@ def run() -> None:
     # needs an API key (free public tier 429s on every call within seconds).
     enable_openalex = connector_config.is_enabled(config, "openalex")
     enable_crossref = connector_config.is_enabled(config, "crossref")
-    enable_arxiv = connector_config.is_enabled(config, "arxiv_rss")
+    # `arxiv_rss` is the legacy config key (RSS is gone, API took its
+    # place). Prefer the new `arxiv` block; fall back to the old key so
+    # existing configs without the rename keep working.
+    arxiv_block = (config.get("connectors") or {}).get("arxiv")
+    arxiv_key = "arxiv" if arxiv_block is not None else "arxiv_rss"
+    enable_arxiv = connector_config.is_enabled(config, arxiv_key)
     enable_zenodo = connector_config.is_enabled(config, "zenodo")
     enable_github = connector_config.is_enabled(config, "github")
 
@@ -270,15 +275,28 @@ def run() -> None:
                 citation_count=0,
             )
 
-    # arXiv RSS — single fetch + client-side keyword filter (outside per-query loop)
+    # arXiv API — bulk per-category fetch over the same 7-day window the
+    # other date-filtered connectors use, then client-side keyword filter.
+    # Per-category (not per-query) so we issue ~6 API calls to arXiv per run
+    # instead of ~16, well inside their "be nice" guidance.
     if enable_arxiv:
         arxiv_config = load_json(root_file("config", "arxiv_categories.json"))
-        rss_papers = arxiv.fetch_rss(arxiv_config["categories"])
-        relevant = arxiv.filter_relevant(rss_papers, queries, arxiv_config.get("min_keyword_matches", 2))
+        api_papers = arxiv.search_recent(
+            client,
+            arxiv_config["categories"],
+            from_date=from_date,
+            until_date=until_date,
+        )
+        # Default min_keyword_matches=1: empirically the prior `=2` strict
+        # subset filter let through 1 paper out of thousands. arXiv content
+        # is high-signal already; one full-query subset match is enough.
+        relevant = arxiv.filter_relevant(
+            api_papers, queries, arxiv_config.get("min_keyword_matches", 1)
+        )
         for item in relevant:
             add_row(
                 item.get("title", ""),
-                "arXiv RSS",
+                "arXiv",
                 authors=item.get("authors", ""),
                 year=item.get("year", ""),
                 abstract=item.get("abstract", ""),

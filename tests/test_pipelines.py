@@ -69,7 +69,7 @@ class TestQualityGate:
         candidates = pd.DataFrame([
             {"title": "OSINT methodology", "authors": "A", "year": "2025",
              "venue": "arXiv", "doi": "", "abstract": "OSINT cybersecurity",
-             "source_url": "", "discovery_source": "arXiv RSS",
+             "source_url": "", "discovery_source": "arXiv",
              "discovery_query": "OSINT", "inclusion_path": "discovery",
              "citation_count": 0, "reference_count": 0},
             {"title": "OSINT methodology elsewhere", "authors": "A", "year": "2025",
@@ -98,7 +98,7 @@ class TestQualityGate:
             quality_gate.run()
 
         metrics = pd.read_csv(tmp_path / "data" / "quality_metrics.csv")
-        preprint_row = metrics[metrics["discovery_source"] == "arXiv RSS"].iloc[0]
+        preprint_row = metrics[metrics["discovery_source"] == "arXiv"].iloc[0]
         non_preprint_row = metrics[metrics["discovery_source"] == "OpenAlex"].iloc[0]
 
         assert bool(preprint_row["is_preprint"]) is True
@@ -808,7 +808,7 @@ class TestDiscoveryConnectorGating:
              patch("alex.pipelines.discovery.core.search") as core_mock, \
              patch("alex.pipelines.discovery.zenodo.search") as zen, \
              patch("alex.pipelines.discovery.github_search.search") as gh, \
-             patch("alex.pipelines.discovery.arxiv.fetch_rss") as rss:
+             patch("alex.pipelines.discovery.arxiv.search_recent") as rss:
             from alex.pipelines import discovery
             discovery.run()
 
@@ -1083,7 +1083,7 @@ class TestRescore:
             "title": "OSINT cybersecurity methodology",
             "authors": "A", "year": "2025", "venue": "arXiv",
             "doi": "", "abstract": "OSINT investigation cybersecurity",
-            "source_url": "", "discovery_source": "arXiv RSS",
+            "source_url": "", "discovery_source": "arXiv",
             "citation_count": 0, "is_preprint": True,
         }])
         (tmp_path / "data").mkdir(parents=True)
