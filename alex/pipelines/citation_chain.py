@@ -1,10 +1,15 @@
 from __future__ import annotations
+import logging
 import os
 import pandas as pd
 from alex.utils.io import load_df, save_df, root_file
 from alex.utils.http import HttpClient
 from alex.utils.text import normalize_title, clean
+from alex.utils import connector_config
 from alex.connectors import openalex, semantic_scholar
+
+logger = logging.getLogger(__name__)
+
 
 def run() -> None:
     client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
@@ -12,6 +17,22 @@ def run() -> None:
     if df.empty:
         print("No discovery candidates to citation-chain.")
         return
+
+    # Honour the connectors gate. S2 backward chaining issues up to 16 calls
+    # per candidate (1 search + 5 references × 3 results); without an API key
+    # every one hits 429 and the HttpClient retry layer turns each into a
+    # ~7s backoff burn. With ~100 candidates that's hours wasted before we
+    # bail. Gate it the same way discovery and harvest do.
+    config = connector_config.load()
+    s2_key = os.getenv("SEMANTIC_SCHOLAR_API_KEY", "")
+    enable_s2 = connector_config.is_enabled(config, "semantic_scholar", default=False)
+    if enable_s2 and not s2_key:
+        logger.warning(
+            "Citation chain: Semantic Scholar enabled in config but "
+            "SEMANTIC_SCHOLAR_API_KEY is unset; skipping backward-chaining "
+            "via S2 (forward chaining via OpenAlex still runs)."
+        )
+        enable_s2 = False
 
     rows = []
     seen = set(normalize_title(str(t)) for t in df["title"].tolist())
@@ -46,13 +67,15 @@ def run() -> None:
                         "reference_count": len(cited.get("referenced_works") or []),
                     })
         # Semantic Scholar backward chaining
-        ss_results = semantic_scholar.search(client, title, limit=3)
+        if not enable_s2:
+            continue
+        ss_results = semantic_scholar.search(client, title, api_key=s2_key, limit=3)
         for item in ss_results:
             for ref in semantic_scholar.references(item)[:5]:
                 pid = ref.get("paperId")
                 if not pid:
                     continue
-                paper = semantic_scholar.get_paper(client, pid)
+                paper = semantic_scholar.get_paper(client, pid, api_key=s2_key)
                 if not paper or not paper.get("title"):
                     continue
                 rt = clean(paper["title"])

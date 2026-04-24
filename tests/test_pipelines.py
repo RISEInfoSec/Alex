@@ -942,6 +942,76 @@ class TestDiscoveryConnectorGating:
         assert core_mock.call_count == 2
 
 
+class TestCitationChainConnectorGating:
+    """Citation chain must honour the same S2 gate as discovery and harvest.
+    Backward chaining via S2 issues up to 16 calls per candidate; without an
+    API key those all 429 and the retry layer multiplies the burn."""
+
+    def _candidates_csv(self, tmp_path):
+        df = pd.DataFrame([{
+            "title": "Seed paper", "authors": "", "year": "2024",
+            "venue": "", "doi": "", "abstract": "", "source_url": "",
+            "discovery_source": "test", "discovery_query": "test",
+            "inclusion_path": "discovery", "citation_count": 100,
+            "reference_count": 0,
+        }])
+        (tmp_path / "data").mkdir(parents=True, exist_ok=True)
+        df.to_csv(tmp_path / "data" / "discovery_candidates.csv", index=False)
+
+    def test_skips_s2_when_disabled_in_config(self, tmp_path, monkeypatch):
+        monkeypatch.setenv("SEMANTIC_SCHOLAR_API_KEY", "k_test")
+        self._candidates_csv(tmp_path)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.citation_chain.connector_config.load",
+                   return_value={"connectors": {"semantic_scholar": {"enabled": False}}}), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
+             patch("alex.connectors.semantic_scholar.search") as s2_search, \
+             patch("alex.connectors.semantic_scholar.get_paper") as s2_paper, \
+             patch("alex.pipelines.citation_chain.HttpClient"):
+            from alex.pipelines import citation_chain
+            citation_chain.run()
+        s2_search.assert_not_called()
+        s2_paper.assert_not_called()
+
+    def test_skips_s2_when_enabled_but_no_key(self, tmp_path, monkeypatch):
+        monkeypatch.delenv("SEMANTIC_SCHOLAR_API_KEY", raising=False)
+        self._candidates_csv(tmp_path)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.citation_chain.connector_config.load",
+                   return_value={"connectors": {"semantic_scholar": {"enabled": True}}}), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
+             patch("alex.connectors.semantic_scholar.search") as s2_search, \
+             patch("alex.connectors.semantic_scholar.get_paper") as s2_paper, \
+             patch("alex.pipelines.citation_chain.HttpClient"):
+            from alex.pipelines import citation_chain
+            citation_chain.run()
+        s2_search.assert_not_called()
+        s2_paper.assert_not_called()
+
+    def test_calls_s2_with_key_when_enabled(self, tmp_path, monkeypatch):
+        monkeypatch.setenv("SEMANTIC_SCHOLAR_API_KEY", "k_test")
+        self._candidates_csv(tmp_path)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.citation_chain.connector_config.load",
+                   return_value={"connectors": {"semantic_scholar": {"enabled": True}}}), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
+             patch("alex.connectors.semantic_scholar.search", return_value=[]) as s2_search, \
+             patch("alex.pipelines.citation_chain.HttpClient"):
+            from alex.pipelines import citation_chain
+            citation_chain.run()
+        s2_search.assert_called()
+        assert s2_search.call_args.kwargs.get("api_key") == "k_test"
+
+
 class TestRescore:
     def _setup_config(self, tmp_path):
         config_dir = tmp_path / "config"
