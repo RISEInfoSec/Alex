@@ -87,11 +87,18 @@ def _year_in_window(year: Any, from_date: str, until_date: str) -> bool:
 PAPER = "https://api.semanticscholar.org/graph/v1/paper"
 
 
-def get_paper(client: HttpClient, paper_id: str) -> dict[str, Any] | None:
-    """Fetch a single paper by Semantic Scholar paper ID."""
+def get_paper(client: HttpClient, paper_id: str, *, api_key: str = "") -> dict[str, Any] | None:
+    """Fetch a single paper by Semantic Scholar paper ID.
+
+    Pass `api_key` to send the `x-api-key` header — without it the public
+    tier 429s on every call within seconds, which the HttpClient retry
+    layer turns into ~7s of wasted backoff per call.
+    """
+    headers = {"x-api-key": api_key} if api_key else None
     data = client.get_json(
         f"{PAPER}/{paper_id}",
         params={"fields": "title,abstract,authors,venue,year,citationCount,externalIds,url"},
+        headers=headers,
     )
     return data
 
