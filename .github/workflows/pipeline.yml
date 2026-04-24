@@ -36,7 +36,7 @@ jobs:
           python -m alex.cli discover
           git add data/discovery_candidates.csv
           git diff --cached --quiet || git commit -m "Discover candidates"
-          git push
+          git push || (git pull --rebase --autostash && git push)
       - name: Citation chain
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
@@ -44,13 +44,13 @@ jobs:
           python -m alex.cli chain
           git add data/discovery_candidates.csv
           git diff --cached --quiet || git commit -m "Citation chain candidates"
-          git push
+          git push || (git pull --rebase --autostash && git push)
       - name: Quality gate
         run: |
           python -m alex.cli score
           git add data/quality_metrics.csv data/review_queue.csv data/rejected_candidates.csv data/accepted_candidates.csv
           git diff --cached --quiet || git commit -m "Quality gate results"
-          git push
+          git push || (git pull --rebase --autostash && git push)
       - name: Harvest
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
@@ -58,14 +58,14 @@ jobs:
           python -m alex.cli harvest
           git add data/accepted_harvested.csv
           git diff --cached --quiet || git commit -m "Harvest metadata"
-          git push
+          git push || (git pull --rebase --autostash && git push)
       - name: Rescore
         run: |
           SUMMARY=$(python -m alex.cli rescore | tail -n1)
           echo "$SUMMARY"
           git add data/accepted_harvested.csv data/rescore_metrics.csv
           git diff --cached --quiet || git commit -m "Post-harvest rescore: ${SUMMARY:-no summary}"
-          git push
+          git push || (git pull --rebase --autostash && git push)
       - name: Classify
         env:
           OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
@@ -74,13 +74,13 @@ jobs:
           python -m alex.cli classify
           git add data/accepted_classified.csv
           git diff --cached --quiet || git commit -m "Classify accepted papers"
-          git push
+          git push || (git pull --rebase --autostash && git push)
       - name: Publish
         run: |
           python -m alex.cli publish
           git add data/osint_cyber_papers.csv data/papers.json
           git diff --cached --quiet || git commit -m "Publish public corpus"
-          git push
+          git push || (git pull --rebase --autostash && git push)
   deploy:
     # Pages deploy in a separate job so it can run under the github-pages
     # environment. Checks out main after the pipeline job's pushes so the
