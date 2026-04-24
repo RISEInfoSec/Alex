@@ -808,7 +808,7 @@ class TestDiscoveryConnectorGating:
              patch("alex.pipelines.discovery.core.search") as core_mock, \
              patch("alex.pipelines.discovery.zenodo.search") as zen, \
              patch("alex.pipelines.discovery.github_search.search") as gh, \
-             patch("alex.pipelines.discovery.arxiv.fetch_rss") as rss:
+             patch("alex.pipelines.discovery.arxiv.search_recent") as rss:
             from alex.pipelines import discovery
             discovery.run()
 
