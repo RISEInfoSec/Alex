@@ -45,12 +45,61 @@ def search(
     return paginate(fetch_page, page_size=per_page, max_pages=max_pages)
 
 def get_by_doi(client: HttpClient, doi: str, mailto: str = "") -> dict[str, Any] | None:
-    params = {"filter": f"doi:https://doi.org/{doi}"}
+    params = {"filter": f"doi:https://doi.org/{_normalise_doi(doi)}"}
     if mailto:
         params["mailto"] = mailto
     data = client.get_json(OPENALEX, params=params)
     results = (data or {}).get("results", [])
     return results[0] if results else None
+
+
+# OpenAlex caps `per-page` at 200 but the OR-joined `filter=doi:...|...` URL
+# also has practical length limits — 50 is a safe chunk size that keeps the
+# query string well under any router's URL ceiling.
+_DOI_BATCH_SIZE = 50
+
+
+def get_many_by_doi(
+    client: HttpClient,
+    dois: list[str],
+    mailto: str = "",
+) -> dict[str, dict[str, Any]]:
+    """Batch-resolve a list of DOIs to OpenAlex works.
+
+    Issues `ceil(len(unique_dois) / 50)` HTTP calls instead of one per DOI.
+    Returns a {bare_doi: work} map keyed on the DOI without the
+    `https://doi.org/` prefix (callers store DOIs in either form, so the
+    map is normalised on lookup too).
+    """
+    unique = {_normalise_doi(d) for d in dois if d}
+    unique.discard("")
+    out: dict[str, dict[str, Any]] = {}
+    if not unique:
+        return out
+
+    deduped = sorted(unique)
+    for start in range(0, len(deduped), _DOI_BATCH_SIZE):
+        chunk = deduped[start:start + _DOI_BATCH_SIZE]
+        # OpenAlex expects `filter=doi:url1|url2|...`. Keys with `https://`
+        # form because that is what the API returns and it doubles as the
+        # canonical reference form.
+        joined = "|".join(f"https://doi.org/{d}" for d in chunk)
+        params: dict[str, Any] = {
+            "filter": f"doi:{joined}",
+            "per-page": _DOI_BATCH_SIZE,
+        }
+        if mailto:
+            params["mailto"] = mailto
+        data = client.get_json(OPENALEX, params=params) or {}
+        for work in data.get("results", []) or []:
+            work_doi = _normalise_doi((work.get("ids") or {}).get("doi", ""))
+            if work_doi:
+                out[work_doi] = work
+    return out
+
+
+def _normalise_doi(doi: str) -> str:
+    return (doi or "").replace("https://doi.org/", "").strip().lower()
 
 def references(work: dict[str, Any]) -> list[str]:
     return work.get("referenced_works") or []

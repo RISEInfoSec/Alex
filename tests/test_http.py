@@ -141,3 +141,96 @@ class TestGetRaw:
             assert raw == "raw text"
             assert js == {"json": True}
             assert len(client.cache) == 2
+
+
+class TestHttpClientRetry:
+    """Retry on 429 / 5xx with exponential backoff."""
+
+    def _resp(self, status_code: int, body=None, headers=None):
+        r = MagicMock()
+        r.status_code = status_code
+        r.headers = headers or {}
+        if body is not None:
+            r.json.return_value = body
+        if status_code >= 400:
+            import requests as req
+            r.raise_for_status.side_effect = req.exceptions.HTTPError(f"{status_code} Error")
+        else:
+            r.raise_for_status = MagicMock()
+        return r
+
+    def test_retries_on_429_then_succeeds(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep") as sleep_mock:
+            client = HttpClient()
+            ok = self._resp(200, body={"ok": True})
+            sequence = [self._resp(429), self._resp(429), ok]
+            with patch.object(client.session, "get", side_effect=sequence) as get_mock:
+                result = client.get_json("https://example.com/api")
+            assert result == {"ok": True}
+            assert get_mock.call_count == 3
+            # Two backoff sleeps + one polite delay = at least 3 sleeps
+            assert sleep_mock.call_count >= 3
+
+    def test_retries_on_500_then_succeeds(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            ok = self._resp(200, body={"ok": True})
+            sequence = [self._resp(500), ok]
+            with patch.object(client.session, "get", side_effect=sequence) as get_mock:
+                result = client.get_json("https://example.com/api")
+            assert result == {"ok": True}
+            assert get_mock.call_count == 2
+
+    def test_does_not_retry_on_404(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            with patch.object(client.session, "get",
+                              return_value=self._resp(404)) as get_mock:
+                result = client.get_json("https://example.com/api")
+            assert result is None
+            assert get_mock.call_count == 1  # no retries on 4xx other than 429
+
+    def test_gives_up_after_max_attempts(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            with patch.object(client.session, "get",
+                              return_value=self._resp(503)) as get_mock:
+                result = client.get_json("https://example.com/api")
+            assert result is None
+            assert get_mock.call_count == 3  # attempt + 2 retries
+
+    def test_honours_retry_after_header(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep") as sleep_mock:
+            client = HttpClient()
+            ok = self._resp(200, body={"ok": True})
+            sequence = [self._resp(429, headers={"Retry-After": "7"}), ok]
+            with patch.object(client.session, "get", side_effect=sequence):
+                client.get_json("https://example.com/api")
+            sleep_args = [c.args[0] for c in sleep_mock.call_args_list if c.args]
+            assert 7.0 in sleep_args  # explicit Retry-After honoured
+
+    def test_retries_on_connection_error(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            import requests as req
+            ok = self._resp(200, body={"ok": True})
+            sequence = [
+                req.exceptions.ConnectionError("net flake"),
+                ok,
+            ]
+            with patch.object(client.session, "get", side_effect=sequence) as get_mock:
+                result = client.get_json("https://example.com/api")
+            assert result == {"ok": True}
+            assert get_mock.call_count == 2
