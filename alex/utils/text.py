@@ -4,7 +4,16 @@ from html import unescape
 from typing import Any, Iterable
 
 def clean(v: Any) -> str:
-    return re.sub(r"\s+", " ", str(v or "")).strip()
+    if v is None:
+        return ""
+    # pandas reads empty CSV cells back as float NaN; without this guard
+    # `str(NaN or "")` returns the literal string "nan", which leaks into
+    # every downstream stage (most visibly: harvest sending DOI=nan to
+    # Crossref and getting a 404 per row). `v != v` is the canonical NaN
+    # check that needs no math/pandas import.
+    if isinstance(v, float) and v != v:
+        return ""
+    return re.sub(r"\s+", " ", str(v)).strip()
 
 def normalize_title(title: str) -> str:
     t = clean(title).lower()

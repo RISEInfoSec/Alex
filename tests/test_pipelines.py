@@ -694,6 +694,63 @@ class TestHarvest:
             harvest.run()
         s2_mock.assert_called()
 
+    def test_skips_crossref_for_zenodo_and_arxiv_dois(self, tmp_path):
+        # Crossref returns 404 for non-Crossref-indexed DOIs (Zenodo,
+        # arXiv); each wasted call costs ~0.5s polite delay + network
+        # latency. The prefix filter short-circuits before the call.
+        accepted = pd.DataFrame([
+            {"title": "Zenodo paper", "authors": "", "year": "2024", "venue": "",
+             "doi": "10.5281/zenodo.1467897", "abstract": "", "source_url": "",
+             "citation_count": 0, "reference_count": 0},
+            {"title": "arXiv paper", "authors": "", "year": "2024", "venue": "",
+             "doi": "10.48550/arxiv.2604.12345", "abstract": "", "source_url": "",
+             "citation_count": 0, "reference_count": 0},
+            {"title": "Real Crossref paper", "authors": "", "year": "2024", "venue": "",
+             "doi": "10.1145/legit.doi", "abstract": "", "source_url": "",
+             "citation_count": 0, "reference_count": 0},
+        ])
+        (tmp_path / "data").mkdir(parents=True)
+        accepted.to_csv(tmp_path / "data" / "accepted_candidates.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load", return_value={}), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None) as cr_mock, \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.pipelines.harvest.HttpClient"):
+            from alex.pipelines import harvest
+            harvest.run()
+
+        # Only the legit Crossref-prefix DOI should reach the connector.
+        called_dois = [c.args[1] for c in cr_mock.call_args_list]
+        assert called_dois == ["10.1145/legit.doi"]
+
+    def test_skips_crossref_for_nan_doi_string(self, tmp_path):
+        # Empty CSV cells round-trip through pandas as float NaN; clean()
+        # now returns "" for those, so harvest should not see "nan" reach
+        # the Crossref call. This is the regression test for the bug that
+        # made harvest ~3-5 min slower per run with empty-DOI rows.
+        accepted = pd.DataFrame([{
+            "title": "No DOI paper", "authors": "", "year": "2024",
+            "venue": "", "doi": "", "abstract": "", "source_url": "",
+            "citation_count": 0, "reference_count": 0,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        accepted.to_csv(tmp_path / "data" / "accepted_candidates.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load", return_value={}), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None) as cr_mock, \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.pipelines.harvest.HttpClient"):
+            from alex.pipelines import harvest
+            harvest.run()
+
+        cr_mock.assert_not_called()
+
 
 class TestDiscoveryAbstractEnrichment:
     def test_enriches_row_missing_abstract_with_doi(self):
