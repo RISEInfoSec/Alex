@@ -1069,6 +1069,125 @@ class TestCitationChainConnectorGating:
         assert s2_search.call_args.kwargs.get("api_key") == "k_test"
 
 
+class TestCitationChainParallelismAndTuning:
+    """Per-candidate parallelism + configurable OpenAlex/S2 fan-out."""
+
+    def _candidates_csv(self, tmp_path, n=3):
+        rows = [{
+            "title": f"Seed paper {i}", "authors": "", "year": "2024",
+            "venue": "", "doi": "", "abstract": "", "source_url": "",
+            "discovery_source": "test", "discovery_query": "test",
+            "inclusion_path": "discovery", "citation_count": 100 - i,
+            "reference_count": 0,
+        } for i in range(n)]
+        (tmp_path / "data").mkdir(parents=True, exist_ok=True)
+        pd.DataFrame(rows).to_csv(tmp_path / "data" / "discovery_candidates.csv", index=False)
+
+    def test_candidates_run_in_parallel_thread_pool(self, tmp_path):
+        # Three candidates -> three submissions to the executor. Mirrors the
+        # discovery-side test_connectors_run_in_parallel_per_query shape.
+        self._candidates_csv(tmp_path, n=3)
+
+        from concurrent.futures import ThreadPoolExecutor
+        original_submit = ThreadPoolExecutor.submit
+        submitted = []
+
+        def tracking_submit(self, fn, *args, **kwargs):
+            submitted.append(fn)
+            return original_submit(self, fn, *args, **kwargs)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.citation_chain.connector_config.load", return_value={}), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
+             patch("alex.pipelines.citation_chain.HttpClient"), \
+             patch.object(ThreadPoolExecutor, "submit", tracking_submit):
+            from alex.pipelines import citation_chain
+            citation_chain.run()
+
+        assert len(submitted) == 3
+
+    def test_openalex_search_limit_is_configurable(self, tmp_path):
+        self._candidates_csv(tmp_path, n=1)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.citation_chain.connector_config.load",
+                   return_value={"connectors": {"openalex": {"citation_chain_search_limit": 1}}}), \
+             patch("alex.connectors.openalex.search", return_value=[]) as oa_search, \
+             patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
+             patch("alex.pipelines.citation_chain.HttpClient"):
+            from alex.pipelines import citation_chain
+            citation_chain.run()
+        # Config value 1 should land as per_page=1 on the OpenAlex search call
+        assert oa_search.call_args.kwargs.get("per_page") == 1
+
+    def test_openalex_cited_by_limit_caps_results_per_work(self, tmp_path):
+        # Mock: OpenAlex search returns one work; fetch_cited_by returns 10
+        # cited works. With cited_by_limit=2, only the first 2 should land
+        # in the chained-rows output.
+        self._candidates_csv(tmp_path, n=1)
+        mock_work = {
+            "ids": {"doi": "https://doi.org/10.1/seed"},
+            "cited_by_api_url": "https://openalex.example/cited_by",
+            "primary_location": {"source": {"display_name": "V"}, "landing_page_url": "u"},
+        }
+        cited = [{"title": f"Cited {i}", "publication_year": 2024,
+                  "primary_location": {"source": {"display_name": "V"},
+                                       "landing_page_url": "u"},
+                  "ids": {"doi": ""}, "cited_by_count": 0,
+                  "referenced_works": [], "authorships": []} for i in range(10)]
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.citation_chain.connector_config.load",
+                   return_value={"connectors": {"openalex": {"citation_chain_cited_by_limit": 2}}}), \
+             patch("alex.connectors.openalex.search", return_value=[mock_work]), \
+             patch("alex.connectors.openalex.fetch_cited_by", return_value=cited), \
+             patch("alex.pipelines.citation_chain.HttpClient"):
+            from alex.pipelines import citation_chain
+            citation_chain.run()
+
+        out = pd.read_csv(tmp_path / "data" / "discovery_candidates.csv")
+        # 1 seed + 2 chained = 3 rows total (cap honoured)
+        assert len(out) == 3
+
+    def test_dedup_against_existing_corpus_works_after_parallelism(self, tmp_path):
+        # Two seeds, both citing the SAME work — the chained candidate must
+        # only appear once in the output, regardless of which thread saw it
+        # first. This is the test that catches a thread-unsafe `seen` set.
+        self._candidates_csv(tmp_path, n=2)
+        mock_work = {
+            "ids": {"doi": ""}, "cited_by_api_url": "https://openalex.example/cited_by",
+            "primary_location": {"source": {"display_name": "V"}, "landing_page_url": "u"},
+        }
+        duplicate_cited = [{
+            "title": "The same cited paper",
+            "publication_year": 2024,
+            "primary_location": {"source": {"display_name": "V"}, "landing_page_url": "u"},
+            "ids": {"doi": ""}, "cited_by_count": 0,
+            "referenced_works": [], "authorships": [],
+        }]
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.citation_chain.connector_config.load", return_value={}), \
+             patch("alex.connectors.openalex.search", return_value=[mock_work]), \
+             patch("alex.connectors.openalex.fetch_cited_by", return_value=duplicate_cited), \
+             patch("alex.pipelines.citation_chain.HttpClient"):
+            from alex.pipelines import citation_chain
+            citation_chain.run()
+
+        out = pd.read_csv(tmp_path / "data" / "discovery_candidates.csv")
+        # 2 seeds + 1 unique chained candidate (the dup must be collapsed)
+        assert len(out) == 3
+        assert (out["title"] == "The same cited paper").sum() == 1
+
+
 class TestRescore:
     def _setup_config(self, tmp_path):
         config_dir = tmp_path / "config"
