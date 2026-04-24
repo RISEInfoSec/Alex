@@ -1,1 +1,1 @@
-__all__ = ["discovery", "citation_chain", "quality_gate", "harvest", "classify", "publish"]
+__all__ = ["discovery", "citation_chain", "quality_gate", "harvest", "rescore", "classify", "publish"]

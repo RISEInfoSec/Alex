@@ -2,7 +2,7 @@ import json
 import pytest
 from unittest.mock import patch, MagicMock
 import pandas as pd
-from alex.pipelines import quality_gate, publish
+from alex.pipelines import quality_gate, publish, rescore
 from alex.utils.io import validate_columns
 
 
@@ -31,6 +31,7 @@ class TestQualityGate:
             "venue": 0.35, "citations": 0.40, "relevance": 0.25,
             "institution_bonus": 10.0,
             "auto_include_threshold": 75.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
         }))
 
         with patch("alex.utils.io.ROOT", tmp_path), \
@@ -47,11 +48,65 @@ class TestQualityGate:
         assert len(metrics) == 2
         assert "candidate_id" in metrics.columns
         assert "scored_at" in metrics.columns
-        assert len(accepted) + len(review) + len(rejected) == 2
+        # accepted_candidates.csv is the enrichment pool (auto-include + review);
+        # review_queue.csv is a subset. Every row ends up in either
+        # enrichment-pool OR rejected.
+        assert len(accepted) + len(rejected) == 2
+        if len(review) > 0:
+            assert set(review["title"]).issubset(set(accepted["title"]))
         # The IEEE paper with high citations from MIT should score highest
         high_score = metrics.loc[metrics["title"].str.contains("High Quality"), "total_quality_score"].iloc[0]
         low_score = metrics.loc[metrics["title"].str.contains("Mediocre"), "total_quality_score"].iloc[0]
         assert high_score > low_score
+
+    def test_preprint_routing_uses_separate_thresholds(self, tmp_path):
+        """arXiv papers route on lower preprint thresholds so they don't
+        get penalised for the structural lack of venue/citation signal."""
+        # Two near-identical rows differing only in discovery_source. The
+        # relevance-heavy arXiv preprint should auto-include under preprint
+        # thresholds; the same content from a non-preprint source should
+        # not reach the regular threshold.
+        candidates = pd.DataFrame([
+            {"title": "OSINT methodology", "authors": "A", "year": "2025",
+             "venue": "arXiv", "doi": "", "abstract": "OSINT cybersecurity",
+             "source_url": "", "discovery_source": "arXiv RSS",
+             "discovery_query": "OSINT", "inclusion_path": "discovery",
+             "citation_count": 0, "reference_count": 0},
+            {"title": "OSINT methodology elsewhere", "authors": "A", "year": "2025",
+             "venue": "Unknown Journal", "doi": "", "abstract": "OSINT cybersecurity",
+             "source_url": "", "discovery_source": "OpenAlex",
+             "discovery_query": "OSINT", "inclusion_path": "discovery",
+             "citation_count": 0, "reference_count": 0},
+        ])
+        (tmp_path / "data").mkdir(parents=True)
+        candidates.to_csv(tmp_path / "data" / "discovery_candidates.csv", index=False)
+
+        config_dir = tmp_path / "config"
+        config_dir.mkdir()
+        (config_dir / "venue_whitelist.json").write_text(json.dumps({"high_trust": ["IEEE"]}))
+        (config_dir / "query_registry.json").write_text(json.dumps({"queries": ["OSINT", "cybersecurity"]}))
+        (config_dir / "quality_weights.json").write_text(json.dumps({
+            "venue": 0.35, "citations": 0.40, "relevance": 0.25,
+            "institution_bonus": 10.0,
+            "auto_include_threshold": 75.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
+        }))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            quality_gate.run()
+
+        metrics = pd.read_csv(tmp_path / "data" / "quality_metrics.csv")
+        preprint_row = metrics[metrics["discovery_source"] == "arXiv RSS"].iloc[0]
+        non_preprint_row = metrics[metrics["discovery_source"] == "OpenAlex"].iloc[0]
+
+        assert bool(preprint_row["is_preprint"]) is True
+        assert bool(non_preprint_row["is_preprint"]) is False
+        # Same total (same venue+citation+relevance signal), different routing
+        assert preprint_row["total_quality_score"] == non_preprint_row["total_quality_score"]
+        assert preprint_row["recommended_action"] == "auto-include"
+        assert non_preprint_row["recommended_action"] in ("human review", "reject")
 
 
 class TestPublish:
@@ -316,6 +371,146 @@ class TestClassify:
         assert len(result) == 1  # deduped
         assert result.iloc[0]["title"] == "Updated Title"  # new won
 
+    def test_classify_prunes_rows_rescored_out_this_run(self, tmp_path):
+        # If a previously published paper is reconsidered by the current
+        # rescore window but does not survive back into accepted_harvested,
+        # classify must remove it from the additive corpus.
+        (tmp_path / "data").mkdir(parents=True)
+        run_id = "run-123"
+        existing = pd.DataFrame([
+            {
+                "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+                "doi": "10.1/drop", "abstract": "old abstract", "source_url": "", "citation_count": 10,
+                "Category": "Old", "Investigation_Type": "", "OSINT_Source_Types": "",
+                "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+            },
+            {
+                "title": "Historical Paper", "authors": "B", "year": "2023", "venue": "USENIX",
+                "doi": "10.1/keep", "abstract": "historical abstract", "source_url": "", "citation_count": 5,
+                "Category": "Seed", "Investigation_Type": "", "OSINT_Source_Types": "",
+                "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+            },
+        ])
+        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+
+        # The current rescore window reconsidered Dropped Paper but rejected it,
+        # while newly accepting New Paper.
+        accepted = pd.DataFrame([{
+            "title": "New Paper", "authors": "C", "year": "2025", "venue": "IEEE",
+            "doi": "10.1/new", "abstract": "new abstract", "source_url": "", "citation_count": 50,
+            "rescore_run_id": run_id,
+        }])
+        accepted.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        rescored = pd.DataFrame([
+            {
+                "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+                "doi": "10.1/drop", "abstract": "newly rescored abstract", "source_url": "",
+                "citation_count": 10, "total_quality_score": 20.0, "is_preprint": False,
+                "rescore_run_id": run_id,
+            },
+            {
+                "title": "New Paper", "authors": "C", "year": "2025", "venue": "IEEE",
+                "doi": "10.1/new", "abstract": "new abstract", "source_url": "",
+                "citation_count": 50, "total_quality_score": 80.0, "is_preprint": False,
+                "rescore_run_id": run_id,
+            },
+        ])
+        rescored.to_csv(tmp_path / "data" / "rescore_metrics.csv", index=False)
+        (tmp_path / "data" / ".rescore_window.json").write_text(json.dumps({"run_id": run_id}))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        dois = set(result["doi"].astype(str).tolist())
+        assert dois == {"10.1/keep", "10.1/new"}
+        assert "10.1/drop" not in dois
+        assert not (tmp_path / "data" / ".rescore_window.json").exists()
+
+    def test_classify_empty_accepts_can_still_prune_rescored_out_rows(self, tmp_path):
+        # If rescore rejects everything this run, classify still needs to prune
+        # the current window from the existing corpus rather than returning
+        # early and leaving stale rows published.
+        (tmp_path / "data").mkdir(parents=True)
+        run_id = "run-456"
+        existing = pd.DataFrame([{
+            "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+            "doi": "10.1/drop", "abstract": "old abstract", "source_url": "", "citation_count": 10,
+            "Category": "Old", "Investigation_Type": "", "OSINT_Source_Types": "",
+            "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+        }])
+        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        pd.DataFrame(columns=["title", "rescore_run_id"]).to_csv(
+            tmp_path / "data" / "accepted_harvested.csv", index=False
+        )
+        rescored = pd.DataFrame([{
+            "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+            "doi": "10.1/drop", "abstract": "newly rescored abstract", "source_url": "",
+            "citation_count": 10, "total_quality_score": 20.0, "is_preprint": False,
+            "rescore_run_id": run_id,
+        }])
+        rescored.to_csv(tmp_path / "data" / "rescore_metrics.csv", index=False)
+        (tmp_path / "data" / ".rescore_window.json").write_text(json.dumps({"run_id": run_id}))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert result.empty
+
+    def test_classify_ignores_stale_rescore_metrics_without_window_token(self, tmp_path):
+        # Manual classify runs should not prune against a stale metrics file if
+        # the current rescore window token is absent.
+        (tmp_path / "data").mkdir(parents=True)
+        existing = pd.DataFrame([
+            {
+                "title": "Historical Paper", "authors": "B", "year": "2023", "venue": "USENIX",
+                "doi": "10.1/keep", "abstract": "historical abstract", "source_url": "", "citation_count": 5,
+                "Category": "Seed", "Investigation_Type": "", "OSINT_Source_Types": "",
+                "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+            },
+            {
+                "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+                "doi": "10.1/drop", "abstract": "old abstract", "source_url": "", "citation_count": 10,
+                "Category": "Old", "Investigation_Type": "", "OSINT_Source_Types": "",
+                "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+            },
+        ])
+        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        accepted = pd.DataFrame([{
+            "title": "New Paper", "authors": "C", "year": "2025", "venue": "IEEE",
+            "doi": "10.1/new", "abstract": "new abstract", "source_url": "", "citation_count": 50,
+        }])
+        accepted.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        rescored = pd.DataFrame([
+            {
+                "title": "Dropped Paper", "authors": "A", "year": "2024", "venue": "IEEE",
+                "doi": "10.1/drop", "abstract": "newly rescored abstract", "source_url": "",
+                "citation_count": 10, "total_quality_score": 20.0, "is_preprint": False,
+                "rescore_run_id": "stale-run",
+            },
+        ])
+        rescored.to_csv(tmp_path / "data" / "rescore_metrics.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        dois = set(result["doi"].astype(str).tolist())
+        assert dois == {"10.1/keep", "10.1/drop", "10.1/new"}
+
 
 class TestHarvest:
     def test_harvest_crossref_fallback(self, tmp_path):
@@ -462,3 +657,95 @@ class TestDiscoveryAbstractEnrichment:
             _enrich_missing_abstracts(rows, client=MagicMock(), mailto="")
 
         assert rows[0]["abstract"] == ""
+
+
+class TestRescore:
+    def _setup_config(self, tmp_path):
+        config_dir = tmp_path / "config"
+        config_dir.mkdir()
+        (config_dir / "venue_whitelist.json").write_text(json.dumps({"high_trust": ["IEEE"]}))
+        (config_dir / "query_registry.json").write_text(json.dumps({"queries": ["OSINT", "cybersecurity"]}))
+        (config_dir / "quality_weights.json").write_text(json.dumps({
+            "venue": 0.35, "citations": 0.40, "relevance": 0.25,
+            "institution_bonus": 10.0,
+            "auto_include_threshold": 75.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
+        }))
+
+    def test_empty_input_preserves_existing(self, tmp_path):
+        # No harvested file -> create empty and return (matches pattern of
+        # the rest of the pipeline's empty-input handling).
+        (tmp_path / "data").mkdir(parents=True)
+        self._setup_config(tmp_path)
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            rescore.run()
+        # Even on an empty run, emit the metrics placeholder so workflow
+        # `git add` steps do not fail on a missing path.
+        assert (tmp_path / "data" / "rescore_metrics.csv").exists()
+        metrics = pd.read_csv(tmp_path / "data" / "rescore_metrics.csv")
+        assert metrics.empty
+        assert not (tmp_path / "data" / ".rescore_window.json").exists()
+
+    def test_filters_to_auto_include_tier(self, tmp_path):
+        # Two rows: one that meets the regular auto-include with full abstract,
+        # one that falls below and should drop out after rescoring.
+        harvested = pd.DataFrame([
+            {"title": "OSINT methodology and cybersecurity",
+             "authors": "A", "year": "2025", "venue": "IEEE S&P",
+             "doi": "10.1/x", "abstract": "OSINT methodology cybersecurity",
+             "source_url": "", "discovery_source": "OpenAlex",
+             "citation_count": 200, "is_preprint": False},
+            {"title": "Unrelated cooking recipes",
+             "authors": "B", "year": "2025", "venue": "Food Journal",
+             "doi": "10.1/y", "abstract": "broccoli and cheese",
+             "source_url": "", "discovery_source": "OpenAlex",
+             "citation_count": 0, "is_preprint": False},
+        ])
+        (tmp_path / "data").mkdir(parents=True)
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        self._setup_config(tmp_path)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            rescore.run()
+
+        accepted = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        metrics = pd.read_csv(tmp_path / "data" / "rescore_metrics.csv")
+        token = json.loads((tmp_path / "data" / ".rescore_window.json").read_text())
+        assert accepted.iloc[0]["rescore_run_id"] == token["run_id"]
+        assert metrics["rescore_run_id"].nunique() == 1
+        assert metrics["rescore_run_id"].iloc[0] == token["run_id"]
+        assert len(accepted) == 1
+        assert "OSINT" in accepted.iloc[0]["title"]
+        # rescore_metrics keeps both rows for audit
+        assert len(metrics) == 2
+
+    def test_preprint_threshold_applied(self, tmp_path):
+        # An arXiv preprint with no citations but relevant title clears the
+        # preprint threshold even though it wouldn't clear the regular one.
+        harvested = pd.DataFrame([{
+            "title": "OSINT cybersecurity methodology",
+            "authors": "A", "year": "2025", "venue": "arXiv",
+            "doi": "", "abstract": "OSINT investigation cybersecurity",
+            "source_url": "", "discovery_source": "arXiv RSS",
+            "citation_count": 0, "is_preprint": True,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        self._setup_config(tmp_path)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            rescore.run()
+
+        accepted = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        metrics = pd.read_csv(tmp_path / "data" / "rescore_metrics.csv")
+        token = json.loads((tmp_path / "data" / ".rescore_window.json").read_text())
+        assert len(accepted) == 1
+        assert bool(accepted.iloc[0]["is_preprint"]) is True
+        assert accepted.iloc[0]["rescore_run_id"] == token["run_id"]
+        assert metrics["rescore_run_id"].iloc[0] == token["run_id"]

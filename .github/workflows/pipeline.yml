@@ -59,6 +59,13 @@ jobs:
           git add data/accepted_harvested.csv
           git diff --cached --quiet || git commit -m "Harvest metadata"
           git push
+      - name: Rescore
+        run: |
+          SUMMARY=$(python -m alex.cli rescore | tail -n1)
+          echo "$SUMMARY"
+          git add data/accepted_harvested.csv data/rescore_metrics.csv
+          git diff --cached --quiet || git commit -m "Post-harvest rescore: ${SUMMARY:-no summary}"
+          git push
       - name: Classify
         env:
           OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
