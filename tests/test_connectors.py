@@ -40,6 +40,27 @@ class TestOpenAlexAccessors:
         work = {"cited_by_api_url": "https://api.openalex.org/works?filter=cites:W123"}
         assert openalex.cited_by_api_url(work) == "https://api.openalex.org/works?filter=cites:W123"
 
+    def test_cited_by_api_url_constructed_from_id_when_field_missing(self):
+        # Issue #59: OpenAlex no longer returns `cited_by_api_url` as a
+        # top-level field on /works search responses, so we construct the
+        # URL from the work's canonical id instead. Without this, every
+        # citation_chain run silently produced 0 OpenAlex chains.
+        work = {"id": "https://openalex.org/W2752617332"}
+        assert openalex.cited_by_api_url(work) == "https://api.openalex.org/works?filter=cites:W2752617332"
+
+    def test_cited_by_api_url_explicit_field_wins_when_present(self):
+        # If OpenAlex starts returning the explicit field again, prefer it
+        # over the constructed form (the explicit URL may include params
+        # we'd otherwise miss).
+        work = {
+            "id": "https://openalex.org/W123",
+            "cited_by_api_url": "https://api.openalex.org/works?filter=cites:W999&extra=1",
+        }
+        assert openalex.cited_by_api_url(work) == "https://api.openalex.org/works?filter=cites:W999&extra=1"
+
+    def test_cited_by_api_url_empty_when_no_id_or_field(self):
+        assert openalex.cited_by_api_url({}) == ""
+
     def test_references(self):
         work = {"referenced_works": ["W1", "W2"]}
         assert openalex.references(work) == ["W1", "W2"]
