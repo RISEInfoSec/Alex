@@ -8,8 +8,13 @@ permissions:
   pages: write
   id-token: write
 concurrency:
+  # Use cancel-in-progress so a newer push supersedes an in-flight deploy
+  # rather than queueing behind it. The previous `false` setting let the
+  # queue wedge on 2026-04-25 — a stale `waiting` deployment from days
+  # earlier blocked every subsequent run, and queued runs sat pending
+  # for hours before being cancelled by the next push.
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   deploy:
     runs-on: ubuntu-latest
