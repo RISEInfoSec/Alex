@@ -1,0 +1,58 @@
+name: OpenAI smoketest
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoketest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - env:
+          OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
+        run: |
+          python - <<'PY'
+          import os, json, requests
+          key = os.environ["OPENAI_API_KEY"]
+          assert key, "OPENAI_API_KEY is empty"
+          print(f"key len={len(key)} prefix={key[:7]}...")
+
+          print("\n=== GET /v1/models ===")
+          r = requests.get(
+              "https://api.openai.com/v1/models",
+              headers={"Authorization": f"Bearer {key}"},
+              timeout=30,
+          )
+          print("status:", r.status_code)
+          for h in ("openai-organization","openai-project","x-ratelimit-limit-requests",
+                    "x-ratelimit-remaining-requests","x-ratelimit-limit-tokens",
+                    "x-ratelimit-remaining-tokens","retry-after"):
+              if h in r.headers:
+                  print(f"  {h}: {r.headers[h]}")
+          if r.status_code != 200:
+              print("body:", r.text[:1500])
+          else:
+              data = r.json().get("data", [])
+              print(f"  {len(data)} models visible; gpt-4o-mini present:",
+                    any(m.get('id')=='gpt-4o-mini' for m in data))
+
+          print("\n=== POST /v1/responses (minimal) ===")
+          r = requests.post(
+              "https://api.openai.com/v1/responses",
+              headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+              json={
+                  "model": "gpt-4o-mini",
+                  "input": [{"role":"user","content":[{"type":"input_text","text":"ping"}]}],
+              },
+              timeout=30,
+          )
+          print("status:", r.status_code)
+          for h in ("x-ratelimit-limit-requests","x-ratelimit-remaining-requests",
+                    "x-ratelimit-limit-tokens","x-ratelimit-remaining-tokens","retry-after"):
+              if h in r.headers:
+                  print(f"  {h}: {r.headers[h]}")
+          print("body:", r.text[:1500])
+          PY
