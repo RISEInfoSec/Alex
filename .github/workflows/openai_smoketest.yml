@@ -1,0 +1,36 @@
+name: OpenAI smoketest
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoketest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - env:
+          OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
+        run: |
+          python - <<'PY'
+          import os, requests
+          key = os.environ["OPENAI_API_KEY"]
+          r = requests.post(
+              "https://api.openai.com/v1/responses",
+              headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+              json={
+                  "model": "gpt-4o-mini",
+                  "input": [{"role":"user","content":[{"type":"input_text","text":"ping"}]}],
+              },
+              timeout=30,
+          )
+          print("status:", r.status_code)
+          print("body:", r.text[:1500])
+          if r.status_code == 200:
+              data = r.json()
+              usage = data.get("usage") or {}
+              print("usage:", usage)
+              print("output_text:", (data.get("output_text") or "")[:200])
+          PY
