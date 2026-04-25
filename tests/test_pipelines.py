@@ -752,6 +752,92 @@ class TestHarvest:
         cr_mock.assert_not_called()
 
 
+class TestHarvestParallelism:
+    """Per-candidate parallelism via ThreadPoolExecutor."""
+
+    def _accepted_csv(self, tmp_path, n=3):
+        rows = [{
+            "title": f"Paper {i}", "authors": "", "year": "2024", "venue": "",
+            "doi": f"10.1145/p{i}", "abstract": "", "source_url": "",
+            "citation_count": 0, "reference_count": 0,
+        } for i in range(n)]
+        (tmp_path / "data").mkdir(parents=True, exist_ok=True)
+        pd.DataFrame(rows).to_csv(tmp_path / "data" / "accepted_candidates.csv", index=False)
+
+    def test_candidates_run_in_parallel_thread_pool(self, tmp_path):
+        # N rows -> N submissions to the executor. Mirrors the per-query
+        # parallelism test in TestDiscoveryConnectorGating.
+        self._accepted_csv(tmp_path, n=3)
+
+        from concurrent.futures import ThreadPoolExecutor
+        original_submit = ThreadPoolExecutor.submit
+        submitted = []
+
+        def tracking_submit(self, fn, *args, **kwargs):
+            submitted.append(fn)
+            return original_submit(self, fn, *args, **kwargs)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load", return_value={}), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.pipelines.harvest.HttpClient"), \
+             patch.object(ThreadPoolExecutor, "submit", tracking_submit):
+            from alex.pipelines import harvest
+            harvest.run()
+
+        assert len(submitted) == 3
+
+    def test_output_order_matches_input_order(self, tmp_path):
+        # Even with parallel execution, output rows must appear in the same
+        # order as input rows — collecting futures by submission order
+        # preserves this contract.
+        self._accepted_csv(tmp_path, n=5)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load", return_value={}), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.pipelines.harvest.HttpClient"):
+            from alex.pipelines import harvest
+            harvest.run()
+
+        out = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        # Input was Paper 0, 1, 2, 3, 4 — output must keep that order.
+        assert list(out["title"]) == [f"Paper {i}" for i in range(5)]
+
+    def test_per_row_failure_drops_one_row_does_not_sink_stage(self, tmp_path):
+        # If _harvest_one raises for one row, the other rows must still
+        # land in the output. Surfaced via patching the per-row helper.
+        self._accepted_csv(tmp_path, n=3)
+
+        from alex.pipelines import harvest as harvest_mod
+        real_harvest_one = harvest_mod._harvest_one
+
+        def flaky_harvest_one(client, row, mailto, enable_s2, s2_key):
+            if row.get("title") == "Paper 1":
+                raise RuntimeError("simulated transient failure")
+            return real_harvest_one(client, row, mailto, enable_s2, s2_key)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.harvest.connector_config.load", return_value={}), \
+             patch("alex.connectors.crossref.get_by_doi", return_value=None), \
+             patch("alex.connectors.openalex.search", return_value=[]), \
+             patch("alex.pipelines.harvest.HttpClient"), \
+             patch("alex.pipelines.harvest._harvest_one", side_effect=flaky_harvest_one):
+            harvest_mod.run()
+
+        out = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        # 3 input - 1 failed = 2 output rows; the survivors keep their order.
+        assert list(out["title"]) == ["Paper 0", "Paper 2"]
+
+
 class TestDiscoveryAbstractEnrichment:
     def test_enriches_row_missing_abstract_with_doi(self):
         from alex.pipelines.discovery import _enrich_missing_abstracts
