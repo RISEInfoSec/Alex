@@ -15,36 +15,28 @@ It implements a practical end-to-end system for:
 7. **Governance outputs** for review and rejection
 8. **Static-site publication** via GitHub Pages
 
-## Source families checked
+## Source coverage
 
-### Academic indexes
-- OpenAlex
-- Crossref
-- Semantic Scholar
-- CORE
-- BASE (manual-assist placeholder / ingestion adapter)
-- Dimensions (manual-assist placeholder)
+Connectors fall into three classes. The runtime gate is `connectors.<name>.enabled` in [`config/query_registry.json`](config/query_registry.json); the `source_registry.json` and `*_targets.json` files cover the broader spec universe.
 
-### Research repositories
-- arXiv
-- Zenodo
-- GitHub
+### Active automated connectors (enabled by default)
+- **OpenAlex** — primary academic index + forward citation graph
+- **Crossref** — DOI-based discovery + metadata fallback
+- **arXiv** — RSS feeds, `cs.CR/AI/CY/SI/IR/NI` (preprint source — routes through preprint scoring ladder)
+- **Zenodo** — repository discovery
+- **GitHub** — code/whitepaper repository discovery
 
-### Security conferences and archives
-- IEEE
-- ACM
-- USENIX
-- DFRWS
-- FIRST
-- SANS
-- Black Hat
+### Available but disabled by default
+- **Semantic Scholar** — needs `SEMANTIC_SCHOLAR_API_KEY`. When unset, S2 is skipped in both discovery and citation backward chaining (avoids a 429 storm).
+- **CORE** — disabled in default config; has a 5xx circuit breaker (`circuit_break_5xx: 3`).
 
-### Think-tank / investigative sources
-- RAND
-- CSIS
-- Atlantic Council
-- NATO Strategic Communications Centre of Excellence
-- Bellingcat
+### Manual-assist only (no automated connector)
+Listed in the source registries but routed through `discover_manual_assist.yml`'s human-curation reminder:
+- **Academic:** Google Scholar, Dimensions, BASE
+- **Conferences/archives:** IEEE, ACM, USENIX, DFRWS, FIRST, SANS, Black Hat
+- **Think-tanks / investigative:** RAND, CSIS, Atlantic Council, NATO StratCom COE, Bellingcat
+
+These are tracked in [`config/manual_assist_sources.json`](config/manual_assist_sources.json), [`config/conference_targets.json`](config/conference_targets.json), and [`config/thinktank_targets.json`](config/thinktank_targets.json) so candidates added by hand can be normalised against the same provenance schema as automated sources.
 
 ## Query families used
 
@@ -99,15 +91,21 @@ The LLM classifier (`gpt-4o-mini` by default) tags each accepted paper with `Cat
 
 ## Outputs
 
-### Public outputs
-- `data/osint_cyber_papers.csv`
-- `data/papers.json`
+### Public corpus (deployed to GitHub Pages)
+- `data/osint_cyber_papers.csv` — full classified corpus
+- `data/papers.json` — same data, frontend-ready
 
-### Internal governance outputs
-- `data/discovery_candidates.csv`
-- `data/review_queue.csv`
-- `data/rejected_candidates.csv`
-- `data/quality_metrics.csv`
+### Intermediate stage outputs (committed to `main`, kept for audit)
+- `data/discovery_candidates.csv` — raw + chained candidates (input to Quality gate)
+- `data/accepted_candidates.csv` — Quality gate auto-include bucket
+- `data/accepted_harvested.csv` — accepted set with full bibliographic metadata
+- `data/accepted_classified.csv` — internal corpus with LLM tags (additive across runs)
+
+### Governance / audit
+- `data/review_queue.csv` — Quality gate review-tier candidates
+- `data/rejected_candidates.csv` — Quality gate rejections (kept; not silently dropped)
+- `data/quality_metrics.csv` — full per-candidate scoring trace
+- `data/rescore_metrics.csv` — post-harvest rescore audit (drives the additive-corpus prune contract)
 
 ## How to run
 
@@ -147,7 +145,9 @@ python -m alex.cli harvest
 ```bash
 python -m alex.cli rescore
 ```
-Re-runs relevance scoring after harvest enriches abstracts. Preprints (arXiv, bioRxiv, medRxiv, SSRN) use a separate threshold ladder so they aren't penalised for missing venue/citation/institution signal.
+Re-runs relevance scoring after harvest enriches abstracts, and re-applies the auto-include gate. Preprints (currently arXiv-tagged rows) use the lower threshold ladder so relevance-heavy work isn't rejected for missing venue/citation signal.
+
+> No standalone `rescore.yml` workflow exists — the stage runs as part of `pipeline.yml`. To re-run it ad-hoc, invoke the CLI directly or run the full pipeline workflow.
 
 ### 8. LLM classify accepted candidates
 ```bash
@@ -234,17 +234,17 @@ A full end-to-end run takes roughly 15–30 minutes, driven mostly by API-call v
 
 The parallel `Manual-assist discovery queue` reminder fires Monday 04:05 UTC for human curation of Google Scholar / Dimensions / BASE. Candidates added by hand before the following Monday are picked up on the next cycle.
 
-## Important operational notes
-
-- Google Scholar and Dimensions are represented as **manual-assist / registry-backed sources**, because reliable direct automation is constrained by access, terms, or subscription.
-- BASE and some conference / think-tank sources are handled through adapter registries and source-specific ingestion targets; connectors are provided as extensible modules.
-- The package is designed to be **production-oriented**, but actual performance depends on API keys, quotas, and data-source availability.
-
 ## Operations runbook
+
+The package is designed to be **production-oriented**, but actual performance depends on API keys, quotas, and data-source availability. Notes below cover the recurring operational tasks.
 
 ### Required GitHub repository secrets
 - `HARVEST_MAILTO` — contact email sent in the User-Agent header to academic APIs (politeness contract).
 - `OPEN_API_KEY` — OpenAI API key. Note the secret name is `OPEN_API_KEY` (not `OPENAI_API_KEY`); the workflows map it onto the `OPENAI_API_KEY` env var.
+
+### Optional repository variables
+- `OPENAI_MODEL` — overrides `gpt-4o-mini` for classification.
+- `SEMANTIC_SCHOLAR_API_KEY` (env / secret) — if set and `connectors.semantic_scholar.enabled=true` in `config/query_registry.json`, S2 is consulted for both discovery and backward citation chaining.
 
 ### OpenAI quota canary
 LLM classification spends OpenAI credits, and `gpt-4o-mini` is cheap but not free. When the account runs out of credits OpenAI returns `429 insufficient_quota` per request. The pipeline now treats this as a **fatal** error and aborts (`OpenAIQuotaError` in `alex/pipelines/classify.py`) rather than silently stamping every paper as `Category="Other"`.
