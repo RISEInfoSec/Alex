@@ -10,9 +10,10 @@ It implements a practical end-to-end system for:
 2. **Citation chaining** using OpenAlex and Semantic Scholar
 3. **Quality scoring** before public inclusion
 4. **Authoritative metadata harvesting**
-5. **LLM taxonomy tagging**
-6. **Governance outputs** for review and rejection
-7. **Static-site publication** via GitHub Pages
+5. **Post-harvest rescore** with preprint-aware thresholds (re-runs scoring after enrichment fills in abstracts)
+6. **LLM taxonomy tagging**
+7. **Governance outputs** for review and rejection
+8. **Static-site publication** via GitHub Pages
 
 ## Source families checked
 
@@ -141,12 +142,18 @@ python -m alex.cli score
 python -m alex.cli harvest
 ```
 
-### 7. LLM classify accepted candidates
+### 7. Rescore with full abstracts (post-harvest)
+```bash
+python -m alex.cli rescore
+```
+Re-runs relevance scoring after harvest enriches abstracts. Preprints (arXiv, bioRxiv, medRxiv, SSRN) use a separate threshold ladder so they aren't penalised for missing venue/citation/institution signal.
+
+### 8. LLM classify accepted candidates
 ```bash
 python -m alex.cli classify
 ```
 
-### 8. Rebuild public assets
+### 9. Rebuild public assets
 ```bash
 python -m alex.cli publish
 ```
@@ -154,8 +161,8 @@ python -m alex.cli publish
 ## GitHub Actions included
 
 ### Automated
-- **`pipeline.yml`** — scheduled **Mon 03:23 UTC**. A single workflow that runs all six pipeline stages sequentially in one job, then deploys to GitHub Pages as a second job. Uses one runner for all data stages (faster than split workflows and sidesteps GitHub's 3-level `workflow_run` cascade cap).
-- `pages.yml` — GitHub Pages deploy on push to `main`. Covers non-pipeline pushes (e.g. human merges); `pipeline.yml` has its own Pages deploy job for the automated run.
+- **`pipeline.yml`** — scheduled **Mon 03:23 UTC**. A single workflow that runs all seven pipeline stages sequentially in one job, then deploys to GitHub Pages as a second job. Uses one runner for all data stages (faster than split workflows and sidesteps GitHub's 3-level `workflow_run` cascade cap). The deploy job pins `actions/checkout` to `ref: main` so it stages the commits the pipeline job just pushed (without this, deploy would silently re-publish the trigger-time SHA).
+- `pages.yml` — GitHub Pages deploy on push to `main`. Covers non-pipeline pushes (e.g. human merges). Uses `cancel-in-progress: true` so a newer push supersedes any in-flight deploy rather than queueing behind it.
 - `discover_manual_assist.yml` — scheduled Mon 04:05 UTC reminder for human-curated sources (Google Scholar / Dimensions / BASE).
 
 ### Manual (`workflow_dispatch` only)
@@ -164,6 +171,7 @@ Kept as ad-hoc debug tools that run a single stage:
 - `discover.yml`, `citation_chain.yml`, `quality_gate.yml`, `harvest.yml`, `classify.yml`, `publish.yml`
 - `tag_new_papers.yml` — re-tag already-harvested papers via LLM
 - `rebuild_site.yml` — regenerate site assets from existing classified corpus
+- `openai_smoketest.yml` — pre-flight canary that hits `/v1/responses` once and prints the response body + usage. Run it before kicking off the full pipeline whenever the OpenAI account state is uncertain (e.g. after a top-up).
 
 None of these auto-trigger anything else. Use them when you want to re-run a single stage without walking the whole chain.
 
@@ -200,7 +208,7 @@ flowchart TB
 
     cronMon --> discover
     discover --> citation --> quality --> harvest --> rescorestep --> classify --> publish
-    publish -- needs --> pages
+    publish -. pipeline job ends .-> pages
 
     discover -.writes.-> dc
     citation -.augments.-> dc
@@ -230,5 +238,43 @@ The parallel `Manual-assist discovery queue` reminder fires Monday 04:05 UTC for
 - Google Scholar and Dimensions are represented as **manual-assist / registry-backed sources**, because reliable direct automation is constrained by access, terms, or subscription.
 - BASE and some conference / think-tank sources are handled through adapter registries and source-specific ingestion targets; connectors are provided as extensible modules.
 - The package is designed to be **production-oriented**, but actual performance depends on API keys, quotas, and data-source availability.
+
+## Operations runbook
+
+### Required GitHub repository secrets
+- `HARVEST_MAILTO` — contact email sent in the User-Agent header to academic APIs (politeness contract).
+- `OPEN_API_KEY` — OpenAI API key. Note the secret name is `OPEN_API_KEY` (not `OPENAI_API_KEY`); the workflows map it onto the `OPENAI_API_KEY` env var.
+
+### OpenAI quota canary
+LLM classification spends OpenAI credits, and `gpt-4o-mini` is cheap but not free. When the account runs out of credits OpenAI returns `429 insufficient_quota` per request. The pipeline now treats this as a **fatal** error and aborts (`OpenAIQuotaError` in `alex/pipelines/classify.py`) rather than silently stamping every paper as `Category="Other"`.
+
+Before running the full pipeline after any uncertain account state (top-up, billing change, new key), trigger the **`OpenAI smoketest`** workflow:
+
+- ✅ `status: 200` with a `usage` block printed → quota is good, run the Pipeline.
+- ❌ `status: 429` with `"code":"insufficient_quota"` → top up the OpenAI account first.
+
+Each successful classify run prints a token-usage summary (`OpenAI usage: N calls, X input + Y output = Z total tokens`) so you can track spend without scraping logs.
+
+### Site deploy (GitHub Pages)
+The published corpus lives at `https://riseinfosec.github.io/Alex/`. Deploys can wedge if the `github-pages` environment has a non-terminal deployment status:
+
+```bash
+# Find any deployment in waiting/queued/in_progress state
+gh api 'repos/RISEInfoSec/Alex/deployments?environment=github-pages&per_page=100' --jq '.[].id' | \
+  while read id; do
+    state=$(gh api repos/RISEInfoSec/Alex/deployments/$id/statuses --jq '.[0].state')
+    [ "$state" = "waiting" ] || [ "$state" = "queued" ] || [ "$state" = "in_progress" ] && \
+      echo "STUCK: $id state=$state"
+  done
+
+# Clear a stuck one
+gh api repos/RISEInfoSec/Alex/deployments/<id>/statuses -X POST -f state=inactive -f description="manual clear"
+```
+
+### Cost / runtime envelope (Apr 2026 baseline)
+- Citation chain: **~28 min** for ~1k forward-chain candidates from OpenAlex
+- Harvest: **~17 min** parallelised (was ~50 min serial)
+- Classify: serial OpenAI calls; **~1 sec/paper** when quota is healthy. Full backfill of 1.5k papers ≈ 25 min.
+- Quality gate, Rescore, Publish, Pages deploy: each well under 1 min
 
 See `docs/gap_analysis.md` for remaining operational constraints and how to address them.

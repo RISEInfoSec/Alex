@@ -51,7 +51,12 @@ Better fix:
 
 ### LLM classification
 Current state:
-- working API wrapper included, but requires valid OPENAI_API_KEY and model access.
+- Working API wrapper included; requires valid `OPENAI_API_KEY` and access to `gpt-4o-mini` via `/v1/responses` (or override via the `OPENAI_MODEL` repo variable).
+- `call_openai()` in `alex/pipelines/classify.py` raises `OpenAIQuotaError` on account-level errors (`insufficient_quota`, billing limits, deactivated accounts, 401/403) so the run aborts instead of silently stamping every paper as `Category="Other"`.
+- Per-run token usage (input/output/total) is printed at end of `classify` so spend is visible without scraping logs.
+
+Operational note:
+- Run the **`OpenAI smoketest`** workflow before any large classify backfill (e.g. after a top-up) to confirm the account state.
 
 ## QA verdict
 This package closes the major design/spec gaps and includes executable code for core connectors and scorers.
