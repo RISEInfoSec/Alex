@@ -105,7 +105,21 @@ def references(work: dict[str, Any]) -> list[str]:
     return work.get("referenced_works") or []
 
 def cited_by_api_url(work: dict[str, Any]) -> str:
-    return clean(work.get("cited_by_api_url"))
+    """Build the OpenAlex `cites:WORK_ID` filter URL for one work.
+
+    OpenAlex no longer returns `cited_by_api_url` as a top-level field on
+    /works search responses (issue #59). Construct it from the work's
+    canonical `id` when the explicit field is absent. The constructed URL
+    matches the form OpenAlex itself produces, so `fetch_cited_by` works
+    against either path interchangeably.
+    """
+    explicit = clean(work.get("cited_by_api_url"))
+    if explicit:
+        return explicit
+    work_id = clean(work.get("id", "")).replace("https://openalex.org/", "")
+    if not work_id:
+        return ""
+    return f"https://api.openalex.org/works?filter=cites:{work_id}"
 
 def fetch_cited_by(client: HttpClient, cited_by_url: str) -> list[dict[str, Any]]:
     data = client.get_json(cited_by_url)
