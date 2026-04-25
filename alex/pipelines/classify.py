@@ -35,12 +35,41 @@ FALLBACK = {
     "Quality_Tier": "Standard",
 }
 
+# Account-level OpenAI failures that will not recover on retry. We raise
+# instead of falling back so the run aborts before stamping every paper as
+# Category=Other (the silent-corruption mode that produced 1,499 bogus
+# classifications on 2026-04-25 when the account ran out of credits).
+FATAL_ERROR_CODES = {
+    "insufficient_quota",
+    "billing_hard_limit_reached",
+    "account_deactivated",
+    "invalid_api_key",
+}
+
+
+class OpenAIQuotaError(RuntimeError):
+    """Raised on account-level OpenAI failures so classify aborts loudly."""
+
+
+# Per-run cumulative token usage. Reset by run() and reported at end so
+# any pipeline activity touching OpenAI surfaces its token spend.
+_TOKEN_USAGE: dict = {"calls": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
+
 
 def _safe_citation_count(row) -> float:
     try:
         return float(row.get("citation_count") or 0)
     except (ValueError, TypeError):
         return 0.0
+
+
+def _record_usage(usage: dict) -> None:
+    if not usage:
+        return
+    _TOKEN_USAGE["calls"] += 1
+    _TOKEN_USAGE["input_tokens"]  += int(usage.get("input_tokens",  0) or 0)
+    _TOKEN_USAGE["output_tokens"] += int(usage.get("output_tokens", 0) or 0)
+    _TOKEN_USAGE["total_tokens"]  += int(usage.get("total_tokens",  0) or 0)
 
 
 def call_openai(row: dict) -> dict:
@@ -56,20 +85,46 @@ def call_openai(row: dict) -> dict:
             {"role": "user", "content": [{"type": "input_text", "text": json.dumps(row, ensure_ascii=False)}]},
         ],
     }
+    title = row.get("title", "")
     try:
         r = requests.post(OPENAI_URL, headers=headers, json=body, timeout=60)
-        r.raise_for_status()
-        data = r.json()
-        text = data.get("output_text", "")
-        if text:
-            return json.loads(text)
-        logger.warning("Empty output_text from OpenAI for: %s", row.get("title", ""))
-        return dict(FALLBACK)
     except requests.exceptions.RequestException as exc:
-        logger.warning("OpenAI request failed for '%s': %s", row.get("title", ""), exc)
+        logger.warning("OpenAI network error for %r: %s", title, exc)
         return dict(FALLBACK)
+
+    if not r.ok:
+        # Check for fatal account-level errors before falling back. The error
+        # code lives in the response body; r.raise_for_status() throws away
+        # that detail, so parse it ourselves.
+        code = ""
+        try:
+            code = (r.json().get("error") or {}).get("code", "") or ""
+        except ValueError:
+            pass
+        if code in FATAL_ERROR_CODES or r.status_code in (401, 403):
+            raise OpenAIQuotaError(
+                f"OpenAI {r.status_code} (code={code or 'unknown'}) — aborting run. "
+                f"Body: {r.text[:500]}"
+            )
+        logger.warning("OpenAI %s for %r: %s", r.status_code, title, r.text[:300])
+        return dict(FALLBACK)
+
+    try:
+        data = r.json()
+    except ValueError as exc:
+        logger.warning("OpenAI returned non-JSON for %r: %s", title, exc)
+        return dict(FALLBACK)
+
+    _record_usage(data.get("usage") or {})
+
+    text = data.get("output_text", "")
+    if not text:
+        logger.warning("Empty output_text from OpenAI for %r", title)
+        return dict(FALLBACK)
+    try:
+        return json.loads(text)
     except json.JSONDecodeError as exc:
-        logger.warning("OpenAI returned invalid JSON for '%s': %s", row.get("title", ""), exc)
+        logger.warning("OpenAI output_text not JSON for %r: %s", title, exc)
         return dict(FALLBACK)
 
 
@@ -107,6 +162,7 @@ def _rows_match_run_id(df: pd.DataFrame, run_id: str, context: str) -> bool:
 
 
 def run() -> None:
+    _TOKEN_USAGE.update({"calls": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0})
     output_path = root_file("data", "accepted_classified.csv")
     window_path = root_file("data", ".rescore_window.json")
     df = load_df(root_file("data", "accepted_harvested.csv"))
@@ -173,3 +229,9 @@ def run() -> None:
     if window_path.exists():
         window_path.unlink()
     print(f"Classified {len(rows)} new papers; corpus now {len(merged)} (was {len(existing)})")
+    u = _TOKEN_USAGE
+    print(
+        f"OpenAI usage: {u['calls']} calls, "
+        f"{u['input_tokens']} input + {u['output_tokens']} output = "
+        f"{u['total_tokens']} total tokens"
+    )

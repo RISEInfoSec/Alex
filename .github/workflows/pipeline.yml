@@ -83,14 +83,19 @@ jobs:
           git push || (git pull --rebase --autostash && git push)
   deploy:
     # Pages deploy in a separate job so it can run under the github-pages
-    # environment. Checks out main after the pipeline job's pushes so the
-    # published assets are already on disk.
+    # environment. The pipeline job pushed several commits to main during
+    # its run; without `ref: main` here, checkout defaults to the workflow's
+    # trigger SHA, staging stale assets and silently shipping yesterday's
+    # corpus (observed 2026-04-25: site stuck at 256 papers while main was
+    # at 394).
     needs: pipeline
     runs-on: ubuntu-latest
     environment:
       name: github-pages
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - name: Stage site files
         run: |
           mkdir -p _site/data
