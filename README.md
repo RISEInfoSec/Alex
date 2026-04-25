@@ -69,18 +69,16 @@ Configured in `config/query_registry.json` and intended for recurring execution:
 
 ## Quality model
 
-Alex scores candidates using:
-
-- Venue score
-- Citation score
-- Institution score
-- Usage / access score
-- Relevance score
+Alex scores candidates on four normalised signals — venue trust, citation density, institution provenance, and topic relevance — combines them with the weights in `config/quality_weights.json`, and adds a +10 institution bonus when affiliations clear a trust threshold. Full formulas (and the routing tables below) are in [`docs/retrieval_gating_taxonomy.md`](docs/retrieval_gating_taxonomy.md).
 
 ### Routing policy
-- **>= 75**: auto-include
-- **45–74.99**: review queue
-- **< 45**: reject
+| Tier | Peer-reviewed | Preprint (arXiv etc.) |
+|---|---|---|
+| **Auto-include** | total ≥ **60.0** | total ≥ **35.0** |
+| **Review queue** | 45.0 – 59.99 | 20.0 – 34.99 |
+| **Reject** | < 45.0 | < 20.0 |
+
+Preprints route on a separate ladder because they structurally lack venue/citation/institution signal. Detection rule: `discovery_source ∈ {arXiv, arXiv RSS}`.
 
 Alex **prefers omission over contamination**. If quality cannot be verified, the record should not enter the public corpus.
 
@@ -88,13 +86,16 @@ Alex **prefers omission over contamination**. If quality cannot be verified, the
 
 Alex expands the corpus via:
 
-- **backward chaining**: references cited by accepted seed papers
-- **forward chaining**: papers citing accepted seed papers
-- **author chaining**: related papers by trusted authors
+- **forward chaining (OpenAlex):** title-search OpenAlex → for each hit, fetch its `cited_by_api_url` and add the citing works as new candidates.
+- **backward chaining (Semantic Scholar, gated):** title-search S2 → for each hit, fetch up to N references and add them as new candidates. Skipped when `SEMANTIC_SCHOLAR_API_KEY` is unset to avoid a flood of 429s.
 
-Primary graph sources:
-- OpenAlex
-- Semantic Scholar
+Defaults: top-100 seeds by citation count, 8-way concurrency across seeds, 3 search hits × 5 cited-by/refs each per seed. All limits are tunable via `connectors.openalex.citation_chain_*` and `connectors.semantic_scholar.citation_chain_*` in `config/query_registry.json`. Author chaining is in the v2.1 spec but not implemented today.
+
+Primary graph sources: OpenAlex (forward) + Semantic Scholar (backward).
+
+## Classification taxonomy
+
+The LLM classifier (`gpt-4o-mini` by default) tags each accepted paper with `Category`, `Investigation_Type`, `OSINT_Source_Types`, `Keywords`, `Tags`, and `Quality_Tier`. The full taxonomy and prompt live in [`docs/retrieval_gating_taxonomy.md`](docs/retrieval_gating_taxonomy.md). `Seminal_Flag` is set independently — `TRUE` iff `citation_count ≥ 500`.
 
 ## Outputs
 
