@@ -65,7 +65,7 @@ _RELEVANCE_STOPWORDS = {
 }
 
 
-def _query_keywords(queries: list[str]) -> set[str]:
+def query_keywords(queries: list[str]) -> set[str]:
     """Extract meaningful keywords from query phrases for relevance matching.
 
     Tokenises each query on whitespace, drops stopwords, and keeps tokens >= 3
@@ -80,9 +80,25 @@ def _query_keywords(queries: list[str]) -> set[str]:
     return keywords
 
 
+def title_matches_keywords(title: Any, keywords: set[str]) -> bool:
+    """Cheap title-only relevance check used to filter citation-chain
+    candidates before they enter discovery_candidates.csv.
+
+    Forward-chaining via OpenAlex/S2 returns titles only (no abstract), so
+    `relevance_score` would always score these near zero. Filtering here
+    prevents the noise pool from being created in the first place.
+    """
+    if not keywords:
+        return True
+    text = clean(title).lower()
+    if not text:
+        return False
+    return any(k in text for k in keywords)
+
+
 def relevance_score(title: Any, abstract: Any, queries: list[str]) -> float:
     haystack = f"{clean(title)} {clean(abstract)}".lower()
-    keywords = _query_keywords(queries)
+    keywords = query_keywords(queries)
     if not keywords:
         return 0.0
     hits = sum(1 for k in keywords if k in haystack)

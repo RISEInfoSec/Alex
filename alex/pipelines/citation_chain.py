@@ -4,9 +4,10 @@ import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 import pandas as pd
-from alex.utils.io import load_df, save_df, root_file
+from alex.utils.io import load_df, save_df, load_json, root_file
 from alex.utils.http import HttpClient
 from alex.utils.text import normalize_title, clean
+from alex.utils.scoring import query_keywords, title_matches_keywords
 from alex.utils import connector_config
 from alex.connectors import openalex, semantic_scholar
 
@@ -60,6 +61,18 @@ def run() -> None:
         )
         enable_s2 = False
 
+    # Topic gate. Forward-chained candidates ship with no abstract — the gate
+    # later sees title only, scores relevance ~0, and the citation+venue
+    # signal alone clears the review threshold. Pre-filtering at chain time
+    # by title keyword stops the noise pool from forming. Empty keyword set
+    # disables the filter (e.g. tests with no query registry).
+    registry_path = root_file("config", "query_registry.json")
+    topic_keywords = (
+        query_keywords(load_json(registry_path).get("queries", []))
+        if registry_path.exists()
+        else set()
+    )
+
     oa_search_limit = int(
         connector_config.setting(config, "openalex", "citation_chain_search_limit", DEFAULT_OA_SEARCH_LIMIT)
         or DEFAULT_OA_SEARCH_LIMIT
@@ -97,6 +110,7 @@ def run() -> None:
                 client, title, mailto,
                 oa_search_limit, oa_cited_by_limit,
                 enable_s2, s2_key, ss_search_limit, ss_refs_limit,
+                topic_keywords,
             )
             for title in candidate_titles
         ]
@@ -137,6 +151,7 @@ def _chain_one_candidate(
     s2_key: str,
     ss_search_limit: int,
     ss_refs_limit: int,
+    topic_keywords: set[str],
 ) -> list[dict[str, Any]]:
     """Forward-chain via OpenAlex cited_by + (optionally) backward-chain via S2.
 
@@ -156,6 +171,8 @@ def _chain_one_candidate(
         for cited in openalex.fetch_cited_by(client, cited_by_url)[:oa_cited_by_limit]:
             ct = clean(cited.get("title"))
             if not ct:
+                continue
+            if not title_matches_keywords(ct, topic_keywords):
                 continue
             out.append({
                 "title": ct,
@@ -188,6 +205,8 @@ def _chain_one_candidate(
                 continue
             rt = clean(paper["title"])
             if not rt:
+                continue
+            if not title_matches_keywords(rt, topic_keywords):
                 continue
             ext = paper.get("externalIds") or {}
             out.append({

@@ -46,6 +46,14 @@ def run() -> None:
     # relevance + institution bonus.
     preprint_auto = float(weights.get("preprint_auto_include_threshold", auto_include))
     preprint_review = float(weights.get("preprint_review_threshold", review_cutoff))
+    # Relevance veto. Papers with relevance_score below this floor are rejected
+    # outright regardless of total score. Catches the common citation-chain
+    # failure mode where a high-citation, decent-venue paper with zero topic
+    # overlap clears the gate on prestige alone (e.g. cardiology guidelines,
+    # capital-structure economics, biology surveys cited by an OSINT paper).
+    # Default 1.0 means "must score *some* relevance" — i.e. the title or
+    # abstract has to contain at least one query keyword.
+    relevance_floor = float(weights.get("relevance_floor", 0.0))
 
     for i, (_, row) in enumerate(df.iterrows()):
         v = venue_score(row.get("venue", ""), whitelist)
@@ -85,7 +93,13 @@ def run() -> None:
         out["relevance_score"] = round(r * 100, 2)
         out["total_quality_score"] = round(total, 2)
 
-        if total >= t_auto:
+        # Relevance veto runs *before* the threshold cascade. A paper with no
+        # topic overlap cannot be saved by venue+citation prestige alone.
+        if out["relevance_score"] < relevance_floor:
+            out["review_reason"] = "Below relevance floor"
+            out["recommended_action"] = "reject"
+            rejected.append(out)
+        elif total >= t_auto:
             out["review_reason"] = ""
             out["recommended_action"] = "auto-include"
             accepted.append(out)

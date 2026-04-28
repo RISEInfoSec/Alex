@@ -1,4 +1,12 @@
-from alex.utils.scoring import venue_score, citation_score, institution_score, relevance_score, is_preprint
+from alex.utils.scoring import (
+    venue_score,
+    citation_score,
+    institution_score,
+    relevance_score,
+    is_preprint,
+    query_keywords,
+    title_matches_keywords,
+)
 
 
 class TestIsPreprint:
@@ -90,3 +98,31 @@ class TestRelevanceScore:
 
     def test_empty_title_and_abstract(self):
         assert relevance_score("", "", ["OSINT"]) == 0.0
+
+
+class TestQueryKeywords:
+    def test_drops_stopwords_and_short_tokens(self):
+        kws = query_keywords(["the OSINT methodology in research"])
+        # "the" and "in" are stopwords; everything else >= 3 chars stays
+        assert "osint" in kws
+        assert "methodology" in kws
+        assert "research" in kws
+        assert "the" not in kws
+        assert "in" not in kws
+
+
+class TestTitleMatchesKeywords:
+    def test_match_passes(self):
+        kws = {"osint", "cybersecurity"}
+        assert title_matches_keywords("OSINT methodology for analysts", kws) is True
+
+    def test_no_match_fails(self):
+        kws = {"osint", "cybersecurity"}
+        assert title_matches_keywords("Capital structure in SMEs", kws) is False
+
+    def test_empty_keyword_set_disables_filter(self):
+        # Tests / pipelines without a query registry should not be blocked.
+        assert title_matches_keywords("Anything", set()) is True
+
+    def test_empty_title_fails(self):
+        assert title_matches_keywords("", {"osint"}) is False

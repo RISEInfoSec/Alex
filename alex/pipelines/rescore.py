@@ -71,6 +71,7 @@ def run() -> None:
     institution_bonus = float(weights.get("institution_bonus", 0.0))
     auto_include = float(weights["auto_include_threshold"])
     preprint_auto = float(weights.get("preprint_auto_include_threshold", auto_include))
+    relevance_floor = float(weights.get("relevance_floor", 0.0))
     run_id = uuid4().hex
 
     rescored_rows = []
@@ -102,8 +103,12 @@ def run() -> None:
 
     rescored = pd.DataFrame(rescored_rows)
 
-    # Per-row auto-include threshold. Preprints on their own ladder.
+    # Per-row auto-include threshold. Preprints on their own ladder. Relevance
+    # floor applies regardless of preprint vs regular — same veto as the
+    # quality_gate stage so post-harvest demotions stay consistent.
     def _passes(row) -> bool:
+        if row["relevance_score"] < relevance_floor:
+            return False
         threshold = preprint_auto if row["is_preprint"] else auto_include
         return row["total_quality_score"] >= threshold
 

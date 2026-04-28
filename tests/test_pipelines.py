@@ -108,6 +108,51 @@ class TestQualityGate:
         assert preprint_row["recommended_action"] == "auto-include"
         assert non_preprint_row["recommended_action"] in ("human review", "reject")
 
+    def test_relevance_floor_rejects_off_topic_high_score(self, tmp_path):
+        """A paper with strong venue+citation signal but zero topic overlap
+        must be rejected by the relevance floor — not promoted on prestige
+        alone. Prevents the 'cited-by noise' failure mode (cardiology
+        guidelines, capital-structure economics, biology surveys, etc.)."""
+        candidates = pd.DataFrame([
+            {"title": "Capital Structure in SMEs", "authors": "Some Researcher",
+             "year": "2024", "venue": "IEEE Journal of Finance", "doi": "10.1/x",
+             "abstract": "", "source_url": "", "discovery_source": "OpenAlex citation chain",
+             "discovery_query": "OSINT", "inclusion_path": "forward chaining",
+             "citation_count": 2000, "reference_count": 0},
+        ])
+        (tmp_path / "data").mkdir(parents=True)
+        candidates.to_csv(tmp_path / "data" / "discovery_candidates.csv", index=False)
+
+        config_dir = tmp_path / "config"
+        config_dir.mkdir()
+        (config_dir / "venue_whitelist.json").write_text(json.dumps({"high_trust": ["IEEE"]}))
+        (config_dir / "query_registry.json").write_text(json.dumps({"queries": ["OSINT", "cybersecurity"]}))
+        (config_dir / "quality_weights.json").write_text(json.dumps({
+            "venue": 0.35, "citations": 0.40, "relevance": 0.25,
+            "institution_bonus": 10.0,
+            "auto_include_threshold": 60.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
+            "relevance_floor": 1.0,
+        }))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            quality_gate.run()
+
+        metrics = pd.read_csv(tmp_path / "data" / "quality_metrics.csv")
+        assert metrics.iloc[0]["recommended_action"] == "reject"
+        assert metrics.iloc[0]["review_reason"] == "Below relevance floor"
+        assert metrics.iloc[0]["relevance_score"] == 0.0
+        # The total score is high (citation+venue alone gets it past auto),
+        # but the floor catches it before the threshold cascade.
+        assert metrics.iloc[0]["total_quality_score"] >= 60.0
+        # And it must NOT be in the harvest enrichment pool. Empty CSV is the
+        # expected output here — no rows accepted at all.
+        from alex.utils.io import load_df
+        accepted = load_df(tmp_path / "data" / "accepted_candidates.csv")
+        assert accepted.empty
+
 
 class TestPublish:
     def test_json_output_structure(self, tmp_path):
@@ -1337,6 +1382,44 @@ class TestRescore:
         assert "OSINT" in accepted.iloc[0]["title"]
         # rescore_metrics keeps both rows for audit
         assert len(metrics) == 2
+
+    def test_relevance_floor_demotes_off_topic(self, tmp_path):
+        # Same shape as quality_gate's floor test: a citation-chain pull with
+        # high venue + citations + zero relevance must be demoted by rescore,
+        # not slipped into the auto-include set on prestige alone.
+        harvested = pd.DataFrame([{
+            "title": "Capital Structure in SMEs",
+            "authors": "X", "year": "2024", "venue": "IEEE Journal of Finance",
+            "doi": "10.1/zzz", "abstract": "",
+            "source_url": "", "discovery_source": "OpenAlex citation chain",
+            "citation_count": 2000, "is_preprint": False,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        config_dir = tmp_path / "config"
+        config_dir.mkdir()
+        (config_dir / "venue_whitelist.json").write_text(json.dumps({"high_trust": ["IEEE"]}))
+        (config_dir / "query_registry.json").write_text(json.dumps({"queries": ["OSINT", "cybersecurity"]}))
+        (config_dir / "quality_weights.json").write_text(json.dumps({
+            "venue": 0.35, "citations": 0.40, "relevance": 0.25,
+            "institution_bonus": 10.0,
+            "auto_include_threshold": 60.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
+            "relevance_floor": 1.0,
+        }))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            rescore.run()
+
+        accepted = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        metrics = pd.read_csv(tmp_path / "data" / "rescore_metrics.csv")
+        # Demoted: drops out of accepted_harvested even though total >= auto.
+        assert accepted.empty
+        # Audit row still present in rescore_metrics.
+        assert len(metrics) == 1
+        assert metrics.iloc[0]["relevance_score"] == 0.0
 
     def test_preprint_threshold_applied(self, tmp_path):
         # An arXiv preprint with no citations but relevant title clears the
