@@ -20,6 +20,7 @@ from uuid import uuid4
 import pandas as pd
 
 from alex.utils.io import load_df, save_df, load_json, root_file
+from alex.utils.text import clean
 from alex.utils.scoring import (
     venue_score,
     citation_score,
@@ -109,7 +110,15 @@ def run() -> None:
     # Per-row auto-include threshold. Preprints on their own ladder. Anchor-term
     # and relevance-floor vetoes apply regardless of preprint vs regular — same
     # behaviour as quality_gate so post-harvest demotions stay consistent.
+    # Empty-abstract veto: a paper that survived harvest without an abstract
+    # has nothing useful to ship to classify or to a corpus reader. The model
+    # would default to Category="Other" on title alone (per Apr 28 sample,
+    # ~50% empty abstracts → Other), and the site would render an entry with
+    # no summary. Drop here, post-harvest, where we know the gap couldn't
+    # be filled by Crossref/OpenAlex/S2.
     def _passes(row) -> bool:
+        if not (clean(row.get("abstract", ""))):
+            return False
         if not has_core_term(row.get("title", ""), row.get("abstract", ""), core_terms):
             return False
         if row["relevance_score"] < relevance_floor:

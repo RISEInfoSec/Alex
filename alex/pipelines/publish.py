@@ -3,6 +3,26 @@ import pandas as pd
 from alex.utils.io import load_df, save_df, save_json, root_file
 from alex.utils.text import split_multi
 
+
+def _quality_tier(score: object) -> str:
+    """Derive a display-tier from total_quality_score.
+
+    Replaces the LLM-assigned Quality_Tier (which always returned "Standard"
+    because the prompt offered no criteria). Bands chosen to match the
+    distribution observed Apr 25–28: most papers cluster 50–70, so 75+ is
+    the meaningful "high quality" cut and <60 separates exploratory work.
+    """
+    try:
+        s = float(score) if score not in ("", None) else 0.0
+    except (TypeError, ValueError):
+        s = 0.0
+    if s >= 75:
+        return "High"
+    if s >= 60:
+        return "Standard"
+    return "Exploratory"
+
+
 def run() -> None:
     public_csv = root_file("data", "osint_cyber_papers.csv")
     papers_json = root_file("data", "papers.json")
@@ -44,7 +64,7 @@ def run() -> None:
             "source_url": src,
             "doi": doi,
             "seminal": str(row.get("Seminal_Flag", "FALSE")).upper() == "TRUE",
-            "quality_tier": row.get("Quality_Tier", "Standard"),
+            "quality_tier": _quality_tier(row.get("total_quality_score", 0)),
         })
     save_json(papers_json, papers)
     print(f"Published {len(papers)} papers")

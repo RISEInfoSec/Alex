@@ -15,16 +15,90 @@ logger = logging.getLogger(__name__)
 # and the OpenAI API requires POST, not GET.
 OPENAI_URL = "https://api.openai.com/v1/responses"
 
-PROMPT = """
-Classify this OSINT / cyber investigation paper into:
-- Category (e.g., Digital Forensics, Threat Intelligence, OSINT Methodology, Network Security, Privacy & Surveillance, Cybercrime, Other)
-- Investigation_Type (e.g., Network Investigation, Social Media Analysis, Dark Web Analysis, Malware Analysis, Attribution, Other)
-- OSINT_Source_Types (list, e.g., Social Media, Public Records, Dark Web, DNS/WHOIS, Satellite Imagery, Government Data)
-- Keywords (list of key terms)
-- Tags (list of miscellaneous labels)
-- Quality_Tier (one of: Seminal, High, Standard, Exploratory)
-Return JSON only.
-"""
+# Fixed enum: Category buckets. Picked from labels the model itself produced
+# when classify worked (Apr 25 corpus) plus gaps for research areas that
+# weren't getting their own bucket. Keep this list closed — every change
+# affects how downstream consumers (the site, search, filters) bucket papers.
+# When "Other" exceeds ~20% of a run, that's a signal to add a category, not
+# silently drift on the model's whim.
+CATEGORIES = [
+    "OSINT Methodology",
+    "Social Media & SOCMINT",
+    "Dark Web & Underground",
+    "Cyber Threat Intelligence",
+    "Digital Forensics & Evidence",
+    "Malware & Exploits",
+    "Vulnerability Research",
+    "Disinformation & Influence",
+    "Cybercrime & Fraud",
+    "Network & Infrastructure Security",
+    "IoT & CPS Security",
+    "Privacy & Surveillance",
+    "AI/ML for Security",
+    "Foundations & Surveys",
+    "Other",
+]
+
+INVESTIGATION_TYPES = [
+    "Network Investigation",
+    "Social Media Analysis",
+    "Dark Web Analysis",
+    "Malware Analysis",
+    "Attribution",
+    "Phishing Analysis",
+    "Forensic Investigation",
+    "Threat Hunting",
+    "Vulnerability Assessment",
+    "Incident Response",
+    "Other",
+]
+
+OSINT_SOURCE_TYPES = [
+    "Social Media",
+    "Public Records",
+    "Dark Web",
+    "DNS/WHOIS",
+    "Satellite Imagery",
+    "Government Data",
+    "News Media",
+    "Forums & Communities",
+    "Code Repositories",
+    "Corporate Records",
+    "Court Records",
+    "Academic Literature",
+    "Leaked Data",
+    "Other",
+]
+
+# OpenAI structured-output schema. With strict=True every property must be
+# in `required` and `additionalProperties: false` is mandatory. The enums
+# guarantee Category/Investigation_Type/source-types come back from the
+# fixed lists above — no more model-invented near-duplicates.
+CLASSIFICATION_SCHEMA = {
+    "type": "object",
+    "additionalProperties": False,
+    "required": ["Category", "Investigation_Type", "OSINT_Source_Types", "Keywords", "Tags"],
+    "properties": {
+        "Category": {"type": "string", "enum": CATEGORIES},
+        "Investigation_Type": {"type": "string", "enum": INVESTIGATION_TYPES},
+        "OSINT_Source_Types": {
+            "type": "array",
+            "items": {"type": "string", "enum": OSINT_SOURCE_TYPES},
+        },
+        "Keywords": {"type": "array", "items": {"type": "string"}},
+        "Tags": {"type": "array", "items": {"type": "string"}},
+    },
+}
+
+PROMPT = (
+    "You classify OSINT and cyber-investigation papers. Read the paper's "
+    "title, abstract, venue, and authors, then return a JSON object that "
+    "matches the supplied schema. Pick the single best Category and "
+    "Investigation_Type from the enums; use 'Other' only when no listed "
+    "value reasonably fits. OSINT_Source_Types must be an array of values "
+    "from the source-type enum (use [] when no specific source applies). "
+    "Keywords and Tags are free-form short strings."
+)
 
 FALLBACK = {
     "Category": "Other",
@@ -32,7 +106,6 @@ FALLBACK = {
     "OSINT_Source_Types": [],
     "Keywords": [],
     "Tags": [],
-    "Quality_Tier": "Standard",
 }
 
 # Account-level OpenAI failures that will not recover on retry. We raise
@@ -84,6 +157,18 @@ def call_openai(row: dict) -> dict:
             {"role": "system", "content": [{"type": "input_text", "text": PROMPT}]},
             {"role": "user", "content": [{"type": "input_text", "text": json.dumps(row, ensure_ascii=False)}]},
         ],
+        # Structured outputs: forces the model to return JSON conforming
+        # to CLASSIFICATION_SCHEMA. With strict=True the model can't drift
+        # on Category/Investigation_Type/source-types — values come from
+        # the fixed enums or the request fails server-side.
+        "text": {
+            "format": {
+                "type": "json_schema",
+                "name": "PaperClassification",
+                "schema": CLASSIFICATION_SCHEMA,
+                "strict": True,
+            },
+        },
     }
     title = row.get("title", "")
     try:
@@ -222,7 +307,9 @@ def run() -> None:
             out["OSINT_Source_Types"] = "; ".join(unique_keep(tags.get("OSINT_Source_Types", [])))
             out["Keywords"] = "; ".join(unique_keep(tags.get("Keywords", [])))
             out["Tags"] = "; ".join(unique_keep(tags.get("Tags", [])))
-            out["Quality_Tier"] = tags.get("Quality_Tier", "Standard")
+            # Quality_Tier is no longer asked of the LLM (it always
+            # returned "Standard"). publish.py derives the tier deterministically
+            # from total_quality_score so the field stays available to consumers.
             out["Seminal_Flag"] = "TRUE" if _safe_citation_count(row) >= 500 else "FALSE"
             rows.append(out)
 

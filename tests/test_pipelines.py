@@ -208,7 +208,9 @@ class TestPublish:
             "Investigation_Type": "Network Investigation",
             "OSINT_Source_Types": "Social Media; DNS/WHOIS",
             "Keywords": "OSINT; network", "Tags": "review",
-            "Seminal_Flag": "TRUE", "Quality_Tier": "High",
+            "Seminal_Flag": "TRUE",
+            # quality_tier is now derived from total_quality_score, not stored.
+            "total_quality_score": 80,
         }])
         classified_path = tmp_path / "data" / "accepted_classified.csv"
         classified_path.parent.mkdir(parents=True)
@@ -316,7 +318,9 @@ class TestClassify:
         result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
         assert len(result) == 1
         assert result.iloc[0]["Category"] == "Other"
-        assert result.iloc[0]["Quality_Tier"] == "Standard"
+        # Quality_Tier is no longer set on classified rows (publish derives it
+        # from total_quality_score). The fallback path still sets the other
+        # required fields and the code-driven Seminal_Flag.
         # 600 citations >= 500 threshold
         assert str(result.iloc[0]["Seminal_Flag"]).upper() == "TRUE"
 
@@ -340,7 +344,7 @@ class TestClassify:
                 "status": "completed",
                 "content": [{
                     "type": "output_text",
-                    "text": '{"Category":"Digital Forensics","Investigation_Type":"Dark Web Analysis","OSINT_Source_Types":["Dark Web"],"Keywords":["dark web"],"Tags":["forensics"],"Quality_Tier":"High"}',
+                    "text": '{"Category":"Digital Forensics & Evidence","Investigation_Type":"Dark Web Analysis","OSINT_Source_Types":["Dark Web"],"Keywords":["dark web"],"Tags":["forensics"]}',
                 }],
                 "role": "assistant",
             }],
@@ -354,9 +358,48 @@ class TestClassify:
 
         # Bug repro: previously this returned FALLBACK ({"Category": "Other", ...})
         # because `data["output_text"]` was empty and the code stopped there.
-        assert result["Category"] == "Digital Forensics"
+        assert result["Category"] == "Digital Forensics & Evidence"
         assert result["Investigation_Type"] == "Dark Web Analysis"
-        assert result["Quality_Tier"] == "High"
+
+    def test_call_openai_sends_json_schema_with_enum(self):
+        """Strict json_schema enforcement is the only thing keeping Category /
+        Investigation_Type from drifting back to model-invented near-duplicates
+        (e.g. 'Cyber Threat Intelligence ' with trailing space, or 'DDoS attack
+        prediction'). Verify the request body actually carries the schema with
+        the enum constraints, not just free-form text."""
+        from unittest.mock import MagicMock as _MM
+        from alex.pipelines import classify as classify_mod
+
+        captured: dict = {}
+
+        def _capture(url, headers, json, timeout):
+            captured["body"] = json
+            mr = _MM()
+            mr.ok = True
+            mr.json.return_value = {
+                "output": [{"content": [{"text": '{"Category":"Other","Investigation_Type":"Other","OSINT_Source_Types":[],"Keywords":[],"Tags":[]}'}]}],
+                "output_text": "",
+                "usage": {},
+            }
+            return mr
+
+        with patch("alex.pipelines.classify.requests.post", side_effect=_capture), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": "sk-test"}, clear=False):
+            classify_mod.call_openai({"title": "x", "abstract": "y"})
+
+        text_format = captured["body"]["text"]["format"]
+        assert text_format["type"] == "json_schema"
+        assert text_format["strict"] is True
+        schema = text_format["schema"]
+        # Category and Investigation_Type must carry enum constraints; without
+        # these the model will drift back to invented labels.
+        assert "Other" in schema["properties"]["Category"]["enum"]
+        assert "OSINT Methodology" in schema["properties"]["Category"]["enum"]
+        assert "Cyber Threat Intelligence" in schema["properties"]["Category"]["enum"]
+        assert "Network Investigation" in schema["properties"]["Investigation_Type"]["enum"]
+        # Strict mode requires every property in `required` and additionalProperties=False.
+        assert schema["additionalProperties"] is False
+        assert set(schema["required"]) == set(schema["properties"].keys())
 
     def test_call_openai_prefers_top_level_output_text_when_present(self):
         """Back-compat: if a future API version (or model) populates the
@@ -368,7 +411,7 @@ class TestClassify:
         mock_response = _MM()
         mock_response.ok = True
         mock_response.json.return_value = {
-            "output_text": '{"Category":"Threat Intelligence","Investigation_Type":"Other","OSINT_Source_Types":[],"Keywords":[],"Tags":[],"Quality_Tier":"Standard"}',
+            "output_text": '{"Category":"Cyber Threat Intelligence","Investigation_Type":"Other","OSINT_Source_Types":[],"Keywords":[],"Tags":[]}',
             "output": [],
             "usage": {"input_tokens": 10, "output_tokens": 5, "total_tokens": 15},
         }
@@ -377,7 +420,7 @@ class TestClassify:
              patch.dict("os.environ", {"OPENAI_API_KEY": "sk-test"}, clear=False):
             result = classify_mod.call_openai({"title": "x", "abstract": "y"})
 
-        assert result["Category"] == "Threat Intelligence"
+        assert result["Category"] == "Cyber Threat Intelligence"
 
     def test_classify_with_mocked_openai(self, tmp_path):
         """With a mocked OpenAI response, classify populates fields correctly."""
@@ -396,12 +439,11 @@ class TestClassify:
         harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
 
         mock_llm_response = {
-            "Category": "Digital Forensics",
+            "Category": "Digital Forensics & Evidence",
             "Investigation_Type": "Dark Web Analysis",
             "OSINT_Source_Types": ["Dark Web", "Public Records"],
             "Keywords": ["dark web", "marketplace"],
             "Tags": ["forensics"],
-            "Quality_Tier": "High",
         }
 
         with patch("alex.utils.io.ROOT", tmp_path), \
@@ -413,9 +455,9 @@ class TestClassify:
 
         result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
         assert len(result) == 1
-        assert result.iloc[0]["Category"] == "Digital Forensics"
+        assert result.iloc[0]["Category"] == "Digital Forensics & Evidence"
         assert result.iloc[0]["Investigation_Type"] == "Dark Web Analysis"
-        assert result.iloc[0]["Quality_Tier"] == "High"
+        # Quality_Tier is no longer set on classified rows.
         assert "Dark Web" in result.iloc[0]["OSINT_Source_Types"]
 
     def test_classify_missing_columns_raises(self, tmp_path):
@@ -1486,6 +1528,43 @@ class TestRescore:
         assert "OSINT" in accepted.iloc[0]["title"]
         # rescore_metrics keeps both rows for audit
         assert len(metrics) == 2
+
+    def test_empty_abstract_drops_paper(self, tmp_path):
+        # A paper that survived harvest without an abstract has nothing useful
+        # for classify (model defaults to Category="Other" on title alone) or
+        # for a corpus reader (no summary on the site). Drop it post-rescore.
+        harvested = pd.DataFrame([{
+            "title": "OSINT methodology survey",
+            "authors": "A", "year": "2025", "venue": "IEEE S&P",
+            "doi": "10.1/x", "abstract": "",  # empty after harvest
+            "source_url": "", "discovery_source": "OpenAlex",
+            "citation_count": 100, "is_preprint": False,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        config_dir = tmp_path / "config"
+        config_dir.mkdir()
+        (config_dir / "venue_whitelist.json").write_text(json.dumps({"high_trust": ["IEEE"]}))
+        (config_dir / "query_registry.json").write_text(json.dumps({
+            "queries": ["OSINT", "cybersecurity"],
+            "core_keywords": ["osint", "cyber"],
+        }))
+        (config_dir / "quality_weights.json").write_text(json.dumps({
+            "venue": 0.35, "citations": 0.40, "relevance": 0.25,
+            "institution_bonus": 10.0,
+            "auto_include_threshold": 60.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
+            "relevance_floor": 1.0,
+        }))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            rescore.run()
+
+        accepted = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
+        # Empty-abstract paper is dropped despite passing relevance and core-term.
+        assert accepted.empty
 
     def test_relevance_floor_demotes_off_topic(self, tmp_path):
         # Same shape as quality_gate's floor test: a citation-chain pull with
