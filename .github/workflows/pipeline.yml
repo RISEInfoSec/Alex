@@ -63,7 +63,16 @@ jobs:
         run: |
           SUMMARY=$(python -m alex.cli rescore | tail -n1)
           echo "$SUMMARY"
+          # .rescore_window.json carries the run_id that classify uses to
+          # remove demoted papers from the existing corpus. Within this
+          # single Pipeline job the file persists on the runner's disk
+          # between steps and the commit isn't strictly required, but
+          # committing it keeps the standalone rescore.yml -> classify.yml
+          # path correct (separate runners, no shared disk). Use -A so an
+          # empty-input rescore that unlinked the file also stages the
+          # deletion.
           git add data/accepted_harvested.csv data/rescore_metrics.csv
+          git add -A data/.rescore_window.json
           git diff --cached --quiet || git commit -m "Post-harvest rescore: ${SUMMARY:-no summary}"
           git push || (git pull --rebase --autostash && git push)
       - name: Classify
@@ -72,7 +81,10 @@ jobs:
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
         run: |
           python -m alex.cli classify
+          # classify.py unlinks .rescore_window.json after using it; stage
+          # the deletion so a stale token doesn't persist into next week.
           git add data/accepted_classified.csv
+          git add -A data/.rescore_window.json
           git diff --cached --quiet || git commit -m "Classify accepted papers"
           git push || (git pull --rebase --autostash && git push)
       - name: Publish

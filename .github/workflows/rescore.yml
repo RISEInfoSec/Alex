@@ -20,6 +20,13 @@ jobs:
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # .rescore_window.json must be committed: when classify.yml runs
+          # next on a different runner, it has no other way to see the
+          # current rescore run_id, and falls back to a partial replacement
+          # that leaves demoted papers in the corpus. Use -A so an
+          # empty-input rescore that unlinked the file also stages the
+          # deletion.
           git add data/accepted_harvested.csv data/rescore_metrics.csv
+          git add -A data/.rescore_window.json
           git diff --cached --quiet || git commit -m "Post-harvest rescore"
           git push

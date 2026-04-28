@@ -23,6 +23,10 @@ jobs:
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # classify.py unlinks .rescore_window.json after using it; stage
+          # that deletion so the next standalone rescore writes a fresh
+          # token instead of inheriting the previous one.
           git add data/accepted_classified.csv
+          git add -A data/.rescore_window.json
           git diff --cached --quiet || git commit -m "Classify accepted papers"
           git push
