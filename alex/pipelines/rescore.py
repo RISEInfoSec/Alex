@@ -15,6 +15,7 @@ Output: data/accepted_harvested.csv   (filtered to auto-include tier)
 from __future__ import annotations
 import json
 import logging
+from datetime import datetime, timezone
 from uuid import uuid4
 
 import pandas as pd
@@ -30,6 +31,7 @@ from alex.utils.scoring import (
     safe_int_year,
     is_preprint,
     has_core_term,
+    effective_thresholds,
 )
 
 logger = logging.getLogger(__name__)
@@ -73,9 +75,8 @@ def run() -> None:
     weights = load_json(root_file("config", "quality_weights.json"))
 
     institution_bonus = float(weights.get("institution_bonus", 0.0))
-    auto_include = float(weights["auto_include_threshold"])
-    preprint_auto = float(weights.get("preprint_auto_include_threshold", auto_include))
     relevance_floor = float(weights.get("relevance_floor", 0.0))
+    current_year = datetime.now(timezone.utc).year
     run_id = uuid4().hex
 
     rescored_rows = []
@@ -123,7 +124,11 @@ def run() -> None:
             return False
         if row["relevance_score"] < relevance_floor:
             return False
-        threshold = preprint_auto if row["is_preprint"] else auto_include
+        # Recent non-preprints share the preprint threshold (see
+        # effective_thresholds): a paper published this year structurally
+        # has no citations, so holding it to the 60-point standard bar
+        # drops everything new from the corpus until citations catch up.
+        threshold, _ = effective_thresholds(row, weights, current_year)
         return row["total_quality_score"] >= threshold
 
     accepted_df: pd.DataFrame = rescored[rescored.apply(_passes, axis=1)]

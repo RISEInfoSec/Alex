@@ -161,3 +161,108 @@ class TestHasCoreTerm:
 
     def test_empty_inputs_with_nonempty_core(self):
         assert has_core_term("", "", self.CORE) is False
+
+
+class TestEffectiveThresholds:
+    """Cascade for the auto-include / review thresholds: preprint > recent > standard.
+    `recent_paper_window_years` shares the preprint ladder with non-preprint
+    papers from the last N years so freshly published work doesn't fail the
+    citation-weighted gate just because no one has cited it yet."""
+
+    BASE_WEIGHTS = {
+        "auto_include_threshold": 60.0,
+        "review_threshold": 45.0,
+        "preprint_auto_include_threshold": 35.0,
+        "preprint_review_threshold": 20.0,
+    }
+
+    def test_standard_paper_uses_standard_thresholds(self):
+        from alex.utils.scoring import effective_thresholds
+        weights = {**self.BASE_WEIGHTS, "recent_paper_window_years": 1}
+        # Old paper from a journal — no special handling.
+        row = {"discovery_source": "OpenAlex", "year": "2018"}
+        assert effective_thresholds(row, weights, current_year=2026) == (60.0, 45.0)
+
+    def test_preprint_uses_preprint_thresholds(self):
+        from alex.utils.scoring import effective_thresholds
+        weights = {**self.BASE_WEIGHTS, "recent_paper_window_years": 0}
+        # arXiv preprint, even if old, rides the low-citation ladder.
+        row = {"discovery_source": "arXiv", "year": "2018"}
+        assert effective_thresholds(row, weights, current_year=2026) == (35.0, 20.0)
+
+    def test_recent_non_preprint_uses_preprint_thresholds(self):
+        from alex.utils.scoring import effective_thresholds
+        weights = {**self.BASE_WEIGHTS, "recent_paper_window_years": 1}
+        # 2026 paper in a journal — recent so it shares the preprint ladder.
+        # This is the regression-fix case: pre-Apr-28 these papers got
+        # dropped from the corpus en masse because they had 0 citations
+        # and the standard 60-point bar was unreachable.
+        row = {"discovery_source": "OpenAlex", "year": "2026"}
+        assert effective_thresholds(row, weights, current_year=2026) == (35.0, 20.0)
+
+    def test_window_zero_disables_recent_path(self):
+        from alex.utils.scoring import effective_thresholds
+        weights = {**self.BASE_WEIGHTS, "recent_paper_window_years": 0}
+        # Same row as above but window=0 restores prior strict-by-year behavior.
+        row = {"discovery_source": "OpenAlex", "year": "2026"}
+        assert effective_thresholds(row, weights, current_year=2026) == (60.0, 45.0)
+
+    def test_window_two_includes_previous_year(self):
+        from alex.utils.scoring import effective_thresholds
+        weights = {**self.BASE_WEIGHTS, "recent_paper_window_years": 2}
+        # 2025 with window=2: current_year - year = 1, < 2, qualifies.
+        row_2025 = {"discovery_source": "OpenAlex", "year": "2025"}
+        # 2024 with window=2: current_year - year = 2, NOT < 2, falls to standard.
+        row_2024 = {"discovery_source": "OpenAlex", "year": "2024"}
+        assert effective_thresholds(row_2025, weights, current_year=2026) == (35.0, 20.0)
+        assert effective_thresholds(row_2024, weights, current_year=2026) == (60.0, 45.0)
+
+    def test_missing_year_falls_through_to_standard(self):
+        from alex.utils.scoring import effective_thresholds
+        weights = {**self.BASE_WEIGHTS, "recent_paper_window_years": 1}
+        # No year on the row → can't tell if it's recent → standard threshold.
+        # Conservative default: don't admit unknown-vintage papers via the
+        # recent shortcut.
+        row = {"discovery_source": "OpenAlex", "year": ""}
+        assert effective_thresholds(row, weights, current_year=2026) == (60.0, 45.0)
+
+    def test_preprint_thresholds_default_to_standard_when_missing(self):
+        from alex.utils.scoring import effective_thresholds
+        # Back-compat: configs that don't define preprint_*_threshold should
+        # not crash; preprints fall through to standard. Same for recent.
+        weights = {"auto_include_threshold": 50.0, "review_threshold": 30.0}
+        row = {"discovery_source": "arXiv", "year": "2026"}
+        assert effective_thresholds(row, weights, current_year=2026) == (50.0, 30.0)
+
+
+class TestSafeIntYear:
+    """Year coercion across the formats CSV round-trips produce."""
+
+    def test_int_passthrough(self):
+        from alex.utils.scoring import safe_int_year
+        assert safe_int_year(2024) == 2024
+
+    def test_string_int(self):
+        from alex.utils.scoring import safe_int_year
+        assert safe_int_year("2024") == 2024
+
+    def test_string_float_with_zero_decimal(self):
+        # Regression: pandas loads numeric CSV columns as floats, so a
+        # year column round-trips as "2026.0". Pre-fix this returned None
+        # and the recency-window check fell through to the standard
+        # threshold, dropping every fresh non-preprint paper.
+        from alex.utils.scoring import safe_int_year
+        assert safe_int_year("2026.0") == 2026
+        assert safe_int_year(2026.0) == 2026
+
+    def test_fractional_non_zero_rejected(self):
+        # 2026.5 is not a year — return None rather than truncating.
+        from alex.utils.scoring import safe_int_year
+        assert safe_int_year("2026.5") is None
+
+    def test_garbage_returns_none(self):
+        from alex.utils.scoring import safe_int_year
+        assert safe_int_year("") is None
+        assert safe_int_year(None) is None
+        assert safe_int_year("forthcoming") is None
+        assert safe_int_year("2024-2025") is None

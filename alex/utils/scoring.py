@@ -19,14 +19,64 @@ def safe_float(val: Any, default: float = 0.0) -> float:
 
 
 def safe_int_year(val: Any) -> int | None:
+    """Coerce a year value to int. Accepts int/str-int/'2026.0' (pandas
+    often loads numeric CSV columns as floats), but rejects ranges,
+    fractional non-zero parts, and obvious garbage. Returns None on
+    failure so callers can fall through to defaults.
+    """
     s = clean(val)
+    if not s:
+        return None
     if s.isdigit():
         return int(s)
-    return None
+    try:
+        f = float(s)
+    except (ValueError, TypeError):
+        return None
+    if f != int(f):
+        # 2026.5 isn't a year — bail rather than truncating.
+        return None
+    return int(f)
 
 
 def is_preprint(row: Any) -> bool:
     return clean(row.get("discovery_source", "")) in PREPRINT_SOURCES
+
+
+def effective_thresholds(
+    row: Any,
+    weights: dict,
+    current_year: int,
+) -> tuple[float, float]:
+    """Return `(auto_include_threshold, review_threshold)` for this row.
+
+    The cascade has three buckets:
+    - preprint (arXiv/etc): low-citation ladder via preprint_*_threshold
+    - recent non-preprint (year within `recent_paper_window_years` of
+      current_year): same low-citation ladder. A paper published this
+      year structurally has no citations, regardless of venue type, so
+      holding it to the standard 60-point bar drops everything new from
+      the corpus until ~12 months pass and the citation_score catches up.
+      `recent_paper_window_years=0` disables, restoring prior behavior.
+    - everything else: standard auto_include_threshold / review_threshold
+
+    Defaults: preprint thresholds fall back to standard if not set.
+    """
+    standard_auto = float(weights["auto_include_threshold"])
+    standard_review = float(weights["review_threshold"])
+    preprint_auto = float(weights.get("preprint_auto_include_threshold", standard_auto))
+    preprint_review = float(weights.get("preprint_review_threshold", standard_review))
+
+    if is_preprint(row):
+        return preprint_auto, preprint_review
+
+    window = int(weights.get("recent_paper_window_years", 0) or 0)
+    if window > 0:
+        year = safe_int_year(row.get("year"))
+        if year and (current_year - year) < window:
+            return preprint_auto, preprint_review
+
+    return standard_auto, standard_review
 
 
 def venue_score(venue: Any, whitelist: list[str]) -> float:
