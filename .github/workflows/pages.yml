@@ -3,6 +3,17 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+  # GITHUB_TOKEN-authored pushes (e.g. from publish.yml's bot commit)
+  # don't fire the `push` trigger by design — GitHub blocks downstream
+  # workflows from token-authored pushes to prevent loops. So a standalone
+  # `publish.yml` run leaves the site stale until someone manually
+  # dispatches Pages. Bridge that gap by also firing on Publish completion.
+  # (The full `Pipeline` workflow handles its own deploy job and doesn't
+  # need this trigger.)
+  workflow_run:
+    workflows: ["Publish assets"]
+    types: [completed]
+    branches: [main]
 permissions:
   contents: read
   pages: write
@@ -17,11 +28,21 @@ concurrency:
   cancel-in-progress: true
 jobs:
   deploy:
+    # When triggered by a workflow_run from Publish assets, only deploy if
+    # that publish actually succeeded. Otherwise we'd redeploy on every
+    # publish failure too, masking the problem.
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
     steps:
       - uses: actions/checkout@v4
+        with:
+          # workflow_run runs check out the SHA of the workflow that
+          # triggered them by default — for us that's the SHA at the
+          # start of the Publish run, before its bot commit landed. Pin
+          # to `main` so we deploy whatever's currently on the branch.
+          ref: main
       - name: Stage site files
         run: |
           mkdir -p _site/data
