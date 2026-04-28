@@ -259,14 +259,18 @@ Secondary resolvers:
 
 ## LLM tagging
 
-After metadata harvest (preferably), classify:
-- Category
-- Investigation_Type
-- OSINT_Source_Types
-- Keywords
-- Tags
-- Seminal_Flag
-- Quality_Tier
+After metadata harvest (and post-harvest rescore), classify:
+- Category — closed enum, 15 values, see [`docs/retrieval_gating_taxonomy.md`](retrieval_gating_taxonomy.md) §5
+- Investigation_Type — closed enum, 11 values
+- OSINT_Source_Types — closed enum, 14 values (list)
+- Keywords — free-form (list)
+- Tags — free-form (list)
+
+Set independently of the LLM:
+- `Seminal_Flag` — code-set, `TRUE` iff `citation_count >= 500`
+- `Quality_Tier` — derived at publish time from `total_quality_score` (≥75 High, ≥60 Standard, else Exploratory)
+
+Enforcement is via OpenAI structured outputs (`text.format = json_schema`, `strict=true`) — the model can't drift outside the enums. See [`alex/pipelines/classify.py`](../alex/pipelines/classify.py)::`CLASSIFICATION_SCHEMA`.
 
 ### Important constraint
 LLM tagging may enrich structure, but it must not override verified bibliographic metadata.

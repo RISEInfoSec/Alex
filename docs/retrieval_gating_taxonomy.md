@@ -100,7 +100,22 @@ total = (venue_score      * 0.35
        + (10.0 if institution_score >= 0.7 else 0.0)
 ```
 
+### Vetoes (run before the threshold cascade)
+
+Two hard rejections evaluated *before* `total_quality_score` is compared to thresholds. They catch papers that score high on prestige (venue + citations) but have no actual topic overlap with the OSINT/cyber registry — the dominant noise mode caught in the 2026-04-27 cleanup (cardiology guidelines, capital-structure economics, biology toolkits, etc. arriving via forward citation chaining).
+
+| Veto | Rejection reason |
+|---|---|
+| **Anchor term** — title + abstract must contain at least one term from `config/query_registry.json::core_keywords` (cyber, osint, malware, phishing, dark web, threat intelligence, …). | `No core cyber/OSINT term` |
+| **Relevance floor** — `relevance_score >= relevance_floor` (default `1.0`, i.e. *some* registry-keyword overlap required). | `Below relevance floor` |
+
+A paper failing either veto is rejected outright regardless of `total_quality_score`. Both vetoes apply to peer-reviewed papers and preprints alike. The same vetoes also run in **Rescore** (section 4) so post-harvest demotions stay consistent.
+
+Source: `core_keywords` in `config/query_registry.json` and `relevance_floor` in `config/quality_weights.json`.
+
 ### Routing thresholds
+Applied only to candidates that survive both vetoes.
+
 | Tier              | Peer-reviewed (default) | Preprint (arXiv etc.) |
 |-------------------|-------------------------|------------------------|
 | **Auto-include** | total ≥ **60.0**        | total ≥ **35.0**       |
@@ -124,8 +139,11 @@ Discovery-time abstracts are sparse, so the initial Quality gate sees incomplete
 
 - Reads `accepted_harvested.csv`, writes the filtered set back plus an audit `rescore_metrics.csv`.
 - Uses the same scoring helpers and the **same threshold ladder** as the Quality gate (peer-reviewed 60 / preprint 35).
+- Applies the **same anchor-term and relevance-floor vetoes** as the Quality gate (section 3) so post-harvest demotions stay consistent.
+- **Drops papers with empty abstract.** A paper that survived harvest without an abstract has nothing useful for classify (LLM defaults to `Other` on title alone) or for a corpus reader (no summary on the site). Filter at rescore so we don't burn OpenAI tokens on guaranteed-`Other` classifications. Source: `_passes` in `rescore.py`.
 - Emits an empty `rescore_metrics.csv` even on empty input so downstream `git add` doesn't fail.
 - A `rescore_run_id` token is written to `.rescore_window.json` so `Classify` knows which existing classified rows to prune (the additive corpus model — papers reconsidered in the current window are removed and re-added based on the rescored verdict).
+- Standalone workflow: [`.github/workflows/rescore.yml`](../.github/workflows/rescore.yml) (`workflow_dispatch` only). The same step also runs as part of the full Pipeline.
 
 ---
 
@@ -136,26 +154,42 @@ Implemented in [`alex/pipelines/classify.py`](../alex/pipelines/classify.py).
 ### Model
 `gpt-4o-mini` via OpenAI's `/v1/responses` endpoint by default. Override with the `OPENAI_MODEL` repo variable.
 
-### Prompt taxonomy
-The prompt instructs the model to return JSON only, with these fields:
+### Output schema (strict-mode structured outputs)
+The request body sends `text.format = {"type": "json_schema", "name": "PaperClassification", "schema": CLASSIFICATION_SCHEMA, "strict": True}`. With `strict=True` the model is *required* to return a JSON object that matches the schema exactly — values for `Category`, `Investigation_Type`, and `OSINT_Source_Types` must come from the listed enums or the request fails server-side. Source: `CLASSIFICATION_SCHEMA` in `classify.py`.
 
-| Field | Cardinality | Allowed values (from prompt) |
-|-------|-------------|-------------------------------|
-| `Category`           | one of | Digital Forensics, Threat Intelligence, OSINT Methodology, Network Security, Privacy & Surveillance, Cybercrime, **Other** |
-| `Investigation_Type` | one of | Network Investigation, Social Media Analysis, Dark Web Analysis, Malware Analysis, Attribution, **Other** |
-| `OSINT_Source_Types` | list   | Social Media, Public Records, Dark Web, DNS/WHOIS, Satellite Imagery, Government Data, … |
-| `Keywords`           | list   | model-generated key terms |
-| `Tags`               | list   | model-generated misc labels |
-| `Quality_Tier`       | one of | Seminal, High, **Standard**, Exploratory |
+| Field | Cardinality | Allowed values |
+|-------|-------------|----------------|
+| `Category` | one of | OSINT Methodology, Social Media & SOCMINT, Dark Web & Underground, Cyber Threat Intelligence, Digital Forensics & Evidence, Malware & Exploits, Vulnerability Research, Disinformation & Influence, Cybercrime & Fraud, Network & Infrastructure Security, IoT & CPS Security, Privacy & Surveillance, AI/ML for Security, Foundations & Surveys, **Other** |
+| `Investigation_Type` | one of | Network Investigation, Social Media Analysis, Dark Web Analysis, Malware Analysis, Attribution, Phishing Analysis, Forensic Investigation, Threat Hunting, Vulnerability Assessment, Incident Response, **Other** |
+| `OSINT_Source_Types` | list of | Social Media, Public Records, Dark Web, DNS/WHOIS, Satellite Imagery, Government Data, News Media, Forums & Communities, Code Repositories, Corporate Records, Court Records, Academic Literature, Leaked Data, Other |
+| `Keywords` | list   | model-generated key terms (free-form) |
+| `Tags`     | list   | model-generated misc labels (free-form) |
 
-The "e.g." in the prompt means the model may emit values outside the listed options for `Category`, `Investigation_Type`, `OSINT_Source_Types`. The downstream site treats them as free-form strings — only `Other` and `Standard` have specific behaviour (the fallback values).
+When the enum doesn't reasonably fit a paper, the model selects `Other`. A run with `Other` rate above ~20% on `Category` is a signal to add a category, not to drift the enum on the model's whim — every change to the enum lists is a deliberate schema change.
+
+### Quality_Tier — derived, not LLM-set
+Through 2026-04-28, `Quality_Tier` was an LLM-set field that the model filled with `"Standard"` ~99% of the time because the prompt offered no criteria. Now derived deterministically in [`alex/pipelines/publish.py`](../alex/pipelines/publish.py)::`_quality_tier` from `total_quality_score`:
+
+| Tier | Threshold |
+|---|---|
+| `High` | total_quality_score ≥ 75 |
+| `Standard` | 60 ≤ score < 75 |
+| `Exploratory` | < 60 |
+
+The field is no longer in the classify schema or in `accepted_classified.csv`; it is computed at publish time and only appears in `data/papers.json`.
 
 ### Seminal flag
-Set independently of the LLM: `Seminal_Flag = "TRUE"` iff `citation_count >= 500`, else `"FALSE"`. Source: `_safe_citation_count(row)` in `classify.py`. The threshold lives in [`config/quality_thresholds.json`](../config/quality_thresholds.json) as `seminal_citation_threshold` but the runtime value is hard-coded in `classify.py` line 146.
+Set independently of the LLM: `Seminal_Flag = "TRUE"` iff `citation_count >= 500`, else `"FALSE"`. Source: `_safe_citation_count(row)` in `classify.py`. The threshold lives in [`config/quality_thresholds.json`](../config/quality_thresholds.json) as `seminal_citation_threshold` but the runtime value is hard-coded in `classify.py`.
+
+### Response parsing
+The OpenAI Responses API returns the model's text under `data["output"][i]["content"][j]["text"]`. The top-level `output_text` convenience field was reliable through Apr 25 then started returning empty in our request shape on Apr 27 (100% empty across 519 calls — the corpus that day was 100% fallback `Other` until the parser was fixed). `_extract_response_text` prefers `output_text` when populated and falls back to walking the structured array.
 
 ### Failure semantics
-- **Transient errors** (network blip, 429 rate limit not tagged as quota, 5xx, malformed JSON): log warning, fall back to `FALLBACK` constants (`Category="Other"`, `Quality_Tier="Standard"`, etc.), continue.
+- **Transient errors** (network blip, 429 rate limit not tagged as quota, 5xx, malformed JSON): log warning, fall back to `FALLBACK` constants (`Category="Other"`, `Investigation_Type="Other"`, empty arrays for the rest), continue.
 - **Account-level errors** (`insufficient_quota`, `billing_hard_limit_reached`, `account_deactivated`, `invalid_api_key`, HTTP 401, HTTP 403): raise `OpenAIQuotaError` and abort the entire run. Silent fallback on these once corrupted 1,499 papers as `Category="Other"` (2026-04-25), so loud failure is now mandatory.
+
+### Smoketest
+[`.github/workflows/openai_smoketest.yml`](../.github/workflows/openai_smoketest.yml) imports the live `CLASSIFICATION_SCHEMA` and `PROMPT`, sends a real classification request, and asserts the response conforms to the enums. Run on demand to verify the API contract end-to-end (catches strict-mode rejections, parser regressions, and Quality_Tier accidentally re-appearing).
 
 ### Token-usage instrumentation
 Each run resets `_TOKEN_USAGE` and prints a summary at the end:
