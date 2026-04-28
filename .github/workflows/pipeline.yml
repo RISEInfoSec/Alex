@@ -10,15 +10,25 @@ permissions:
 concurrency:
   group: pipeline
   cancel-in-progress: false
+
+# Each stage is its own job so it gets its own 6h GitHub Actions ceiling. The
+# old single-job layout hit the 6h wall mid-Harvest on 2026-04-27 (issue #62)
+# and lost Harvest/Rescore/Classify/Publish for the week. `needs:` chaining
+# inside one workflow has no cascade cap (the 3-level cap only applies to
+# `workflow_run` triggers across separate workflows), so we can chain freely.
+#
+# Each stage commits and pushes its output to main, then the next job runs a
+# fresh `actions/checkout` against `ref: main` to pick up that push (the
+# default checkout ref is the trigger SHA, which is stale once a prior job
+# has pushed). `.rescore_window.json` is committed by the rescore stage so
+# classify can read it from the next runner's disk.
 jobs:
-  pipeline:
-    # The full chain in one job so all six stages share a single runner.
-    # Each stage commits its own output, preserving a per-stage audit trail
-    # in git history. Running as one job also side-steps the 3-level cap on
-    # workflow_run cascades (we hit this in the split-workflow layout).
+  discover:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -37,6 +47,22 @@ jobs:
           git add data/discovery_candidates.csv
           git diff --cached --quiet || git commit -m "Discover candidates"
           git push || (git pull --rebase --autostash && git push)
+
+  chain:
+    needs: discover
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Citation chain
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
@@ -45,12 +71,44 @@ jobs:
           git add data/discovery_candidates.csv
           git diff --cached --quiet || git commit -m "Citation chain candidates"
           git push || (git pull --rebase --autostash && git push)
+
+  score:
+    needs: chain
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Quality gate
         run: |
           python -m alex.cli score
           git add data/quality_metrics.csv data/review_queue.csv data/rejected_candidates.csv data/accepted_candidates.csv
           git diff --cached --quiet || git commit -m "Quality gate results"
           git push || (git pull --rebase --autostash && git push)
+
+  harvest:
+    needs: score
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Harvest
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
@@ -59,22 +117,52 @@ jobs:
           git add data/accepted_harvested.csv
           git diff --cached --quiet || git commit -m "Harvest metadata"
           git push || (git pull --rebase --autostash && git push)
+
+  rescore:
+    needs: harvest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Rescore
         run: |
           SUMMARY=$(python -m alex.cli rescore | tail -n1)
           echo "$SUMMARY"
-          # .rescore_window.json carries the run_id that classify uses to
-          # remove demoted papers from the existing corpus. Within this
-          # single Pipeline job the file persists on the runner's disk
-          # between steps and the commit isn't strictly required, but
-          # committing it keeps the standalone rescore.yml -> classify.yml
-          # path correct (separate runners, no shared disk). Use -A so an
-          # empty-input rescore that unlinked the file also stages the
-          # deletion.
+          # .rescore_window.json carries the run_id classify uses to drop
+          # demoted papers from the existing corpus. Across separate jobs
+          # (separate runners, no shared disk), the file MUST be committed
+          # so the classify job can read it after its fresh checkout. Use
+          # -A so an empty-input rescore that unlinked the file also stages
+          # the deletion.
           git add data/accepted_harvested.csv data/rescore_metrics.csv
           git add -A data/.rescore_window.json
           git diff --cached --quiet || git commit -m "Post-harvest rescore: ${SUMMARY:-no summary}"
           git push || (git pull --rebase --autostash && git push)
+
+  classify:
+    needs: rescore
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Classify
         env:
           OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
@@ -87,20 +175,36 @@ jobs:
           git add -A data/.rescore_window.json
           git diff --cached --quiet || git commit -m "Classify accepted papers"
           git push || (git pull --rebase --autostash && git push)
+
+  publish:
+    needs: classify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Publish
         run: |
           python -m alex.cli publish
           git add data/osint_cyber_papers.csv data/papers.json
           git diff --cached --quiet || git commit -m "Publish public corpus"
           git push || (git pull --rebase --autostash && git push)
+
   deploy:
-    # Pages deploy in a separate job so it can run under the github-pages
-    # environment. The pipeline job pushed several commits to main during
-    # its run; without `ref: main` here, checkout defaults to the workflow's
-    # trigger SHA, staging stale assets and silently shipping yesterday's
-    # corpus (observed 2026-04-25: site stuck at 256 papers while main was
-    # at 394).
-    needs: pipeline
+    # Pages deploy runs after publish. Use ref: main so we pick up the
+    # commits each prior job pushed during this run; the default trigger
+    # SHA is from before discover ran and would stage a stale corpus
+    # (observed 2026-04-25 with the old layout: site stuck at 256 papers
+    # while main was at 394).
+    needs: publish
     runs-on: ubuntu-latest
     environment:
       name: github-pages
