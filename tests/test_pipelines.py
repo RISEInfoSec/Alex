@@ -108,6 +108,51 @@ class TestQualityGate:
         assert preprint_row["recommended_action"] == "auto-include"
         assert non_preprint_row["recommended_action"] in ("human review", "reject")
 
+    def test_anchor_term_rejects_generic_keyword_match(self, tmp_path):
+        """A paper that overlaps with the registry only on generic words
+        (social/network/internet/investigation) must be rejected. The
+        anchor-term gate runs before the relevance floor and the threshold
+        cascade, so even a high-score paper without a cyber/OSINT core
+        term in title or abstract is dropped."""
+        candidates = pd.DataFrame([
+            {"title": "Linking Sustainable Entrepreneurial Intentions and Social Networking",
+             "authors": "Some Researcher", "year": "2024",
+             "venue": "IEEE Journal of Management", "doi": "10.1/x",
+             "abstract": "We study social media's role in entrepreneurship.",
+             "source_url": "", "discovery_source": "OpenAlex citation chain",
+             "discovery_query": "social media", "inclusion_path": "forward chaining",
+             "citation_count": 500, "reference_count": 0},
+        ])
+        (tmp_path / "data").mkdir(parents=True)
+        candidates.to_csv(tmp_path / "data" / "discovery_candidates.csv", index=False)
+
+        config_dir = tmp_path / "config"
+        config_dir.mkdir()
+        (config_dir / "venue_whitelist.json").write_text(json.dumps({"high_trust": ["IEEE"]}))
+        (config_dir / "query_registry.json").write_text(json.dumps({
+            "queries": ["social media intelligence", "OSINT"],
+            "core_keywords": ["cyber", "osint", "malware", "threat intelligence"],
+        }))
+        (config_dir / "quality_weights.json").write_text(json.dumps({
+            "venue": 0.35, "citations": 0.40, "relevance": 0.25,
+            "institution_bonus": 10.0,
+            "auto_include_threshold": 60.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
+            "relevance_floor": 1.0,
+        }))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            quality_gate.run()
+
+        metrics = pd.read_csv(tmp_path / "data" / "quality_metrics.csv")
+        # The paper has nonzero relevance (matches "social", "media") but no
+        # core anchor term — should reject with the anchor reason, not the
+        # relevance-floor one.
+        assert metrics.iloc[0]["recommended_action"] == "reject"
+        assert metrics.iloc[0]["review_reason"] == "No core cyber/OSINT term"
+
     def test_relevance_floor_rejects_off_topic_high_score(self, tmp_path):
         """A paper with strong venue+citation signal but zero topic overlap
         must be rejected by the relevance floor — not promoted on prestige

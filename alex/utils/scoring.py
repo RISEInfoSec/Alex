@@ -80,6 +80,28 @@ def query_keywords(queries: list[str]) -> set[str]:
     return keywords
 
 
+def has_core_term(title: Any, abstract: Any, core_terms: list[str]) -> bool:
+    """Check whether the paper contains at least one core cyber/OSINT term.
+
+    Used as a hard gate at quality_gate / rescore time. The single-token
+    relevance score lets generic words ("internet", "social", "intelligence")
+    on their own clear the floor — which lets off-topic papers (autism
+    research, blockchain supply chains, biology surveys) slip through when
+    they happen to share a generic word with our query registry. Requiring
+    a core anchor term forces the paper to be about *cyber/OSINT*, not just
+    adjacent to one of our query words.
+
+    Empty list disables the check (back-compat for tests / configs without
+    core_keywords).
+    """
+    if not core_terms:
+        return True
+    text = f"{clean(title)} {clean(abstract)}".lower()
+    if not text.strip():
+        return False
+    return any(t.lower() in text for t in core_terms)
+
+
 def title_matches_keywords(title: Any, keywords: set[str]) -> bool:
     """Cheap title-only relevance check used to filter citation-chain
     candidates before they enter discovery_candidates.csv.

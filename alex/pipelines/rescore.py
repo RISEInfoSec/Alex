@@ -28,6 +28,7 @@ from alex.utils.scoring import (
     safe_float,
     safe_int_year,
     is_preprint,
+    has_core_term,
 )
 
 logger = logging.getLogger(__name__)
@@ -65,7 +66,9 @@ def run() -> None:
         return
 
     whitelist = load_json(root_file("config", "venue_whitelist.json"))["high_trust"]
-    queries = load_json(root_file("config", "query_registry.json"))["queries"]
+    registry = load_json(root_file("config", "query_registry.json"))
+    queries = registry["queries"]
+    core_terms = list(registry.get("core_keywords") or [])
     weights = load_json(root_file("config", "quality_weights.json"))
 
     institution_bonus = float(weights.get("institution_bonus", 0.0))
@@ -103,10 +106,12 @@ def run() -> None:
 
     rescored = pd.DataFrame(rescored_rows)
 
-    # Per-row auto-include threshold. Preprints on their own ladder. Relevance
-    # floor applies regardless of preprint vs regular — same veto as the
-    # quality_gate stage so post-harvest demotions stay consistent.
+    # Per-row auto-include threshold. Preprints on their own ladder. Anchor-term
+    # and relevance-floor vetoes apply regardless of preprint vs regular — same
+    # behaviour as quality_gate so post-harvest demotions stay consistent.
     def _passes(row) -> bool:
+        if not has_core_term(row.get("title", ""), row.get("abstract", ""), core_terms):
+            return False
         if row["relevance_score"] < relevance_floor:
             return False
         threshold = preprint_auto if row["is_preprint"] else auto_include

@@ -13,6 +13,7 @@ from alex.utils.scoring import (
     safe_float,
     safe_int_year,
     is_preprint,
+    has_core_term,
 )
 
 logger = logging.getLogger(__name__)
@@ -26,7 +27,13 @@ def run() -> None:
     validate_columns(df, ["title", "authors", "year", "venue", "doi", "citation_count"], "discovery_candidates.csv")
 
     whitelist = load_json(root_file("config", "venue_whitelist.json"))["high_trust"]
-    queries = load_json(root_file("config", "query_registry.json"))["queries"]
+    registry = load_json(root_file("config", "query_registry.json"))
+    queries = registry["queries"]
+    # Core anchor terms — narrow cyber/OSINT vocabulary that must appear in
+    # title or abstract. Without one, a paper is rejected even if it scores
+    # high on venue+citations and shares a generic word with the query
+    # registry. Empty/missing list disables the check.
+    core_terms = list(registry.get("core_keywords") or [])
     weights = load_json(root_file("config", "quality_weights.json"))
     now = datetime.now(timezone.utc).isoformat()
 
@@ -93,9 +100,19 @@ def run() -> None:
         out["relevance_score"] = round(r * 100, 2)
         out["total_quality_score"] = round(total, 2)
 
+        # Anchor-term veto runs first. A paper without a single core
+        # cyber/OSINT term in title or abstract is rejected, regardless of
+        # how high its venue+citations push the total. This catches papers
+        # that share only a generic word ("internet", "social", "network",
+        # "investigation") with the registry — autism research, blockchain
+        # supply chains, biology toolkits, etc.
+        if not has_core_term(row.get("title", ""), row.get("abstract", ""), core_terms):
+            out["review_reason"] = "No core cyber/OSINT term"
+            out["recommended_action"] = "reject"
+            rejected.append(out)
         # Relevance veto runs *before* the threshold cascade. A paper with no
         # topic overlap cannot be saved by venue+citation prestige alone.
-        if out["relevance_score"] < relevance_floor:
+        elif out["relevance_score"] < relevance_floor:
             out["review_reason"] = "Below relevance floor"
             out["recommended_action"] = "reject"
             rejected.append(out)

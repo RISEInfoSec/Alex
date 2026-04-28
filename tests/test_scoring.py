@@ -6,6 +6,7 @@ from alex.utils.scoring import (
     is_preprint,
     query_keywords,
     title_matches_keywords,
+    has_core_term,
 )
 
 
@@ -126,3 +127,37 @@ class TestTitleMatchesKeywords:
 
     def test_empty_title_fails(self):
         assert title_matches_keywords("", {"osint"}) is False
+
+
+class TestHasCoreTerm:
+    CORE = ["cyber", "osint", "malware", "phishing", "dark web", "threat intelligence"]
+
+    def test_match_in_title(self):
+        assert has_core_term("Cybersecurity Survey", "", self.CORE) is True
+
+    def test_match_in_abstract_only(self):
+        assert has_core_term("Generic Title", "Discusses malware analysis methods.", self.CORE) is True
+
+    def test_phrase_match(self):
+        assert has_core_term("Dark Web monitoring", "", self.CORE) is True
+        assert has_core_term("A study of threat intelligence sharing", "", self.CORE) is True
+
+    def test_no_match(self):
+        # Generic relevance-keyword overlap ('social', 'investigation') without
+        # a core anchor must NOT pass.
+        assert has_core_term(
+            "Linking Green Entrepreneurial Intentions and Social Networking Sites",
+            "",
+            self.CORE,
+        ) is False
+
+    def test_off_topic_fails(self):
+        assert has_core_term("Capital Structure in SMEs", "", self.CORE) is False
+        assert has_core_term("KaKs_Calculator 2.0 toolkit", "", self.CORE) is False
+
+    def test_empty_core_disables_check(self):
+        # Tests / configs without core_keywords should not be blocked.
+        assert has_core_term("Anything", "", []) is True
+
+    def test_empty_inputs_with_nonempty_core(self):
+        assert has_core_term("", "", self.CORE) is False
