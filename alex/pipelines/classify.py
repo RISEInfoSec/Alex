@@ -117,15 +117,39 @@ def call_openai(row: dict) -> dict:
 
     _record_usage(data.get("usage") or {})
 
-    text = data.get("output_text", "")
+    text = _extract_response_text(data)
     if not text:
-        logger.warning("Empty output_text from OpenAI for %r", title)
+        logger.warning("Empty response text from OpenAI for %r", title)
         return dict(FALLBACK)
     try:
         return json.loads(text)
     except json.JSONDecodeError as exc:
-        logger.warning("OpenAI output_text not JSON for %r: %s", title, exc)
+        logger.warning("OpenAI response text not JSON for %r: %s", title, exc)
         return dict(FALLBACK)
+
+
+def _extract_response_text(data: dict) -> str:
+    """Pull the model's text from the OpenAI Responses API.
+
+    The top-level `output_text` convenience field was reliable through
+    Apr 25 then started returning empty in our request shape (observed
+    Apr 27: 100% empty across 519 calls). The structured
+    `output[i].content[j].text` path is canonical and is populated when
+    the model generates text. We prefer the convenience field when it
+    has content and walk the structured array as fallback. The structured
+    output may include multiple text segments (e.g. with reasoning blocks),
+    so we concatenate them in order.
+    """
+    text = data.get("output_text") or ""
+    if text:
+        return text
+    parts: list[str] = []
+    for item in data.get("output") or []:
+        for content in item.get("content") or []:
+            seg = content.get("text") or ""
+            if seg:
+                parts.append(seg)
+    return "".join(parts)
 
 
 def _dedup_key(row) -> str:

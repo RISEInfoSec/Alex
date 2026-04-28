@@ -275,6 +275,65 @@ class TestClassify:
         # 600 citations >= 500 threshold
         assert str(result.iloc[0]["Seminal_Flag"]).upper() == "TRUE"
 
+    def test_call_openai_reads_structured_output_when_top_level_empty(self):
+        """The Responses API returns the model's text under the structured
+        `output[].content[].text` path. Through Apr 25 the API also populated
+        the top-level `output_text` convenience field, then on Apr 27 our
+        request shape started returning empty top-level `output_text` (100%
+        of 519 calls). classify must read the canonical structured path,
+        not just the convenience field — otherwise every paper silently
+        gets the FALLBACK dict (Category="Other")."""
+        from unittest.mock import MagicMock as _MM
+        from alex.pipelines import classify as classify_mod
+
+        # Real-shape response: top-level output_text empty, content under output[].content[].text
+        mock_response = _MM()
+        mock_response.ok = True
+        mock_response.json.return_value = {
+            "output": [{
+                "type": "message",
+                "status": "completed",
+                "content": [{
+                    "type": "output_text",
+                    "text": '{"Category":"Digital Forensics","Investigation_Type":"Dark Web Analysis","OSINT_Source_Types":["Dark Web"],"Keywords":["dark web"],"Tags":["forensics"],"Quality_Tier":"High"}',
+                }],
+                "role": "assistant",
+            }],
+            "output_text": "",
+            "usage": {"input_tokens": 50, "output_tokens": 30, "total_tokens": 80},
+        }
+
+        with patch("alex.pipelines.classify.requests.post", return_value=mock_response), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": "sk-test"}, clear=False):
+            result = classify_mod.call_openai({"title": "Dark Web OSINT", "abstract": "x"})
+
+        # Bug repro: previously this returned FALLBACK ({"Category": "Other", ...})
+        # because `data["output_text"]` was empty and the code stopped there.
+        assert result["Category"] == "Digital Forensics"
+        assert result["Investigation_Type"] == "Dark Web Analysis"
+        assert result["Quality_Tier"] == "High"
+
+    def test_call_openai_prefers_top_level_output_text_when_present(self):
+        """Back-compat: if a future API version (or model) populates the
+        top-level convenience field, we still read it directly without
+        walking the structured array."""
+        from unittest.mock import MagicMock as _MM
+        from alex.pipelines import classify as classify_mod
+
+        mock_response = _MM()
+        mock_response.ok = True
+        mock_response.json.return_value = {
+            "output_text": '{"Category":"Threat Intelligence","Investigation_Type":"Other","OSINT_Source_Types":[],"Keywords":[],"Tags":[],"Quality_Tier":"Standard"}',
+            "output": [],
+            "usage": {"input_tokens": 10, "output_tokens": 5, "total_tokens": 15},
+        }
+
+        with patch("alex.pipelines.classify.requests.post", return_value=mock_response), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": "sk-test"}, clear=False):
+            result = classify_mod.call_openai({"title": "x", "abstract": "y"})
+
+        assert result["Category"] == "Threat Intelligence"
+
     def test_classify_with_mocked_openai(self, tmp_path):
         """With a mocked OpenAI response, classify populates fields correctly."""
         harvested = pd.DataFrame([{
