@@ -6,7 +6,7 @@ import os
 import pandas as pd
 import requests
 
-from alex.utils.io import load_df, save_df, root_file, validate_columns
+from alex.utils.io import load_df, load_json, save_df, root_file, validate_columns
 from alex.utils.text import clean, normalize_title, unique_keep
 
 logger = logging.getLogger(__name__)
@@ -127,6 +127,28 @@ class OpenAIQuotaError(RuntimeError):
 # Per-run cumulative token usage. Reset by run() and reported at end so
 # any pipeline activity touching OpenAI surfaces its token spend.
 _TOKEN_USAGE: dict = {"calls": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
+
+# Default seminal threshold used when quality_weights.json is absent (tests
+# that don't write the scoring config) or when the key is missing. Matches
+# the longstanding hardcoded value.
+_DEFAULT_SEMINAL_THRESHOLD = 500
+
+
+def _seminal_threshold() -> float:
+    """Read the seminal-citation threshold from quality_weights.json.
+
+    Until 2026-04-28 this value was hardcoded `500` in classify.py, which
+    quietly ignored the same key in `config/quality_weights.json`. Reading
+    it here keeps the config as the single source of truth for thresholds.
+    """
+    path = root_file("config", "quality_weights.json")
+    if not path.exists():
+        return _DEFAULT_SEMINAL_THRESHOLD
+    try:
+        weights = load_json(path)
+    except (ValueError, OSError):
+        return _DEFAULT_SEMINAL_THRESHOLD
+    return float(weights.get("seminal_citation_threshold", _DEFAULT_SEMINAL_THRESHOLD))
 
 
 def _safe_citation_count(row) -> float:
@@ -293,6 +315,7 @@ def run() -> None:
 
     rows = []
     if not df.empty:
+        seminal_threshold = _seminal_threshold()
         for _, row in df.iterrows():
             payload = {
                 "title": clean(row.get("title")),
@@ -310,7 +333,7 @@ def run() -> None:
             # Quality_Tier is no longer asked of the LLM (it always
             # returned "Standard"). publish.py derives the tier deterministically
             # from total_quality_score so the field stays available to consumers.
-            out["Seminal_Flag"] = "TRUE" if _safe_citation_count(row) >= 500 else "FALSE"
+            out["Seminal_Flag"] = "TRUE" if _safe_citation_count(row) >= seminal_threshold else "FALSE"
             rows.append(out)
 
     new_df = pd.DataFrame(rows)

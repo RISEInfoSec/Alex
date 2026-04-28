@@ -324,6 +324,39 @@ class TestClassify:
         # 600 citations >= 500 threshold
         assert str(result.iloc[0]["Seminal_Flag"]).upper() == "TRUE"
 
+    def test_seminal_threshold_honours_config_override(self, tmp_path):
+        """Until 2026-04-28 the seminal threshold was hardcoded `500` in
+        classify.py and the same key in quality_weights.json was silently
+        ignored. Verify the config now wins: with the threshold bumped to
+        2000, a 600-citation paper must NOT be flagged as seminal."""
+        harvested = pd.DataFrame([{
+            "title": "Decent paper", "authors": "X", "year": "2024",
+            "venue": "IEEE", "doi": "10.1/x", "abstract": "x",
+            "source_url": "", "citation_count": 600, "reference_count": 0,
+        }])
+        (tmp_path / "data").mkdir(parents=True)
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        config_dir = tmp_path / "config"
+        config_dir.mkdir()
+        (config_dir / "quality_weights.json").write_text(json.dumps({
+            "venue": 0.35, "citations": 0.40, "relevance": 0.25,
+            "institution_bonus": 10.0,
+            "auto_include_threshold": 60.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
+            "seminal_citation_threshold": 2000,  # bump above the row's 600
+        }))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        # 600 < 2000 → must NOT be seminal under the overridden threshold.
+        assert str(result.iloc[0]["Seminal_Flag"]).upper() == "FALSE"
+
     def test_call_openai_reads_structured_output_when_top_level_empty(self):
         """The Responses API returns the model's text under the structured
         `output[].content[].text` path. Through Apr 25 the API also populated

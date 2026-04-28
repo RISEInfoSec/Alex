@@ -124,8 +124,6 @@ Applied only to candidates that survive both vetoes.
 
 Source: [`config/quality_weights.json`](../config/quality_weights.json) (`auto_include_threshold`, `review_threshold`, `preprint_auto_include_threshold`, `preprint_review_threshold`).
 
-> **Note:** `config/quality_thresholds.json` exists with older 75/45 numbers — it is **not** read by the quality gate; `quality_weights.json` is. The thresholds doc is left in place for spec history; the weights file is the live runtime config.
-
 ### Preprint detection
 A row is a preprint iff `discovery_source ∈ {"arXiv", "arXiv RSS"}` (see `is_preprint` in `alex/utils/scoring.py`). The legacy `arXiv RSS` label is kept for back-compat with rows from the prior connector implementation. Preprints are routed on the lower threshold ladder because they structurally lack venue/citation/institution signal — penalising them against the peer-reviewed thresholds would reject relevance-heavy work that hasn't been indexed yet.
 
@@ -179,7 +177,7 @@ Through 2026-04-28, `Quality_Tier` was an LLM-set field that the model filled wi
 The field is no longer in the classify schema or in `accepted_classified.csv`; it is computed at publish time and only appears in `data/papers.json`.
 
 ### Seminal flag
-Set independently of the LLM: `Seminal_Flag = "TRUE"` iff `citation_count >= 500`, else `"FALSE"`. Source: `_safe_citation_count(row)` in `classify.py`. The threshold lives in [`config/quality_thresholds.json`](../config/quality_thresholds.json) as `seminal_citation_threshold` but the runtime value is hard-coded in `classify.py`.
+Set independently of the LLM: `Seminal_Flag = "TRUE"` iff `citation_count >= seminal_citation_threshold` (default `500`), else `"FALSE"`. Source: `_safe_citation_count(row)` and `_seminal_threshold()` in `classify.py`; threshold lives in [`config/quality_weights.json`](../config/quality_weights.json) as `seminal_citation_threshold`.
 
 ### Response parsing
 The OpenAI Responses API returns the model's text under `data["output"][i]["content"][j]["text"]`. The top-level `output_text` convenience field was reliable through Apr 25 then started returning empty in our request shape on Apr 27 (100% empty across 519 calls — the corpus that day was 100% fallback `Other` until the parser was fixed). `_extract_response_text` prefers `output_text` when populated and falls back to walking the structured array.

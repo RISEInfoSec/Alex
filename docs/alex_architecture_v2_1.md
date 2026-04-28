@@ -364,7 +364,7 @@ Alex v2.1 must maintain:
 - `config/thinktank_targets.json`
 - `config/venue_whitelist.json`
 - `config/venue_blacklist.json`
-- `config/quality_thresholds.json`
+- `config/quality_weights.json`
 - `config/manual_assist_sources.json`
 
 ---
