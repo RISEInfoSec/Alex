@@ -25,7 +25,12 @@ a successful run.
 
 from __future__ import annotations
 import logging
+import os
 import sys
+
+# Allow running as `python scripts/reclassify_carryover.py` from the
+# project root; without this `alex` isn't importable.
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from alex.utils.io import load_df, save_df, root_file
 from alex.utils.text import clean, normalize_title, unique_keep
