@@ -14,6 +14,7 @@ from alex.utils.scoring import (
     safe_int_year,
     is_preprint,
     has_core_term,
+    effective_thresholds,
 )
 
 logger = logging.getLogger(__name__)
@@ -41,18 +42,14 @@ def run() -> None:
     accepted, review, rejected = [], [], []
 
     institution_bonus = float(weights.get("institution_bonus", 0.0))
-
-    # Regular (peer-reviewed) thresholds
-    auto_include = float(weights["auto_include_threshold"])
-    review_cutoff = float(weights["review_threshold"])
-    # Preprint-specific thresholds (arXiv etc). Fall back to regular thresholds
-    # if not configured so the change is backwards-compatible.
-    # Monitor the preprint-tier promotion rate in rescore output (`preprints: X/Y`);
-    # tune `preprint_auto_include_threshold` up if the preprint tier floods the
-    # corpus — the default 35 is permissive given preprints score mostly on
-    # relevance + institution bonus.
-    preprint_auto = float(weights.get("preprint_auto_include_threshold", auto_include))
-    preprint_review = float(weights.get("preprint_review_threshold", review_cutoff))
+    # Threshold cascade lives in effective_thresholds: preprint vs recent
+    # vs standard. `recent_paper_window_years` tunes how many years back
+    # qualifies as "recent" (and shares the preprint ladder). Set to 0 to
+    # restore the prior strict-by-year behavior.
+    # Monitor the preprint-tier promotion rate in rescore output
+    # (`preprints: X/Y`); tune `preprint_auto_include_threshold` up if the
+    # preprint tier floods the corpus — the default 35 is permissive
+    # given preprints score mostly on relevance + institution bonus.
     # Relevance veto. Papers with relevance_score below this floor are rejected
     # outright regardless of total score. Catches the common citation-chain
     # failure mode where a high-citation, decent-venue paper with zero topic
@@ -61,6 +58,7 @@ def run() -> None:
     # Default 1.0 means "must score *some* relevance" — i.e. the title or
     # abstract has to contain at least one query keyword.
     relevance_floor = float(weights.get("relevance_floor", 0.0))
+    current_year = datetime.now(timezone.utc).year
 
     for i, (_, row) in enumerate(df.iterrows()):
         v = venue_score(row.get("venue", ""), whitelist)
@@ -86,8 +84,9 @@ def run() -> None:
         # thresholds because they lack venue/citation/institution signal by
         # nature (new papers, not yet indexed in whitelisted venues, zero
         # citations). Relevance-heavy preprints still deserve a slot.
-        t_auto = preprint_auto if preprint else auto_include
-        t_review = preprint_review if preprint else review_cutoff
+        # Recent non-preprints share the same ladder while their citation
+        # count catches up; see effective_thresholds for the cascade.
+        t_auto, t_review = effective_thresholds(row, weights, current_year)
 
         out = dict(row)
         out["candidate_id"] = i + 1
