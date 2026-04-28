@@ -34,7 +34,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from alex.utils.io import load_df, save_df, root_file
 from alex.utils.text import clean, normalize_title, unique_keep
-from alex.pipelines.classify import call_openai, _safe_citation_count
+from alex.pipelines.classify import call_openai
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -85,16 +85,16 @@ def main() -> int:
             "authors": clean(row.get("authors")),
         }
         tags = call_openai(payload)
+        # Update only the LLM-set fields. Seminal_Flag and Quality_Tier are
+        # set elsewhere (Seminal_Flag = code on citation_count, Quality_Tier
+        # = derived at publish time from total_quality_score) and don't need
+        # to change — and re-assigning them here can hit pandas dtype
+        # coercion errors when the existing column was inferred as bool.
         corpus.at[idx, "Category"] = tags.get("Category", "Other")
         corpus.at[idx, "Investigation_Type"] = tags.get("Investigation_Type", "Other")
         corpus.at[idx, "OSINT_Source_Types"] = "; ".join(unique_keep(tags.get("OSINT_Source_Types", [])))
         corpus.at[idx, "Keywords"] = "; ".join(unique_keep(tags.get("Keywords", [])))
         corpus.at[idx, "Tags"] = "; ".join(unique_keep(tags.get("Tags", [])))
-        # Re-stamp Seminal_Flag in case citation_count drifted.
-        corpus.at[idx, "Seminal_Flag"] = "TRUE" if _safe_citation_count(row) >= 500 else "FALSE"
-        # Drop the legacy Quality_Tier so the schema matches new rows.
-        if "Quality_Tier" in corpus.columns:
-            corpus.at[idx, "Quality_Tier"] = ""
         updated += 1
         if n % 25 == 0 or n == len(targets):
             print(f"  reclassified {n}/{len(targets)}")
