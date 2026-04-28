@@ -738,10 +738,15 @@ class TestClassify:
     def test_classify_parallel_processes_all_papers_and_sums_tokens(self, tmp_path):
         """Regression for issue #62 classify parallelisation: with multiple
         papers, every paper gets classified (output rows == input rows) and
-        the token-usage report sums correctly across worker threads. Without
-        the lock around _record_usage, concurrent int-add races would
-        intermittently undercount tokens; without input-order preservation
-        across futures, output rows would shuffle relative to input."""
+        the token-usage report sums correctly in the happy path.
+
+        Note: this test does NOT actively race _record_usage. With MagicMock
+        returning instantly the int-add window is sub-microsecond and the
+        GIL serialises it, so the totals would likely add up even without
+        _TOKEN_USAGE_LOCK. The lock's correctness is defended by inspection
+        (4 lines wrapping read-modify-write); this test guards the higher-
+        level invariants that no row is silently dropped by a worker
+        exception and that the totals are reported."""
         from alex.pipelines import classify as classify_mod
 
         # Eight rows so we exercise > 1 worker (CLASSIFY_WORKERS=8).
@@ -820,13 +825,11 @@ class TestClassify:
             with pytest.raises(classify_mod.OpenAIQuotaError):
                 classify_mod.run()
 
-        # accepted_classified.csv must NOT have been overwritten with
-        # FALLBACK rows — the abort happens before save_df.
-        out_path = tmp_path / "data" / "accepted_classified.csv"
-        if out_path.exists():
-            existing = pd.read_csv(out_path)
-            assert existing.empty or "Category" not in existing.columns or \
-                not (existing["Category"] == "Other").all() or len(existing) < 4
+        # accepted_classified.csv must NOT exist — save_df runs only after
+        # the gather loop completes, and run() raises before reaching it.
+        # If save_df ever moved earlier in the function, this assertion
+        # would fail and force a re-think of the abort path.
+        assert not (tmp_path / "data" / "accepted_classified.csv").exists()
 
 
 class TestHarvest:
