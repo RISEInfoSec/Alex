@@ -7,6 +7,7 @@ jobs:
   smoketest:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -15,22 +16,78 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
         run: |
           python - <<'PY'
-          import os, requests
+          import os, json, requests, sys
+          sys.path.insert(0, ".")
+          # Import the live schema + prompt so this smoketest catches drift
+          # in either the schema shape or the field path the Responses API
+          # expects. If the imports fail the smoketest fails — that's the
+          # signal classify is broken.
+          from alex.pipelines.classify import (
+              CLASSIFICATION_SCHEMA, PROMPT, CATEGORIES, INVESTIGATION_TYPES,
+          )
+
           key = os.environ["OPENAI_API_KEY"]
+          paper = {
+              "title": "A Survey of Advanced Persistent Threats: Attribution and Detection Techniques",
+              "abstract": "We review state-of-the-art techniques for detecting and attributing APT campaigns, focusing on threat intelligence sharing, IOC analysis, and malware reverse-engineering as primary investigation types.",
+              "venue": "IEEE Security & Privacy",
+              "authors": "Researcher A; Researcher B",
+          }
+
           r = requests.post(
               "https://api.openai.com/v1/responses",
               headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
               json={
                   "model": "gpt-4o-mini",
-                  "input": [{"role":"user","content":[{"type":"input_text","text":"ping"}]}],
+                  "input": [
+                      {"role": "system", "content": [{"type": "input_text", "text": PROMPT}]},
+                      {"role": "user", "content": [{"type": "input_text", "text": json.dumps(paper)}]},
+                  ],
+                  "text": {
+                      "format": {
+                          "type": "json_schema",
+                          "name": "PaperClassification",
+                          "schema": CLASSIFICATION_SCHEMA,
+                          "strict": True,
+                      },
+                  },
               },
-              timeout=30,
+              timeout=60,
           )
           print("status:", r.status_code)
-          print("body:", r.text[:1500])
-          if r.status_code == 200:
-              data = r.json()
-              usage = data.get("usage") or {}
-              print("usage:", usage)
-              print("output_text:", (data.get("output_text") or "")[:200])
+          if r.status_code != 200:
+              print("body:", r.text[:1500])
+              sys.exit(1)
+
+          data = r.json()
+          print("usage:", data.get("usage"))
+
+          # Mirror classify._extract_response_text exactly so the smoketest
+          # validates the same parser path production uses.
+          text = data.get("output_text") or ""
+          if not text:
+              for item in data.get("output") or []:
+                  for content in item.get("content") or []:
+                      seg = content.get("text") or ""
+                      if seg:
+                          text += seg
+          print("raw text:", text[:500])
+
+          try:
+              parsed = json.loads(text)
+          except json.JSONDecodeError as e:
+              print("FAIL: response text is not JSON:", e)
+              sys.exit(1)
+
+          print("parsed:", json.dumps(parsed, indent=2))
+
+          # Hard checks: schema enforcement actually constrained the output.
+          assert parsed["Category"] in CATEGORIES, f"Category not in enum: {parsed['Category']!r}"
+          assert parsed["Investigation_Type"] in INVESTIGATION_TYPES, f"Investigation_Type not in enum: {parsed['Investigation_Type']!r}"
+          assert isinstance(parsed.get("OSINT_Source_Types"), list)
+          assert isinstance(parsed.get("Keywords"), list)
+          assert isinstance(parsed.get("Tags"), list)
+          assert "Quality_Tier" not in parsed, "Quality_Tier should not be in schema"
+
+          print("OK: structured output round-trip validated.")
           PY
