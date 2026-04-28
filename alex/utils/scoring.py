@@ -33,10 +33,16 @@ def safe_int_year(val: Any) -> int | None:
         f = float(s)
     except (ValueError, TypeError):
         return None
-    if f != int(f):
+    # NaN guards itself (NaN comparisons are always False, so `f != int(f)`
+    # would attempt int(NaN) which raises). inf guards via OverflowError.
+    try:
+        truncated = int(f)
+    except (ValueError, OverflowError):
+        return None
+    if f != truncated:
         # 2026.5 isn't a year — bail rather than truncating.
         return None
-    return int(f)
+    return truncated
 
 
 def is_preprint(row: Any) -> bool:

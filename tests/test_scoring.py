@@ -190,6 +190,24 @@ class TestEffectiveThresholds:
         row = {"discovery_source": "arXiv", "year": "2018"}
         assert effective_thresholds(row, weights, current_year=2026) == (35.0, 20.0)
 
+    def test_preprint_short_circuits_recent_check(self):
+        # A 2026 arXiv preprint is BOTH preprint and recent. The cascade
+        # is preprint > recent > standard, so the preprint branch must
+        # short-circuit before the year check runs. If a future refactor
+        # reorders the conditionals (e.g. checks year first), this pins
+        # down the priority — same numeric outcome here, but it would
+        # diverge if the two ladders ever differ.
+        from alex.utils.scoring import effective_thresholds
+        weights = {**self.BASE_WEIGHTS, "recent_paper_window_years": 1,
+                   "preprint_auto_include_threshold": 30.0,
+                   "recent_paper_threshold": 99.0}  # absurd to make priority visible
+        # The recent_paper_threshold key is unused today (cascade reuses
+        # preprint thresholds), but if ever introduced, this test would
+        # catch a swap.
+        row = {"discovery_source": "arXiv", "year": "2026"}
+        # Preprint wins → preprint_auto_include_threshold (30.0).
+        assert effective_thresholds(row, weights, current_year=2026) == (30.0, 20.0)
+
     def test_recent_non_preprint_uses_preprint_thresholds(self):
         from alex.utils.scoring import effective_thresholds
         weights = {**self.BASE_WEIGHTS, "recent_paper_window_years": 1}
@@ -266,3 +284,14 @@ class TestSafeIntYear:
         assert safe_int_year(None) is None
         assert safe_int_year("forthcoming") is None
         assert safe_int_year("2024-2025") is None
+
+    def test_inf_and_nan_return_none(self):
+        # Pandas can produce inf/-inf/nan when CSV columns have mixed
+        # numeric/missing rows. Both must fail soft, not raise — every
+        # caller treats None as "year unknown" and falls through.
+        from alex.utils.scoring import safe_int_year
+        assert safe_int_year(float("inf")) is None
+        assert safe_int_year(float("-inf")) is None
+        assert safe_int_year(float("nan")) is None
+        assert safe_int_year("inf") is None
+        assert safe_int_year("nan") is None
