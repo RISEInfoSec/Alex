@@ -138,6 +138,42 @@ class TestOpenAlexSearch:
         assert client.get_json.call_count == 2  # capped
 
 
+class TestOpenAlexFetchCitedBy:
+    def test_no_params_passed_when_kwargs_omitted(self):
+        # Back-compat: existing callers (none today, but the signature
+        # changed) get unchanged behaviour — no per-page or select forces
+        # the OpenAlex default of 25 results with full fields.
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"results": [{"title": "A"}]}
+        result = openalex.fetch_cited_by(client, "https://api.openalex.org/works?filter=cites:W123")
+        assert result == [{"title": "A"}]
+        # params=None when no kwargs supplied (cache key stays compatible
+        # with whatever existing entries exist for the bare URL).
+        assert client.get_json.call_args.kwargs.get("params") is None
+
+    def test_per_page_and_select_reach_openalex(self):
+        # Issue #62 perf fix: fetch_cited_by must propagate per_page and
+        # select to OpenAlex via query params, not just slice the response
+        # client-side. Without this, a heavy seed (paper cited >10k times)
+        # serves a 25-result page with full fields per result every call —
+        # OpenAlex serialisation + transfer dominates and citation_chain
+        # times out the runner.
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {"results": [{"id": "W1"}]}
+        openalex.fetch_cited_by(
+            client,
+            "https://api.openalex.org/works?filter=cites:W123",
+            per_page=5,
+            select="id,title,cited_by_count",
+        )
+        params = client.get_json.call_args.kwargs.get("params")
+        assert params is not None
+        assert params["per-page"] == 5
+        assert params["select"] == "id,title,cited_by_count"
+
+
 class TestOpenAlexBatchByDoi:
     def test_returns_empty_for_empty_input(self):
         from unittest.mock import MagicMock

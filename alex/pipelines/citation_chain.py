@@ -33,6 +33,13 @@ CITATION_CHAIN_WORKERS = 8
 DEFAULT_OA_SEARCH_LIMIT = 3
 DEFAULT_OA_CITED_BY_LIMIT = 5
 
+# Fields read off each cited-by result below. Passed to OpenAlex via the
+# `select` query param so heavy-seed queries (papers cited >10k times)
+# don't pay the default ~5KB-per-result serialisation cost on fields we
+# discard. Keep this list in sync with the dict-construction below: any
+# field this list omits will read as None/empty from the response.
+_CITED_BY_FIELDS = "id,title,authorships,publication_year,primary_location,ids,cited_by_count,referenced_works"
+
 # Same shape for S2 backward-chaining. These are only consulted when S2 is
 # enabled and keyed; the S2 gate from PR #48 short-circuits both calls.
 DEFAULT_SS_SEARCH_LIMIT = 3
@@ -168,7 +175,15 @@ def _chain_one_candidate(
         cited_by_url = openalex.cited_by_api_url(work)
         if not cited_by_url:
             continue
-        for cited in openalex.fetch_cited_by(client, cited_by_url)[:oa_cited_by_limit]:
+        # Both gates: per_page asks OpenAlex for at most N (the perf win —
+        # see _CITED_BY_FIELDS comment), and the [:N] slice enforces the
+        # limit client-side so a mock or a future OpenAlex contract change
+        # that returns more can't widen the chain. Cheap belt-and-suspenders.
+        for cited in openalex.fetch_cited_by(
+            client, cited_by_url,
+            per_page=oa_cited_by_limit,
+            select=_CITED_BY_FIELDS,
+        )[:oa_cited_by_limit]:
             ct = clean(cited.get("title"))
             if not ct:
                 continue

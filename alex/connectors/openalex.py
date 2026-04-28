@@ -121,8 +121,27 @@ def cited_by_api_url(work: dict[str, Any]) -> str:
         return ""
     return f"https://api.openalex.org/works?filter=cites:{work_id}"
 
-def fetch_cited_by(client: HttpClient, cited_by_url: str) -> list[dict[str, Any]]:
-    data = client.get_json(cited_by_url)
+def fetch_cited_by(
+    client: HttpClient,
+    cited_by_url: str,
+    per_page: int | None = None,
+    select: str = "",
+) -> list[dict[str, Any]]:
+    """Fetch works that cite the given OpenAlex work.
+
+    `per_page` lets the caller bound the response size — without it OpenAlex
+    serves the default 25 results. Citation chain only ever uses ~5, so the
+    other 20 are pure transfer waste on heavy-seed queries (papers cited
+    >10k times return slowly even when paginated). `select` is a comma-
+    separated field list that further trims OpenAlex's serialisation
+    cost; pass only what the caller reads from each result.
+    """
+    params: dict[str, Any] = {}
+    if per_page is not None:
+        params["per-page"] = per_page
+    if select:
+        params["select"] = select
+    data = client.get_json(cited_by_url, params=params or None)
     return (data or {}).get("results", [])
 
 
