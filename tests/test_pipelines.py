@@ -1531,9 +1531,12 @@ class TestCitationChainParallelismAndTuning:
         assert oa_search.call_args.kwargs.get("per_page") == 1
 
     def test_openalex_cited_by_limit_caps_results_per_work(self, tmp_path):
-        # Mock: OpenAlex search returns one work; fetch_cited_by returns 10
-        # cited works. With cited_by_limit=2, only the first 2 should land
-        # in the chained-rows output.
+        # Belt-and-suspenders: with PR #65 the limit is enforced server-side
+        # via per-page on the OpenAlex query, but the client-side [:N] slice
+        # remains as a defence against a mock or upstream contract change
+        # that returns more. This test patches fetch_cited_by directly and
+        # so exercises ONLY the slice (per-page propagation is tested
+        # separately in test_cited_by_limit_propagates_to_per_page_param).
         self._candidates_csv(tmp_path, n=1)
         mock_work = {
             "ids": {"doi": "https://doi.org/10.1/seed"},
@@ -1560,6 +1563,67 @@ class TestCitationChainParallelismAndTuning:
         out = pd.read_csv(tmp_path / "data" / "discovery_candidates.csv")
         # 1 seed + 2 chained = 3 rows total (cap honoured)
         assert len(out) == 3
+
+    def test_cited_by_limit_propagates_to_per_page_param(self, tmp_path):
+        # Server-side half of the limit: PR #65 has citation_chain pass
+        # `per_page=oa_cited_by_limit` to fetch_cited_by so OpenAlex itself
+        # bounds the response. Without this propagation the perf fix is
+        # invisible upstream and we silently regress to the 25-result
+        # default page on heavy seeds. The earlier per-PR test in
+        # tests/test_connectors.py covers the connector→OpenAlex hop;
+        # this one closes the citation_chain→connector hop.
+        self._candidates_csv(tmp_path, n=1)
+        mock_work = {
+            "ids": {"doi": "https://doi.org/10.1/seed"},
+            "cited_by_api_url": "https://openalex.example/cited_by",
+            "primary_location": {"source": {"display_name": "V"}, "landing_page_url": "u"},
+        }
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.citation_chain.connector_config.load",
+                   return_value={"connectors": {"openalex": {"citation_chain_cited_by_limit": 7}}}), \
+             patch("alex.connectors.openalex.search", return_value=[mock_work]), \
+             patch("alex.connectors.openalex.fetch_cited_by", return_value=[]) as fcb, \
+             patch("alex.pipelines.citation_chain.HttpClient"):
+            from alex.pipelines import citation_chain
+            citation_chain.run()
+
+        fcb.assert_called()
+        assert fcb.call_args.kwargs.get("per_page") == 7
+        # `select` carries the trimmed field list; assert it's non-empty so
+        # a future refactor that drops the kwarg can't silently regress to
+        # the full-payload default.
+        assert fcb.call_args.kwargs.get("select")
+
+    def test_cited_by_select_covers_all_pipeline_reads(self):
+        """Schema-drift guard: every top-level field citation_chain reads
+        off a `cited` work must be in `_CITED_BY_FIELDS`. Otherwise OpenAlex
+        omits it from the response (because of the `select` filter) and
+        the chain silently writes empty values. If you add a new
+        `cited.get(...)` read in citation_chain.py, add the same key here
+        AND to `_CITED_BY_FIELDS` — the test forces both."""
+        from alex.pipelines.citation_chain import _CITED_BY_FIELDS
+        selected = {f.strip() for f in _CITED_BY_FIELDS.split(",") if f.strip()}
+        # Top-level fields read off `cited` in _chain_one_candidate, including
+        # indirect reads via openalex helpers (author_names → authorships;
+        # venue_name + landing_url → primary_location; doi → ids).
+        required = {
+            "title",
+            "authorships",
+            "publication_year",
+            "primary_location",
+            "ids",
+            "cited_by_count",
+            "referenced_works",
+        }
+        missing = required - selected
+        assert not missing, (
+            f"_CITED_BY_FIELDS missing {missing}. Update both the constant "
+            f"in citation_chain.py and the `required` set in this test "
+            f"when adding a new `cited.get(...)` read."
+        )
 
     def test_dedup_against_existing_corpus_works_after_parallelism(self, tmp_path):
         # Two seeds, both citing the SAME work — the chained candidate must
