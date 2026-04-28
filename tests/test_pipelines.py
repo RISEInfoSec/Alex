@@ -735,6 +735,102 @@ class TestClassify:
         dois = set(result["doi"].astype(str).tolist())
         assert dois == {"10.1/keep", "10.1/drop", "10.1/new"}
 
+    def test_classify_parallel_processes_all_papers_and_sums_tokens(self, tmp_path):
+        """Regression for issue #62 classify parallelisation: with multiple
+        papers, every paper gets classified (output rows == input rows) and
+        the token-usage report sums correctly in the happy path.
+
+        Note: this test does NOT actively race _record_usage. With MagicMock
+        returning instantly the int-add window is sub-microsecond and the
+        GIL serialises it, so the totals would likely add up even without
+        _TOKEN_USAGE_LOCK. The lock's correctness is defended by inspection
+        (4 lines wrapping read-modify-write); this test guards the higher-
+        level invariants that no row is silently dropped by a worker
+        exception and that the totals are reported."""
+        from alex.pipelines import classify as classify_mod
+
+        # Eight rows so we exercise > 1 worker (CLASSIFY_WORKERS=8).
+        harvested = pd.DataFrame([
+            {
+                "title": f"Paper {i}", "authors": f"A{i}", "year": "2024",
+                "venue": "IEEE", "doi": f"10.1/p{i}", "abstract": f"abstract {i}",
+                "source_url": "", "citation_count": 10 * i, "reference_count": 0,
+            }
+            for i in range(8)
+        ])
+        (tmp_path / "data").mkdir(parents=True)
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        # Mock at the requests layer so _record_usage runs (concurrently)
+        # for every call. Patching call_openai would skip the lock path.
+        from unittest.mock import MagicMock as _MM
+        mock_response = _MM()
+        mock_response.ok = True
+        mock_response.json.return_value = {
+            "output": [{"content": [{"text": '{"Category":"Other","Investigation_Type":"Other","OSINT_Source_Types":[],"Keywords":[],"Tags":[]}'}]}],
+            "output_text": "",
+            "usage": {"input_tokens": 10, "output_tokens": 5, "total_tokens": 15},
+        }
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.classify.requests.post", return_value=mock_response), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": "sk-test"}, clear=False):
+            classify_mod.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        # All 8 papers classified — none silently dropped by a worker exception.
+        assert len(result) == 8
+        assert set(result["doi"]) == {f"10.1/p{i}" for i in range(8)}
+        # Token usage sums: 8 calls × 15 total = 120; without the lock, races
+        # would non-deterministically undercount.
+        assert classify_mod._TOKEN_USAGE["calls"] == 8
+        assert classify_mod._TOKEN_USAGE["total_tokens"] == 8 * 15
+        assert classify_mod._TOKEN_USAGE["input_tokens"] == 8 * 10
+        assert classify_mod._TOKEN_USAGE["output_tokens"] == 8 * 5
+
+    def test_classify_aborts_on_openai_quota_error_in_worker(self, tmp_path):
+        """OpenAIQuotaError raised in any worker thread must propagate out
+        of classify.run() so the workflow exits non-zero. The pre-fix
+        silent-corruption mode (Apr 25 incident) stamped 1,499 papers as
+        Category=Other when quota exhausted; the fix is the loud abort,
+        and parallelisation must not regress that — fut.result() in the
+        gather loop has to re-raise the worker's exception."""
+        from alex.pipelines import classify as classify_mod
+
+        harvested = pd.DataFrame([
+            {
+                "title": f"Paper {i}", "authors": "A", "year": "2024",
+                "venue": "IEEE", "doi": f"10.1/p{i}", "abstract": "x",
+                "source_url": "", "citation_count": 5, "reference_count": 0,
+            }
+            for i in range(4)
+        ])
+        (tmp_path / "data").mkdir(parents=True)
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        from unittest.mock import MagicMock as _MM
+        quota_response = _MM()
+        quota_response.ok = False
+        quota_response.status_code = 429
+        quota_response.text = '{"error":{"code":"insufficient_quota"}}'
+        quota_response.json.return_value = {"error": {"code": "insufficient_quota"}}
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch("alex.pipelines.classify.requests.post", return_value=quota_response), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": "sk-test"}, clear=False):
+            with pytest.raises(classify_mod.OpenAIQuotaError):
+                classify_mod.run()
+
+        # accepted_classified.csv must NOT exist — save_df runs only after
+        # the gather loop completes, and run() raises before reaching it.
+        # If save_df ever moved earlier in the function, this assertion
+        # would fail and force a re-think of the abort path.
+        assert not (tmp_path / "data" / "accepted_classified.csv").exists()
+
 
 class TestHarvest:
     def test_harvest_crossref_fallback(self, tmp_path):
