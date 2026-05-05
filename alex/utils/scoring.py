@@ -1,4 +1,5 @@
 from __future__ import annotations
+import re
 from math import log1p, isnan
 from typing import Any
 from .text import clean
@@ -136,8 +137,8 @@ def query_keywords(queries: list[str]) -> set[str]:
     return keywords
 
 
-def has_core_term(title: Any, abstract: Any, core_terms: list[str]) -> bool:
-    """Check whether the paper contains at least one core cyber/OSINT term.
+def has_core_term(title: Any, abstract: Any, core_terms: list[str], min_hits: int = 1) -> bool:
+    """Check whether the paper contains at least `min_hits` core cyber/OSINT terms.
 
     Used as a hard gate at quality_gate / rescore time. The single-token
     relevance score lets generic words ("internet", "social", "intelligence")
@@ -147,15 +148,58 @@ def has_core_term(title: Any, abstract: Any, core_terms: list[str]) -> bool:
     a core anchor term forces the paper to be about *cyber/OSINT*, not just
     adjacent to one of our query words.
 
-    Empty list disables the check (back-compat for tests / configs without
-    core_keywords).
+    `min_hits` lets callers raise the bar for low-trust papers (Zenodo
+    self-deposits, non-whitelisted venues without trusted-institution
+    affiliation). Off-topic papers often land a single substring match
+    ("vulnerab" via "vulnerable populations", "exploit" via "exploit fish
+    stocks"); requiring 2+ terms forces multi-mention cyber content.
+    Whitelisted venues / trusted institutions get the benefit of the doubt
+    at min_hits=1 because their abstracts are often terser.
+
+    Empty core_terms list disables the check (back-compat for tests /
+    configs without core_keywords). `min_hits<=0` is treated as 1.
     """
     if not core_terms:
         return True
     text = f"{clean(title)} {clean(abstract)}".lower()
     if not text.strip():
         return False
-    return any(t.lower() in text for t in core_terms)
+    needed = max(1, min_hits)
+    if needed == 1:
+        return any(t.lower() in text for t in core_terms)
+    hits = 0
+    for t in core_terms:
+        if t.lower() in text:
+            hits += 1
+            if hits >= needed:
+                return True
+    return False
+
+
+def has_title_anchor(title: Any, anchors: list[str]) -> bool:
+    """Whether the title self-identifies as a cyber/security topic.
+
+    Title anchors are stronger evidence than abstract mentions — a paper that
+    titles itself "X Cybersecurity Y" is making an explicit topical claim.
+    Callers (quality_gate, rescore) treat title-anchored papers as trusted for
+    the core-term gate (single-hit suffices) and apply a small score bonus
+    so terse on-topic abstracts don't fail the recent-paper auto-include bar
+    despite zero citations.
+
+    Match uses a leading word boundary so 'cyber' matches cyber, cybersecurity,
+    cybercrime, cyber-physical, etc. — but not 'cybernetic'-style false
+    positives buried inside non-anchor words. Empty anchor list disables.
+    """
+    if not anchors:
+        return False
+    text = clean(title).lower()
+    if not text:
+        return False
+    for a in anchors:
+        token = (a or "").lower().strip()
+        if token and re.search(rf"\b{re.escape(token)}", text):
+            return True
+    return False
 
 
 def title_matches_keywords(title: Any, keywords: set[str]) -> bool:

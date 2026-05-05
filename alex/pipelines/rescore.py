@@ -31,6 +31,7 @@ from alex.utils.scoring import (
     safe_int_year,
     is_preprint,
     has_core_term,
+    has_title_anchor,
     effective_thresholds,
 )
 
@@ -76,6 +77,16 @@ def run() -> None:
 
     institution_bonus = float(weights.get("institution_bonus", 0.0))
     relevance_floor = float(weights.get("relevance_floor", 0.0))
+    # Split-tier core-term gate — see quality_gate.py for rationale. Untrusted
+    # sources need multiple core-term mentions to survive the post-harvest
+    # filter; trusted ones (whitelisted venue or trusted institution) keep the
+    # historical single-hit bar.
+    untrusted_core_min = max(1, int(weights.get("min_core_keyword_hits_untrusted", 1)))
+    # Title-anchor: title self-identifying as cyber/security adds a score bonus
+    # and acts as a third trust signal alongside whitelisted venue / trusted
+    # institution. See quality_gate.py for the same wiring.
+    title_anchor_terms = list(weights.get("title_anchor_terms") or [])
+    title_anchor_bonus = float(weights.get("title_anchor_bonus", 0.0))
     current_year = datetime.now(timezone.utc).year
     run_id = uuid4().hex
 
@@ -92,7 +103,9 @@ def run() -> None:
             + r * weights["relevance"]
         )
         bonus = institution_bonus if i_score >= 0.7 else 0.0
-        total = min(100.0, base + bonus)
+        title_anchored = has_title_anchor(row.get("title", ""), title_anchor_terms)
+        title_bonus = title_anchor_bonus if title_anchored else 0.0
+        total = min(100.0, base + bonus + title_bonus)
         preprint = is_preprint(row)
 
         out = dict(row)
@@ -102,6 +115,7 @@ def run() -> None:
         out["citation_score"] = round(c * 100, 2)
         out["institution_score"] = round(i_score * 100, 2)
         out["institution_bonus"] = round(bonus, 2)
+        out["title_anchor_bonus"] = round(title_bonus, 2)
         out["relevance_score"] = round(r * 100, 2)
         out["total_quality_score"] = round(total, 2)
         rescored_rows.append(out)
@@ -120,7 +134,16 @@ def run() -> None:
     def _passes(row) -> bool:
         if not (clean(row.get("abstract", ""))):
             return False
-        if not has_core_term(row.get("title", ""), row.get("abstract", ""), core_terms):
+        # Trust signals: whitelisted venue (venue_score == 100), trusted-
+        # institution affiliation (institution_score >= 70), or title-anchored
+        # (title self-identifies as cyber/security). Mirrors the quality_gate
+        # split — see scoring.has_core_term + has_title_anchor for rationale.
+        v_pct = float(row.get("venue_score", 0) or 0)
+        i_pct = float(row.get("institution_score", 0) or 0)
+        anchored = has_title_anchor(row.get("title", ""), title_anchor_terms)
+        trusted = v_pct >= 100.0 or i_pct >= 70.0 or anchored
+        core_min = 1 if trusted else untrusted_core_min
+        if not has_core_term(row.get("title", ""), row.get("abstract", ""), core_terms, core_min):
             return False
         if row["relevance_score"] < relevance_floor:
             return False

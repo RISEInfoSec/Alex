@@ -15691,37 +15691,6 @@
   },
   {
     "id": 508,
-    "title": "Reassessing Anonymization as a Privacy Control Under Modern Adversarial Conditions and Regulatory Logging Requirements",
-    "author": "Gergely Tapolyai",
-    "year": 2026.0,
-    "venue": "Zenodo (CERN European Organization for Nuclear Research)",
-    "summary": "Classical anonymization techniques are widely used to enable data sharing by removing direct identifiers while preserving analytical utility. These methods generally assume that once explicit identifiers are removed, the risk of re-identification becomes acceptably low under reasonable attacker capability assumptions embedded in many cybersecurity and privacy frameworks. This assumption is increasingly strained in modern environments characterized by widespread availability of auxiliary datasets (e.g., open-source intelligence and commercial data brokers), as well as the routine use of machine learning systems and generative AI for correlation, pattern extraction, and record linkage. In parallel, regulatory logging requirements across cybersecurity and compliance frameworks generate increasingly granular behavioral traces, including system events, timestamps, and access logs. Although not collected for identification purposes, these logs are frequently exposed through breaches and may serve as additional auxiliary data in re-identification scenarios. This paper situates record-level anonymization within a broader examination of cybersecurity and privacy control validity under modern adversarial conditions. It argues that anonymization, as commonly deployed in operational systems as either a mandatory or discretionary control, does not provide robust protection against re-identification when adversaries can leverage external datasets and automated linkage techniques. Prior empirical work repeatedly demonstrates that sparse or non-obvious attributes can still uniquely identify individuals in real-world datasets. A structured threat model is presented, along with supporting evidence, suggesting that classical anonymization should not be treated as a standalone privacy control. Instead, it should be understood as a limited preprocessing step within a broader security, compliance, and governance framework whose effectiveness depends on explicit assumptions about attacker capability and data availability that are no longer stable in modern environments.",
-    "keywords": [
-      "anonymization",
-      "privacy control",
-      "re-identification",
-      "cybersecurity",
-      "machine learning"
-    ],
-    "osint_source": [
-      "Public Records",
-      "Other"
-    ],
-    "category": "Privacy & Surveillance",
-    "investigation_type": "Other",
-    "tags": [
-      "data privacy",
-      "adversarial conditions",
-      "record linkage"
-    ],
-    "link": "https://doi.org/10.5281/zenodo.19868657",
-    "source_url": "https://doi.org/10.5281/zenodo.19868657",
-    "doi": "10.5281/zenodo.19868657",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 509,
     "title": "Cyber Threat Intel",
     "author": "Yogesh Panchole; Mitesh Yadav; Khushi Patel",
     "year": 2026.0,
@@ -15759,7 +15728,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 510,
+    "id": 509,
     "title": "\"European Animal Detection Dataset\"",
     "author": "Md Sajedur Rahman; Tesfalem Mehari Berhe",
     "year": 2026.0,
@@ -15791,45 +15760,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 511,
-    "title": "Algorithmic Geopolitics: Methodology of AI-Driven Real-Time Stability Indexing within the NationFiles Framework",
-    "author": "Neawolf Media Group; Sven Schmidt",
-    "year": 2026.0,
-    "venue": "Zenodo (CERN European Organization for Nuclear Research)",
-    "summary": "Algorithmic Geopolitics: Methodology of AI-Driven Real-Time Stability Indexing within the NationFiles Framework Technical Whitepaper / Methodology Paper · Version 1.0 · April 2026 Author: Sven Neawolf (Schmidt), Neawolf Media Group Title (German): Algorithmische Geopolitik: Methodik der KI-gestützten Echtzeit-Stabilitätsindizierung im NationFiles-Framework License: Creative Commons Attribution 4.0 International (CC BY 4.0) Abstract Background: Geopolitical information systems must reconcile high signal diversity from open and semi-open source contexts (OSINT) with traceable aggregation, without allowing semantic drift between raw signal, analytical index, and public presentation. Subject: We describe the NationFiles framework as a hybrid situational awareness and comparison platform: an operationally advancing data pipeline, a multi-stage documented NationFiles Stability Index (NFSI), and a pluralised controller surface that projects the same relational truth into multiple presentation ontologies. We further situate the Naciro Intelligence Engine and the LPU-oriented inference architecture documented in the public Knowledge Graph within the overall architecture. Methods: At the core lies a three-stage stability pipeline (normalisation, day-level aggregation, weighted end composition) with explicit treatment of missing values, domain logics, and rule-based coupling — the NFSI is framed as a descriptive, rule-based aggregate, not as an autonomous prognostic \"judgment.\" Integrity: The integrity strategy stresses, inter alia, avoiding empty navigation promises, cartographic restraint toward pseudo-precision, synchronisation of structured metadata with knowledge definitions, and transparency over elegance. Keywords: Geopolitics; OSINT; stability index; data pipeline; knowledge graph; governance; open science; persistent identifier; citation practice. Strategic core positions (for audit and peer review) 1. The NFSI is not an oracle. It is consistently framed as a descriptive, rule-based aggregate; any forecast or action claims must be explicitly separated from the index logic and versioned. 2. Transparency around data gaps. Stage 2 uses documented recovery rules so that missing or thin inputs are not silently misread as low-risk or \"peaceful\" normality. 3. Integrity strategy. The operational principle \"transparency over elegance\" prioritises honest ambiguity and visible assumptions over smooth but misleading surfaces. 1. Introduction and paradigm shift Classical geopolitical situational pictures were long produced mainly in an archiving, delayed mode. The framework described here follows an operational paradigm: raw signals are continuously ingested, cleaned, normalised, and converted into evaluation and presentation aggregates without permitting silent semantic drift. 1.1 Problem statement: Semantic drift as a systemic risk NationFiles addresses drift through a single canon: the same relational truth is projected into multiple presentation ontologies, not multiply recomputed independently. This design is citation-friendly and ensures that index values remain compatible with documentation. 2. Architecture and infrastructure The backend consists of a connector ecosystem with hundreds of specialised connectors and a FIFO job queue for diagnostics. The Naciro Intelligence Engine and the Knowledge Graph provide the conceptual basis, including the LPU (Large Processing Unit) inference architecture designed for low-latency processing. 3. Methods: The three-stage stability pipeline The pipeline is the mathematical-logical heart of the indexing: Stage 1 — Raw signal normalisation: Transformation of source rows to a unified 0–100 scale including directional sensitivity. Stage 2 — Day aggregation at country level: Combination of today’s and yesterday’s values with documented weighting and recovery rules for missing days. Stage 3 — Weighted end composition: Fusion of connector families under documented weights, institutional coupling, and conflict/fragility multipliers. 3.4 Logic of Stage 3 End Composition The country score is calculated using a weighted vector approach. The effective input considers availability (delta) and a defined substitution level (eta) for missing data. Multipliers for conflict and fragility (malus) are applied before the final weighted sum is capped at an upper bound (U). 4. Presentation ontologies and audiences The framework projects one relational truth into several professionally grounded presentation ontologies, including: World situation overview (Public/Media) Country depth and NFSI layers (Analysts/NGOs) Security boards and wanted-person consolidation (Security/OSINT) Macroeconomics and Governance layers (Economists/Policy makers) 5. Validation, stressors, and data integrity Integrity is maintained through auditable case studies and stress tests (e.g., election weeks, sanction shocks, information shutdowns). These tests target epistemic robustness rather than simple loss values. 6. Discussion: Governance, ethics, and platform credibility The integrity strategy \"transparency over elegance\" requires flagging ambiguity honestly. The framework includes specific guardrails for Data Sovereignty and the rights of Indigenous peoples, ensuring that locally rooted communities are not distorted in aggregated national data. 7. Conclusion and outlook NationFiles functions as open-science-compatible citation infrastructure. Future strategic fields include subnational modelling, peer-review layers on the knowledge graph, and a climate-migration ontology strictly separated from short-horizon tactics. Primary Reference: NationFiles Research (2026). NationFiles — Geopolitisches System: Ausführliche Gesamtbeschreibung (Backend, operative Datenpipeline und Frontend). Internal system monograph. End of whitepaper description.",
-    "keywords": [
-      "Geopolitics",
-      "OSINT",
-      "stability index",
-      "data pipeline",
-      "knowledge graph",
-      "governance",
-      "open science",
-      "persistent identifier",
-      "citation practice"
-    ],
-    "osint_source": [
-      "Public Records",
-      "Social Media",
-      "Government Data"
-    ],
-    "category": "OSINT Methodology",
-    "investigation_type": "Social Media Analysis",
-    "tags": [
-      "AI",
-      "Geopolitics",
-      "Stability Index",
-      "Data Integrity",
-      "Open Science"
-    ],
-    "link": "https://doi.org/10.5281/zenodo.19918598",
-    "source_url": "https://doi.org/10.5281/zenodo.19918598",
-    "doi": "10.5281/zenodo.19918598",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 512,
+    "id": 510,
     "title": "predator_sec_paper",
     "author": "ahmed sobhy; omar kamal; Eslam Abdel Hafez; Abdelrhman Moussa; Abdelrhman ragab",
     "year": 2026.0,
@@ -15862,74 +15793,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 513,
-    "title": "Hash-Developer, Meta-Abstract und Dokumentationsübersicht: SIA Security Intelligence Artefact Forschungsreihe",
-    "author": "Isabel Schöps (Thiel); Isabel Schöps geb. Thiel",
-    "year": 2026.0,
-    "venue": "Zenodo (CERN European Organization for Nuclear Research)",
-    "summary": "Meta-Abstract und Dokumentationsübersicht Hash-Developer , SIA Security Intelligence Artefact Forschungsreihe hash-1.0 Deepweb Research - Matrix Crime Algorithmen - Chain of Custody, Teil Abstrakt aus der SIA Security Intelligence Artefact Forschungsreihe Dissertation zur Erlangung der Doktoren und Professorinnen Würdigung in Informatik, abgeschlossene Forschungsarbeit zum Erlangen eins Doktorgrad. Autorin: Frau Isabel Schöps (Thiel), Hütergasse 4, D-99084 Erfurt, Deutschland Abstract Dieses Dokument stellt eine konsolidierte Meta-Zusammenfassung sowie eine strukturierte Dokumentationsübersicht der Forschungsreihe SIA Security Intelligence Artefact (SIA) dar. Die Arbeit ist als interdisziplinäre Untersuchung an der Schnittstelle von Informatik, Informationssystemen, Cybersecurity und digitaler Forensik angelegt. Im Zentrum der Forschungsreihe stehen die systematische Analyse technologischer Entwicklungen, algorithmischer Strukturen sowie deren Wechselwirkungen mit medialen und gesellschaftlichen Dynamiken. Besondere Schwerpunkte bilden: Deep-Web-Forschungsstrukturen Matrix Crime Algorithmen - algorithmische Musteranalysen, Matrix Chain-of-Custody-Methoden zur Sicherung digitaler Beweisketten Urheberschaft, Technologie, Software und Künstlichen Intelligenz Die Grundlage der Untersuchung bildet ein über mehrere Jahre aufgebauter Datenbestand, bestehend aus dokumentierten Analysen, Metadatenstrukturen sowie lizenzierten wissenschaftlichen Quellen. Forschungskontext Die Forschungsreihe ist in einem akademisch-technischen Kontext verortet und integriert: Software- und Systemmodellierung Konzepte der Künstlichen Intelligenz informationswissenschaftliche Strukturen forensische Dokumentationsmethoden Eine Vorversion dieser Arbeit wurde im Rahmen eines Manuskriptsystems vorbereitet hinterlegt: Journal: Frontiers of Computer Science Status: eingereicht / abgeschlossen Ersthinterlegung, Entwurf: December 2025 Veröffentlichungsjahr: April 2026 Version: 1.0 Lizenzierung und Quellenintegration Die Forschungsarbeit basiert auf dokumentierten Lizenzvereinbarungen, die über internationale wissenschaftliche Lizenzsysteme erworben wurden, insbesondere: Copyright Clearance Center (CCC) RightsLink Die lizenzierten Inhalte umfassen unter anderem Veröffentlichungen von: wissenschaftliche Journals (z. B. Journal of the Association for Information Science and Technology) historische Fachliteratur (z. B. The American Historical Review) naturwissenschaftliche Publikationen (Angewandte Chemie International Edition) bioinformatische und technologische Arbeiten (Bioinformatics) Veröffentlichungen zu Smart Contracts und IT-Systemen (Future Generation Computer Systems) Buch- und Frontmatter-Lizenzen über etablierte Verlage (z. B. Wiley) Oxford University Press John Wiley & Sons wissenschaftlichen Fachjournalen (z. B. Bioinformatics, JASIST) Die vorliegenden Nachweise belegen, dass über etablierte Lizenzsysteme – insbesondere über das Rights-Management-System Copyright Clearance Center (CCC) / RightsLink – Zugriffe und Nutzungsrechte für wissenschaftliche Inhalte erteilt wurden. Diese Lizenzierungen belegen: die rechtmäßige Nutzung wissenschaftlicher Inhalte die Integration in ein Dissertation- bzw. Forschungsumfeld die Einhaltung internationaler wissenschaftlicher Standards Internationale Lizensen Die Urheberrechte der verwendeten Inhalte verbleiben vollständig bei den jeweiligen Verlagen. Die Nutzung erfolgt ausschließlich im definierten wissenschaftlichen Rahmen. 1. Oxford University Press – Lizenz (Bioinformatics) Lizenzdetails: Lizenzgeber: Oxford University Press Lizenznummer: 6181571332285 Lizenzdatum: 03. Januar 2026 Publikation: Bioinformatics Titel: Open source clustering software Autoren: de Hoon, M.J.L.; Imoto, S. Veröffentlichungsdatum: 10. Februar 2004 Volumen / Ausgabe: 20 / 9 Historische, vergangene Lizenzen: 6131130060979, 6131180260843, 6170220427258, 6167160528918 Nutzungsrahmen Verwendungszweck: Dissertation / Thesis Format: Print und elektronisch Verwendeter Abschnitt: Abstract Übersetzung: Ja (2 Sprachen) Sprachen: Deutsch, Englisch, Chinesisch (Mandarin) Einbindung in Forschungsarbeit, Urheberschaft, Technologie, Opensource Software, Künstlichen Intelligenz, The Yellow Whitepaper YWP-1-IST-SIA Werk: SIA Security Intelligence Artefact INT-CODE-2025-BTC/ETH-CORE-ISABELSCHOEPSTHIEL, The Yellow Whitepaper YWP-1-IST-SIA Institution: Harvard University, Cambridge (USA) Geplante Veröffentlichung: Januar 2026 Rechtliche Einordnung Lizenzkosten: 0,00 EUR Nutzung ausschließlich im definierten wissenschaftlichen Kontext Verpflichtung zur korrekten Quellenangabe 2. Oxford University Press – Lizenz (American Historical Review), Lizenzdetails Lizenznummer: 6241070696209 Lizenzdatum: 02. April 2026 Publikation: The American Historical Review Titel: Isabel the Queen: Life and Times Autor: Jensen, De Lamar Veröffentlichungsdatum: 01. Oktober 1994 Nutzung Verwendungszweck: Dissertation / Thesis Werk: Meta-Abstract and Documentation Overview of the SIA Security Intelligence Artefact Research Series Projektkennung: INT-CODE-2025-BTC/ETH-CORE-ISABELSCHOEPSTHIEL YWP-1-IST-SIA Institution: Harvard University Sprachen: Deutsch, Englisch Kostenstruktur Gesamtkosten: 0,00 EUR 3. John Wiley & Sons – Lizenz (Wiley Books / Front Matter) Lizenzdetails: Lizenzgeber: John Wiley & Sons Bestellnummer: 502057270 Lizenzdatum: 22. März 2026 Publikation: Wiley Books Titel: Front Matter Seitenumfang: 26 Seiten Nutzung Verwendungszweck: Dissertation / Thesis Format: Print und elektronisch Verwendung: Tabellen / Abbildungen (60 Elemente) Übersetzung: Ja (inkl. Englischrechte) Sprachen: Deutsch, Englisch Einbindung, Werk: SIA Security Intelligence Artefact Kennungen: INT-CODE-2025-BTC/ETH-CORE-ISABELSCHOEPSTHIEL The Yellow Whitepaper Kennung: YWP-1-IST-SIA Eidesstaatliche Erklärung, Würdigung YWP-1-5-IST-SIA Institution: Harvard University Veröffentlichung: April 2026 4. John Wiley & Sons – Journal Lizenz (JASIST) Lizenzdetails: Lizenznummer: 6255660930186 Lizenzdatum: 24. April 2026 Publikation: Journal of the Association for Information Science and Technology Volumen / Ausgabe: 77 / 4 Nutzung, Verwendungszweck: Dissertation / Thesis Verwendung: vollständiger Artikel Format: Print und elektronisch Übersetzung: Ja Sprachen: Englisch, Deutsch Einbindung - Werk: Meta-Abstract and Documentation Overview of the SIA Security Intelligence Artefact Research Series Institution: Harvard University Methodischer Ansatz Die Forschungsarbeit folgt einem strukturierten und nachvollziehbaren methodischen Ansatz: Sammlung und Dokumentation digitaler und textbasierter Daten Analyse von Metadaten und Systemstrukturen Vergleichende Untersuchung technologischer und informationsbasierter Muster Integration lizenzierter wissenschaftlicher Literatur Forensische Dokumentation unter Anwendung von Chain-of-Custody Der Ansatz ist bewusst so gewählt, dass: keine individuellen Schuldzuweisungen vorgenommen werden keine spekulativen Aussagen ohne belastbare Grundlage getroffen werden Wissenschaftliche und institutionelle Einordnung; University of Cambridge UK, University Harvard USA, University of Oxford UK Die Universität Cambridge UK war und ist die erste Forschungsuniversität, die echte Crime-Matrix-Aligrithmen erforschte und welche sich mit der Matrix im Lebendigen-Leben auseinandersetze. Die University Harvard USA, erforschte Algorithmische-Berechnungen-Wiederholungen im Digitalen Raum, welche im den RFC-Protokollen geschrieben wurde. Diese zwei Universitäten sind die wichtigsten Ordenträger im Kampf gegegen ein künstliches von Menschen erschaffenes Lügennarratives. Die University of Oxford UK, im Zusammenarbeit mit dem Springer Nature Verlag Lizenzstruktur im direkten Zusammenhang mit internationalen wissenschaftlichen Publikationssystemen und deren institutioneller Einbettung. universitäre Verlage und akademische Strukturen wie: Cambridge University Press Oxford University Press Harvard University Publishing-Umfeld wissenschaftliche Fachverlage und Plattformen: Wiley & Son Elsevier Springer Nature (implizit über referenzierte Inhalte und Zitierstrukturen) Diese Forschungsarbeitsweise, Publikation ermöglichen es Forschenden weltweit: unabhängig vom physischen Standort im Rahmen von Fernzugang oder externer Forschung wissenschaftliche Inhalte zu lizenzieren, auszuwerten und im Peer-Kontext weiterzuverwenden Die strukturierte Nutzung lizenzierter wissenschaftlicher Quellen stellt dabei einen integralen Bestandteil der forensischen Dokumentation dar und belegt die Einbindung in internationale akademische Standards. So ermöglicht man Forschern und Studierenden, über ausgestellte Lizensen die Möglichkeit ihre erforschten Ergebnisse, Analysen etc. im Peer Preview Verfahren zu präsentieren und vorzustellen. Akademische Zielsetzung Die vorliegende Forschungsreihe ist als abgeschlossene wissenschaftliche Gesamtleistung konzipiert und dient als Grundlage für: eine Bewertung auf Doktoratsniveau (Ph.D. / Phil.D.) sowie im erweiterten Kontext für eine akademische Würdigung auf Professurniveau Die formale akademische Bewertung erfolgt ausschließlich durch zuständige wissenschaftliche Institutionen und nach den jeweils geltenden Prüfungsordnungen. Erklärung zur Unabhängigkeit Die Autorin erklärt ausdrücklich: keine Zugehörigkeit zu religiösen Organisationen, Sekten oder ideologischen Gruppen vollständige Unabhängigkeit in Konzeption, Durchführung und Auswertung der Forschungsarbeit keine externe Einflussnahme auf die Inhalte der Arbeit Schlussbemerkung Die Forschungsreihe SIA Security Intelligence Artefact stellt, technologische Analyse, forensische Methodik und interdisziplinäre Forschung in einem konsistenten wissenschaftlichen Rahmen strukturiert dar.",
-    "keywords": [
-      "Deep Web",
-      "Matrix Crime Algorithms",
-      "Chain of Custody",
-      "Cybersecurity",
-      "Digital Forensics",
-      "Artificial Intelligence",
-      "Interdisciplinary Research"
-    ],
-    "osint_source": [
-      "Academic Literature",
-      "Other"
-    ],
-    "category": "Digital Forensics & Evidence",
-    "investigation_type": "Forensic Investigation",
-    "tags": [
-      "SIA Security Intelligence Artefact",
-      "Cybersecurity Research",
-      "PhD Dissertation",
-      "Forensic Documentation",
-      "Technological Analysis"
-    ],
-    "link": "https://doi.org/10.5281/zenodo.19924631",
-    "source_url": "https://doi.org/10.5281/zenodo.19924631",
-    "doi": "10.5281/zenodo.19924631",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 514,
-    "title": "isabelschoeps-thiel/university-of-cambridge: Matrix Algorithmen Crime, Research Meta Abstrakt by Isabel Schöps (Thiel)",
-    "author": "Isabel Schöps (Thiel)",
-    "year": 2026.0,
-    "venue": "Zenodo (CERN European Organization for Nuclear Research)",
-    "summary": "Meta-Abstract und Dokumentationsübersicht SIA Security Intelligence Artefact Forschungsreihe meta-sia-1.0 Deepweb Research - Matrix Crime Algorithmen - Chain of Custody, Teil Abstrakt aus der SIA Security Intelligence Artefact Forschungsreihe Dissertation zur Erlangung der Doktoren und Professorinnen Würdigung in Informatik, abgeschlossene Forschungsarbeit zum Erlangen eins Doktorgrad. Autorin: Frau Isabel Schöps (Thiel), Hütergasse 4, D-99084 Erfurt, Deutschland Abstract Dieses Dokument stellt eine konsolidierte Meta-Zusammenfassung sowie eine strukturierte Dokumentationsübersicht der Forschungsreihe SIA Security Intelligence Artefact (SIA) dar. Die Arbeit ist als interdisziplinäre Untersuchung an der Schnittstelle von Informatik, Informationssystemen, Cybersecurity und digitaler Forensik angelegt. Im Zentrum der Forschungsreihe stehen die systematische Analyse technologischer Entwicklungen, algorithmischer Strukturen sowie deren Wechselwirkungen mit medialen und gesellschaftlichen Dynamiken. Besondere Schwerpunkte bilden: Deep-Web-Forschungsstrukturen Matrix Crime Algorithmen - algorithmische Musteranalysen, Matrix Chain-of-Custody-Methoden zur Sicherung digitaler Beweisketten Urheberschaft, Technologie, Software und Künstlichen Intelligenz Die Grundlage der Untersuchung bildet ein über mehrere Jahre aufgebauter Datenbestand, bestehend aus dokumentierten Analysen, Metadatenstrukturen sowie lizenzierten wissenschaftlichen Quellen. Forschungskontext Die Forschungsreihe ist in einem akademisch-technischen Kontext verortet und integriert: Software- und Systemmodellierung Konzepte der Künstlichen Intelligenz informationswissenschaftliche Strukturen forensische Dokumentationsmethoden Eine Vorversion dieser Arbeit wurde im Rahmen eines Manuskriptsystems vorbereitet hinterlegt: Journal: Frontiers of Computer Science Status: eingereicht / abgeschlossen Ersthinterlegung, Entwurf: December 2025 Veröffentlichungsjahr: April 2026 Version: 1.0 Lizenzierung und Quellenintegration Die Forschungsarbeit basiert auf dokumentierten Lizenzvereinbarungen, die über internationale wissenschaftliche Lizenzsysteme erworben wurden, insbesondere: Copyright Clearance Center (CCC) RightsLink Die lizenzierten Inhalte umfassen unter anderem Veröffentlichungen von: wissenschaftliche Journals (z. B. Journal of the Association for Information Science and Technology) historische Fachliteratur (z. B. The American Historical Review) naturwissenschaftliche Publikationen (Angewandte Chemie International Edition) bioinformatische und technologische Arbeiten (Bioinformatics) Veröffentlichungen zu Smart Contracts und IT-Systemen (Future Generation Computer Systems) Buch- und Frontmatter-Lizenzen über etablierte Verlage (z. B. Wiley) Oxford University Press John Wiley & Sons wissenschaftlichen Fachjournalen (z. B. Bioinformatics, JASIST) Die vorliegenden Nachweise belegen, dass über etablierte Lizenzsysteme – insbesondere über das Rights-Management-System Copyright Clearance Center (CCC) / RightsLink – Zugriffe und Nutzungsrechte für wissenschaftliche Inhalte erteilt wurden. Diese Lizenzierungen belegen: die rechtmäßige Nutzung wissenschaftlicher Inhalte die Integration in ein Dissertation- bzw. Forschungsumfeld die Einhaltung internationaler wissenschaftlicher Standards Internationale Lizensen Die Urheberrechte der verwendeten Inhalte verbleiben vollständig bei den jeweiligen Verlagen. Die Nutzung erfolgt ausschließlich im definierten wissenschaftlichen Rahmen. 1. Oxford University Press – Lizenz (Bioinformatics) Lizenzdetails: Lizenzgeber: Oxford University Press Lizenznummer: 6181571332285 Lizenzdatum: 03. Januar 2026 Publikation: Bioinformatics Titel: Open source clustering software Autoren: de Hoon, M.J.L.; Imoto, S. Veröffentlichungsdatum: 10. Februar 2004 Volumen / Ausgabe: 20 / 9 Historische, vergangene Lizenzen: 6131130060979, 6131180260843, 6170220427258, 6167160528918 Nutzungsrahmen Verwendungszweck: Dissertation / Thesis Format: Print und elektronisch Verwendeter Abschnitt: Abstract Übersetzung: Ja (2 Sprachen) Sprachen: Deutsch, Englisch, Chinesisch (Mandarin) Einbindung in Forschungsarbeit, Urheberschaft, Technologie, Opensource Software, Künstlichen Intelligenz, The Yellow Whitepaper YWP-1-IST-SIA Werk: SIA Security Intelligence Artefact INT-CODE-2025-BTC/ETH-CORE-ISABELSCHOEPSTHIEL, The Yellow Whitepaper YWP-1-IST-SIA Institution: Harvard University, Cambridge (USA) Geplante Veröffentlichung: Januar 2026 Rechtliche Einordnung Lizenzkosten: 0,00 EUR Nutzung ausschließlich im definierten wissenschaftlichen Kontext Verpflichtung zur korrekten Quellenangabe 2. Oxford University Press – Lizenz (American Historical Review), Lizenzdetails Lizenznummer: 6241070696209 Lizenzdatum: 02. April 2026 Publikation: The American Historical Review Titel: Isabel the Queen: Life and Times Autor: Jensen, De Lamar Veröffentlichungsdatum: 01. Oktober 1994 Nutzung Verwendungszweck: Dissertation / Thesis Werk: Meta-Abstract and Documentation Overview of the SIA Security Intelligence Artefact Research Series Projektkennung: INT-CODE-2025-BTC/ETH-CORE-ISABELSCHOEPSTHIEL YWP-1-IST-SIA Institution: Harvard University Sprachen: Deutsch, Englisch Kostenstruktur Gesamtkosten: 0,00 EUR 3. John Wiley & Sons – Lizenz (Wiley Books / Front Matter) Lizenzdetails: Lizenzgeber: John Wiley & Sons Bestellnummer: 502057270 Lizenzdatum: 22. März 2026 Publikation: Wiley Books Titel: Front Matter Seitenumfang: 26 Seiten Nutzung Verwendungszweck: Dissertation / Thesis Format: Print und elektronisch Verwendung: Tabellen / Abbildungen (60 Elemente) Übersetzung: Ja (inkl. Englischrechte) Sprachen: Deutsch, Englisch Einbindung, Werk: SIA Security Intelligence Artefact Kennungen: INT-CODE-2025-BTC/ETH-CORE-ISABELSCHOEPSTHIEL The Yellow Whitepaper Kennung: YWP-1-IST-SIA Eidesstaatliche Erklärung, Würdigung YWP-1-5-IST-SIA Institution: Harvard University Veröffentlichung: April 2026 4. John Wiley & Sons – Journal Lizenz (JASIST) Lizenzdetails: Lizenznummer: 6255660930186 Lizenzdatum: 24. April 2026 Publikation: Journal of the Association for Information Science and Technology Volumen / Ausgabe: 77 / 4 Nutzung, Verwendungszweck: Dissertation / Thesis Verwendung: vollständiger Artikel Format: Print und elektronisch Übersetzung: Ja Sprachen: Englisch, Deutsch Einbindung - Werk: Meta-Abstract and Documentation Overview of the SIA Security Intelligence Artefact Research Series Institution: Harvard University Methodischer Ansatz Die Forschungsarbeit folgt einem strukturierten und nachvollziehbaren methodischen Ansatz: Sammlung und Dokumentation digitaler und textbasierter Daten Analyse von Metadaten und Systemstrukturen Vergleichende Untersuchung technologischer und informationsbasierter Muster Integration lizenzierter wissenschaftlicher Literatur Forensische Dokumentation unter Anwendung von Chain-of-Custody Der Ansatz ist bewusst so gewählt, dass: keine individuellen Schuldzuweisungen vorgenommen werden keine spekulativen Aussagen ohne belastbare Grundlage getroffen werden Wissenschaftliche und institutionelle Einordnung; University of Cambridge UK, University Harvard USA, University of Oxford UK Die Universität Cambridge UK war und ist die erste Forschungsuniversität, die echte Crime-Matrix-Aligrithmen erforschte und welche sich mit der Matrix im Lebendigen-Leben auseinandersetze. Die University Harvard USA, erforschte Algorithmische-Berechnungen-Wiederholungen im Digitalen Raum, welche im den RFC-Protokollen geschrieben wurde. Diese zwei Universitäten sind die wichtigsten Ordenträger im Kampf gegegen ein künstliches von Menschen erschaffenes Lügennarratives. Die University of Oxford UK, im Zusammenarbeit mit dem Springer Nature Verlag Lizenzstruktur im direkten Zusammenhang mit internationalen wissenschaftlichen Publikationssystemen und deren institutioneller Einbettung. universitäre Verlage und akademische Strukturen wie: Cambridge University Press Oxford University Press Harvard University Publishing-Umfeld wissenschaftliche Fachverlage und Plattformen: Wiley & Son Elsevier Springer Nature (implizit über referenzierte Inhalte und Zitierstrukturen) Diese Forschungsarbeitsweise, Publikation ermöglichen es Forschenden weltweit: unabhängig vom physischen Standort im Rahmen von Fernzugang oder externer Forschung wissenschaftliche Inhalte zu lizenzieren, auszuwerten und im Peer-Kontext weiterzuverwenden Die strukturierte Nutzung lizenzierter wissenschaftlicher Quellen stellt dabei einen integralen Bestandteil der forensischen Dokumentation dar und belegt die Einbindung in internationale akademische Standards. So ermöglicht man Forschern und Studierenden, über ausgestellte Lizensen die Möglichkeit ihre erforschten Ergebnisse, Analysen etc. im Peer Preview Verfahren zu präsentieren und vorzustellen. Akademische Zielsetzung Die vorliegende Forschungsreihe ist als abgeschlossene wissenschaftliche Gesamtleistung konzipiert und dient als Grundlage für: eine Bewertung auf Doktoratsniveau (Ph.D. / Phil.D.) sowie im erweiterten Kontext für eine akademische Würdigung auf Professurniveau Die formale akademische Bewertung erfolgt ausschließlich durch zuständige wissenschaftliche Institutionen und nach den jeweils geltenden Prüfungsordnungen. Erklärung zur Unabhängigkeit Die Autorin erklärt ausdrücklich: keine Zugehörigkeit zu religiösen Organisationen, Sekten oder ideologischen Gruppen vollständige Unabhängigkeit in Konzeption, Durchführung und Auswertung der Forschungsarbeit keine externe Einflussnahme auf die Inhalte der Arbeit Schlussbemerkung Die Forschungsreihe SIA Security Intelligence Artefact stellt, technologische Analyse, forensische Methodik und interdisziplinäre Forschung in einem konsistenten wissenschaftlichen Rahmen strukturi",
-    "keywords": [
-      "Matrix Algorithms",
-      "Deep Web Research",
-      "Chain of Custody",
-      "Cybersecurity",
-      "Digital Forensics",
-      "Artificial Intelligence"
-    ],
-    "osint_source": [
-      "Academic Literature",
-      "Public Records"
-    ],
-    "category": "Digital Forensics & Evidence",
-    "investigation_type": "Forensic Investigation",
-    "tags": [
-      "Interdisciplinary Research",
-      "Documentation",
-      "Cybersecurity"
-    ],
-    "link": "https://doi.org/10.5281/zenodo.19928888",
-    "source_url": "https://doi.org/10.5281/zenodo.19928888",
-    "doi": "10.5281/zenodo.19928888",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 515,
+    "id": 511,
     "title": "Science, Education and Innovations in the Context of Modern Problems (SEI) ISSUE 6, VOLUME 9, 2026",
     "author": "Rahil Najafov",
     "year": 2026.0,
@@ -15960,7 +15824,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 516,
+    "id": 512,
     "title": "Threats to Cleared Industry, Think Tanks, and Academia from Malign Nations Focusing on Federally Funded Research and Development Centers",
     "author": "James E Equels",
     "year": 2026.0,
@@ -15995,7 +15859,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 517,
+    "id": 513,
     "title": "Artificial Intelligence, Synthetic Media, and The Criminal Justice System",
     "author": "Jeffrey Jacobs",
     "year": 2026.0,
@@ -16028,7 +15892,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 518,
+    "id": 514,
     "title": "Friend or foe? The benefits and risks of LLMs in Cybersecurity",
     "author": "Niklas P Dobler",
     "year": 2026.0,
@@ -16059,7 +15923,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 519,
+    "id": 515,
     "title": "Globalization in the Healthcare Industry: Drivers, Risks, and Adaptation",
     "author": "Anasztázia Kész; Ildikó Balatoni",
     "year": 2026.0,
@@ -16088,7 +15952,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 520,
+    "id": 516,
     "title": "Implementation of AI driven Financial Technology in Indian Cooperative Banks – Opportunity or Challenge",
     "author": "Vinod Kumar Mishra; Dr. Shilpi Khandelwa",
     "year": 2026.0,
@@ -16119,7 +15983,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 521,
+    "id": 517,
     "title": "Threat-Oriented Digital Twinning for Security Evaluation of Autonomous Platforms",
     "author": "Thomas J. Neubert; Laxima Niure Kandel; Berker Peköz",
     "year": 2026.0,
@@ -16149,75 +16013,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 522,
-    "title": "Technical Architectures for Counter-Deception in Strategic Corporate Intelligence",
-    "author": "Ignacio Iliev",
-    "year": 2026.0,
-    "venue": "Zenodo (CERN European Organization for Nuclear Research)",
-    "summary": "This white paper addresses a fundamental paradigm shift in corporate intelligence: the evolution from managing information scarcity to combating deliberate \"signal poisoning.\" Today, the primary threat to decision-makers is the systematic injection of fabricated signals—such as narrative poisoning, synthetic social noise, and controlled technical leakage—into data collection infrastructures. Traditional intelligence methods, which focus primarily on data aggregation, are structurally unprepared for this algorithmic manipulation, often leading organizations to make flawed strategic investments based on artificial market realities. To neutralize this threat, the paper introduces the Counter-Deception Intelligence Architecture (CDIA), an evidentiary framework designed to transition intelligence operations from passive data collection to active signal verification. The CDIA protects the organizational decision-making process (OODA loop) by implementing a rigorous \"Defense in Depth\" methodology. This includes cross-domain validation, \"Zero Trust\" data policies, and the critical use of Infrastructural OSINT to verify easily synthesized digital noise against expensive-to-fake physical and logistical realities. By analyzing real-world case studies like the Nikola Corporation and Wirecard scandals, the research highlights the catastrophic consequences of relying on unverified digital signals. Ultimately, the proposed architecture aims to secure \"decision dominance,\" ensuring that senior management bases its strategic maneuvers on objective, disinfected data and undeniable evidentiary facts rather than algorithmic illusions.Този доклад разглежда фундаментална смяна на парадигмата в корпоративното разузнаване: еволюцията от управление на информационен дефицит към борба с целенасоченото \"отравяне на сигнали\". Днес основната заплаха за вземащите решения е систематичното инжектиране на фабрикувани сигнали – като отравяне на наратива, синтетичен социален шум и контролирано техническо изтичане – в инфраструктурите за събиране на данни. Традиционните методи на разузнаване, които се фокусират основно върху агрегирането на данни, са структурно неподготвени за тази алгоритмична манипулация, което често води до това организациите да правят погрешни стратегически инвестиции въз основа на изкуствени пазарни реалности.За да неутрализира тази заплаха, статията представя Разузнавателна архитектура за противодействие на измамите (CDIA) – доказателствена рамка, предназначена да превърне разузнавателните операции от пасивно събиране на данни в активно верифициране на сигнали. CDIA защитава организационния процес по вземане на решения (цикъла OODA) чрез прилагане на строга методология за \"защита в дълбочина\". Това включва междудомейнова валидация, политики за данни с \"нулево доверие\" (Zero Trust) и критичното използване на инфраструктурен OSINT за проверка на лесно синтезируемия дигитален шум спрямо скъпите за фалшифициране физически и логистични реалности.Чрез анализиране на реални казуси като скандалите с Nikola Corporation и Wirecard, изследването подчертава катастрофалните последици от разчитането на непроверени дигитални сигнали. В крайна сметка, предложената архитектура има за цел да осигури \"доминация при вземането на решения\", гарантирайки, че висшият мениджмънт базира своите стратегически маневри на обективни, дезинфекцирани данни и неоспорими доказателствени факти, а не на алгоритмични илюзии.",
-    "keywords": [
-      "Counter-Deception",
-      "Signal Poisoning",
-      "Corporate Intelligence",
-      "Data Verification",
-      "Decision Dominance",
-      "OODA Loop"
-    ],
-    "osint_source": [
-      "Social Media",
-      "Public Records",
-      "News Media",
-      "Forums & Communities"
-    ],
-    "category": "Disinformation & Influence",
-    "investigation_type": "Other",
-    "tags": [
-      "Intelligence Architecture",
-      "Cyber Threats",
-      "Digital Signals",
-      "Algorithmic Manipulation"
-    ],
-    "link": "https://doi.org/10.5281/zenodo.19917856",
-    "source_url": "https://doi.org/10.5281/zenodo.19917856",
-    "doi": "10.5281/zenodo.19917856",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 523,
-    "title": "DEVELOPMENT OF THE SECURITY ENVIRONMENT: A CONCEPTUAL OSINT MODEL AND MANAGEMENT FRAMEWORK",
-    "author": "Vasyl Franchuk; Stepan Melnyk; Volodymyr Hobela; Nataliia Shuprudko; Nila Tiurina",
-    "year": 2026.0,
-    "venue": "Financial and credit activity problems of theory and practice",
-    "summary": "The main purpose of this study is to develop theoretical and conceptual provisions that reveal the essence and mechanisms of security environment development, as well as the role of OSINT and management in this process. The article substantiates the author’s approach to interpreting the management of security environment development. Within this framework, the security environment is understood as a condition of human, organizational, societal, and state activity in which real threats exist and the consequences of their impact or counteraction are manifested.The authors argue that the security environment can be conventionally divided into two levels: unsafe and safe, and propose qualitative criteria for this differentiation. Such division enables understanding of development as an orderly and purposeful transition of the environment to a qualitatively safer state. Accordingly, the development of the security environment is defined as a process of change ensuring its transition to a more secure condition and reproducing its qualitative properties in line with the needs of actors operating within it.The article substantiates that OSINT represents a form of security activity (a technological process) involving the search, analysis, and transformation of open-source information into targeted intelligence. A structural model of OSINT is proposed, consisting of systemic organizational and technological elements and an action algorithm that together form a unified technological process. OSINT is used to obtain targeted information about threats or their sources within the security environment through detection mechanisms.The authors propose a theoretical and conceptual model of OSINT utilization in security environment development and management, integrating the key components of this process. The research contributes to the theoretical and practical understanding of the development of national and global security environments and may be useful for scholars, policymakers, practitioners, and public officials, particularly in the context of the russian–Ukrainian war.",
-    "keywords": [
-      "OSINT",
-      "security environment",
-      "management framework",
-      "threat detection",
-      "qualitative criteria"
-    ],
-    "osint_source": [
-      "Public Records",
-      "News Media",
-      "Other"
-    ],
-    "category": "OSINT Methodology",
-    "investigation_type": "Other",
-    "tags": [
-      "security",
-      "open-source intelligence",
-      "conceptual model",
-      "national security"
-    ],
-    "link": "https://doi.org/10.55643/fcaptp.2.67.2026.5176",
-    "source_url": "https://doi.org/10.55643/fcaptp.2.67.2026.5176",
-    "doi": "10.55643/fcaptp.2.67.2026.5176",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 524,
+    "id": 518,
     "title": "Cell-Based VSC Analysis Methodology: From Graph Laplacian to Converter Degrees of Freedom",
     "author": "Daniele Falchi; Eduardo Prieto-Araujo; Oriol Gomis-Bellmunt",
     "year": 2026.0,
@@ -16247,7 +16043,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 525,
+    "id": 519,
     "title": "The state of scientific development of problems of pre-trial investigation of cybercrimes",
     "author": "I. S. Feshchenko",
     "year": 2026.0,
@@ -16275,41 +16071,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 526,
-    "title": "Works for 4/28/2026 - Walter Ong",
-    "author": "Ryan MacLean",
-    "year": 2026.0,
-    "venue": "Zenodo (CERN European Organization for Nuclear Research)",
-    "summary": "Listen and ask questions on NotebookLM: https://notebooklm.google.com/notebook/566b40fe-9a82-4cdd-a98f-70f3e533dfc3?authuser=1 This paper proposes that a properly governed Catholic artificial-intelligence corpus can function as a technological extension of the logic behind the Spiritual Exercises of St. Ignatius of Loyola: not as a replacement for conscience, clergy, sacrament, or ecclesial authority, but as a structured aid for discernment. Drawing from Catholic theology, cognitive science, information theory, cybernetics, linguistics, and AI alignment research, the work argues that modern Catholics face a crisis not of information scarcity but of interpretive overload. Scripture, Tradition, magisterial documents, theology, social media, and AI-generated language now circulate together in fragmented digital environments where distinctions of authority and context are often lost. The paper develops the concept of “Digital Exercises,” a structured Catholic AI framework modeled after Ignatian discernment. Instead of operating as an oracle or automated theologian, the proposed system would assist human judgment by organizing, retrieving, comparing, ranking, and clarifying sources while preserving doctrinal hierarchy, contextual integrity, and ecclesial accountability. The machine traverses the corpus; the Church discerns. AI becomes an instrument of ordered memory rather than a substitute for wisdom, conscience, or grace. Major sections examine Ignatian spirituality as a repeatable cognitive-spiritual architecture; the examen as a model for semantic and linguistic correction; consolation and desolation as analogues for digital discernment; repetition and liturgical memory as formation structures; and Catholicism’s unique suitability for governing machine-mediated language through sacramental, doctrinal, and communal continuity. The work also explores the risks of hallucination, false authority, semantic drift, ideological flattening, and performative religious fluency within large language models, proposing safeguards including visible source citation, authority ranking, correction logs, human oversight, auditability, and episcopal governance. The paper situates Catholic tradition as uniquely experienced in preserving meaning across centuries of linguistic, cultural, and technological change. Rather than framing AI solely as a threat, it argues that Catholicism already contains many of the conceptual tools necessary for responsible governance of machine-mediated communication. The final claim is that Catholic AI should not be designed as digital authority, but as a disciplined structure that helps human beings remember, compare, test, discern, and speak more faithfully while the Spirit of truth remains with the living Church.",
-    "keywords": [
-      "AI governance",
-      "Catholicism",
-      "digital discernment",
-      "cognitive science",
-      "Ignatian spirituality"
-    ],
-    "osint_source": [
-      "Social Media",
-      "Academic Literature",
-      "Other"
-    ],
-    "category": "AI/ML for Security",
-    "investigation_type": "Other",
-    "tags": [
-      "AI",
-      "Catholic theology",
-      "digital ethics",
-      "discernment",
-      "information overload"
-    ],
-    "link": "https://doi.org/10.5281/zenodo.19868427",
-    "source_url": "https://doi.org/10.5281/zenodo.19868427",
-    "doi": "10.5281/zenodo.19868427",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 527,
+    "id": 520,
     "title": "7th International Conference on Machine Learning & Trends (MLT 2026)",
     "author": "José Martin ''Flores Kú''",
     "year": 2026.0,
@@ -16338,7 +16100,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 528,
+    "id": 521,
     "title": "Digital Contracts and the Challenge of Providing Evidence in Court Under the Indonesian Legal System",
     "author": "Nico Nico; Dianty Savitri; Naufal Afra Munis",
     "year": 2026.0,
@@ -16372,40 +16134,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 529,
-    "title": "The intersection of athletics and online abuse: A study of cyberbullying among student-athletes.",
-    "author": "Kate T O'Bryan",
-    "year": 2026.0,
-    "venue": "ThinkIR: The University of Louisville's Institutional Repository (University of Louisville)",
-    "summary": "Abstract The current study aimed to identify associations between social media use, cyberbullying victimization, and mental health symptoms experienced by Division I athletes at the University of Louisville. Using an electronic survey methodology, the current study examined individual characteristics such as social comparison frequency, team culture, and sport-level factors (e.g., NIL–based visibility and online experiences of athletes) to investigate cyberbullying victimization frequency among athletes (N =80) and potential relationships with mental health symptoms. Findings indicate that one-fifth (21.4%) of athletes between the ages of 18 and 24 were cyberbullied in the last month, with rumors spreading and mean comments being the most common. Cyberbullying prevalence differed across sports, with rowing, football, and field hockey athletes having experienced cyberbullying more frequently. Differences in traditional cyberbullying risk factors, such as gender, were mixed. Athletes’ social media use related to social comparison and monitoring was significantly related to stress and depression. Student-athletes who experienced cyberbullying in high school reported more frequent cyberbullying victimization as well as more symptoms of depression and stress. The current study indicates that cyberbullying victimization is present and associated with poorer mental health symptoms among collegiate athletes. Although cyberbullying affects many collegiate athletes, there are differences in cyberbullying frequencies among different teams. As a result, athletic departments should assess athletes for online harm, implement preventative programs, and standardize cyberbullying protocols in line with the NCAA Mental Health Best Practices released in 2023 to address student-athletes' needs.",
-    "keywords": [
-      "cyberbullying",
-      "student-athletes",
-      "social media",
-      "mental health",
-      "athletic departments"
-    ],
-    "osint_source": [
-      "Social Media",
-      "Public Records"
-    ],
-    "category": "Disinformation & Influence",
-    "investigation_type": "Social Media Analysis",
-    "tags": [
-      "cyberbullying",
-      "sports",
-      "mental health",
-      "social comparison",
-      "NCAA"
-    ],
-    "link": "https://ir.library.louisville.edu/kent_capstone/13",
-    "source_url": "https://ir.library.louisville.edu/kent_capstone/13",
-    "doi": "",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 530,
+    "id": 522,
     "title": "Review of zero-click attacks and zero-trust security model: concepts, architecture, state of the art, and future directions",
     "author": "Enobong Archibong; Philip Asuquo; Bliss Stephen",
     "year": 2026.0,
@@ -16439,7 +16168,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 531,
+    "id": 523,
     "title": "Fake Speech Wild: Detecting Deepfake Speech on Social Media Platform",
     "author": "Yuankun Xie; Ruibo Fu; Xiaopeng Wang; Zhiyong Wang; Ya Li; Yingming Gao; Zhengqi Wen; Haonan Cheng; Long Ye",
     "year": 2026.0,
@@ -16471,114 +16200,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 532,
-    "title": "A Secure Broadcast-Based Data Sharing Framework for Wireless Sensor Networks Integrated with Social Media Platforms",
-    "author": "Md. Shafi Ahmad; Dr. Harsh Lohiya",
-    "year": 2026.0,
-    "venue": "International Journal of Drug Delivery Technology",
-    "summary": "(Wireless Sensor Networks (WSNs) have emerged as an essential technology for real-time monitoring and data collection in diverse domains such as environmental monitoring, smart cities, disaster management, healthcare, and industrial automation. These networks consist of spatially distributed sensor nodes that collect environmental data and transmit it to centralized servers or base stations. However, due to the open communication medium, limited computational capacity of sensor nodes, and large-scale deployment, WSNs are highly vulnerable to security threats such as eavesdropping, data tampering, node compromise, and unauthorized access. This research proposes an innovative Secure Broadcast-Based Data Sharing Framework (SBDSF) for Wireless Sensor Networks integrated with social media platforms. The framework utilizes secure broadcast encryption, lightweight authentication protocols, and access control mechanisms to ensure that only authorized users can access the sensor data shared through social media interfaces. The proposed model introduces a three-layer architecture consisting of sensor layer, gateway layer, and social media integration layer. supporting emergency management, environmental monitoring, and public information systems. The proposed research contributes to the development of secure, scalable, and intelligent data sharing systems for next-generation smart environments.)",
-    "keywords": [
-      "Wireless Sensor Networks",
-      "data sharing",
-      "security",
-      "social media integration"
-    ],
-    "osint_source": [
-      "Social Media"
-    ],
-    "category": "IoT & CPS Security",
-    "investigation_type": "Other",
-    "tags": [
-      "IoT",
-      "data security",
-      "broadcast encryption",
-      "smart environments"
-    ],
-    "link": "https://doi.org/10.25258/ijddt.16.22s.111",
-    "source_url": "https://doi.org/10.25258/ijddt.16.22s.111",
-    "doi": "10.25258/ijddt.16.22s.111",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 533,
-    "title": "Erase or be erased. Social media referrals to healthcare regulators in the United Kingdom 2017 to 2024",
-    "author": "Sarah Edwards; Gabrielle Finn; Jonathan Guckian",
-    "year": 2026.0,
-    "venue": "Health Policy and Technology",
-    "summary": "• Social media referrals to UK healthcare professional regulators are rising, particularly for doctors and nurses, but SM-related fitness to practise (FtP) hearings remain very rare (113 cases over 8 years). • Major themes in FtP hearings included, sexualised content directed to patients or colleagues, COVID-19 misinformation, breaches of patient confidentiality, and extreme racist or sexualised content, with erasure being the most common outcome. • Despite increasing social media concerns, most referrals do not progress to FtP hearings, suggesting most HCPs maintain appropriate digital professionalism. • Ambiguity in regulator guidance and fear of vexatious complaints contribute to healthcare professional anxiety about social media use, potentially limiting positive engagement in digital spaces. • Clearer guidance is needed with supportive regulator engagement, and further research on social media related referrals to protect HCP wellbeing and foster positive social media cultures. Objectives: Social media (SM) use both professionally and personally is prevalent across all healthcare professionals (HCPs). Its use amongst HCPs is particularly well evidenced across a variety of domains, including health promotion, clinical education, policy debate, and patient interaction. However, as this use increases there is an increasing perception that even normal day-to-day use by HCPs may result in referral to their regulator. Our study aimed to understand which HCPs were being referred to their regulator in the United Kingdom for perceived negative SM behaviours including which behaviours specifically warranted referrals to fitness to practise hearings. Methods: A retrospective case review following freedom of information requests to all HCP regulators in the UK was undertaken. Requests for information around cases involving SM from 2017 to 2024 were requested. Hand searching of outcomes was also done where possible. SM was defined as anything related to the use of applications including Facebook, Twitter (now X), Tik ToK, and posting on the internet in forums. Data analysis considered the number of referrals per year, and per regulator. A review of the fitness to practise (FtP) hearings and themes from the hearings was then undertaken. Results: There were a total of 189,913 concerns raised across regulators, and a total of 13265 FtP hearings over the 8 years from 2017 - 2024. Therefore 7% of referrals resulted in a FtP hearing. Over these 8 years there were 113 (0.85%) FtP hearings which were SM-related across all regulators, or 0.04% of SM concerns raised with regulators resulted in an FtP hearing. Suspension was the most common outcome followed by erasure from the register. Themes of FtP hearings were around COVID-19 misinformation, disclosure of confidential patient information onto social media, extreme and multiple racist posts, bullying, contacting a patient, highly sexualised content or sending this sexualised content to either a patient, colleague or child. Conclusions: This study may provide reassurance to HCPs who are significantly concerned regarding a looming threat of regulator referral for routine SM behaviour. However, rising referrals raised regarding doctors and nurses warrants specific further investigation amongst these populations, particularly concerning impact upon wellbeing and wider healthcare SM culture.",
-    "keywords": [
-      "social media",
-      "healthcare",
-      "fitness to practise",
-      "HCPs",
-      "UK",
-      "COVID-19 misinformation"
-    ],
-    "osint_source": [
-      "Social Media",
-      "Public Records"
-    ],
-    "category": "Disinformation & Influence",
-    "investigation_type": "Social Media Analysis",
-    "tags": [
-      "referrals",
-      "professionals",
-      "guidance",
-      "digital professionalism",
-      "wellbeing"
-    ],
-    "link": "https://doi.org/10.1016/j.hlpt.2026.101178",
-    "source_url": "https://doi.org/10.1016/j.hlpt.2026.101178",
-    "doi": "10.1016/j.hlpt.2026.101178",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 534,
-    "title": "IMPACT OF MACHINE LEARNING ON SECURING PUBLIC WI-FI VIA MOBILE APPLICATIONS",
-    "author": "Prof. Mrs. Neha Porji and Mr. Sanket Shantaram Kadam",
-    "year": 2026.0,
-    "venue": "Zenodo (CERN European Organization for Nuclear Research)",
-    "summary": "In today’s digital landscape, college students heavily depend on public Wi-Fi networks for academic tasks, social interactions, and financial activities via mobile applications. However, these open networks often lack robust security measures, exposing users to cyber threats such as data interception, unauthorized access, and phishing attacks. This study investigates the role of machine learning in enhancing the security of public Wi- Fi through mobile applications. It examines how intelligent algorithms can identify unusual network behaviour, detect malicious access points, and mitigate threats in real time. The research also assesses students’ awareness of Wi-Fi security risks and their usage patterns related to unsecured networks. Results indicate that although most students understand the potential dangers of public WiFi, many continue to use it without sufficient precautions. Implementing machine learning techniques— such as anomaly detection and classification models—can significantly improve network protection and reduce data vulnerability. The study concludes by recommending the development of ML-powered mobile applications and awareness initiatives to encourage safer digital practices among college students. Keywords: Public Wi-Fi Security, Machine Learning, Mobile Applications, Cyber Threats, Anomaly Detection, Classification Models, Network Behaviour Analysis, Threat Detection, Data Vulnerability, Student Awareness, Usage Patterns, Real-time Security, Malicious Access Points, Digital Safety Practices.",
-    "keywords": [
-      "Public Wi-Fi Security",
-      "Machine Learning",
-      "Mobile Applications",
-      "Cyber Threats",
-      "Anomaly Detection",
-      "Classification Models",
-      "Network Behaviour Analysis",
-      "Threat Detection",
-      "Data Vulnerability",
-      "Student Awareness",
-      "Usage Patterns",
-      "Real-time Security",
-      "Malicious Access Points",
-      "Digital Safety Practices"
-    ],
-    "osint_source": [
-      "Public Records",
-      "News Media",
-      "Other"
-    ],
-    "category": "AI/ML for Security",
-    "investigation_type": "Threat Hunting",
-    "tags": [
-      "Wi-Fi Security",
-      "Machine Learning",
-      "Cybersecurity",
-      "Public Networks",
-      "Student Safety"
-    ],
-    "link": "https://doi.org/10.5281/zenodo.19914941",
-    "source_url": "https://doi.org/10.5281/zenodo.19914941",
-    "doi": "10.5281/zenodo.19914941",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 535,
+    "id": 524,
     "title": "Enhancing Cloud Security Using Machine Learning and Deep Learning Techniques",
     "author": "Pardeep Saini; Syed Muqthadar Ali",
     "year": 2026.0,
@@ -16608,7 +16230,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 536,
+    "id": 525,
     "title": "Mitigating Cyber Risk and Current Trends in Modern Authentication Techniques for Businesses",
     "author": "Khaled Musa; Omid Afshinpour; Christian Avila; Sarah Jimenez",
     "year": 2026.0,
@@ -16640,7 +16262,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 537,
+    "id": 526,
     "title": "Enhancing Network Intrusion Detection with Quantum Machine Learning: A Comprehensive Survey of Methods, Metrics, and Applications",
     "author": "Antanios Kaissar; Ali Bou Nassif; Ahmed Bouridane",
     "year": 2026.0,
@@ -16670,7 +16292,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 538,
+    "id": 527,
     "title": "Selecting trust repair strategies: The case of privacy breaches in smart service systems",
     "author": "Björn Konopka; Kay Hönemann; Ning Yang; Jason Bennett Thatcher; Manuel Wiesche",
     "year": 2026.0,
@@ -16698,40 +16320,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 539,
-    "title": "Phishing Detection Techniques: A Systematic Review",
-    "author": "Poorvi .",
-    "year": 2026.0,
-    "venue": "International Journal for Research in Applied Science and Engineering Technology",
-    "summary": "Phishing attacks continue to function as the most widespread and destructive cyber threats which exist throughout today's digital environment. Cybercriminals use phishing attacks to trick users into disclosing their confidential information which includes their login details and financial information and their personal identification data. The advancement of phishing techniques through AI-generated content and deepfake technology and social engineering via multiple channels has rendered traditional detection methods which rely on blacklists and heuristics increasingly ineffective. This paper presents a systematic review of phishing detection techniques which authorities developed between 2015 and 2025. The study found that transformerbased models BERT and RoBERTa achieved a detection accuracy of 99 percent which is significantly better than classical machine learning baselines. The study identified several critical open challenges which include adversarial evasion and zero-day attacks and dataset limitations and multilingual coverage. The study identified specific directions for future research.",
-    "keywords": [
-      "Phishing",
-      "AI Techniques",
-      "Cyber Threats",
-      "Detection Accuracy",
-      "Systematic Review"
-    ],
-    "osint_source": [
-      "Social Media",
-      "News Media",
-      "Academic Literature"
-    ],
-    "category": "Cyber Threat Intelligence",
-    "investigation_type": "Phishing Analysis",
-    "tags": [
-      "Phishing Detection",
-      "Cybersecurity",
-      "Machine Learning",
-      "Deepfake Technology"
-    ],
-    "link": "https://doi.org/10.22214/ijraset.2026.79156",
-    "source_url": "https://doi.org/10.22214/ijraset.2026.79156",
-    "doi": "10.22214/ijraset.2026.79156",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 540,
+    "id": 528,
     "title": "Engineering opportunistic digital twins with lingua franca",
     "author": "Vincenzo Barbuto; Claudio Savaglio; Edward A. Lee; Giancarlo Fortino",
     "year": 2026.0,
@@ -16762,7 +16351,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 541,
+    "id": 529,
     "title": "A Survey on Cyber Security Threats and Prevention Techniques",
     "author": "Siva Satya Sai Krishna ² V; Lakshmi Bhargavi S",
     "year": 2026.0,
@@ -16795,7 +16384,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 542,
+    "id": 530,
     "title": "Anomaly Detection in Cloud Networks Using Machine Learning Techniques",
     "author": "Dr. P. K. Sharma",
     "year": 2026.0,
@@ -16825,7 +16414,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 543,
+    "id": 531,
     "title": "Cybercrime on the Dark Web: Risks, Challenges, and Prevention Techniques",
     "author": "Rajeshree Wasnik",
     "year": 2026.0,
@@ -16860,7 +16449,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 544,
+    "id": 532,
     "title": "AI readiness in schools: institutional policies and technological capacity in Spanish secondary education and vocational training",
     "author": "Natalia Lara Nieto-Márquez; Diana Cembreros Castaño; Encarnación López Mateo; Álvaro Moraleda Ruano",
     "year": 2026.0,
@@ -16889,7 +16478,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 545,
+    "id": 533,
     "title": "SH-IDS: a resilient self-healing intrusion detection framework against DoS and DDoS attacks in IoT systems",
     "author": "Mahawish Fatima; Osama Rehman; N. Z. Jhanjhi; Saqib Ali",
     "year": 2026.0,
@@ -16919,7 +16508,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 546,
+    "id": 534,
     "title": "F.L.A.I.R. -- A Flow-Level Autoencoder for Intrusion Recognition",
     "author": "Joseph P Dumond",
     "year": 2026.0,
@@ -16948,7 +16537,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 547,
+    "id": 535,
     "title": "BLEND blockchain and federated learning enabled data sharing network",
     "author": "G. Sudhakar; M. Indrasena Reddy; K. R. Pradeep; G. Bindu Madhavi; Y. Sowmya Reddy; Manjusha Bollimuntha",
     "year": 2026.0,
@@ -16979,7 +16568,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 548,
+    "id": 536,
     "title": "HDCI Net for interpretable cross domain intrusion detection in 6G IoT and critical infrastructure networks",
     "author": "Amjad Qashlan",
     "year": 2026.0,
@@ -17012,40 +16601,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 549,
-    "title": "Age-Friendly Built Environments: Integrating Architecture, Safety, and Corporate Security for Healthy and Independent Aging",
-    "author": "Jernej Bevk; Miha Dvojmoč",
-    "year": 2026.0,
-    "venue": "Buildings",
-    "summary": "Population aging intensifies the need for built environments that support healthy and independent living while reducing preventable risks. This integrative review examines how architectural design, safety measures, and corporate security can function as an integrated, layered system for creating age-friendly environments across public spaces, housing, and intergenerational community settings. Drawing on a systematic search of literature published between 2010 and 2026 across databases including Scopus, Web of Science, Google Scholar, and PubMed, supplemented by international standards and policy documents, the review analyses how universal design principles, injury prevention strategies, and governance routines intersect to sustain mobility, reduce harms, and protect data, devices, and operational continuity. The findings indicate that gaps in any layer, such as inaccessible layouts, poorly maintained safety systems, or weak cybersecurity, can undermine overall effectiveness, compromise trust, and affect older adults’ autonomy. The COVID-19 pandemic further exposed these interdependencies, accelerating smart technology adoption while exacerbating digital inequality and social isolation, particularly in rural settings. This review concludes that age-friendly environments require not only barrier-free architecture and proportionate safety measures, but also robust governance structures that ensure accountability, lifecycle maintenance, and responsible data practices. Integrating these three domains provides a foundation for resilient, trustworthy, and health-promoting environments that enable older adults to remain active, socially connected, and secure.",
-    "keywords": [
-      "age-friendly environments",
-      "architecture",
-      "safety",
-      "corporate security",
-      "healthy aging"
-    ],
-    "osint_source": [
-      "Public Records",
-      "Academic Literature"
-    ],
-    "category": "Other",
-    "investigation_type": "Other",
-    "tags": [
-      "aging population",
-      "design principles",
-      "cybersecurity",
-      "public health",
-      "smart technology"
-    ],
-    "link": "https://doi.org/10.3390/buildings16091725",
-    "source_url": "https://doi.org/10.3390/buildings16091725",
-    "doi": "10.3390/buildings16091725",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 550,
+    "id": 537,
     "title": "Digital Twins for Thermal Comfort and Energy Efficiency in Buildings: A Systematic Review",
     "author": "Anwar Basunbul; Raneem Anwar; Rana El Shafei; Abrar Baamer; Samah Elkhateeb; Marwa Abouhassan",
     "year": 2026.0,
@@ -17080,7 +16636,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 551,
+    "id": 538,
     "title": "Safeguarding the skies: the rise of machine learning approaches for cyberattack detection in unmanned aerial systems",
     "author": "Tariq Mouatassim; Mohammed Airaj; El Mahdi El Guarmah",
     "year": 2026.0,
@@ -17111,7 +16667,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 552,
+    "id": 539,
     "title": "Revisiting Backdoor Threat in Federated Instruction Tuning From a Signal Aggregation Perspective",
     "author": "Haodong Zhao; Jinming Hu; Gongshen Liu",
     "year": 2026.0,
@@ -17139,7 +16695,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 553,
+    "id": 540,
     "title": "DecoyShield: A Deception-Based Framework for Proactive Threat Detection and Cyber Defense",
     "author": "Naja Sherin M",
     "year": 2026.0,
@@ -17173,7 +16729,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 554,
+    "id": 541,
     "title": "RPM-Net: Reciprocal Point MLP Network for Unknown Network Security Threat Detection",
     "author": "Jiachen Zhang; Yueming Lu; Fan Feng; Zhanfeng Wang; Shengli Pan; Daoqi Han",
     "year": 2026.0,
@@ -17205,7 +16761,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 555,
+    "id": 542,
     "title": "A Malicious Policy Detection Approach Enhanced by Threat Knowledge in LLM-Based Embodied Robots",
     "author": "Mengjie Sun; Yaowen Zheng; Shichao Lv; Zhi Li; Kaixiang Liu; Yuncheng Wang; Yongle Chen; Limin Sun",
     "year": 2026.0,
@@ -17233,7 +16789,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 556,
+    "id": 543,
     "title": "Offline-Capable AI–Blockchain Architecture for Biochemical Threat Detection in Mission-Critical MANET Environments",
     "author": "Victor Ikenna Kanu; Ihunanya Udodiri Ajakwe; Simeon Okechukwu Ajakwe; Dong-Seong Kim",
     "year": 2026.0,
@@ -17262,36 +16818,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 557,
-    "title": "Virtual reality pilgrimage: an examination of the varieties of digital pilgrimage experience",
-    "author": "Neil Alfred",
-    "year": 2026.0,
-    "venue": "Western Sydney University ResearchDirect",
-    "summary": "This study investigates novel and varied experiences of digital pilgrimage that are largely neglected in current pilgrimage studies. Digital pilgrimage is a viable method for partaking in the sacred ritual pilgrimage that is practised across various cultures as a form of journeying to and from places of sacred significance and as a form of ritualised obligation or meaning making. To date, the only discussions of digital based pilgrimages are Connie Hill- Smith’s article: Cyberpilgrimage: The (Virtual) Reality of Online Pilgrimage Experience (2011), and Mark MacWilliams two works: Virtual Pilgrimage to Ireland’s Croagh Patrick (2013), and Virtual pilgrimages on the internet (2002). All three come to similar conclusions about the disposition of digital based pilgrimages as being cyberspace-based environments. These studies assimilate both simple website-based pilgrimages with that of virtual reality. This can target a users’ exteroceptive senses (ocular, auditory, olfactory, and haptic), from three dimensional virtual environments to biometric feedback based on hand gestures in a virtual environment. These are dedicated not only for virtual reality (VR) pilgrimage, but also VR gaming and VR museum exhibitions. This thesis, therefore, proposes that digital pilgrimage needs to be considered more distinctly than it is currently, because the users’ interface and experience can be greatly affected by the various methods for interacting with the different digital environments of cyberspace, augmented reality, and virtual reality. It is also why the current study asserts the new concept of a “digital pilgrimage continuum” for examining a form of digital pilgrimage given there is an experiential and user interface difference between digitally mediated environments, including cyberspace, virtual reality, and augmented reality. The continuum involves a shift away from current definitions that maintain all digital based pilgrimages are the same. To support the need for this digital pilgrimage continuum this study also employs two other investigative strategies: 1) a comparative analysis of value based experience of digital pilgrimage drawing on insights from religious tourism to identify the experiential similarities between digital with non-digital pilgrimages, and 2) a theoretical perspective of viewing the virtuality debate in terms of notions of play drawing on insights from the game play theories of Dungeons and Dragons to differentiate between virtual as imagined and virtual reality as the computer generated environment for transformative experiences.",
-    "keywords": [
-      "digital pilgrimage",
-      "virtual reality",
-      "augmented reality",
-      "cyberspace",
-      "experiential analysis"
-    ],
-    "osint_source": [],
-    "category": "Other",
-    "investigation_type": "Other",
-    "tags": [
-      "digital experience",
-      "religious tourism",
-      "virtual environments",
-      "immersive technology"
-    ],
-    "link": "https://doi.org/10.26183/v0t2-dn29",
-    "source_url": "https://doi.org/10.26183/v0t2-dn29",
-    "doi": "10.26183/v0t2-dn29",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 558,
+    "id": 544,
     "title": "Securing federated learning: A comparative review of privacy, trust, efficiency, and intrusion detection approaches",
     "author": "T. Vamshi Krishna; K. Anusha",
     "year": 2026.0,
@@ -17321,101 +16848,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 559,
-    "title": "How Digital News Impacts Health Knowledge and Decisions",
-    "author": "Ellya Asatryan",
-    "year": 2026.0,
-    "venue": "Pepperdine Digital Commons (Pepperdine University)",
-    "summary": "This literature review examines how digital news and online health information (OHI) influence health knowledge and decision-making. This review focuses specifically on young adults, who increasingly rely on digital platforms for health information. Evidence indicates that OHI can support informed health decisions, such as lifestyle changes and self-care, particularly when individuals possess higher digital health literacy. However, the rise of social media, influencer marketing, and misinformation complicates these effects, making critical evaluation skills essential. Trust in digital health news is mediated by source credibility, exposure to misinformation, and individuals’ media and health literacy levels. Lower health literacy is associated with increased vulnerability to false or misleading information. Digital platforms also shape health information use through features, such as accessibility and regulatory actions aimed at reducing misinformation. The review underscores the importance of digital health literacy, fact-checking, and official actions to enable young adults to navigate online health content effectively.",
-    "keywords": [
-      "Digital News",
-      "Health Information",
-      "Misinformation",
-      "Health Literacy",
-      "Young Adults"
-    ],
-    "osint_source": [
-      "Social Media",
-      "News Media",
-      "Public Records"
-    ],
-    "category": "Disinformation & Influence",
-    "investigation_type": "Other",
-    "tags": [
-      "Digital Health",
-      "Information Evaluation",
-      "Media Literacy",
-      "Online Health Decisions"
-    ],
-    "link": "https://digitalcommons.pepperdine.edu/pjcr/vol14/iss1/7",
-    "source_url": "https://digitalcommons.pepperdine.edu/pjcr/vol14/iss1/7",
-    "doi": "",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 560,
-    "title": "Depressive symptoms amplify the impact of feeling supported or ignored online by friends on adolescents’ well- and Ill-being",
-    "author": "Loes Janssen; Amber van der Wal; Ine Beyens",
-    "year": 2026.0,
-    "venue": "Development and Psychopathology",
-    "summary": "Abstract Adolescents’ communication with friends increasingly occurs online and research has primarily focused on the quantity rather than the quality of interactions, such as feeling supported or ignored. Since feeling supported or ignored by friends offline affects adolescents’ well- and ill-being, it is essential to understand how these dynamics unfold in online contexts, particularly for adolescents with elevated depressive symptoms, who may be especially sensitive to these experiences. In this preregistered 100-day diary study, 479 adolescents ( M age = 15.98, 54.9% girls; 96.9% Dutch) reported daily on time spent communicating online with friends, their experiences of feeling supported and ignored by friends, and their well- and ill-being. Results showed that time spent communicating online with friends did not relate to adolescents’ well- and ill-being. Feeling supported by friends online resulted in higher well-being and lower ill-being, while feeling ignored by friends online was related to lower well-being and higher ill-being. Adolescents with elevated depressive symptoms experienced intensified effects, both positive and negative, suggesting more vulnerability to everyday online social experiences but also increased benefit from online support. Altogether, this underscores the importance for parents and clinicians to foster open conversations to help adolescents with elevated depressive symptoms navigate their digital social world.",
-    "keywords": [
-      "adolescents",
-      "support",
-      "online interactions",
-      "depression",
-      "well-being"
-    ],
-    "osint_source": [
-      "Social Media"
-    ],
-    "category": "Social Media & SOCMINT",
-    "investigation_type": "Social Media Analysis",
-    "tags": [
-      "online communication",
-      "mental health",
-      "social support",
-      "adolescent behavior"
-    ],
-    "link": "https://doi.org/10.1017/s0954579426101485",
-    "source_url": "https://doi.org/10.1017/s0954579426101485",
-    "doi": "10.1017/s0954579426101485",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 561,
-    "title": "XAI-Enhanced adversarial resilient deep learning framework for transparent and secure edge deployment in consumer Internet of Things/Industrial Internet of Things environments",
-    "author": "Yakub Kayode Saheed; Joshua Ebere Chukwuere",
-    "year": 2026.0,
-    "venue": "Computers and Electrical Engineering",
-    "summary": "As the proliferation of Consumer Internet of Things (CIoT) and Industrial IoT (IIoT) devices intensifies, ensuring secure and interpretable edge deployment of Intrusion Detection Systems (IDS) has become a critical challenge. The rapid expansion of CIoT/IIoT networks at the edge has introduced complex cyber-attack surfaces, posing significant challenges to conventional machine learning and deep learning-based IDS. These challenges include adversarial vulnerabilities where attackers deliberately inject malicious samples to mislead security predictions, class imbalance, and opaque black-box decision processes. Motivated by these challenges, this research proposes a novel unified eXplainable Artificial Intelligence (XAI) enhanced adversarial resilient deep learning framework for transparent, robust, and resource-efficient edge deployment in CIoT/IIoT environments. Unlike existing methods that rely on oversampling techniques such as SMOTE, our approach leverages Conditional Generative Adversarial Networks (CGANs) to synthetically balance highly imbalanced intrusion classes without relying on oversampling heuristics. We further design an LSTM-based denoising autoencoder to perform nonlinear dimensionality reduction, significantly improving noise robustness and edge deployability. In order to strengthen adversarial resilience, we introduce a defense strategy via Automatic Projected Gradient Descent (Auto-PGD), Square Attack, Carlini-Wagner (CW), and DeepFool during training to enhance robustness against both white-box and black-box perturbations. We built a hybrid Multi-Head Self-Attention (MHSA) and Bidirectional Gated Recurrent Units (BiGRU) for rich sequential learning and contextual sensitivity. Beyond performance, the model integrates Shapley Additive explanations (SHAP) to deliver both global and local post-hoc feature attributions, enhancing interpretability and trust. We evaluated our framework on two recent representative datasets Edge-IIoTset (IIoT-specific) and CIC-IoT2023 (general IoT) and demonstrated detection accuracies exceeding 99% on both clean and adversarial samples, with a minimal memory overhead of less than 140 MB and real-time inference latency of 32.1 ms per sample on the Raspberry Pi 4 and Jetson Nano. SHAP visualizations validate the framework’s decision rationale, highlighting protocol-aware and behaviorally critical features as dominant predictors, supporting forensic analysis across diverse attack types. Compared against state-of-the-art adversarial and non-adversarial models, our framework achieves superior performance in adversarial robustness, interpretability, and edge efficiency, without sacrificing detection precision. This research presents a deployable, auditable, and secure IDS solution aligned with standards such as CCPA, GDPR, NISTIR 8259, and HIPAA, advancing the frontier of intelligent edge security in CIoT/IIoT ecosystems.",
-    "keywords": [
-      "XAI",
-      "adversarial resilience",
-      "deep learning",
-      "edge deployment",
-      "IoT",
-      "Intrusion Detection Systems"
-    ],
-    "osint_source": [],
-    "category": "IoT & CPS Security",
-    "investigation_type": "Threat Hunting",
-    "tags": [
-      "cybersecurity",
-      "machine learning",
-      "interpretability",
-      "robustness"
-    ],
-    "link": "https://doi.org/10.1016/j.compeleceng.2026.111080",
-    "source_url": "https://doi.org/10.1016/j.compeleceng.2026.111080",
-    "doi": "10.1016/j.compeleceng.2026.111080",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 562,
+    "id": 545,
     "title": "A Passive Network Storage Covert Channel for Internet of Things",
     "author": "Zexiao Zou; Zhiqiang Wang; Qianli Huang; Baoxu Liu",
     "year": 2026.0,
@@ -17445,37 +16878,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 563,
-    "title": "Neuro-Symbolic Intent-Based Intrusion Detection System for Internet of Medical Things",
-    "author": "Yiya Sun; Fazlullah Khan; Gautam Srivastava; Ryan Alturki; Syed Tauhid Ullah Shah; Hao Wang",
-    "year": 2026.0,
-    "venue": "IEEE Internet of Things Journal",
-    "summary": "The Internet of Medical Things (IoMT) introduces complex security challenges as interconnected medical devices enlarge the attack surface and limit the effectiveness of traditional intrusion detection systems (IDS). In this paper, we propose a Neuro-Symbolic Intent-Based Intrusion Detection System (NS-IBN) that integrates deep learning–based pattern recognition with symbolic reasoning to produce interpretable, intent-aligned security decisions. NS-IBN comprises an Intent-to-Symbol Translation Layer, an Intent-Driven Attention Mechanism, a Neural-Symbolic Synchronization Module, and a Symbolic Reasoning Engine that together link administrator-defined security intents to concrete detection behavior. In a representative intensive care unit (ICU) scenario with networked infusion pumps and vital-sign monitors, NS-IBN can be configured to detect lateral movement and unauthorized command injection while limiting disruptive false alarms for clinicians. Evaluation on the IoT-IDS2021 benchmark shows that NS-IBN achieves 98.3% accuracy, an explainability score of 0.94, and a 1.2% false positive rate, providing transparent and auditable intrusion detection for IoMT environments.",
-    "keywords": [
-      "Neuro-Symbolic",
-      "Intrusion Detection System",
-      "Internet of Medical Things",
-      "Deep Learning",
-      "Symbolic Reasoning",
-      "Network Security"
-    ],
-    "osint_source": [],
-    "category": "IoT & CPS Security",
-    "investigation_type": "Threat Hunting",
-    "tags": [
-      "IoMT",
-      "Cybersecurity",
-      "Intrusion Detection",
-      "Explainable AI"
-    ],
-    "link": "https://doi.org/10.1109/jiot.2025.3645938",
-    "source_url": "https://doi.org/10.1109/jiot.2025.3645938",
-    "doi": "10.1109/jiot.2025.3645938",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 564,
+    "id": 546,
     "title": "From Dark Web Forums to Hospital Networks",
     "author": "Asmaa Mahfoud Alhakimi",
     "year": 2026.0,
@@ -17507,7 +16910,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 565,
+    "id": 547,
     "title": "Dark Social Inference for Early Detection of Coordinated Misinformation Campaigns",
     "author": "Fazal Tariq; Muhammad Tufail; Taj Rehman",
     "year": 2026.0,
@@ -17541,7 +16944,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 566,
+    "id": 548,
     "title": "Scalable Information Leakage Detection in IoT web Interfaces",
     "author": "Zekun Zhang; Zhi Li; Shunchao Xu; Zihan Liu; Fengshi Zhang; Yongle Chen; Weidong Zhang; Limin Sun",
     "year": 2026.0,
@@ -17572,39 +16975,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 567,
-    "title": "My friend sent it, I fell for it: investigating misinformation and sender credibility",
-    "author": "Eduardo Mesquita; Evandro Luiz Lopes; Giuliana Isabella; Julio Araujo Carneiro da Cunha",
-    "year": 2026.0,
-    "venue": "Online Information Review",
-    "summary": "Purpose This study aims to investigate how perceptions of a source's credibility influence individuals' willingness to share misinformation in digital communication contexts, particularly within private messaging environments. It aims to clarify why ordinary users, rather than malicious actors, often contribute to the spread of false content. Design/methodology/approach Across three controlled experiments (total n = 914), we manipulated source credibility and measured participants' intentions to share false information. Mediation and moderation analyses assessed the roles of perceived message truthfulness and perceived social relevance to others. Findings Results show that higher perceived source credibility increases the intention to share misinformation by enhancing perceived message truthfulness. Furthermore, the effect is stronger when messages are perceived as socially relevant, suggesting that individuals are more likely to share misinformation when it feels meaningful to their social circles. Research limitations/implications Although the studies rely on experimental manipulations rather than field data, they offer strong internal validity and open new avenues for investigating interpersonal credibility in closed digital networks. Practical implications Findings can inform interventions aimed at reducing misinformation sharing by addressing perceived trustworthiness and emphasizing message verification within social contexts. Originality/value This research contributes to the misinformation literature by experimentally testing interpersonal source credibility, mirroring real-world digital interactions. It introduces social relevance for others as a novel motivational factor beyond self-relevance, and it integrates perceptual, cognitive and social mechanisms into a unified explanatory framework. Peer review The peer review history for this article is available at: https://publons.com/publon/10.1108/OIR-11-2025-0900.",
-    "keywords": [
-      "misinformation",
-      "source credibility",
-      "digital communication",
-      "social relevance",
-      "message sharing"
-    ],
-    "osint_source": [
-      "Social Media",
-      "Forums & Communities"
-    ],
-    "category": "Disinformation & Influence",
-    "investigation_type": "Social Media Analysis",
-    "tags": [
-      "credibility",
-      "social media",
-      "misinformation spread",
-      "digital trust"
-    ],
-    "link": "https://doi.org/10.1108/oir-11-2025-0900",
-    "source_url": "https://doi.org/10.1108/oir-11-2025-0900",
-    "doi": "10.1108/oir-11-2025-0900",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 568,
+    "id": 549,
     "title": "LLM-Guided Issue Generation from Uncovered Code Segments",
     "author": "Diany Pressato; Honghao Tan; Mariam Elmoazen; Shin Hwei Tan",
     "year": 2026.0,
@@ -17633,7 +17004,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 569,
+    "id": 550,
     "title": "OpenSOC-AI: Democratizing Security Operations with Parameter Efficient LLM Log Analysis",
     "author": "Chaitanya Vilas Garware; Sharif Noor Zisad",
     "year": 2026.0,
@@ -17668,7 +17039,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 570,
+    "id": 551,
     "title": "SCLVD: Source Code Vulnerability Detection via Semantic Contrastive Learning",
     "author": "Xin Li; Lei Zhao; Dekai Zhang; Hao Sun; Dawei Zhao; Lijuan Xu",
     "year": 2026.0,
@@ -17698,7 +17069,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 571,
+    "id": 552,
     "title": "Causal Intervented Disentanglement for Multi-Source Cross-Domain Recommendation",
     "author": "Chaofan Liu; Yijia Zhang; Wanyu Chen; Mingjie Cheng",
     "year": 2026.0,
@@ -17727,7 +17098,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 572,
+    "id": 553,
     "title": "Cybersecurity and Regulatory Compliance in Smart Cities: A Comprehensive Review",
     "author": "Maria Papaioannou; Mila Georgieva Valcheva; Metehan Gelgi; Lejla Islami; Lars Sommer",
     "year": 2026.0,
@@ -17756,7 +17127,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 573,
+    "id": 554,
     "title": "Green Cybersecurity in Healthcare: Integrating Digital Security and Environmental Sustainability—A Narrative Review",
     "author": "Nisha Papachan; Tini F Peter Hose; Mallapalli Akanksha Reddy; Nihal nasim; Muhammed Shiras kk; Athira. S",
     "year": 2026.0,
@@ -17786,7 +17157,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 574,
+    "id": 555,
     "title": "Smart cybersecurity strategies based on deep reinforcement learning : A Literature Review",
     "author": "Aleah Abdulkaher Alshamiri; Ghaleb H. Al Gaphari",
     "year": 2026.0,
@@ -17815,7 +17186,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 575,
+    "id": 556,
     "title": "The Influence of Employee Technological Factors on the Management of Cybersecurity Breaches at the Independent Policing Oversight Authority, Kenya",
     "author": "Omar Jibril Abdirahman; Onyango Omboto John",
     "year": 2026.0,
@@ -17844,7 +17215,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 576,
+    "id": 557,
     "title": "Design and Development of a Browser-Based Red Team Toolkit for Cybersecurity Testing",
     "author": "Dr. Rahul Awathankar",
     "year": 2026.0,
@@ -17874,7 +17245,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 577,
+    "id": 558,
     "title": "Enhancing Cybersecurity Awareness Through Gamification; Phishing: Moving Beyond Technicalities to the Human Factors",
     "author": "Iuri Vintonyak",
     "year": 2026.0,
@@ -17905,7 +17276,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 578,
+    "id": 559,
     "title": "A Reward-Driven bloom’s taxonomy framework for cybersecurity awareness: integrating cognitive learning with gamification principles",
     "author": "Heyam Omairan; Alaa Tolah",
     "year": 2026.0,
@@ -17934,7 +17305,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 579,
+    "id": 560,
     "title": "Cybersecurity Challenges in Smart Cities: The Impact of Artificial Intelligence Integration on Urban Digital Infrastructure Security and Resilience",
     "author": "Prajakta Kulkarni; Asmita Bhagat; Rahul K. Shah",
     "year": 2026.0,
@@ -17964,7 +17335,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 580,
+    "id": 561,
     "title": "The Impact of Cybersecurity and Artificial Intelligence in Combating Cyber Attacks in the Financial Industry: A Comprehensive Analysis of Digital Economy, Cryptocurrency and Blockchain Technology",
     "author": "Oluwaseyi Adedeji Adeniyan",
     "year": 2026.0,
@@ -17998,7 +17369,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 581,
+    "id": 562,
     "title": "Cybersecurity & Automation: The Expansion and Utilization of Automated System Resiliency Assessments; Disabling Social Media: How Online Platforms Distort Our Understanding of Women with Disabilities",
     "author": "Chloe Stogsdill",
     "year": 2026.0,
@@ -18029,7 +17400,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 582,
+    "id": 563,
     "title": "Research and application of zero trust security defense model based on proactive defense concept",
     "author": "Qianqian Li; Tao Zhang",
     "year": 2026.0,
@@ -18058,40 +17429,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 583,
-    "title": "Digitisation in Today's World: Problems, Issues and Challenges",
-    "author": "Suresh B. Nyamati",
-    "year": 2026.0,
-    "venue": "Zenodo (CERN European Organization for Nuclear Research)",
-    "summary": "Abstract Digitization has emerged as a key development of the modern era, transforming how individuals, businesses, governments, and institutions operate by replacing manual systems with digital processes. Today, it plays a crucial role in communication, education, banking, healthcare, trade, governance, agriculture, and industry. It enhances speed, efficiency, transparency and access to information and services. In countries like India, digitization is central to development strategies through initiatives such as Digital India, online banking, digital payments, e-governance, online education, and telemedicine. However, digitization also brings several challenges. Unequal access to digital infrastructure, low digital literacy, cybercrime, privacy concerns, data misuse, fake news, technological dependence and job loss due to automation are major issues. Rural-urban disparities, social inequality, language barriers and weak cybersecurity further hinder its effective implementation. This seminar paper examines the concept, importance, and challenges of digitization in the modern era. It also reviews India’s progress and suggests measures to overcome barriers. It argues that digitization can drive inclusive growth and social progress only with strong infrastructure, digital education, cybersecurity, effective policies, and ethical use of technology.",
-    "keywords": [
-      "Digitization",
-      "Cybersecurity",
-      "Digital Literacy",
-      "Data Privacy",
-      "Technology Challenges"
-    ],
-    "osint_source": [
-      "Public Records",
-      "News Media",
-      "Government Data"
-    ],
-    "category": "Privacy & Surveillance",
-    "investigation_type": "Other",
-    "tags": [
-      "Digital India",
-      "E-Governance",
-      "Social Inequality",
-      "Technology Dependence"
-    ],
-    "link": "https://doi.org/10.5281/zenodo.19730658",
-    "source_url": "https://doi.org/10.5281/zenodo.19730658",
-    "doi": "10.5281/zenodo.19730658",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 584,
+    "id": 564,
     "title": "AI-Driven Hybrid Detection and Classification Framework for Secure Sleep Health IoT Networks",
     "author": "Prajoona Valsalan; Mohammad Maroof Siddiqui",
     "year": 2026.0,
@@ -18123,7 +17461,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 585,
+    "id": 565,
     "title": "Ai in Cyber Security",
     "author": "GAUTAM MALVIYA",
     "year": 2026.0,
@@ -18156,7 +17494,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 586,
+    "id": 566,
     "title": "Enhancing Protection Against Social Engineering Attacks in the Nigerian Financial Sector Using SOAR‑Driven Automated Incident Response",
     "author": "Nonye Peter Awurum",
     "year": 2026.0,
@@ -18189,7 +17527,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 587,
+    "id": 567,
     "title": "Strategic Reskilling and Upskilling for Public Sector Workforce Transformation in the Era of Artificial Intelligence and Policy Reforms",
     "author": "Kashyap Kamble; Sagar Nimbalkar",
     "year": 2026.0,
@@ -18221,46 +17559,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 588,
-    "title": "PERCEPTIONS OF LEARNERS FOR DATA PRIVACY IN THE DIGITAL AGE",
-    "author": "Mr. Ashish Shah and Mr. Raviprakash Rajendraprasad Jaiswal",
-    "year": 2026.0,
-    "venue": "Zenodo (CERN European Organization for Nuclear Research)",
-    "summary": "The research titled “Perceptions of Learners for Data Privacy in the Digital Age” aims to assess how wellinformed learners are about data privacy, its importance, and the risks involved in sharing personal information online. With the growing use of digital platforms and social media, students often expose sensitive data without realizing the potential misuse. This study, conducted through a structured questionnaire, analyzes their knowledge, attitudes, and practices toward online privacy and data protection. The findings reveal that while students possess basic awareness of cyber safety, many lack a deeper understanding of privacy policies and data management. The report highlights the need for awareness programs and educational initiatives to promote responsible digital behavior and strengthen data protection awareness among youth. Keywords: Data Privacy, Cybersecurity, Online Awareness, College Students, Digital Safety Information Protection, Personal Data, Social Media, Cybercrime, Privacy Policies.",
-    "keywords": [
-      "Data Privacy",
-      "Cybersecurity",
-      "Online Awareness",
-      "College Students",
-      "Digital Safety",
-      "Information Protection",
-      "Personal Data",
-      "Social Media",
-      "Cybercrime",
-      "Privacy Policies"
-    ],
-    "osint_source": [
-      "Social Media",
-      "Public Records",
-      "Other"
-    ],
-    "category": "Privacy & Surveillance",
-    "investigation_type": "Other",
-    "tags": [
-      "data privacy",
-      "digital age",
-      "cyber safety",
-      "student awareness",
-      "online behavior"
-    ],
-    "link": "https://doi.org/10.5281/zenodo.19950375",
-    "source_url": "https://doi.org/10.5281/zenodo.19950375",
-    "doi": "10.5281/zenodo.19950375",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 589,
+    "id": 568,
     "title": "Digital Maturity and Business Resilience: Analyzing The Role of Information Systems in Post-Pandemic Recovery Strategies for Philippine Diocesan Schools",
     "author": "Christopher Villaronte; Erick Jason Batuto",
     "year": 2026.0,
@@ -18293,40 +17592,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 590,
-    "title": "TO ANALYSE THE AWARENESS OF DATA PRIVACY AMONG COLLEGE STUDENTS",
-    "author": "Ms. Apeksha Sanju Darge and Ms. Sneha Rohit Paringe",
-    "year": 2026.0,
-    "venue": "Zenodo (CERN European Organization for Nuclear Research)",
-    "summary": "In the current digital age, college students access the internet daily for their studies, social networking, shopping, and banking activities. During these activities, they frequently share personal information online without fully considering the safety implications. This research aims to explore college students' awareness regarding data privacy. It examines their understanding of risks such as hacking, phishing, and the misuse of personal information, as well as the measures they take to safeguard themselves, like creating strong passwords or activating two-factor authentication. The results indicate that while a majority of students recognize the significance of data privacy, many do not adhere to safe practices. For instance, they often reuse passwords across multiple accounts, overlook privacy policies, or connect to public Wi-Fi for sensitive tasks. This behavior increases their vulnerability to cyber threats. The study recommends that colleges implement workshops and awareness initiatives to help students develop safer digital habits and better protect their personal information. Keywords: Cybersecurity, Digital Safety, Awareness, College Students, and Data Privacy.",
-    "keywords": [
-      "Cybersecurity",
-      "Digital Safety",
-      "Awareness",
-      "College Students",
-      "Data Privacy"
-    ],
-    "osint_source": [
-      "Public Records",
-      "News Media",
-      "Social Media"
-    ],
-    "category": "Privacy & Surveillance",
-    "investigation_type": "Other",
-    "tags": [
-      "Data Protection",
-      "Internet Safety",
-      "Student Awareness",
-      "Digital Habits"
-    ],
-    "link": "https://doi.org/10.5281/zenodo.19916811",
-    "source_url": "https://doi.org/10.5281/zenodo.19916811",
-    "doi": "10.5281/zenodo.19916811",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 591,
+    "id": 569,
     "title": "Integrating Safety into Microgrid Sizing: A Systematic Review",
     "author": "Stefanos Keskinis; Costas Elmasides; Iasonas Kouveliotis-Lysikatos; Panagiotis K. Marhavilas; Nikos D. Hatziargyriou; Fotis Stergiopoulos; Evangelos Pompodakis; Jacob G. Fantidis; George Makrides; Nick Delianidis",
     "year": 2026.0,
@@ -18356,7 +17622,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 592,
+    "id": 570,
     "title": "Financial Disruptions and Risk Mitigation: Exploring the Impact of Intentional and Unintentional Social Media Activities on Organizations",
     "author": "Andrew Clifton Stephens",
     "year": 2026.0,
@@ -18388,7 +17654,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 593,
+    "id": 571,
     "title": "Proactive Cyber Threat Detection with Real-Time Network Traffic Analysis and Threat Intelligence Integration",
     "author": "D. Vedasamhitha; Prof. Dr. Suchita Rawat",
     "year": 2026.0,
@@ -18420,7 +17686,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 594,
+    "id": 572,
     "title": "Research on Power System Intrusion Detection and Attack Recognition Algorithm Based on Feature Learning",
     "author": "Chen Wang; Songming Han; Cong Lin; Jie Zahng; Ying Ling; Ming Xie",
     "year": 2026.0,
@@ -18449,7 +17715,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 595,
+    "id": 573,
     "title": "AI-Powered Phishing Attack Real Time For User Proctection",
     "author": "Hardik Chavan",
     "year": 2026.0,
@@ -18477,7 +17743,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 596,
+    "id": 574,
     "title": "Comparing PPO and GRPO for Automated Penetration Testing with Compact Language Models on Consumer-Grade Hardware",
     "author": "Junhao Dong",
     "year": 2026.0,
@@ -18507,66 +17773,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 597,
-    "title": "From Legacy to Intelligent SIMS: A Framework for AI Integration and IT Governance in Philippine Diocesan Schools",
-    "author": "Christopher Villaronte; Erick Jason Batuto",
-    "year": 2026.0,
-    "venue": "Zenodo (CERN European Organization for Nuclear Research)",
-    "summary": "Legacy Student Information Management Systems (SIMS) remain operational across Philippine higher education institutions, yet their prolonged use has created an accumulating deficit in cybersecurity governance, privacy engineering, and institutional accountability. This paper presents a governance-centered design framework for transforming a legacy SIMS—in continuous use since 2015 at a Philippine diocesan school—into an intelligent academic data infrastructure. Adopting design science research supported by mixed methods, the current-state assessment is structured using ISO/IEC 25010:2023, NIST CSF 2.0, NIST SSDF, NIST AI RMF 1.0, COBIT 2019, the Philippine Data Privacy Act of 2012, and recent NPC guidance on AI and privacy engineering. The proposed five-layer artifact preserves the registrar database as the system of record while introducing security controls, governance mechanisms, AI-assisted duplicate detection, anomaly scoring, intelligent retrieval, workflow prioritization, and online algorithms for incremental validation. The paper contributes a practical modernization pathway that balances technological intelligence with human accountability, offering strategic value for diocesan and similarly resourced institutions navigating digital transformation",
-    "keywords": [
-      "SIMS",
-      "IT Governance",
-      "AI Integration",
-      "Cybersecurity",
-      "Philippine Education"
-    ],
-    "osint_source": [],
-    "category": "Other",
-    "investigation_type": "Other",
-    "tags": [
-      "Data Privacy",
-      "Legacy Systems",
-      "Educational Institutions",
-      "Digital Transformation"
-    ],
-    "link": "https://doi.org/10.5281/zenodo.19874380",
-    "source_url": "https://doi.org/10.5281/zenodo.19874380",
-    "doi": "10.5281/zenodo.19874380",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 598,
-    "title": "Electronic Banking Utilization, Service Quality, Client Satisfaction: A Narrative Literature Review",
-    "author": "John Martin Nazareth; Aldon Francia; Marianne Almogen; Eleonor Mabassa4",
-    "year": 2026.0,
-    "venue": "JPAIR Multidisciplinary Research",
-    "summary": "Electronic banking has become a cornerstone of modern financial services, yet uneven adoption and persistent trust concerns continue to limit its effectiveness, particularly in emerging economies. The purpose of this study is to examine how service quality mediates the relationship between electronic banking utilization and client satisfaction, with emphasis on Philippine universal banks. Using a narrative literature review design, the study synthesizes global, ASEAN, and Philippine scholarship, integrating empirical and theoretical works grounded in the Technology Acceptance Model (TAM), SERVQUAL, and Expectancy-Disconfirmation Theory (EDT). Results of the synthesis reveal that utilization directly influences satisfaction and shapes perceptions of service quality, and that satisfaction is indirectly driven by service quality. Accessibility fosters trust and security, while frequent use enhances convenience and loyalty. The findings highlight that technological adoption alone is insufficient; satisfaction emerges when utilization is embedded within reliable, secure, and empathetic service delivery. This study contributes to scholarship by advancing an integrated mediation model, to managerial practice by emphasizing reliability and assurance in digital platforms, and to policy by underscoring the need for infrastructure investment, digital literacy, and cybersecurity frameworks. Overall, the review provides a defense-ready foundation for empirical testing and international publication.",
-    "keywords": [
-      "Electronic Banking",
-      "Service Quality",
-      "Client Satisfaction",
-      "Technology Acceptance Model",
-      "Digital Literacy"
-    ],
-    "osint_source": [],
-    "category": "Other",
-    "investigation_type": "Other",
-    "tags": [
-      "Banking",
-      "Digital Services",
-      "Trust",
-      "Consumer Behavior",
-      "Philippines"
-    ],
-    "link": "https://doi.org/10.7719/jpair.v65i1.1020",
-    "source_url": "https://doi.org/10.7719/jpair.v65i1.1020",
-    "doi": "10.7719/jpair.v65i1.1020",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 599,
+    "id": 575,
     "title": "A Comprehensive Review of Advanced Control Techniques for GridConnected Renewable Energy Systems Using Artificial Intelligence and Power Electronics",
     "author": "Prof. Suyog Sangharatna Dhoke; Dr. R.K. Dhatrak; Dr. Ram R. Deshmukh",
     "year": 2026.0,
@@ -18596,7 +17803,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 600,
+    "id": 576,
     "title": "CYBERPUNK CAPITALISM: AI-AUGMENTED BLACK-MARKETS IN THE DIGITAL ECONOMY",
     "author": "Vajid C; Shahil C K; Sanaabil V P; Nasla M",
     "year": 2026.0,
@@ -18630,7 +17837,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 601,
+    "id": 577,
     "title": "Deepfake Threats, Cybersecurity Challenges, and Countermeasures",
     "author": "Sherly Alphonse; Neha Khadeeja; Azra Q. Fathima; Manasa Balaji",
     "year": 2026.0,
@@ -18663,7 +17870,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 602,
+    "id": 578,
     "title": "Mathematics in Cryptography, Cybersecurity, and Blockchain Technology",
     "author": "Nirmla Deshmane",
     "year": 2026.0,
@@ -18693,7 +17900,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 603,
+    "id": 579,
     "title": "Deep Learning and Neural Networks in Cybersecurity",
     "author": "Ashish Avasthi; Namrata Laxman Jogi; S. Nandhini Devi; D. J. Samatha Naidu; T. Balachander; Rakesh K. Kadu; V. Bhoopathy",
     "year": 2026.0,
@@ -18723,7 +17930,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 604,
+    "id": 580,
     "title": "The Role of Red Teams in Cybersecurity",
     "author": "Hakkı Yılgın; Gurkan Tuna",
     "year": 2026.0,
@@ -18752,7 +17959,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 605,
+    "id": 581,
     "title": "Co-evolutionary dynamics of attack and defence in cybersecurity",
     "author": "Adeela Bashir; Zia Ush Shamszaman; Zhao Song; The Anh Han",
     "year": 2026.0,
@@ -18786,7 +17993,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 606,
+    "id": 582,
     "title": "Advanced Adaptive Control Strategies for Fault Tolerance and Cybersecurity in Autonomous Vehicles",
     "author": "Mahmoud Hussein; Qingsong Wang; Zhaoheng Liu; Youmin Zhang",
     "year": 2026.0,
@@ -18815,7 +18022,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 607,
+    "id": 583,
     "title": "Shaping the future of cybersecurity: The convergence of AI, quantum computing, and ethical frameworks for a secure digital era",
     "author": "Menahil Khawar; Sohail Khalid; Mujeeb Ur Rehman; Aminu Usman; Wajdan Al Malwi; Fatima Asiri",
     "year": 2026.0,
@@ -18847,7 +18054,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 608,
+    "id": 584,
     "title": "The effect of cybersecurity on critical infrastructure in the United States of America: A review of current state to future state in relation to industry 4.0",
     "author": "Oluwaseyi Adedeji Adeniyan",
     "year": 2026.0,
@@ -18882,7 +18089,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 609,
+    "id": 585,
     "title": "AN ASSESSMENT OF TRANSNATIONAL CRIME IN THE AFRICAN CONTEXT: TRENDS, CHALLENGES, AND STRATEGIC RESPONSES",
     "author": "Dr. John Motsamai Modise",
     "year": 2026.0,
@@ -18917,7 +18124,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 610,
+    "id": 586,
     "title": "Leveraging EfficientNet for Deepfake Detection via Transfer Learning",
     "author": "Manpreet Manpreet; Dr. Saurabh Sharma Dr. Saurabh Sharma",
     "year": 2026.0,
@@ -18947,7 +18154,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 611,
+    "id": 587,
     "title": "I Know What You Played Last Summer: Evaluating the Feasibility of Privacy Attacks in Massively Multiplayer Online Role-Playing Games",
     "author": "Parisa Rahimi; George Spary; Amit Kumar Singh; Seyedali Pourmoafi; Xiaohang Wang; Alexios Mylonas",
     "year": 2026.0,
@@ -18980,128 +18187,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 612,
-    "title": "Competing Visions of Democracy in EU Disinformation Governance: Framing the Digital Services Act in the European Parliament",
-    "author": "Linus Wahlberg; Sara Wissén",
-    "year": 2026.0,
-    "venue": "JCMS: Journal of Common Market Studies",
-    "summary": "Abstract Disinformation has become a contentious issue within the European Union (EU) and in transatlantic relations, raising fundamental questions about how democratic societies should regulate online content. This article investigates how competing democratic visions shape European Parliamentary debates on the Digital Services Act (DSA). Through a framing analysis of plenary debates, it identifies four visions articulated by Members of the European Parliament: Deliberative, Classical Liberal, Pluralist and Populist. Each constructs a distinct threat profile of ‘disinformation’ and advances a corresponding regulatory stance – from support for content moderation to outright rejection of the DSA. Whilst previous research suggests a broad European consensus on disinformation as a democratic threat, this study reveals deep normative divides over its meaning and governance. These findings complicate claims of a simple EU–US divide in digital governance by showing that normative cleavages cut across political systems. By linking parliamentary framings to democratic theory, the article offers a framework for understanding how divergent democratic ideals shape EU regulation.",
-    "keywords": [
-      "disinformation",
-      "European Union",
-      "Digital Services Act",
-      "regulation",
-      "democracy"
-    ],
-    "osint_source": [],
-    "category": "Disinformation & Influence",
-    "investigation_type": "Other",
-    "tags": [
-      "EU governance",
-      "content moderation",
-      "political analysis"
-    ],
-    "link": "https://doi.org/10.1111/jcms.70123",
-    "source_url": "https://doi.org/10.1111/jcms.70123",
-    "doi": "10.1111/jcms.70123",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 613,
-    "title": "Working Group on North Atlantic Salmon (WGNAS)",
-    "author": "ICES",
-    "year": 2026.0,
-    "venue": "International Council for the Exploration of the Sea (ICES)",
-    "summary": "WGNAS met to consider the status of, and threats to, Atlantic salmon in the North Atlantic Salmon Conservation Organization (NASCO) commission areas: West Greenland (WGC), North American (NAC), and Northeast Atlantic (NEAC). Information on the catch and exploitation, including salmon caught and released, and nominal harvest, as well as tagged and marked fish releases are provided by country and jurisdiction for the entire North Atlantic area.Declines and/or sustained low abundances of salmon have been reported in many countries and these low abundances are particularly evident in the NEAC complex for sea-age 1 (1SW) salmon in the recent decade and in the recent three decades for multi-sea age (MSW) salmon from the southern part of NEAC (S-NEAC) and NAC. The low returns continued in 2025 for most parts of the Atlantic, though there was an increase in 1SW numbers in northern parts of NAC and northern parts of NEAC (N-NEAC) compared to recent years. MSW salmon runs, however, remained low in 2025 also in areas with increased 1SW runs.The status of salmon at the whole North Atlantic scale, representing the over 2 400 salmon stocks throughout the oceanic basin, is most appropriately determined at the adult life stage and for all salmon at sea at a particular time. Over the period 2021-2025, the median 01 January abundance of salmon at sea ranged between approximately 2.4 and 3.5 million fish annually (all ages and maturity states). The NAC contributed 31.5%, N-NEAC 34.4% and S-NEAC 33.7%. Estimates of the numbers of spawning salmon, eggs in those spawning salmon, post-smolt survival between emigration to sea and 01 January thereafter, recruitment as numbers of post-smolts on 01 January after emigration, and the proportion of salmon maturing at sea age 1SW, are also provided as overall indicators of stock state.Hot and dry summer conditions continue to be reported for a number of countries, making counts difficult in some rivers, causing delayed upriver migrations and mortality events of salmon in freshwater, and likely leading to reduced catches in some areas. Deaths of adult salmon infected with <i>Saprolegnia</i> were reported from several rivers in central Norway in the autumn. The parasite <i>Gyrodactylus</i> <i>salaris</i> was discovered on a juvenile salmon in River Munkedalsälven, a tributary to River Örekilsälven, Sweden. This is the northernmost recording of the parasite on the west coast of Sweden. However, follow up studies in 2025 did not find the parasite in the river.The most important challenges with aggregating conservation limits (CLs) for stock complexes are that stock and recruitment data used are only available from a small number of rivers, requiring transport of reference values to the majority of rivers that are data poor, and the rivers to include in the aggregate must be identified. Factors contributing to the risks to individual river stocks of aggregating CLs at the scale of stock unit, country and complex include the number and relative size of rivers in the aggregate, the assumed biological characteristics that translate fish to eggs, and the relative productivities of rivers within the aggregate. The summation of river-specific CLs provides the more useful estimate for the provision of advice for mixed-stock fisheries. Decisions must be made, however, regarding which rivers to include in the sum of the CLs within an aggregate, particularly for small rivers. Consensus is required on the probability of attainment and the proportion of rivers within an aggregate that simultaneously meet or exceed their CLs.WGNAS reviewed where gaps exist in available marine datasets and how additional marine data might be made available to support investigations into the marine ecology and productivity of Atlantic salmon in the North Atlantic. Three options identified to progress this were: 1. Collaboration and personal contact between researchers working on different marine ecosystems initiated by large research projects, working groups or workshops; 2. Using ICES data calls requesting marine data relevant for salmon research; and 3. Establishing continuous data flow of indices presented in ICES reports and making these indices available for a wider community.WGNAS noted the findings and recommendations from the Working Group on Bycatch (WGBYC) that analysed the submissions in response to the data call in May 2025 asking for bycatch data that included Atlantic salmon. A total of 125 Atlantic salmon records were reported in 2024, largely from the Baltic Sea but with two salmon from the Greater North Sea (ICES ecoregion). Salmon bycatch reporting practices differed substantially among data providers, but with improved monitoring coverage and data submissions, the Bycatch Evaluation and Assessment Matrix (BEAM) outputs could support assessment groups by enabling salmon bycatch estimation aligned at appropriate spatial scales. WGBYC identified several challenges and made recommendations, in addition to those made by WGNAS in 2023. The 2026 ICES data call (asking for data from 2025 activities and all previously unreported data) is expected to be issued in May with an end of June deadline, and will be extended to cover all countries/jurisdictions within the NASCO Convention area. WGNAS and WGBYC will liaise with the ICES Secretariat to progress this for Atlantic salmon.In 2025, the N-NEAC 1SW and MSW returns stock components were considered to be at full reproductive capacity, but with the MSW returns among the lowest in the time-series. The 2025 estimate of 1SW spawners was considered to be at full reproductive capacity, but MSW spawners were considered to be at risk of suffering reduced reproductive capacity with the estimate being the fifth lowest in the time-series.In 2025, the S-NEAC 1SW and MSW returns and spawners stock components were considered to be suffering reduced reproductive capacity, with both estimates being the lowest in the time-series.In 2025, the estimated small (mainly 1SW) salmon returns to North America were the third highest since 1973, increasing from the previous five-year mean for Labrador, Newfoundland, and Scotia-Funday, but decreasing in Quebec, Gulf, and US.The abundances of large salmon (MSW salmon including maiden and repeat spawners) were the second lowest of the 56-year time-series and declined relative to the previous five-year mean in all NAC regions, except for Newfoundland. The 2SW maiden component returns to North America in 2025 were the lowest of the 56-year time-series.Catch advice for the Faroes fishery was developed for the 2026/2027 to 2028/2029 fishing seasons. In the N-NEAC stock complex, the MSW component has a high probability (≥95%) of achieving its CL for TACs at Faroes for a catch option of 0 t in the 2026/2027 and 2027/2028 seasons. However, all other management units, at the stock complex level, each have less than 95% probability of achieving their CLs with any TAC option in any of the forecast seasons. Therefore, there are no catch options that ensure a greater than 95% probability of each stock complex achieving its CL.Assessment of risks from exploitation in the mixed-stock fisheries for NAC for 2026-2029 are based on the application of the life-cycle model (LCM). Catch options are only considered for the non‐maturing 1SW and maturing 2SW components, as the maturing 1SW component is not fished outside homewaters, and in the absence of significant marine interceptory fisheries this component is managed in homewaters. As the predicted number of 2SW salmon returning to North America in 2026 to 2029, even with no fishing mortality in the North Atlantic, is substantially lower than the 2SW CL/management objective (MO), there are no catch options for the composite stock in the North American fisheries.Catch options for the West Greenland fishery for 2026 to 2028 are based on application of the LCM in a risk analysis framework that considers CLs or alternate MOs of the NAC and NEAC areas, and the risks are developed in parallel and combined into a single catch options table. None of the stated management objectives would allow a mixed-stock fishery at West Greenland to take place in 2026, 2027, or 2028.--(Included with the report are the following files: i) ICES Compilation of Microtags, Finclip, and External Tag Releases 2025 by the Working Group on North Atlantic Salmon (WGNAS 2026 Addendum); ii) Section 2 - Online resource tables 2.1.1.1 to 2.3.1.6 zip file; iii) NEAC - Online resource tables 3.1.3.1 to 3.3.5.4 zip file; iv) NAC - Online resource tables 4.1.2.1 to 4.3.6.1 zip file; and v) WGC - Online resource tables 5.1.1.1 to 5.2.2.3 zip file)",
-    "keywords": [
-      "Atlantic salmon",
-      "North Atlantic",
-      "conservation",
-      "marine ecology",
-      "data analysis"
-    ],
-    "osint_source": [
-      "Public Records",
-      "Government Data",
-      "Academic Literature"
-    ],
-    "category": "Other",
-    "investigation_type": "Other",
-    "tags": [
-      "salmon conservation",
-      "marine data",
-      "ICES",
-      "ecological research",
-      "fisheries management"
-    ],
-    "link": "https://doi.org/10.17895/ices.pub.32034120.v1",
-    "source_url": "https://doi.org/10.17895/ices.pub.32034120.v1",
-    "doi": "10.17895/ices.pub.32034120.v1",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 614,
-    "title": "Emotional processing deficits mediate the association between adverse childhood experiences and CPTSD symptoms: the moderating role of perceived social support",
-    "author": "Chi Zhang; Dong Zhai; Qian Wang",
-    "year": 2026.0,
-    "venue": "Frontiers in Psychiatry",
-    "summary": "Background Adverse childhood experiences (ACEs) are robust predictors of adult psychopathology and have been strongly associated with complex post-traumatic stress disorder (CPTSD). While the association between ACEs and CPTSD is well established, the specific psychological mechanisms and external interpersonal protective factors shaping this developmental association remain insufficiently understood. Methods This study examined the mediating role of emotional processing deficits (EPD) and the moderating role of perceived social support (PSSS) in the associations between early cumulative adversity and adult CPTSD dimensions. Data were collected from a non-clinical sample of 5, 771 Chinese university students using a cross-sectional survey. A latent moderated structural equation modeling (LMS) approach was employed to examine the proposed relationships. Results Results indicated that emotional processing deficits significantly mediated the positive association between cumulative childhood adversity and both the core PTSD and Disturbances in Self-Organization (DSO) symptom clusters. Furthermore, perceived social support served as a modest but statistically significant moderator in the second stage of the mediation process; high levels of interpersonal support partially attenuated the positive association between EPD and subclinical CPTSD symptoms. Finally, while cumulative adversity showed a statistically stronger unstandardized association with DSO than with core PTSD symptoms, the standardized effect sizes were comparable (β = 0.151 vs. 0.152). This indicates that while there is a statistically significant absolute difference on the psychometric scale, the relative magnitude of the associations is parallel across both CPTSD dimensions. Conclusions These findings highlight emotional processing deficits as a pivotal correlate linking early adversity to CPTSD symptoms. Importantly, the protective efficacy of social support is not universal; while interpersonal resources may partially buffer the association between internal psychological vulnerabilities and subclinical symptoms, this effect is contingent upon the individual’s trauma history and the qualitative source of support, with peer networks potentially offering unique compensatory value in trauma recovery.",
-    "keywords": [
-      "Adverse childhood experiences",
-      "CPTSD",
-      "Emotional processing deficits",
-      "Social support",
-      "Trauma recovery"
-    ],
-    "osint_source": [],
-    "category": "Other",
-    "investigation_type": "Other",
-    "tags": [
-      "psychopathology",
-      "mental health",
-      "trauma",
-      "interpersonal relationships"
-    ],
-    "link": "https://doi.org/10.3389/fpsyt.2026.1834482",
-    "source_url": "https://doi.org/10.3389/fpsyt.2026.1834482",
-    "doi": "10.3389/fpsyt.2026.1834482",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 615,
-    "title": "FRATERNITIES, ATHLETICS, AND MASCULINITY: Exploring Male Perspectives On Sexual Violence And Coercion Prevention In University Settings",
-    "author": "Gabrielle A Phillips",
-    "year": 2026.0,
-    "venue": "Journal of the Arkansas Academy of Science",
-    "summary": "This thesis presents a timely and relevant qualitative study addressing anotable gap in sexual violence prevention research: male students’perspectives. Grounded in Social Learning Theory, the study effectivelysituates its inquiry within a robust theoretical framework while focusing on anoften underexplored population, including student-athletes, fraternity members,and unaffiliated men.A key strength of the research lies in its use of focus groups, which allows fornuanced in-depth insights into how male students interpret and discuss sexualcoercion among peers. The findings are particularly compelling in highlightingthe disconnect between conceptual understanding and practical application ofprevention strategies. The identification of traditional masculine norms asbarriers to vulnerability and open dialogue adds depth to existing literatureand underscores the complexity of engaging men in prevention efforts.The critique of current university and Title IX training as ineffective issignificant, especially when contrasted with participants’ preference for peer-to-peer interventions and culturally relevant communication methods such as short-form, humor-driven media. This contrast points to a clear need for innovation inprevention programming.Overall, the study contributes valuable insights and offers practicalimplications for designing more effective, student-centered preventionstrategies. A limitation, however, is its single-institution focus, whichfurther affects generalizability. Nonetheless, the research provides a strongfoundation for future qualitative and quantitative studies and interventions toengage men in meaningful, transformative ways.",
-    "keywords": [
-      "sexual violence prevention",
-      "male perspectives",
-      "focus groups",
-      "masculine norms",
-      "student-athletes",
-      "fraternity members"
-    ],
-    "osint_source": [],
-    "category": "Foundations & Surveys",
-    "investigation_type": "Other",
-    "tags": [
-      "gender studies",
-      "qualitative research",
-      "social learning theory",
-      "university settings"
-    ],
-    "link": "https://scholarworks.uark.edu/jouruht/19",
-    "source_url": "https://scholarworks.uark.edu/jouruht/19",
-    "doi": "",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 616,
+    "id": 588,
     "title": "A Comprehensive Review of Cyber Security Threats in Modern Systems",
     "author": "Ravi Teja Shettigari; Rajeshwari G",
     "year": 2026.0,
@@ -19134,40 +18220,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 617,
-    "title": "Quantifying new threats to health and biomedical literature integrity from rapidly scaled publications and problematic research",
-    "author": "Matt Spick; Anthony Onoja; Charlie Harrison; Stefan Stender; Jennifer Byrne; Nophar Geifman",
-    "year": 2026.0,
-    "venue": "Journal of Clinical Epidemiology",
-    "summary": "BACKGROUND AND OBJECTIVES: The last 3 years have seen an explosion in published manuscripts analyzing open-access health datasets, in many cases presenting misleading or biologically implausible findings. There is a growing evidence base to suggest that this is due in part to artificial intelligence-assisted and formulaic workflows, and publishers are responding by discouraging submissions employing open-access health datasets. METHODS: Here we use a scientometric analysis to investigate which datasets have seen publication rates deviate from previous trends, especially where this coincides with changes to author geographical origins and increases in formulaic titles. RESULTS: Across 36 datasets, we identify nine showing hallmarks of paper mill exploitation (FDA Adverse Event Reporting System, National Health And Nutrition Examination Survey, UK Biobank, FinnGen, the Global Burden of Disease Study, Medical Information Mart for Intensive Care, China Health and Retirement Longitudinal Study, Centers for Disease Control and Prevention Wide-ranging Online Data for Epidemiologic Research, and TriNetX). These nine datasets had, in 2025, a combined publication count of 23,005 indexed in the OpenAlex database. This represents an excess of 11,577 publications above the AutoRegressive Integrated Moving Average forecast trend, and is a 3.0×-fold change on the 7655 publication count for these nine datasets in 2022. We also identified a notable difference in the fold change for China (4.2×) vs. the rest of the world (1.9×) and an increase in formulaic titles. CONCLUSION: These findings highlight potential risks to research integrity in areas such as public health and drug safety, and especially to the accessibility and interoperability principles central to Open Science and Findable, Accessible, Interoperable and Reusable data practices. We argue that permissive open-access data policies naturally facilitate exploitative workflows and that these findings add to the case for the safeguarding mechanisms to preserve the goals of Open Science.",
-    "keywords": [
-      "health literature integrity",
-      "data exploitation",
-      "open-access datasets",
-      "scientometric analysis",
-      "research integrity"
-    ],
-    "osint_source": [
-      "Public Records",
-      "Academic Literature",
-      "News Media"
-    ],
-    "category": "Disinformation & Influence",
-    "investigation_type": "Other",
-    "tags": [
-      "public health",
-      "artificial intelligence",
-      "data analysis",
-      "research trends"
-    ],
-    "link": "https://doi.org/10.1016/j.jclinepi.2026.112203",
-    "source_url": "https://doi.org/10.1016/j.jclinepi.2026.112203",
-    "doi": "10.1016/j.jclinepi.2026.112203",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 618,
+    "id": 589,
     "title": "Anomaly detection of cyber threats in industrial IoT networks via hybrid digital twins and continual learning",
     "author": "Andrea Melis; Andrea Piroddi; Chan-Tong Lam; Giovanni Pau; Roberto Girau",
     "year": 2026.0,
@@ -19197,7 +18250,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 619,
+    "id": 590,
     "title": "Online Test-Time Adaptation for Shadow Segmentation",
     "author": "Di Wu; Haifeng Xia; Libo Sun; Wenhu Qin; Siyu Xia",
     "year": 2026.0,
@@ -19226,7 +18279,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 620,
+    "id": 591,
     "title": "Ecological Stressors and Taxonomic Inconsistencies in Indian Freshwater Game Fisheries: A National Review of Biodiversity and Anthropogenic Threats",
     "author": "SHAHIN SHAJAHAN; Suvamoy Maiti",
     "year": 2026.0,
@@ -19256,7 +18309,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 621,
+    "id": 592,
     "title": "Gradient Boosting for Online Two-Stage Adaptive Group Testing",
     "author": "Malcolm Egan; Alix Jeannerot; Lélio Chetot; Jean-Marie Gorce",
     "year": 2026.0,
@@ -19284,36 +18337,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 622,
-    "title": "SEFO: Semantic-Enhanced Fusion for Online 3D Instance Segmentation",
-    "author": "Zijian Cai; Hanshi Wang; Zihan Wang; Zhipeng Zhang",
-    "year": 2026.0,
-    "venue": "ICASSP 2026 - 2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)",
-    "summary": "Online 3D instance segmentation is pivotal for perception tasks in Embodied AI and Autonomous Driving, where online perception better reflects how humans acquire information than offline. Existing methods effectively exploit the segmentation ability of 2D visual foundation models (VFMs), providing strong priors for 3D understanding, but often neglect their rich semantic knowledge, limiting comprehensive scene understanding. We propose a hierarchical fusion framework that formulates the task as multi-modal signal integration, aligning sparse 3D features with dense 2D priors. The Boundary-Aware Fusion module injects 2D mask boundaries to enhance fine-grained contour awareness. The Class-Aware Fusion module incorporates CLIP-derived semantics, supervised by the Cross-Modal Embedding Alignment module to align fused queries with canonical language embeddings. This design bridges geometric and semantic domains, enabling precise segmentation and robust generalization. Experiments demonstrate that our method surpasses the state of the art, achieving +1.4% AP on ScanNet and +0.5% AP on SceneNN compared to ESAM.",
-    "keywords": [
-      "3D instance segmentation",
-      "Embodied AI",
-      "Autonomous driving",
-      "semantic knowledge",
-      "multi-modal signal integration"
-    ],
-    "osint_source": [],
-    "category": "AI/ML for Security",
-    "investigation_type": "Other",
-    "tags": [
-      "Computer Vision",
-      "Artificial Intelligence",
-      "Signal Processing",
-      "Semantic Fusion"
-    ],
-    "link": "https://doi.org/10.1109/icassp55912.2026.11463064",
-    "source_url": "https://doi.org/10.1109/icassp55912.2026.11463064",
-    "doi": "10.1109/icassp55912.2026.11463064",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 623,
+    "id": 593,
     "title": "Deep Learning Based Network Intrusion Detection System using CNN-LSTM",
     "author": "Aatray Merothia; Prabhat Kumar Ray; Namrata Dhanda; Bommuraj",
     "year": 2026.0,
@@ -19343,35 +18367,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 624,
-    "title": "Inequalities in Access to Water and Public Health: Reducing Waterborne Diseases in Exposed Populations",
-    "author": "Ahmed Bouzit; Mariem Liouaeddine; Said Tounsi",
-    "year": 2026.0,
-    "venue": "Springer Link (Chiba Institute of Technology)",
-    "summary": "Water pollution, predominantly caused by human activities, represents a major global public health challenge. This study employs Pearson's correlation coefficient to analyze the relationship between water quality and population health. The analysis reveals a moderate negative correlation (r = -0.3818) between the incidence rate of waterborne diseases and life expectancy, confirming the significant impact of water quality on public health outcomes. Waterborne diseases such as diarrhea, cholera, and typhoid demonstrate direct associations with unsafe water access and inadequate sanitation conditions. These diseases disproportionately affect vulnerable populations, generating substantial economic and social costs. Primary contributors to water pollution include industrial discharges, intensive agricultural practices, domestic wastewater, mining operations, and deforestation. Addressing this complex challenge requires implementing sustainable water management policies, enhancing sanitation infrastructure, and promoting preventive practices. An integrated approach across water, health, and environmental sectors is crucial to ensuring safe drinking water access and mitigating water-related disease burdens. Strategic investments in sustainable solutions and public awareness campaigns will not only protect public health but also advance progress toward Sustainable Development Goals (SDGs), particularly those related to health (SDG 3) and water security (SDG 6).",
-    "keywords": [
-      "Water Quality",
-      "Public Health",
-      "Waterborne Diseases",
-      "Sustainable Development Goals"
-    ],
-    "osint_source": [],
-    "category": "Other",
-    "investigation_type": "Other",
-    "tags": [
-      "Water Pollution",
-      "Health Outcomes",
-      "Sanitation",
-      "Environmental Management"
-    ],
-    "link": "https://doi.org/10.1051/e3sconf/202670804003/pdf",
-    "source_url": "",
-    "doi": "10.1051/e3sconf/202670804003/pdf",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 625,
+    "id": 594,
     "title": "DCInject: Persistent Backdoor Attacks via Frequency Manipulation in Personal Federated Learning",
     "author": "Nahom Birhan; Daniel Wesego; Dereje Shenkut; Frank Liu; Daniel Takabi",
     "year": 2026.0,
@@ -19401,37 +18397,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 626,
-    "title": "ASSESSMENT OF THREATS TO THE FINANCIAL AND INNOVATIVE SECURITY OF HOTEL AND RESTAURANT ENTERPRISES AT THE MICRO AND MACRO LEVELS",
-    "author": "Olga Gorniak; Roman Batyuk; Petro Senyk; Viktoriia Homolska; Vasyl Riabtsev; Valeriy Solovyov",
-    "year": 2026.0,
-    "venue": "Financial and credit activity problems of theory and practice",
-    "summary": "The article examines threats to the financial and innovative security of hospitality enterprises at the micro and macro levels. The relevance of the topic is due to the fact that the functioning of enterprises in this sector occurs under conditions of prolonged post-crisis pressure, which was formed under the influence of the consequences of the COVID-19 pandemic, full-scale invasion, inflationary and price instability, infrastructure restrictions, personnel losses, and the accelerated spread of technologies based on artificial intelligence. The purpose of the study is to assess threats to the financial and innovative security of hospitality enterprises and to form a hierarchical model of their relationships to determine the priority of managerial response. The research methodology combines a systemic approach, analysis and synthesis, classification, induction and deduction, formalization, expert evaluation, graphical and tabular methods, as well as hierarchical modeling based on graph theory, binary dependency matrices, and reachability matrices. The study identified the following external threats at the macro level, namely military and security instability, inflationary and price pressures, reduced effective demand and consumer mobility, energy and infrastructure failures, limited access to credit and investment resources, personnel and migration pressure, technological lag, and unequal access to artificial intelligence-based technologies. Internal threats at the micro level include insufficient working capital, instability of cash flows, high dependence on external financing, personnel instability, weak accounting and analytical support for management, low level of digital maturity, and insufficient readiness to implement artificial intelligence-based technologies. The threat hierarchy is established in such a way that the base level is formed by primary destabilizers, and it is they who launch chains of secondary and derivative threats. As a result, it was found that for enterprises in the hotel and restaurant sector, the combination of external crisis pressure with internal financial, personnel, analytical, and digital vulnerability is of critical importance. The proposed approach provides an opportunity to increase the validity of management decisions regarding strengthening the financial and innovative security of enterprises, and also forms the basis for further empirical filling of the model and practical use of its results in the anti-crisis management system.",
-    "keywords": [
-      "financial security",
-      "innovative security",
-      "hospitality sector",
-      "crisis management",
-      "artificial intelligence"
-    ],
-    "osint_source": [],
-    "category": "Cyber Threat Intelligence",
-    "investigation_type": "Threat Hunting",
-    "tags": [
-      "threat assessment",
-      "macro and micro threats",
-      "COVID-19 impact",
-      "investment challenges",
-      "management strategies"
-    ],
-    "link": "https://doi.org/10.55643/fcaptp.2.67.2026.5217",
-    "source_url": "https://doi.org/10.55643/fcaptp.2.67.2026.5217",
-    "doi": "10.55643/fcaptp.2.67.2026.5217",
-    "seminal": false,
-    "quality_tier": "Exploratory"
-  },
-  {
-    "id": 627,
+    "id": 595,
     "title": "OSINT Research Studios: A Flexible Crowdsourcing Framework to Scale Up Open Source Intelligence Investigations",
     "author": "Anirban Mukhopadhyay; Sukrit Venkatagiri; Kurt Luther",
     "year": 2024.0,
@@ -19463,7 +18429,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 628,
+    "id": 596,
     "title": "The Significance of Machine Learning and Deep Learning Techniques in Cybersecurity: A Comprehensive Review",
     "author": "Maad Mijwil; Israa Ezzat Salem; Marwa M. Ismaeel",
     "year": 2023.0,
@@ -19492,7 +18458,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 629,
+    "id": 597,
     "title": "Linking Exploits from the Dark Web to Known Vulnerabilities for Proactive Cyber Threat Intelligence: An Attention-based Deep Structured Semantic Model",
     "author": "Sagar Samtani; Yidong Chai; Hsinchun Chen",
     "year": 2022.0,
@@ -19523,7 +18489,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 630,
+    "id": 598,
     "title": "Use and Abuse of Personal Information, Part I: Design of a Scalable OSINT Collection Engine",
     "author": "Elliott Rheault; Mary Nerayo; Jaden Leonard; Jack Kolenbrander; Christopher Henshaw; Madison Boswell; Alan J. Michaels",
     "year": 2024.0,
@@ -19557,7 +18523,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 631,
+    "id": 599,
     "title": "Cybersecurity data science: an overview from machine learning perspective",
     "author": "Iqbal H. Sarker; A. S. M. Kayes; Shahriar Badsha; Hamed Alqahtani; Paul Watters; Alex Ng",
     "year": 2020.0,
@@ -19586,7 +18552,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 632,
+    "id": 600,
     "title": "Cybersecurity Risk",
     "author": "Chris Florackis; Christodoulos Louca; Roni Michaely; Michael Weber",
     "year": 2022.0,
@@ -19619,7 +18585,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 633,
+    "id": 601,
     "title": "The Art of Cybercrime Community Research",
     "author": "Jack Hughes; Sergio Pastrana; Alice Hutchings; Sadia Afroz; Sagar Samtani; Weifeng Li; Ericsson Santana Marin",
     "year": 2024.0,
@@ -19651,7 +18617,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 634,
+    "id": 602,
     "title": "Throwing Pandora's Box Open",
     "author": "Péter Marton",
     "year": 2026.0,
@@ -19684,7 +18650,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 635,
+    "id": 603,
     "title": "Hierarchical Multimodal Disinformation Detection System for Armed Conflict: Integration of Forensic and Geopolitical Intelligence",
     "author": "Lakhan Singh; Debasish Pradhan",
     "year": 2026.0,
@@ -19718,7 +18684,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 636,
+    "id": 604,
     "title": "Multi-Modal Phishing Website Detection with Real-Time Rendering Signals and TLS Fingerprints",
     "author": "Emily K. Dawson; Sophie L. Cartwright; James R. Whitfield",
     "year": 2026.0,
@@ -19750,7 +18716,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 637,
+    "id": 605,
     "title": "Cybersecurity challenges in energy harvesting systems",
     "author": "Ravi Kumar; Mohd Anas Wajid; Claudia Camacho-Zuñiga; Akib Mohi Ud Din Khanday; Mohammad Saif Wajid",
     "year": 2026.0,
@@ -19785,7 +18751,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 638,
+    "id": 606,
     "title": "The Psychology of Board Oversight: How Board Independence and Technical Expertise Shape the Quality of Cybersecurity Information",
     "author": "Mujahid Bilal Khan; SongSheng Chen; Usman Sarwar; Hassan Zafar; Sonia Sattar",
     "year": 2026.0,
@@ -19815,7 +18781,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 639,
+    "id": 607,
     "title": "Machine Unlearning-Enabled Cyber-Resilient AIoT Framework for Privacy-Preserving and Adaptive Smart Pharmaceutics in Personalized Drug Delivery Systems",
     "author": "SAYED ATHAR ALI HASHMI; Pushpendra Tiwari; Naveen Datt Dixit",
     "year": 2026.0,
@@ -19845,7 +18811,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 640,
+    "id": 608,
     "title": "Toward Performance-Based Detection of Attacks in Microservice Systems",
     "author": "Andrea Janes; Diaeddin Rimawi; Refat Tahseen Othman; Alberto Avritzer; Raffaela Mirandola; Barbara Russo",
     "year": 2026.0,
@@ -19875,7 +18841,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 641,
+    "id": 609,
     "title": "Contextual Relationship Feature-Enhanced Steganalysis for Social Texts",
     "author": "Kaibo Huang; Xiaohan Zhang; Wansheng Wu; Yukun Wei; Zhongliang Yang",
     "year": 2026.0,
@@ -19906,7 +18872,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 642,
+    "id": 610,
     "title": "World Economy: An Overview of Electronic Commerce (e-Commerce)",
     "author": "P. Giridhar",
     "year": 2026.0,
@@ -19940,7 +18906,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 643,
+    "id": 611,
     "title": "Blue guardian coupon code(GET20)",
     "author": "AH Jakir",
     "year": 2026.0,
@@ -19968,7 +18934,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 644,
+    "id": 612,
     "title": "SRGAC: Self-Reference Guided Adaptive Classification for Generalizable Deepfake Detection",
     "author": "Wen Huang; Tao Dai; Bin Wang; Zheng Liu; Yimin Zhou; Shu-Tao Xia",
     "year": 2026.0,
@@ -19999,7 +18965,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 645,
+    "id": 613,
     "title": "Beautiful Security",
     "author": "Matthias Muhlert",
     "year": 2026.0,
@@ -20032,7 +18998,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 646,
+    "id": 614,
     "title": "Efficient and Effective Universal Adversarial Attack Against Vision-Language Pre-Training Models",
     "author": "Fan Yang; Yihao Huang; Ling Shi; Geguang Pu; Kailong Wang",
     "year": 2026.0,
@@ -20060,7 +19026,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 647,
+    "id": 615,
     "title": "A critical review of intrusion detection systems in the internet of things: techniques, deployment strategy, validation strategy, attacks, public datasets and challenges",
     "author": "Ansam Khraisat; Ammar Alazab",
     "year": 2021.0,
@@ -20090,7 +19056,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 648,
+    "id": 616,
     "title": "Climate Change 2022 – Impacts, Adaptation and Vulnerability",
     "author": "Intergovernmental Panel on Climate Change (IPCC)",
     "year": 2023.0,
@@ -20119,7 +19085,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 649,
+    "id": 617,
     "title": "CYBERSECURITY IN BANKING: A GLOBAL PERSPECTIVE WITH A FOCUS ON NIGERIAN PRACTICES",
     "author": "Azeez Olanipekun Hassan; Sarah Kuzankah Ewuga; Adekunle Abiola Abdul; Temitayo Oluwaseun Abrahams; Monisola Oladeinde; Samuel Onimisi Dawodu",
     "year": 2024.0,
@@ -20153,7 +19119,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 650,
+    "id": 618,
     "title": "Secure Robotics: Navigating Challenges at the Nexus of Safety, Trust, and Cybersecurity in Cyber-Physical Systems",
     "author": "Adam Haskard; Damith Herath",
     "year": 2025.0,
@@ -20184,7 +19150,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 651,
+    "id": 619,
     "title": "Advancing cybersecurity: a comprehensive review of AI-driven detection techniques",
     "author": "Aya H. Salem; Safaa M. Azzam; O. E. Emam; Amr A. Abohany",
     "year": 2024.0,
@@ -20214,7 +19180,7 @@
     "quality_tier": "High"
   },
   {
-    "id": 652,
+    "id": 620,
     "title": "When LLMs meet cybersecurity: a systematic literature review",
     "author": "Jie Zhang; Haoyu Bu; Hui Wen; Yongji Liu; Haiqiang Fei; Rongrong Xi; Lun Li; Yun Yang; Hongsong Zhu; Dan Meng",
     "year": 2025.0,
@@ -20242,7 +19208,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 653,
+    "id": 621,
     "title": "XAI-IDS: Toward Proposing an Explainable Artificial Intelligence Framework for Enhancing Network Intrusion Detection Systems",
     "author": "Osvaldo Arreche; Tanish Guntur; Mustafa Abdallah",
     "year": 2024.0,
@@ -20271,7 +19237,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 654,
+    "id": 622,
     "title": "CYBERSECURITY CHALLENGES IN THE AGE OF AI: THEORETICAL APPROACHES AND PRACTICAL SOLUTIONS",
     "author": "Babajide Tolulope Familoni",
     "year": 2024.0,
@@ -20301,7 +19267,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 655,
+    "id": 623,
     "title": "A review of digital twins and their application in cybersecurity based on artificial intelligence",
     "author": "Mohammadhossein Homaei; Óscar Mogollón-Gutiérrez; José Carlos Sancho; Mar Ávila; Andrés Caro",
     "year": 2024.0,
@@ -20330,7 +19296,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 656,
+    "id": 624,
     "title": "Science Communication in South Africa: Reflections on Current Issues",
     "author": "Weingart, Peter; Joubert, Marina; Falade, Bankole",
     "year": 2026.0,
@@ -20364,7 +19330,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 657,
+    "id": 625,
     "title": "Securing the Digital Frontier",
     "author": "Fajar Amjad; Muhammad Haseeb Shakil; Naveed Anwer; Sarfraz Zaman; Rana Nadir Idrees",
     "year": 2026.0,
@@ -20396,7 +19362,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 658,
+    "id": 626,
     "title": "Photonic–Tensor AI for Ultra-Low-Latency Edge–Cloud Computing",
     "author": "Murali Krishna Pasupuleti",
     "year": 2026.0,
@@ -20434,7 +19400,7 @@
     "quality_tier": "Exploratory"
   },
   {
-    "id": 659,
+    "id": 627,
     "title": "Social capital, knowledge acquisition, and knowledge exploitation in young technology‐based firms",
     "author": "Helena Yli‐Renko; Erkko Autio; Harry J. Sapienza",
     "year": 2001.0,
@@ -20463,7 +19429,7 @@
     "quality_tier": "Standard"
   },
   {
-    "id": 660,
+    "id": 628,
     "title": "Understanding ransomware through the lens of disaster risk: implications for cybersecurity and economic stability",
     "author": "Nikola Vidović; Vladimir M. Cvetković; Hatidža Beriša; Srđan Milašinović",
     "year": 2026.0,

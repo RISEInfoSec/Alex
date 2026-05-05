@@ -7,6 +7,7 @@ from alex.utils.scoring import (
     query_keywords,
     title_matches_keywords,
     has_core_term,
+    has_title_anchor,
 )
 
 
@@ -161,6 +162,63 @@ class TestHasCoreTerm:
 
     def test_empty_inputs_with_nonempty_core(self):
         assert has_core_term("", "", self.CORE) is False
+
+    def test_min_hits_two_requires_two_distinct_terms(self):
+        # Single-mention "cyber" no longer enough at min_hits=2.
+        assert has_core_term("Cybersecurity Survey", "", self.CORE, min_hits=2) is False
+        # Two distinct core terms (cyber + malware) clears.
+        assert has_core_term(
+            "Cybersecurity Survey",
+            "We analyze malware variants in detail.",
+            self.CORE,
+            min_hits=2,
+        ) is True
+
+    def test_min_hits_zero_or_negative_treated_as_one(self):
+        # Sentinel guard — caller misconfiguration shouldn't bypass the gate.
+        assert has_core_term("Cybersecurity Survey", "", self.CORE, min_hits=0) is True
+        assert has_core_term("Capital Structure in SMEs", "", self.CORE, min_hits=-3) is False
+
+    def test_min_hits_default_preserves_legacy_behaviour(self):
+        # Single core term still passes with the default min_hits=1.
+        assert has_core_term("Cybersecurity Survey", "", self.CORE) is True
+
+
+class TestHasTitleAnchor:
+    ANCHORS = ["cyber"]
+
+    def test_cyber_prefix_matches(self):
+        # All cyber-prefixed words self-identify the topic.
+        assert has_title_anchor("Cybersecurity in IoT Networks", self.ANCHORS) is True
+        assert has_title_anchor("Cybercrime trends 2026", self.ANCHORS) is True
+        assert has_title_anchor("A study of cyber threats", self.ANCHORS) is True
+        assert has_title_anchor("Cyber-physical systems", self.ANCHORS) is True
+
+    def test_case_insensitive(self):
+        assert has_title_anchor("CYBERSECURITY SURVEY", self.ANCHORS) is True
+
+    def test_word_boundary_required(self):
+        # "cyber" embedded mid-word without a leading boundary should not match.
+        # (No common false-positive words exist for "cyber" specifically, but
+        # the boundary guard documents and enforces the contract for anchors
+        # like "secur" that could otherwise hit "obscure".)
+        assert has_title_anchor("Decyberize: a coined neologism", self.ANCHORS) is False
+
+    def test_no_match_returns_false(self):
+        assert has_title_anchor("Capital Structure in SMEs", self.ANCHORS) is False
+        assert has_title_anchor("Czech Walpurgis Witches' Night", self.ANCHORS) is False
+
+    def test_empty_inputs(self):
+        assert has_title_anchor("", self.ANCHORS) is False
+        assert has_title_anchor("Cybersecurity", []) is False
+        assert has_title_anchor(None, self.ANCHORS) is False
+
+    def test_multi_anchor_any_match(self):
+        # Multi-token config matches if any anchor is present.
+        anchors = ["cyber", "osint"]
+        assert has_title_anchor("OSINT Methodology Review", anchors) is True
+        assert has_title_anchor("Cybersecurity in 2026", anchors) is True
+        assert has_title_anchor("Capital Structure", anchors) is False
 
 
 class TestEffectiveThresholds:

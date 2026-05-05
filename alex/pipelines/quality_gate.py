@@ -14,6 +14,7 @@ from alex.utils.scoring import (
     safe_int_year,
     is_preprint,
     has_core_term,
+    has_title_anchor,
     effective_thresholds,
 )
 
@@ -58,6 +59,20 @@ def run() -> None:
     # Default 1.0 means "must score *some* relevance" — i.e. the title or
     # abstract has to contain at least one query keyword.
     relevance_floor = float(weights.get("relevance_floor", 0.0))
+    # Split-tier core-term gate. Whitelisted venues and trusted-institution
+    # papers get the benefit of the doubt at the historical 1-hit bar; low-trust
+    # sources (Zenodo self-deposits, unfamiliar venues, no trusted affiliation)
+    # must clear a stricter multi-hit bar. Catches the off-topic-with-substring-
+    # match failure mode (Czech Walpurgis hitting "osint" once, ecology papers
+    # hitting "exploit" via "exploit fish stocks").
+    untrusted_core_min = max(1, int(weights.get("min_core_keyword_hits_untrusted", 1)))
+    # Title-anchor: a paper whose title contains a configured cyber token
+    # (default "cyber") is treated as trusted for the core gate AND gets an
+    # additive score bonus. Title self-identification is a stronger signal
+    # than venue/institution because the paper is explicitly claiming the
+    # topic. Saves terse on-topic recent papers from the 35-pt threshold.
+    title_anchor_terms = list(weights.get("title_anchor_terms") or [])
+    title_anchor_bonus = float(weights.get("title_anchor_bonus", 0.0))
     current_year = datetime.now(timezone.utc).year
 
     for i, (_, row) in enumerate(df.iterrows()):
@@ -78,7 +93,9 @@ def run() -> None:
         # a bounded boost, but papers without institutional data aren't penalised
         # on a signal we can't reliably measure.
         bonus = institution_bonus if i_score >= 0.7 else 0.0
-        total = min(100.0, base + bonus)
+        title_anchored = has_title_anchor(row.get("title", ""), title_anchor_terms)
+        title_bonus = title_anchor_bonus if title_anchored else 0.0
+        total = min(100.0, base + bonus + title_bonus)
         preprint = is_preprint(row)
         # Preprints ride on a separate ladder — they can't reach regular
         # thresholds because they lack venue/citation/institution signal by
@@ -96,17 +113,23 @@ def run() -> None:
         out["citation_score"] = round(c * 100, 2)
         out["institution_score"] = round(i_score * 100, 2)
         out["institution_bonus"] = round(bonus, 2)
+        out["title_anchor_bonus"] = round(title_bonus, 2)
         out["relevance_score"] = round(r * 100, 2)
         out["total_quality_score"] = round(total, 2)
 
-        # Anchor-term veto runs first. A paper without a single core
-        # cyber/OSINT term in title or abstract is rejected, regardless of
-        # how high its venue+citations push the total. This catches papers
-        # that share only a generic word ("internet", "social", "network",
-        # "investigation") with the registry — autism research, blockchain
-        # supply chains, biology toolkits, etc.
-        if not has_core_term(row.get("title", ""), row.get("abstract", ""), core_terms):
-            out["review_reason"] = "No core cyber/OSINT term"
+        # Anchor-term veto runs first. A paper without enough core
+        # cyber/OSINT terms in title or abstract is rejected, regardless of
+        # how high its venue+citations push the total. The required hit count
+        # depends on trust: whitelisted venue (v >= 1.0), trusted institution
+        # (i_score >= 0.7), or title-anchored → 1 hit; otherwise →
+        # `min_core_keyword_hits_untrusted`.
+        trusted = (v >= 1.0) or (i_score >= 0.7) or title_anchored
+        core_min = 1 if trusted else untrusted_core_min
+        if not has_core_term(row.get("title", ""), row.get("abstract", ""), core_terms, core_min):
+            out["review_reason"] = (
+                "No core cyber/OSINT term" if core_min == 1
+                else f"Below {core_min}-term core gate (untrusted source)"
+            )
             out["recommended_action"] = "reject"
             rejected.append(out)
         # Relevance veto runs *before* the threshold cascade. A paper with no
