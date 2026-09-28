@@ -59,6 +59,61 @@ class TestQualityGate:
         low_score = metrics.loc[metrics["title"].str.contains("Mediocre"), "total_quality_score"].iloc[0]
         assert high_score > low_score
 
+    def test_abstracts_dropped_where_they_cannot_matter(self, tmp_path):
+        """Keeps the committed CSVs under GitHub's 100 MiB limit: abstracts
+        are left out of quality_metrics/rejected_candidates, and blanked in
+        discovery_candidates for rows rejected by a text veto (the verdict
+        depends only on title+abstract, so the text is dead weight). Rows
+        rejected on score keep theirs — citations can grow and flip them."""
+        base = {"authors": "A", "year": "2020", "doi": "", "source_url": "",
+                "discovery_source": "test", "discovery_query": "q",
+                "inclusion_path": "discovery", "reference_count": 0}
+        candidates = pd.DataFrame([
+            {**base, "title": "OSINT in IEEE", "venue": "IEEE S&P",
+             "abstract": "osint cybersecurity methods", "citation_count": 500},
+            {**base, "title": "Fish stocks", "venue": "Ecology",
+             "abstract": "we exploit fish stocks", "citation_count": 5},
+            {**base, "title": "OSINT note", "venue": "Unknown",
+             "abstract": "osint cybersecurity", "citation_count": 0},
+        ])
+        (tmp_path / "data").mkdir(parents=True)
+        candidates.to_csv(tmp_path / "data" / "discovery_candidates.csv", index=False)
+        config_dir = tmp_path / "config"
+        config_dir.mkdir()
+        (config_dir / "venue_whitelist.json").write_text(json.dumps({"high_trust": ["IEEE"]}))
+        (config_dir / "query_registry.json").write_text(json.dumps({
+            "queries": ["OSINT", "cybersecurity"], "core_keywords": ["osint"]}))
+        (config_dir / "quality_weights.json").write_text(json.dumps({
+            "venue": 0.35, "citations": 0.40, "relevance": 0.25,
+            "auto_include_threshold": 50.0, "review_threshold": 45.0,
+            "preprint_auto_include_threshold": 35.0, "preprint_review_threshold": 20.0,
+            "recent_paper_window_years": 0,
+        }))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
+            quality_gate.run()
+
+        data = tmp_path / "data"
+        metrics = pd.read_csv(data / "quality_metrics.csv")
+        reasons = dict(zip(metrics["title"], metrics["review_reason"].fillna("")))
+        assert reasons["Fish stocks"] == "No core cyber/OSINT term"
+        assert reasons["OSINT note"] == "Below quality threshold"
+        assert "abstract" not in metrics.columns
+        assert "abstract" not in pd.read_csv(data / "rejected_candidates.csv").columns
+        # Harvest needs abstracts on the enrichment pool.
+        accepted = pd.read_csv(data / "accepted_candidates.csv")
+        assert accepted.loc[0, "abstract"] == "osint cybersecurity methods"
+
+        dc = pd.read_csv(data / "discovery_candidates.csv", keep_default_na=False)
+        abstracts = dict(zip(dc["title"], dc["abstract"]))
+        assert abstracts == {
+            "OSINT in IEEE": "osint cybersecurity methods",
+            "Fish stocks": "",
+            "OSINT note": "osint cybersecurity",
+        }
+
     def test_preprint_routing_uses_separate_thresholds(self, tmp_path):
         """arXiv papers route on lower preprint thresholds so they don't
         get penalised for the structural lack of venue/citation signal."""
