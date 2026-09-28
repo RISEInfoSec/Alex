@@ -3,30 +3,36 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+# Shares the Pipeline's group: these jobs read and write the same
+# pipeline-state branch, so a manual run must not interleave with it.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: pipeline
   cancel-in-progress: false
 jobs:
   rescore:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - run: pip install -r requirements.txt
-      - run: python -m alex.cli rescore
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - run: scripts/state.sh pull
+      - run: |
+          python -m alex.cli rescore
+          scripts/state.sh push "Post-harvest rescore"
           # .rescore_window.json must be committed: when classify.yml runs
           # next on a different runner, it has no other way to see the
           # current rescore run_id, and falls back to a partial replacement
           # that leaves demoted papers in the corpus. Use -A so an
           # empty-input rescore that unlinked the file also stages the
           # deletion.
-          git add data/accepted_harvested.csv data/rescore_metrics.csv
+          git add data/accepted_harvested.csv
           git add -A data/.rescore_window.json
           git diff --cached --quiet || git commit -m "Post-harvest rescore"
           git push

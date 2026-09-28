@@ -75,7 +75,14 @@ def run() -> None:
     title_anchor_bonus = float(weights.get("title_anchor_bonus", 0.0))
     current_year = datetime.now(timezone.utc).year
 
-    for i, (_, row) in enumerate(df.iterrows()):
+    # Rows rejected by a text veto (core-term gate, relevance floor). Those
+    # verdicts depend only on title+abstract, so their abstracts are dead
+    # weight in discovery_candidates.csv — ~65 MB of it by 2026-09, which
+    # pushed the file past GitHub's 100 MiB limit. Score-threshold rejects
+    # keep theirs: citations grow and can flip the verdict later.
+    text_vetoed: list = []
+
+    for i, (idx, row) in enumerate(df.iterrows()):
         v = venue_score(row.get("venue", ""), whitelist)
         c = citation_score(safe_float(row.get("citation_count")), safe_int_year(row.get("year")))
         # Read the dedicated affiliations field (populated by OpenAlex connector).
@@ -132,12 +139,14 @@ def run() -> None:
             )
             out["recommended_action"] = "reject"
             rejected.append(out)
+            text_vetoed.append(idx)
         # Relevance veto runs *before* the threshold cascade. A paper with no
         # topic overlap cannot be saved by venue+citation prestige alone.
         elif out["relevance_score"] < relevance_floor:
             out["review_reason"] = "Below relevance floor"
             out["recommended_action"] = "reject"
             rejected.append(out)
+            text_vetoed.append(idx)
         elif total >= t_auto:
             out["review_reason"] = ""
             out["recommended_action"] = "auto-include"
@@ -152,9 +161,16 @@ def run() -> None:
             rejected.append(out)
         metrics.append(out)
 
-    save_df(root_file("data", "quality_metrics.csv"), pd.DataFrame(metrics))
+    # Abstracts stay in discovery_candidates.csv (the source of truth) and in
+    # the review/enrichment outputs that need them; the per-row diagnostics
+    # files don't repeat them.
+    save_df(root_file("data", "quality_metrics.csv"), _without_abstract(metrics))
     save_df(root_file("data", "review_queue.csv"), pd.DataFrame(review))
-    save_df(root_file("data", "rejected_candidates.csv"), pd.DataFrame(rejected))
+    save_df(root_file("data", "rejected_candidates.csv"), _without_abstract(rejected))
+    if text_vetoed and "abstract" in df.columns:
+        df["abstract"] = df["abstract"].astype(object)  # all-NaN loads as float
+        df.loc[text_vetoed, "abstract"] = ""
+        save_df(root_file("data", "discovery_candidates.csv"), df)
     # accepted_candidates.csv contains BOTH auto-include and human-review tiers
     # so harvest enriches everything worth a second look. The post-harvest
     # rescore stage (alex.pipelines.rescore) filters back down to auto-include
@@ -166,3 +182,7 @@ def run() -> None:
                 len(accepted), len(review), len(rejected), len(enrichment_pool))
     print(f"Accepted={len(accepted)} Review={len(review)} Rejected={len(rejected)} "
           f"(enrichment pool: {len(enrichment_pool)})")
+
+
+def _without_abstract(rows: list[dict]) -> pd.DataFrame:
+    return pd.DataFrame(rows).drop(columns=["abstract"], errors="ignore")

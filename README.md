@@ -99,17 +99,23 @@ Two derived fields are set deterministically rather than by the LLM:
 - `data/osint_cyber_papers.csv` — full classified corpus
 - `data/papers.json` — same data, frontend-ready
 
-### Intermediate stage outputs (committed to `main`, kept for audit)
+### Pipeline working state (on the `pipeline-state` branch, not `main`)
+These are rewritten every run and outgrew GitHub's 100 MiB file limit in
+2026-07, so they are stored gzipped on the `pipeline-state` branch as a single
+commit that each run replaces (previous state kept at `pipeline-state-prev`).
+Fetch them with `scripts/state.sh pull`; see [Pipeline state](#pipeline-state).
 - `data/discovery_candidates.csv` — raw + chained candidates (input to Quality gate)
-- `data/accepted_candidates.csv` — Quality gate auto-include bucket
+- `data/accepted_candidates.csv` — Quality gate enrichment pool (auto-include + review)
+- `data/rejected_candidates.csv` — Quality gate rejections (kept; not silently dropped)
+- `data/quality_metrics.csv` — full per-candidate scoring trace (no abstracts)
+- `data/rescore_metrics.csv` — post-harvest rescore audit (drives the additive-corpus prune contract)
+
+### Intermediate stage outputs (committed to `main`, kept for audit)
 - `data/accepted_harvested.csv` — accepted set with full bibliographic metadata
 - `data/accepted_classified.csv` — internal corpus with LLM tags (additive across runs)
 
 ### Governance / audit
 - `data/review_queue.csv` — Quality gate review-tier candidates
-- `data/rejected_candidates.csv` — Quality gate rejections (kept; not silently dropped)
-- `data/quality_metrics.csv` — full per-candidate scoring trace
-- `data/rescore_metrics.csv` — post-harvest rescore audit (drives the additive-corpus prune contract)
 
 ## How to run
 
@@ -121,8 +127,14 @@ python -m pip install -r requirements.txt
 ### 2. Set environment variables
 ```bash
 export HARVEST_MAILTO="you@example.org"
+export OPENALEX_API_KEY="..."   # free key from https://openalex.org/rest-api
 export OPENAI_API_KEY="sk-..."
 export OPENAI_MODEL="gpt-4o-mini"
+```
+
+Fetch the current working state (candidates, metrics) before running stages:
+```bash
+scripts/state.sh pull
 ```
 
 ### 3. Discover
@@ -245,10 +257,22 @@ The package is designed to be **production-oriented**, but actual performance de
 ### Required GitHub repository secrets
 - `HARVEST_MAILTO` — contact email sent in the User-Agent header to academic APIs (politeness contract).
 - `OPEN_API_KEY` — OpenAI API key. Note the secret name is `OPEN_API_KEY` (not `OPENAI_API_KEY`); the workflows map it onto the `OPENAI_API_KEY` env var.
+- `OPENALEX_API_KEY` — OpenAlex API key, sent as `api_key` on every OpenAlex request. Without one, OpenAlex throttles anonymous search. The free tier is 10,000 credits/day (search = 10 credits, filter lookup = 1); a weekly run uses roughly 3–8k.
 
 ### Optional repository variables
 - `OPENAI_MODEL` — overrides `gpt-4o-mini` for classification.
 - `SEMANTIC_SCHOLAR_API_KEY` (env / secret) — if set and `connectors.semantic_scholar.enabled=true` in `config/query_registry.json`, S2 is consulted for both discovery and backward citation chaining.
+
+### Pipeline state
+Working files live on the `pipeline-state` branch as gzipped CSVs in one parentless commit; every push replaces it and moves the old one to `pipeline-state-prev`.
+- `scripts/state.sh pull` — fetch into `data/`. Fails loudly if the branch is missing rather than starting from an empty corpus.
+- `scripts/state.sh push "msg"` — publish `data/` state; a no-op when nothing changed. Uses `--force-with-lease`, so a concurrent writer is rejected, not overwritten.
+- Rollback one step: `git push -f origin origin/pipeline-state-prev:refs/heads/pipeline-state`.
+
+### Failure alerts and schedule keepalive
+The Pipeline's final `report` job always runs. It re-enables the scheduled workflows through the API — GitHub disables a schedule after 60 days without repository activity, which silently stopped the pipeline in 2026-09 — and opens (or comments on) an issue labelled `pipeline-failure` when any stage fails or is cancelled. The next clean run closes it. Watch the repo (or that label) to be notified.
+
+Every job has a `timeout-minutes` (30–90) so a stalled upstream fails one stage in about an hour instead of burning the 6-hour Actions ceiling. HTTP `Retry-After` waits are capped at 60s; beyond that the host is skipped for the rest of the window.
 
 ### OpenAI quota canary
 LLM classification spends OpenAI credits, and `gpt-4o-mini` is cheap but not free. When the account runs out of credits OpenAI returns `429 insufficient_quota` per request. The pipeline now treats this as a **fatal** error and aborts (`OpenAIQuotaError` in `alex/pipelines/classify.py`) rather than silently stamping every paper as `Category="Other"`.
