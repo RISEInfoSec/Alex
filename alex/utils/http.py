@@ -2,6 +2,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import threading
 import time
 from pathlib import Path
@@ -43,6 +44,15 @@ _MAX_RETRY_AFTER = 60.0
 _HOST_AUTH_PARAMS: dict[str, tuple[str, str]] = {
     "api.openalex.org": ("api_key", "OPENALEX_API_KEY"),
 }
+# requests' HTTPError text embeds the full URL, auth params included. Actions
+# masks secrets in CI logs; local runs need this.
+_AUTH_PARAM_RE = re.compile(
+    r"(\b(?:%s)=)[^&\s]+" % "|".join(re.escape(n) for n, _ in _HOST_AUTH_PARAMS.values())
+)
+
+
+def _redact(exc: Exception) -> str:
+    return _AUTH_PARAM_RE.sub(r"\1***", str(exc))
 
 
 class HttpClient:
@@ -135,7 +145,7 @@ class HttpClient:
                     self._sleep_backoff(attempt, retry_after=None)
                     continue
                 logger.warning("HTTP request failed for %s after %d attempts: %s",
-                               url, attempt, exc)
+                               url, attempt, _redact(exc))
                 return None
 
             if r.status_code in _RETRY_STATUS_CODES and attempt < max_attempts:
@@ -152,7 +162,7 @@ class HttpClient:
 
         # Loop exited without returning — all attempts exhausted on 429/5xx.
         if last_exc is not None:
-            logger.warning("HTTP request failed for %s: %s", url, last_exc)
+            logger.warning("HTTP request failed for %s: %s", url, _redact(last_exc))
         return None
 
     @staticmethod
@@ -195,7 +205,7 @@ class HttpClient:
             try:
                 r.raise_for_status()
             except requests.exceptions.RequestException as exc:
-                logger.warning("HTTP request failed for %s: %s", url, exc)
+                logger.warning("HTTP request failed for %s: %s", url, _redact(exc))
                 return None
             text = r.text
             self._cache_put(key, text)
@@ -224,7 +234,7 @@ class HttpClient:
                 r.raise_for_status()
                 data = r.json()
             except (requests.exceptions.RequestException, ValueError) as exc:
-                logger.warning("HTTP request failed for %s: %s", url, exc)
+                logger.warning("HTTP request failed for %s: %s", url, _redact(exc))
                 return None
             self._cache_put(key, data)
             return data
