@@ -22,9 +22,21 @@ concurrency:
 # default checkout ref is the trigger SHA, which is stale once a prior job
 # has pushed). `.rescore_window.json` is committed by the rescore stage so
 # classify can read it from the next runner's disk.
+#
+# Intermediate working files (discovery_candidates, quality_metrics,
+# rejected_candidates, accepted_candidates, rescore_metrics) are NOT on main:
+# they outgrew GitHub's 100 MiB file limit and blocked every push from
+# 2026-07-13. They live gzipped on the `pipeline-state` branch; jobs move
+# them with `scripts/state.sh pull|push`.
+#
+# Every job has a timeout-minutes well under the 6h ceiling so a stalled
+# upstream costs an hour, not the whole run (chain hung 6h on 2026-06-22,
+# 06-29 and 07-20). The `report` job always runs last: it keeps the schedule
+# from being auto-disabled and opens/closes a failure issue.
 jobs:
   discover:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,20 +50,22 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Pull pipeline state
+        run: scripts/state.sh pull
       - name: Discover
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
           CORE_API_KEY: ${{ secrets.CORE_API_KEY }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python -m alex.cli discover
-          git add data/discovery_candidates.csv
-          git diff --cached --quiet || git commit -m "Discover candidates"
-          git push || (git pull --rebase --autostash && git push)
+          scripts/state.sh push "Discover candidates"
 
   chain:
     needs: discover
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
@@ -65,18 +79,20 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Pull pipeline state
+        run: scripts/state.sh pull
       - name: Citation chain
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
           python -m alex.cli chain
-          git add data/discovery_candidates.csv
-          git diff --cached --quiet || git commit -m "Citation chain candidates"
-          git push || (git pull --rebase --autostash && git push)
+          scripts/state.sh push "Citation chain candidates"
 
   score:
     needs: chain
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -90,16 +106,20 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Pull pipeline state
+        run: scripts/state.sh pull
       - name: Quality gate
         run: |
           python -m alex.cli score
-          git add data/quality_metrics.csv data/review_queue.csv data/rejected_candidates.csv data/accepted_candidates.csv
+          scripts/state.sh push "Quality gate results"
+          git add data/review_queue.csv
           git diff --cached --quiet || git commit -m "Quality gate results"
           git push || (git pull --rebase --autostash && git push)
 
   harvest:
     needs: score
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
         with:
@@ -113,9 +133,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Pull pipeline state
+        run: scripts/state.sh pull
       - name: Harvest
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
           python -m alex.cli harvest
           git add data/accepted_harvested.csv
@@ -125,6 +148,7 @@ jobs:
   rescore:
     needs: harvest
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -138,6 +162,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Pull pipeline state
+        run: scripts/state.sh pull
       - name: Rescore
         run: |
           SUMMARY=$(python -m alex.cli rescore | tail -n1)
@@ -148,7 +174,8 @@ jobs:
           # so the classify job can read it after its fresh checkout. Use
           # -A so an empty-input rescore that unlinked the file also stages
           # the deletion.
-          git add data/accepted_harvested.csv data/rescore_metrics.csv
+          scripts/state.sh push "Post-harvest rescore: ${SUMMARY:-no summary}"
+          git add data/accepted_harvested.csv
           git add -A data/.rescore_window.json
           git diff --cached --quiet || git commit -m "Post-harvest rescore: ${SUMMARY:-no summary}"
           git push || (git pull --rebase --autostash && git push)
@@ -156,6 +183,7 @@ jobs:
   classify:
     needs: rescore
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
@@ -169,6 +197,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Pull pipeline state
+        run: scripts/state.sh pull
       - name: Classify
         env:
           OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
@@ -185,6 +215,7 @@ jobs:
   publish:
     needs: classify
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -213,6 +244,7 @@ jobs:
     # while main was at 394).
     needs: publish
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment:
       name: github-pages
     steps:
@@ -230,3 +262,49 @@ jobs:
         with:
           path: _site
       - uses: actions/deploy-pages@v4
+
+  report:
+    # Runs after every run, whatever happened upstream.
+    #  - Keepalive: GitHub disables a schedule after 60 days without repo
+    #    activity. Every run failed before committing from 2026-07-20, so
+    #    both schedules were auto-disabled by 2026-09-28 and the failures
+    #    went unseen. Re-enabling via the API resets that timer.
+    #  - Alert: a failed or cancelled stage opens an issue (or comments on
+    #    the open one), so watchers hear about the first failure, not the
+    #    tenth. The next clean run closes it.
+    needs: [discover, chain, score, harvest, rescore, classify, publish, deploy]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: write
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      NEEDS: ${{ toJSON(needs) }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - name: Keep schedules enabled
+        run: |
+          for wf in pipeline.yml discover_manual_assist.yml; do
+            gh api -X PUT "repos/$GH_REPO/actions/workflows/$wf/enable"
+          done
+      - name: Open, update or close the failure issue
+        run: |
+          label=pipeline-failure
+          gh label create "$label" --color B60205 \
+            --description "Scheduled pipeline run failed" 2>/dev/null || true
+          bad=$(jq -r 'to_entries[] | select(.value.result == "failure" or .value.result == "cancelled")
+                       | "- `\(.key)`: \(.value.result)"' <<<"$NEEDS")
+          open=$(gh issue list --label "$label" --state open --limit 1 --json number --jq '.[0].number // empty')
+          if [ -n "$bad" ]; then
+            body=$(printf 'Pipeline run failed: %s\n\n%s\n' "$RUN_URL" "$bad")
+            if [ -n "$open" ]; then
+              gh issue comment "$open" --body "$body"
+            else
+              gh issue create --label "$label" --title "Pipeline failing" --body "$body"
+            fi
+          elif [ -n "$open" ]; then
+            gh issue close "$open" --comment "Recovered: $RUN_URL"
+          fi

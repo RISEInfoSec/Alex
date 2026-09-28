@@ -3,25 +3,31 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+# Shares the Pipeline's group: these jobs read and write the same
+# pipeline-state branch, so a manual run must not interleave with it.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: pipeline
   cancel-in-progress: false
 jobs:
   harvest:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - run: pip install -r requirements.txt
-      - env:
-          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
-        run: python -m alex.cli harvest
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - run: scripts/state.sh pull
+      - env:
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: |
+          python -m alex.cli harvest
           git add data/accepted_harvested.csv
           git diff --cached --quiet || git commit -m "Harvest metadata"
           git push

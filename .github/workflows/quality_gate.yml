@@ -3,23 +3,29 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+# Shares the Pipeline's group: these jobs read and write the same
+# pipeline-state branch, so a manual run must not interleave with it.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: pipeline
   cancel-in-progress: false
 jobs:
   score:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - run: pip install -r requirements.txt
-      - run: python -m alex.cli score
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/quality_metrics.csv data/review_queue.csv data/rejected_candidates.csv data/accepted_candidates.csv
+      - run: scripts/state.sh pull
+      - run: |
+          python -m alex.cli score
+          scripts/state.sh push "Quality gate results"
+          git add data/review_queue.csv
           git diff --cached --quiet || git commit -m "Quality gate results"
           git push
