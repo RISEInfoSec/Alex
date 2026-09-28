@@ -234,3 +234,107 @@ class TestHttpClientRetry:
                 result = client.get_json("https://example.com/api")
             assert result == {"ok": True}
             assert get_mock.call_count == 2
+
+
+class TestHttpClientRetryAfterCap:
+    """A Retry-After beyond the cap skips the host instead of stalling the job."""
+
+    _resp = TestHttpClientRetry._resp
+
+    def test_long_retry_after_skips_without_sleeping(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep") as sleep_mock:
+            client = HttpClient()
+            long_wait = self._resp(429, headers={"Retry-After": "36000"})
+            with patch.object(client.session, "get", return_value=long_wait) as get_mock:
+                result = client.get_json("https://api.openalex.org/works")
+            assert result is None
+            assert get_mock.call_count == 1  # no retry against a 10h wait
+            sleep_args = [c.args[0] for c in sleep_mock.call_args_list if c.args]
+            assert all(s <= 60 for s in sleep_args)
+
+    def test_blocked_host_short_circuits_later_requests(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            long_wait = self._resp(429, headers={"Retry-After": "36000"})
+            with patch.object(client.session, "get", return_value=long_wait) as get_mock:
+                client.get_json("https://api.openalex.org/works", params={"q": "a"})
+                assert client.get_json("https://api.openalex.org/works", params={"q": "b"}) is None
+                assert client.get_raw("https://api.openalex.org/works", params={"q": "c"}) is None
+            assert get_mock.call_count == 1  # host blocked after the first long 429
+
+    def test_block_is_per_host(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            long_wait = self._resp(429, headers={"Retry-After": "36000"})
+            ok = self._resp(200, body={"ok": True})
+            with patch.object(client.session, "get", side_effect=[long_wait, ok]):
+                client.get_json("https://api.openalex.org/works")
+                assert client.get_json("https://api.crossref.org/works") == {"ok": True}
+
+    def test_block_expires(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"), \
+             patch("alex.utils.http.time.monotonic", side_effect=[1000.0, 1000.0 + 36001]):
+            client = HttpClient()
+            long_wait = self._resp(429, headers={"Retry-After": "36000"})
+            ok = self._resp(200, body={"ok": True})
+            with patch.object(client.session, "get", side_effect=[long_wait, ok]):
+                client.get_json("https://api.openalex.org/works", params={"q": "a"})
+                assert client.get_json("https://api.openalex.org/works", params={"q": "b"}) == {"ok": True}
+
+    def test_retry_after_at_cap_is_still_honoured(self, tmp_path):
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep") as sleep_mock:
+            client = HttpClient()
+            ok = self._resp(200, body={"ok": True})
+            sequence = [self._resp(429, headers={"Retry-After": "38"}), ok]
+            with patch.object(client.session, "get", side_effect=sequence):
+                assert client.get_json("https://api.openalex.org/works") == {"ok": True}
+            assert 38.0 in [c.args[0] for c in sleep_mock.call_args_list if c.args]
+
+
+class TestOpenAlexApiKey:
+    def test_api_key_sent_to_openalex_only(self, tmp_path, monkeypatch):
+        monkeypatch.setenv("OPENALEX_API_KEY", "sekret")
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            ok = TestHttpClientRetry()._resp(200, body={"ok": True})
+            with patch.object(client.session, "get", return_value=ok) as get_mock:
+                client.get_json("https://api.openalex.org/works", params={"search": "x"})
+                client.get_json("https://api.crossref.org/works", params={"query": "x"})
+            oa_params = get_mock.call_args_list[0].kwargs["params"]
+            cr_params = get_mock.call_args_list[1].kwargs["params"]
+            assert oa_params == {"search": "x", "api_key": "sekret"}
+            assert "api_key" not in cr_params
+
+    def test_api_key_not_in_cache(self, tmp_path, monkeypatch):
+        monkeypatch.setenv("OPENALEX_API_KEY", "sekret")
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            ok = TestHttpClientRetry()._resp(200, body={"ok": True})
+            with patch.object(client.session, "get", return_value=ok):
+                client.get_json("https://api.openalex.org/works", params={"search": "x"})
+            assert "sekret" not in cache_path.read_text()
+
+    def test_no_key_means_no_param(self, tmp_path, monkeypatch):
+        monkeypatch.delenv("OPENALEX_API_KEY", raising=False)
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            ok = TestHttpClientRetry()._resp(200, body={"ok": True})
+            with patch.object(client.session, "get", return_value=ok) as get_mock:
+                client.get_json("https://api.openalex.org/works", params={"search": "x"})
+            assert "api_key" not in get_mock.call_args.kwargs["params"]

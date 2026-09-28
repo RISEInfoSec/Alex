@@ -1,10 +1,12 @@
 from __future__ import annotations
 import json
 import logging
+import os
 import threading
 import time
 from pathlib import Path
 from typing import Any, Optional
+from urllib.parse import urlsplit
 import requests
 
 logger = logging.getLogger(__name__)
@@ -28,6 +30,19 @@ _DEFAULT_MAX_ATTEMPTS = 3
 # fails -> sleep 2s, attempt 3 fails -> give up. Honour `Retry-After` if the
 # server sets it; otherwise use this schedule.
 _BACKOFF_SCHEDULE = (1.0, 2.0, 4.0)
+# Longest Retry-After we will sleep through. OpenAlex answers an exhausted
+# daily budget with a Retry-After of hours; honouring that uncapped left
+# every chain thread asleep until the 6h job ceiling killed the run
+# (2026-06-22, 06-29, 07-20). Past the cap, the host is skipped for the
+# rest of the Retry-After window and callers get None, same as any other
+# failed request.
+_MAX_RETRY_AFTER = 60.0
+
+# Per-host auth params, read from the environment at request time. Added
+# after the cache key is built so secrets never land in .alex_cache.json.
+_HOST_AUTH_PARAMS: dict[str, tuple[str, str]] = {
+    "api.openalex.org": ("api_key", "OPENALEX_API_KEY"),
+}
 
 
 class HttpClient:
@@ -41,6 +56,10 @@ class HttpClient:
         # check-then-write and the JSON file write must be serialised. The
         # actual HTTP call happens outside the lock.
         self._cache_lock = threading.Lock()
+        # host -> time.monotonic() deadline. Set when a server asks us to wait
+        # longer than _MAX_RETRY_AFTER; requests to that host return None
+        # until the deadline passes.
+        self._blocked_until: dict[str, float] = {}
         if CACHE.exists():
             try:
                 self.cache: dict[str, Any] = json.loads(CACHE.read_text(encoding="utf-8"))
@@ -68,6 +87,31 @@ class HttpClient:
             self.cache[key] = value
             self._save_cache()
 
+    def _host_blocked(self, url: str) -> bool:
+        host = urlsplit(url).hostname or ""
+        until = self._blocked_until.get(host)
+        if until is None:
+            return False
+        if time.monotonic() < until:
+            return True
+        self._blocked_until.pop(host, None)
+        return False
+
+    def _block_host(self, url: str, seconds: float) -> None:
+        host = urlsplit(url).hostname or ""
+        if host not in self._blocked_until:
+            logger.warning("%s asked us to wait %.0fs (cap %.0fs); skipping it for "
+                           "the rest of this window", host, seconds, _MAX_RETRY_AFTER)
+        self._blocked_until[host] = time.monotonic() + seconds
+
+    @staticmethod
+    def _with_auth(url: str, params: Optional[dict[str, Any]]) -> Optional[dict[str, Any]]:
+        auth = _HOST_AUTH_PARAMS.get(urlsplit(url).hostname or "")
+        value = os.getenv(auth[1], "") if auth else ""
+        if not value:
+            return params
+        return {**(params or {}), auth[0]: value}
+
     def _request_with_retry(
         self,
         url: str,
@@ -79,6 +123,7 @@ class HttpClient:
         """GET with retry on 429/5xx. Returns the final Response, or None on
         unrecoverable failure. Honours Retry-After when present."""
         last_exc: Exception | None = None
+        params = self._with_auth(url, params)
         for attempt in range(1, max_attempts + 1):
             try:
                 r = self.session.get(url, params=params, headers=headers, timeout=timeout)
@@ -95,6 +140,9 @@ class HttpClient:
 
             if r.status_code in _RETRY_STATUS_CODES and attempt < max_attempts:
                 retry_after = self._parse_retry_after(r.headers.get("Retry-After"))
+                if retry_after is not None and retry_after > _MAX_RETRY_AFTER:
+                    self._block_host(url, retry_after)
+                    return None
                 logger.info("HTTP %d for %s — retrying (attempt %d/%d)",
                             r.status_code, url, attempt, max_attempts)
                 self._sleep_backoff(attempt, retry_after=retry_after)
@@ -138,6 +186,8 @@ class HttpClient:
         cached = self._cache_get(key)
         if cached is not _CACHE_MISS:
             return cached
+        if self._host_blocked(url):
+            return None
         try:
             r = self._request_with_retry(url, params, headers, timeout)
             if r is None:
@@ -164,6 +214,8 @@ class HttpClient:
         cached = self._cache_get(key)
         if cached is not _CACHE_MISS:
             return cached
+        if self._host_blocked(url):
+            return None
         try:
             r = self._request_with_retry(url, params, headers, timeout)
             if r is None:
