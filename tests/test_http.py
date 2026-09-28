@@ -338,3 +338,23 @@ class TestOpenAlexApiKey:
             with patch.object(client.session, "get", return_value=ok) as get_mock:
                 client.get_json("https://api.openalex.org/works", params={"search": "x"})
             assert "api_key" not in get_mock.call_args.kwargs["params"]
+
+    def test_api_key_redacted_from_failure_logs(self, tmp_path, monkeypatch, caplog):
+        import logging
+        import requests as req
+        monkeypatch.setenv("OPENALEX_API_KEY", "sekret")
+        cache_path = tmp_path / ".alex_cache.json"
+        with patch("alex.utils.http.CACHE", cache_path), \
+             patch("alex.utils.http.time.sleep"):
+            client = HttpClient()
+            bad = MagicMock()
+            bad.status_code = 400
+            bad.raise_for_status.side_effect = req.exceptions.HTTPError(
+                "400 Client Error: Bad Request for url: "
+                "https://api.openalex.org/works?search=x&api_key=sekret")
+            with patch.object(client.session, "get", return_value=bad), \
+                 caplog.at_level(logging.WARNING, logger="alex.utils.http"):
+                assert client.get_json("https://api.openalex.org/works", params={"search": "x"}) is None
+                assert client.get_raw("https://api.openalex.org/works", params={"search": "x"}) is None
+            assert "sekret" not in caplog.text
+            assert "api_key=***" in caplog.text
