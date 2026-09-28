@@ -18,6 +18,8 @@ After Publish, the `pipeline.yml` `deploy` job stages `index.html`, `papers.json
 
 ## Data ownership
 
+Working state — `discovery_candidates`, `accepted_candidates`, `rejected_candidates`, `quality_metrics`, `rescore_metrics` — lives gzipped on the `pipeline-state` branch, not `main` (`scripts/state.sh pull|push`). Everything else below is committed to `main`.
+
 - `data/discovery_candidates.csv` — raw candidates (mutable; grows each Discover/Chain run)
 - `data/accepted_candidates.csv` / `data/review_queue.csv` / `data/rejected_candidates.csv` — Quality gate buckets
 - `data/accepted_harvested.csv` — accepted set with full bibliographic metadata

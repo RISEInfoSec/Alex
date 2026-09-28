@@ -15,3 +15,11 @@ alex_project_evaluation.pdf
 
 # Playwright MCP browser artifacts
 .playwright-mcp/
+
+# Pipeline working state — lives gzipped on the `pipeline-state` branch
+# (scripts/state.sh pull|push), not on main. See docs/architecture.md.
+data/discovery_candidates.csv
+data/quality_metrics.csv
+data/rejected_candidates.csv
+data/accepted_candidates.csv
+data/rescore_metrics.csv
