@@ -4,6 +4,7 @@ import logging
 import os
 import threading
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
 
 import pandas as pd
 import requests
@@ -282,6 +283,26 @@ def _dedup_key(row) -> str:
     return f"title:{normalize_title(clean(row.get('title', '')))}"
 
 
+def _stamp_retrieved_at(new_df: pd.DataFrame, existing: pd.DataFrame) -> None:
+    """Set `retrieved_at` (YYYY-MM-DD, UTC) on freshly classified rows.
+
+    It records when a paper entered the corpus, so a row that replaces an
+    existing one (rescore, reclassify) keeps the existing date; only papers
+    not currently in the corpus get today's date. A paper pruned and later
+    re-admitted is dated by its re-admission.
+    """
+    if new_df.empty:
+        return
+    known: dict[str, str] = {}
+    if "retrieved_at" in existing.columns:
+        for _, row in existing.iterrows():
+            date = clean(row.get("retrieved_at", ""))
+            if date:
+                known[_dedup_key(row)] = date
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    new_df["retrieved_at"] = [known.get(_dedup_key(row), today) for _, row in new_df.iterrows()]
+
+
 def _load_rescore_window_run_id() -> str:
     path = root_file("data", ".rescore_window.json")
     if not path.exists():
@@ -383,6 +404,7 @@ def run() -> None:
     # rows reconsidered this run are removed from the existing corpus, then
     # only the surviving accepted rows are added back.
     existing = load_df(output_path)
+    _stamp_retrieved_at(new_df, existing)
     rescored_keys = set()
     if window_run_id and _rows_match_run_id(rescored, window_run_id, "rescore_metrics.csv") \
        and _rows_match_run_id(df, window_run_id, "accepted_harvested.csv"):

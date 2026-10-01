@@ -317,7 +317,7 @@ function displayPapers(list) {
 
     div.innerHTML = `
       <h3>${escapeHtml(p.title || '')}</h3>
-      <p class="meta"><strong>${escapeHtml(p.author || 'Author metadata incomplete')}</strong> (${escapeHtml(p.year || '')})${p.venue ? ' · ' + escapeHtml(p.venue) : ''}</p>
+      <p class="meta"><strong>${escapeHtml(p.author || 'Author metadata incomplete')}</strong> (${escapeHtml(p.year || '')})${p.venue ? ' · ' + escapeHtml(p.venue) : ''}${p.retrieved ? ' · Retrieved ' + escapeHtml(p.retrieved) : ''}</p>
       <p>${escapeHtml(p.summary || '')}</p>
       <p>${tags}</p>
       ${keywordTags ? `<p>${keywordTags}</p>` : ''}
