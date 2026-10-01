@@ -662,6 +662,7 @@ class TestClassify:
             "doi": "10.1/new", "abstract": "abstract", "source_url": "", "citation_count": 10,
         }])
         harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        before = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
@@ -671,8 +672,8 @@ class TestClassify:
             classify.run()
 
         result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        assert result.iloc[0]["retrieved_at"] == today
+        after = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        assert result.iloc[0]["retrieved_at"] in {before, after}  # midnight-safe
 
     def test_classify_preserves_retrieved_at_when_reclassified(self, tmp_path):
         # Rescore/reclassify replaces the row, but the paper was retrieved

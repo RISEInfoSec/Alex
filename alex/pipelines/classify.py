@@ -286,9 +286,10 @@ def _dedup_key(row) -> str:
 def _stamp_retrieved_at(new_df: pd.DataFrame, existing: pd.DataFrame) -> None:
     """Set `retrieved_at` (YYYY-MM-DD, UTC) on freshly classified rows.
 
-    It records when a paper first entered the corpus, so a row that replaces
-    an existing one (rescore, reclassify) keeps the existing date; only
-    papers new to the corpus get today's date.
+    It records when a paper entered the corpus, so a row that replaces an
+    existing one (rescore, reclassify) keeps the existing date; only papers
+    not currently in the corpus get today's date. A paper pruned and later
+    re-admitted is dated by its re-admission.
     """
     if new_df.empty:
         return
