@@ -266,6 +266,7 @@ class TestPublish:
             "Seminal_Flag": "TRUE",
             # quality_tier is now derived from total_quality_score, not stored.
             "total_quality_score": 80,
+            "retrieved_at": "2026-09-28",
         }])
         classified_path = tmp_path / "data" / "accepted_classified.csv"
         classified_path.parent.mkdir(parents=True)
@@ -284,6 +285,7 @@ class TestPublish:
         assert paper["seminal"] is True
         assert paper["quality_tier"] == "High"
         assert "Social Media" in paper["osint_source"]
+        assert paper["retrieved"] == "2026-09-28"
 
     def test_json_output_is_valid_when_fields_are_missing(self, tmp_path):
         # Empty CSV cells become NaN in pandas; without coercion,
@@ -649,6 +651,58 @@ class TestClassify:
         result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
         assert len(result) == 1  # deduped
         assert result.iloc[0]["title"] == "Updated Title"  # new won
+
+    def test_classify_stamps_retrieved_at_on_new_rows(self, tmp_path):
+        # A paper entering the corpus for the first time is stamped with
+        # today's UTC date; it's what the site shows as "Retrieved".
+        from datetime import datetime, timezone
+        (tmp_path / "data").mkdir(parents=True)
+        harvested = pd.DataFrame([{
+            "title": "New Paper", "authors": "B", "year": "2025", "venue": "IEEE",
+            "doi": "10.1/new", "abstract": "abstract", "source_url": "", "citation_count": 10,
+        }])
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        assert result.iloc[0]["retrieved_at"] == today
+
+    def test_classify_preserves_retrieved_at_when_reclassified(self, tmp_path):
+        # Rescore/reclassify replaces the row, but the paper was retrieved
+        # when it first entered the corpus, so the original date carries over.
+        (tmp_path / "data").mkdir(parents=True)
+        existing = pd.DataFrame([{
+            "title": "Old Title", "authors": "A", "year": "2020", "venue": "",
+            "doi": "10.1/SAME", "abstract": "", "source_url": "", "citation_count": 0,
+            "Category": "Old Category", "Investigation_Type": "", "OSINT_Source_Types": "",
+            "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+            "retrieved_at": "2026-04-06",
+        }])
+        existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        harvested = pd.DataFrame([{
+            "title": "Updated Title", "authors": "B", "year": "2025", "venue": "IEEE",
+            "doi": "10.1/same", "abstract": "new", "source_url": "", "citation_count": 50,
+        }])
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert len(result) == 1
+        assert result.iloc[0]["title"] == "Updated Title"
+        assert result.iloc[0]["retrieved_at"] == "2026-04-06"
 
     def test_classify_prunes_rows_rescored_out_this_run(self, tmp_path):
         # If a previously published paper is reconsidered by the current

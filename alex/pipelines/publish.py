@@ -65,6 +65,7 @@ def run() -> None:
             "doi": doi,
             "seminal": str(row.get("Seminal_Flag", "FALSE")).upper() == "TRUE",
             "quality_tier": _quality_tier(row.get("total_quality_score", 0)),
+            "retrieved": row.get("retrieved_at", ""),
         })
     save_json(papers_json, papers)
     print(f"Published {len(papers)} papers")
