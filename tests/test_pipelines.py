@@ -712,7 +712,7 @@ class TestClassify:
         harvested = pd.DataFrame([
             {"title": "Cyber &amp; Informatics", "authors": "A", "year": "2025", "venue": "",
              "doi": "10.1/dup", "abstract": "a", "source_url": "", "citation_count": 1},
-            {"title": "Cyber & Informatics", "authors": "A", "year": "2025", "venue": "",
+            {"title": "<b>Cyber & Informatics</b>", "authors": "A", "year": "2025", "venue": "",
              "doi": "10.1/DUP", "abstract": "a", "source_url": "", "citation_count": 1},
         ])
         harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
@@ -726,6 +726,30 @@ class TestClassify:
 
         result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
         assert len(result) == 1
+
+    def test_classify_keeps_distinct_papers_sharing_a_doi(self, tmp_path):
+        # A wrong DOI (seed data) or a journal-level DOI can sit on two
+        # different papers. Only near-identical titles count as duplicates.
+        (tmp_path / "data").mkdir(parents=True)
+        harvested = pd.DataFrame([
+            {"title": "Cyberattack Prediction Through Public Text Analysis", "authors": "A",
+             "year": "2018", "venue": "", "doi": "10.1/shared", "abstract": "a",
+             "source_url": "", "citation_count": 1},
+            {"title": "Corpus and Deep Learning Classifier for Threat Indicators", "authors": "B",
+             "year": "2018", "venue": "", "doi": "10.1/shared", "abstract": "b",
+             "source_url": "", "citation_count": 1},
+        ])
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert len(result) == 2
 
     def test_classify_collapses_existing_duplicates(self, tmp_path):
         # Duplicates already in the corpus are cleaned up on the next run,
