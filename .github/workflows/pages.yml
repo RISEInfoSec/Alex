@@ -49,6 +49,7 @@ jobs:
           mkdir -p _site/data
           cp index.html _site/
           cp data/papers.json _site/data/
+          if [ -f data/collection_status.json ]; then cp data/collection_status.json _site/data/; fi
           cp data/osint_cyber_papers.csv _site/data/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

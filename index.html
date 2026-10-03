@@ -98,6 +98,10 @@
 </header>
 
 <div class="container">
+  <div class="section">
+    <h2>About This Project</h2>
+    <p>This platform is designed to systematically discover, index, and analyze OSINT research papers using structured metadata and tagging, with a specific emphasis on cybersecurity and cyber investigations. Licensing information can be found in the repository <a href="https://github.com/RISEInfoSec/Alex/blob/main/README.md">README</a>.</p>
+  </div>
   <div class="filters">
     <div class="filter-grid">
       <div>
@@ -134,19 +138,24 @@
 
   <div id="summary" class="summary-line">Loading papers…</div>
   <div id="results"></div>
-
-  <div class="section">
-    <h2>About This Project</h2>
-    <p>This platform is designed to systematically discover, index, and analyze OSINT research papers using structured metadata and tagging, with a specific emphasis on cybersecurity and cyber investigations. Licensing information can be found in the repository README.</p>
+  <div class="actions" style="margin-bottom: 24px;">
+    <span id="latestNote">A selection of our latest additions to the library.</span>
+    <button id="browseBtn" class="secondary" type="button">Browse the full library</button>
   </div>
+
+
 </div>
 
 <footer>
-  OSINT Research Library | Created by <a href="https://riseinfosec.org/">RISE InfoSec</a>
+  Cybersecurity Research Library | Created by <a href="https://riseinfosec.org/">RISE Information Security Foundation</a>
+  <div id="collectionStatus" role="status">Last collection: not yet recorded · New papers added: not yet recorded</div>
 </footer>
 
 <script>
 let papers = [];
+let browseAll = false;
+const latestNote = document.getElementById('latestNote');
+const browseBtn = document.getElementById('browseBtn');
 const searchEl = document.getElementById('search');
 const sourceEl = document.getElementById('sourceFilter');
 const categoryEl = document.getElementById('categoryFilter');
@@ -192,8 +201,20 @@ fetch('data/papers.json')
       osint_source: flattenMulti(p.osint_source),
     }));
     populateFilters(papers);
-    displayPapers(papers);
-  });
+    applyFilters();
+  })
+  .catch(() => { summaryEl.textContent = 'The library could not be loaded. Please refresh to try again.'; });
+
+fetch('data/collection_status.json')
+  .then(res => { if (!res.ok) throw new Error('No recorded run'); return res.json(); })
+  .then(status => {
+    if (!status.last_collection || !Number.isInteger(status.new_papers_added)) return;
+    const date = new Date(status.last_collection);
+    if (Number.isNaN(date.getTime())) return;
+    const formatted = new Intl.DateTimeFormat('en-CA', {dateStyle: 'long', timeZone: 'UTC'}).format(date);
+    document.getElementById('collectionStatus').textContent = `Last collection: ${formatted} (UTC) · New papers added: ${status.new_papers_added.toLocaleString('en-CA')}`;
+  })
+  .catch(() => {}); // Keep the honest placeholder until a collection is recorded.
 
 function uniqueSorted(values) {
   return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b));
@@ -279,8 +300,24 @@ function displayPapers(list) {
 }
 
 function applyFilters() {
-  displayPapers(papers.filter(paperMatches));
+  const filtered = [searchEl, sourceEl, categoryEl, keywordEl, yearEl, investigationEl].some(el => el.value.trim());
+  const latest = !browseAll && !filtered;
+  const list = latest
+    ? papers.map((paper, index) => ({paper, index}))
+        .sort((a, b) => String(b.paper.retrieved || '').localeCompare(String(a.paper.retrieved || '')) || b.index - a.index)
+        .slice(0, 5).map(item => item.paper)
+    : papers.filter(paperMatches);
+  displayPapers(list);
+  if (latest) summaryEl.textContent = `${list.length} latest additions shown · ${papers.length.toLocaleString('en-CA')} papers in the library`;
+  latestNote.hidden = !latest;
+  browseBtn.hidden = filtered;
+  browseBtn.textContent = browseAll ? 'Show latest additions' : 'Browse the full library';
 }
+
+browseBtn.addEventListener('click', () => {
+  browseAll = !browseAll;
+  applyFilters();
+});
 
 // Delegated handler for tag chips — avoids inline onclick and keeps the
 // click target isolated from user-controlled attribute values.
@@ -294,6 +331,7 @@ resultsEl.addEventListener('click', (e) => {
 });
 
 document.getElementById('clearBtn').addEventListener('click', () => {
+  browseAll = false;
   searchEl.value = '';
   sourceEl.value = '';
   categoryEl.value = '';
