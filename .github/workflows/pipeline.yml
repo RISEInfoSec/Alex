@@ -231,8 +231,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Publish
         run: |
-          python -m alex.cli publish
-          git add data/osint_cyber_papers.csv data/papers.json
+          python -m alex.cli publish --record-collection
+          git add data/osint_cyber_papers.csv data/papers.json data/collection_status.json
           git diff --cached --quiet || git commit -m "Publish public corpus"
           git push || (git pull --rebase --autostash && git push)
 
@@ -256,6 +256,7 @@ jobs:
           mkdir -p _site/data
           cp index.html _site/
           cp data/papers.json _site/data/
+          if [ -f data/collection_status.json ]; then cp data/collection_status.json _site/data/; fi
           cp data/osint_cyber_papers.csv _site/data/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
