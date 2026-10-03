@@ -250,6 +250,24 @@ A full end-to-end run takes roughly 15–30 minutes, driven mostly by API-call v
 
 The parallel `Manual-assist discovery queue` reminder fires Monday 04:05 UTC for human curation of Google Scholar / Dimensions / BASE. Candidates added by hand before the following Monday are picked up on the next cycle.
 
+## Library display and collection status
+
+The landing page initially shows five latest additions, ordered by the preserved
+`retrieved_at` date (first classification into the corpus, not publication year).
+Same-day additions use reverse corpus order. Search and filters query the full
+corpus; **Browse the full library** displays all papers, and **Clear filters**
+returns to the five latest additions.
+
+The full Pipeline calls `python -m alex.cli publish --record-collection` to write
+`data/collection_status.json` with its UTC completion timestamp and the number of
+papers newly published compared with the preceding public corpus. Paper identity
+uses DOI, source URL, or title, never the sequential display ID. A retry with the
+same `GITHUB_RUN_ID` preserves the original count. Manual publish and asset rebuilds
+do not change collection status. Pages deploys copy the status file when present.
+Until the first instrumented collection, the footer explicitly says the date and
+count are not yet recorded. An empty classified input preserves an existing public
+corpus and its collection status.
+
 ## Operations runbook
 
 The package is designed to be **production-oriented**, but actual performance depends on API keys, quotas, and data-source availability. Notes below cover the recurring operational tasks.

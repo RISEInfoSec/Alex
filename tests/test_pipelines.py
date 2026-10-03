@@ -328,6 +328,40 @@ class TestPublish:
         assert json.loads((tmp_path / "data" / "papers.json").read_text()) == []
 
 
+    def test_collection_counts_new_papers_and_preserves_count_on_retry(self, tmp_path, monkeypatch):
+        data = tmp_path / "data"
+        data.mkdir()
+        (data / "papers.json").write_text(json.dumps([{"title": "Existing", "doi": "10.1/old"}]))
+        pd.DataFrame([
+            {"title": "Existing", "doi": "10.1/old"},
+            {"title": "New", "doi": "10.1/new"},
+        ]).to_csv(data / "accepted_classified.csv", index=False)
+        monkeypatch.setenv("GITHUB_RUN_ID", "123")
+        with patch("alex.utils.io.ROOT", tmp_path):
+            publish.run(record_collection=True)
+            first = json.loads((data / "collection_status.json").read_text())
+            assert first["new_papers_added"] == 1
+            publish.run(record_collection=True)
+            assert json.loads((data / "collection_status.json").read_text()) == first
+            publish.run()  # An asset rebuild is not a collection.
+            assert json.loads((data / "collection_status.json").read_text()) == first
+            monkeypatch.setenv("GITHUB_RUN_ID", "124")
+            publish.run(record_collection=True)
+            assert json.loads((data / "collection_status.json").read_text())["new_papers_added"] == 0
+
+    def test_empty_publish_preserves_existing_corpus_and_status(self, tmp_path):
+        data = tmp_path / "data"
+        data.mkdir()
+        papers = [{"title": "Keep this paper"}]
+        (data / "papers.json").write_text(json.dumps(papers))
+        (data / "osint_cyber_papers.csv").write_text("title\nKeep this paper\n")
+        (data / "collection_status.json").write_text('{"new_papers_added": 3}')
+        with patch("alex.utils.io.ROOT", tmp_path):
+            publish.run(record_collection=True)
+        assert json.loads((data / "papers.json").read_text()) == papers
+        assert json.loads((data / "collection_status.json").read_text())["new_papers_added"] == 3
+
+
 class TestValidateColumns:
     def test_all_columns_present(self):
         df = pd.DataFrame({"title": ["x"], "authors": ["y"]})
