@@ -305,8 +305,10 @@ def _drop_duplicate_papers(df: pd.DataFrame) -> pd.DataFrame:
     winners = rank.iloc[::-1].sort_values("markup", kind="stable").drop_duplicates("key").index
     out = df.loc[sorted(winners)].copy()
     if "retrieved_at" in df.columns:
-        dates = df["retrieved_at"].map(clean).replace("", None)
-        out["retrieved_at"] = keys[out.index].map(dates.groupby(keys).min()).fillna("")
+        dates = df["retrieved_at"].map(clean)
+        dated = dates != ""
+        earliest = dates[dated].groupby(keys[dated]).min()
+        out["retrieved_at"] = keys[out.index].map(earliest).fillna("")
     return out.reset_index(drop=True)
 
 

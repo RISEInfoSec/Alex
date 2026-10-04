@@ -793,6 +793,18 @@ class TestClassify:
         old = result[result["doi"] == "10.1/old"].iloc[0]
         assert old["retrieved_at"] == "2026-04-06"  # earliest date survives the collapse
 
+    def test_drop_duplicate_papers_tolerates_a_blank_retrieved_at(self):
+        # A hand-edited row may lack a date; the dated copy's date survives.
+        from alex.pipelines.classify import _drop_duplicate_papers
+        df = pd.DataFrame([
+            {"title": "Same Paper", "doi": "10.1/x", "retrieved_at": "2026-04-06"},
+            {"title": "Same Paper", "doi": "10.1/x", "retrieved_at": ""},
+            {"title": "Other Paper", "doi": "10.1/y", "retrieved_at": float("nan")},
+        ])
+        out = _drop_duplicate_papers(df)
+        assert len(out) == 2
+        assert dict(zip(out["doi"], out["retrieved_at"])) == {"10.1/x": "2026-04-06", "10.1/y": ""}
+
     def test_classify_new_row_replaces_existing_outside_rescore_window(self, tmp_path):
         # A harvested row whose key isn't in rescore_metrics (e.g. harvest
         # found the DOI rescore didn't have) still replaces its existing row.
