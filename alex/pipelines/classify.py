@@ -2,6 +2,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
@@ -283,6 +284,34 @@ def _dedup_key(row) -> str:
     return f"title:{normalize_title(clean(row.get('title', '')))}"
 
 
+def _markup(title: object) -> int:
+    """Count HTML leftovers in a raw title ("&amp;", "<b>"); fewer is cleaner."""
+    return len(re.findall(r"&\w+;|<[^>]*>", clean(title)))
+
+
+def _drop_duplicate_papers(df: pd.DataFrame) -> pd.DataFrame:
+    """Keep one row per paper (dedup key: DOI, else normalised title).
+
+    Upstream dedup is title-based, so one DOI can arrive twice under title
+    variants ("&amp;" vs "&", "RealTime" vs "Real-Time"). The row whose title
+    has the least HTML markup wins, then the most recent; it takes the
+    group's earliest retrieved_at, since that's when the paper first arrived.
+    """
+    if df.empty:
+        return df
+    df = df.reset_index(drop=True)
+    keys = df.apply(_dedup_key, axis=1)
+    rank = pd.DataFrame({"key": keys, "markup": df["title"].map(_markup)})
+    winners = rank.iloc[::-1].sort_values("markup", kind="stable").drop_duplicates("key").index
+    out = df.loc[sorted(winners)].copy()
+    if "retrieved_at" in df.columns:
+        dates = df["retrieved_at"].map(clean)
+        dated = dates != ""
+        earliest = dates[dated].groupby(keys[dated]).min()
+        out["retrieved_at"] = keys[out.index].map(earliest).fillna("")
+    return out.reset_index(drop=True)
+
+
 def _stamp_retrieved_at(new_df: pd.DataFrame, existing: pd.DataFrame) -> None:
     """Set `retrieved_at` (YYYY-MM-DD, UTC) on freshly classified rows.
 
@@ -297,8 +326,9 @@ def _stamp_retrieved_at(new_df: pd.DataFrame, existing: pd.DataFrame) -> None:
     if "retrieved_at" in existing.columns:
         for _, row in existing.iterrows():
             date = clean(row.get("retrieved_at", ""))
-            if date:
-                known[_dedup_key(row)] = date
+            key = _dedup_key(row)
+            if date and (key not in known or date < known[key]):
+                known[key] = date
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     new_df["retrieved_at"] = [known.get(_dedup_key(row), today) for _, row in new_df.iterrows()]
 
@@ -396,13 +426,14 @@ def run() -> None:
                 ex.shutdown(wait=False, cancel_futures=True)
                 raise
 
-    new_df = pd.DataFrame(rows)
+    new_df = _drop_duplicate_papers(pd.DataFrame(rows))
 
     # Additive merge: preserve every paper ever classified. Fresh classifier
     # output wins on conflict (newer metadata, latest tags). When rescore
     # metrics are available, treat that current window as authoritative:
     # rows reconsidered this run are removed from the existing corpus, then
-    # only the surviving accepted rows are added back.
+    # only the surviving accepted rows are added back. Fresh rows always
+    # replace their existing counterpart, in or out of the window.
     existing = load_df(output_path)
     _stamp_retrieved_at(new_df, existing)
     rescored_keys = set()
@@ -410,7 +441,7 @@ def run() -> None:
        and _rows_match_run_id(df, window_run_id, "accepted_harvested.csv"):
         rescored_keys = {_dedup_key(row) for _, row in rescored.iterrows()}
     new_keys = {_dedup_key(row) for _, row in new_df.iterrows()}
-    replacement_keys = rescored_keys or new_keys
+    replacement_keys = rescored_keys | new_keys
 
     if existing.empty:
         merged: pd.DataFrame = new_df
@@ -420,6 +451,7 @@ def run() -> None:
         existing_keep = existing[~existing.apply(_dedup_key, axis=1).isin(replacement_keys)]
         merged = pd.concat([existing_keep, new_df], ignore_index=True)
 
+    merged = _drop_duplicate_papers(merged)
     save_df(output_path, merged)
     if window_path.exists():
         window_path.unlink()

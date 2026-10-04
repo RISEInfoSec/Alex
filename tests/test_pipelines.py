@@ -739,6 +739,107 @@ class TestClassify:
         assert result.iloc[0]["title"] == "Updated Title"
         assert result.iloc[0]["retrieved_at"] == "2026-04-06"
 
+    def test_classify_drops_same_doi_twice_in_one_batch(self, tmp_path):
+        # Upstream dedup is title-based, so one DOI can arrive twice under
+        # title variants ("&amp;" vs "&"). The corpus keeps one row.
+        (tmp_path / "data").mkdir(parents=True)
+        harvested = pd.DataFrame([
+            {"title": "Cyber & Informatics", "authors": "A", "year": "2025", "venue": "",
+             "doi": "10.1/dup", "abstract": "a", "source_url": "", "citation_count": 1},
+            {"title": "<b>Cyber &amp; Informatics</b>", "authors": "A", "year": "2025", "venue": "",
+             "doi": "10.1/DUP", "abstract": "a", "source_url": "", "citation_count": 1},
+        ])
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert len(result) == 1
+        assert result.iloc[0]["title"] == "Cyber & Informatics"  # less markup wins
+
+    def test_classify_collapses_existing_duplicates(self, tmp_path):
+        # Duplicates already in the corpus are cleaned up on the next run,
+        # even when this run's batch doesn't touch them.
+        (tmp_path / "data").mkdir(parents=True)
+        row = {
+            "title": "Old Paper", "authors": "A", "year": "2020", "venue": "",
+            "doi": "10.1/old", "abstract": "", "source_url": "", "citation_count": 0,
+            "Category": "Seed", "Investigation_Type": "", "OSINT_Source_Types": "",
+            "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+            "retrieved_at": "2026-04-06",
+        }
+        later = {**row, "retrieved_at": "2026-09-01"}
+        pd.DataFrame([row, later]).to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        harvested = pd.DataFrame([{
+            "title": "New Paper", "authors": "B", "year": "2025", "venue": "IEEE",
+            "doi": "10.1/new", "abstract": "abstract", "source_url": "", "citation_count": 10,
+        }])
+        harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert sorted(result["doi"].astype(str)) == ["10.1/new", "10.1/old"]
+        old = result[result["doi"] == "10.1/old"].iloc[0]
+        assert old["retrieved_at"] == "2026-04-06"  # earliest date survives the collapse
+
+    def test_drop_duplicate_papers_tolerates_a_blank_retrieved_at(self):
+        # A hand-edited row may lack a date; the dated copy's date survives.
+        from alex.pipelines.classify import _drop_duplicate_papers
+        df = pd.DataFrame([
+            {"title": "Same Paper", "doi": "10.1/x", "retrieved_at": "2026-04-06"},
+            {"title": "Same Paper", "doi": "10.1/x", "retrieved_at": ""},
+            {"title": "Other Paper", "doi": "10.1/y", "retrieved_at": float("nan")},
+        ])
+        out = _drop_duplicate_papers(df)
+        assert len(out) == 2
+        assert dict(zip(out["doi"], out["retrieved_at"])) == {"10.1/x": "2026-04-06", "10.1/y": ""}
+
+    def test_classify_new_row_replaces_existing_outside_rescore_window(self, tmp_path):
+        # A harvested row whose key isn't in rescore_metrics (e.g. harvest
+        # found the DOI rescore didn't have) still replaces its existing row.
+        (tmp_path / "data").mkdir(parents=True)
+        run_id = "run-123"
+        pd.DataFrame([{
+            "title": "Same Paper", "authors": "A", "year": "2024", "venue": "",
+            "doi": "10.1/same", "abstract": "", "source_url": "", "citation_count": 0,
+            "Category": "Old", "Investigation_Type": "", "OSINT_Source_Types": "",
+            "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
+            "retrieved_at": "2026-05-11",
+        }]).to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        pd.DataFrame([{
+            "title": "Same Paper", "authors": "A", "year": "2024", "venue": "",
+            "doi": "10.1/same", "abstract": "new", "source_url": "", "citation_count": 5,
+            "rescore_run_id": run_id,
+        }]).to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        pd.DataFrame([{
+            "title": "Other Paper", "authors": "B", "year": "2024", "venue": "",
+            "doi": "10.1/other", "abstract": "x", "source_url": "", "citation_count": 0,
+            "total_quality_score": 80.0, "is_preprint": False, "rescore_run_id": run_id,
+        }]).to_csv(tmp_path / "data" / "rescore_metrics.csv", index=False)
+        (tmp_path / "data" / ".rescore_window.json").write_text(json.dumps({"run_id": run_id}))
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        assert len(result) == 1
+        assert result.iloc[0]["retrieved_at"] == "2026-05-11"
+
     def test_classify_prunes_rows_rescored_out_this_run(self, tmp_path):
         # If a previously published paper is reconsidered by the current
         # rescore window but does not survive back into accepted_harvested,
