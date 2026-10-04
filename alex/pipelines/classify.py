@@ -2,6 +2,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
@@ -284,27 +285,64 @@ def _dedup_key(row) -> str:
     return f"title:{normalize_title(clean(row.get('title', '')))}"
 
 
+def _title_of(row) -> str:
+    return normalize_title(clean(row.get("title", "")))
+
+
+def _same_title(a: str, b: str) -> bool:
+    # On the corpus, distinct papers sharing a DOI score <= 0.45; variants
+    # of one title (markup, hyphens, an added subtitle) score >= 0.76.
+    return SequenceMatcher(None, a, b).ratio() >= 0.7
+
+
+def _markup(row) -> int:
+    """Count HTML leftovers in a raw title ("&amp;", "<b>"); fewer is cleaner."""
+    return len(re.findall(r"&\w+;|<[^>]*>", clean(row.get("title", ""))))
+
+
+def _same_paper_mask(df: pd.DataFrame, others: list[pd.DataFrame]) -> pd.Series:
+    """True for each row of `df` that is the same paper as a row in `others`.
+
+    Same paper = same DOI-or-title key AND near-identical title. A key alone
+    isn't enough: the seed corpus had distinct papers carrying one wrong DOI,
+    and journal-level DOIs (10.5121/ijci) can sit on unrelated papers.
+    """
+    if df.empty:
+        return pd.Series(dtype=bool)
+    titles: dict[str, list[str]] = {}
+    for other in others:
+        for _, row in other.iterrows():
+            titles.setdefault(_dedup_key(row), []).append(_title_of(row))
+    return df.apply(
+        lambda row: any(_same_title(_title_of(row), t) for t in titles.get(_dedup_key(row), [])),
+        axis=1,
+    ).astype(bool)
+
+
 def _drop_duplicate_papers(df: pd.DataFrame) -> pd.DataFrame:
-    """Drop repeat rows of the same paper, keeping the last (most recent).
+    """Keep one row per paper (see `_same_paper_mask` for identity).
 
     Upstream dedup is title-based, so one DOI can arrive twice under title
-    variants ("&amp;" vs "&", "RealTime" vs "Real-Time"). Rows sharing a key
-    only count as the same paper when their titles are near-identical: the
-    seed corpus has distinct papers carrying one wrong DOI, and journal-level
-    DOIs (10.5121/ijci) can sit on unrelated papers.
+    variants ("&amp;" vs "&", "RealTime" vs "Real-Time"). The row with the
+    cleaner title wins; on a tie, the later (more recently added) row.
     """
     if df.empty:
         return df
-    kept_titles: dict[str, list[str]] = {}
-    keep = []
-    for _, row in df.iloc[::-1].iterrows():
-        title = normalize_title(clean(row.get("title", "")))
-        seen = kept_titles.setdefault(_dedup_key(row), [])
-        duplicate = any(SequenceMatcher(None, title, t).ratio() >= 0.8 for t in seen)
-        if not duplicate:
-            seen.append(title)
-        keep.append(not duplicate)
-    return df[keep[::-1]].reset_index(drop=True)
+    kept: dict[str, list[tuple[str, int]]] = {}  # key -> [(title, position)]
+    keep = [True] * len(df)
+    for pos, (_, row) in enumerate(df.iterrows()):
+        title, group = _title_of(row), kept.setdefault(_dedup_key(row), [])
+        for i, (seen_title, seen_pos) in enumerate(group):
+            if _same_title(title, seen_title):
+                if _markup(row) <= _markup(df.iloc[seen_pos]):
+                    keep[seen_pos] = False
+                    group[i] = (title, pos)
+                else:
+                    keep[pos] = False
+                break
+        else:
+            group.append((title, pos))
+    return df[keep].reset_index(drop=True)
 
 
 def _stamp_retrieved_at(new_df: pd.DataFrame, existing: pd.DataFrame) -> None:
@@ -317,15 +355,20 @@ def _stamp_retrieved_at(new_df: pd.DataFrame, existing: pd.DataFrame) -> None:
     """
     if new_df.empty:
         return
-    known: dict[str, str] = {}
+    known: dict[str, list[tuple[str, str]]] = {}  # key -> [(title, date)]
     if "retrieved_at" in existing.columns:
         for _, row in existing.iterrows():
             date = clean(row.get("retrieved_at", ""))
-            key = _dedup_key(row)
-            if date and (key not in known or date < known[key]):
-                known[key] = date
+            if date:
+                known.setdefault(_dedup_key(row), []).append((_title_of(row), date))
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    new_df["retrieved_at"] = [known.get(_dedup_key(row), today) for _, row in new_df.iterrows()]
+
+    def date_for(row) -> str:
+        title = _title_of(row)
+        dates = [d for t, d in known.get(_dedup_key(row), []) if _same_title(title, t)]
+        return min(dates, default=today)
+
+    new_df["retrieved_at"] = [date_for(row) for _, row in new_df.iterrows()]
 
 
 def _load_rescore_window_run_id() -> str:
@@ -431,19 +474,15 @@ def run() -> None:
     # replace their existing counterpart, in or out of the window.
     existing = load_df(output_path)
     _stamp_retrieved_at(new_df, existing)
-    rescored_keys = set()
+    replacements = [new_df]
     if window_run_id and _rows_match_run_id(rescored, window_run_id, "rescore_metrics.csv") \
        and _rows_match_run_id(df, window_run_id, "accepted_harvested.csv"):
-        rescored_keys = {_dedup_key(row) for _, row in rescored.iterrows()}
-    new_keys = {_dedup_key(row) for _, row in new_df.iterrows()}
-    replacement_keys = rescored_keys | new_keys
+        replacements.append(rescored)
 
     if existing.empty:
         merged: pd.DataFrame = new_df
-    elif not replacement_keys:
-        merged = existing
     else:
-        existing_keep = existing[~existing.apply(_dedup_key, axis=1).isin(replacement_keys)]
+        existing_keep = existing[~_same_paper_mask(existing, replacements)]
         merged = pd.concat([existing_keep, new_df], ignore_index=True)
 
     merged = _drop_duplicate_papers(merged)

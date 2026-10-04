@@ -663,14 +663,14 @@ class TestClassify:
         # Same DOI in both existing and new: new classification replaces old.
         (tmp_path / "data").mkdir(parents=True)
         existing = pd.DataFrame([{
-            "title": "Old Title", "authors": "A", "year": "2020", "venue": "",
+            "title": "Gathering Cyber Threat Intelligence from Twitter", "authors": "A", "year": "2020", "venue": "",
             "doi": "10.1/same", "abstract": "", "source_url": "", "citation_count": 0,
             "Category": "Old Category", "Investigation_Type": "", "OSINT_Source_Types": "",
             "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
         }])
         existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
         harvested = pd.DataFrame([{
-            "title": "Updated Title", "authors": "B", "year": "2025", "venue": "IEEE",
+            "title": "Gathering Cyber Threat Intelligence From Twitter Using Novelty Classification", "authors": "B", "year": "2025", "venue": "IEEE",
             "doi": "10.1/same", "abstract": "new", "source_url": "", "citation_count": 50,
         }])
         harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
@@ -684,7 +684,7 @@ class TestClassify:
 
         result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
         assert len(result) == 1  # deduped
-        assert result.iloc[0]["title"] == "Updated Title"  # new won
+        assert result.iloc[0]["title"] == "Gathering Cyber Threat Intelligence From Twitter Using Novelty Classification"  # new won
 
     def test_classify_stamps_retrieved_at_on_new_rows(self, tmp_path):
         # A paper entering the corpus for the first time is stamped with
@@ -714,7 +714,7 @@ class TestClassify:
         # when it first entered the corpus, so the original date carries over.
         (tmp_path / "data").mkdir(parents=True)
         existing = pd.DataFrame([{
-            "title": "Old Title", "authors": "A", "year": "2020", "venue": "",
+            "title": "Gathering Cyber Threat Intelligence from Twitter", "authors": "A", "year": "2020", "venue": "",
             "doi": "10.1/SAME", "abstract": "", "source_url": "", "citation_count": 0,
             "Category": "Old Category", "Investigation_Type": "", "OSINT_Source_Types": "",
             "Keywords": "", "Tags": "", "Quality_Tier": "Standard", "Seminal_Flag": "FALSE",
@@ -722,7 +722,7 @@ class TestClassify:
         }])
         existing.to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
         harvested = pd.DataFrame([{
-            "title": "Updated Title", "authors": "B", "year": "2025", "venue": "IEEE",
+            "title": "Gathering Cyber Threat Intelligence From Twitter Using Novelty Classification", "authors": "B", "year": "2025", "venue": "IEEE",
             "doi": "10.1/same", "abstract": "new", "source_url": "", "citation_count": 50,
         }])
         harvested.to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
@@ -736,7 +736,7 @@ class TestClassify:
 
         result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
         assert len(result) == 1
-        assert result.iloc[0]["title"] == "Updated Title"
+        assert result.iloc[0]["title"] == "Gathering Cyber Threat Intelligence From Twitter Using Novelty Classification"
         assert result.iloc[0]["retrieved_at"] == "2026-04-06"
 
     def test_classify_drops_same_doi_twice_in_one_batch(self, tmp_path):
@@ -760,6 +760,7 @@ class TestClassify:
 
         result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
         assert len(result) == 1
+        assert result.iloc[0]["title"] == "Cyber &amp; Informatics"  # less markup wins
 
     def test_classify_keeps_distinct_papers_sharing_a_doi(self, tmp_path):
         # A wrong DOI (seed data) or a journal-level DOI can sit on two
@@ -784,6 +785,39 @@ class TestClassify:
 
         result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
         assert len(result) == 2
+
+    def test_classify_new_paper_sharing_doi_does_not_replace_existing(self, tmp_path):
+        # A journal-level DOI on an unrelated new paper must neither delete
+        # the existing paper nor lend the new one its retrieval date.
+        from datetime import datetime, timezone
+        (tmp_path / "data").mkdir(parents=True)
+        pd.DataFrame([{
+            "title": "Threat Intelligence from Network Telescopes", "authors": "A",
+            "year": "2021", "venue": "", "doi": "10.5121/ijci", "abstract": "", "source_url": "",
+            "citation_count": 0, "Category": "Seed", "Investigation_Type": "",
+            "OSINT_Source_Types": "", "Keywords": "", "Tags": "", "Quality_Tier": "Standard",
+            "Seminal_Flag": "FALSE", "retrieved_at": "2026-04-06",
+        }]).to_csv(tmp_path / "data" / "accepted_classified.csv", index=False)
+        pd.DataFrame([{
+            "title": "Botnet Detection for Smart City IoT Networks", "authors": "B",
+            "year": "2025", "venue": "", "doi": "10.5121/ijci", "abstract": "x", "source_url": "",
+            "citation_count": 0,
+        }]).to_csv(tmp_path / "data" / "accepted_harvested.csv", index=False)
+        before = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
+             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
+             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+            from alex.pipelines import classify
+            classify.run()
+
+        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
+        after = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        assert len(result) == 2
+        dates = dict(zip(result["title"], result["retrieved_at"]))
+        assert dates["Threat Intelligence from Network Telescopes"] == "2026-04-06"
+        assert dates["Botnet Detection for Smart City IoT Networks"] in {before, after}
 
     def test_classify_collapses_existing_duplicates(self, tmp_path):
         # Duplicates already in the corpus are cleaned up on the next run,
