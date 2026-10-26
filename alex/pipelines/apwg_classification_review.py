@@ -96,7 +96,7 @@ def review_row(row: dict, classifier=None) -> dict:
         result["proposed_category"] = APWG_DEFAULT_CATEGORY
         result["proposed_investigation_type"] = APWG_DEFAULT_INVESTIGATION
         result["classification_status"] = "provisional_apwg_default_unverified"
-        result["classification_basis"] = "APWG collection-level phishing default; no verified model classification"
+        result["classification_basis"] = "APWG collection-level phishing default; model classification unverified"
         issues.append("Default Phishing used because model response unavailable or invalid")
     else:
         category = outcome["Category"]
