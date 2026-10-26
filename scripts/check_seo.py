@@ -79,7 +79,7 @@ def check() -> None:
     assert html.meta.get("twitter:image") == social_url, "Twitter banner URL"
     assert html.meta.get("og:image:alt") and html.meta.get("twitter:image:alt"), "Social image description"
     banner = (ROOT / "assets/alex-social-preview-1200x630.png").read_bytes()
-    assert banner[:8] == b"\\x89PNG\\r\\n\\x1a\\n", "Approved social banner must be PNG"
+    assert list(banner[:8]) == [137, 80, 78, 71, 13, 10, 26, 10], "Approved social banner must be PNG"
     assert struct.unpack(">II", banner[16:24]) == (1200, 630), "Social banner must be 1200x630"
     assert "structured metadata and tagging" not in page, "Outdated homepage copy"
 
