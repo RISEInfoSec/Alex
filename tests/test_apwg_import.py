@@ -137,6 +137,54 @@ def test_openalex_rejects_nonmatching_title_and_year():
     assert row["doi"] == ""
 
 
+def test_apwg_archive_author_bylines_are_extracted_without_guessing():
+    html = """
+    <h4><a href="https://ieeexplore.ieee.org/document/5342609/">
+      A novel anti-phishing framework based on honeypots</a></h4>
+    <p>Shujun Li ; Roland Schmitz</p>
+    <h4><a href="https://ieeexplore.ieee.org/document/5342612/">
+      Discovery, infiltration, and denial of service in a process control system
+      wireless network</a></h4>
+    <p>Bradley Reaves ; Thomas Morris</p>
+    """
+    items = apwg_import.archive_papers(html, 2009, "https://ecrimeresearch.org/2009-accepted-research-papers")
+    assert len(items) == 2
+    assert items[0]["authors"] == "Shujun Li; Roland Schmitz"
+    assert items[0]["author_source"] == "APWG archive byline"
+    assert items[1]["authors"] == "Bradley Reaves; Thomas Morris"
+
+
+def test_crossref_doi_verifies_only_when_publisher_title_and_year_match():
+    title = "A novel anti-phishing framework based on honeypots"
+    good = {"DOI": "10.1109/ECRIME.2009.123", "title": [title],
+            "issued": {"date-parts": [[2009, 1]]},
+            "author": [{"given": "Shujun", "family": "Li"}, {"given": "Roland", "family": "Schmitz"}],
+            "publisher": "IEEE"}
+    rows = [{"title": title, "year": 2009, "doi": "", "authors": ""}]
+    with patch.object(apwg_import.crossref, "search", return_value=[good]):
+        report = apwg_import.enrich_crossref(FakeClient({}), rows, 1)
+    assert report["dois_recovered"] == 1 and report["authors_recovered"] == 1
+    assert rows[0]["doi"] == "10.1109/ecrime.2009.123"
+    assert rows[0]["doi_verification"].startswith("DOI recovered")
+    wrong = dict(good, issued={"date-parts": [[2018]]})
+    bad = [{"title": title, "year": 2009, "doi": "", "authors": ""}]
+    with patch.object(apwg_import.crossref, "search", return_value=[wrong]):
+        rejected = apwg_import.enrich_crossref(FakeClient({}), bad, 1)
+    assert rejected["dois_recovered"] == 0 and bad[0]["doi"] == ""
+
+
+def test_crossref_existing_doi_must_match_publisher_record():
+    title = "Cybercrime forums and phishing"
+    item = {"title": [title], "DOI": "10.1109/ECRIME.2025.123",
+            "issued": {"date-parts": [[2025]]},
+            "author": [{"given": "A", "family": "B"}]}
+    rows = [{"title": title, "year": 2025, "doi": "10.1109/ecrime.2025.123", "authors": "A B"}]
+    with patch.object(apwg_import.crossref, "get_by_doi", return_value=item):
+        out = apwg_import.enrich_crossref(FakeClient({}), rows, 1)
+    assert out["existing_dois_verified"] == 1
+    assert rows[0]["doi_verification"].startswith("DOI verified")
+
+
 def test_archive_and_dblp_complement_each_other_and_report_gaps():
     papers, audit = apwg_import.gather(_fixture_client())
     assert len(papers) == 2

@@ -15,8 +15,9 @@ from urllib.parse import urljoin, urlparse
 from alex.utils.text import strip_html_tags
 
 import pandas as pd
+from bs4 import BeautifulSoup
 
-from alex.connectors import openalex
+from alex.connectors import openalex, crossref
 from alex.utils.http import HttpClient
 from alex.utils.io import load_df, root_file, save_df, save_json
 from alex.utils.text import clean, normalize_title
@@ -100,9 +101,43 @@ def index_year_pages(html: str) -> dict[int, str]:
     return years
 
 
+def _archive_author_bylines(html: str, year_url: str) -> dict[str, str]:
+    """Read author bylines physically printed below linked APWG paper titles.
+
+    Some pre-2016 papers are not indexed in OpenAlex. APWG itself supplies
+    their authors on the annual accepted-papers page. Only use a short, clearly
+    separate byline adjacent to a paper heading; never infer authors from a PDF
+    filename, title, or unrelated webpage text.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    bylines: dict[str, str] = {}
+    for heading in soup.find_all(re.compile(r"^h[3-5]$")):
+        link = heading.find("a", href=True)
+        if link is None:
+            continue
+        title = clean(link.get_text(" ", strip=True))
+        url = urljoin(year_url, link["href"])
+        if not _is_paper_link(title, url):
+            continue
+        sibling = heading.next_sibling
+        while sibling is not None and (not getattr(sibling, "name", None)) and not clean(str(sibling)):
+            sibling = sibling.next_sibling
+        if not sibling or getattr(sibling, "name", None) not in ("p", "div", "span", "small"):
+            continue
+        candidate = clean(sibling.get_text(" ", strip=True))
+        # Guard against abstracts, section labels, navigation, or a next title.
+        if (not candidate or len(candidate) > 260 or
+                len(candidate.split()) > 35 or
+                re.search(r"https?://|doi:|abstract|research papers|sponsor", candidate, re.I)):
+            continue
+        bylines[normalize_title(title)] = re.sub(r"\s*;\s*", "; ", candidate)
+    return bylines
+
+
 def archive_papers(html: str, year: int, year_url: str) -> list[dict]:
     out = []
     seen = set()
+    bylines = _archive_author_bylines(html, year_url)
     for title, href in links(html):
         url = urljoin(year_url, href)
         if not _is_paper_link(title, url):
@@ -111,9 +146,12 @@ def archive_papers(html: str, year: int, year_url: str) -> list[dict]:
         if not key or key in seen:
             continue
         seen.add(key)
+        authors = bylines.get(key, "")
         out.append({
             "title": title, "year": year, "doi": "",
-            "authors": "", "venue": "APWG Symposium on Electronic Crime Research",
+            "authors": authors,
+            "author_source": "APWG archive byline" if authors else "",
+            "venue": "APWG Symposium on Electronic Crime Research",
             "source_url": url, "apwg_source_url": url,
             "collection_url": year_url, "collection_source": LABEL,
             "apwg_year": year, "abstract": "", "publisher": "",
@@ -243,6 +281,15 @@ def _prefer(primary: dict, additional: dict) -> dict:
     return result
 
 
+def _crossref_budget() -> int:
+    import os
+    raw = os.getenv("APWG_MAX_CROSSREF_LOOKUPS", "200")
+    try:
+        return max(0, min(1000, int(raw)))
+    except ValueError:
+        return 200
+
+
 def _metadata_budget() -> int:
     """Limit network lookups in CI dry-runs without weakening production coverage."""
     import os
@@ -305,6 +352,90 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
     }
 
 
+def _crossref_record_matches(item: dict, title: str, event_year: int) -> bool:
+    candidates = item.get("title") or []
+    if isinstance(candidates, str):
+        candidates = [candidates]
+    if not candidates or normalize_title(strip_html_tags(candidates[0])) != normalize_title(title):
+        return False
+    for key in ("published-print", "published-online", "issued", "created"):
+        date_parts = (item.get(key) or {}).get("date-parts") or []
+        if date_parts and date_parts[0]:
+            try:
+                return abs(int(date_parts[0][0]) - int(event_year)) <= 1
+            except (TypeError, ValueError):
+                continue
+    return False
+
+
+def _crossref_author_names(item: dict) -> str:
+    authors = []
+    for person in item.get("author") or []:
+        name = clean(f"{person.get('given', '')} {person.get('family', '')}")
+        if name:
+            authors.append(name)
+    return "; ".join(authors)
+
+
+def enrich_crossref(client: HttpClient, records: list[dict], max_lookups: int) -> dict:
+    """Independently verify DOI/title/year or obtain publisher-deposited DOI.
+
+    Crossref is consulted using its public documented API. A plausible-looking
+    DOI alone never counts as verification; title and publication year must
+    match APWG's bibliographic evidence. Non-Crossref DOIs remain explicitly
+    unverified for further review.
+    """
+    attempts = verified_dois = recovered_dois = recovered_authors = 0
+    for row in records:
+        if attempts >= max_lookups:
+            break
+        attempts += 1
+        doi = _doi(row.get("doi"))
+        try:
+            candidates = ([crossref.get_by_doi(client, doi)] if doi else
+                          crossref.search(client, row["title"], rows=5, max_pages=1))
+        except Exception as exc:
+            LOG.warning("Crossref verification error for %r: %s", row["title"], exc)
+            row["doi_verification"] = "Crossref lookup failed"
+            continue
+        found = next((item for item in candidates if item and
+                      _crossref_record_matches(item, row["title"], row["year"])), None)
+        if not found:
+            row["doi_verification"] = "Crossref not confirmed"
+            continue
+        deposited_doi = _doi(found.get("DOI"))
+        if not deposited_doi:
+            row["doi_verification"] = "Crossref record missing DOI"
+            continue
+        if doi and deposited_doi != doi:
+            row["doi_verification"] = "Crossref DOI mismatch"
+            continue
+        if doi:
+            verified_dois += 1
+            row["doi_verification"] = "DOI verified by Crossref title/year"
+        else:
+            recovered_dois += 1
+            row["doi"] = deposited_doi
+            row["doi_verification"] = "DOI recovered via Crossref title/year"
+            row.setdefault("metadata_provider", "Crossref title/year match")
+        byline = _crossref_author_names(found)
+        if not clean(row.get("authors")) and byline:
+            row["authors"] = byline
+            row["author_source"] = "Crossref deposited author metadata"
+            recovered_authors += 1
+        if not clean(row.get("publisher")) and clean(found.get("publisher")):
+            row["publisher"] = clean(found["publisher"])
+        if not clean(row.get("abstract")):
+            row["abstract"] = crossref.abstract(found)
+    return {
+        "lookup_limit": max_lookups,
+        "lookups_attempted": attempts,
+        "existing_dois_verified": verified_dois,
+        "dois_recovered": recovered_dois,
+        "authors_recovered": recovered_authors,
+    }
+
+
 def gather(client: HttpClient) -> tuple[list[dict], dict]:
     """Discover full APWG year archives plus corroborating dblp records.
 
@@ -352,6 +483,9 @@ def gather(client: HttpClient) -> tuple[list[dict], dict]:
     metadata_report = enrich_openalex(
         client, list(records.values()), max_lookups=_metadata_budget()
     )
+    crossref_report = enrich_crossref(
+        client, list(records.values()), max_lookups=_crossref_budget()
+    )
     audit = {
         "collection": LABEL,
         "source_index": INDEX_URL,
@@ -367,6 +501,8 @@ def gather(client: HttpClient) -> tuple[list[dict], dict]:
         "discovered_unique_titles": len(records),
         "last_checked_utc": datetime.now(timezone.utc).isoformat(),
         "openalex_enrichment": metadata_report,
+        "crossref_enrichment": crossref_report,
+        "apwg_author_bylines": sum(r.get("author_source") == "APWG archive byline" for r in records),
     }
     return list(records.values()), audit
 
@@ -457,6 +593,10 @@ def run(dry_run: bool = False) -> None:
     audit["records_with_both_authors_and_doi"] = sum(
         bool(clean(r.get("authors")) and clean(r.get("doi"))) for r in records
     )
+    audit["records_with_crossref_verified_doi"] = sum(
+        "Crossref" in clean(r.get("doi_verification", "")) and
+        clean(r.get("doi_verification", "")).startswith("DOI ") for r in records
+    )
     audit["records_verified_by_openalex"] = sum(
         clean(r.get("metadata_provider", "")).startswith("OpenAlex") for r in records
     )
@@ -497,6 +637,9 @@ def run(dry_run: bool = False) -> None:
                     "doi": doi_key,
                     "publisher": clean(item.get("publisher")),
                     "metadata_verified_by": clean(item.get("metadata_provider")),
+                    "author_source": clean(item.get("author_source")),
+                    "doi_verification": clean(item.get("doi_verification")),
+                    "requires_bibliographic_review": not bool(clean(item.get("authors")) and clean(item.get("doi"))),
                     "in_existing_alex_corpus": bool(corpus_title),
                     "matched_alex_title": corpus_title,
                     "apwg_paper_url": clean(item.get("apwg_source_url")),
