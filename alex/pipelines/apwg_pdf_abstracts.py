@@ -61,7 +61,7 @@ def extract_abstract(text: str) -> str:
     )
     if stop:
         body = body[:stop.start()]
-    inline_boundary = re.search(r"(?i)\\b(?:index terms|keywords|key words)\\s*[:\\u2014\\u2013-]", body)
+    inline_boundary = re.search(r"(?i)\b(?:index terms|keywords|key words)\s*[:\u2014\u2013-]", body)
     if inline_boundary:
         body = body[:inline_boundary.start()]
     # Some two-column PDFs place the first Introduction after the abstract
