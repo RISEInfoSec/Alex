@@ -87,7 +87,9 @@ Primary graph sources: OpenAlex (forward) + Semantic Scholar (backward).
 
 ## Classification taxonomy
 
-The LLM classifier (`gpt-4o-mini` by default) tags each accepted paper with `Category` (15-value closed enum), `Investigation_Type` (11-value closed enum), `OSINT_Source_Types` (14-value closed enum), `Keywords`, and `Tags`. Enforcement is via OpenAI structured outputs (`text.format = json_schema`, `strict=true`) — the model can't drift outside the enums. The full taxonomy lives in [`docs/retrieval_gating_taxonomy.md`](docs/retrieval_gating_taxonomy.md).
+The LLM classifier (`gpt-4o-mini` by default) tags each accepted paper with `Category` (15-value closed enum), `Investigation_Type` (11-value closed enum), `OSINT_Source_Types` (14-value closed enum). Enforcement is via OpenAI structured outputs (`text.format = json_schema`, `strict=true`) — the model can't drift outside the enums. The full taxonomy lives in [`docs/retrieval_gating_taxonomy.md`](docs/retrieval_gating_taxonomy.md).
+
+Keywords and Tags are retired: no new terms are generated. Existing values remain in the corpus and exports for full-text search, including when papers are reclassified. The interface uses research categories rather than tag/keyword chips or a Keywords dropdown.
 
 Two derived fields are set deterministically rather than by the LLM:
 - `Seminal_Flag` — code-set, `TRUE` iff `citation_count ≥ 500`

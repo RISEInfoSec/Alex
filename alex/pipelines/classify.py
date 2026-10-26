@@ -81,7 +81,7 @@ OSINT_SOURCE_TYPES = [
 CLASSIFICATION_SCHEMA = {
     "type": "object",
     "additionalProperties": False,
-    "required": ["Category", "Investigation_Type", "OSINT_Source_Types", "Keywords", "Tags"],
+    "required": ["Category", "Investigation_Type", "OSINT_Source_Types"],
     "properties": {
         "Category": {"type": "string", "enum": CATEGORIES},
         "Investigation_Type": {"type": "string", "enum": INVESTIGATION_TYPES},
@@ -89,8 +89,6 @@ CLASSIFICATION_SCHEMA = {
             "type": "array",
             "items": {"type": "string", "enum": OSINT_SOURCE_TYPES},
         },
-        "Keywords": {"type": "array", "items": {"type": "string"}},
-        "Tags": {"type": "array", "items": {"type": "string"}},
     },
 }
 
@@ -101,15 +99,13 @@ PROMPT = (
     "Investigation_Type from the enums; use 'Other' only when no listed "
     "value reasonably fits. OSINT_Source_Types must be an array of values "
     "from the source-type enum (use [] when no specific source applies). "
-    "Keywords and Tags are free-form short strings."
+    "Do not generate Keywords or Tags; these are retired legacy search fields."
 )
 
 FALLBACK = {
     "Category": "Other",
     "Investigation_Type": "Other",
     "OSINT_Source_Types": [],
-    "Keywords": [],
-    "Tags": [],
 }
 
 # Account-level OpenAI failures that will not recover on retry. We raise
@@ -333,6 +329,28 @@ def _stamp_retrieved_at(new_df: pd.DataFrame, existing: pd.DataFrame) -> None:
     new_df["retrieved_at"] = [known.get(_dedup_key(row), today) for _, row in new_df.iterrows()]
 
 
+def _preserve_legacy_terms(new_df: pd.DataFrame, existing: pd.DataFrame) -> None:
+    """Keep stored search terms when a paper is classified again.
+
+    Use the same paper identity and duplicate winner as the additive merge.
+    Never generate terms or copy them between different papers.
+    """
+    if new_df.empty or existing.empty:
+        return
+    known = {
+        _dedup_key(row): row
+        for _, row in _drop_duplicate_papers(existing).iterrows()
+    }
+    for index, row in new_df.iterrows():
+        previous = known.get(_dedup_key(row))
+        if previous is None:
+            continue
+        for field in ("Keywords", "Tags"):
+            value = previous.get(field, "")
+            if clean(value):
+                new_df.at[index, field] = value
+
+
 def _load_rescore_window_run_id() -> str:
     path = root_file("data", ".rescore_window.json")
     if not path.exists():
@@ -373,8 +391,10 @@ def _classify_one(row, seminal_threshold: float) -> dict:
     out["Category"] = tags.get("Category", "Other")
     out["Investigation_Type"] = tags.get("Investigation_Type", "Other")
     out["OSINT_Source_Types"] = "; ".join(unique_keep(tags.get("OSINT_Source_Types", [])))
-    out["Keywords"] = "; ".join(unique_keep(tags.get("Keywords", [])))
-    out["Tags"] = "; ".join(unique_keep(tags.get("Tags", [])))
+    # Retired fields remain in exports for compatibility and legacy search.
+    # Ignore any model-supplied terms, including stale/mocked responses.
+    out.setdefault("Keywords", "")
+    out.setdefault("Tags", "")
     # Quality_Tier is no longer asked of the LLM (it always returned
     # "Standard"). publish.py derives the tier deterministically from
     # total_quality_score so the field stays available to consumers.
@@ -436,6 +456,7 @@ def run() -> None:
     # replace their existing counterpart, in or out of the window.
     existing = load_df(output_path)
     _stamp_retrieved_at(new_df, existing)
+    _preserve_legacy_terms(new_df, existing)
     rescored_keys = set()
     if window_run_id and _rows_match_run_id(rescored, window_run_id, "rescore_metrics.csv") \
        and _rows_match_run_id(df, window_run_id, "accepted_harvested.csv"):
