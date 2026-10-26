@@ -358,7 +358,7 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
             break
     return {
         "lookup_limit": max_lookups, "lookups_attempted": attempted,
-        "verified_title_year_matches": matched,
+        "verified_title_matches": matched,
         "enrichment_limited": attempted >= max_lookups and any(
             not clean(p.get("doi")) or not clean(p.get("authors")) for p in records
         ),
