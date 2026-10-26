@@ -163,7 +163,8 @@ def _apply_verified_correction(row: dict, corrections: dict[str, dict]) -> dict:
     if len(matches) != 1:
         raise ValueError(f"Conflicting APWG correction URL suffixes: {original_url}")
     c = matches[0]
-    if normalize_title(original_title) != normalize_title(c.get("archive_title", "")):
+    accepted_titles = c.get("archive_titles") or [c.get("archive_title", "")]
+    if normalize_title(original_title) not in {normalize_title(t) for t in accepted_titles}:
         raise ValueError(f"APWG paper title changed at {original_url}; revalidate curated correction")
     result = dict(row)
     result.update({
@@ -190,9 +191,8 @@ def archive_papers(html: str, year: int, year_url: str) -> list[dict]:
         if not _is_paper_link(title, url):
             continue
         key = normalize_title(title)
-        if not key or key in seen:
+        if not key:
             continue
-        seen.add(key)
         authors = bylines.get(key, "")
         row = {
             "title": title, "year": "", "publication_year_source": "", "doi": "",
@@ -203,7 +203,12 @@ def archive_papers(html: str, year: int, year_url: str) -> list[dict]:
             "collection_url": year_url, "collection_source": LABEL,
             "apwg_year": year, "abstract": "", "publisher": "",
         }
-        out.append(_apply_verified_correction(row, corrections))
+        verified = _apply_verified_correction(row, corrections)
+        verified_key = normalize_title(verified["title"])
+        if verified_key in seen:
+            continue
+        seen.add(verified_key)
+        out.append(verified)
     return out
 
 
