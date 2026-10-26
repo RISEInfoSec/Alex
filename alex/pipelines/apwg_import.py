@@ -454,9 +454,61 @@ def run(dry_run: bool = False) -> None:
     audit["corpus_total_after_import"] = len(merged)
     audit["missing_bibliographic_authors"] = sum(not clean(r.get("authors")) for r in records)
     audit["missing_doi"] = sum(not clean(r.get("doi")) for r in records)
+    audit["records_with_both_authors_and_doi"] = sum(
+        bool(clean(r.get("authors")) and clean(r.get("doi"))) for r in records
+    )
+    audit["records_verified_by_openalex"] = sum(
+        clean(r.get("metadata_provider", "")).startswith("OpenAlex") for r in records
+    )
+    audit["per_year_metadata"] = {
+        str(year): {
+            "records": sum(int(r["year"]) == year for r in records),
+            "with_authors": sum(int(r["year"]) == year and bool(clean(r.get("authors"))) for r in records),
+            "with_doi": sum(int(r["year"]) == year and bool(clean(r.get("doi"))) for r in records),
+        }
+        for year in sorted({int(r["year"]) for r in records})
+    }
     # A dry run reports real-world coverage without mutating the corpus.
     if dry_run:
+        import csv
         import json
+        from pathlib import Path
+        # Optional review artifact is written to the ephemeral CI workspace.
+        # It is never committed to the corpus or published to GitHub Pages.
+        report_path = os.getenv("APWG_REVIEW_CSV", "")
+        if report_path:
+            existing_by_title = {
+                normalize_title(row.get("title", "")): clean(row.get("title", ""))
+                for _, row in corpus.iterrows()
+            } if not corpus.empty else {}
+            existing_by_doi = {
+                _doi(row.get("doi")): clean(row.get("title", ""))
+                for _, row in corpus.iterrows() if _doi(row.get("doi"))
+            } if not corpus.empty else {}
+            rows = []
+            for item in sorted(records, key=lambda r: (int(r["year"]), normalize_title(r["title"]))):
+                title_key = normalize_title(item.get("title", ""))
+                doi_key = _doi(item.get("doi"))
+                corpus_title = existing_by_title.get(title_key, "") or existing_by_doi.get(doi_key, "")
+                rows.append({
+                    "year": item["year"],
+                    "title": clean(item.get("title")),
+                    "authors": clean(item.get("authors")),
+                    "doi": doi_key,
+                    "publisher": clean(item.get("publisher")),
+                    "metadata_verified_by": clean(item.get("metadata_provider")),
+                    "in_existing_alex_corpus": bool(corpus_title),
+                    "matched_alex_title": corpus_title,
+                    "apwg_paper_url": clean(item.get("apwg_source_url")),
+                    "bibliographic_link": clean(item.get("source_url")),
+                    "collection_url": clean(item.get("collection_url")),
+                })
+            file = Path(report_path)
+            file.parent.mkdir(parents=True, exist_ok=True)
+            with file.open("w", newline="", encoding="utf-8") as writer_file:
+                writer = csv.DictWriter(writer_file, fieldnames=list(rows[0]))
+                writer.writeheader()
+                writer.writerows(rows)
         print(json.dumps(audit, indent=2, ensure_ascii=False))
         return
     # Never call a successful but partial import "complete."
