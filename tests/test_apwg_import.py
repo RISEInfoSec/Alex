@@ -443,3 +443,34 @@ def test_independently_verified_original_publication_year_survives_later_online_
     assert row["publication_year_conflict"]
     assert "2023" in row["publication_year_conflict"]
     assert row["apwg_year"] == 2022
+
+
+
+def test_openalex_upstream_rate_limit_stops_further_lookups():
+    class BlockedClient:
+        def __init__(self):
+            self.block = False
+
+        def _host_blocked(self, url):
+            return self.block
+
+    client = BlockedClient()
+    papers = [
+        {"title": "Network Security Research in Phishing", "apwg_year": 2024,
+         "doi": "", "authors": ""},
+        {"title": "Malware Detection Research in Online Fraud", "apwg_year": 2023,
+         "doi": "", "authors": ""},
+    ]
+    calls = []
+
+    def simulate_rate_limit(*args, **kwargs):
+        calls.append(args)
+        client.block = True
+        return []
+
+    with patch.object(apwg_import.openalex, "search", side_effect=simulate_rate_limit):
+        report = apwg_import.enrich_openalex(client, papers, max_lookups=200)
+    assert len(calls) == 1
+    assert report["source_access_status"] == "upstream_rate_limited"
+    assert report["lookups_attempted"] == 1
+    assert report["verified_title_matches"] == 0
