@@ -80,6 +80,8 @@ def test_year_links_and_paper_links_restrict_to_real_records():
     papers = apwg_import.archive_papers(YEAR_2025, 2025, years[2025])
     assert len(papers) == 1
     assert papers[0]["collection_source"] == apwg_import.LABEL
+    assert papers[0]["year"] == ""  # no inferred year from APWG archive
+    assert papers[0]["apwg_year"] == 2025
     assert papers[0]["source_url"].endswith("paper.pdf")
 
 
@@ -88,6 +90,8 @@ def test_dblp_extracts_papers_not_proceedings_and_ieee_doi():
     assert len(papers) == 2
     assert papers[0]["doi"] == "10.1109/ecrime.2025.00001"
     assert papers[0]["publisher"] == "IEEE"
+    assert papers[0]["year"] == 2025
+    assert papers[0]["apwg_year"] == 2025
     assert papers[0]["authors"] == "Researcher One; Researcher Two"
     assert all(p["collection_source"] == apwg_import.LABEL for p in papers)
 
@@ -111,30 +115,37 @@ def test_dblp_http_failure_never_reports_full_coverage():
 
 
 
-def test_openalex_bibliography_enrichment_requires_exact_title_and_near_year():
+def test_openalex_uses_original_publication_year_not_apwg_archive_year():
     title = "A Cybercrime Analysis of Ransomware Infrastructure"
-    row = {"title": title, "year": 2025, "doi": "", "authors": "", "abstract": ""}
-    good = {"display_name": title, "publication_year": 2025}
-    bad = {"display_name": title, "publication_year": 2012}
+    row = {"title": title, "year": "", "apwg_year": 2025,
+           "doi": "", "authors": "", "abstract": ""}
+    good = {"display_name": title, "publication_year": 2024}
+    bad = {"display_name": "Different Work on Network Security", "publication_year": 2025}
     with patch.object(apwg_import.openalex, "search", return_value=[bad, good]), \
-         patch.object(apwg_import.openalex, "doi", return_value="10.1109/ECRIME.2025.456"), \
+         patch.object(apwg_import.openalex, "doi", return_value="10.1109/ECRIME.2024.456"), \
          patch.object(apwg_import.openalex, "author_names", return_value="A. Scholar; B. Scholar"), \
          patch.object(apwg_import.openalex, "abstract", return_value="Original abstract"):
         report = apwg_import.enrich_openalex(FakeClient({}), [row], max_lookups=1)
-    assert report["verified_title_year_matches"] == 1
-    assert row["doi"] == "10.1109/ecrime.2025.456"
+    assert report["verified_title_matches"] == 1
+    assert row["doi"] == "10.1109/ecrime.2024.456"
     assert row["authors"] == "A. Scholar; B. Scholar"
-    assert row["publisher"] == "IEEE"
-    assert row["metadata_provider"] == "OpenAlex (verified title/year)"
+    assert row["year"] == 2024
+    assert row["apwg_year"] == 2025
+    assert row["publication_year_source"] == "OpenAlex bibliographic publication year"
 
 
-def test_openalex_rejects_nonmatching_title_and_year():
-    row = {"title": "Cybercrime Analysis", "year": 2025, "doi": "", "authors": ""}
-    wrong = {"display_name": "An Unrelated Article", "publication_year": 2025}
-    with patch.object(apwg_import.openalex, "search", return_value=[wrong]):
+def test_openalex_rejects_wrong_title_and_doi_mismatch():
+    row = {"title": "Cybercrime Analysis", "year": "", "apwg_year": 2025,
+           "doi": "10.1109/ecrime.2025.correct", "authors": ""}
+    wrong = {"display_name": "Unrelated Article", "publication_year": 2025}
+    same_title_bad_doi = {"display_name": "Cybercrime Analysis", "publication_year": 2024}
+    with patch.object(apwg_import.openalex, "search", return_value=[wrong, same_title_bad_doi]), \
+         patch.object(apwg_import.openalex, "doi", return_value="10.1109/ecrime.2024.wrong"), \
+         patch.object(apwg_import.openalex, "author_names", return_value="Researcher"):
         result = apwg_import.enrich_openalex(FakeClient({}), [row], max_lookups=1)
-    assert result["verified_title_year_matches"] == 0
-    assert row["doi"] == ""
+    assert result["verified_title_matches"] == 0
+    assert row["year"] == ""
+    assert row["doi_discrepancy"]
 
 
 def test_apwg_archive_author_bylines_are_extracted_without_guessing():
@@ -172,23 +183,52 @@ def test_apwg_bylines_reject_affiliations_placeholders_and_adjacent_titles():
     assert all(p.get("author_source", "") == "" for p in papers)
 
 
-def test_crossref_doi_verifies_only_when_publisher_title_and_year_match():
-    title = "A novel anti-phishing framework based on honeypots"
-    good = {"DOI": "10.1109/ECRIME.2009.123", "title": [title],
-            "issued": {"date-parts": [[2009, 1]]},
-            "author": [{"given": "Shujun", "family": "Li"}, {"given": "Roland", "family": "Schmitz"}],
-            "publisher": "IEEE"}
-    rows = [{"title": title, "year": 2009, "doi": "", "authors": ""}]
-    with patch.object(apwg_import.crossref, "search", return_value=[good]):
-        report = apwg_import.enrich_crossref(FakeClient({}), rows, 1)
+def test_crossref_2008_archive_contains_original_2007_publication():
+    title = "Examining the Impact of Website Take-down on Phishing"
+    row = {"title": title, "year": "", "apwg_year": 2008,
+           "doi": "", "authors": ""}
+    metadata = {"DOI": "10.1145/1299015.1299016", "title": [title],
+                "published-print": {"date-parts": [[2007, 10]]},
+                "created": {"date-parts": [[2010]]},
+                "author": [{"given": "Tyler", "family": "Moore"},
+                           {"given": "Richard", "family": "Clayton"}],
+                "publisher": "Association for Computing Machinery"}
+    with patch.object(apwg_import.crossref, "search", return_value=[metadata]):
+        report = apwg_import.enrich_crossref(FakeClient({}), [row], 1)
     assert report["dois_recovered"] == 1 and report["authors_recovered"] == 1
-    assert rows[0]["doi"] == "10.1109/ecrime.2009.123"
-    assert rows[0]["doi_verification"].startswith("DOI recovered")
-    wrong = dict(good, issued={"date-parts": [[2018]]})
-    bad = [{"title": title, "year": 2009, "doi": "", "authors": ""}]
-    with patch.object(apwg_import.crossref, "search", return_value=[wrong]):
-        rejected = apwg_import.enrich_crossref(FakeClient({}), bad, 1)
-    assert rejected["dois_recovered"] == 0 and bad[0]["doi"] == ""
+    assert row["year"] == 2007
+    assert row["apwg_year"] == 2008
+    assert row["publication_year_source"] == "Crossref publisher publication date"
+    assert row["doi"] == "10.1145/1299015.1299016"
+
+
+def test_crossref_later_archive_and_online_earlier_than_print():
+    title = "A novel anti-phishing framework based on honeypots"
+    row = {"title": title, "year": 2018, "apwg_year": 2009,
+           "doi": "10.1109/ecrime.2009.123", "authors": "Shujun Li; Roland Schmitz",
+           "publication_year_source": "OpenAlex bibliographic publication year"}
+    metadata = {"DOI": "10.1109/ECRIME.2009.123", "title": [title],
+                "published-print": {"date-parts": [[2010, 1]]},
+                "published-online": {"date-parts": [[2009, 12]]},
+                "created": {"date-parts": [[2021]]}}
+    with patch.object(apwg_import.crossref, "get_by_doi", return_value=metadata):
+        report = apwg_import.enrich_crossref(FakeClient({}), [row], 1)
+    assert report["existing_dois_verified"] == 1
+    assert row["year"] == 2009
+    assert row["publication_year_conflict"]
+    assert row["apwg_year"] == 2009
+
+
+def test_unverified_year_remains_empty():
+    title = "Phishing Detection Infrastructure Experiments"
+    record = {"title": title, "year": "", "apwg_year": 2014, "doi": "", "authors": ""}
+    candidate = {"title": [title], "DOI": "10.1109/ECRIME.2014.123",
+                 "created": {"date-parts": [[2018]]}}
+    with patch.object(apwg_import.crossref, "search", return_value=[candidate]):
+        apwg_import.enrich_crossref(FakeClient({}), [record], 1)
+    assert record["year"] == ""
+    assert record["apwg_year"] == 2014
+    assert record["doi"] == "10.1109/ecrime.2014.123"
 
 
 def test_crossref_existing_doi_must_match_publisher_record():

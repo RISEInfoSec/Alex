@@ -70,6 +70,8 @@ def run(record_collection: bool = False) -> None:
             "title": row.get("title", ""),
             "author": row.get("authors", ""),
             "year": row.get("year", ""),
+            "apwg_year": row.get("apwg_year", ""),
+            "publication_year_source": row.get("publication_year_source", ""),
             "venue": row.get("venue", ""),
             "summary": row.get("abstract", ""),
             "keywords": split_multi(row.get("Keywords", "")),

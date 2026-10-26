@@ -73,3 +73,25 @@ calculated by the ordinary scoring pipeline. That is **not approved for
 production**. Review this path before merging, and require confirmed DOI,
 authors or an explicit exception for historic pre-DOI works. The October 26
 sample matched 7 of 8 OpenAlex titles; this does not establish full coverage.
+
+
+## Original publication year (not archive year)
+
+The field \`year\` is always the **original verified publication year**.
+\`apwg_year\` is a distinct conference/archive year used for source attribution,
+and is never substituted for a missing publication year.
+
+Use the earliest appropriate publisher-submitted Crossref online/print
+publication year (falling back to \`issued\`), not Crossref \`created\`,
+\`deposited\` or \`indexed\` dates. An exact-title OpenAlex bibliographic
+record can provide a provisional year; publisher records override it.
+Conflicts must be flagged for human review.
+
+Example: *Examining the Impact of Website Take-down on Phishing*,
+DOI 10.1145/1299015.1299016, is a **2007** ACM publication even if APWG
+lists it in its **2008** archive. ALEX must show \`year=2007\` and
+\`apwg_year=2008\`.
+
+Records without an independently verified publication year remain blank.
+When an APWG entry matches an existing ALEX paper, the existing publication
+year is preserved.
