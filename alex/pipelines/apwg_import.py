@@ -332,7 +332,7 @@ def merge_corpus(corpus: pd.DataFrame, discovered: list[dict]) -> tuple[pd.DataF
             matched += 1
             for field in attrs:
                 if not clean(corpus.at[idx, field]) and clean(record.get(field)):
-                    corpus.at[idx, field] = record.get(field, "")
+                    corpus.at[idx, field] = clean(record.get(field, ""))
             # Never replace existing author/abstract/DOI/category/URL.
             continue
         if title_key in appended_title or (doi and doi in appended_doi):
