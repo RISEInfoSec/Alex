@@ -295,6 +295,7 @@ def test_dry_run_never_modifies_corpus_or_writes_audit(tmp_path, monkeypatch, ca
 
 
 def test_failed_archive_index_does_not_overwrite_existing_corpus(tmp_path, monkeypatch):
+    monkeypatch.setenv("APWG_ENABLE_IMPORT", "1")  # temp data only; exercise source failure
     data = tmp_path / "data"
     data.mkdir()
     original = pd.DataFrame([{"title": "Preserved paper"}])
