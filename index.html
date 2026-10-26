@@ -47,7 +47,7 @@
       border-top: 5px solid var(--rise-navy);
       box-shadow: 0 2px 5px rgb(11 48 70 / 7%);
     }
-    .filter-grid { display: grid; grid-template-columns: 2fr repeat(5, 1fr); gap: 12px; }
+    .filter-grid { display: grid; grid-template-columns: 2fr repeat(4, 1fr); gap: 12px; }
     .filter-grid > div { min-width: 0; }
     .filter-grid label { display: block; font-size: 13px; color: var(--rise-slate); margin-bottom: 6px; font-weight: 600; }
     input, select {
@@ -70,8 +70,6 @@
     .section h3 { font-size: 20px; }
     .section { overflow-wrap: anywhere; }
     .meta { color: var(--muted); font-size: 14px; margin-top: -6px; margin-bottom: 10px; }
-    .tag { display: inline-block; background: var(--rise-navy); color: #fff; padding: 5px 10px; margin: 5px 5px 0 0; border-radius: 4px; font-size: 12px; cursor: pointer; }
-    .tag.secondary { background: #edf1f4; color: var(--rise-slate); border: 1px solid var(--border); }
     a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
     a:hover { color: var(--rise-navy); }
     .summary-line { color: var(--muted); margin-bottom: 18px; }
@@ -117,10 +115,6 @@
         <select id="categoryFilter"><option value="">All categories</option></select>
       </div>
       <div>
-        <label for="keywordFilter">Keywords</label>
-        <select id="keywordFilter"><option value="">All keywords</option></select>
-      </div>
-      <div>
         <label for="yearFilter">Year</label>
         <select id="yearFilter"><option value="">All years</option></select>
       </div>
@@ -159,7 +153,6 @@ const browseBtn = document.getElementById('browseBtn');
 const searchEl = document.getElementById('search');
 const sourceEl = document.getElementById('sourceFilter');
 const categoryEl = document.getElementById('categoryFilter');
-const keywordEl = document.getElementById('keywordFilter');
 const yearEl = document.getElementById('yearFilter');
 const investigationEl = document.getElementById('investigationFilter');
 const resultsEl = document.getElementById('results');
@@ -232,7 +225,6 @@ function populateSelect(selectEl, values) {
 function populateFilters(list) {
   populateSelect(sourceEl, list.flatMap(p => p.osint_source || []));
   populateSelect(categoryEl, list.map(p => p.category || ''));
-  populateSelect(keywordEl, list.flatMap(p => p.keywords || []));
   populateSelect(yearEl, uniqueSorted(list.map(p => String(p.year || ''))).sort((a,b) => Number(b)-Number(a)));
   populateSelect(investigationEl, list.map(p => p.investigation_type || ''));
 }
@@ -247,15 +239,9 @@ function paperMatches(p) {
   if (term && !haystack.includes(term)) return false;
   if (sourceEl.value && !(p.osint_source || []).includes(sourceEl.value)) return false;
   if (categoryEl.value && p.category !== categoryEl.value) return false;
-  if (keywordEl.value && !(p.keywords || []).includes(keywordEl.value)) return false;
   if (yearEl.value && String(p.year || '') !== yearEl.value) return false;
   if (investigationEl.value && p.investigation_type !== investigationEl.value) return false;
   return true;
-}
-
-function filterByTag(tag) {
-  searchEl.value = tag;
-  applyFilters();
 }
 
 function displayPapers(list) {
@@ -265,14 +251,6 @@ function displayPapers(list) {
   list.forEach(p => {
     const div = document.createElement('div');
     div.className = 'section';
-    const tags = (p.tags || []).slice(0, 14).map(t =>
-      `<span class="tag" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`
-    ).join('');
-
-    const keywordTags = (p.keywords || []).slice(0, 6).map(t =>
-      `<span class="tag secondary" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`
-    ).join('');
-
     const paperHref = safeHref(p.link);
     const sourceHref = safeHref(p.source_url);
     const doiHref = p.doi ? safeHref(`https://doi.org/${p.doi}`) : '';
@@ -286,9 +264,8 @@ function displayPapers(list) {
     div.innerHTML = `
       <h3>${escapeHtml(p.title || '')}</h3>
       <p class="meta"><strong>${escapeHtml(p.author || 'Author metadata incomplete')}</strong> (${escapeHtml(p.year || '')})${p.venue ? ' · ' + escapeHtml(p.venue) : ''}${p.retrieved ? ' · Retrieved ' + escapeHtml(p.retrieved) : ''}</p>
+      <p><strong>Research category:</strong> ${escapeHtml(p.category || 'Not specified')}</p>
       <p>${escapeHtml(p.summary || '')}</p>
-      <p>${tags}</p>
-      ${keywordTags ? `<p>${keywordTags}</p>` : ''}
       <p>${links}</p>
     `;
     resultsEl.appendChild(div);
@@ -300,7 +277,7 @@ function displayPapers(list) {
 }
 
 function applyFilters() {
-  const filtered = [searchEl, sourceEl, categoryEl, keywordEl, yearEl, investigationEl].some(el => el.value.trim());
+  const filtered = [searchEl, sourceEl, categoryEl, yearEl, investigationEl].some(el => el.value.trim());
   const latest = !browseAll && !filtered;
   const list = latest
     ? papers.map((paper, index) => ({paper, index}))
@@ -319,14 +296,7 @@ browseBtn.addEventListener('click', () => {
   applyFilters();
 });
 
-// Delegated handler for tag chips — avoids inline onclick and keeps the
-// click target isolated from user-controlled attribute values.
-resultsEl.addEventListener('click', (e) => {
-  const tagEl = e.target.closest('.tag');
-  if (tagEl && tagEl.dataset.tag) filterByTag(tagEl.dataset.tag);
-});
-
-[searchEl, sourceEl, categoryEl, keywordEl, yearEl, investigationEl].forEach(el => {
+[searchEl, sourceEl, categoryEl, yearEl, investigationEl].forEach(el => {
   el.addEventListener(el.tagName === 'INPUT' ? 'input' : 'change', applyFilters);
 });
 
@@ -335,7 +305,6 @@ document.getElementById('clearBtn').addEventListener('click', () => {
   searchEl.value = '';
   sourceEl.value = '';
   categoryEl.value = '';
-  keywordEl.value = '';
   yearEl.value = '';
   investigationEl.value = '';
   applyFilters();
