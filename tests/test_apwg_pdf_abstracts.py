@@ -121,3 +121,32 @@ def test_partial_pdf_pass_reports_unattempted_eligible_sources(tmp_path, monkeyp
     assert report["eligible_pdf_pass_complete"] is False
     assert report["abstract_status_counts"]["no_confident_abstract"] == 1
     assert report["abstract_status_counts"]["review_budget_reached"] == 2
+
+
+def test_small_cap_introduction_boundary_recovers_only_original_abstract():
+    body = ("We conduct an empirical analysis of cybercrime reports and consumer "
+            "responses across several jurisdictions. The survey identifies how "
+            "security concerns affect online activity and financial decisions. "
+            "Our findings support improved measurement and reporting practices across multiple jurisdictions.")
+    for heading in ("I. I NTRODUCTION", "1. I N T R O D U C T I O N", "INTRODUCTION"):
+        text = f"Abstract—{body}\n{heading}\n" + "Article body must be excluded. " * 200
+        assert mod.extract_abstract(text) == body
+
+
+def test_introduction_word_in_abstract_prose_is_not_a_boundary():
+    body = ("We study the introduction of new phishing defenses across several "
+            "large organizations. We compare threat reports and evidence from "
+            "multiple controlled studies, assess the operational effects of "
+            "these defenses and describe practical operational recommendations for experienced investigators.")
+    assert mod.extract_abstract(f"Abstract—{body}\nI. I NTRODUCTION\nArticle text") == body
+
+
+def test_heading_without_end_boundary_is_held_not_published_as_abstract():
+    body = "Original text describing cybercrime evidence and investigative methods. " * 7
+    assert mod.extract_abstract("Abstract—" + body) == ""
+
+
+def test_content_warning_is_not_part_of_original_abstract():
+    body = "We examine cybercrime forum activity and report the results of our study. " * 4
+    text = "Abstract—" + body + "\nContent Warning: Reader advisory\nI. I NTRODUCTION\nArticle"
+    assert mod.extract_abstract(text) == body.strip()

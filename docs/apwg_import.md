@@ -88,6 +88,17 @@ means no eligible missing-abstract record was skipped by the request budget;
 it does **not** mean all abstracts were obtained or archive coverage is complete.
 A failed job or missing artifact must not be reported as a completed review.
 
+A diagnostic pass after expanding the budget found 29 PDFs still rejected by
+abstract validation. In 27, the first three pages contained a recognized
+abstract heading; two did not. Inspection of original first-page text exposed
+IEEE small-cap section headings extracting as `I. I NTRODUCTION`, so the old
+parser failed to stop at the introduction. The parser now recognizes horizontal
+letter spacing in Introduction headings (numbered or unnumbered), removes
+explicit Content Warning sections, and requires a recognized ending boundary.
+It never accepts a page tail solely because it fits the length limit. All other
+length, source, title and content checks remain. These diagnostics do not claim
+all 27 are recoverable; the fresh workflow artifacts give the actual result.
+
 ```bash
 python -m alex.pipelines.apwg_pdf_abstracts \
   --input apwg_bibliographic_review.csv \
@@ -152,5 +163,6 @@ python -m pytest -q tests/test_apwg_import.py \
 ```
 
 Regression coverage includes full 99-source budget completion, explicitly
-reported partial passes, preserved existing abstracts and bibliographic
+reported partial passes, IEEE small-cap section boundaries, explicit abstract
+end boundaries, excluded reader advisories, preserved existing abstracts and bibliographic
 fields, no PDF persistence, duplicate holds and disabled corpus writes.

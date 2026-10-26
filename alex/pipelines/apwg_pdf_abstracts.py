@@ -27,6 +27,9 @@ MAX_PAGES = 3
 # 99 APWG-hosted PDFs in the verified 169-record audit; retain headroom
 # while keeping byte/page limits and serial access unchanged.
 DEFAULT_MAX_PDFS = 110
+# IEEE small-cap headings can extract as "I. I NTRODUCTION". Match
+# letter spacing only in a section heading, never in ordinary prose.
+_INTRODUCTION_HEADING = r"[ \t]*".join("introduction")
 USER_AGENT = "ALEX-APWG-AbstractReview/1.0 (bibliographic-review; no PDF archival)"
 
 
@@ -58,18 +61,21 @@ def extract_abstract(text: str) -> str:
     body = match.group("body")
     stop = re.search(
         r"(?im)(?:^|\n)\s*(?:index terms|key words|keywords|"
-        r"(?:1|i)[.\s-]{0,3}introduction|"
+        rf"(?:(?:1|i)[. \t-]{{0,3}})?{_INTRODUCTION_HEADING}|"
         r"acm classification|categories and subject descriptors|"
-        r"corresponding author|copyright notice)\b",
+        r"corresponding author|copyright notice|content warning)\b",
         body,
     )
     if stop:
         body = body[:stop.start()]
-    inline_boundary = re.search(r"(?i)\b(?:index terms|keywords|key words)\s*[:\u2014\u2013-]", body)
+    inline_boundary = re.search(r"(?i)\b(?:index terms|keywords|key words|content warning)\s*[:\u2014\u2013-]", body)
     if inline_boundary:
         body = body[:inline_boundary.start()]
-    # Some two-column PDFs place the first Introduction after the abstract
-    # on a continuous line rather than at the start of a new line.
+    # A heading without a confidently identified end is not a verified
+    # abstract. Never accept an arbitrary tail of the article just because
+    # it happens to fit the length limit.
+    if not stop and not inline_boundary:
+        return ""
     body = body[:MAX_ABSTRACT_CHARACTERS + 100]
     body = clean(body)
     if not 160 <= len(body) <= MAX_ABSTRACT_CHARACTERS:
