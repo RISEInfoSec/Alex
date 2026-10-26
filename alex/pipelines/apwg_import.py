@@ -360,7 +360,12 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
     scholarly metadata service already used by ALEX's normal discovery.
     """
     attempted = matched = 0
+    access_status = "ok"
+    blocked = getattr(client, "_host_blocked", lambda _url: False)
     for row in sorted(records, key=lambda r: (-int(r.get("apwg_year") or 0), normalize_title(r.get("title", "")))):
+        if blocked(openalex.OPENALEX):
+            access_status = "upstream_rate_limited"
+            break
         if clean(row.get("doi")) and clean(row.get("authors")):
             continue
         if attempted >= max_lookups:
@@ -371,6 +376,9 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
         except Exception as exc:
             LOG.warning("OpenAlex title lookup failed for %r: %s", row["title"], exc)
             continue
+        if blocked(openalex.OPENALEX):
+            access_status = "upstream_rate_limited"
+            break
         for work in results:
             candidate_title = work.get("display_name") or work.get("title") or ""
             if normalize_title(candidate_title) != normalize_title(row["title"]):
@@ -409,6 +417,7 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
     return {
         "lookup_limit": max_lookups, "lookups_attempted": attempted,
         "verified_title_matches": matched,
+        "source_access_status": access_status,
         "enrichment_limited": attempted >= max_lookups and any(
             not clean(p.get("doi")) or not clean(p.get("authors")) for p in records
         ),
