@@ -15,8 +15,8 @@ from urllib.parse import urljoin, urlparse
 from alex.utils.text import strip_html_tags
 
 import pandas as pd
-from bs4 import BeautifulSoup
 
+from alex.connectors import openalex
 from alex.utils.http import HttpClient
 from alex.utils.io import load_df, root_file, save_df, save_json
 from alex.utils.text import clean, normalize_title
@@ -195,73 +195,6 @@ def dblp_papers(response: dict) -> list[dict]:
     return out
 
 
-def dblp_year_papers(html: str, year: int) -> list[dict]:
-    """Extract papers from dblp's HTML proceedings TOC, not its search API.
-
-    dblp embeds the publication records in <li class="entry inproceedings">.
-    Proceedings/editorship entries are explicitly excluded.
-    """
-    soup = BeautifulSoup(html, "html.parser")
-    out = []
-    for entry in soup.select("li.entry.inproceedings"):
-        title_el = entry.select_one(".title")
-        if title_el is None:
-            continue
-        title = clean(title_el.get_text(" ", strip=True)).rstrip(" .")
-        if not normalize_title(title):
-            continue
-        authors = []
-        for el in entry.select("ul.authors li"):
-            name = clean(el.get_text(" ", strip=True))
-            if name:
-                authors.append(name)
-        doi, permalink = "", ""
-        for link in entry.select("a[href]"):
-            href = clean(link.get("href"))
-            if href.startswith(("https://doi.org/", "http://dx.doi.org/")) and not doi:
-                doi = _doi(href)
-            if "/rec/conf/ecrime/" in href and not permalink:
-                permalink = href
-        source_url = f"https://doi.org/{doi}" if doi else permalink
-        if not source_url:
-            # No fabricated DOI or paper URL: use year TOC as locator.
-            source_url = f"https://dblp.org/db/conf/ecrime/ecrime{year}.html"
-        out.append({
-            "title": title, "year": year, "doi": doi,
-            "authors": "; ".join(authors),
-            "venue": "APWG Symposium on Electronic Crime Research",
-            "source_url": source_url, "apwg_source_url": "",
-            "collection_url": f"https://dblp.org/db/conf/ecrime/ecrime{year}.html",
-            "collection_source": LABEL, "apwg_year": year, "abstract": "",
-            "publisher": "IEEE" if doi.startswith("10.1109/") else "",
-        })
-    return out
-
-
-def fetch_dblp_years(client: HttpClient, years: list[int]) -> tuple[list[dict], str, dict]:
-    """Use dblp's publicly browseable proceedings when its API rejects JSON."""
-    out = []
-    per_year = {}
-    for year in years:
-        url = f"https://dblp.org/db/conf/ecrime/ecrime{year}.html"
-        html = client.get_raw(url)
-        if not html:
-            per_year[str(year)] = {"status": "unavailable", "records": 0}
-            continue
-        rows = dblp_year_papers(html, year)
-        if not rows and year == max(years):
-            LOG.warning(
-                "dblp HTML parse diagnostic: bytes=%d, first_120=%r, "
-                "entry_count=%d, title_count=%d",
-                len(html), html[:120],
-                len(BeautifulSoup(html, "html.parser").select("li.entry")),
-                len(BeautifulSoup(html, "html.parser").select(".title")),
-            )
-        per_year[str(year)] = {"status": "ok" if rows else "unparseable_or_empty", "records": len(rows)}
-        out.extend(rows)
-    return out, ("html_fallback_ok" if out else "html_fallback_unavailable"), per_year
-
-
 def fetch_dblp(client: HttpClient) -> tuple[list[dict], str]:
     """Read paginated dblp publication-search API, serially and defensively.
 
@@ -310,6 +243,68 @@ def _prefer(primary: dict, additional: dict) -> dict:
     return result
 
 
+def _metadata_budget() -> int:
+    """Limit network lookups in CI dry-runs without weakening production coverage."""
+    import os
+    raw = os.getenv("APWG_MAX_METADATA_LOOKUPS", "200")
+    try:
+        return max(0, min(1000, int(raw)))
+    except ValueError:
+        return 200
+
+
+def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -> dict:
+    """Fill metadata only when OpenAlex returns a title-and-year match.
+
+    This does not bypass IEEE/dblp restrictions. OpenAlex is an independent
+    scholarly metadata service already used by ALEX's normal discovery.
+    """
+    attempted = matched = 0
+    for row in sorted(records, key=lambda r: (-int(r.get("year") or 0), normalize_title(r.get("title", "")))):
+        if clean(row.get("doi")) and clean(row.get("authors")):
+            continue
+        if attempted >= max_lookups:
+            break
+        attempted += 1
+        try:
+            results = openalex.search(client, row["title"], per_page=3, max_pages=1)
+        except Exception as exc:
+            LOG.warning("OpenAlex title lookup failed for %r: %s", row["title"], exc)
+            continue
+        for work in results:
+            candidate_title = work.get("display_name") or work.get("title") or ""
+            if normalize_title(candidate_title) != normalize_title(row["title"]):
+                continue
+            try:
+                candidate_year = int(work.get("publication_year") or 0)
+            except (TypeError, ValueError):
+                continue
+            if abs(candidate_year - int(row["year"])) > 1:
+                continue
+            found_doi = _doi(openalex.doi(work))
+            found_authors = openalex.author_names(work)
+            if not found_doi and not found_authors:
+                continue
+            if not clean(row.get("doi")) and found_doi and not found_doi.startswith("10.48550/arxiv"):
+                row["doi"] = found_doi
+            if not clean(row.get("authors")) and found_authors:
+                row["authors"] = found_authors
+            if not clean(row.get("abstract")):
+                row["abstract"] = openalex.abstract(work)
+            if not clean(row.get("publisher")) and found_doi.startswith("10.1109/"):
+                row["publisher"] = "IEEE"
+            row["metadata_provider"] = "OpenAlex (verified title/year)"
+            matched += 1
+            break
+    return {
+        "lookup_limit": max_lookups, "lookups_attempted": attempted,
+        "verified_title_year_matches": matched,
+        "enrichment_limited": attempted >= max_lookups and any(
+            not clean(p.get("doi")) or not clean(p.get("authors")) for p in records
+        ),
+    }
+
+
 def gather(client: HttpClient) -> tuple[list[dict], dict]:
     """Discover full APWG year archives plus corroborating dblp records.
 
@@ -343,20 +338,20 @@ def gather(client: HttpClient) -> tuple[list[dict], dict]:
             key = "title:" + normalize_title(row["title"])
             records[key] = _prefer(records[key], row) if key in records else row
 
+    # A single public API lookup is allowed; respect any verification challenge
+    # and do not attempt to scrape around dblp anti-bot protections.
     dblp_rows, dblp_status = fetch_dblp(client)
-    dblp_year_report = {}
-    if dblp_status != "ok":
-        # dblp's search API may return an HTML error page to CI runners.
-        # Its browseable annual TOCs supply independent bibliographic data.
-        dblp_rows, dblp_status, dblp_year_report = fetch_dblp_years(
-            client, sorted(pages)
-        )
     dblp_count = len(dblp_rows)
     for row in dblp_rows:
         key = "title:" + normalize_title(row["title"])
         records[key] = _prefer(records[key], row) if key in records else row
     if not records:
         raise RuntimeError("Neither APWG nor dblp returned paper records")
+    # Use a permitted scholarly API rather than circumvent dblp's bot gate.
+    # A strict title+year match is required before accepting metadata.
+    metadata_report = enrich_openalex(
+        client, list(records.values()), max_lookups=_metadata_budget()
+    )
     audit = {
         "collection": LABEL,
         "source_index": INDEX_URL,
@@ -365,12 +360,13 @@ def gather(client: HttpClient) -> tuple[list[dict], dict]:
         "dblp_status": dblp_status,
         "dblp_record_count": dblp_count,
         "dblp_per_year": {str(y): sum(int(r["year"]) == y for r in dblp_rows) for y in sorted({int(r["year"]) for r in dblp_rows})},
-        "dblp_html_year_report": dblp_year_report,
         "coverage_complete": False,
+        "dblp_blocked": dblp_status != "ok",
         "per_year": by_year,
         "archive_years_unavailable_or_empty": sorted(set(missing_years)),
         "discovered_unique_titles": len(records),
         "last_checked_utc": datetime.now(timezone.utc).isoformat(),
+        "openalex_enrichment": metadata_report,
     }
     return list(records.values()), audit
 
