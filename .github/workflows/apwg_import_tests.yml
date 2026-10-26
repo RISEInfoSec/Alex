@@ -39,6 +39,7 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Read-only APWG and dblp coverage audit
         run: |
+          set -euo pipefail
           python -m alex.cli apwg --dry-run | tee apwg_coverage_audit.json
       - name: Upload audit report
         if: always()
