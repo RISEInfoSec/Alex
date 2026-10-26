@@ -111,40 +111,31 @@ def test_dblp_http_failure_never_reports_full_coverage():
 
 
 
-def test_dblp_annual_toc_parses_authors_doi_and_excludes_proceedings():
-    html = """
-    <ul>
-      <li class="entry proceedings">
-        <div class="publ"><span class="title">Whole Proceedings</span></div>
-      </li>
-      <li class="entry inproceedings toc" id="conf/ecrime/test">
-        <div class="publ">
-          <ul class="authors"><li>Alice Hutchings</li><li>Tyler Moore</li></ul>
-          <span class="title">Cybercrime Forums: Evidence and Longitudinal Analysis.</span>
-          <a href="https://doi.org/10.1109/ECRIME.2025.111">Electronic edition</a>
-        </div>
-      </li>
-    </ul>
-    """
-    papers = apwg_import.dblp_year_papers(html, 2025)
-    assert len(papers) == 1
-    assert papers[0]["authors"] == "Alice Hutchings; Tyler Moore"
-    assert papers[0]["doi"] == "10.1109/ecrime.2025.111"
-    assert papers[0]["publisher"] == "IEEE"
+def test_openalex_bibliography_enrichment_requires_exact_title_and_near_year():
+    title = "A Cybercrime Analysis of Ransomware Infrastructure"
+    row = {"title": title, "year": 2025, "doi": "", "authors": "", "abstract": ""}
+    good = {"display_name": title, "publication_year": 2025}
+    bad = {"display_name": title, "publication_year": 2012}
+    with patch.object(apwg_import.openalex, "search", return_value=[bad, good]), \
+         patch.object(apwg_import.openalex, "doi", return_value="10.1109/ECRIME.2025.456"), \
+         patch.object(apwg_import.openalex, "author_names", return_value="A. Scholar; B. Scholar"), \
+         patch.object(apwg_import.openalex, "abstract", return_value="Original abstract"):
+        report = apwg_import.enrich_openalex(FakeClient({}), [row], max_lookups=1)
+    assert report["verified_title_year_matches"] == 1
+    assert row["doi"] == "10.1109/ecrime.2025.456"
+    assert row["authors"] == "A. Scholar; B. Scholar"
+    assert row["publisher"] == "IEEE"
+    assert row["metadata_provider"] == "OpenAlex (verified title/year)"
 
-def test_fallback_toc_import_when_search_api_is_blocked():
-    html = """
-    <li class="entry inproceedings">
-      <div class="publ"><ul class="authors"><li>Researcher</li></ul>
-      <span class="title">A Cybercrime Analysis of Ransomware Infrastructure.</span>
-      <a href="https://doi.org/10.1109/ECRIME.2024.456">DOI</a></div>
-    </li>
-    """
-    client = FakeClient({"https://dblp.org/db/conf/ecrime/ecrime2024.html": html}, {0: None})
-    papers, status, per_year = apwg_import.fetch_dblp_years(client, [2024])
-    assert status == "html_fallback_ok"
-    assert len(papers) == 1
-    assert per_year["2024"]["records"] == 1
+
+def test_openalex_rejects_nonmatching_title_and_year():
+    row = {"title": "Cybercrime Analysis", "year": 2025, "doi": "", "authors": ""}
+    wrong = {"display_name": "An Unrelated Article", "publication_year": 2025}
+    with patch.object(apwg_import.openalex, "search", return_value=[wrong]):
+        result = apwg_import.enrich_openalex(FakeClient({}), [row], max_lookups=1)
+    assert result["verified_title_year_matches"] == 0
+    assert row["doi"] == ""
+
 
 def test_archive_and_dblp_complement_each_other_and_report_gaps():
     papers, audit = apwg_import.gather(_fixture_client())
