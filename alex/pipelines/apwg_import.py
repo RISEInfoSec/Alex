@@ -510,8 +510,14 @@ def enrich_crossref(client: HttpClient, records: list[dict], max_lookups: int) -
                     f"{old_year} ({clean(row.get('publication_year_source'))}) "
                     f"vs {publication_year} (Crossref publisher date)"
                 )
-            row["year"] = publication_year
-            row["publication_year_source"] = "Crossref publisher publication date"
+            # Publisher metadata may use an online release date in a later
+            # year than the proceedings year. Hold conflicts with a manually
+            # verified original citation for review, never overwrite quietly.
+            if not (old_year and old_year != str(publication_year) and
+                    clean(row.get("publication_year_source")) ==
+                    "Independently verified original publication"):
+                row["year"] = publication_year
+                row["publication_year_source"] = "Crossref publisher publication date"
             publisher_years += 1
         byline = _crossref_author_names(found)
         if not clean(row.get("authors")) and byline:
