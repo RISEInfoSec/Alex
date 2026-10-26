@@ -7,6 +7,7 @@ Lighthouse scoring. PR #2 will introduce crawlable paper/category pages.
 from __future__ import annotations
 
 import json
+import struct
 import sys
 from html.parser import HTMLParser
 from pathlib import Path
@@ -68,6 +69,18 @@ def check() -> None:
     assert html.meta.get("og:url") == BASE, "OpenGraph URL"
     assert html.meta.get("og:title") == html.titles[0], "OpenGraph title"
     assert html.meta.get("og:description") == html.descriptions[0], "OpenGraph description"
+    social_url = BASE + "assets/alex-social-preview-1200x630.png"
+    assert html.meta.get("og:image") == social_url, "OpenGraph social banner"
+    assert html.meta.get("og:image:secure_url") == social_url, "Secure OpenGraph banner URL"
+    assert html.meta.get("og:image:type") == "image/png", "OpenGraph image type"
+    assert html.meta.get("og:image:width") == "1200", "OpenGraph image width"
+    assert html.meta.get("og:image:height") == "630", "OpenGraph image height"
+    assert html.meta.get("twitter:card") == "summary_large_image", "Twitter card type"
+    assert html.meta.get("twitter:image") == social_url, "Twitter banner URL"
+    assert html.meta.get("og:image:alt") and html.meta.get("twitter:image:alt"), "Social image description"
+    banner = (ROOT / "assets/alex-social-preview-1200x630.png").read_bytes()
+    assert banner[:8] == b"\\x89PNG\\r\\n\\x1a\\n", "Approved social banner must be PNG"
+    assert struct.unpack(">II", banner[16:24]) == (1200, 630), "Social banner must be 1200x630"
     assert "structured metadata and tagging" not in page, "Outdated homepage copy"
 
     graphs = [json.loads(raw) for raw in html.json_ld]

@@ -257,6 +257,8 @@ jobs:
         run: |
           mkdir -p _site/data
           cp index.html robots.txt sitemap.xml _site/
+          mkdir -p _site/assets
+          cp assets/alex-social-preview-1200x630.png _site/assets/
           cp data/papers.json _site/data/
           if [ -f data/collection_status.json ]; then cp data/collection_status.json _site/data/; fi
           cp data/osint_cyber_papers.csv _site/data/
