@@ -11,7 +11,6 @@ import re
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse
-from urllib.parse import urlencode
 
 from alex.utils.text import strip_html_tags
 
@@ -25,7 +24,7 @@ LOG = logging.getLogger(__name__)
 LABEL = "APWG.org eCrimes Research"
 INDEX_URL = "https://ecrimeresearch.org/ecrime-research-papers"
 DBLP_URL = "https://dblp.org/search/publ/api"
-DBLP_QUERY = "stream:streams/conf/ecrime:"
+DBLP_QUERY = "streamid:conf/ecrime:"
 DBLP_PAGE_SIZE = 250
 DBLP_MAX_PAGES = 8
 EARLY_YEARS = range(2006, 2014)
@@ -67,11 +66,6 @@ def links(html: str) -> list[tuple[str, str]]:
 def _doi(value: object) -> str:
     value = clean(value).lower()
     return re.sub(r"^https?://(?:dx\.)?doi\.org/", "", value).strip()
-
-
-def _paper_key(paper: dict) -> str:
-    doi = _doi(paper.get("doi"))
-    return "doi:" + doi if doi else "title:" + normalize_title(paper.get("title", ""))
 
 
 def _is_paper_link(title: str, url: str) -> bool:
