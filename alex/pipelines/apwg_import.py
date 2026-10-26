@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import logging
 import re
+import json
+from difflib import SequenceMatcher
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse
@@ -137,10 +139,52 @@ def _archive_author_bylines(html: str, year_url: str) -> dict[str, str]:
     return bylines
 
 
+def _verified_corrections() -> dict[str, dict]:
+    """Load evidence-backed URL-specific bibliographic fixes (no fuzzy override)."""
+    path = root_file("config", "apwg_verified_corrections.json")
+    if not path.exists():
+        return {}
+    entries = json.loads(path.read_text(encoding="utf-8")).get("entries", [])
+    if not isinstance(entries, list):
+        raise ValueError("Invalid APWG correction registry")
+    keys = [clean(e.get("url_suffix")) for e in entries]
+    if not all(keys) or len(set(keys)) != len(keys):
+        raise ValueError("APWG correction URL suffixes must be unique and non-empty")
+    return {key: entry for key, entry in zip(keys, entries)}
+
+
+def _apply_verified_correction(row: dict, corrections: dict[str, dict]) -> dict:
+    """Only correct exact archive-title and URL matches, with evidence."""
+    original_title = clean(row.get("title"))
+    original_url = clean(row.get("apwg_source_url"))
+    matches = [c for suffix, c in corrections.items() if original_url.endswith(suffix)]
+    if not matches:
+        return row
+    if len(matches) != 1:
+        raise ValueError(f"Conflicting APWG correction URL suffixes: {original_url}")
+    c = matches[0]
+    if normalize_title(original_title) != normalize_title(c.get("archive_title", "")):
+        raise ValueError(f"APWG paper title changed at {original_url}; revalidate curated correction")
+    result = dict(row)
+    result.update({
+        "title": c["title"],
+        "authors": c["authors"],
+        "doi": _doi(c["doi"]),
+        "year": str(c["year"]),
+        "publication_year_source": "Independently verified original publication",
+        "publisher": c["publisher"],
+        "bibliographic_correction_source": c["evidence_url"],
+        "original_apwg_title": original_title,
+        "author_source": "Curated primary bibliographic evidence",
+    })
+    return result
+
+
 def archive_papers(html: str, year: int, year_url: str) -> list[dict]:
     out = []
     seen = set()
     bylines = _archive_author_bylines(html, year_url)
+    corrections = _verified_corrections()
     for title, href in links(html):
         url = urljoin(year_url, href)
         if not _is_paper_link(title, url):
@@ -150,7 +194,7 @@ def archive_papers(html: str, year: int, year_url: str) -> list[dict]:
             continue
         seen.add(key)
         authors = bylines.get(key, "")
-        out.append({
+        row = {
             "title": title, "year": "", "publication_year_source": "", "doi": "",
             "authors": authors,
             "author_source": "APWG archive byline" if authors else "",
@@ -158,7 +202,8 @@ def archive_papers(html: str, year: int, year_url: str) -> list[dict]:
             "source_url": url, "apwg_source_url": url,
             "collection_url": year_url, "collection_source": LABEL,
             "apwg_year": year, "abstract": "", "publisher": "",
-        })
+        }
+        out.append(_apply_verified_correction(row, corrections))
     return out
 
 
