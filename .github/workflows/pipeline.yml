@@ -212,8 +212,34 @@ jobs:
           git diff --cached --quiet || git commit -m "Classify accepted papers"
           git push || (git pull --rebase --autostash && git push)
 
-  publish:
+  apwg:
+    # Curated APWG peer-reviewed proceedings are imported additively after
+    # regular classification, without weakening general research quality gates.
     needs: classify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Import APWG eCrime
+        env:
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+        run: |
+          python -m alex.cli apwg
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/accepted_classified.csv data/apwg_import_audit.json
+          git diff --cached --quiet || git commit -m "Import APWG eCrime proceedings"
+          git push || (git pull --rebase --autostash && git push)
+
+  publish:
+    needs: apwg
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -277,7 +303,7 @@ jobs:
     #  - Alert: a failed or cancelled stage opens an issue (or comments on
     #    the open one), so watchers hear about the first failure, not the
     #    tenth. The next clean run closes it.
-    needs: [discover, chain, score, harvest, rescore, classify, publish, deploy]
+    needs: [discover, chain, score, harvest, rescore, classify, apwg, publish, deploy]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 10
