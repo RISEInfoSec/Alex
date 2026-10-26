@@ -131,7 +131,7 @@ def _archive_author_bylines(html: str, year_url: str) -> dict[str, str]:
                 candidate.rstrip().endswith(";") or
                 (len(candidate.split()) > 6 and ";" not in candidate) or
                 re.search(r"https?://|doi:|abstract|research papers|sponsor|@"
-                          r"|\\b(?:anonymous|university|school|laboratory|institute|college|faculty|department|email|united kingdom|united states|usa)\\b", candidate, re.I)):
+                          r"|\b(?:anonymous|university|school|laboratory|institute|college|faculty|department|email|united kingdom|united states|usa)\b", candidate, re.I)):
             continue
         bylines[normalize_title(title)] = re.sub(r"\s*;\s*", "; ", candidate)
     return bylines
