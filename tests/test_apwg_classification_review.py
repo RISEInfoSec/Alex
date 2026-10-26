@@ -31,7 +31,7 @@ def test_new_papers_get_provisional_taxonomy_not_publication_approval():
     assert result["classification_status"] == "provisional_needs_review"
     assert "quality" in result["review_flags"].lower()
     assert result["publication_approved"] == "false"
-    assert result["quality_review_status"] == "not_scored"
+    assert result["quality_review_status"] == "hold_missing_abstract"
 
 
 def test_existing_alex_paper_is_not_reclassified():
@@ -142,3 +142,89 @@ def test_no_openai_key_hard_fails_before_read(tmp_path, monkeypatch):
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
     with pytest.raises(RuntimeError, match="OPENAI_API_KEY"):
         review.classify_review(tmp_path / "missing.csv", tmp_path / "out.csv")
+
+
+
+def test_abstract_drives_quality_evaluation_and_is_preserved():
+    r = review.review_row(
+        row(abstract="This empirical phishing study analyses fake domains and DNS attacks.",
+            citation_count="20", citation_count_source="Crossref is-referenced-by-count",
+            abstract_source="Crossref publisher-deposited abstract"),
+        classifier=response,
+    )
+    assert r["abstract_source"] == "Crossref publisher-deposited abstract"
+    assert r["citation_count_source"] == "Crossref is-referenced-by-count"
+    assert r["quality_score"]
+    assert r["quality_relevance_score"]
+    assert r["quality_review_status"] != "hold_missing_abstract"
+    assert r["publication_approved"] == "false"
+
+
+def test_ransomware_fallback_not_labeled_phishing_without_evidence():
+    r = review.review_row(row(
+        title="Averages Don’t Characterise the Heavy Tails of Ransoms",
+        abstract="We estimate ransom payments and ransomware economics."),
+        classifier=lambda _: {
+            "Category": "Cybercrime & Fraud", "Investigation_Type": "Other",
+            "OSINT_Source_Types": [],
+        },
+    )
+    assert r["clearly_non_phishing_topic"] == "true"
+    assert r["classification_status"] == "provisional_non_phishing_topic_review"
+    assert r["proposed_investigation_type"] == "Other"
+    assert "contradicted" in r["review_flags"].lower()
+
+
+def test_crypto_fallback_needs_review_even_if_model_falls_back():
+    r = review.review_row(row(
+        title="Cryptocurrency Exchange Closure Revisited (Again)",
+        abstract="We examine cryptocurrency exchange closures and market losses."),
+        classifier=lambda _: {
+            "Category": "Other", "Investigation_Type": "Other",
+            "OSINT_Source_Types": [],
+        },
+    )
+    assert r["classification_status"] == "provisional_non_phishing_topic_review"
+    assert r["proposed_investigation_type"] != "Phishing Analysis"
+    assert r["publication_approved"] == "false"
+
+
+def test_phishing_default_still_applies_to_genuinely_ambiguous_apwg_paper():
+    r = review.review_row(row(title="An Investigative Approach to Online Reports", abstract=""),
+                          classifier=lambda _: dict(review.classify.FALLBACK))
+    assert r["classification_status"] == "provisional_apwg_default_unverified"
+    assert r["proposed_investigation_type"] == "Phishing Analysis"
+
+
+def test_previous_fallback_watchlist_tracks_all_27():
+    watch = review.fallback_watchlist()
+    assert len(watch) == 27
+    assert any("heavy tails of ransoms" in x for x in watch)
+    assert any("money laundering" in x for x in watch)
+
+
+def test_quality_gate_uses_live_config_and_holds_missing_abstract():
+    from alex.pipelines.apwg_quality_review import assess
+    q = assess(row(abstract="", citation_count=""))
+    assert q["quality_review_status"] == "hold_missing_abstract"
+    assert q["citation_count_known"] is False
+    assert q["quality_requires_review"] is True
+    assert isinstance(q["quality_score"], float)
+
+
+def test_quality_gate_rejects_no_core_terms_despite_high_venue():
+    from alex.pipelines.apwg_quality_review import assess
+    q = assess(row(title="Cooking dinner with carrots and apples",
+                   abstract="The chemistry of soup and roasting vegetables.",
+                   citation_count="200", venue="APWG Symposium on Electronic Crime Research"))
+    assert q["quality_review_status"] in ("hold_core_term_gate", "hold_relevance_floor")
+
+
+def test_valid_abstract_info_does_not_approve_publication():
+    r = review.review_row(row(
+        title="Phishing Threat Intelligence Across Domain Infrastructure",
+        abstract="We study spear phishing and malicious domains using DNS/WHOIS.",
+        citation_count="102", venue="APWG Symposium on Electronic Crime Research"),
+        classifier=response)
+    assert r["publication_approved"] == "false"
+    assert r["quality_requires_review"] == "True"
