@@ -355,6 +355,32 @@ def test_curated_correction_requires_exact_source_link_and_original_title(monkey
             }, entries)
 
 
+def test_two_apwg_2023_titles_same_pdf_collapse_to_one_verified_record(monkeypatch):
+    link = "https://docs.apwg.org/ecrimeresearch/2023/20233427531265442.pdf"
+    correct = "“Do Users Fall for Real Adversarial Phishing?” Investigating the Human Response to Evasive Webpages"
+    stray = "Phishing Reports shared on Twitter"
+    corrections = {
+        "/20233427531265442.pdf": {
+            "archive_title": stray,
+            "archive_titles": [stray, correct],
+            "title": correct, "authors": "Ajka Draganovic; Savino Dambra",
+            "year": 2023, "doi": "10.1109/ecrime61234.2023.10485552",
+            "publisher": "IEEE",
+            "evidence_url": "https://orcid.org/0000-0002-8285-1647",
+        }
+    }
+    html = (
+        f'<h4><a href="{link}">{correct}</a></h4>'
+        f'<h4><a href="{link}">{stray}</a></h4>'
+    )
+    monkeypatch.setattr(apwg_import, "_verified_corrections", lambda: corrections)
+    records = apwg_import.archive_papers(html, 2023, "https://ecrimeresearch.org/2023-accepted-research-papers")
+    assert len(records) == 1
+    assert records[0]["title"] == correct
+    assert records[0]["doi"] == "10.1109/ecrime61234.2023.10485552"
+    assert records[0]["apwg_year"] == 2023
+
+
 def test_fuzzy_duplicate_variant_is_held_without_overwriting_alex():
     existing = pd.DataFrame([{
         "title": "Monitoring Malware Attacks via DNS Infrastructure",
