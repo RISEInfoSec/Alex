@@ -150,3 +150,10 @@ def test_content_warning_is_not_part_of_original_abstract():
     body = "We examine cybercrime forum activity and report the results of our study. " * 4
     text = "Abstract—" + body + "\nContent Warning: Reader advisory\nI. I NTRODUCTION\nArticle"
     assert mod.extract_abstract(text) == body.strip()
+
+
+def test_abstract_line_starting_with_introduction_prose_is_not_truncated():
+    body = "We examine the effect of phishing defenses using controlled experiments. " * 4
+    body += "\nIntroduction of these defenses changes how users evaluate online risks."
+    result = mod.extract_abstract(f"Abstract—{body}\nI. I NTRODUCTION\nArticle text")
+    assert result.endswith("Introduction of these defenses changes how users evaluate online risks.")

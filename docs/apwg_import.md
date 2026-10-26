@@ -132,9 +132,12 @@ weight 0.35. This also makes non-title-anchored papers face the untrusted
 two-core-term gate. The observed 19 core-term failures cannot yet be assumed
 to remain failures after accurate venue recognition.
 
-Proposed next scoring fix: recognize only the exact verified APWG venue
-alias while preserving actual publisher data, scoring weights, thresholds
-and relevance vetoes. Recompute and compare paper-level decisions before
+The importer currently supplies this generic venue string for every record,
+including publications originally appearing elsewhere. Proposed next scoring
+fix: recover each paper’s actual publisher-deposited publication venue (for
+example Crossref container-title), then recognize only verified conference
+name aliases. Do not whitelist the blanket APWG string for all records.
+Preserve actual publisher data, scoring weights, thresholds and relevance vetoes. Recompute and compare paper-level decisions before
 considering publication. No venue alias or scoring policy is changed by the
 expanded PDF pass. OpenAlex also currently skips records with both DOI and
 authors, even when their abstracts are missing; a separate bounded metadata

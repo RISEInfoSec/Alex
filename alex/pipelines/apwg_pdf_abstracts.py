@@ -61,7 +61,7 @@ def extract_abstract(text: str) -> str:
     body = match.group("body")
     stop = re.search(
         r"(?im)(?:^|\n)\s*(?:index terms|key words|keywords|"
-        rf"(?:(?:1|i)[. \t-]{{0,3}})?{_INTRODUCTION_HEADING}|"
+        rf"(?:(?:1|i)[. \t-]{{0,3}})?{_INTRODUCTION_HEADING}(?=[ \t]*(?:\n|$))|"
         r"acm classification|categories and subject descriptors|"
         r"corresponding author|copyright notice|content warning)\b",
         body,
