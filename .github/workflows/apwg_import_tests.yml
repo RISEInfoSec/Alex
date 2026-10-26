@@ -27,7 +27,7 @@ jobs:
   live_source_audit:
     # Read-only APWG/dblp coverage probe. Never changes accepted_classified.csv.
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 18
     permissions:
       contents: read
     steps:
@@ -39,7 +39,8 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Read-only APWG and OpenAlex coverage audit
         env:
-          APWG_MAX_METADATA_LOOKUPS: '8'
+          APWG_MAX_METADATA_LOOKUPS: '200'
+          APWG_REVIEW_CSV: 'apwg_bibliographic_review.csv'
         run: |
           set -euo pipefail
           python -m alex.cli apwg --dry-run | tee apwg_coverage_audit.json
@@ -48,5 +49,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: apwg-coverage-audit
-          path: apwg_coverage_audit.json
+          path: |
+            apwg_coverage_audit.json
+            apwg_bibliographic_review.csv
           if-no-files-found: warn
