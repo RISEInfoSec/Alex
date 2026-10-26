@@ -402,7 +402,13 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
             if not clean(row.get("authors")) and found_authors:
                 row["authors"] = found_authors
             if not clean(row.get("abstract")):
-                row["abstract"] = openalex.abstract(work)
+                abstract = openalex.abstract(work)
+                if abstract:
+                    row["abstract"] = abstract
+                    row["abstract_source"] = "OpenAlex title/DOI verified"
+            if "cited_by_count" in work:
+                row["citation_count"] = work["cited_by_count"]
+                row["citation_count_source"] = "OpenAlex cited_by_count"
             if not clean(row.get("publisher")) and found_doi.startswith("10.1109/"):
                 row["publisher"] = "IEEE"
             recorded_year = clean(row.get("year"))
@@ -536,7 +542,13 @@ def enrich_crossref(client: HttpClient, records: list[dict], max_lookups: int) -
         if not clean(row.get("publisher")) and clean(found.get("publisher")):
             row["publisher"] = clean(found["publisher"])
         if not clean(row.get("abstract")):
-            row["abstract"] = crossref.abstract(found)
+            abstract = crossref.abstract(found)
+            if abstract:
+                row["abstract"] = abstract
+                row["abstract_source"] = "Crossref publisher-deposited abstract"
+        if not clean(row.get("citation_count")) and found.get("is-referenced-by-count") is not None:
+            row["citation_count"] = found["is-referenced-by-count"]
+            row["citation_count_source"] = "Crossref is-referenced-by-count"
     return {
         "lookup_limit": max_lookups,
         "lookups_attempted": attempts,
@@ -768,6 +780,13 @@ def run(dry_run: bool = False) -> None:
     merged, stats = merge_corpus(corpus, records)
     audit.update(stats)
     audit["corpus_total_after_import"] = len(merged)
+    audit["abstracts_available"] = sum(bool(clean(r.get("abstract"))) for r in records)
+    audit["abstracts_missing"] = sum(not clean(r.get("abstract")) for r in records)
+    audit["citation_counts_available"] = sum(bool(clean(r.get("citation_count"))) for r in records)
+    audit["source_abstracts_by_provider"] = {
+        provider: sum(clean(r.get("abstract_source")) == provider for r in records)
+        for provider in sorted({clean(r.get("abstract_source")) for r in records if clean(r.get("abstract_source"))})
+    }
     audit["missing_bibliographic_authors"] = sum(not clean(r.get("authors")) for r in records)
     audit["missing_doi"] = sum(not clean(r.get("doi")) for r in records)
     audit["publication_years_identified"] = sum(bool(clean(r.get("year"))) for r in records)
@@ -831,6 +850,11 @@ def run(dry_run: bool = False) -> None:
                     "authors": clean(item.get("authors")),
                     "doi": doi_key,
                     "publisher": clean(item.get("publisher")),
+                    "venue": clean(item.get("venue")),
+                    "abstract": clean(item.get("abstract")),
+                    "abstract_source": clean(item.get("abstract_source")),
+                    "citation_count": clean(item.get("citation_count")),
+                    "citation_count_source": clean(item.get("citation_count_source")),
                     "metadata_verified_by": clean(item.get("metadata_provider")),
                     "author_source": clean(item.get("author_source")),
                     "doi_verification": clean(item.get("doi_verification")),
