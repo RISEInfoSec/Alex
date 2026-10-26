@@ -59,6 +59,7 @@ def _available_fields() -> list[str]:
         "title", "authors", "doi", "year", "apwg_year", "publisher",
         "apwg_paper_url", "bibliographic_link", "doi_verification",
         "abstract", "abstract_source", "citation_count", "citation_count_source", "venue",
+        "venue_source", "venue_evidence_url",
         "prior_fallback_watchlist", "clearly_non_phishing_topic",
         "duplicate_review_status", "in_existing_alex_corpus",
         "proposed_category", "proposed_investigation_type",
@@ -116,6 +117,8 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
         issues.append("ALEX quality gate: " + result["quality_review_status"])
     if not result["citation_count"]:
         issues.append("Citation data unavailable; score is conservative")
+    if not result["venue"]:
+        issues.append("Publication venue unavailable; no collection-derived venue assumed")
     if not result["doi"]:
         issues.append("DOI not confirmed")
     if not result["year"]:
@@ -133,7 +136,7 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
     payload = {
         "title": result["title"],
         "abstract": clean(row.get("abstract")),
-        "venue": "APWG Symposium on Electronic Crime Research",
+        "venue": result["venue"],
         "authors": result["authors"],
     }
     outcome = (classifier or classify.call_openai)(payload)

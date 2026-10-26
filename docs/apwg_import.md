@@ -122,7 +122,7 @@ rules, empty-abstract gate and thresholds. Unknown citation counts retain
 an explicit unknown status with zero provisional score contribution. Missing
 abstracts are holds, not evidence of poor research. Do not relax global gates.
 
-### Evidence-backed scoring issue to resolve separately
+### Historical scoring issue and actual-venue correction
 
 Every baseline record carries venue `APWG Symposium on Electronic Crime
 Research`. The whitelist contains `eCrime`, but the substring matcher does
@@ -132,14 +132,29 @@ weight 0.35. This also makes non-title-anchored papers face the untrusted
 two-core-term gate. The observed 19 core-term failures cannot yet be assumed
 to remain failures after accurate venue recognition.
 
-The importer currently supplies this generic venue string for every record,
-including publications originally appearing elsewhere. Proposed next scoring
-fix: recover each paper’s actual publisher-deposited publication venue (for
-example Crossref container-title), then recognize only verified conference
-name aliases. Do not whitelist the blanket APWG string for all records.
-Preserve actual publisher data, scoring weights, thresholds and relevance vetoes. Recompute and compare paper-level decisions before
-considering publication. No venue alias or scoring policy is changed by the
-expanded PDF pass. OpenAlex also currently skips records with both DOI and
+The source parser no longer assigns the collection's generic name as a
+publication venue. After exact DOI/title verification, Crossref's deposited
+`container-title` supplies `venue`, `venue_source` and `venue_evidence_url`.
+An explicit dblp record venue is a secondary source when available. Neither
+publisher nor APWG collection membership is substituted for a missing venue.
+The classifier receives this actual venue; unknown venues receive the existing
+unknown-venue score (20/100), rather than a synthetic APWG score (40/100).
+
+Deposited venue names are preserved. Existing whitelist matching recognizes
+an official name containing `(eCrime)` without a new alias or whitelist change.
+ACM SOUPS proceedings and ISSE book chapters retain their own container titles;
+we do not prepend a publisher acronym to manufacture a whitelist match.
+
+The review workflow also uploads `apwg_venue_score_comparison.csv` and
+`apwg_venue_score_summary.json`. These apply identical current metadata and
+policy to both sides, changing **only** venue: old synthetic APWG string versus
+recovered actual venue. The baseline is a counterfactual, not a historical
+citation/abstract snapshot. Per-paper scores, status changes, core gates,
+venue evidence and zero publication approvals are auditable. Existing ALEX
+matches are never rescored. Global scoring functions, thresholds, weights,
+relevance vetoes, taxonomy and the weekly pipeline remain unchanged.
+
+OpenAlex also currently skips records with both DOI and
 authors, even when their abstracts are missing; a separate bounded metadata
 pass could address this, respecting rate limits and exact bibliographic matches.
 

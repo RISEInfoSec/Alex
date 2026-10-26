@@ -2115,3 +2115,23 @@ class TestRescore:
         assert bool(accepted.iloc[0]["is_preprint"]) is True
         assert accepted.iloc[0]["rescore_run_id"] == token["run_id"]
         assert metrics["rescore_run_id"].iloc[0] == token["run_id"]
+
+
+def test_apwg_collection_match_preserves_existing_publication_identity():
+    from alex.pipelines.apwg_import import merge_corpus, LABEL
+    existing = pd.DataFrame([{
+        'title': 'Existing research', 'doi': '10.1234/existing',
+        'venue': 'Original research venue', 'publisher': 'Original publisher',
+        'year': 2007, 'abstract': 'Original abstract', 'Category': 'OSINT Methodology',
+    }])
+    incoming = [{'title': 'Existing research', 'doi': '10.1234/existing',
+                 'venue': 'Different recovered venue', 'publisher': 'Different publisher',
+                 'year': 2008, 'apwg_year': 2008, 'collection_source': LABEL}]
+    merged, report = merge_corpus(existing, incoming)
+    assert report['new_records'] == 0
+    assert merged.iloc[0]['venue'] == 'Original research venue'
+    assert merged.iloc[0]['publisher'] == 'Original publisher'
+    assert merged.iloc[0]['year'] == 2007
+    assert merged.iloc[0]['abstract'] == 'Original abstract'
+    assert merged.iloc[0]['Category'] == 'OSINT Methodology'
+    assert merged.iloc[0]['collection_source'] == LABEL

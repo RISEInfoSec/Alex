@@ -504,3 +504,53 @@ def test_correct_2019_malware_paper_alternate_title_and_doi(monkeypatch):
     assert papers[0]["apwg_year"] == 2019
     assert papers[0]["doi"] == "10.1109/ecrime47957.2019.9037597"
     assert papers[0]["apwg_source_url"] == pdf
+
+
+def test_archive_membership_does_not_invent_publication_venue():
+    row = apwg_import.archive_papers(YEAR_2025, 2025, 'https://ecrimeresearch.org/2025-accepted-research-papers')[0]
+    assert row['collection_source'] == apwg_import.LABEL
+    assert row['venue'] == row['venue_source'] == row['venue_evidence_url'] == ''
+
+
+def test_crossref_recovers_actual_container_without_conflating_publisher():
+    row = {'title': 'Anti-Phishing Game', 'doi': '10.1145/example', 'authors': 'A Scholar',
+           'year': '2007', 'apwg_year': 2008, 'collection_source': apwg_import.LABEL}
+    metadata = {'title': [row['title']], 'DOI': row['doi'], 'publisher': 'ACM',
+                'container-title': ['Proceedings of the symposium on Usable privacy and security']}
+    with patch.object(apwg_import.crossref, 'get_by_doi', return_value=metadata):
+        report = apwg_import.enrich_crossref(FakeClient({}), [row], 1)
+    assert report['publisher_publication_venues'] == 1
+    assert row['venue'] == metadata['container-title'][0]
+    assert row['publisher'] == 'ACM'
+    assert row['collection_source'] == apwg_import.LABEL
+    assert row['year'] == '2007' and row['apwg_year'] == 2008
+    assert row['venue_source'] == 'Crossref publisher-deposited container-title'
+    assert row['venue_evidence_url'].endswith('/10.1145/example')
+
+
+@pytest.mark.parametrize('containers', [None, [], [''], [None], {}, 42])
+def test_missing_crossref_container_never_uses_publisher_as_venue(containers):
+    row = {'title': 'Cybercrime Study', 'doi': '10.1234/test', 'year': '2020', 'venue': ''}
+    metadata = {'title': [row['title']], 'DOI': row['doi'], 'publisher': 'IEEE',
+                'container-title': containers}
+    with patch.object(apwg_import.crossref, 'get_by_doi', return_value=metadata):
+        apwg_import.enrich_crossref(FakeClient({}), [row], 1)
+    assert row['venue'] == ''
+    assert not row.get('venue_source')
+
+
+def test_mismatched_crossref_record_cannot_supply_a_trusted_venue():
+    row = {'title': 'Cybercrime Study', 'doi': '10.1234/test', 'venue': ''}
+    metadata = {'title': ['Different Study'], 'DOI': row['doi'], 'container-title': ['IEEE eCrime']}
+    with patch.object(apwg_import.crossref, 'get_by_doi', return_value=metadata):
+        apwg_import.enrich_crossref(FakeClient({}), [row], 1)
+    assert row['venue'] == ''
+
+
+def test_dblp_only_uses_explicit_bibliographic_venue():
+    data = response([{'info': {**DBLP_HITS[0]['info'], 'venue': 'eCrime'}}])
+    record = apwg_import.dblp_papers(data)[0]
+    assert record['venue'] == 'eCrime'
+    assert record['venue_source'] == 'dblp bibliographic venue'
+    assert record['venue_evidence_url'].startswith('https://dblp.org/rec/conf/ecrime/')
+    assert apwg_import.dblp_papers(response())[0]['venue'] == ''

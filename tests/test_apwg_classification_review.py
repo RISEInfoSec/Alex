@@ -228,3 +228,49 @@ def test_valid_abstract_info_does_not_approve_publication():
         classifier=response)
     assert r["publication_approved"] == "false"
     assert r["quality_requires_review"] == "True"
+
+
+def test_classifier_receives_actual_publication_venue_and_provenance_is_preserved():
+    def classifier(payload):
+        assert payload['venue'] == 'ISSE 2008 Securing Electronic Business Processes'
+        return response(payload)
+    result = review.review_row(row(
+        venue='ISSE 2008 Securing Electronic Business Processes',
+        venue_source='Crossref publisher-deposited container-title',
+        venue_evidence_url='https://api.crossref.org/works/10.1234/test'), classifier=classifier)
+    assert result['venue_source'].startswith('Crossref')
+    assert result['venue_evidence_url'].endswith('/10.1234/test')
+    assert result['publication_approved'] == 'false'
+
+
+def test_unknown_venue_gets_existing_unknown_venue_score_not_synthetic_apwg():
+    from alex.pipelines.apwg_quality_review import assess
+    assert assess(row(venue=''))['quality_venue_score'] == 20.0
+
+
+def test_venue_comparison_isolates_trust_tier_change_and_preserves_existing(tmp_path):
+    from alex.pipelines.apwg_quality_review import compare_venues
+    source, output = tmp_path / 'source.csv', tmp_path / 'comparison.csv'
+    rows = [row(title='Phishing detection', abstract='Phishing detection using open source reports.',
+                venue='2021 APWG Symposium on Electronic Crime Research (eCrime)',
+                venue_source='Crossref publisher-deposited container-title',
+                venue_evidence_url='https://api.crossref.org/works/10.1234/test'),
+            row(title='Existing title', in_existing_alex_corpus='True', venue='Preserved venue')]
+    # CSV fields include optional keys introduced by the first fixture.
+    fields = list(dict.fromkeys(k for r in rows for k in r))
+    with source.open('w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=fields); w.writeheader(); w.writerows(rows)
+    original = source.read_bytes()
+    report = compare_venues(source, output)
+    results = list(csv.DictReader(output.open()))
+    assert source.read_bytes() == original
+    assert results[0]['score_delta'] == '21.0'
+    assert results[0]['before_venue_score'] == '40.0'
+    assert results[0]['after_venue_score'] == '100.0'
+    assert results[0]['before_core_gate'] == 'fail'
+    assert results[0]['after_core_gate'] == 'pass'
+    assert results[1]['after_status'] == 'existing_record_not_rescored'
+    assert results[1]['after_score'] == ''
+    assert report['corpus_modified'] is False
+    assert report['publication_approvals'] == 0
+    assert all(r['publication_approved'] == 'false' for r in results)

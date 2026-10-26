@@ -7,6 +7,7 @@ NOT an authorization for corpus inclusion.
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from pathlib import Path
 from alex.utils.io import root_file, load_json
 from alex.utils.text import clean
 from alex.utils.scoring import (
@@ -30,7 +31,7 @@ def assess(row: dict, policy: tuple | None = None) -> dict:
     citations_known = clean(row.get("citation_count")) != ""
     citations = safe_float(row.get("citation_count")) if citations_known else 0.0
     year = safe_int_year(row.get("year"))
-    venue = clean(row.get("venue")) or "APWG Symposium on Electronic Crime Research"
+    venue = clean(row.get("venue"))
     v = venue_score(venue, whitelist)
     c = citation_score(citations, year)
     # Mirror rescore's legacy fallback to authors when affiliations are absent.
@@ -78,3 +79,79 @@ def assess(row: dict, policy: tuple | None = None) -> dict:
         "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
         "quality_requires_review": True,
     }
+
+
+def compare_venues(input_path: Path, output_path: Path) -> dict:
+    """Isolate venue effects using the same row/weights for both assessments.
+
+    The baseline is the old synthetic APWG venue, not a historical score:
+    citations/abstracts/year are held identical in both calculations.
+    Existing ALEX matches are never rescored or recommended for import.
+    """
+    import csv
+    from collections import Counter
+    with input_path.open(encoding="utf-8", newline="") as f:
+        records = list(csv.DictReader(f))
+    if not records:
+        raise RuntimeError("Empty APWG venue review input")
+    policy = load_policy()
+    output = []
+    for row in records:
+        result = {key: clean(row.get(key)) for key in (
+            "title", "doi", "venue", "venue_source", "venue_evidence_url")}
+        result["baseline_venue"] = "APWG Symposium on Electronic Crime Research"
+        result["publication_approved"] = "false"
+        existing = (clean(row.get("in_existing_alex_corpus")).lower() == "true" or
+                    clean(row.get("duplicate_review_status")) == "exact_doi_or_title_match")
+        if existing:
+            result.update({"before_status": "existing_record_not_rescored",
+                           "after_status": "existing_record_not_rescored",
+                           "score_delta": "", "before_score": "", "after_score": "",
+                           "before_venue_score": "", "after_venue_score": "",
+                           "before_core_gate": "", "after_core_gate": ""})
+        else:
+            before = assess({**row, "venue": result["baseline_venue"]}, policy)
+            after = assess(row, policy)
+            result.update({
+                "before_status": before["quality_review_status"],
+                "after_status": after["quality_review_status"],
+                "before_score": before["quality_score"], "after_score": after["quality_score"],
+                "score_delta": round(after["quality_score"] - before["quality_score"], 2),
+                "before_venue_score": before["quality_venue_score"],
+                "after_venue_score": after["quality_venue_score"],
+                "before_core_gate": before["quality_core_term_gate"],
+                "after_core_gate": after["quality_core_term_gate"],
+            })
+        output.append(result)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(output[0]))
+        writer.writeheader()
+        writer.writerows(output)
+    return {
+        "records": len(records),
+        "venues_available": sum(bool(clean(r.get("venue"))) for r in records),
+        "venues_missing": sum(not clean(r.get("venue")) for r in records),
+        "venue_sources": dict(Counter(clean(r.get("venue_source")) or "unknown" for r in records)),
+        "before_statuses": dict(Counter(r["before_status"] for r in output)),
+        "after_statuses": dict(Counter(r["after_status"] for r in output)),
+        "status_changes": sum(r["before_status"] != r["after_status"] for r in output),
+        "comparison_basis": "same current metadata; only venue differs from legacy synthetic APWG baseline",
+        "corpus_modified": False,
+        "publication_approvals": 0,
+    }
+
+
+def main() -> None:
+    import argparse
+    import json
+    from pathlib import Path
+    parser = argparse.ArgumentParser(description="Read-only APWG venue score comparison")
+    parser.add_argument("--input", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    print(json.dumps(compare_venues(args.input, args.output), indent=2))
+
+
+if __name__ == "__main__":
+    main()

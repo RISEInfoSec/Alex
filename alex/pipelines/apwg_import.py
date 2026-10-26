@@ -198,7 +198,7 @@ def archive_papers(html: str, year: int, year_url: str) -> list[dict]:
             "title": title, "year": "", "publication_year_source": "", "doi": "",
             "authors": authors,
             "author_source": "APWG archive byline" if authors else "",
-            "venue": "APWG Symposium on Electronic Crime Research",
+            "venue": "", "venue_source": "", "venue_evidence_url": "",
             "source_url": url, "apwg_source_url": url,
             "collection_url": year_url, "collection_source": LABEL,
             "apwg_year": year, "abstract": "", "publisher": "",
@@ -273,10 +273,13 @@ def dblp_papers(response: dict) -> list[dict]:
                       else ee if ee.startswith("https://")
                       else f"https://dblp.org/rec/{key}")
         year = int(year_text)
+        venue = clean(info.get("venue")) if isinstance(info.get("venue"), str) else ""
         out.append({
             "title": title, "year": year, "publication_year_source": "dblp bibliographic record", "doi": doi,
             "authors": _dblp_authors(info.get("authors") or {}),
-            "venue": "APWG Symposium on Electronic Crime Research",
+            "venue": venue,
+            "venue_source": "dblp bibliographic venue" if venue else "",
+            "venue_evidence_url": f"https://dblp.org/rec/{key}" if venue else "",
             "source_url": source_url, "apwg_source_url": "",
             "collection_url": f"https://dblp.org/db/conf/ecrime/ecrime{year}.html",
             "collection_source": LABEL, "apwg_year": year, "abstract": "",
@@ -325,6 +328,9 @@ def _prefer(primary: dict, additional: dict) -> dict:
     for field in ("doi", "authors", "abstract", "publisher", "year", "publication_year_source"):
         if not clean(result.get(field)) and clean(additional.get(field)):
             result[field] = additional[field]
+    if not clean(result.get("venue")) and clean(additional.get("venue")):
+        for field in ("venue", "venue_source", "venue_evidence_url"):
+            result[field] = clean(additional.get(field))
     if not clean(result.get("apwg_source_url")) and clean(additional.get("apwg_source_url")):
         result["apwg_source_url"] = additional["apwg_source_url"]
     # If primary came from dblp, prefer the actual APWG PDF/IEEE paper link.
@@ -473,13 +479,26 @@ def _crossref_author_names(item: dict) -> str:
     return "; ".join(authors)
 
 
+def _crossref_container_title(item: dict) -> str:
+    """Read the deposited venue only; never fall back to publisher."""
+    containers = item.get("container-title") or []
+    if isinstance(containers, str):
+        containers = [containers]
+    if not isinstance(containers, list):
+        return ""
+    for value in containers:
+        if isinstance(value, str) and clean(strip_html_tags(value)):
+            return strip_html_tags(value)
+    return ""
+
+
 def enrich_crossref(client: HttpClient, records: list[dict], max_lookups: int) -> dict:
     """Verify DOI by exact title and recover original publisher publication year.
 
     Never require year to match APWG archive year. Crossref publication dates
     override OpenAlex years where they disagree; conflicts stay auditable.
     """
-    attempts = verified_dois = recovered_dois = recovered_authors = publisher_years = 0
+    attempts = verified_dois = recovered_dois = recovered_authors = publisher_years = verified_venues = 0
     for row in records:
         if attempts >= max_lookups:
             break
@@ -517,6 +536,14 @@ def enrich_crossref(client: HttpClient, records: list[dict], max_lookups: int) -
             row["doi"] = deposited_doi
             row["doi_verification"] = "DOI recovered via Crossref title/year"
             row.setdefault("metadata_provider", "Crossref exact title match")
+        # A collection label or publisher is not the publication venue.
+        # Accept container-title only after the exact title/DOI checks above.
+        venue = _crossref_container_title(found)
+        if venue:
+            row["venue"] = venue
+            row["venue_source"] = "Crossref publisher-deposited container-title"
+            row["venue_evidence_url"] = f"https://api.crossref.org/works/{deposited_doi}"
+            verified_venues += 1
         publication_year = _crossref_publication_year(found)
         if publication_year is not None:
             old_year = clean(row.get("year"))
@@ -556,6 +583,7 @@ def enrich_crossref(client: HttpClient, records: list[dict], max_lookups: int) -
         "dois_recovered": recovered_dois,
         "authors_recovered": recovered_authors,
         "publisher_publication_years": publisher_years,
+        "publisher_publication_venues": verified_venues,
     }
 
 
@@ -851,6 +879,8 @@ def run(dry_run: bool = False) -> None:
                     "doi": doi_key,
                     "publisher": clean(item.get("publisher")),
                     "venue": clean(item.get("venue")),
+                    "venue_source": clean(item.get("venue_source")),
+                    "venue_evidence_url": clean(item.get("venue_evidence_url")),
                     "abstract": clean(item.get("abstract")),
                     "abstract_source": clean(item.get("abstract_source")),
                     "citation_count": clean(item.get("citation_count")),
