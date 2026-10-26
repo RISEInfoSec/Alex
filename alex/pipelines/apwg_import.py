@@ -151,7 +151,7 @@ def archive_papers(html: str, year: int, year_url: str) -> list[dict]:
         seen.add(key)
         authors = bylines.get(key, "")
         out.append({
-            "title": title, "year": year, "doi": "",
+            "title": title, "year": "", "publication_year_source": "", "doi": "",
             "authors": authors,
             "author_source": "APWG archive byline" if authors else "",
             "venue": "APWG Symposium on Electronic Crime Research",
@@ -224,7 +224,7 @@ def dblp_papers(response: dict) -> list[dict]:
                       else f"https://dblp.org/rec/{key}")
         year = int(year_text)
         out.append({
-            "title": title, "year": year, "doi": doi,
+            "title": title, "year": year, "publication_year_source": "dblp bibliographic record", "doi": doi,
             "authors": _dblp_authors(info.get("authors") or {}),
             "venue": "APWG Symposium on Electronic Crime Research",
             "source_url": source_url, "apwg_source_url": "",
@@ -272,7 +272,7 @@ def fetch_dblp(client: HttpClient) -> tuple[list[dict], str]:
 def _prefer(primary: dict, additional: dict) -> dict:
     """Preserve APWG's original paper link; supplement verified bibliographic fields."""
     result = dict(primary)
-    for field in ("doi", "authors", "abstract", "publisher"):
+    for field in ("doi", "authors", "abstract", "publisher", "year", "publication_year_source"):
         if not clean(result.get(field)) and clean(additional.get(field)):
             result[field] = additional[field]
     if not clean(result.get("apwg_source_url")) and clean(additional.get("apwg_source_url")):
@@ -310,7 +310,7 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
     scholarly metadata service already used by ALEX's normal discovery.
     """
     attempted = matched = 0
-    for row in sorted(records, key=lambda r: (-int(r.get("year") or 0), normalize_title(r.get("title", "")))):
+    for row in sorted(records, key=lambda r: (-int(r.get("apwg_year") or 0), normalize_title(r.get("title", "")))):
         if clean(row.get("doi")) and clean(row.get("authors")):
             continue
         if attempted >= max_lookups:
@@ -329,9 +329,13 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
                 candidate_year = int(work.get("publication_year") or 0)
             except (TypeError, ValueError):
                 continue
-            if abs(candidate_year - int(row["year"])) > 1:
+            if not (1900 <= candidate_year <= datetime.now(timezone.utc).year + 1):
                 continue
+            recorded_doi = _doi(row.get("doi"))
             found_doi = _doi(openalex.doi(work))
+            if recorded_doi and found_doi and recorded_doi != found_doi:
+                row["doi_discrepancy"] = "OpenAlex DOI differs from recorded DOI"
+                continue
             found_authors = openalex.author_names(work)
             if not found_doi and not found_authors:
                 continue
@@ -343,7 +347,13 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
                 row["abstract"] = openalex.abstract(work)
             if not clean(row.get("publisher")) and found_doi.startswith("10.1109/"):
                 row["publisher"] = "IEEE"
-            row["metadata_provider"] = "OpenAlex (verified title/year)"
+            recorded_year = clean(row.get("year"))
+            if not recorded_year:
+                row["year"] = candidate_year
+                row["publication_year_source"] = "OpenAlex bibliographic publication year"
+            elif recorded_year != str(candidate_year):
+                row["publication_year_conflict"] = f"{recorded_year} (dblp) vs {candidate_year} (OpenAlex)"
+            row["metadata_provider"] = "OpenAlex (exact title match)"
             matched += 1
             break
     return {
@@ -355,20 +365,38 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
     }
 
 
-def _crossref_record_matches(item: dict, title: str, event_year: int) -> bool:
+def _crossref_record_matches(item: dict, title: str) -> bool:
+    """Verify the bibliographic title; archive year is not publication year."""
     candidates = item.get("title") or []
     if isinstance(candidates, str):
         candidates = [candidates]
-    if not candidates or normalize_title(strip_html_tags(candidates[0])) != normalize_title(title):
-        return False
-    for key in ("published-print", "published-online", "issued", "created"):
-        date_parts = (item.get(key) or {}).get("date-parts") or []
-        if date_parts and date_parts[0]:
+    return bool(candidates and
+                normalize_title(strip_html_tags(candidates[0])) == normalize_title(title))
+
+
+def _crossref_publication_year(item: dict) -> int | None:
+    """Use original publisher publication dates, not DOI deposit/creation dates."""
+    years = []
+    for key in ("published-online", "published-print", "published"):
+        dates = (item.get(key) or {}).get("date-parts") or []
+        if dates and dates[0]:
             try:
-                return abs(int(date_parts[0][0]) - int(event_year)) <= 1
+                value = int(dates[0][0])
+                if 1900 <= value <= datetime.now(timezone.utc).year + 1:
+                    years.append(value)
             except (TypeError, ValueError):
-                continue
-    return False
+                pass
+    if years:
+        return min(years)
+    dates = (item.get("issued") or {}).get("date-parts") or []
+    if dates and dates[0]:
+        try:
+            value = int(dates[0][0])
+            if 1900 <= value <= datetime.now(timezone.utc).year + 1:
+                return value
+        except (TypeError, ValueError):
+            pass
+    return None
 
 
 def _crossref_author_names(item: dict) -> str:
@@ -381,14 +409,12 @@ def _crossref_author_names(item: dict) -> str:
 
 
 def enrich_crossref(client: HttpClient, records: list[dict], max_lookups: int) -> dict:
-    """Independently verify DOI/title/year or obtain publisher-deposited DOI.
+    """Verify DOI by exact title and recover original publisher publication year.
 
-    Crossref is consulted using its public documented API. A plausible-looking
-    DOI alone never counts as verification; title and publication year must
-    match APWG's bibliographic evidence. Non-Crossref DOIs remain explicitly
-    unverified for further review.
+    Never require year to match APWG archive year. Crossref publication dates
+    override OpenAlex years where they disagree; conflicts stay auditable.
     """
-    attempts = verified_dois = recovered_dois = recovered_authors = 0
+    attempts = verified_dois = recovered_dois = recovered_authors = publisher_years = 0
     for row in records:
         if attempts >= max_lookups:
             break
@@ -401,8 +427,13 @@ def enrich_crossref(client: HttpClient, records: list[dict], max_lookups: int) -
             LOG.warning("Crossref verification error for %r: %s", row["title"], exc)
             row["doi_verification"] = "Crossref lookup failed"
             continue
-        found = next((item for item in candidates if item and
-                      _crossref_record_matches(item, row["title"], row["year"])), None)
+        exact = [item for item in candidates if item and
+                 _crossref_record_matches(item, row["title"])]
+        unique_dois = {_doi(item.get("DOI")) for item in exact if _doi(item.get("DOI"))}
+        if not doi and len(unique_dois) > 1:
+            row["doi_verification"] = "Ambiguous Crossref title matches"
+            continue
+        found = exact[0] if exact else None
         if not found:
             row["doi_verification"] = "Crossref not confirmed"
             continue
@@ -420,7 +451,18 @@ def enrich_crossref(client: HttpClient, records: list[dict], max_lookups: int) -
             recovered_dois += 1
             row["doi"] = deposited_doi
             row["doi_verification"] = "DOI recovered via Crossref title/year"
-            row.setdefault("metadata_provider", "Crossref title/year match")
+            row.setdefault("metadata_provider", "Crossref exact title match")
+        publication_year = _crossref_publication_year(found)
+        if publication_year is not None:
+            old_year = clean(row.get("year"))
+            if old_year and old_year != str(publication_year):
+                row["publication_year_conflict"] = (
+                    f"{old_year} ({clean(row.get('publication_year_source'))}) "
+                    f"vs {publication_year} (Crossref publisher date)"
+                )
+            row["year"] = publication_year
+            row["publication_year_source"] = "Crossref publisher publication date"
+            publisher_years += 1
         byline = _crossref_author_names(found)
         if not clean(row.get("authors")) and byline:
             row["authors"] = byline
@@ -436,6 +478,7 @@ def enrich_crossref(client: HttpClient, records: list[dict], max_lookups: int) -
         "existing_dois_verified": verified_dois,
         "dois_recovered": recovered_dois,
         "authors_recovered": recovered_authors,
+        "publisher_publication_years": publisher_years,
     }
 
 
@@ -593,6 +636,12 @@ def run(dry_run: bool = False) -> None:
     audit["corpus_total_after_import"] = len(merged)
     audit["missing_bibliographic_authors"] = sum(not clean(r.get("authors")) for r in records)
     audit["missing_doi"] = sum(not clean(r.get("doi")) for r in records)
+    audit["publication_years_identified"] = sum(bool(clean(r.get("year"))) for r in records)
+    audit["publication_years_missing"] = sum(not clean(r.get("year")) for r in records)
+    audit["publication_years_different_from_apwg_year"] = sum(
+        bool(clean(r.get("year"))) and clean(r.get("year")) != clean(r.get("apwg_year")) for r in records
+    )
+    audit["publication_year_conflicts"] = sum(bool(clean(r.get("publication_year_conflict"))) for r in records)
     audit["records_with_both_authors_and_doi"] = sum(
         bool(clean(r.get("authors")) and clean(r.get("doi"))) for r in records
     )
@@ -605,11 +654,11 @@ def run(dry_run: bool = False) -> None:
     )
     audit["per_year_metadata"] = {
         str(year): {
-            "records": sum(int(r["year"]) == year for r in records),
-            "with_authors": sum(int(r["year"]) == year and bool(clean(r.get("authors"))) for r in records),
-            "with_doi": sum(int(r["year"]) == year and bool(clean(r.get("doi"))) for r in records),
+            "records": sum(int(r["apwg_year"]) == year for r in records),
+            "with_authors": sum(int(r["apwg_year"]) == year and bool(clean(r.get("authors"))) for r in records),
+            "with_doi": sum(int(r["apwg_year"]) == year and bool(clean(r.get("doi"))) for r in records),
         }
-        for year in sorted({int(r["year"]) for r in records})
+        for year in sorted({int(r["apwg_year"]) for r in records})
     }
     # A dry run reports real-world coverage without mutating the corpus.
     if dry_run:
@@ -629,12 +678,16 @@ def run(dry_run: bool = False) -> None:
                 for _, row in corpus.iterrows() if _doi(row.get("doi"))
             } if not corpus.empty else {}
             rows = []
-            for item in sorted(records, key=lambda r: (int(r["year"]), normalize_title(r["title"]))):
+            for item in sorted(records, key=lambda r: (int(r["apwg_year"]), normalize_title(r["title"]))):
                 title_key = normalize_title(item.get("title", ""))
                 doi_key = _doi(item.get("doi"))
                 corpus_title = existing_by_title.get(title_key, "") or existing_by_doi.get(doi_key, "")
                 rows.append({
-                    "year": item["year"],
+                    "year": clean(item.get("year")),
+                    "apwg_year": clean(item.get("apwg_year")),
+                    "publication_year_source": clean(item.get("publication_year_source")),
+                    "publication_year_conflict": clean(item.get("publication_year_conflict")),
+                    "year_differs_from_apwg_year": bool(clean(item.get("year")) and clean(item.get("year")) != clean(item.get("apwg_year"))),
                     "title": clean(item.get("title")),
                     "authors": clean(item.get("authors")),
                     "doi": doi_key,
@@ -642,7 +695,10 @@ def run(dry_run: bool = False) -> None:
                     "metadata_verified_by": clean(item.get("metadata_provider")),
                     "author_source": clean(item.get("author_source")),
                     "doi_verification": clean(item.get("doi_verification")),
-                    "requires_bibliographic_review": not bool(clean(item.get("authors")) and clean(item.get("doi"))),
+                    "requires_bibliographic_review": (
+                        not bool(clean(item.get("authors")) and clean(item.get("doi")) and clean(item.get("year")))
+                        or bool(clean(item.get("publication_year_conflict")))
+                    ),
                     "in_existing_alex_corpus": bool(corpus_title),
                     "matched_alex_title": corpus_title,
                     "apwg_paper_url": clean(item.get("apwg_source_url")),
