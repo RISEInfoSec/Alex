@@ -110,6 +110,42 @@ def test_dblp_http_failure_never_reports_full_coverage():
     assert status != "ok"
 
 
+
+def test_dblp_annual_toc_parses_authors_doi_and_excludes_proceedings():
+    html = """
+    <ul>
+      <li class="entry proceedings">
+        <div class="publ"><span class="title">Whole Proceedings</span></div>
+      </li>
+      <li class="entry inproceedings toc" id="conf/ecrime/test">
+        <div class="publ">
+          <ul class="authors"><li>Alice Hutchings</li><li>Tyler Moore</li></ul>
+          <span class="title">Cybercrime Forums: Evidence and Longitudinal Analysis.</span>
+          <a href="https://doi.org/10.1109/ECRIME.2025.111">Electronic edition</a>
+        </div>
+      </li>
+    </ul>
+    """
+    papers = apwg_import.dblp_year_papers(html, 2025)
+    assert len(papers) == 1
+    assert papers[0]["authors"] == "Alice Hutchings; Tyler Moore"
+    assert papers[0]["doi"] == "10.1109/ecrime.2025.111"
+    assert papers[0]["publisher"] == "IEEE"
+
+def test_fallback_toc_import_when_search_api_is_blocked():
+    html = """
+    <li class="entry inproceedings">
+      <div class="publ"><ul class="authors"><li>Researcher</li></ul>
+      <span class="title">A Cybercrime Analysis of Ransomware Infrastructure.</span>
+      <a href="https://doi.org/10.1109/ECRIME.2024.456">DOI</a></div>
+    </li>
+    """
+    client = FakeClient({"https://dblp.org/db/conf/ecrime/ecrime2024.html": html}, {0: None})
+    papers, status, per_year = apwg_import.fetch_dblp_years(client, [2024])
+    assert status == "html_fallback_ok"
+    assert len(papers) == 1
+    assert per_year["2024"]["records"] == 1
+
 def test_archive_and_dblp_complement_each_other_and_report_gaps():
     papers, audit = apwg_import.gather(_fixture_client())
     assert len(papers) == 2
