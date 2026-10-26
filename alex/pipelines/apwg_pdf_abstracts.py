@@ -7,6 +7,7 @@ are stored or published. IEEE landing pages are not fetched/bypassed.
 from __future__ import annotations
 import argparse
 import csv
+from collections import Counter
 import io
 import json
 import re
@@ -23,6 +24,9 @@ from alex.pipelines.apwg_classification_review import fallback_watchlist
 MAX_PDF_BYTES = 6 * 1024 * 1024
 MAX_ABSTRACT_CHARACTERS = 2600
 MAX_PAGES = 3
+# 99 APWG-hosted PDFs in the verified 169-record audit; retain headroom
+# while keeping byte/page limits and serial access unchanged.
+DEFAULT_MAX_PDFS = 110
 USER_AGENT = "ALEX-APWG-AbstractReview/1.0 (bibliographic-review; no PDF archival)"
 
 
@@ -135,7 +139,7 @@ def fetch_pdf_abstract(url: str, title: str, session=None) -> tuple[str, str]:
         return "", "pdf_parse_error"
 
 
-def enrich(input_path: Path, output_path: Path, audit_path: Path, max_pdfs: int = 65) -> dict:
+def enrich(input_path: Path, output_path: Path, audit_path: Path, max_pdfs: int = DEFAULT_MAX_PDFS) -> dict:
     with input_path.open(encoding="utf-8", newline="") as f:
         records = list(csv.DictReader(f))
     if not records:
@@ -192,6 +196,14 @@ def enrich(input_path: Path, output_path: Path, audit_path: Path, max_pdfs: int 
     return {
         "bibliographic_records": len(records),
         "pdfs_attempted": attempts,
+        "pdf_lookup_limit": max_pdfs,
+        "abstract_status_counts": dict(Counter(r["abstract_status"] for r in audit)),
+        "eligible_pdfs_not_attempted": sum(
+            r["abstract_status"] == "review_budget_reached" for r in audit
+        ),
+        "eligible_pdf_pass_complete": not any(
+            r["abstract_status"] == "review_budget_reached" for r in audit
+        ),
         "abstracts_recovered_from_pdfs": recovered,
         "original_27_fallback_abstracts_recovered": watch_recovered,
         "total_abstracts_after_enrichment": sum(bool(clean(r.get("abstract"))) for r in records),
@@ -208,7 +220,7 @@ def main() -> None:
     parser.add_argument("--input", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--audit", type=Path, required=True)
-    parser.add_argument("--max-pdfs", type=int, default=65)
+    parser.add_argument("--max-pdfs", type=int, default=DEFAULT_MAX_PDFS)
     args = parser.parse_args()
     print(json.dumps(enrich(args.input, args.output, args.audit, args.max_pdfs), indent=2))
 

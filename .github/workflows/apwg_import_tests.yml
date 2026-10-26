@@ -89,7 +89,7 @@ jobs:
             --input _apwg_review_input/apwg_bibliographic_review.csv \
             --output apwg_bibliography_with_abstracts.csv \
             --audit apwg_abstract_extraction_audit.csv \
-            --max-pdfs 65
+            --max-pdfs 110 | tee apwg_abstract_enrichment_summary.json
       - name: Classify APWG with verified abstracts and ALEX quality review
         env:
           OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
@@ -108,4 +108,5 @@ jobs:
             apwg_classification_review.csv
             apwg_bibliography_with_abstracts.csv
             apwg_abstract_extraction_audit.csv
+            apwg_abstract_enrichment_summary.json
           if-no-files-found: warn

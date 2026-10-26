@@ -63,3 +63,61 @@ def test_enrich_prioritizes_old_fallback_titles_and_does_not_write_pdfs(tmp_path
     assert report["abstracts_recovered_from_pdfs"] == 1
     assert report["public_corpus_modified"] is False
     assert not list(tmp_path.glob("*.pdf"))
+
+
+def test_default_budget_covers_all_99_eligible_pdfs_and_preserves_metadata(tmp_path, monkeypatch):
+    import csv
+    rows = [
+        {"title": f"Paper {i}", "apwg_year": "2025", "year": "2024",
+         "apwg_paper_url": f"https://docs.apwg.org/{i}.pdf",
+         "abstract": "", "abstract_source": "", "doi": f"10.1234/{i}"}
+        for i in range(99)
+    ]
+    rows.append(dict(rows[0], title="Existing abstract", abstract="Keep original",
+                     abstract_source="Publisher metadata"))
+    source, output, audit = (tmp_path / name for name in ("in.csv", "out.csv", "audit.csv"))
+    with source.open("w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    original = source.read_bytes()
+    calls = []
+    def fetch(url, title, session=None):
+        calls.append(url)
+        return "Verified original abstract", "extracted_verified_abstract"
+    monkeypatch.setattr(mod, "fetch_pdf_abstract", fetch)
+    monkeypatch.setattr(mod.time, "sleep", lambda _: None)
+    report = mod.enrich(source, output, audit)
+    assert len(calls) == 99
+    assert report["eligible_pdfs_not_attempted"] == 0
+    assert report["eligible_pdf_pass_complete"] is True
+    assert report["abstract_status_counts"] == {
+        "extracted_verified_abstract": 99, "already_has_abstract": 1}
+    assert report["total_abstracts_after_enrichment"] == 100
+    assert source.read_bytes() == original
+    with output.open() as f:
+        enriched = list(csv.DictReader(f))
+    assert enriched[-1] == rows[-1]
+    assert all(x["year"] == "2024" for x in enriched)
+    assert [x["doi"] for x in enriched] == [x["doi"] for x in rows]
+    assert not list(tmp_path.glob("*.pdf"))
+
+
+def test_partial_pdf_pass_reports_unattempted_eligible_sources(tmp_path, monkeypatch):
+    import csv
+    rows = [{"title": str(i), "apwg_year": "2025",
+             "apwg_paper_url": f"https://docs.apwg.org/{i}.pdf",
+             "abstract": "", "abstract_source": ""} for i in range(3)]
+    source = tmp_path / "in.csv"
+    with source.open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0]))
+        w.writeheader()
+        w.writerows(rows)
+    monkeypatch.setattr(mod, "fetch_pdf_abstract", lambda *a, **kw: ("", "no_confident_abstract"))
+    monkeypatch.setattr(mod.time, "sleep", lambda _: None)
+    report = mod.enrich(source, tmp_path / "out.csv", tmp_path / "audit.csv", max_pdfs=1)
+    assert report["pdfs_attempted"] == 1
+    assert report["eligible_pdfs_not_attempted"] == 2
+    assert report["eligible_pdf_pass_complete"] is False
+    assert report["abstract_status_counts"]["no_confident_abstract"] == 1
+    assert report["abstract_status_counts"]["review_budget_reached"] == 2
