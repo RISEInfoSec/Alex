@@ -129,3 +129,32 @@ APWG fallback in the **review CSV** but mark it
 fallbacks need paper-specific review, quality assessment and separate import
 approval; `publication_approved` remains `false` and the live corpus is
 never modified by this workflow.
+
+## Abstract-first classification and ALEX quality review
+
+PR review artifacts now carry bibliographic abstracts and citation counts with
+explicit source attribution. IEEE/Crossref often contain no abstracts and
+OpenAlex may be rate-limited, so the review phase makes **bounded, serial,
+read-only requests** to accessible APWG-hosted PDFs to extract only
+explicit Abstract sections. Eligible URLs are APWG-controlled hosts only;
+IEEE login/anti-bot pages are not accessed, PDF bytes are never persisted,
+and failed/conflicting extraction is flagged. The 27 original phishing
+fallback titles are prioritized. Run
+`python -m alex.pipelines.apwg_pdf_abstracts --input ... --output ... --audit ...`
+for independent review.
+
+The next stage reclassifies with any recovered authentic abstracts and uses
+ALEX's **existing weights, venue score, citation score, relevance score,
+trusted-core-term veto, relevance floor and effective thresholds** from
+`alex.utils.scoring` and the live config. Citation metrics are labelled by
+source; unknown citations are treated as unknown, with a conservative
+zero contribution for provisional scoring. Records without abstracts are
+held by the same empty-abstract gate used in `rescore`.
+
+The original 27 defaulted papers are independently flagged. Explicit
+non-phishing subjects such as ransomware or cryptocurrency are not silently
+marked Phishing Analysis; they require content review if a phishing fallback
+would otherwise apply. All quality results are **provisional** and no
+classification, score or extracted abstract changes `accepted_classified.csv`.
+The `APWG_ENABLE_IMPORT` gate stays closed and every review CSV row retains
+`publication_approved=false`.
