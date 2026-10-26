@@ -128,7 +128,10 @@ def _archive_author_bylines(html: str, year_url: str) -> dict[str, str]:
         # Guard against abstracts, section labels, navigation, or a next title.
         if (not candidate or len(candidate) > 260 or
                 len(candidate.split()) > 35 or
-                re.search(r"https?://|doi:|abstract|research papers|sponsor", candidate, re.I)):
+                candidate.rstrip().endswith(";") or
+                (len(candidate.split()) > 6 and ";" not in candidate) or
+                re.search(r"https?://|doi:|abstract|research papers|sponsor|@"
+                          r"|\\b(?:anonymous|university|school|laboratory|institute|college|faculty|department|email|united kingdom|united states|usa)\\b", candidate, re.I)):
             continue
         bylines[normalize_title(title)] = re.sub(r"\s*;\s*", "; ", candidate)
     return bylines

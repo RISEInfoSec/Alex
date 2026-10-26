@@ -154,6 +154,24 @@ def test_apwg_archive_author_bylines_are_extracted_without_guessing():
     assert items[1]["authors"] == "Bradley Reaves; Thomas Morris"
 
 
+def test_apwg_bylines_reject_affiliations_placeholders_and_adjacent_titles():
+    html = """
+    <h4><a href="https://ieeexplore.ieee.org/document/111111/">
+    Example Study of Cybercrime Forums and Markets</a></h4>
+    <p>Arghya Mukherjee Tandy School of Computer Science The University of Tulsa, USA x@tulsa.edu</p>
+    <h4><a href="https://ieeexplore.ieee.org/document/222222/">
+    Evaluating Phishing Reports shared on Twitter</a></h4>
+    <p>Anonymous Author(s)</p>
+    <h4><a href="https://ieeexplore.ieee.org/document/333333/">
+    Phishing Scam Reporting Methodological Issues and Questions</a></h4>
+    <p>Security and Privacy Risks of Number Recycling at Mobile Carriers in the United States</p>
+    """
+    papers = apwg_import.archive_papers(html, 2022, "https://ecrimeresearch.org/2022-accepted-research-papers")
+    assert len(papers) == 3
+    assert all(p["authors"] == "" for p in papers)
+    assert all(p.get("author_source", "") == "" for p in papers)
+
+
 def test_crossref_doi_verifies_only_when_publisher_title_and_year_match():
     title = "A novel anti-phishing framework based on honeypots"
     good = {"DOI": "10.1109/ECRIME.2009.123", "title": [title],
