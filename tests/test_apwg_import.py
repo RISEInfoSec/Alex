@@ -419,3 +419,27 @@ def test_import_is_disabled_without_explicit_approval(monkeypatch):
     monkeypatch.delenv("APWG_ENABLE_IMPORT", raising=False)
     with pytest.raises(RuntimeError, match="review-only"):
         apwg_import.run(dry_run=False)
+
+
+
+def test_independently_verified_original_publication_year_survives_later_online_release():
+    row = {
+        "title": "Money Over Morals: A Business Analysis of Conti Ransomware",
+        "year": "2022",
+        "apwg_year": 2022,
+        "publication_year_source": "Independently verified original publication",
+        "doi": "10.1109/ecrime57793.2022.10142119",
+        "authors": "Ian W. Gray; Jack Cable",
+    }
+    publisher_metadata = {
+        "title": [row["title"]],
+        "DOI": row["doi"],
+        "published-online": {"date-parts": [[2023, 6]]},
+        "publisher": "IEEE",
+    }
+    with patch.object(apwg_import.crossref, "get_by_doi", return_value=publisher_metadata):
+        apwg_import.enrich_crossref(FakeClient({}), [row], 1)
+    assert row["year"] == "2022"
+    assert row["publication_year_conflict"]
+    assert "2023" in row["publication_year_conflict"]
+    assert row["apwg_year"] == 2022
