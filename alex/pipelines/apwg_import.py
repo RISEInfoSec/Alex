@@ -502,7 +502,7 @@ def gather(client: HttpClient) -> tuple[list[dict], dict]:
         "last_checked_utc": datetime.now(timezone.utc).isoformat(),
         "openalex_enrichment": metadata_report,
         "crossref_enrichment": crossref_report,
-        "apwg_author_bylines": sum(r.get("author_source") == "APWG archive byline" for r in records),
+        "apwg_author_bylines": sum(r.get("author_source") == "APWG archive byline" for r in records.values()),
     }
     return list(records.values()), audit
 

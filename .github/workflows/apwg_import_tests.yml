@@ -39,8 +39,9 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Read-only APWG and OpenAlex coverage audit
         env:
-          APWG_MAX_METADATA_LOOKUPS: '200'
+          APWG_MAX_METADATA_LOOKUPS: '0'
           APWG_REVIEW_CSV: 'apwg_bibliographic_review.csv'
+          APWG_MAX_CROSSREF_LOOKUPS: '0'
         run: |
           set -euo pipefail
           python -m alex.cli apwg --dry-run | tee apwg_coverage_audit.json
