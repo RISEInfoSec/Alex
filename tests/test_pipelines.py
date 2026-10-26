@@ -524,6 +524,8 @@ class TestClassify:
         # Strict mode requires every property in `required` and additionalProperties=False.
         assert schema["additionalProperties"] is False
         assert set(schema["required"]) == set(schema["properties"].keys())
+        assert "Keywords" not in schema["properties"]
+        assert "Tags" not in schema["properties"]
 
     def test_call_openai_prefers_top_level_output_text_when_present(self):
         """Back-compat: if a future API version (or model) populates the
@@ -583,6 +585,51 @@ class TestClassify:
         assert result.iloc[0]["Investigation_Type"] == "Dark Web Analysis"
         # Quality_Tier is no longer set on classified rows.
         assert "Dark Web" in result.iloc[0]["OSINT_Source_Types"]
+
+    @pytest.mark.parametrize("doi", ["10.1234/legacy", ""])
+    def test_reclassification_preserves_legacy_terms(self, tmp_path, doi):
+        """Refreshing classification must not erase stored searchable terms."""
+        from alex.pipelines import classify
+        original = {
+            "title": "Legacy OSINT paper", "authors": "Alice", "abstract": "OSINT",
+            "venue": "Test", "citation_count": 12, "doi": doi,
+            "Keywords": "SOCMINT; Open-source intelligence",
+            "Tags": "Legacy tag; Cybercrime", "retrieved_at": "2025-01-02",
+        }
+        harvested = {k: v for k, v in original.items()
+                     if k not in ("Keywords", "Tags", "retrieved_at")}
+        (tmp_path / "data").mkdir()
+        pd.DataFrame([original]).to_csv(
+            tmp_path / "data/accepted_classified.csv", index=False)
+        pd.DataFrame([harvested, {**harvested, "title": "New OSINT paper",
+                                 "doi": "10.1234/new"}]).to_csv(
+            tmp_path / "data/accepted_harvested.csv", index=False)
+        response = {
+            "Category": "OSINT Methodology", "Investigation_Type": "Other",
+            "OSINT_Source_Types": [], "Keywords": ["invented"], "Tags": ["invented"],
+        }
+        with patch("alex.utils.io.ROOT", tmp_path), \
+             patch("alex.pipelines.classify.call_openai", return_value=response):
+            classify.run()
+        result = pd.read_csv(tmp_path / "data/accepted_classified.csv").fillna("")
+        assert len(result) == 2
+        old = result[result["title"] == original["title"]].iloc[0]
+        new = result[result["title"] == "New OSINT paper"].iloc[0]
+        for field in ("Keywords", "Tags"):
+            assert old[field] == original[field]
+            assert new[field] == ""
+        assert old["retrieved_at"] == "2025-01-02"
+        assert old["Category"] == "OSINT Methodology"
+
+    def test_legacy_terms_not_copied_between_different_dois(self):
+        from alex.pipelines import classify
+        old = pd.DataFrame([{"title": "Same title", "doi": "10.1234/a",
+                             "Keywords": "legacy", "Tags": "legacy"}])
+        fresh = pd.DataFrame([{"title": "Same title", "doi": "10.1234/b",
+                               "Keywords": "", "Tags": ""}])
+        classify._preserve_legacy_terms(fresh, old)
+        assert fresh.iloc[0]["Keywords"] == ""
+        assert fresh.iloc[0]["Tags"] == ""
 
     def test_classify_missing_columns_raises(self, tmp_path):
         """Missing required columns should raise ValueError."""
