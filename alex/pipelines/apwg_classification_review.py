@@ -30,13 +30,13 @@ APWG_DEFAULT_INVESTIGATION = "Phishing Analysis"
 # uncertain model response said "Other". The 2026-10-26 pilot exposed this
 # failure in cryptocurrency economics, ransomware and password research.
 _NON_PHISHING_TOPIC = re.compile(
-    r"\\b(?:ransom(?:ware|s)?|cryptocurrenc(?:y|ies)|bitcoin|money laundering|"
+    r"\b(?:ransom(?:ware|s)?|cryptocurrenc(?:y|ies)|bitcoin|money laundering|"
     r"pump.and.dump|password strength|copyright infringement|peer.to.peer|"
     r"firewall warnings?|counterfeit|mobile application markets?|"
-    r"sanctions online|software piracy|game cheating)\\b", re.I
+    r"sanctions online|software piracy|game cheating)\b", re.I
 )
-_PHISHING_TOPIC = re.compile(r"\\b(?:phish(?:ing|er|ers)?|spear.phish|smish(?:ing)?|"
-                             r"email impersonation)\\b", re.I)
+_PHISHING_TOPIC = re.compile(r"\b(?:phish(?:ing|er|ers)?|spear.phish|smish(?:ing)?|"
+                             r"email impersonation)\b", re.I)
 
 
 @lru_cache(maxsize=1)
