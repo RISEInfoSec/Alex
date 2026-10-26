@@ -12,11 +12,14 @@ ACM / Taylor & Francis output. Do **not** claim every paper is IEEE-published.
 - Annual archive: https://ecrimeresearch.org/YYYY-accepted-research-papers
 - Bibliographic backfill: https://dblp.org/streams/conf/ecrime.xml
 
-The archive index may omit 2006–2013: those URLs are probed without guessing
-paper metadata. Failed/empty years are explicitly reported in
-`data/apwg_import_audit.json`. dblp may fill missing archive pages, but a
-nonzero discovered count is **not evidence of exhaustive coverage**. Check
-the audit before asserting completeness.
+The archive index omits 2006–2013: those URLs are probed without guessing
+paper metadata. The 2006, 2007 and 2014 pages were unavailable in the
+October 26, 2026 live audit. Failed/empty years are explicitly reported in
+`data/apwg_import_audit.json`. dblp's publication-search endpoint presents
+a bot challenge to GitHub Actions; the importer makes no attempt to bypass
+it. OpenAlex's documented academic API is used instead for strict
+title-and-year-matched DOI, author and abstract enrichment. A nonzero
+discovered count is **not evidence of exhaustive coverage**.
 
 ## Workflow
 
@@ -31,8 +34,11 @@ Weekly Pipeline: rescore → classify → **apwg** → publish → deploy.
 - Source collection is separate from discovery platform or publication venue.
   `collection_source` and `collection_url` are exported into `papers.json`
   and displayed as a linked collection attribution on the public page.
-- The original APWG PDF link is preserved where provided, while IEEE DOI
-  metadata from dblp supplies a durable publisher link.
+- The original APWG PDF link is preserved where provided; verified IEEE DOI
+  metadata from dblp (when accessible) or OpenAlex provides a durable link.
+- The PR's live-source audit deliberately caps OpenAlex metadata lookups at
+  eight; the production APWG stage can perform the full historical sweep
+  using its existing `OPENALEX_API_KEY` secret.
 - No PDF files are downloaded, copied, or republished.
 - No existing corpus rows are removed if a source is inaccessible.
 - A completely unavailable APWG archive index causes a failed stage rather
@@ -52,6 +58,18 @@ Run `python -m pytest -q tests/test_apwg_import.py` before changing parsing.
 Run **`python -m alex.cli apwg --dry-run`** for a read-only audit that
 reports live source/year coverage, duplicate matching counts and missing
 bibliographic fields without writing either corpus or audit output files.
+Use `APWG_MAX_METADATA_LOOKUPS=8` for quick source diagnostics only; full
+coverage requires sufficient time and an OpenAlex API key.
 The PR check workflow runs this command independently and uploads its audit.
 Do not approve publication solely because fixture tests are green.
 Do not change the main site's full-text search architecture.
+
+## Merge blocker — classification and incomplete metadata
+
+The research corpus's categories and quality labels must remain useful.
+The draft currently stages newly discovered conference records under the
+existing **Other** category, and its publication quality score is not
+calculated by the ordinary scoring pipeline. That is **not approved for
+production**. Review this path before merging, and require confirmed DOI,
+authors or an explicit exception for historic pre-DOI works. The October 26
+sample matched 7 of 8 OpenAlex titles; this does not establish full coverage.
