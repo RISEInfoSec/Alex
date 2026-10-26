@@ -15,6 +15,7 @@ from urllib.parse import urljoin, urlparse
 from alex.utils.text import strip_html_tags
 
 import pandas as pd
+from bs4 import BeautifulSoup
 
 from alex.utils.http import HttpClient
 from alex.utils.io import load_df, root_file, save_df, save_json
@@ -194,6 +195,65 @@ def dblp_papers(response: dict) -> list[dict]:
     return out
 
 
+def dblp_year_papers(html: str, year: int) -> list[dict]:
+    """Extract papers from dblp's HTML proceedings TOC, not its search API.
+
+    dblp embeds the publication records in <li class="entry inproceedings">.
+    Proceedings/editorship entries are explicitly excluded.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    out = []
+    for entry in soup.select("li.entry.inproceedings"):
+        title_el = entry.select_one(".title")
+        if title_el is None:
+            continue
+        title = clean(title_el.get_text(" ", strip=True)).rstrip(" .")
+        if not normalize_title(title):
+            continue
+        authors = []
+        for el in entry.select("ul.authors li"):
+            name = clean(el.get_text(" ", strip=True))
+            if name:
+                authors.append(name)
+        doi, permalink = "", ""
+        for link in entry.select("a[href]"):
+            href = clean(link.get("href"))
+            if href.startswith(("https://doi.org/", "http://dx.doi.org/")) and not doi:
+                doi = _doi(href)
+            if "/rec/conf/ecrime/" in href and not permalink:
+                permalink = href
+        source_url = f"https://doi.org/{doi}" if doi else permalink
+        if not source_url:
+            # No fabricated DOI or paper URL: use year TOC as locator.
+            source_url = f"https://dblp.org/db/conf/ecrime/ecrime{year}.html"
+        out.append({
+            "title": title, "year": year, "doi": doi,
+            "authors": "; ".join(authors),
+            "venue": "APWG Symposium on Electronic Crime Research",
+            "source_url": source_url, "apwg_source_url": "",
+            "collection_url": f"https://dblp.org/db/conf/ecrime/ecrime{year}.html",
+            "collection_source": LABEL, "apwg_year": year, "abstract": "",
+            "publisher": "IEEE" if doi.startswith("10.1109/") else "",
+        })
+    return out
+
+
+def fetch_dblp_years(client: HttpClient, years: list[int]) -> tuple[list[dict], str, dict]:
+    """Use dblp's publicly browseable proceedings when its API rejects JSON."""
+    out = []
+    per_year = {}
+    for year in years:
+        url = f"https://dblp.org/db/conf/ecrime/ecrime{year}.html"
+        html = client.get_raw(url)
+        if not html:
+            per_year[str(year)] = {"status": "unavailable", "records": 0}
+            continue
+        rows = dblp_year_papers(html, year)
+        per_year[str(year)] = {"status": "ok" if rows else "unparseable_or_empty", "records": len(rows)}
+        out.extend(rows)
+    return out, ("html_fallback_ok" if out else "html_fallback_unavailable"), per_year
+
+
 def fetch_dblp(client: HttpClient) -> tuple[list[dict], str]:
     """Read paginated dblp publication-search API, serially and defensively.
 
@@ -276,6 +336,13 @@ def gather(client: HttpClient) -> tuple[list[dict], dict]:
             records[key] = _prefer(records[key], row) if key in records else row
 
     dblp_rows, dblp_status = fetch_dblp(client)
+    dblp_year_report = {}
+    if dblp_status != "ok":
+        # dblp's search API may return an HTML error page to CI runners.
+        # Its browseable annual TOCs supply independent bibliographic data.
+        dblp_rows, dblp_status, dblp_year_report = fetch_dblp_years(
+            client, sorted(pages)
+        )
     dblp_count = len(dblp_rows)
     for row in dblp_rows:
         key = "title:" + normalize_title(row["title"])
@@ -290,6 +357,7 @@ def gather(client: HttpClient) -> tuple[list[dict], dict]:
         "dblp_status": dblp_status,
         "dblp_record_count": dblp_count,
         "dblp_per_year": {str(y): sum(int(r["year"]) == y for r in dblp_rows) for y in sorted({int(r["year"]) for r in dblp_rows})},
+        "dblp_html_year_report": dblp_year_report,
         "coverage_complete": False,
         "per_year": by_year,
         "archive_years_unavailable_or_empty": sorted(set(missing_years)),
