@@ -598,6 +598,49 @@ def gather(client: HttpClient) -> tuple[list[dict], dict]:
     return list(records.values()), audit
 
 
+_IGNORED_TITLE_TERMS = frozenset({
+    "study", "research", "analysis", "using", "based", "towards", "through",
+    "with", "from", "into", "about", "cybercrime", "security", "paper",
+})
+
+
+def _distinctive_terms(key: str) -> set[str]:
+    return {term for term in key.split() if len(term) >= 4 and term not in _IGNORED_TITLE_TERMS}
+
+
+def _possible_title_duplicate(
+    title: str, known_titles: list[tuple[str, str, str]],
+    inverted: dict[str, set[int]],
+) -> dict | None:
+    """Flag plausible title variants, never silently merge ambiguous records."""
+    key = normalize_title(title)
+    terms = _distinctive_terms(key)
+    candidates: set[int] = set()
+    for term in terms:
+        candidates.update(inverted.get(term, set()))
+    best: dict | None = None
+    for index in candidates:
+        other_key, other_title, other_doi = known_titles[index]
+        overlap = len(terms & _distinctive_terms(other_key))
+        if overlap < 2 and not (min(len(terms), len(_distinctive_terms(other_key))) <= 2 and overlap):
+            continue
+        ratio = SequenceMatcher(None, key, other_key).ratio()
+        subset = (
+            min(len(key), len(other_key)) >= 32 and
+            (key in other_key or other_key in key) and
+            min(len(key), len(other_key)) / max(len(key), len(other_key)) >= 0.72
+        )
+        if ratio < 0.86 and not subset:
+            continue
+        if best is None or ratio > best["similarity"]:
+            best = {
+                "apwg_title": clean(title), "alex_title": other_title,
+                "alex_doi": other_doi, "similarity": round(ratio, 4),
+                "match_type": "possible_title_variant",
+            }
+    return best
+
+
 def merge_corpus(corpus: pd.DataFrame, discovered: list[dict]) -> tuple[pd.DataFrame, dict]:
     """Idempotent, additive merge using normalized titles and DOI identities."""
     corpus = corpus.copy().fillna("") if not corpus.empty else pd.DataFrame()
@@ -615,9 +658,21 @@ def merge_corpus(corpus: pd.DataFrame, discovered: list[dict]) -> tuple[pd.DataF
         if doi:
             existing_doi[doi] = idx
 
+    known_titles = []
+    inverted: dict[str, set[int]] = {}
+    for _, existing in corpus.iterrows():
+        existing_title_value = clean(existing.get("title", ""))
+        key = normalize_title(existing_title_value)
+        if not key:
+            continue
+        index = len(known_titles)
+        known_titles.append((key, existing_title_value, _doi(existing.get("doi"))))
+        for token in _distinctive_terms(key):
+            inverted.setdefault(token, set()).add(index)
     appended: list[dict] = []
     appended_title: set[str] = set()
     appended_doi: set[str] = set()
+    review_candidates: list[dict] = []
     matched = 0
     skipped_duplicates = 0
     for record in discovered:
@@ -637,6 +692,13 @@ def merge_corpus(corpus: pd.DataFrame, discovered: list[dict]) -> tuple[pd.DataF
         if title_key in appended_title or (doi and doi in appended_doi):
             skipped_duplicates += 1
             continue
+        possible = _possible_title_duplicate(record["title"], known_titles, inverted)
+        if possible:
+            possible["apwg_doi"] = doi
+            possible["apwg_year"] = clean(record.get("apwg_year"))
+            possible["apwg_paper_url"] = clean(record.get("apwg_source_url"))
+            review_candidates.append(possible)
+            continue  # Ambiguous bibliographic identity must be reviewed.
         # Conference membership is proven, but individual classification
         # is not. Assign the existing closed-list catch-all rather than
         # labeling all eCrime scholarship "Cybercrime & Fraud".
@@ -665,6 +727,8 @@ def merge_corpus(corpus: pd.DataFrame, discovered: list[dict]) -> tuple[pd.DataF
         "new_records": len(appended),
         "matched_existing_records": matched,
         "duplicate_records_suppressed": skipped_duplicates,
+        "potential_duplicate_records_held": len(review_candidates),
+        "potential_duplicate_matches": review_candidates,
     }
 
 
@@ -723,10 +787,15 @@ def run(dry_run: bool = False) -> None:
                 for _, row in corpus.iterrows() if _doi(row.get("doi"))
             } if not corpus.empty else {}
             rows = []
+            fuzzy_reviews = {
+                (clean(x.get("apwg_paper_url")), normalize_title(x["apwg_title"])): x
+                for x in audit.get("potential_duplicate_matches", [])
+            }
             for item in sorted(records, key=lambda r: (int(r["apwg_year"]), normalize_title(r["title"]))):
                 title_key = normalize_title(item.get("title", ""))
                 doi_key = _doi(item.get("doi"))
                 corpus_title = existing_by_title.get(title_key, "") or existing_by_doi.get(doi_key, "")
+                fuzzy_review = fuzzy_reviews.get((clean(item.get("apwg_source_url")), title_key), {})
                 rows.append({
                     "year": clean(item.get("year")),
                     "apwg_year": clean(item.get("apwg_year")),
@@ -746,6 +815,13 @@ def run(dry_run: bool = False) -> None:
                     ),
                     "in_existing_alex_corpus": bool(corpus_title),
                     "matched_alex_title": corpus_title,
+                    "possible_alex_duplicate": fuzzy_review.get("alex_title", ""),
+                    "possible_duplicate_similarity": fuzzy_review.get("similarity", ""),
+                    "possible_duplicate_alex_doi": fuzzy_review.get("alex_doi", ""),
+                    "duplicate_review_status": (
+                        "exact_doi_or_title_match" if corpus_title else
+                        "hold_possible_variant" if fuzzy_review else "no_match_found"
+                    ),
                     "apwg_paper_url": clean(item.get("apwg_source_url")),
                     "bibliographic_link": clean(item.get("source_url")),
                     "collection_url": clean(item.get("collection_url")),
