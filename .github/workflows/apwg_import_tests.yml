@@ -37,7 +37,9 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
       - run: pip install -r requirements.txt
-      - name: Read-only APWG and dblp coverage audit
+      - name: Read-only APWG and OpenAlex coverage audit
+        env:
+          APWG_MAX_METADATA_LOOKUPS: '8'
         run: |
           set -euo pipefail
           python -m alex.cli apwg --dry-run | tee apwg_coverage_audit.json
