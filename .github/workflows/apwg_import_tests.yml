@@ -9,6 +9,8 @@ on:
       - 'tests/test_apwg_import.py'
       - '.github/workflows/pipeline.yml'
       - '.github/workflows/apwg_import_tests.yml'
+      - 'alex/pipelines/apwg_classification_review.py'
+      - 'tests/test_apwg_classification_review.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,7 +25,7 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
       - run: pip install -r requirements.txt
-      - run: python -m pytest -q tests/test_apwg_import.py tests/test_pipelines.py
+      - run: python -m pytest -q tests/test_apwg_import.py tests/test_apwg_classification_review.py tests/test_pipelines.py
   live_source_audit:
     # Read-only APWG/dblp coverage probe. Never changes accepted_classified.csv.
     runs-on: ubuntu-latest
@@ -55,4 +57,40 @@ jobs:
           path: |
             apwg_coverage_audit.json
             apwg_bibliographic_review.csv
+          if-no-files-found: warn
+  classification_review:
+    # A review-only taxonomy preview from the audit artifact. No public
+    # corpus writes, and every label requires human/content review.
+    needs: [test, live_source_audit]
+    if: ${{ needs.test.result == 'success' && needs.live_source_audit.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: apwg-coverage-audit
+          path: _apwg_review_input
+      - name: Classify unimported APWG titles for human review
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
+        run: |
+          set -euo pipefail
+          python -m alex.pipelines.apwg_classification_review \
+            --input _apwg_review_input/apwg_bibliographic_review.csv \
+            --output apwg_classification_review.csv
+      - name: Upload category review (never publish to Pages)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apwg-provisional-classification-review
+          path: apwg_classification_review.csv
           if-no-files-found: warn
