@@ -25,8 +25,9 @@ Weekly Pipeline: rescore → classify → **apwg** → publish → deploy.
 - `python -m alex.cli apwg` updates `data/accepted_classified.csv` additively.
 - An existing paper is matched by normalized title or DOI, attributed to APWG,
   but its full abstract, authors, category and original URL are left intact.
-- New verifiable APWG/dblp papers are added in the broad
-  `Cybercrime & Fraud` category pending paper-level taxonomy review.
+- New verifiable APWG/dblp papers are temporarily staged in the existing
+  `Other` category pending paper-level taxonomy review. This is a reason
+  to keep the PR unmerged until we design a reliable classification pass.
 - Source collection is separate from discovery platform or publication venue.
   `collection_source` and `collection_url` are exported into `papers.json`
   and displayed as a linked collection attribution on the public page.
@@ -47,4 +48,10 @@ fabricated. This conservative treatment is distinct from scoring a general
 untrusted web search hit. Categories for new records are intentionally broad.
 
 Run `python -m pytest -q tests/test_apwg_import.py` before changing parsing.
+
+Run **`python -m alex.cli apwg --dry-run`** for a read-only audit that
+reports live source/year coverage, duplicate matching counts and missing
+bibliographic fields without writing either corpus or audit output files.
+The PR check workflow runs this command independently and uploads its audit.
+Do not approve publication solely because fixture tests are green.
 Do not change the main site's full-text search architecture.
