@@ -1,0 +1,22 @@
+name: SEO foundation checks
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'sitemap.xml'
+      - 'robots.txt'
+      - 'scripts/check_seo.py'
+      - '.github/workflows/pages.yml'
+      - '.github/workflows/pipeline.yml'
+      - '.github/workflows/seo_foundation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate homepage metadata and crawl files
+        run: python3 scripts/check_seo.py

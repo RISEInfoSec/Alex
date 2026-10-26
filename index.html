@@ -3,8 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alex Research Library | RISE Information Security Foundation</title>
-  <meta name="description" content="Explore OSINT and cybersecurity research with Alex, the RISE Information Security Foundation research library.">
+  <title>Cybercrime Research & OSINT Papers | ALEX by RISE</title>
+  <meta name="description" content="Explore cybercrime and OSINT research on phishing, online fraud, digital forensics, threat intelligence and cybersecurity. Search the ALEX research library.">
+  <link rel="canonical" href="https://alex.riseinfosec.org/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cybercrime Research & OSINT Papers | ALEX by RISE">
+  <meta property="og:description" content="Explore cybercrime and OSINT research on phishing, online fraud, digital forensics, threat intelligence and cybersecurity. Search the ALEX research library.">
+  <meta property="og:url" content="https://alex.riseinfosec.org/">
+  <meta property="og:image" content="https://alex.riseinfosec.org/assets/alex-social-preview-1200x630.png">
+  <meta property="og:image:secure_url" content="https://alex.riseinfosec.org/assets/alex-social-preview-1200x630.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ALEX Cybercrime and OSINT Research Library — RISE Information Security Foundation">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://alex.riseinfosec.org/assets/alex-social-preview-1200x630.png">
+  <meta name="twitter:image:alt" content="ALEX Cybercrime and OSINT Research Library — RISE Information Security Foundation">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://alex.riseinfosec.org/#website",
+        "url": "https://alex.riseinfosec.org/",
+        "name": "ALEX Cybercrime & OSINT Research Library",
+        "description": "Explore cybercrime and OSINT research on phishing, online fraud, digital forensics, threat intelligence and cybersecurity. Search the ALEX research library.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "RISE Information Security Foundation",
+          "url": "https://riseinfosec.org/"
+        }
+      },
+      {
+        "@type": "Dataset",
+        "@id": "https://alex.riseinfosec.org/#research-corpus",
+        "name": "ALEX Research Library: Cybercrime and OSINT Bibliographic Corpus",
+        "description": "A searchable, curated collection of bibliographic records, abstracts, classifications, and source links for academic research on cybercrime, online fraud, phishing, cybersecurity, digital forensics, cyber threat intelligence and OSINT.",
+        "url": "https://alex.riseinfosec.org/",
+        "inLanguage": "en",
+        "creator": {
+          "@type": "Organization",
+          "name": "RISE Information Security Foundation",
+          "url": "https://riseinfosec.org/"
+        },
+        "keywords": [
+          "cybercrime",
+          "online fraud",
+          "phishing",
+          "digital forensics",
+          "cyber threat intelligence",
+          "open-source intelligence",
+          "OSINT",
+          "cybersecurity research"
+        ],
+        "isAccessibleForFree": true,
+        "distribution": [
+          {
+            "@type": "DataDownload",
+            "encodingFormat": "text/csv",
+            "contentUrl": "https://alex.riseinfosec.org/data/osint_cyber_papers.csv"
+          },
+          {
+            "@type": "DataDownload",
+            "encodingFormat": "application/json",
+            "contentUrl": "https://alex.riseinfosec.org/data/papers.json"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
   <style>
     :root {
       color-scheme: light;
@@ -66,7 +135,9 @@
     button.secondary:hover, .button.secondary:hover { background: #edf1f4; }
     :focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
     header a:focus-visible { outline-color: #fff; }
-    .section h2, .section h3 { margin-top: 0; color: var(--rise-navy); line-height: 1.35; }
+    .section h1, .section h2, .section h3 { margin-top: 0; color: var(--rise-navy); line-height: 1.35; }
+    .section h1 { font-size: clamp(1.8rem, 2.8vw, 2.4rem); }
+    .section .lead { font-size: 1.25rem; color: var(--rise-navy); margin-bottom: 8px; }
     .section h3 { font-size: 20px; }
     .section { overflow-wrap: anywhere; }
     .meta { color: var(--muted); font-size: 14px; margin-top: -6px; margin-bottom: 10px; }
@@ -97,14 +168,16 @@
 
 <div class="container">
   <div class="section">
-    <h2>About This Project</h2>
-    <p>This platform is designed to systematically discover, index, and analyze OSINT research papers using structured metadata and tagging, with a specific emphasis on cybersecurity and cyber investigations. Licensing information can be found in the repository <a href="https://github.com/RISEInfoSec/Alex/blob/main/README.md">README</a>.</p>
+    <h1>Cybercrime &amp; OSINT Research Library</h1>
+    <p class="lead"><strong>Find the research behind cybercrime.</strong></p>
+    <p>ALEX brings together academic research on cybercrime, online fraud, phishing, cybersecurity, threat intelligence, digital forensics, and open-source intelligence (OSINT). Explore the evidence, discover emerging threats, and find research that supports better investigations.</p>
+    <p>Developed by the <a href="https://riseinfosec.org/">RISE Information Security Foundation</a>. <a href="https://github.com/RISEInfoSec/Alex/blob/main/README.md">Research data and licensing information</a>.</p>
   </div>
   <div class="filters">
     <div class="filter-grid">
       <div>
         <label for="search">Search</label>
-        <input type="text" id="search" placeholder="Search title, author, abstract, tags, keywords...">
+        <input type="text" id="search" placeholder="Search titles, authors, abstracts and research topics...">
       </div>
       <div>
         <label for="sourceFilter">OSINT source</label>
@@ -141,7 +214,7 @@
 </div>
 
 <footer>
-  Cybersecurity Research Library | Created by <a href="https://riseinfosec.org/">RISE Information Security Foundation</a>
+  Cybercrime &amp; OSINT Research Library | Created by <a href="https://riseinfosec.org/">RISE Information Security Foundation</a>
   <div id="collectionStatus" role="status">Last collection: not yet recorded · New papers added: not yet recorded</div>
 </footer>
 
