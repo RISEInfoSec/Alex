@@ -111,3 +111,21 @@ matching ALEX DOI, and `duplicate_review_status`. Corrections to titles,
 publication years and DOIs require both original APWG source URL and a
 verified bibliographic source, recorded in
 `config/apwg_verified_corrections.json`.
+
+## APWG phishing fallback for ambiguous classifications
+
+ALEX keeps its existing fixed taxonomy. For APWG papers whose proposed
+classification is ambiguous, the approved topical fallback is **Cybercrime &
+Fraud** (research category) with **Phishing Analysis** (investigation type).
+This is a collection-level default, **not** a verified claim that every APWG
+paper studies phishing. Preserve more-specific categories and investigation
+types such as Malware & Exploits / Malware Analysis. Do not force phishing for
+an otherwise specifically classified malware/forensics paper solely because
+its investigation subtype is `Other`.
+
+If the classification API fails or returns invalid output, still show the
+APWG fallback in the **review CSV** but mark it
+`provisional_apwg_default_unverified` with explicit review flags. All
+fallbacks need paper-specific review, quality assessment and separate import
+approval; `publication_approved` remains `false` and the live corpus is
+never modified by this workflow.

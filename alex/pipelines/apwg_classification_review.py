@@ -17,6 +17,11 @@ from alex.utils.text import clean
 
 REVIEW_WORKERS = 4
 
+# User-approved collection-level default for ambiguous APWG papers. It is not
+# a verified statement about the content of an individual paper.
+APWG_DEFAULT_CATEGORY = "Cybercrime & Fraud"
+APWG_DEFAULT_INVESTIGATION = "Phishing Analysis"
+
 
 def _available_fields() -> list[str]:
     return [
@@ -76,24 +81,50 @@ def review_row(row: dict, classifier=None) -> dict:
         "authors": result["authors"],
     }
     outcome = (classifier or classify.call_openai)(payload)
-    # The main classifier returns FALLBACK when a request fails. These exact
-    # values may also be a valid classification, but must not be interpreted
-    # as a successful model-assisted review without additional evidence.
-    if (not isinstance(outcome, dict) or
-            outcome == classify.FALLBACK or
-            outcome.get("Category") not in classify.CATEGORIES or
-            outcome.get("Investigation_Type") not in classify.INVESTIGATION_TYPES or
-            not isinstance(outcome.get("OSINT_Source_Types"), list) or
-            any(v not in classify.OSINT_SOURCE_TYPES for v in outcome.get("OSINT_Source_Types", []))):
-        result["classification_status"] = "classification_unverified"
-        issues.append("Classification API fallback or invalid schema")
+    # API/network fallback or an invalid response has *no* paper-level
+    # evidentiary value. Apply the user-approved APWG topical fallback to the
+    # review columns only, flag it as unverified, and never mark publication
+    # approved. This does not affect ALEX's original classifier.
+    valid = (
+        isinstance(outcome, dict)
+        and outcome.get("Category") in classify.CATEGORIES
+        and outcome.get("Investigation_Type") in classify.INVESTIGATION_TYPES
+        and isinstance(outcome.get("OSINT_Source_Types"), list)
+        and all(v in classify.OSINT_SOURCE_TYPES for v in outcome["OSINT_Source_Types"])
+    )
+    if not valid or outcome == classify.FALLBACK:
+        result["proposed_category"] = APWG_DEFAULT_CATEGORY
+        result["proposed_investigation_type"] = APWG_DEFAULT_INVESTIGATION
+        result["classification_status"] = "provisional_apwg_default_unverified"
+        result["classification_basis"] = "APWG collection-level phishing default; no verified model classification"
+        issues.append("Default Phishing used because model response unavailable or invalid")
     else:
-        result["proposed_category"] = outcome["Category"]
-        result["proposed_investigation_type"] = outcome["Investigation_Type"]
+        category = outcome["Category"]
+        investigation = outcome["Investigation_Type"]
+        used_default = False
+        if category == "Other":
+            category = APWG_DEFAULT_CATEGORY
+            used_default = True
+            issues.append("Category ambiguous: APWG phishing default applied")
+        if investigation == "Other" and category == APWG_DEFAULT_CATEGORY:
+            investigation = APWG_DEFAULT_INVESTIGATION
+            used_default = True
+            issues.append("Investigation ambiguous: APWG phishing default applied")
+        if investigation == "Other" and category != APWG_DEFAULT_CATEGORY:
+            # A more specific subject category (e.g., malware or forensics)
+            # must not be reclassified as phishing by association alone.
+            issues.append("Investigation type Other: specific subject needs review")
+        result["proposed_category"] = category
+        result["proposed_investigation_type"] = investigation
         result["proposed_osint_source_types"] = "; ".join(outcome["OSINT_Source_Types"])
-        result["classification_status"] = "provisional_needs_review"
-        if outcome["Category"] == "Other":
-            issues.append("Model chose Other category")
+        result["classification_status"] = (
+            "provisional_apwg_phishing_default" if used_default
+            else "provisional_needs_review"
+        )
+        result["classification_basis"] = (
+            "APWG phishing default for ambiguous field(s); review against paper"
+            if used_default else "model-proposed classification from available bibliographic metadata"
+        )
     result["review_flags"] = "; ".join(issues)
     return result
 

@@ -49,20 +49,72 @@ def test_possible_title_variant_is_held_not_classified():
     assert r["proposed_category"] == ""
 
 
-def test_api_fallback_never_looks_like_approved_classification():
+def test_api_fallback_uses_unverified_phishing_default_without_approval():
     r = review.review_row(row(), classifier=lambda _: {
         "Category": "Other", "Investigation_Type": "Other", "OSINT_Source_Types": []})
-    assert r["classification_status"] == "classification_unverified"
-    assert r["proposed_category"] == ""
+    assert r["classification_status"] == "provisional_apwg_default_unverified"
+    assert r["proposed_category"] == "Cybercrime & Fraud"
+    assert r["proposed_investigation_type"] == "Phishing Analysis"
     assert r["publication_approved"] == "false"
+    assert "unverified" in r["classification_basis"].lower()
 
 
-def test_schema_violation_is_held():
+def test_schema_violation_uses_flagged_phishing_default_not_approval():
     r = review.review_row(row(), classifier=lambda _: {
         "Category": "Nonexistent Category", "Investigation_Type": "Other",
         "OSINT_Source_Types": [],
     })
-    assert r["classification_status"] == "classification_unverified"
+    assert r["classification_status"] == "provisional_apwg_default_unverified"
+    assert r["proposed_category"] == "Cybercrime & Fraud"
+    assert r["proposed_investigation_type"] == "Phishing Analysis"
+    assert r["publication_approved"] == "false"
+
+
+def test_valid_ambiguous_taxonomy_applies_phishing_default():
+    r = review.review_row(row(), classifier=lambda _: {
+        "Category": "Other", "Investigation_Type": "Other", "OSINT_Source_Types": [],
+    })
+    assert r["classification_status"] == "provisional_apwg_default_unverified"
+
+
+def test_specific_malware_category_not_overridden_by_phishing():
+    r = review.review_row(row(title="Analysis of Ransomware Tools"), classifier=lambda _: {
+        "Category": "Malware & Exploits", "Investigation_Type": "Malware Analysis",
+        "OSINT_Source_Types": ["Code Repositories"],
+    })
+    assert r["proposed_category"] == "Malware & Exploits"
+    assert r["proposed_investigation_type"] == "Malware Analysis"
+    assert r["classification_status"] == "provisional_needs_review"
+
+
+def test_other_investigation_in_malware_category_is_not_forced_to_phishing():
+    r = review.review_row(row(title="Analysis of Ransomware Tools"), classifier=lambda _: {
+        "Category": "Malware & Exploits", "Investigation_Type": "Other",
+        "OSINT_Source_Types": [],
+    })
+    assert r["proposed_category"] == "Malware & Exploits"
+    assert r["proposed_investigation_type"] == "Other"
+    assert "specific subject needs review" in r["review_flags"]
+
+
+def test_partial_ambiguity_keeps_specific_investigation():
+    r = review.review_row(row(), classifier=lambda _: {
+        "Category": "Other", "Investigation_Type": "Phishing Analysis",
+        "OSINT_Source_Types": ["DNS/WHOIS"],
+    })
+    assert r["proposed_category"] == "Cybercrime & Fraud"
+    assert r["proposed_investigation_type"] == "Phishing Analysis"
+    assert r["classification_status"] == "provisional_apwg_phishing_default"
+
+
+def test_generic_investigation_in_cybercrime_category_defaults_to_phishing():
+    r = review.review_row(row(), classifier=lambda _: {
+        "Category": "Cybercrime & Fraud", "Investigation_Type": "Other",
+        "OSINT_Source_Types": [],
+    })
+    assert r["proposed_category"] == "Cybercrime & Fraud"
+    assert r["proposed_investigation_type"] == "Phishing Analysis"
+    assert r["classification_status"] == "provisional_apwg_phishing_default"
 
 
 def test_review_csv_does_not_modify_source_or_master(tmp_path, monkeypatch):
