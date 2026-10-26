@@ -737,6 +737,11 @@ def run(dry_run: bool = False) -> None:
 
     corpus_path = root_file("data", "accepted_classified.csv")
     audit_path = root_file("data", "apwg_import_audit.json")
+    if not dry_run and os.getenv("APWG_ENABLE_IMPORT") != "1":
+        raise RuntimeError(
+            "APWG import remains review-only; set APWG_ENABLE_IMPORT=1 only "
+            "after bibliographic, duplicate and taxonomy approval"
+        )
     client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
     records, audit = gather(client)
     corpus = load_df(corpus_path)

@@ -95,3 +95,19 @@ lists it in its **2008** archive. ALEX must show \`year=2007\` and
 Records without an independently verified publication year remain blank.
 When an APWG entry matches an existing ALEX paper, the existing publication
 year is preserved.
+
+## Controlled rollout and deduplication
+
+The PR remains a **read-only integration**. The weekly pipeline calls the
+APWG stage with `--dry-run`, and write mode requires the explicit
+`APWG_ENABLE_IMPORT=1` setting after review. This ensures merging a source
+connector cannot silently add 169 unsupervised papers to the public corpus.
+
+The import compares normalized DOI and titles against `accepted_classified.csv`.
+Where significant title similarity suggests an alternate title or edition,
+the candidate is **held for review**, rather than silently merged or added.
+The live-source audit CSV now includes `possible_alex_duplicate`, similarity,
+matching ALEX DOI, and `duplicate_review_status`. Corrections to titles,
+publication years and DOIs require both original APWG source URL and a
+verified bibliographic source, recorded in
+`config/apwg_verified_corrections.json`.

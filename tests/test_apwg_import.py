@@ -324,3 +324,71 @@ def test_publication_exports_collection_attribution(tmp_path):
     assert paper["collection_source"] == apwg_import.LABEL
     assert paper["collection_url"].endswith("2025-accepted-research-papers")
     assert paper["apwg_source_url"].endswith(".pdf")
+
+
+def test_curated_correction_requires_exact_source_link_and_original_title(monkeypatch):
+    entries = {
+        "/Anti_Phishing-Phil.pdf": {
+            "url_suffix": "/Anti_Phishing-Phil.pdf",
+            "archive_title": "Anti Phishing Phil: The Design and Evaluation of a Game That Teaches People Not to Fall for Phish",
+            "title": "Anti-Phishing Phil: The Design and Evaluation of a Game That Teaches People Not to Fall for Phish",
+            "authors": "Steve Sheng; Bryant Magnien",
+            "doi": "10.1145/1280680.1280692", "year": 2007,
+            "publisher": "ACM", "evidence_url": "https://dblp.org/rec/conf/soups/ShengMKACHN07.html",
+        }
+    }
+    with monkeypatch.context() as patcher:
+        patcher.setattr(apwg_import, "_verified_corrections", lambda: entries)
+        row = apwg_import.archive_papers(
+            '<h4><a href="https://apwg-craftcms-assets.s3.amazonaws.com/media/Anti_Phishing-Phil.pdf">'
+            'Anti Phishing Phil: The Design and Evaluation of a Game That Teaches People Not to Fall for Phish</a></h4>',
+            2008, "https://ecrimeresearch.org/2008-accepted-research-papers"
+        )[0]
+        assert row["year"] == "2007"
+        assert row["apwg_year"] == 2008
+        assert row["doi"] == "10.1145/1280680.1280692"
+        assert row["original_apwg_title"].startswith("Anti Phishing Phil")
+        with pytest.raises(ValueError, match="revalidate curated correction"):
+            apwg_import._apply_verified_correction({
+                "title": "Completely Different New Paper",
+                "apwg_source_url": "https://apwg-craftcms-assets.s3.amazonaws.com/media/Anti_Phishing-Phil.pdf"
+            }, entries)
+
+
+def test_fuzzy_duplicate_variant_is_held_without_overwriting_alex():
+    existing = pd.DataFrame([{
+        "title": "Monitoring Malware Attacks via DNS Infrastructure",
+        "doi": "10.1234/existing", "abstract": "Existing full abstract",
+        "Category": "Network & Infrastructure Security", "year": 2018,
+    }])
+    incoming = [{
+        "title": "Monitoring Malware Attacks Via DNS Infrastructures",
+        "doi": "10.9999/other", "authors": "New Author", "apwg_year": 2019,
+        "apwg_source_url": "https://apwg.org/paper.pdf",
+    }]
+    out, report = apwg_import.merge_corpus(existing, incoming)
+    assert len(out) == 1
+    assert report["new_records"] == 0
+    assert report["potential_duplicate_records_held"] == 1
+    assert report["potential_duplicate_matches"][0]["alex_doi"] == "10.1234/existing"
+    assert out.loc[0, "abstract"] == "Existing full abstract"
+
+
+def test_unrelated_papers_are_not_fuzzy_deduplicated():
+    existing = pd.DataFrame([{
+        "title": "Malware and Ransomware: Regional Statistics for 2021",
+        "doi": "10.1234/a", "Category": "Other",
+    }])
+    incoming = [{
+        "title": "Phishing Domain Registrations in Global Networks",
+        "doi": "10.1234/b", "apwg_year": 2022,
+    }]
+    out, report = apwg_import.merge_corpus(existing, incoming)
+    assert len(out) == 2
+    assert report["potential_duplicate_records_held"] == 0
+
+
+def test_import_is_disabled_without_explicit_approval(monkeypatch):
+    monkeypatch.delenv("APWG_ENABLE_IMPORT", raising=False)
+    with pytest.raises(RuntimeError, match="review-only"):
+        apwg_import.run(dry_run=False)

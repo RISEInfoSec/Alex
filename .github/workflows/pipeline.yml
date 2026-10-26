@@ -213,11 +213,11 @@ jobs:
           git push || (git pull --rebase --autostash && git push)
 
   apwg:
-    # Curated APWG peer-reviewed proceedings are imported additively after
-    # regular classification, without weakening general research quality gates.
+    # Review-only: do not automatically add an unclassified research corpus.
+    # This job intentionally does not modify accepted_classified.csv.
     needs: classify
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
         with:
@@ -227,17 +227,12 @@ jobs:
           python-version: "3.11"
           cache: 'pip'
       - run: pip install -r requirements.txt
-      - name: Import APWG eCrime
+      - name: Read-only APWG audit
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
-          python -m alex.cli apwg
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/accepted_classified.csv data/apwg_import_audit.json
-          git diff --cached --quiet || git commit -m "Import APWG eCrime proceedings"
-          git push || (git pull --rebase --autostash && git push)
+          python -m alex.cli apwg --dry-run
 
   publish:
     needs: apwg
