@@ -9,10 +9,14 @@ from __future__ import annotations
 import argparse
 import csv
 import os
+import re
+from functools import lru_cache
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from alex.pipelines import classify
+from alex.pipelines.apwg_quality_review import assess, load_policy
+from alex.utils.io import root_file, load_json
 from alex.utils.text import clean
 
 REVIEW_WORKERS = 4
@@ -22,20 +26,55 @@ REVIEW_WORKERS = 4
 APWG_DEFAULT_CATEGORY = "Cybercrime & Fraud"
 APWG_DEFAULT_INVESTIGATION = "Phishing Analysis"
 
+# Clearly non-phishing subjects do not become phishing merely because an
+# uncertain model response said "Other". The 2026-10-26 pilot exposed this
+# failure in cryptocurrency economics, ransomware and password research.
+_NON_PHISHING_TOPIC = re.compile(
+    r"\\b(?:ransom(?:ware|s)?|cryptocurrenc(?:y|ies)|bitcoin|money laundering|"
+    r"pump.and.dump|password strength|copyright infringement|peer.to.peer|"
+    r"firewall warnings?|counterfeit|mobile application markets?|"
+    r"sanctions online|software piracy|game cheating)\\b", re.I
+)
+_PHISHING_TOPIC = re.compile(r"\\b(?:phish(?:ing|er|ers)?|spear.phish|smish(?:ing)?|"
+                             r"email impersonation)\\b", re.I)
+
+
+@lru_cache(maxsize=1)
+def fallback_watchlist() -> set[str]:
+    from alex.utils.text import normalize_title
+    path = root_file("config", "apwg_initial_phishing_fallbacks.json")
+    if not path.exists():
+        return set()
+    return {normalize_title(s) for s in load_json(path).get("titles", [])}
+
+
+def clearly_non_phishing(row: dict) -> bool:
+    text = clean(row.get("title", "")) + " " + clean(row.get("abstract", ""))
+    return bool(_NON_PHISHING_TOPIC.search(text) and not _PHISHING_TOPIC.search(text))
+
+
 
 def _available_fields() -> list[str]:
     return [
         "title", "authors", "doi", "year", "apwg_year", "publisher",
         "apwg_paper_url", "bibliographic_link", "doi_verification",
+        "abstract", "abstract_source", "citation_count", "citation_count_source", "venue",
+        "prior_fallback_watchlist", "clearly_non_phishing_topic",
         "duplicate_review_status", "in_existing_alex_corpus",
         "proposed_category", "proposed_investigation_type",
         "proposed_osint_source_types", "classification_status",
         "classification_basis", "quality_review_status",
         "publication_approved", "review_flags",
+        "quality_score", "quality_venue_score", "quality_citation_score",
+        "quality_relevance_score", "quality_institution_score",
+        "quality_institution_bonus", "quality_title_bonus",
+        "quality_auto_threshold", "quality_review_threshold",
+        "quality_core_term_gate", "quality_relevance_gate",
+        "citation_count_known", "quality_score_basis", "quality_requires_review",
     ]
 
 
-def review_row(row: dict, classifier=None) -> dict:
+def review_row(row: dict, classifier=None, policy=None) -> dict:
     """Use the same controlled categories as the production classifier.
 
     Unclear, off-schema, or fallback responses remain unclassified.
@@ -50,7 +89,14 @@ def review_row(row: dict, classifier=None) -> dict:
         "quality_review_status": "not_scored",
         "publication_approved": "false",
     })
+    from alex.utils.text import normalize_title
+    watchlisted = normalize_title(row.get("title", "")) in fallback_watchlist()
+    result["prior_fallback_watchlist"] = str(watchlisted).lower()
+    non_phish = clearly_non_phishing(row)
+    result["clearly_non_phishing_topic"] = str(non_phish).lower()
     issues = []
+    if watchlisted:
+        issues.append("One of 27 original phishing fallbacks: subject review required")
     is_existing = clean(row.get("in_existing_alex_corpus")).lower() == "true"
     duplicate_status = clean(row.get("duplicate_review_status"))
     if is_existing or duplicate_status == "exact_doi_or_title_match":
@@ -62,6 +108,14 @@ def review_row(row: dict, classifier=None) -> dict:
         result["review_flags"] = "possible_duplicate_needs_review"
         return result
 
+    # Assess with exactly the same scoring functions, thresholds and veto
+    # gates as ALEX rescore; never write to accepted_harvested/classified.
+    score = assess(row, policy)
+    result.update({key: clean(value) for key, value in score.items()})
+    if result["quality_review_status"] != "provisional_auto_threshold":
+        issues.append("ALEX quality gate: " + result["quality_review_status"])
+    if not result["citation_count"]:
+        issues.append("Citation data unavailable; score is conservative")
     if not result["doi"]:
         issues.append("DOI not confirmed")
     if not result["year"]:
@@ -71,7 +125,9 @@ def review_row(row: dict, classifier=None) -> dict:
     if clean(row.get("requires_bibliographic_review")).lower() == "true":
         issues.append("Bibliographic review required")
     if not clean(row.get("abstract")):
-        issues.append("Classification based on title only; abstract not in review CSV")
+        issues.append("Abstract unavailable: title-only classification and quality hold")
+    else:
+        issues.append("Abstract-informed provisional review; individual approval required")
     issues.append("Individual quality assessment required")
 
     payload = {
@@ -125,6 +181,18 @@ def review_row(row: dict, classifier=None) -> dict:
             "APWG phishing default for ambiguous field(s); review against paper"
             if used_default else "model-proposed classification from available bibliographic metadata"
         )
+    # Override *only* a non-specific phishing fallback where independent
+    # title/abstract wording affirmatively identifies a different subject.
+    # This is a HOLD for human topical review, not a new guessed label.
+    if non_phish and result["proposed_investigation_type"] == APWG_DEFAULT_INVESTIGATION:
+        if result["classification_status"] in (
+            "provisional_apwg_default_unverified",
+            "provisional_apwg_phishing_default",
+        ) or result["proposed_category"] == APWG_DEFAULT_CATEGORY:
+            result["proposed_investigation_type"] = "Other"
+            result["classification_status"] = "provisional_non_phishing_topic_review"
+            result["classification_basis"] = "title/abstract contradict phishing fallback; manual review"
+            issues.append("Phishing fallback contradicted by explicit non-phishing topic")
     result["review_flags"] = "; ".join(issues)
     return result
 
@@ -138,8 +206,9 @@ def classify_review(input_path: Path, output_path: Path, worker_count: int = REV
         raise RuntimeError("APWG bibliography input is empty")
     # Important: preserve source order for reviewers and count each record
     # including the one that already exists in ALEX.
+    policy = load_policy()  # live ALEX weights, query registry, venue whitelist
     with ThreadPoolExecutor(max_workers=worker_count) as ex:
-        output_rows = list(ex.map(review_row, input_rows))
+        output_rows = list(ex.map(lambda row: review_row(row, policy=policy), input_rows))
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8", newline="") as target:
         writer = csv.DictWriter(target, fieldnames=_available_fields())
@@ -153,8 +222,17 @@ def classify_review(input_path: Path, output_path: Path, worker_count: int = REV
         if row["proposed_category"]:
             category = row["proposed_category"]
             categories[category] = categories.get(category, 0) + 1
+    quality_statuses = {}
+    for row in output_rows:
+        if row["quality_review_status"]:
+            q = row["quality_review_status"]
+            quality_statuses[q] = quality_statuses.get(q, 0) + 1
     return {"records_reviewed": len(output_rows), "statuses": statuses,
-            "proposed_categories": categories, "corpus_modified": False}
+            "proposed_categories": categories,
+            "abstracts_available": sum(bool(x["abstract"]) for x in output_rows),
+            "original_fallbacks_checked": sum(x["prior_fallback_watchlist"] == "true" for x in output_rows),
+            "non_phishing_topic_holds": sum(x["classification_status"] == "provisional_non_phishing_topic_review" for x in output_rows),
+            "quality_statuses": quality_statuses, "corpus_modified": False}
 
 
 def main() -> None:
