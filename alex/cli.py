@@ -12,10 +12,16 @@ def main():
     )
     ap = argparse.ArgumentParser(prog="alex", description="OSINT research corpus pipeline")
     ap.add_argument("command", choices=["discover", "chain", "score", "harvest", "rescore", "classify", "apwg", "publish"])
+    ap.add_argument("--dry-run", action="store_true", help="Audit APWG sources without modifying the research corpus (apwg only)")
     ap.add_argument("--record-collection", action="store_true", help="Record a completed collection's date and newly published count (publish only)")
     args = ap.parse_args()
+    if args.dry_run and args.command != "apwg":
+        ap.error("--dry-run is only valid with apwg")
     if args.record_collection and args.command != "publish":
         ap.error("--record-collection is only valid with publish")
+    if args.command == "apwg":
+        apwg_import.run(dry_run=args.dry_run)
+        return
     if args.command == "publish":
         publish.run(record_collection=args.record_collection)
         return
