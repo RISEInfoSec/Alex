@@ -11,7 +11,9 @@ import re
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse
-from xml.etree import ElementTree as ET
+from urllib.parse import urlencode
+
+from alex.utils.text import strip_html_tags
 
 import pandas as pd
 
@@ -22,7 +24,10 @@ from alex.utils.text import clean, normalize_title
 LOG = logging.getLogger(__name__)
 LABEL = "APWG.org eCrimes Research"
 INDEX_URL = "https://ecrimeresearch.org/ecrime-research-papers"
-DBLP_URL = "https://dblp.org/streams/conf/ecrime.xml"
+DBLP_URL = "https://dblp.org/search/publ/api"
+DBLP_QUERY = "stream:streams/conf/ecrime:"
+DBLP_PAGE_SIZE = 250
+DBLP_MAX_PAGES = 8
 EARLY_YEARS = range(2006, 2014)
 FIRST_YEAR = 2006
 MAX_YEAR_PAGES = 35
@@ -121,41 +126,111 @@ def archive_papers(html: str, year: int, year_url: str) -> list[dict]:
     return out
 
 
-def dblp_papers(xml_text: str) -> list[dict]:
-    """Read only eCrime *papers*; exclude entire proceedings/editorial records."""
-    root = ET.fromstring(xml_text)
+def _dblp_authors(value: object) -> str:
+    """dblp JSON switches between string, object, and list for authors."""
+    if isinstance(value, dict):
+        value = value.get("author", [])
+    if not isinstance(value, list):
+        value = [value]
+    names = []
+    for author in value:
+        if isinstance(author, dict):
+            name = author.get("text") or author.get("@text") or ""
+        else:
+            name = author
+        name = clean(name)
+        if name:
+            names.append(name)
+    return "; ".join(names)
+
+
+def dblp_papers(response: dict) -> list[dict]:
+    """Parse the actual publication-search JSON; ignore non-eCrime records.
+
+    The /streams/conf/ecrime.xml endpoint is a *stream metadata record*,
+    NOT a bulk listing of papers.
+    """
+    if not isinstance(response, dict):
+        raise ValueError("Unexpected dblp payload")
+    result = response.get("result") or {}
+    hits = (result.get("hits") or {}).get("hit") or []
+    if isinstance(hits, dict):
+        hits = [hits]
+    if not isinstance(hits, list):
+        raise ValueError("Malformed dblp hits")
     out = []
-    for entry in root.iter("inproceedings"):
-        key = entry.attrib.get("key", "")
+    for hit in hits:
+        info = (hit or {}).get("info") or {}
+        key = clean(info.get("key", ""))
         if not key.startswith("conf/ecrime/"):
             continue
-        title = clean("".join(entry.find("title").itertext())) if entry.find("title") is not None else ""
-        year_text = clean(entry.findtext("year"))
+        record_type = clean(info.get("type", "")).lower()
+        # A proceedings volume isn't an article. Some API records have no
+        # explicit type, in which case key/title checks still apply.
+        if record_type and "conference" not in record_type and "workshop" not in record_type:
+            continue
+        title = strip_html_tags(info.get("title", ""))
+        year_text = clean(info.get("year", ""))
         if not year_text.isdigit() or not (FIRST_YEAR <= int(year_text) <= datetime.now(timezone.utc).year):
             continue
         if not normalize_title(title):
             continue
-        doi, url = "", ""
-        for ee in entry.findall("ee"):
-            address = clean(ee.text)
-            if address.startswith("https://doi.org/") or address.startswith("http://dx.doi.org/"):
-                doi, url = _doi(address), address
-                break
-            if not url and address.startswith("https://"):
-                url = address
-        # dblp provenance is explicit even where the APWG archive page is broken.
+        raw_doi = info.get("doi") or ""
+        if isinstance(raw_doi, list):
+            raw_doi = raw_doi[0] if raw_doi else ""
+        doi = _doi(raw_doi)
+        ee = info.get("ee") or ""
+        if isinstance(ee, list):
+            ee = ee[0] if ee else ""
+        ee = clean(ee)
+        source_url = (f"https://doi.org/{doi}" if doi
+                      else ee if ee.startswith("https://")
+                      else f"https://dblp.org/rec/{key}")
         year = int(year_text)
         out.append({
             "title": title, "year": year, "doi": doi,
-            "authors": "; ".join(clean("".join(el.itertext())) for el in entry.findall("author")),
+            "authors": _dblp_authors(info.get("authors") or {}),
             "venue": "APWG Symposium on Electronic Crime Research",
-            "source_url": url or f"https://dblp.org/rec/{key}",
-            "apwg_source_url": "",
-            "collection_url": f"https://ecrimeresearch.org/{year}-accepted-research-papers",
+            "source_url": source_url, "apwg_source_url": "",
+            "collection_url": f"https://dblp.org/db/conf/ecrime/ecrime{year}.html",
             "collection_source": LABEL, "apwg_year": year, "abstract": "",
             "publisher": "IEEE" if doi.startswith("10.1109/") else "",
+            "dblp_key": key,
         })
     return out
+
+
+def fetch_dblp(client: HttpClient) -> tuple[list[dict], str]:
+    """Read paginated dblp publication-search API, serially and defensively.
+
+    Do not silently treat a 0-record search as a complete conference corpus.
+    The caller records source uncertainty and refuses to claim completeness.
+    """
+    out: list[dict] = []
+    expected: int | None = None
+    for page in range(DBLP_MAX_PAGES):
+        response = client.get_json(DBLP_URL, params={
+            "q": DBLP_QUERY, "format": "json",
+            "h": DBLP_PAGE_SIZE, "f": page * DBLP_PAGE_SIZE,
+        })
+        if not isinstance(response, dict):
+            return out, "unavailable_or_invalid_response"
+        hits = (response.get("result") or {}).get("hits") or {}
+        if not isinstance(hits, dict):
+            return out, "invalid_hits"
+        try:
+            expected = int(hits.get("@total", 0))
+        except (ValueError, TypeError):
+            return out, "invalid_total"
+        raw = hits.get("hit") or []
+        if isinstance(raw, dict):
+            raw = [raw]
+        if not isinstance(raw, list):
+            return out, "invalid_hits"
+        out.extend(dblp_papers(response))
+        if (page + 1) * DBLP_PAGE_SIZE >= expected or not raw:
+            return out, "ok" if out else "zero_matched_publications"
+    return out, "pagination_limit_reached"
 
 
 def _prefer(primary: dict, additional: dict) -> dict:
@@ -206,27 +281,22 @@ def gather(client: HttpClient) -> tuple[list[dict], dict]:
             key = "title:" + normalize_title(row["title"])
             records[key] = _prefer(records[key], row) if key in records else row
 
-    dblp_status, dblp_count = "unavailable", 0
-    dblp_xml = client.get_raw(DBLP_URL)
-    if dblp_xml:
-        try:
-            rows = dblp_papers(dblp_xml)
-            dblp_count = len(rows)
-            dblp_status = "ok"
-            for row in rows:
-                key = "title:" + normalize_title(row["title"])
-                records[key] = _prefer(records[key], row) if key in records else row
-        except ET.ParseError as exc:
-            LOG.warning("Unable to parse dblp records: %s", exc)
-            dblp_status = "invalid_xml"
+    dblp_rows, dblp_status = fetch_dblp(client)
+    dblp_count = len(dblp_rows)
+    for row in dblp_rows:
+        key = "title:" + normalize_title(row["title"])
+        records[key] = _prefer(records[key], row) if key in records else row
     if not records:
         raise RuntimeError("Neither APWG nor dblp returned paper records")
     audit = {
         "collection": LABEL,
         "source_index": INDEX_URL,
         "dblp_source": DBLP_URL,
+        "dblp_query": DBLP_QUERY,
         "dblp_status": dblp_status,
         "dblp_record_count": dblp_count,
+        "dblp_per_year": {str(y): sum(int(r["year"]) == y for r in dblp_rows) for y in sorted({int(r["year"]) for r in dblp_rows})},
+        "coverage_complete": False,
         "per_year": by_year,
         "archive_years_unavailable_or_empty": sorted(set(missing_years)),
         "discovered_unique_titles": len(records),
@@ -236,22 +306,29 @@ def gather(client: HttpClient) -> tuple[list[dict], dict]:
 
 
 def merge_corpus(corpus: pd.DataFrame, discovered: list[dict]) -> tuple[pd.DataFrame, dict]:
-    """Idempotent additive merge; existing research content always wins."""
+    """Idempotent, additive merge using normalized titles and DOI identities."""
     corpus = corpus.copy().fillna("") if not corpus.empty else pd.DataFrame()
-    existing_title = {}
-    existing_doi = {}
+    attrs = ("collection_source", "collection_url", "apwg_year", "apwg_source_url")
+    for field in attrs:
+        if field not in corpus.columns:
+            corpus[field] = ""
+    existing_title: dict[str, int] = {}
+    existing_doi: dict[str, int] = {}
     for idx, row in corpus.iterrows():
-        key = normalize_title(row.get("title", ""))
-        if key:
-            existing_title[key] = idx
-        doi = _doi(row.get("doi", ""))
+        title = normalize_title(row.get("title", ""))
+        if title:
+            existing_title[title] = idx
+        doi = _doi(row.get("doi"))
         if doi:
             existing_doi[doi] = idx
 
-    appended = []
+    appended: list[dict] = []
+    appended_title: set[str] = set()
+    appended_doi: set[str] = set()
     matched = 0
+    skipped_duplicates = 0
     for record in discovered:
-        title_key, doi = normalize_title(record["title"]), _doi(record.get("doi"))
+        title_key, doi = normalize_title(record.get("title", "")), _doi(record.get("doi"))
         if not title_key:
             continue
         idx = existing_title.get(title_key)
@@ -259,17 +336,20 @@ def merge_corpus(corpus: pd.DataFrame, discovered: list[dict]) -> tuple[pd.DataF
             idx = existing_doi.get(doi)
         if idx is not None:
             matched += 1
-            # Do not overwrite existing authors, DOI, venue, category or abstract.
-            for field in ("collection_source", "collection_url", "apwg_year", "apwg_source_url"):
-                if not clean(corpus.at[idx, field]) if field in corpus.columns else True:
+            for field in attrs:
+                if not clean(corpus.at[idx, field]) and clean(record.get(field)):
                     corpus.at[idx, field] = record.get(field, "")
+            # Never replace existing author/abstract/DOI/category/URL.
             continue
-        # APWG peer-reviewed proceedings are curated by conference membership.
-        # Use an explicit broad category until paper-specific LLM classification
-        # can be reviewed; do not generate narrow classifications from titles.
+        if title_key in appended_title or (doi and doi in appended_doi):
+            skipped_duplicates += 1
+            continue
+        # Conference membership is proven, but individual classification
+        # is not. Assign the existing closed-list catch-all rather than
+        # labeling all eCrime scholarship "Cybercrime & Fraud".
         new = {
             **record,
-            "Category": "Cybercrime & Fraud",
+            "Category": "Other",
             "Investigation_Type": "Other",
             "OSINT_Source_Types": "",
             "Keywords": "",
@@ -278,20 +358,24 @@ def merge_corpus(corpus: pd.DataFrame, discovered: list[dict]) -> tuple[pd.DataF
             "retrieved_at": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "citation_count": 0,
             "reference_count": 0,
-            "discovery_source": "APWG eCrime verified proceedings",
-            "harvest_source": "APWG/dblp bibliographic records",
+            "discovery_source": "APWG curated eCrime proceedings",
+            "harvest_source": "APWG and dblp bibliographic records",
             "inclusion_path": "APWG curated proceedings",
         }
         appended.append(new)
-        existing_title[title_key] = "__pending__"
+        appended_title.add(title_key)
         if doi:
-            existing_doi[doi] = "__pending__"
+            appended_doi.add(doi)
     if appended:
         corpus = pd.concat([corpus, pd.DataFrame(appended)], ignore_index=True)
-    return corpus, {"new_records": len(appended), "matched_existing_records": matched}
+    return corpus, {
+        "new_records": len(appended),
+        "matched_existing_records": matched,
+        "duplicate_records_suppressed": skipped_duplicates,
+    }
 
 
-def run() -> None:
+def run(dry_run: bool = False) -> None:
     import os
 
     corpus_path = root_file("data", "accepted_classified.csv")
@@ -304,7 +388,12 @@ def run() -> None:
     audit["corpus_total_after_import"] = len(merged)
     audit["missing_bibliographic_authors"] = sum(not clean(r.get("authors")) for r in records)
     audit["missing_doi"] = sum(not clean(r.get("doi")) for r in records)
-    # No write to either file occurs if discovery fails; do not delete corpus.
+    # A dry run reports real-world coverage without mutating the corpus.
+    if dry_run:
+        import json
+        print(json.dumps(audit, indent=2, ensure_ascii=False))
+        return
+    # Never call a successful but partial import "complete."
     save_df(corpus_path, merged)
     save_json(audit_path, audit)
     print(
