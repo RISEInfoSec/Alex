@@ -474,3 +474,33 @@ def test_openalex_upstream_rate_limit_stops_further_lookups():
     assert report["source_access_status"] == "upstream_rate_limited"
     assert report["lookups_attempted"] == 1
     assert report["verified_title_matches"] == 0
+
+
+
+def test_correct_2019_malware_paper_alternate_title_and_doi(monkeypatch):
+    archive_title = "Control and Understanding in Malicious and Benign Software"
+    bibliographic_title = "Control and Understanding in Malware and Legitimate Software"
+    fixes = {
+        "/Nov15_RobertBiddle_EricSpero.pdf": {
+            "archive_title": archive_title,
+            "title": bibliographic_title,
+            "year": 2019,
+            "doi": "10.1109/eCrime47957.2019.9037597",
+            "authors": "Eric Spero; Milica Stojmenovic; Sonia Chiasson; Robert Biddle",
+            "publisher": "IEEE",
+            "evidence_url": "https://dblp.org/rec/conf/ecrime/SperoSCB19",
+        }
+    }
+    monkeypatch.setattr(apwg_import, "_verified_corrections", lambda: fixes)
+    pdf = "https://docs.apwg.org/ecrimeresearch/2019/Nov15_RobertBiddle_EricSpero.pdf"
+    year_url = "https://ecrimeresearch.org/2019-accepted-research-papers"
+    papers = apwg_import.archive_papers(
+        f'<h4><a href="{pdf}">{archive_title}</a></h4>',
+        2019, year_url,
+    )
+    assert len(papers) == 1
+    assert papers[0]["title"] == bibliographic_title
+    assert papers[0]["year"] == "2019"
+    assert papers[0]["apwg_year"] == 2019
+    assert papers[0]["doi"] == "10.1109/ecrime47957.2019.9037597"
+    assert papers[0]["apwg_source_url"] == pdf
