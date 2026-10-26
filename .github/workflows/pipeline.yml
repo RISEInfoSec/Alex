@@ -230,6 +230,7 @@ jobs:
       - name: Import APWG eCrime
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
           python -m alex.cli apwg
           git config user.name "github-actions[bot]"
