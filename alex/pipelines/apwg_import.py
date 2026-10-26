@@ -249,6 +249,14 @@ def fetch_dblp_years(client: HttpClient, years: list[int]) -> tuple[list[dict], 
             per_year[str(year)] = {"status": "unavailable", "records": 0}
             continue
         rows = dblp_year_papers(html, year)
+        if not rows and year == max(years):
+            LOG.warning(
+                "dblp HTML parse diagnostic: bytes=%d, first_120=%r, "
+                "entry_count=%d, title_count=%d",
+                len(html), html[:120],
+                len(BeautifulSoup(html, "html.parser").select("li.entry")),
+                len(BeautifulSoup(html, "html.parser").select(".title")),
+            )
         per_year[str(year)] = {"status": "ok" if rows else "unparseable_or_empty", "records": len(rows)}
         out.extend(rows)
     return out, ("html_fallback_ok" if out else "html_fallback_unavailable"), per_year
