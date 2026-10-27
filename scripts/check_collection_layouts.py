@@ -43,6 +43,8 @@ def verify(site: Path, report_dir: Path) -> None:
         ('/research/investigations/phishing-analysis/', 390): 'investigation-mobile.png',
         ('/research/bibliography/', 390): 'complete-bibliography-mobile.png',
         ('/research/bibliography/page/58/', 390): 'long-metadata-mobile.png',
+        ('/research/collections/apwg-ecrime/', 390): 'source-collection-mobile.png',
+        ('/research/collections/apwg-ecrime/', 1440): 'source-collection-desktop.png',
     }
     try:
         with sync_playwright() as pw:
@@ -70,6 +72,9 @@ def verify(site: Path, report_dir: Path) -> None:
                         if path.startswith('/research/bibliography/'):
                             page.get_by_role('link', name='Go to the bibliography', exact=True).click()
                         page.screenshot(path=str(report_dir / screenshots[(path, width)]))
+                    if path == '/research/' and width == 390:
+                        page.get_by_role('heading', name='Browse by collection', exact=True).scroll_into_view_if_needed()
+                        page.screenshot(path=str(report_dir / 'source-directory-mobile.png'))
                     results['layouts_checked'] += 1
                 # Native HTML pagination remains usable with JavaScript off.
                 page.goto(origin + '/research/bibliography/')

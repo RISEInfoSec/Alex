@@ -16,7 +16,7 @@ This is the **operational** view of how the pipeline runs today. For the origina
 
 After Publish, the `pipeline.yml` `deploy` job stages `index.html`, `papers.json`, and `osint_cyber_papers.csv` to the `_site/` artifact and pushes it to GitHub Pages.
 
-Publish also generates static category and investigation collections, the complete accepted-corpus bibliography, a coverage report and the sitemap. Both deploy paths use `scripts/stage_site.py` to regenerate, validate and include these pages in `_site`. See [Hybrid research collections](hybrid_seo.md) for corpus-wide coverage, the editorial source, pagination and publishing-path integration.
+Publish also generates static category, investigation and attributed source-collection bibliographies, the complete accepted-corpus bibliography, a coverage report and the sitemap. Both deploy paths use `scripts/stage_site.py` to regenerate, validate and include these pages in `_site`. See [Hybrid research collections](hybrid_seo.md) for corpus-wide coverage, source profiles, the editorial source, pagination and publishing-path integration.
 
 ## Data ownership
 

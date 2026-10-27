@@ -11,7 +11,7 @@ import pandas as pd
 import pytest
 from bs4 import BeautifulSoup
 
-from alex.collections import BASE, PAGE_SIZE, build, generate, load_editorial, pagination, route, select_collections
+from alex.collections import BASE, PAGE_SIZE, build, generate, load_editorial, pagination, route, select_collections, source_collections
 from alex.pipelines import publish
 from alex.taxonomy import CATEGORIES, INVESTIGATION_TYPES
 from scripts.check_seo import check
@@ -303,6 +303,85 @@ def test_every_static_bibliography_page_is_reachable_from_hub():
             if target in expected and target not in visited:
                 pending.append(target)
     assert visited == expected
+
+
+def test_source_collection_bibliography_matches_explicit_provenance():
+    records = json.loads((ROOT / 'data/papers.json').read_text())
+    output = build(ROOT)
+    group = next(g for g in source_collections(ROOT, records) if g['label'] == 'APWG.org eCrimes Research')
+    titles = []
+    for path, raw in output.items():
+        if path.startswith(route(group)) and path.endswith('.html'):
+            page = BeautifulSoup(raw, 'html.parser')
+            titles.extend(h.get_text() for h in page.select('li.paper h3'))
+    assert Counter(titles) == Counter(p['title'] for p in records if p.get('collection_source') == 'APWG.org eCrimes Research')
+    assert soup(output, 'research/').find('a', href='/research/collections/apwg-ecrime/')
+    assert soup(output, 'research/collections/apwg-ecrime/').find('a', href='https://ecrimeresearch.org/ecrime-research-papers')
+
+
+def test_prepared_sources_link_to_original_archive_without_empty_pages(collection_site):
+    output = build(collection_site, papers(10))
+    hub = soup(output, 'research/')
+    source_section = hub.select_one('#source-collections')
+    assert source_section.find('a', string='SOUPS')['href'] == 'https://soups.page/'
+    assert 'No papers accepted into ALEX yet' in source_section.get_text()
+    assert not any(path.startswith('research/collections/') for path in output)
+    assert 'Virus Bulletin' not in source_section.get_text()
+    assert not any('/collections/' in line for line in output['sitemap.xml'].splitlines())
+
+
+def test_future_approved_collection_appears_and_cleans_up_automatically(collection_site):
+    records = papers(3)
+    records[0]['collection_source'] = 'SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)'
+    records[0]['collection_url'] = 'https://soups.page/'
+    records[0]['venue'] = 'Original publication venue'
+    original = json.dumps(records, sort_keys=True)
+    output = build(collection_site, records)
+    path = 'research/collections/soups/index.html'
+    assert path in output and 'research/collections/soups/' in output['sitemap.xml']
+    assert len(BeautifulSoup(output[path], 'html.parser').select('li.paper')) == 1
+    assert 'Original publication venue' in BeautifulSoup(output[path], 'html.parser').get_text()
+    assert json.dumps(records, sort_keys=True) == original
+    generate(collection_site, records)
+    generate(collection_site, papers(3))
+    assert not (collection_site / path).exists()
+    assert 'research/collections/soups/' not in (collection_site / 'sitemap.xml').read_text()
+
+
+def test_candidate_source_activates_only_from_collection_attribution(collection_site):
+    records = papers(3)
+    records[0]['venue'] = 'Virus Bulletin'
+    output = build(collection_site, records)
+    assert 'research/collections/virus-bulletin/index.html' not in output
+    records[0]['collection_source'] = 'Virus Bulletin'
+    output = build(collection_site, records)
+    assert 'research/collections/virus-bulletin/index.html' in output
+    assert soup(output, 'research/').find('a', href='/research/collections/virus-bulletin/')
+
+
+def test_unprofiled_source_gets_original_links_without_boilerplate_page(collection_site):
+    records = papers(3)
+    records[0].update(collection_source='Another accepted archive', collection_url='https://example.org/archive')
+    output = build(collection_site, records)
+    hub = soup(output, 'research/')
+    assert hub.find('a', string='Another accepted archive')['href'] == 'https://example.org/archive'
+    assert not any(path.startswith('research/collections/') for path in output)
+    report = json.loads(output['research/coverage.json'])
+    entry = next(g for g in report['source_collections'] if g['label'] == 'Another accepted archive')
+    assert entry['count'] == 1 and entry['path'] is None
+
+
+@pytest.mark.parametrize('change', [
+    {'slug': '../escape'}, {'archive_url': 'javascript:alert(1)'}, {'values': []},
+    {'intro': ''}, {'show_when_empty': 'yes'}, {'values': ['SOUPS']},
+])
+def test_invalid_or_ambiguous_source_profiles_fail(collection_site, change):
+    path = collection_site / 'config/research_collections.json'
+    config = json.loads(path.read_text())
+    config['source_collections'][0].update(change)
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError):
+        build(collection_site, papers())
 
 
 def test_actual_artifact_includes_all_pages_and_preserves_downloads(tmp_path):

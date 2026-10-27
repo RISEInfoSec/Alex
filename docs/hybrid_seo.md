@@ -2,7 +2,7 @@
 
 ## Scope and coverage
 
-This architecture covers the **entire accepted ALEX corpus across all sources**. Research categories and investigation types remain separate controlled dimensions. Membership depends solely on existing assignments, never on source, conference, publisher or import batch.
+This architecture covers the **entire accepted ALEX corpus across all sources**. Research categories and investigation types remain separate controlled dimensions. Topic membership follows existing assignments. Separate source-collection views use the recorded collection provenance; publisher and venue fields do not determine membership.
 
 On 27 October 2026, the live homepage and public JSON matched main `9422994515c40e91a9b878a1a4d5445db3d781cd`, with 3,598 papers and successful [Pages deployment 40498391571](https://github.com/RISEInfoSec/Alex/actions/runs/40498391571). Main remains unchanged during this draft work.
 
@@ -16,14 +16,29 @@ The initial revision demonstrated two collections. The user subsequently authori
 | `/research/categories/<slug>/` | 14 named research categories, including pagination | 77 |
 | `/research/investigations/<slug>/` | 10 named investigation types, including pagination | 53 |
 | `/research/bibliography/` | Complete accepted corpus, including pagination | 72 |
+| `/research/collections/<slug>/` | Attributed source collections; APWG currently has accepted records | 4 |
 
-There are **203 research HTML files**, plus the existing homepage: 204 sitemap URLs. Directory-index files work with the existing GitHub Pages custom-domain/root deployment. Continuations use `<collection>/page/2/` and subsequent numbered directories; `/page/1/` is never generated.
+There are **207 research HTML files**, plus the existing homepage: 208 sitemap URLs. Directory-index files work with the existing GitHub Pages custom-domain/root deployment. Continuations use `<collection>/page/2/` and subsequent numbered directories; `/page/1/` is never generated.
 
 The complete bibliography lists each of the **3,598 accepted records exactly once**. Named topic collections cover 3,451 distinct records; the remaining 147 are classified as Other in both dimensions and are included in the complete bibliography. A paper can occur in both a subject and an investigation collection without changing its assignments.
 
 `research/coverage.json` accounts for all 26 controlled values, their counts, routes or reasons for omission, and full-corpus coverage. The normal reader-facing routes are the hub and bibliographies. The complete directory is a way to browse all records, not an additional classification dimension.
 
-No per-paper pages, tags, source pages, year pages or combined-filter pages are generated. The page count is finite and derived from bibliography sizes.
+No per-paper pages, tags, year pages or combined-filter pages are generated. Source pages require an explicit editorial profile. The page count is finite and derived from bibliography sizes.
+
+## Browse by source collection
+
+The homepage links directly to the hub’s **Browse by collection** section. APWG’s 155 accepted, attributed records have a four-page static bibliography at `/research/collections/apwg-ecrime/`, plus a link to the original archive. Paper-level collection attribution links back to that bibliography while retaining the original collection URL separately. Publication venues, publishers, years, categories and investigation types are preserved.
+
+The `source_collections` registry in `config/research_collections.json` holds stable slugs, explicit attribution values/aliases, original archive URLs, unique editorial copy and optional visibility before import. It is source provenance, not a new tag taxonomy or replacement for either classification dimension.
+
+SOUPS is linked to its original archive and clearly marked as having no accepted ALEX records yet. No empty SOUPS bibliography or sitemap entry is created. Its configured attribution includes the exact label used by the separate SOUPS work, without importing or publishing those pending records here. Virus Bulletin, SANS and FIRST have prepared candidate profiles and stay out of the public directory until attributed records have actually been accepted. These profiles do not start scrapers or imply that those collections are already imported.
+
+For a profiled source, the first accepted, explicitly attributed record activates its bibliography, count, hub link and sitemap entries through the existing generator. These pages have source-specific editorial context and original archive navigation; the five-record topic floor does not apply. Empty profiles produce no bibliography pages. Removing the final accepted record removes generated pages and sitemap entries on regeneration.
+
+New, unprofiled attribution values automatically appear on the hub with counts and their recorded original collection links. A reviewed editorial profile is required before creating a dedicated static source bibliography. A title, publisher, venue, affiliation or domain match alone never assigns source membership. Source groups can overlap topic groups because they answer different browsing questions; no source/topic filter combinations are generated.
+
+The generated coverage report includes source-group counts, attribution values, archive links and available ALEX routes. All counts come from the accepted public snapshot. No original-source API calls, corpus rescoring, new acceptance decisions or changes to another import project occur during generation.
 
 ## Editorial source and record ownership
 
@@ -84,7 +99,7 @@ Google Search Central references consulted:
 5. PR validation runs offline tests, checks committed generation and uploads the same `_site` as `alex-collections-preview` for review. It does **not** deploy.
 6. Existing import-related offline regressions still run on PRs. Legacy live-source audits and dependent PDF/LLM review require manual dispatch so SEO changes do not restart ingestion. Neither permissions nor corpus decisions change.
 
-The homepage gains only a collection link and no-JavaScript fallback. Its executable search script, public downloads/corpus, branding, domain, HTTPS and responsive design are unchanged. Collection pages reuse the approved design/header/footer. Their CSS is not loaded by homepage search.
+The homepage gains collection-navigation links and a no-JavaScript fallback. Its executable search script, public downloads/corpus, branding, domain, HTTPS and responsive design are unchanged. Collection pages reuse the approved design/header/footer. Their CSS is not loaded by homepage search.
 
 ## Validation and approval boundary
 
