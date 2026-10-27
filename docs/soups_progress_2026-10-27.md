@@ -4,8 +4,8 @@
 
 - 503 provisionally identified research-paper links across 2005–2026; 249 separately typed ancillary/program links.
 - 137 papers have substantive abstract assessments, including 18 extracted historical abstracts that still require formatting review. **366 research papers remain unassessed.** Automated keyword triage is not counted as substantive review and does not reject papers.
-- User decisions: **129 approved and nine rejected (papers 17, 24, 26, 74, 93, 102, 104, 106 and 118)**. Batch 2 approved every paper except 24 and 26, including paper 25.
-- Ancillary content assessment now covers 45 items. [Batch 8: candidates 139–158](soups_review_batch_08.md) has 20 pending selections in the shared review console, all with include recommendations and individual relevance notes. Five additional assessed items remain unnumbered for later batch preparation or discussion; an exclude recommendation is not a user rejection.
+- User decisions: **149 approved and nine rejected (papers 17, 24, 26, 74, 93, 102, 104, 106 and 118)**. Batch 2 approved every paper except 24 and 26, including paper 25.
+- Ancillary content assessment now covers 45 items. [Batch 8: candidates 139–158](soups_review_batch_08.md) has 20 approvals submitted through the shared review console, all originally recommended include with individual relevance notes. Five additional assessed items remain unnumbered for later batch preparation or discussion; an exclude recommendation is not a user rejection.
 - [Batch 2: papers 21–40](soups_review_batch_02.md) and [batch 3: papers 41–60](soups_review_batch_03.md) have completed review. Batch 2 has 18 approvals and two rejections; all 20 papers in batch 3 are approved. Individual USENIX bibliography is verified for all 40, with no existing ALEX title/URL matches found.
 - Unnumbered assessments remain in the manifest for later batch preparation. Source-linked assessment reasons distinguish direct, supporting, uncertain and out-of-scope recommendations.
 
@@ -51,7 +51,7 @@ The full baseline public CSV and JSON retain their verified hashes. No additions
 
 ## Next work
 
-1. Batch 7 (119–138) is fully approved. Review batch 8 (139–158) in the shared console while continuing discovery and content assessment of posters, workshops and the 366 unassessed research papers before starting additional import checks. Preserve all completed decisions.
+1. Batches 7 and 8 (119–158) are fully approved. Continue discovery and content assessment of posters, workshops and the 366 unassessed research papers before starting additional import checks. Preserve all completed decisions.
 2. Continue substantive screening of the remaining 366 papers and prepare further batches; finish early PDF formatting checks and bibliographic holds.
 3. Resolve classification and quality holds for selected papers, then prepare the controlled import and pull request.
 4. Merge and deploy only after explicit user authorization.
@@ -119,3 +119,10 @@ No title, supplied DOI or canonical-URL match was found for the 25 assessed item
 Official listing versus PDF-footer year conflicts remain explicit for candidates 142 (2026/2024), 150 (2023/2022) and 151 (2022/2021). Candidate 156's program omits a PDF author; 157 retains an unfilled DOI template, which is not treated as an assigned DOI. Program/PDF name variants and author-block order holds are preserved. Source receipts and unnumbered assessments are recorded in [batch-8 evidence](soups_ancillary_batch_08_evidence.json), with metadata/content assessments in `config/soups_ancillary_review_evidence.json`. No PDF bytes or full paper text are committed.
 
 The console reads batch 8 from its existing SOUPS manifest registration. No console source changes, ALEX publication, merge or deployment are required. Import checks remain paused until the additional discovery and content review are completed, as requested. The final number of future batches remains unknown while screening is incomplete.
+
+
+## Batch 8 GUI submission reconciled
+
+The owner submitted all 20 candidates (139–158) as approved on 27 October 2026 at 14:28:07 America/Toronto (18:28:07 UTC). Receipt: `e29fe210-33c1-4ee3-a6c1-bd038eba6321`; revision 1. Every bounded page of the final decision table was read; only SOUPS rows were applied. Other collections and draft records were not changed. The intake adapter validated the complete batch, candidate numbers and reviewed content hashes, and replayed the earlier batch-7 receipt without changes.
+
+Current selections are **149 approved and nine rejected**, with all 158 numbered candidates decided. All previous decisions, metadata holds and the five unnumbered ancillary assessments are preserved. No publication approval or import was granted. Ancillary discovery and substantive content screening remain incomplete; continue that work before resuming additional import checks.

@@ -1,8 +1,8 @@
 # SOUPS review batch 8 — ancillary material, 139–158
 
-All 20 candidates are pending user review in the shared ALEX Research Review console. Recommendations: 20 include. All are poster/extended abstracts, not full main-conference papers. Source-year and author discrepancies are explicit holds, independent of selection. No papers have been imported.
+All 20 candidates were approved through the authenticated ALEX Research Review console on 27 October 2026 (batch 8, revision 1; receipt `e29fe210-33c1-4ee3-a6c1-bd038eba6321`). Original recommendations: 20 include. All are poster/extended abstracts, not full main-conference papers. Source-year and author discrepancies are explicit holds, independent of selection. No papers have been imported.
 
-[Open the review console](https://alex-research-review.neil-schwartzm917549.chatgpt.site/) and select SOUPS, batch 8. Mark Reject only for papers you decline, then submit the whole batch.
+[Open the review console](https://alex-research-review.neil-schwartzm917549.chatgpt.site/) and select SOUPS, batch 8 to view the saved decisions.
 
 Missing DOI values remain empty and require lookup; they do not disqualify papers. No title, DOI or canonical-URL match was found in the 3,598-record public ALEX snapshot at main commit `12f34fe06101c58dc5e6d89a0b4fb9b7595eca34`, or in other current SOUPS manifest records. This is not proof that every alternate publication version has been resolved.
 
@@ -18,7 +18,7 @@ Missing DOI values remain empty and require lookup; they do not disqualify paper
 
 Extends a usability model for digital forensics to collaborative investigations, including evidence interpretation and workflows involving investigators, forensic analysts and prosecutors. This is conceptual work rather than an evaluated investigative tool.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 140. From Scanning to Action: An Observational Study of User Decision-Making in QR-Code Emails
 
@@ -32,7 +32,7 @@ Extends a usability model for digital forensics to collaborative investigations,
 
 Observes how 20 participants reason about QR-code phishing emails, including the transition from scanning to checking the destination. Directly informs quishing prevention and victim protection; the small convenience sample limits generalization.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 141. "If you have an official press badge, nothing should happen to you:” Security, privacy, and safety for student journalists in the United States
 
@@ -46,7 +46,7 @@ Observes how 20 participants reason about QR-code phishing emails, including the
 
 Interviews 18 student journalists about online harassment, threats to confidential source material and protective reporting practices. Supports source protection and investigations involving vulnerable reporters; perceived university access to data is not evidence that such access occurred.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 142. SoK: Beyond One-Size-Fits All: A Culturally Informed Individual Framework for Phishing Awareness
 
@@ -62,7 +62,7 @@ Reviews 30 publications on cultural, linguistic and organizational influences on
 
 **Source note:** Official program lists this poster in 2026, but its PDF copyright footer says SOUPS 2024. Retain 2026 as the event listing year and hold the publication year for reconciliation. Program and PDF use different expansions of author names.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 143. Verified, But Not Yours? Risks in the Email Verification Process
 
@@ -76,7 +76,7 @@ Reviews 30 publications on cultural, linguistic and organizational influences on
 
 Examines email-verification failures that enable impersonation, abusive subscriptions, account misuse and disclosure to unintended recipients. The study explicitly distinguishes account creators from email-address owners, making the connection to account abuse substantive.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 144. The Obvious Invisible Threat: LLM-Powered GUI Agents’ Vulnerability to Fine-Print Injections
 
@@ -94,7 +94,7 @@ Tests deceptive interfaces and fine-print prompt injections against GUI agents, 
 
 **Source note:** Program and PDF use different author-name expansions (including Simret Araya / Simret A and Yanfang (Fanny) Ye / Yanfang Ye). The PDF byline is retained; identity and citation normalization remain held.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 145. TikTok and Cyberbullying: Analysis of User-Generated Advice Versus Expert Recommendations
 
@@ -110,7 +110,7 @@ Tests deceptive interfaces and fine-print prompt injections against GUI agents, 
 
 Analyzes cyberbullying advice on TikTok and compares it with expert guidance. Directly supports victims of repeated online harassment; the poster distinguishes the completed advice comparison from planned evaluation by young adults.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 146. Chasing the Hot Streak: Evaluating Hot Hand Fallacy in Brute Force Attacks
 
@@ -126,7 +126,7 @@ Analyzes cyberbullying advice on TikTok and compares it with expert guidance. Di
 
 Studies security-knowledgeable participants choosing brute-force attack techniques after successes and failures. Directly addresses attacker decision-making and credential attacks, while using role-play scenarios rather than a sample of identified cybercriminals.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 147. Will our Colleagues Detect the AirTag? Let's Check (Consensually).
 
@@ -142,7 +142,7 @@ Studies security-knowledgeable participants choosing brute-force attack techniqu
 
 Tests unwanted AirTag tracking alerts with 50 consenting participants across iOS and Android. Directly concerns stalking detection and victim protection; results apply to the devices and software tested and should not be treated as current universal performance guarantees.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 148. Exposing Local Sources: The (Non)Use of Secure Tip Communication Methods by Local US News Organizations
 
@@ -158,7 +158,7 @@ Tests unwanted AirTag tracking alerts with 50 consenting participants across iOS
 
 Audits how local and other US news organizations accept confidential tips, including encrypted and anonymous channels. Supports protection of sources and people reporting wrongdoing, with a concrete connection to harassment and surveillance risks.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 149. How to Scale a Phish: An Investigation Into the Use of the NIST Phish Scale
 
@@ -174,7 +174,7 @@ Audits how local and other US news organizations accept confidential tips, inclu
 
 Examines practitioners' use of the NIST Phish Scale to contextualize phishing detection difficulty. Relevant to evaluating social-engineering exercises and avoiding overinterpretation of click rates; the poster reports a subset of a larger study.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 150. Beware of website hackers: Developing an awareness video to warn for website hacking
 
@@ -192,7 +192,7 @@ Develops and evaluates awareness material about compromised websites that redire
 
 **Source note:** The official SOUPS 2023 poster page links a PDF with a SOUPS 2022 copyright footer. Retain the 2023 listing year and hold publication-year reconciliation.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 151. Characterizing Misuse and Snooping in Home IoT Devices
 
@@ -210,7 +210,7 @@ Surveys misuse and snooping in home IoT devices by nearby people such as housema
 
 **Source note:** Official 2022 poster listing links a PDF whose copyright footer says SOUPS 2021. Event year remains 2022; publication-year reconciliation is held. The program byline ordering differs from the PDF.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 152. PhishED: Automated contextual feedback for reported Phishing
 
@@ -226,7 +226,7 @@ Surveys misuse and snooping in home IoT devices by nearby people such as housema
 
 Proposes PhishED, which returns contextual advice to people reporting suspected phishing emails. Directly addresses abuse reporting, uncertainty and safer victim decisions; its proposed benefits must not be described as demonstrated effectiveness.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 153. “An incident may have resulted in a suspected data compromise”: Impact of Data Breach Notification Terminology
 
@@ -242,7 +242,7 @@ Proposes PhishED, which returns contextual advice to people reporting suspected 
 
 Studies how 99 participants understand data-breach notifications and what prevents remedial action. Supports protection against identity theft and further account abuse after a breach; the study assesses responses to notification text rather than actual post-breach victim outcomes.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 154. Comparing Scam Emails and Email User Education at Universities
 
@@ -258,7 +258,7 @@ Studies how 99 participants understand data-breach notifications and what preven
 
 Compares reported scam-email subject-line data from Penn State with scam education at 16 universities. Identifies the fit between observed scam patterns and victim-facing guidance; one university's reported-email sample does not establish the distribution at other institutions.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 155. Should I Answer? Measuring User Responses To Anti-Robocall Application Indicators
 
@@ -272,7 +272,7 @@ Compares reported scam-email subject-line data from Penn State with scam educati
 
 Evaluates warnings in anti-robocall applications and users' responses to potentially malicious calls. Connects caller-ID spoofing and abusive calling to practical warning design, without treating every unwanted call as fraud.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 156. The Enduring Mystery of the Repeat Clickers
 
@@ -288,7 +288,7 @@ Uses pilot evidence and behavioral theories to examine repeated susceptibility t
 
 **Source note:** The official program omits Irwin Hudson, who is named in the original PDF. Preserve the six-author PDF byline and both sources for final citation reconciliation; author-block reading order also needs confirmation.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 157. Your Purchase History Has Been Exposed: Privacy Threats on Auction Sites
 
@@ -304,7 +304,7 @@ Demonstrates reconstruction of auction purchase histories by correlating public 
 
 **Source note:** The original PDF retains an unfilled copyright/DOI template. This is not a DOI assignment. Program byline punctuation and author order need reconciliation with the two-column PDF author block.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
 
 ## 158. Geo-Phisher: The Design of a Global Phishing Trend Visualization Tool
 
@@ -318,4 +318,4 @@ Demonstrates reconstruction of auction purchase histories by correlating public 
 
 Presents a visualization of phishing URLs, targeted brands, time and hosting locations using APWG blacklist records. Directly supports analysis of phishing infrastructure; hosting geolocation must not be equated with an attacker's physical location.
 
-**Decision:** pending
+**Decision:** approved (authenticated GUI submission, revision 1)
