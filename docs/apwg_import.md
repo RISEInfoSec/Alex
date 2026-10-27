@@ -308,3 +308,17 @@ individual offending. Source artifact: 12701110589, run 40427031598. There are
 34 further human-review candidates in that snapshot. Scores, gates and release
 authorization are unchanged. Paper 51 is the already consolidated bibliographic
 record, not another copy of the duplicated archive listing.
+
+
+### Approved human-review tier batch: papers 59–68
+
+The user approved all ten, bringing the shortlist to **67 approved**, with
+paper 50 still held for scope review. Corrections: 59 Dark Web & Underground /
+Dark Web Analysis; 60 AI/ML for Security / Phishing Analysis; 63–66 Cybercrime &
+Fraud / Other (respectively laundering taxonomy, intervention evaluation,
+reporting-interface evaluation and broad victimization research); 67 Malware &
+Exploits / Vulnerability Assessment. Other pairs retain reviewed labels.
+Paper 59 is contextual forum research, not evidence that music causes crime.
+Source artifact: 12701110589, run 40427031598. Scores remain 51.57–53.67;
+24 further human-review candidates remain in that snapshot. Quality policy
+and publication authorization remain unchanged.
