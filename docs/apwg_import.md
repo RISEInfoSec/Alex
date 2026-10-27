@@ -322,3 +322,16 @@ Paper 59 is contextual forum research, not evidence that music causes crime.
 Source artifact: 12701110589, run 40427031598. Scores remain 51.57–53.67;
 24 further human-review candidates remain in that snapshot. Quality policy
 and publication authorization remain unchanged.
+
+
+### Approved human-review tier batch: papers 69–78
+
+The user approved all ten, bringing the shortlist to **77 approved**, with
+paper 50 still held. Corrections: 69, 71 and 78 Cybercrime & Fraud / Other;
+72 Cyber Threat Intelligence / Attribution; 74 Cybercrime & Fraud / Social
+Media Analysis; 75 OSINT Methodology / Vulnerability Assessment. Other pairs
+retain reviewed labels. Provenance clustering in 72 does not establish an
+offender's real-world identity; broad historical claims in 73 remain attributed
+to that study. Source artifact: 12701110589, run 40427031598. Scores remain
+48.84–50.75; 14 further human-review candidates remain in that snapshot.
+Quality policy and publication authorization remain unchanged.
