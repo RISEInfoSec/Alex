@@ -251,3 +251,17 @@ not call the classifier or propose approved labels for that paper. An updated
 abstract cannot silently clear the hold; an explicit new editorial decision
 is required. Existing corpus/duplicate protection still takes precedence.
 None of these decisions authorize publication or relax quality gates.
+
+
+### Fourth approved editorial batch: papers 24–28
+
+The user approved the final five above-threshold candidates from run
+`40427031598`, artifact `12701110589`, bringing the cumulative shortlist to
+**27 papers**. Blockchain explorer (24) uses Digital Forensics & Evidence /
+Forensic Investigation; PhishAri (28) uses AI/ML for Security / Phishing
+Analysis. Papers 25–27 retain their reviewed classifications. These older
+studies remain historical research, not endorsements of tools or platform
+assumptions as current operational guidance. All approvals retain exact
+reviewed abstract hashes and verified OpenAlex preference. Paper 21 remains
+explicitly held. Publication, corpus import, merge and deployment remain
+unauthorized; quality gates and the live corpus are unchanged.

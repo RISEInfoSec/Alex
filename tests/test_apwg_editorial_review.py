@@ -94,7 +94,7 @@ def test_real_manifest_records_the_approved_decisions_without_release_authorizat
     manifest = load_json(root_file('config', 'apwg_editorial_decisions.json'))
     assert manifest['publication_approved'] is False
     rows = manifest['papers']
-    assert len(rows) == len({r['doi'] for r in rows}) == 22
+    assert len(rows) == len({r['doi'] for r in rows}) == 27
     assert all(r['selection_approved'] and r['classification_approved'] for r in rows)
     assert all(r['category'] in CATEGORIES and r['investigation_type'] in INVESTIGATION_TYPES for r in rows)
     numbered = {r['review_number']: r for r in rows}
@@ -103,8 +103,10 @@ def test_real_manifest_records_the_approved_decisions_without_release_authorizat
     assert numbered[14]['investigation_type'] == 'Other'
     assert numbered[16]['category'] == 'OSINT Methodology'
     assert numbered[22]['investigation_type'] == 'Attribution'
+    assert numbered[24]['category'] == 'Digital Forensics & Evidence'
+    assert numbered[28]['category'] == 'AI/ML for Security'
     assert [r['review_number'] for r in manifest['held_papers']] == [21]
-    assert set(numbered) == set(range(1,21)) | {22,23}
+    assert set(numbered) == set(range(1,29)) - {21}
     assert numbered[8]['abstract_glyph_replacements']['\ue000'] == 'fi'
     assert numbered[8]['abstract_glyph_replacements']['security\ue001aws'] == 'security flaws'
 
