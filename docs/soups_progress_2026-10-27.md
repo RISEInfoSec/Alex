@@ -5,6 +5,7 @@
 - 503 provisionally identified research-paper links across 2005–2026; 249 separately typed ancillary/program links.
 - 137 papers have substantive abstract assessments, including 18 extracted historical abstracts that still require formatting review. **366 research papers remain unassessed.** Automated keyword triage is not counted as substantive review and does not reject papers.
 - User decisions: **129 approved and nine rejected (papers 17, 24, 26, 74, 93, 102, 104, 106 and 118)**. Batch 2 approved every paper except 24 and 26, including paper 25.
+- Ancillary content assessment now covers 45 items. [Batch 8: candidates 139–158](soups_review_batch_08.md) has 20 pending selections in the shared review console, all with include recommendations and individual relevance notes. Five additional assessed items remain unnumbered for later batch preparation or discussion; an exclude recommendation is not a user rejection.
 - [Batch 2: papers 21–40](soups_review_batch_02.md) and [batch 3: papers 41–60](soups_review_batch_03.md) have completed review. Batch 2 has 18 approvals and two rejections; all 20 papers in batch 3 are approved. Individual USENIX bibliography is verified for all 40, with no existing ALEX title/URL matches found.
 - Unnumbered assessments remain in the manifest for later batch preparation. Source-linked assessment reasons distinguish direct, supporting, uncertain and out-of-scope recommendations.
 
@@ -50,7 +51,7 @@ The full baseline public CSV and JSON retain their verified hashes. No additions
 
 ## Next work
 
-1. Batch 7 (119–138) is fully approved. Continue discovery and content assessment of posters, workshops and the 366 unassessed research papers before starting additional import checks. Preserve all completed decisions.
+1. Batch 7 (119–138) is fully approved. Review batch 8 (139–158) in the shared console while continuing discovery and content assessment of posters, workshops and the 366 unassessed research papers before starting additional import checks. Preserve all completed decisions.
 2. Continue substantive screening of the remaining 366 papers and prepare further batches; finish early PDF formatting checks and bibliographic holds.
 3. Resolve classification and quality holds for selected papers, then prepare the controlled import and pull request.
 4. Merge and deploy only after explicit user authorization.
@@ -106,3 +107,15 @@ Before presenting more batches or applying imports, read the console’s final `
 The owner submitted all 20 ancillary candidates (119–138) as approved on 27 October 2026 at 18:06:47 UTC. The final authenticated decision rows were read from the console and applied as one complete batch using the content-bound intake adapter. Receipt: `c989db36-b41b-4f13-8b60-469a33416a79`; revision 1. Drafts were not used. All content hashes and candidate numbers matched; all 118 earlier decisions were preserved.
 
 Current selections are **129 approved and nine rejected**, with no pending decisions among the 138 numbered candidates. The original recommendations remain visible, including the discuss recommendation for 138. Year, author, document-type and version holds remain in place. Selection does not approve publication or bypass later checks. No papers were imported, and ALEX was not merged or deployed. Continue ancillary discovery and substantive assessment before restarting the additional import checks requested to remain paused.
+
+## Batch 8 prepared for the shared console
+
+Read 25 further source-linked poster/extended abstracts, including abstract or introductory sections and methods relevant to the selection rationale. Twenty form [batch 8 (139–158)](soups_review_batch_08.md), with explicit include recommendations and pending user decisions. Subjects include digital forensic investigations, quishing, impersonation, interpersonal IoT misuse, unwanted tracking alerts, cyberbullying, phishing response and attacker decision-making. Research scenarios, conceptual work and proposed interventions are distinguished from demonstrated outcomes. These are short poster papers, not full main-conference papers.
+
+All 138 earlier numbered records and their decisions were preserved exactly. Totals remain 129 approved and nine rejected, with 20 newly numbered pending candidates. The manifest now contains 797 stable discovery/assessment records; this is not a count of importable papers. Ancillary content assessments increased from 20 to 45; main-conference assessments remain 137 of 503, with 366 unassessed. Five newly assessed items remain unnumbered: two include, two discuss and one exclude recommendation. No user decision is inferred for them.
+
+No title, supplied DOI or canonical-URL match was found for the 25 assessed items against the 3,598-record public corpus fetched at current main commit `12f34fe06101c58dc5e6d89a0b4fb9b7595eca34`, or other SOUPS manifest records. Alternate versions and missing DOIs remain limitations. This current deduplication snapshot supplements the original inventory baseline; it does not replace that baseline or import records.
+
+Official listing versus PDF-footer year conflicts remain explicit for candidates 142 (2026/2024), 150 (2023/2022) and 151 (2022/2021). Candidate 156's program omits a PDF author; 157 retains an unfilled DOI template, which is not treated as an assigned DOI. Program/PDF name variants and author-block order holds are preserved. Source receipts and unnumbered assessments are recorded in [batch-8 evidence](soups_ancillary_batch_08_evidence.json), with metadata/content assessments in `config/soups_ancillary_review_evidence.json`. No PDF bytes or full paper text are committed.
+
+The console reads batch 8 from its existing SOUPS manifest registration. No console source changes, ALEX publication, merge or deployment are required. Import checks remain paused until the additional discovery and content review are completed, as requested. The final number of future batches remains unknown while screening is incomplete.

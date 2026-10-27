@@ -6,7 +6,7 @@ Sites project: `appgprj_6ae0e13117b48191b3b024311ee18342`. GUI source is maintai
 
 This console serves every source collection. `config/review_console.json` registers the initial SOUPS and APWG adapters and accepts normalized manifests for future collections. The APWG pending file currently has no unreviewed editorial decisions: its sole remaining paper is already editorially approved and quality-held, so it must not be reopened as a new acceptance decision.
 
-Each paper shows an explicit Include / Exclude / Discuss recommendation beside its Reject checkbox, a relevance explanation, document type, source link and expandable metadata. An unchecked box means Accept only when the signed-in user explicitly submits the batch. Checkbox changes save draft state separately. Existing SOUPS decisions remain 109 approved and nine rejected; ancillary 119–138 remain pending.
+Each paper shows an explicit Include / Exclude / Discuss recommendation beside its Reject checkbox, a relevance explanation, document type, source link and expandable metadata. An unchecked box means Accept only when the signed-in user explicitly submits the batch. Checkbox changes save draft state separately. Current SOUPS selections are 129 approved and nine rejected, including the authenticated batch-7 submission. Ancillary candidates 139–158 are pending in batch 8. New batches load from the registered GitHub manifest without a console redeployment.
 
 ## Read decisions before continuing review/import work
 
