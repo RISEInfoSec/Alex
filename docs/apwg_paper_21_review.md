@@ -59,3 +59,16 @@ Editorial selection remains pending explicit review of this corrected record;
 27 previous selections remain approved. Publication remains unauthorized.
 The earlier execution limitation above describes the evidence-only commit;
 the correction was subsequently tested and scored in the restored environment.
+
+
+## Editorial selection approved
+
+The user subsequently agreed to retain the corrected paper. Paper 21 is now
+in `papers`, with both selection and classification approved, bringing the
+shortlist to **28 papers**. Its approval hashes bind to the complete author
+abstract; the old incomplete OpenAlex hash remains solely in the source
+replacement/audit evidence. Changed abstract text cannot inherit approval.
+The earlier hold and selection-pending statements above are historical review
+steps, superseded by this decision. Publication, import, merge and deployment
+remain unauthorized. There are no outstanding explicit editorial holds among
+the 28 reviewed above-threshold papers; the other quality tiers remain pending.

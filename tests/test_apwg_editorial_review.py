@@ -94,7 +94,7 @@ def test_real_manifest_records_the_approved_decisions_without_release_authorizat
     manifest = load_json(root_file('config', 'apwg_editorial_decisions.json'))
     assert manifest['publication_approved'] is False
     rows = manifest['papers']
-    assert len(rows) == len({r['doi'] for r in rows}) == 27
+    assert len(rows) == len({r['doi'] for r in rows}) == 28
     assert all(r['selection_approved'] and r['classification_approved'] for r in rows)
     assert all(r['category'] in CATEGORIES and r['investigation_type'] in INVESTIGATION_TYPES for r in rows)
     numbered = {r['review_number']: r for r in rows}
@@ -105,8 +105,9 @@ def test_real_manifest_records_the_approved_decisions_without_release_authorizat
     assert numbered[22]['investigation_type'] == 'Attribution'
     assert numbered[24]['category'] == 'Digital Forensics & Evidence'
     assert numbered[28]['category'] == 'AI/ML for Security'
-    assert [r['review_number'] for r in manifest['held_papers']] == [21]
-    assert set(numbered) == set(range(1,29)) - {21}
+    assert manifest['held_papers'] == []
+    assert numbered[21]['approved_abstract_sha256'] == numbered[21]['abstract_override']['sha256']
+    assert set(numbered) == set(range(1,29))
     assert numbered[8]['abstract_glyph_replacements']['\ue000'] == 'fi'
     assert numbered[8]['abstract_glyph_replacements']['security\ue001aws'] == 'security flaws'
 
@@ -141,7 +142,11 @@ def test_preferred_hash_requires_recorded_source_and_new_changes_still_hold(appr
 
 @pytest.mark.parametrize('changed_abstract', [False, True])
 def test_explicit_hold_survives_score_and_new_abstract_until_reviewed(monkeypatch, changed_abstract):
-    entry = editorial.decisions()['10.1109/ecrime.2009.5342609']
+    from copy import deepcopy
+    entry = deepcopy(editorial.decisions()['10.1109/ecrime.2009.5342609'])
+    entry['editorial_hold'] = True
+    entry['reason'] = 'Abstract completeness verification pending'
+    monkeypatch.setattr(editorial, 'decisions', lambda: {entry['doi']: entry})
     row = {'title': entry['title'], 'doi': entry['doi'], 'year': str(entry['year']),
            'abstract': 'Updated original abstract' if changed_abstract else 'Short background only',
            'venue': '2009 eCrime', 'in_existing_alex_corpus': 'false'}
@@ -164,6 +169,7 @@ def test_author_exception_is_identity_source_and_content_bound_and_idempotent(tm
     # controlled hash verifies the same guards without duplicating its text.
     from copy import deepcopy
     entry = deepcopy(entry)
+    entry['editorial_hold'] = True
     entry['abstract_override']['replaces_sha256'] = editorial.abstract_digest('Reviewed short abstract')
     row = {'doi': entry['doi'], 'title': entry['title'], 'year': str(entry['year']),
            'abstract': 'Reviewed short abstract', 'abstract_source': correction['replaces_source']}
