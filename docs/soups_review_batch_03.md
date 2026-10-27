@@ -1,6 +1,6 @@
 # SOUPS review batch 3: papers 41–60
 
-All user decisions in this batch are pending. These are recommendations based on official abstracts, with authors, year, venue and publisher checked against individual USENIX citation metadata. No paper in this batch is approved for import.
+User approved all 20 papers (41–60) on 27 October 2026. These are recommendations based on official abstracts, with authors, year, venue and publisher checked against individual USENIX citation metadata. Selection is approved; technical checks and the controlled import remain outstanding.
 
 Recommendations: 20 include; 0 discuss.
 
@@ -248,3 +248,5 @@ Collection: [SOUPS](https://soups.page/) (Symposium On Usable Privacy and Securi
 
 **Text hold:** source_text_defect_review_required.
 
+
+DOI policy: search for existing DOIs, but absence of a DOI does not disqualify a paper. Keep missing identifiers empty, distinguish pending lookup from no DOI found, and use verified official links plus title/author/year matching for identification and deduplication.
