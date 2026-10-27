@@ -2159,3 +2159,14 @@ def test_authorized_apwg_release_preserves_full_master_and_adds_only_approved(tm
         actual=list(csv.DictReader(f))
     assert result['records_added']==90 and len(actual)==len(existing)+90
     assert all(all(actual[i][k]==v for k,v in row.items()) for i,row in enumerate(existing))
+def test_apwg_archive_carries_independent_venue_into_quality_review():
+    from alex.pipelines import apwg_import
+    from alex.pipelines.apwg_quality_review import assess
+    c = next(c for c in apwg_import._verified_corrections().values()
+             if c['url_suffix'] == '/02_liao6.pdf')
+    html = '<a href="https://docs.apwg.org/ecrimeresearch/2025/02_liao6.pdf">' + c['archive_title'] + '</a>'
+    row = apwg_import.archive_papers(html, 2025, 'https://ecrimeresearch.org/2025-accepted-research-papers')[0]
+    assert row['venue'] == c['venue']
+    assert row['publisher'] == 'IEEE'
+    assert row['collection_source'] == 'APWG.org eCrimes Research'
+    assert assess(row)['quality_venue_score'] == 100

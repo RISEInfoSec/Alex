@@ -554,3 +554,19 @@ def test_dblp_only_uses_explicit_bibliographic_venue():
     assert record['venue_source'] == 'dblp bibliographic venue'
     assert record['venue_evidence_url'].startswith('https://dblp.org/rec/conf/ecrime/')
     assert apwg_import.dblp_papers(response())[0]['venue'] == ''
+def test_verified_venue_requires_identity_and_preserves_available_or_existing_metadata():
+    c = next(c for c in apwg_import._verified_corrections().values()
+             if c['url_suffix'] == '/02_liao6.pdf')
+    row = {'title': c['title'], 'doi': c['doi'], 'year': str(c['year']),
+           'apwg_paper_url': 'https://docs.apwg.org/ecrimeresearch/2025/02_liao6.pdf', 'venue': ''}
+    fixed = apwg_import._apply_verified_venue(row, c)
+    assert fixed['venue'] == c['venue']
+    assert fixed['venue_evidence_url'] == c['venue_evidence_url']
+    assert row['venue'] == ''
+    for field, value in [('title', 'Different paper'), ('doi', '10.1234/other'),
+                         ('year', '2024'), ('apwg_paper_url', 'https://example.org/other.pdf'),
+                         ('venue', 'Available deposited venue'), ('in_existing_alex_corpus', 'true'),
+                         ('duplicate_review_status', 'hold_possible_variant'),
+                         ('duplicate_review_status', 'exact_doi_or_title_match')]:
+        changed = {**row, field: value}
+        assert apwg_import._apply_verified_venue(changed, c) == changed
