@@ -20,8 +20,8 @@ def decisions() -> dict[str, dict]:
     return {entry["doi"].lower(): entry for entry in data["papers"]}
 
 
-def decision_for(row: dict) -> tuple[dict | None, str]:
-    """Bind approval to DOI, title, year and the reviewed original abstract."""
+def reviewed_identity(row: dict) -> tuple[dict | None, str]:
+    """Identify the reviewed publication without approving new abstract text."""
     doi = clean(row.get("doi")).lower().removeprefix("https://doi.org/")
     entry = decisions().get(doi)
     if entry is None:
@@ -29,8 +29,19 @@ def decision_for(row: dict) -> tuple[dict | None, str]:
     if (normalize_title(row.get("title", "")) != normalize_title(entry["title"]) or
             clean(row.get("year")) != str(entry["year"])):
         return None, "reviewed_record_changed"
+    return entry, "reviewed_identity"
+
+
+def decision_for(row: dict) -> tuple[dict | None, str]:
+    """Bind approval to DOI, title, year and the reviewed original abstract."""
+    entry, status = reviewed_identity(row)
+    if entry is None:
+        return None, status
     digest = abstract_digest(row.get("abstract", ""))
-    if digest not in (entry["reviewed_abstract_sha256"], entry["approved_abstract_sha256"]):
+    allowed = {entry["reviewed_abstract_sha256"], entry["approved_abstract_sha256"]}
+    if clean(row.get("abstract_source")) == entry.get("preferred_abstract_source"):
+        allowed.add(entry.get("preferred_abstract_sha256"))
+    if digest not in allowed:
         return None, "reviewed_abstract_changed"
     if entry.get("selection_approved") is not True or entry.get("classification_approved") is not True:
         return None, "not_approved"
@@ -42,6 +53,10 @@ def normalized_abstract(row: dict) -> tuple[str, bool]:
     original = clean(row.get("abstract"))
     entry, status = decision_for(row)
     if status != "approved" or not entry.get("abstract_glyph_replacements"):
+        return original, False
+    # OpenAlex is preferred when supplied. Its accepted text is preserved
+    # verbatim; PDF-specific cleanup is only for the reviewed PDF fallback.
+    if abstract_digest(original) != entry["reviewed_abstract_sha256"]:
         return original, False
     corrected = original
     for glyph, replacement in entry["abstract_glyph_replacements"].items():

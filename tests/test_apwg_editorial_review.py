@@ -100,4 +100,33 @@ def test_real_manifest_records_the_13_approved_decisions_without_release_authori
     numbered = {r['review_number']: r for r in rows}
     assert numbered[9]['investigation_type'] == numbered[10]['investigation_type'] == 'Other'
     assert numbered[12]['category'] == 'AI/ML for Security'
-    assert numbered[8]['abstract_glyph_replacements'] == {'\ue000': 'fi', '\ue001': 'fl'}
+    assert numbered[8]['abstract_glyph_replacements']['\ue000'] == 'fi'
+    assert numbered[8]['abstract_glyph_replacements']['security\ue001aws'] == 'security flaws'
+
+
+
+def test_user_preferred_openalex_version_is_accepted_verbatim(approved, monkeypatch):
+    row, _ = approved
+    entries = editorial.decisions()
+    entry = entries[row['doi']]
+    alternate = 'The verified indexer version may contain different original wording.'
+    entry['preferred_abstract_source'] = 'OpenAlex title/DOI verified'
+    entry['preferred_abstract_sha256'] = editorial.abstract_digest(alternate)
+    changed = {**row, 'abstract': alternate, 'abstract_source': entry['preferred_abstract_source']}
+    assert editorial.decision_for(changed)[1] == 'approved'
+    assert editorial.normalized_abstract(changed) == (alternate, False)
+    result = review.review_row(changed, classifier=lambda _: (_ for _ in ()).throw(AssertionError('no model')))
+    assert result['editorial_selection_status'] == 'approved'
+    assert result['abstract'] == alternate
+    assert result['publication_approved'] == 'false'
+
+
+def test_preferred_hash_requires_recorded_source_and_new_changes_still_hold(approved):
+    row, _ = approved
+    entry = editorial.decisions()[row['doi']]
+    entry['preferred_abstract_source'] = 'OpenAlex title/DOI verified'
+    entry['preferred_abstract_sha256'] = editorial.abstract_digest('Approved indexer version')
+    assert editorial.decision_for({**row, 'abstract': 'Approved indexer version',
+                                  'abstract_source': 'Unknown source'})[0] is None
+    assert editorial.decision_for({**row, 'abstract': 'An unreviewed future indexer version',
+                                  'abstract_source': 'OpenAlex title/DOI verified'})[0] is None

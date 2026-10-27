@@ -203,7 +203,9 @@ scores and gates remain unchanged; approval does not bypass a quality hold.
 OSINT source-type labels were not part of this approval and are not invented.
 
 Leaky Kits (paper 8) has two visually checked PDF ligatures: U+E000 represents
-fi and U+E001 represents fl. Only its matching original abstract is normalized;
+fi and U+E001 represents fl. Contextual word spacing and the original
+open-source compound hyphen were also verified visually and restored. Only
+its matching original abstract is normalized;
 a second approved hash verifies the cleaned text. The original PDF first page
 was rendered from memory for inspection; no PDF file was retained. The source
 and extraction audit record the specific glyph cleanup, without changing any
@@ -212,3 +214,13 @@ other wording or creating a summary.
 The review CSV now separates `editorial_selection_status` and
 `editorial_classification_status` from `publication_approved`, which remains
 false. These decisions live on the draft branch, separate from the live corpus.
+
+The user subsequently instructed **defer to OpenAlex** for differing abstract
+versions. Verified OpenAlex abstracts remain preferred when available; reviewed
+APWG PDF abstracts remain the fallback. The manifest records the accepted
+OpenAlex source and version digest alongside the reviewed PDF digest. These
+versions are kept distinct, never merged or rewritten into a hybrid summary.
+PDF-specific glyph cleanup does not rewrite the preferred OpenAlex text.
+Further unrecognized changes still produce a review hold. The source preference
+does not change verified original publication years, publisher/venue evidence,
+quality gates, corpus-write authorization or editorial classifications.
