@@ -1,27 +1,38 @@
 {
   "schema_version": 1,
-  "phase": "initialising",
-  "ready_total": 210,
-  "soups_ready_batches": 3,
+  "phase": "active",
+  "ready_total": 0,
+  "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": null,
-  "lease": {
-    "owner": "interactive-initial-refill",
-    "expires_at": "2026-10-27T23:08:43.404Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
-    "soups": 60,
-    "weekly": 150,
+    "soups": 0,
+    "weekly": 0,
     "virusbulletin": 0
   },
   "unattended_access_verified_at": "2026-10-27T22:40:36Z",
   "verification_result": "Unattended access verified: production D1 binding DB exposes review_decisions, review_drafts, review_jobs and review_submissions; review_jobs read succeeded (empty). Branch source registry config/review_console.json read successfully (SOUPS, APWG, Virus Bulletin; weekly not yet registered). Initial-fill lease and all counts preserved; no candidate or assessment mutation.",
-  "weekly_prepared_batches": 8,
-  "last_initial_fill_checkpoint": "2026-10-27T22:51:12.952Z",
+  "weekly_prepared_batches": 0,
   "pending_mechanical_jobs": 12,
-  "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z"
+  "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
+  "workflow": "preflight_first",
+  "preflight_pending": 250,
+  "preflight_source_counts": {
+    "soups": 100,
+    "weekly": 150
+  },
+  "global_deficit": 250,
+  "soups_batch_deficit": 5,
+  "last_completed_at": "2026-10-27T22:55:34.059Z",
+  "last_action": "Unverified candidates withdrawn; mandatory preflight gate deployed. No cleared manual-review candidates yet.",
+  "mechanical_result_totals": {
+    "legacy_accepted_started": 12,
+    "complete": 0
+  },
+  "priority": "Protect human review time; complete mechanical preflight before manual relevance review."
 }
