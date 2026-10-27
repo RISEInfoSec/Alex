@@ -50,7 +50,7 @@ The full baseline public CSV and JSON retain their verified hashes. No additions
 
 ## Next work
 
-1. Prepare batch 5; preserve paper numbers 1–80.
+1. Review batch 5 (81–100); preserve paper numbers 1–100.
 2. Continue substantive screening of the remaining 366 papers and prepare further batches; finish early PDF formatting checks and bibliographic holds.
 3. Resolve classification and quality holds for selected papers, then prepare the controlled import and pull request.
 4. Merge and deploy only after explicit user authorization.
@@ -71,3 +71,5 @@ References: https://www.crossref.org/membership/ and https://community.crossref.
 Batch 4: [papers 61–80](soups_review_batch_04.md), 19 approved and paper 74 rejected; paper 73 explicitly approved. Official individual citation metadata verified for all 20; recommendations 18 include and two discuss (73, 74). These two recommendations were revised after closer review of the abstracts; substantive assessment count remains 137. DOI lookup and PDF-link checks remain outstanding. No additional publication approvals.
 
 Batch-4 decision update: user approved 61–73 and 75–80 and rejected 74. Cumulative selections: 76 approved, four rejected. Decisions are bound to the reviewed content hashes. Technical checks remain outstanding; no corpus import, merge or deployment occurred.
+
+Batch 5: [papers 81–100](soups_review_batch_05.md), all decisions pending; 16 include and four discuss. Paper 87 moved to discuss and paper 100 moved to include after closer abstract review, leaving recommendation totals unchanged. Original-PDF authors recovered for paper 93; subtitle discrepancy retained as a hold. Current assessed new-addition queue is 118 candidates (six batches), excluding existing Anti-Phishing Phil; after this batch 18 remain. Final batch count remains unknown while 366 research-paper records await assessment.
