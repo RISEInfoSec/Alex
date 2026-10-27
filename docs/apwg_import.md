@@ -349,3 +349,23 @@ Other. Other pairs retain reviewed labels. Source artifact: 12701110589, run
 40427031598. Scores remain 46.58–48.82; four further human-review candidates
 remain in that snapshot. Quality policy and publication authorization remain
 unchanged.
+
+
+### Final human-review tier decisions: papers 89–92
+
+The user approved 89, 91 and 92, and held 90 (Koobface) pending verification
+of abstract completeness. The available Koobface text is background only;
+truncation is suspected, not established. Malware & Exploits / Malware
+Analysis is proposed but unapproved. Paper 92 uses Cybercrime & Fraud / Other,
+reflecting exploratory deterrence criminology rather than threat hunting.
+
+The reviewed snapshot now has **90 editorial approvals**, **two explicit
+editorial holds** (50 scope, 90 abstract completeness), **76 quality/metadata
+holds**, and **one existing ALEX record** (169 total). All 64 human-quality-review
+tier candidates and 28 above-threshold candidates have now received editorial
+decisions; this does not approve the separate quality/metadata holds. Source
+artifact: 12701110589, run 40427031598. Scores, thresholds, veto gates, the live
+corpus and publication authorization are unchanged. Every publication flag
+remains false. A release recommendation still requires checking current-head
+workflow artifacts for changed metadata/content and outstanding bibliography
+conflicts; editorial approval does not itself authorize import or publication.
