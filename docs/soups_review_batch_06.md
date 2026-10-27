@@ -1,6 +1,6 @@
 # SOUPS review batch 6: papers 101–118
 
-All 18 user decisions are pending. Recommendations: seven include, nine discuss, two exclude (107 and 118). These are supporting or borderline candidates from the initial assessed queue. Recommendations were reassessed against the official abstracts; no full-text findings are claimed. Individual official USENIX citation metadata verified on 27 October 2026.
+User decisions recorded on 27 October 2026: **14 approved; 102, 104, 106 and 118 rejected.** Paper 107 approved despite the exclude recommendation. Recommendations: seven include, nine discuss, two exclude (107 and 118). These are supporting or borderline candidates from the initial assessed queue. Recommendations were reassessed against the official abstracts; no full-text findings are claimed. Individual official USENIX citation metadata verified on 27 October 2026.
 
 Collection: [SOUPS](https://soups.page/) (Symposium On Usable Privacy and Security) and [USENIX](https://www.usenix.org/) (the Advanced Computing Systems Association).
 
@@ -221,3 +221,5 @@ This completes presentation of the initial 118-candidate new-addition queue. It 
 **Duplicate check:** no_match_found. **DOI:** lookup pending; optional for inclusion.
 
 **Outstanding checks:** PDF link, final text QA and identifier discovery.
+
+Selection decisions: approve 101, 103, 105, 107–117; reject 102, 104, 106, 118. Technical checks remain outstanding for selected papers.
