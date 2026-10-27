@@ -8,10 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": "Paid taxonomy classification credential unavailable in this execution environment; stage held. Source-specific access/metadata failures are recorded in hash-bound checkpoints.",
-  "lease": {
-    "owner": "preflight-2026-10-27T23:36:55.123Z",
-    "expires_at": "2026-10-28T00:06:55.123Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -32,18 +29,20 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-27T23:08:20Z",
-  "last_action": "Reconciled all 132 latest console decisions; checkpointed duplicate/quality results for 250 held candidates and partial live evidence; bootstrapped 239 additional legacy accepted assessments. Raw-manifest readback and D1 submission/outbox recheck confirmed zero cleared-ready records. No import, merge or public deployment.",
+  "last_completed_at": "2026-10-27T23:45:46Z",
+  "last_action": "Reused unchanged SHA-verified corpus/inventories and all 132 valid latest decisions. Verified format/access/metadata of six SOUPS papers, completed six index lookups (one exact citation match), and refreshed their still-held quality scores using verified metadata. Added 20 weekly registry lookups and 18 primary resource checks: 13 additional format/access passes and 15 metadata passes. Completed 12 legacy-accepted citation registry searches; no verified match, counts remain null. All targets remain unmet: 0 cleared-ready; no publication action.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
-    "legacy_bootstrapped_this_run": 239,
+    "legacy_bootstrapped_this_run": 0,
     "complete": 0,
     "held_or_partial": 251,
     "fresh_pdf_access_and_front_matter_passed": 12,
     "quality_passed": 5,
     "quality_held": 246,
     "openai_requests": 0,
-    "openai_tokens": 0
+    "openai_tokens": 0,
+    "citation_registry_lookups_completed": 12,
+    "verified_citation_counts_from_this_run": 0
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
   "last_started_at": "2026-10-27T23:36:55.123Z",
@@ -53,7 +52,8 @@
     "source_blob_sha": "32a7992a37b15d3d5f698354a0209157660a9d66",
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
-    "refresh_result": "Unchanged original source blob; no identities deleted or rewritten."
+    "refresh_result": "Unchanged original source blob; no identities deleted or rewritten.",
+    "refreshed_at": "2026-10-27T23:45:46Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
@@ -63,21 +63,24 @@
       "core_gate_held": 93,
       "below_threshold_held": 6,
       "relevance_floor_held": 1,
-      "format_held": 100,
-      "access_held": 100,
-      "metadata_held": 100,
-      "schema_held": 100
+      "format_held": 94,
+      "access_held": 94,
+      "metadata_held": 94,
+      "schema_held": 100,
+      "format_passed": 6,
+      "access_passed": 6,
+      "metadata_passed": 6
     },
     "weekly": {
       "duplicates_passed": 149,
       "duplicate_held": 1,
       "quality_passed": 150,
-      "format_passed": 9,
-      "access_passed": 9,
-      "metadata_passed": 12,
-      "format_held": 141,
-      "access_held": 141,
-      "metadata_held": 138,
+      "format_passed": 22,
+      "access_passed": 22,
+      "metadata_passed": 27,
+      "format_held": 128,
+      "access_held": 128,
+      "metadata_held": 123,
       "schema_held": 150
     }
   },
@@ -86,17 +89,17 @@
     "latest_decisions_validated": 132,
     "content_hash_mismatches": 0,
     "immutable_jobs": 13,
-    "verified_at": "2026-10-27T23:08:20Z"
+    "verified_at": "2026-10-27T23:45:46Z"
   },
   "blocked_sources": [
     {
       "source": "soups",
-      "reason": "All 100 current preflight candidates held by unchanged existing quality policy using current retained metadata; metadata/citation completion may affect provisional score but no gates waived.",
+      "reason": "6 of 100 have fresh paper format/access/metadata evidence. All 100 remain quality-held under unchanged existing policy. Other metadata/citation checks remain; not source exhaustion.",
       "exhausted": false
     },
     {
       "source": "weekly",
-      "reason": "Preflight incomplete: 20 registry lookups and 16 primary-resource requests checkpointed, including 9 verified written-resource/access passes. Registry misses, access failures, author/year discrepancies and unperformed stages remain separate holds.",
+      "reason": "40 registry lookups and 34 primary resource requests cumulatively checkpointed. 22 format/access passes and 27 metadata passes; one duplicate hold. Unknown/failed or unperformed checks remain separate holds.",
       "exhausted": false
     }
   ],
@@ -104,5 +107,18 @@
     "stage": "taxonomy_and_target_schema_dry_run",
     "reason": "Required paid classification stage uses supported OPENAI_API_KEY path; neither that credential nor workflow OPEN_API_KEY alias is available in this environment. Stage not invoked; no fallback classification or false schema pass.",
     "retry": "Resume when supported credential becomes available; continue independent preflight checks meanwhile."
+  },
+  "last_run_checkpoint": {
+    "verified_at": "2026-10-27T23:45:46Z",
+    "soups_primary_source_pairs": 6,
+    "soups_index_lookups": 6,
+    "weekly_registry_lookups": 20,
+    "weekly_primary_resource_requests": 18,
+    "accepted_registry_lookups": 12,
+    "request_timeout_seconds": 20,
+    "serial_source_pacing_seconds": 0.5,
+    "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+    "ready_counts_after_manifest_readback_and_D1_recheck": 0
   }
 }
