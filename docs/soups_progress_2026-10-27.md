@@ -8,7 +8,7 @@
 - [Batch 2: papers 21–40](soups_review_batch_02.md) and [batch 3: papers 41–60](soups_review_batch_03.md) are ready for review. Batch 2 has 18 approvals and two rejections; all 20 papers in batch 3 are approved. Individual USENIX bibliography is verified for all 40, with no existing ALEX title/URL matches found.
 - Unnumbered assessments remain in the manifest for later batch preparation. Source-linked assessment reasons distinguish direct, supporting, uncertain and out-of-scope recommendations.
 
-Researcher recommendations among the 137 assessed papers: {'include': 92, 'discuss': 27, 'exclude': 18}. These are not additional user decisions.
+Researcher recommendations among the 137 assessed papers: {'include': 90, 'discuss': 29, 'exclude': 18}. These are not additional user decisions.
 
 ## Approved batch checks
 
@@ -50,7 +50,7 @@ The full baseline public CSV and JSON retain their verified hashes. No additions
 
 ## Next work
 
-1. Prepare the next review batch; preserve paper numbers 1–60.
+1. Review batch 4 (papers 61–80); preserve paper numbers 1–80.
 2. Continue substantive screening of the remaining 366 papers and prepare further batches; finish early PDF formatting checks and bibliographic holds.
 3. Resolve classification and quality holds for selected papers, then prepare the controlled import and pull request.
 4. Merge and deploy only after explicit user authorization.
@@ -67,3 +67,5 @@ Batch-3 decision update: all 20 candidates (41–60) approved, bringing selectio
 A DOI is optional for inclusion. Search official paper/proceedings metadata and bibliographic registries, retaining lookup evidence and distinguishing lookup pending, no DOI found, publisher-confirmed unassigned, verified and ambiguous cases. Store a missing DOI as an empty value, never the literal N/A; a user-facing label may say DOI: not found. Do not claim a DOI does not exist merely because a search failed. Use official URLs and title/author/year matching to deduplicate papers without DOIs. Retroactive registration requires the appropriate publisher or its authorized representative; ALEX will not mint DOIs for third-party papers on its own.
 
 References: https://www.crossref.org/membership/ and https://community.crossref.org/t/can-i-register-dois-for-articles-in-older-issues-of-a-journal-membership-ticket-of-the-month-september-2025/14473
+
+Batch 4: [papers 61–80](soups_review_batch_04.md), all decisions pending. Official individual citation metadata verified for all 20; recommendations 18 include and two discuss (73, 74). These two recommendations were revised after closer review of the abstracts; substantive assessment count remains 137. DOI lookup and PDF-link checks remain outstanding. No additional publication approvals.
