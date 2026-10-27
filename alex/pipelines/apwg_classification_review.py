@@ -115,7 +115,7 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
         return result
 
     entry, editorial_status = decision_for(row)
-    if entry:
+    if entry and editorial_status == "approved":
         # Keep approval tied to the exact reviewed content. Normalize only
         # the specific, visually checked glyphs recorded in the manifest.
         corrected, changed = normalized_abstract(row)
@@ -150,7 +150,18 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
         issues.append("Abstract-informed provisional review; individual approval required")
     issues.append("Individual quality assessment required")
 
-    if entry:
+    if editorial_status == "held":
+        result.update({
+            "classification_status": "editorial_hold",
+            "editorial_selection_status": "held",
+            "editorial_classification_status": "held",
+            "editorial_review_basis": "config/apwg_editorial_decisions.json; explicit user-approved hold",
+        })
+        issues.append("Editorial hold: " + entry["reason"])
+        result["review_flags"] = "; ".join(issues)
+        return result
+
+    if entry and editorial_status == "approved":
         if (entry["category"] not in classify.CATEGORIES or
                 entry["investigation_type"] not in classify.INVESTIGATION_TYPES):
             raise ValueError("Editorial decision outside established taxonomy")

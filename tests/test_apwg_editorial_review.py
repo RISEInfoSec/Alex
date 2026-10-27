@@ -94,7 +94,7 @@ def test_real_manifest_records_the_approved_decisions_without_release_authorizat
     manifest = load_json(root_file('config', 'apwg_editorial_decisions.json'))
     assert manifest['publication_approved'] is False
     rows = manifest['papers']
-    assert len(rows) == len({r['doi'] for r in rows}) == 18
+    assert len(rows) == len({r['doi'] for r in rows}) == 22
     assert all(r['selection_approved'] and r['classification_approved'] for r in rows)
     assert all(r['category'] in CATEGORIES and r['investigation_type'] in INVESTIGATION_TYPES for r in rows)
     numbered = {r['review_number']: r for r in rows}
@@ -102,7 +102,9 @@ def test_real_manifest_records_the_approved_decisions_without_release_authorizat
     assert numbered[12]['category'] == 'AI/ML for Security'
     assert numbered[14]['investigation_type'] == 'Other'
     assert numbered[16]['category'] == 'OSINT Methodology'
-    assert set(numbered) == set(range(1,19))
+    assert numbered[22]['investigation_type'] == 'Attribution'
+    assert [r['review_number'] for r in manifest['held_papers']] == [21]
+    assert set(numbered) == set(range(1,21)) | {22,23}
     assert numbered[8]['abstract_glyph_replacements']['\ue000'] == 'fi'
     assert numbered[8]['abstract_glyph_replacements']['security\ue001aws'] == 'security flaws'
 
@@ -133,3 +135,21 @@ def test_preferred_hash_requires_recorded_source_and_new_changes_still_hold(appr
                                   'abstract_source': 'Unknown source'})[0] is None
     assert editorial.decision_for({**row, 'abstract': 'An unreviewed future indexer version',
                                   'abstract_source': 'OpenAlex title/DOI verified'})[0] is None
+
+
+@pytest.mark.parametrize('changed_abstract', [False, True])
+def test_explicit_hold_survives_score_and_new_abstract_until_reviewed(monkeypatch, changed_abstract):
+    entry = editorial.decisions()['10.1109/ecrime.2009.5342609']
+    row = {'title': entry['title'], 'doi': entry['doi'], 'year': str(entry['year']),
+           'abstract': 'Updated original abstract' if changed_abstract else 'Short background only',
+           'venue': '2009 eCrime', 'in_existing_alex_corpus': 'false'}
+    def no_model(_):
+        raise AssertionError('An explicit editorial hold must not call the classifier')
+    result = review.review_row(row, classifier=no_model)
+    assert result['editorial_selection_status'] == 'held'
+    assert result['classification_status'] == 'editorial_hold'
+    assert result['proposed_category'] == ''
+    assert result['publication_approved'] == 'false'
+    assert 'completeness' in result['review_flags']
+    existing = review.review_row({**row, 'in_existing_alex_corpus': 'true'}, classifier=no_model)
+    assert existing['classification_status'] == 'existing_alex_record_preserved'

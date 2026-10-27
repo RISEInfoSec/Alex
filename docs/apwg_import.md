@@ -236,3 +236,18 @@ reviewed pairs. Each new decision records its reviewed abstract digest and
 source evidence, with OpenAlex preferred where available. This remains
 editorial approval only; publication, corpus import, merge and deployment
 remain separately gated.
+
+
+### Third editorial batch: papers 19–23
+
+The user approved papers 19, 20, 22 and 23 from the same run/artifact cited
+above, bringing the cumulative shortlist to **22 papers**. WordyThief (22)
+uses Cyber Threat Intelligence / Attribution. Paper 21, *A novel anti-phishing
+framework based on honeypots*, is explicitly held pending verification of
+its short OpenAlex abstract's completeness; truncation is not established.
+The manifest records this separately under `held_papers`. The review CSV
+shows `editorial_hold`, retains the unchanged quality assessment, and does
+not call the classifier or propose approved labels for that paper. An updated
+abstract cannot silently clear the hold; an explicit new editorial decision
+is required. Existing corpus/duplicate protection still takes precedence.
+None of these decisions authorize publication or relax quality gates.

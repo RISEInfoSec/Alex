@@ -17,7 +17,7 @@ def decisions() -> dict[str, dict]:
     data = load_json(root_file("config", "apwg_editorial_decisions.json"))
     if data.get("publication_approved") is not False:
         raise ValueError("Editorial manifest cannot authorize publication")
-    return {entry["doi"].lower(): entry for entry in data["papers"]}
+    return {entry["doi"].lower(): entry for entry in data["papers"] + data.get("held_papers", [])}
 
 
 def reviewed_identity(row: dict) -> tuple[dict | None, str]:
@@ -37,6 +37,9 @@ def decision_for(row: dict) -> tuple[dict | None, str]:
     entry, status = reviewed_identity(row)
     if entry is None:
         return None, status
+    # An explicit hold persists across abstract updates until a new decision.
+    if entry.get("editorial_hold") is True:
+        return entry, "held"
     digest = abstract_digest(row.get("abstract", ""))
     allowed = {entry["reviewed_abstract_sha256"], entry["approved_abstract_sha256"]}
     if clean(row.get("abstract_source")) == entry.get("preferred_abstract_source"):
