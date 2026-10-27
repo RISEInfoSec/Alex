@@ -50,7 +50,7 @@ The full baseline public CSV and JSON retain their verified hashes. No additions
 
 ## Next work
 
-1. Continue substantive screening of the remaining corpus; preserve paper numbers 1–118 and completed decisions.
+1. Review ancillary batch 7 (119–138); continue discovery and content assessment of posters, workshops and the 366 unassessed research papers before starting additional import checks. Preserve all completed decisions.
 2. Continue substantive screening of the remaining 366 papers and prepare further batches; finish early PDF formatting checks and bibliographic holds.
 3. Resolve classification and quality holds for selected papers, then prepare the controlled import and pull request.
 4. Merge and deploy only after explicit user authorization.
@@ -79,3 +79,17 @@ Batch-5 decision update: user approved 81–92 and 94–100 and rejected 93. Cum
 Batch 6: [papers 101–118](soups_review_batch_06.md), 14 approved and four rejected (102, 104, 106, 118). Official individual citation metadata verified; recommendations seven include, nine discuss and two exclude (107 and 118). Earlier discuss assessments were reassessed against the abstracts to distinguish concrete supporting relevance from general security research. All 118 initial new-addition candidates have now been presented; screening remains incomplete with 366 research-paper records unassessed. The initial queue is fully decided: 109 approved and nine rejected; no corpus import.
 
 Batch-6 decision update: user rejected 102, 104, 106 and 118 and approved the other 14, including 107 despite the researcher exclude recommendation. All 118 initial candidates now have decisions. Totals: 109 approved, nine rejected. Decisions are bound to the reviewed content hashes and all prior decisions remain unchanged. Corpus screening is still incomplete (366 research-paper records unassessed); technical and quality checks remain before controlled import. No merge or deployment.
+
+## Ancillary discovery before import checks
+
+User requested on 27 October 2026 that additional SOUPS collections be considered before further import checks. Those checks are paused. The source-linked expansion catalogues 593 provisional entries from 116 retrieved or attempted HTML sources: 319 poster abstracts, 126 posters of previously published work, 62 historical poster/showcase records, 83 workshop paper/abstract entries and three workshop program items. These are discovery records, not 593 new eligible papers, and the count does not include the 190 historical poster/showcase records already in the initial manifest. Duplicate versions and source gaps remain.
+
+Both the original 2014 and 2015 programs were recovered at CMU, adding 62 poster links after the current soups.page historical link failed. Other workshop coverage includes USM, WAY, WSIW, WIPS, GOSS, CARA, SUP, privacy threat modeling and children’s online safety. Public programs alone do not establish paper findings. Some GOSS entries lack linked papers; unavailable historical hosts, access restrictions, JS-only pages and a large 38 MB QRishing PDF remain explicit gaps. No restriction was bypassed.
+
+[Batch 7 (119–138)](soups_review_batch_07.md) contains 20 pending candidates: 17 poster abstracts, one workshop paper and two workshop talk abstracts. Nineteen include recommendations and one discuss. Eighteen original PDFs were reviewed for their abstracts/introduction/methods and two public workshop abstracts were assessed. Paper 124 has conflicting event-year evidence; 136 has workshop and poster versions; 137/138 have no linked individual paper PDF. These issues are held for later reconciliation, not hidden. The 109 approvals and nine rejections are unchanged. Main-conference research screening remains 137 of 503 assessed (366 unassessed); ancillary content assessment is separately 20 items.
+
+Artifacts: [additional collections](soups_additional_collections.json), [coverage and retrieval receipts](soups_ancillary_discovery_2026-10-27.json), [ancillary inventory](../config/soups_ancillary_inventory.json), [content-review evidence](../config/soups_ancillary_review_evidence.json).
+
+The ancillary parser has 3 targeted regression tests; these and the 8 existing SOUPS review tests pass (11 total). These validate discovery/document typing, not import eligibility. No quality/citation/import pipeline, merge, deployment or public corpus mutation was run.
+
+Ancillary HTML acquisition is resumable in bounded batches: `node scripts/soups_fetch_ancillary.mjs config/soups_ancillary_sources.json`; replay inventory with `python -m alex.pipelines.soups_ancillary`. Both commands remain discovery-only.
