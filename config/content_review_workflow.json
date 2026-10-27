@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 3,
+  "version": 4,
   "status": "proposed_not_activated",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -121,7 +121,8 @@
     "Adapt existing source-specific review/assessment stages behind the common workflow contract.",
     "Expose prepared-buffer and assessment progress in the console.",
     "Integrate exception staging and collection-specific release gates without interrupting the existing qualifying automatic route or overwriting the public corpus.",
-    "Verify retry, revision, source failure, quota failure and restart behaviour before unattended activation."
+    "Verify retry, revision, source failure, quota failure and restart behaviour before unattended activation.",
+    "Integrate the confirmed material-usefulness deduction and verify matching full recordings; preserve existing research-paper scoring thresholds."
   ],
   "automation_capability_observed": "The current automation event-source inventory exposes GitHub, but no direct Sites review-submission event. An outbox/worker integration is required; no event trigger or substitute polling schedule has been created.",
   "routing": {
@@ -155,5 +156,13 @@
     "retry_policy": "Checkpoint completed work and resume after transient failures or source limits until the target is reached, or explicitly report source exhaustion or a blocking failure.",
     "worker_integration": "Apply this policy in the background worker when it is activated; no separate polling task is created by this policy update.",
     "confirmed_at": "2026-10-27"
+  },
+  "material_usefulness_policy": {
+    "path": "config/content_review_material_policy.json",
+    "status": "user_confirmed; scoring_integration_pending",
+    "distinguish_papers_presentations_and_decks": true,
+    "presentation_without_verified_substantive_audio": "Major resource-usefulness deduction; no automatic acceptance while audio is absent or unverified.",
+    "verified_full_recording": "A matching substantive recording with usable audio improves inclusion value and removes the missing-audio deduction after verification.",
+    "do_not_infer_paper_status_from_pdf": true
   }
 }
