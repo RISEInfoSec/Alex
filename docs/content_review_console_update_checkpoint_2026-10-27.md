@@ -2,7 +2,7 @@
 
 The latest user instruction supersedes the earlier relevance-first initial fill: HUMAN REVIEW TIME IS THE MOST VALUABLE RESOURCE. Complete foreseeable mechanical checks before any manual relevance review. A queue target never justifies unchecked candidates.
 
-Private console version5 deployed successfully. Source commit b11102d93277010a2608bcf626a70f327144cfd7; deployment appgdep_6ae12c71312c8191bbd0fe4c738ef960. Owner-private access unchanged. TypeScript,23tests and full production build passed.
+Private console version6 deployed successfully. Source commit f32d969818352ff34f2f9b622fee06e22f1d064d; deployment appgdep_6ae12caa3814819186340ecda8b3cfe8. Owner-private access unchanged. TypeScript,23tests and full production build passed.
 
 Server and UI gate every pending record on content-hash-bound preflight evidence for format, access, metadata, fresh duplicates, existing quality hard gates and schema compatibility. Each requires a passed status, checked_at and evidence. Unknown formats and major presentation/audio usefulness holds cannot enter the manual queue. Submissions/drafts from stale open tabs are checked against the same filtered queue. Existing approved/rejected archives remain visible and unchanged. Authenticated Safari verified SOUPS0pending,178archived and100awaiting mechanical checks; no test decisions were submitted.
 
@@ -13,3 +13,5 @@ Hourly Content Review task Automation_0ff7fb9b800481919b48ddb2593b8f88 is enable
 Actual Virus Bulletin batch5 completed at22:46:32.658Z:12accepted. ProductionD1 atomically created12mechanical_assessment jobs and1buffer_reconcile job. Integrity/schema prechecks were started and recorded in config/content_review_assessment_status.json; remaining stages explicitly pending,0completed jobs, no release approval. Existing accepted legacy records need missing checks without repeating human relevance review. Future candidates pass initial mechanical checks BEFORE review; only final/time-sensitive or changed-content validation follows acceptance.
 
 Goals remain five full preflight-cleared SOUPS batches and global250cleared candidates, refilling when strictly below100. No claim is made that these goals are currently met. Preserve qualifying regular automatic acceptance and existing scoring thresholds. Missing DOI does not disqualify; unknown citation counts remain null. No automatic score-weight learning; decision telemetry supports later relevance calibration. No public ALEX import, merge or deployment was performed.
+
+Final UI readback also verified Weekly discovery0to-review and150awaiting mechanical checks; prior SOUPS178archived decisions remained intact. Footer now consistently states mechanical checks precede review.
