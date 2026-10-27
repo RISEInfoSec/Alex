@@ -1,7 +1,7 @@
 {
   "name": "Content Review material usefulness policy",
-  "version": 1,
-  "status": "user_confirmed_policy; live_scoring_integration_pending",
+  "version": 2,
+  "status": "user_confirmed; source-independent console assessment implemented; numeric pipeline scoring integration pending",
   "confirmed_at": "2026-10-27",
   "material_identity": {
     "distinct_types": [
@@ -62,5 +62,11 @@
     "verification_status",
     "evidence timestamps"
   ],
-  "implementation_note": "This file records the user's scoring instruction. The scorer and background worker must consume the rule before claiming a numeric deduction has been applied."
+  "implementation_note": "This file records the user's scoring instruction. The scorer and background worker must consume the rule before claiming a numeric deduction has been applied.",
+  "scope": "All inbound ALEX sources and collections, present and future; not limited to Virus Bulletin.",
+  "console_implementation": {
+    "module": "lib/resource-usefulness.mjs",
+    "checks_passed": 19,
+    "research_paper_numeric_scorer_changed": false
+  }
 }
