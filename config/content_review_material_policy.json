@@ -1,0 +1,66 @@
+{
+  "name": "Content Review material usefulness policy",
+  "version": 1,
+  "status": "user_confirmed_policy; live_scoring_integration_pending",
+  "confirmed_at": "2026-10-27",
+  "material_identity": {
+    "distinct_types": [
+      "research_paper",
+      "presentation_abstract",
+      "presentation_slides",
+      "presentation_recording",
+      "presentation_transcript",
+      "poster_or_extended_abstract",
+      "format_unverified"
+    ],
+    "pdf_extension_establishes_paper_status": false,
+    "presentation_becomes_paper_when_recorded": false,
+    "verified_paper_and_related_presentation": "Keep the paper as the primary research resource, with slides or recording as separately typed supporting assets.",
+    "report_assessment_depth": true
+  },
+  "presentation_without_substantive_audio": {
+    "scoring_dimension": "resource_usefulness",
+    "deduction": "major",
+    "numeric_deduction": "Not yet calibrated; do not invent a numeric score or report this policy as applied by the live scorer.",
+    "user_basis": "A deck or presentation without audio is of very limited standalone value to ALEX.",
+    "automatic_acceptance_allowed": false,
+    "slides_without_speaker_notes": "Record the additional context limitation. Slides and missing notes are not a full research paper.",
+    "notes_alone": "Do not waive the audio-related deduction merely because slides or speaker notes exist.",
+    "audio_status_unknown": "Hold media verification and mark the deduction provisional; do not claim audio is absent before checking.",
+    "verified_audio_absent": "Apply the major resource-usefulness deduction and retain its reason in assessment output."
+  },
+  "verified_substantive_recording": {
+    "verification": [
+      "matching title, speaker and conference",
+      "full or substantively complete presentation rather than teaser or excerpt",
+      "usable audible presentation content",
+      "working canonical link and access conditions",
+      "recording and assessment timestamps"
+    ],
+    "youtube_embed_is_sufficient_evidence": false,
+    "recording_views_are_paper_citations": false,
+    "effect": "Remove the missing-audio deduction only after verification; assess usefulness and quality normally.",
+    "paper_status": "Remain typed as a presentation or recording; no inferred paper status or peer review."
+  },
+  "preserve": {
+    "research_paper_quality_weights_and_thresholds": true,
+    "qualifying_regular_paper_automatic_acceptance": true,
+    "prior_selection_decisions_and_reviewed_content_hashes": true,
+    "prior_acceptance_does_not_override_media_or_quality_holds": true
+  },
+  "evidence_to_record": [
+    "document_type",
+    "paper_url and verified format when present",
+    "slides_url",
+    "recording_url",
+    "audio_status",
+    "recording_completeness",
+    "speaker_notes_status",
+    "transcript_url",
+    "material_actually_assessed",
+    "resource_usefulness_deduction and basis",
+    "verification_status",
+    "evidence timestamps"
+  ],
+  "implementation_note": "This file records the user's scoring instruction. The scorer and background worker must consume the rule before claiming a numeric deduction has been applied."
+}
