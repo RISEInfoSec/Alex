@@ -481,3 +481,17 @@ unpublished selections with quality holds intact. Five records are rejected
 55 editorially approved but held, 16 unreviewed and the two earlier explicit
 holds (50 and 90). No new release permission or quality-policy change is
 included.
+
+
+### October 27 review complete: papers 153–168
+
+The user approved 10 editorial selections/classifications and explicitly
+rejected 156, 159, 160, 162, 164 and 168. These six are excluded, not held for
+automatic recovery or reconsideration. All 168 potential additions have now
+received an individual editorial disposition: 155 selections (90 published,
+65 unpublished pending quality/metadata work), 11 rejections and two earlier
+explicit holds (50 and 90). The one original existing ALEX match remains
+suppressed separately. No unreviewed APWG candidates remain. The pending
+worklist contains 67 unpublished records: 65 selected with holds intact and
+the two undecided holds. All new decisions remain review-only; the existing
+90-paper release bundle, live corpus and quality policy are unchanged.
