@@ -145,3 +145,36 @@ The old reviewed snapshot used OpenAlex counts. These are different provider
 counts, not proof that citations disappeared. Do not override those score
 holds or silently substitute a historical count as a new observation. Reconcile
 citation provider/date in the next metadata pass. Full new-head CI is pending.
+
+## Citation-provider reconciliation completed
+
+The three below-threshold results above came from substituting Crossref's
+reference-deposit counts for OpenAlex's citation-graph counts while OpenAlex
+was disabled. The original importer already prefers verified OpenAlex counts
+and uses Crossref only when those are absent. The checkpoint now preserves
+150 dated OpenAlex citation observations for all matching checkpoint records,
+not just the three affected approvals. A new available OpenAlex observation
+is never replaced. Crossref fallback counts are retained in separate fields;
+the code does not select whichever count is larger.
+
+| Paper | OpenAlex snapshot | Crossref fallback | Reconciled score |
+|---|---:|---:|---:|
+| 89 — High-fidelity explanations | 1 | 0 | 46.35 |
+| 91 — Phishing dropboxes | 16 | 10 | 45.70 |
+| 92 — Hacker deterrence | 3 | 0 | 45.23 |
+
+The source artifact was created at 2026-10-27T00:40:28Z (October 26 in Toronto).
+This timestamp describes the saved observation, not a new API measurement.
+Citation source, snapshot run/artifact/date and alternate provider/count are
+carried through bibliography, classification and recommendation exports.
+
+Offline replay of source artifact 12703497990 from completed run 40434833557
+now verifies all **90 approved candidates** under the existing gates, including
+the three above in the human-review tier. No OpenAlex or PDF requests were
+made in this replay. The existing match remains suppressed and publication
+flags remain false. Six missing abstracts in the no-PDF replay include one
+that the preceding completed run recovered from a PDF; the full new-head
+workflow will establish its actual coverage. The two explicit editorial holds
+and the other unapproved candidates remain held.
+
+[Machine-readable citation reconciliation](apwg_citation_reconciliation.json)

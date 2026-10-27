@@ -61,6 +61,8 @@ def _available_fields() -> list[str]:
         "apwg_paper_url", "bibliographic_link", "doi_verification",
         "abstract", "abstract_source", "citation_count", "citation_count_source", "venue",
         "venue_source", "venue_evidence_url",
+        "citation_snapshot_created_at", "citation_snapshot_run", "citation_snapshot_artifact",
+        "alternate_citation_count", "alternate_citation_count_source",
         "prior_fallback_watchlist", "clearly_non_phishing_topic",
         "duplicate_review_status", "in_existing_alex_corpus",
         "proposed_category", "proposed_investigation_type",

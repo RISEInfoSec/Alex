@@ -395,3 +395,16 @@ preserved, and changed versions still require re-review. The source artifact
 and digests remain auditable. Normal weekly discovery is unchanged. No
 nighttime collector has been scheduled. See the hold-enrichment plan for
 current key verification and citation-provider discrepancies.
+
+### Dated citation observations preserved
+
+The verified checkpoint also retains its 150 available OpenAlex citation
+observations. When a rate-limited audit has only Crossref fallback counts,
+review enrichment preserves the preferred dated OpenAlex observations and
+records the Crossref values alongside them. It does not choose the largest
+count, overwrite an available OpenAlex response, change citation weights, or
+hide the snapshot date. Existing records and ambiguous duplicates are excluded.
+The three provider-discrepant approvals return to scores 46.35, 45.70 and
+45.23 under unchanged rules. Offline reconciliation verifies all 90 editorial
+approvals as candidates pending separate release authorization. See
+[the citation evidence](apwg_citation_reconciliation.json).
