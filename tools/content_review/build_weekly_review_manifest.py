@@ -9,6 +9,9 @@ from urllib.parse import urlsplit,urlunsplit
 ROOT=Path(__file__).resolve().parents[2]
 HERE=Path(__file__).parent
 SOURCE=Path('/tmp/alex-weekly-review-queue.csv')
+DATA_ROOT=ROOT/'alex-seo' if (ROOT/'alex-seo').exists() else ROOT
+INPUTS=HERE/'weekly_screening_inputs.json' if (HERE/'weekly_screening_inputs.json').exists() else ROOT/'config/weekly_review_screening_inputs.json'
+ASSESSMENTS=HERE/'weekly_assessments.tsv' if (HERE/'weekly_assessments.tsv').exists() else ROOT/'config/weekly_review_assessments.tsv'
 DATE='2026-10-27'
 def norm(v):
  s=unicodedata.normalize('NFKD',html.unescape(str(v or '')).lower())
@@ -23,14 +26,15 @@ def number(v):
 def build():
  csv.field_size_limit(sys.maxsize)
  raw=SOURCE.read_bytes();source=list(csv.DictReader(io.StringIO(raw.decode())))
- inputs=json.loads((HERE/'weekly_screening_inputs.json').read_text());index={r['screen_number']:r for r in inputs}
- assessments=list(csv.DictReader((HERE/'weekly_assessments.tsv').open(),delimiter='\t'))
- corpus=json.loads((ROOT/'alex-seo/data/papers.json').read_text())
+ inputs=json.loads(INPUTS.read_text());index={r['screen_number']:r for r in inputs}
+ assessments=list(csv.DictReader(ASSESSMENTS.open(),delimiter='\t'))
+ corpus=json.loads((DATA_ROOT/'data/papers.json').read_text())
  for path in [ROOT/'alex-soups/config/soups_review_manifest.json',ROOT/'alex-virusbulletin/data/review_manifest.json']:
-  corpus.extend(json.loads(path.read_text()).get('records',[]))
+  if not path.exists():path=ROOT/'config'/('soups_review_manifest.json' if 'soups' in str(path) else 'virusbulletin_review_manifest.json')
+  if path.exists():corpus.extend(json.loads(path.read_text()).get('records',[]))
  titles=[(norm(r.get('title')),r) for r in corpus];dois={doi(r.get('doi')) for r in corpus if r.get('doi')}
  urls={url(r.get(k)) for r in corpus for k in ('source_url','Harvest_Source_URL','pdf_url','paper_url') if r.get(k)}
- records=[];holds=[dict(screen_number=n,reason=reason) for n,reason in [(41,'abstract_not_substantive'),(44,'truncated_abstract'),(78,'duplicate_of_screen_77_html_entity_variant'),(84,'software_release_requires_resource_adapter'),(117,'truncated_abstract'),(119,'podcast_requires_audio_resource_adapter'),(143,'book_description_requires_substantive_text_review')]];seen=set();seen_titles=set();weights=json.loads((ROOT/'alex-seo/config/quality_weights.json').read_text())
+ records=[];holds=[dict(screen_number=n,reason=reason) for n,reason in [(41,'abstract_not_substantive'),(44,'truncated_abstract'),(78,'duplicate_of_screen_77_html_entity_variant'),(84,'software_release_requires_resource_adapter'),(117,'truncated_abstract'),(119,'podcast_requires_audio_resource_adapter'),(143,'book_description_requires_substantive_text_review')]];seen=set();seen_titles=set();weights=json.loads((DATA_ROOT/'config/quality_weights.json').read_text())
  for a in assessments:
   r=index[int(a['screen_number'])]; title=norm(r['title']);identity=doi(r['doi']) or url(r['source_url']) or title
   if r['screen_number']==143:continue
