@@ -1,6 +1,6 @@
 # SOUPS review batch 7 — ancillary material, 119–138
 
-All 20 decisions are pending. Recommendations: 19 include; one discuss (138). This batch contains 17 poster/extended abstracts, one workshop paper and two workshop lightning-talk abstracts. These are not full main-conference research papers.
+All 20 candidates were approved through the authenticated ALEX Research Review console on 27 October 2026 (batch 7, revision 1; receipt `c989db36-b41b-4f13-8b60-469a33416a79`). Selection approval preserves all metadata and document-type holds; no papers have been imported. Original recommendations: 19 include; one discuss (138). This batch contains 17 poster/extended abstracts, one workshop paper and two workshop lightning-talk abstracts. These are not full main-conference research papers.
 
 Collection: [SOUPS](https://soups.page/) (Symposium On Usable Privacy and Security) and [USENIX](https://www.usenix.org/) (the Advanced Computing Systems Association).
 

@@ -4,8 +4,8 @@
 
 - 503 provisionally identified research-paper links across 2005–2026; 249 separately typed ancillary/program links.
 - 137 papers have substantive abstract assessments, including 18 extracted historical abstracts that still require formatting review. **366 research papers remain unassessed.** Automated keyword triage is not counted as substantive review and does not reject papers.
-- User decisions: **109 approved and nine rejected (papers 17, 24, 26, 74, 93, 102, 104, 106 and 118)**. Batch 2 approved every paper except 24 and 26, including paper 25.
-- [Batch 2: papers 21–40](soups_review_batch_02.md) and [batch 3: papers 41–60](soups_review_batch_03.md) are ready for review. Batch 2 has 18 approvals and two rejections; all 20 papers in batch 3 are approved. Individual USENIX bibliography is verified for all 40, with no existing ALEX title/URL matches found.
+- User decisions: **129 approved and nine rejected (papers 17, 24, 26, 74, 93, 102, 104, 106 and 118)**. Batch 2 approved every paper except 24 and 26, including paper 25.
+- [Batch 2: papers 21–40](soups_review_batch_02.md) and [batch 3: papers 41–60](soups_review_batch_03.md) have completed review. Batch 2 has 18 approvals and two rejections; all 20 papers in batch 3 are approved. Individual USENIX bibliography is verified for all 40, with no existing ALEX title/URL matches found.
 - Unnumbered assessments remain in the manifest for later batch preparation. Source-linked assessment reasons distinguish direct, supporting, uncertain and out-of-scope recommendations.
 
 Researcher recommendations among the 137 assessed papers: {'include': 97, 'discuss': 20, 'exclude': 20}. These are not additional user decisions.
@@ -50,7 +50,7 @@ The full baseline public CSV and JSON retain their verified hashes. No additions
 
 ## Next work
 
-1. Review ancillary batch 7 (119–138); continue discovery and content assessment of posters, workshops and the 366 unassessed research papers before starting additional import checks. Preserve all completed decisions.
+1. Batch 7 (119–138) is fully approved. Continue discovery and content assessment of posters, workshops and the 366 unassessed research papers before starting additional import checks. Preserve all completed decisions.
 2. Continue substantive screening of the remaining 366 papers and prepare further batches; finish early PDF formatting checks and bibliographic holds.
 3. Resolve classification and quality holds for selected papers, then prepare the controlled import and pull request.
 4. Merge and deploy only after explicit user authorization.
@@ -98,4 +98,11 @@ Ancillary HTML acquisition is resumable in bounded batches: `node scripts/soups_
 
 The user requested deployment of an accept/reject interface before further batch reviews, and clarified that it must serve all collections with explicit recommendations beside each entry. [ALEX Research Review](https://alex-research-review.neil-schwartzm917549.chatgpt.site) is now deployed owner-private. It supports collection-scoped drafts, authenticated whole-batch submissions, content-hash binding, revision conflict protection and immutable per-paper decision receipts. Current collections are SOUPS and APWG; future normalized review manifests can be registered without changing the UI. No APWG quality hold was reopened as a pending editorial decision.
 
-Before presenting more batches or applying imports, read the console’s final `review_decisions` records via Sites and reconcile them with the repository using the [documented intake procedure](review_console.md). Drafts are never approval. Current repository selections remain 109 approved, nine rejected and 20 ancillary candidates pending. Import checks remain paused per user direction.
+Before presenting more batches or applying imports, read the console’s final `review_decisions` records via Sites and reconcile them with the repository using the [documented intake procedure](review_console.md). Drafts are never approval. At deployment, repository selections were 109 approved, nine rejected and 20 ancillary candidates pending; the submitted batch-7 decisions are recorded below. Import checks remain paused per user direction.
+
+
+## Batch 7 GUI submission reconciled
+
+The owner submitted all 20 ancillary candidates (119–138) as approved on 27 October 2026 at 18:06:47 UTC. The final authenticated decision rows were read from the console and applied as one complete batch using the content-bound intake adapter. Receipt: `c989db36-b41b-4f13-8b60-469a33416a79`; revision 1. Drafts were not used. All content hashes and candidate numbers matched; all 118 earlier decisions were preserved.
+
+Current selections are **129 approved and nine rejected**, with no pending decisions among the 138 numbered candidates. The original recommendations remain visible, including the discuss recommendation for 138. Year, author, document-type and version holds remain in place. Selection does not approve publication or bypass later checks. No papers were imported, and ALEX was not merged or deployed. Continue ancillary discovery and substantive assessment before restarting the additional import checks requested to remain paused.
