@@ -292,3 +292,19 @@ exploratory criminological study, not proof that game cheating causes crime.
 Source artifact: 12701110589, run 40427031598. There are 44 further candidates
 in the human-review tier in that snapshot. Quality thresholds and gates are
 unchanged; editorial selection does not authorize publication or import.
+
+
+### Editorial decisions for papers 49–58
+
+The user approved nine candidates and held paper 50 for scope review, bringing
+the shortlist to **57 approved**, with **one explicit scope hold**. Paper 50's
+countermeasure-harm framework has no established direct investigative/OSINT
+contribution in its abstract; Vulnerability Assessment is unsupported. This is
+not a permanent exclusion. Corrections: 52 AI/ML for Security / Phishing
+Analysis; 53 Cybercrime & Fraud / Other (economic event study); 56 Dark Web &
+Underground / Dark Web Analysis; 58 Dark Web & Underground / Dark Web Analysis.
+Paper 58 concerns forum discourse/self-disclosures, not verified diagnoses or
+individual offending. Source artifact: 12701110589, run 40427031598. There are
+34 further human-review candidates in that snapshot. Scores, gates and release
+authorization are unchanged. Paper 51 is the already consolidated bibliographic
+record, not another copy of the duplicated archive listing.
