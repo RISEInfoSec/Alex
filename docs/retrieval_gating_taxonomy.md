@@ -149,6 +149,8 @@ Discovery-time abstracts are sparse, so the initial Quality gate sees incomplete
 
 Implemented in [`alex/pipelines/classify.py`](../alex/pipelines/classify.py).
 
+The category and investigation-type enum definitions live in [`alex/taxonomy.py`](../alex/taxonomy.py) and are imported unchanged by the classifier and static collection generator.
+
 ### Model
 `gpt-4o-mini` via OpenAI's `/v1/responses` endpoint by default. Override with the `OPENAI_MODEL` repo variable.
 

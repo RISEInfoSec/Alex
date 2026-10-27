@@ -308,6 +308,7 @@ def test_failed_archive_index_does_not_overwrite_existing_corpus(tmp_path, monke
     assert not (data / "apwg_import_audit.json").exists()
 
 
+@pytest.mark.usefixtures("collection_site")
 def test_publication_exports_collection_attribution(tmp_path):
     from alex.pipelines import publish
     data = tmp_path / "data"

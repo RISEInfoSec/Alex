@@ -5,6 +5,7 @@ import os
 from datetime import datetime, timezone
 from alex.utils.io import load_df, save_df, save_json, root_file
 from alex.utils.text import split_multi
+from alex.collections import generate
 
 
 def _quality_tier(score: object) -> str:
@@ -51,6 +52,7 @@ def run(record_collection: bool = False) -> None:
         if not papers_json.exists():
             save_df(public_csv, pd.DataFrame())
             save_json(papers_json, [])
+        generate(root_file(), previous)
         return
 
     # Pandas reads empty CSV cells as NaN, which json.dumps would emit as
@@ -90,6 +92,7 @@ def run(record_collection: bool = False) -> None:
             "retrieved": row.get("retrieved_at", ""),
         })
     save_json(papers_json, papers)
+    generate(root_file(), papers)
     if record_collection:
         run_id = os.environ.get("GITHUB_RUN_ID", "")
         old_status = json.loads(status_path.read_text()) if status_path.exists() else {}
