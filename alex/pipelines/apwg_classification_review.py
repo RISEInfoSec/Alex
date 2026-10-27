@@ -122,6 +122,13 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
         result["abstract_source"] = row["abstract_source"]
         issues.append("Verified author abstract replaces reviewed incomplete source version")
     entry, editorial_status = decision_for(row)
+    if editorial_status == "rejected":
+        result.update({"classification_status": "editorial_rejected",
+                       "editorial_selection_status": "rejected",
+                       "editorial_classification_status": "not_approved",
+                       "editorial_review_basis": "Explicit user rejection recorded in editorial manifest",
+                       "review_flags": entry["reason"]})
+        return result
     if entry and editorial_status == "approved":
         # Keep approval tied to the exact reviewed content. Normalize only
         # the specific, visually checked glyphs recorded in the manifest.

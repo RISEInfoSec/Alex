@@ -436,3 +436,22 @@ ALEX record is excluded from the release. Local full-suite validation passed
 existing master-cell value and existing public-paper field, and retains
 APWG.org eCrimes Research attribution separately from the actual publisher.
 These preview counts must be verified against the eventual live receipt.
+
+### October 27 review: papers 93–112
+
+The user approved 18 selections/classifications and explicitly rejected **95**
+(Revisiting password rules) and **96** (Password advice shouldn't be boring).
+Rejections live separately in `rejected_papers`, are never sent to the model,
+and are excluded from additions/hold/approved queues. They remain auditable in
+`apwg_excluded_editorial.csv`; a changed abstract cannot clear a rejection.
+Existing live records are always preserved first.
+
+The 18 approvals remain subject to their core-term or relevance-floor holds.
+No thresholds, query registry, corpus or release authorization were changed.
+There are 108 editorial selections in total: 90 already published and 18
+quality-held. Two new rejections are removed from the pending worklist, leaving
+76 unpublished candidates: 18 approved-but-quality-held and 58 awaiting content
+review or further investigation (including the two earlier explicit holds).
+The original 90-paper release bundle is unchanged and cannot release these
+newly selected records. Work continues on a new draft branch because PR #77
+was completed and merged.

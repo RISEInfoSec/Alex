@@ -2143,9 +2143,16 @@ def test_authorized_apwg_release_preserves_full_master_and_adds_only_approved(tm
     from alex.pipelines.apwg_release import apply_release
     from alex.utils.io import root_file
     corpus=tmp_path/'accepted.csv'
-    copyfile(root_file('data','accepted_classified.csv'),corpus)
-    with corpus.open() as f:
-        existing=list(csv.DictReader(f))
+    # Reconstruct the pre-release fixture after the authorized release has
+    # reached main; future regression runs must not re-import live records.
+    import json
+    bundle=json.loads(root_file('config','apwg_releases','2026-10-26-approved.json').read_text())
+    released={r['doi'].lower() for r in bundle['records']}
+    with root_file('data','accepted_classified.csv').open() as f:
+        reader=csv.DictReader(f);fields=reader.fieldnames
+        existing=[r for r in reader if r.get('doi','').lower() not in released]
+    with corpus.open('w',newline='') as f:
+        writer=csv.DictWriter(f,fieldnames=fields);writer.writeheader();writer.writerows(existing)
     monkeypatch.setenv('APWG_ENABLE_IMPORT','1')
     result=apply_release(root_file('config','apwg_releases','2026-10-26-approved.json'),corpus,tmp_path/'receipt.json',True)
     with corpus.open() as f:
