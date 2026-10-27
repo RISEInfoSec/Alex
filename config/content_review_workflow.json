@@ -1,0 +1,67 @@
+{
+  "name": "Content Review",
+  "version": 1,
+  "status": "proposed_not_activated",
+  "purpose": "One inbound ALEX workflow with a prepared review buffer, durable submission feedback and automatic post-acceptance assessments before release.",
+  "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
+  "scope": {
+    "intake": ["SOUPS", "Virus Bulletin", "APWG", "regular discovery backlogs", "additional sources explicitly requested by the user"],
+    "existing_content": ["Other classification backlog", "metadata corrections", "reclassification"],
+    "preserve_original_source_and_existing_public_record": true
+  },
+  "proposed_defaults": {
+    "preparation_run_maximum_candidates": 250,
+    "global_review_ready_target": 250,
+    "global_review_ready_low_watermark": 100,
+    "human_review_batch_size": 20,
+    "source_specific_preparation_checkpoints": true,
+    "only_substantively_assessed_candidates_count_as_review_ready": true,
+    "source_order": "Explicit user priority first; otherwise oldest waiting work without starving other active collections."
+  },
+  "preparation": {
+    "stages": ["discover or resume an existing inventory", "normalize identities and provenance", "deduplicate within and across source queues and the public corpus", "retrieve substantive original evidence", "prepare include/exclude/discuss recommendation and rationale", "publish stable review batches to the console"],
+    "title_only_assessment_allowed": false,
+    "keyword_triage_counts_as_review": false,
+    "preserve_document_types": true,
+    "unavailable_or_inadequate_evidence": "Hold for evidence; do not invent findings or silently count as reviewed."
+  },
+  "submission_handoff": {
+    "event": "content_review.batch_submitted",
+    "durable_transaction": ["final submission receipt", "per-candidate decisions tied to reviewed content hashes", "outbox jobs for accepted-candidate assessments and buffer replenishment"],
+    "drafts_trigger_work": false,
+    "dispatch_after_commit": true,
+    "retry_from_durable_outbox": true,
+    "idempotency_scope": ["collection", "candidate_id", "content_sha256", "submission_revision", "assessment_version"],
+    "edited_decision": "Only the latest complete valid revision governs eligibility; preserve historical decisions and superseded checks.",
+    "changed_content": "Require reassessment for material changes to the reviewed content; do not reuse acceptance for a different content hash.",
+    "feedback": ["submission saved", "checks queued/running/held/complete", "next prepared batch ready", "preparation requested when no ready batch exists", "last successful worker run and actionable error"],
+    "current_chat_wake_up_assumed": false
+  },
+  "automatic_assessments_after_acceptance": {
+    "start_without_waiting_for_other_batches_or_collections": true,
+    "checks": ["reviewed-content and submission integrity", "bibliographic and author/year reconciliation", "official source and linked-document verification", "type-appropriate text and evidence checks", "DOI and other identifier discovery", "citation evidence lookup", "fresh cross-source and public-corpus duplicate checks", "existing ALEX quality policy", "existing taxonomy classification and uncertainty flags", "schema compatibility and dry-run import validation"],
+    "checks_are_document_type_aware": true,
+    "missing_doi_disqualifies": false,
+    "unknown_citations": null,
+    "quality_thresholds_or_exceptions_changed": false,
+    "outcomes": ["ready_for_release_review", "held_with_reason", "retryable_failure", "needs_editorial_followup"],
+    "only_affected_records_return_for_review": true,
+    "source_or_quota_failures": "Record failure and retry/backoff status; never silently substitute a low-quality assessment or publish incomplete work."
+  },
+  "release": {
+    "publication_approved_by_relevance_selection": false,
+    "automatic_public_corpus_mutation": false,
+    "release_approval_required": true,
+    "ready_records_may_be_released_without_waiting_for_held_records": true,
+    "existing_regular_pipeline": "Route new inbound candidates through staging and Content Review before publication; review the current automatic publishing path as part of implementation. Do not alter the live pipeline merely by saving this proposal."
+  },
+  "implementation_work_remaining": [
+    "Add durable submission outbox/job tracking to the console's existing transactional storage.",
+    "Connect an authenticated unattended worker for research preparation and mechanical assessments.",
+    "Adapt existing source-specific review/assessment stages behind the common workflow contract.",
+    "Expose prepared-buffer and assessment progress in the console.",
+    "Introduce the staging/release gate into regular intake without overwriting the existing corpus.",
+    "Verify retry, revision, source failure, quota failure and restart behaviour before unattended activation."
+  ],
+  "automation_capability_observed": "The current automation event-source inventory exposes GitHub, but no direct Sites review-submission event. An outbox/worker integration is required; no event trigger or substitute polling schedule has been created."
+}
