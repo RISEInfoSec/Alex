@@ -7,16 +7,14 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
-  "last_error": null,
-  "lease": {
-    "owner": "preflight-2026-10-27T22:56:41.230Z",
-    "expires_at": "2026-10-27T23:26:41.230Z"
-  },
+  "last_error": "Paid taxonomy classification credential unavailable in this execution environment; stage held. Source-specific access/metadata failures are recorded in hash-bound checkpoints.",
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
     "weekly": 0,
-    "virusbulletin": 0
+    "virusbulletin": 0,
+    "apwg": 0
   },
   "unattended_access_verified_at": "2026-10-27T22:40:36Z",
   "verification_result": "Unattended access verified: production D1 binding DB exposes review_decisions, review_drafts, review_jobs and review_submissions; review_jobs read succeeded (empty). Branch source registry config/review_console.json read successfully (SOUPS, APWG, Virus Bulletin; weekly not yet registered). Initial-fill lease and all counts preserved; no candidate or assessment mutation.",
@@ -31,12 +29,77 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-27T22:55:34.059Z",
-  "last_action": "Unverified candidates withdrawn; mandatory preflight gate deployed. No cleared manual-review candidates yet.",
+  "last_completed_at": "2026-10-27T23:08:20Z",
+  "last_action": "Reconciled all 132 latest console decisions; checkpointed duplicate/quality results for 250 held candidates and partial live evidence; bootstrapped 239 additional legacy accepted assessments. Raw-manifest readback and D1 submission/outbox recheck confirmed zero cleared-ready records. No import, merge or public deployment.",
   "mechanical_result_totals": {
-    "legacy_accepted_started": 12,
-    "complete": 0
+    "legacy_accepted_tracked": 251,
+    "legacy_bootstrapped_this_run": 239,
+    "complete": 0,
+    "held_or_partial": 251,
+    "fresh_pdf_access_and_front_matter_passed": 12,
+    "quality_passed": 5,
+    "quality_held": 246,
+    "openai_requests": 0,
+    "openai_tokens": 0
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-10-27T22:56:41.230Z"
+  "last_started_at": "2026-10-27T22:56:41.230Z",
+  "upstream_weekly_inventory": {
+    "records": 4041,
+    "preserved_initial_identities": 4041,
+    "source_blob_sha": "32a7992a37b15d3d5f698354a0209157660a9d66",
+    "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+    "new_arrivals": 0,
+    "refresh_result": "Unchanged original source blob; no identities deleted or rewritten."
+  },
+  "preflight_checkpoint": "config/content_review_preflight_status.json",
+  "preflight_stage_totals": {
+    "soups": {
+      "duplicates_passed": 100,
+      "quality_held": 100,
+      "core_gate_held": 93,
+      "below_threshold_held": 6,
+      "relevance_floor_held": 1,
+      "format_held": 100,
+      "access_held": 100,
+      "metadata_held": 100,
+      "schema_held": 100
+    },
+    "weekly": {
+      "duplicates_passed": 149,
+      "duplicate_held": 1,
+      "quality_passed": 150,
+      "format_passed": 9,
+      "access_passed": 9,
+      "metadata_passed": 12,
+      "format_held": 141,
+      "access_held": 141,
+      "metadata_held": 138,
+      "schema_held": 150
+    }
+  },
+  "reconciliation": {
+    "completed_submissions": 7,
+    "latest_decisions_validated": 132,
+    "content_hash_mismatches": 0,
+    "immutable_jobs": 13,
+    "verified_at": "2026-10-27T23:08:20Z"
+  },
+  "blocked_sources": [
+    {
+      "source": "soups",
+      "reason": "All 100 current preflight candidates held by unchanged existing quality policy using current retained metadata; metadata/citation completion may affect provisional score but no gates waived.",
+      "exhausted": false
+    },
+    {
+      "source": "weekly",
+      "reason": "Preflight incomplete: 20 registry lookups and 16 primary-resource requests checkpointed, including 9 verified written-resource/access passes. Registry misses, access failures, author/year discrepancies and unperformed stages remain separate holds.",
+      "exhausted": false
+    }
+  ],
+  "held_stage": {
+    "stage": "taxonomy_and_target_schema_dry_run",
+    "reason": "Required paid classification stage uses supported OPENAI_API_KEY path; neither that credential nor workflow OPEN_API_KEY alias is available in this environment. Stage not invoked; no fallback classification or false schema pass.",
+    "retry": "Resume when supported credential becomes available; continue independent preflight checks meanwhile."
+  }
 }
