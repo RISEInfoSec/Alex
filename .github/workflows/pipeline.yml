@@ -212,8 +212,30 @@ jobs:
           git diff --cached --quiet || git commit -m "Classify accepted papers"
           git push || (git pull --rebase --autostash && git push)
 
-  publish:
+  apwg:
+    # Review-only: do not automatically add an unclassified research corpus.
+    # This job intentionally does not modify accepted_classified.csv.
     needs: classify
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Read-only APWG audit
+        env:
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: |
+          python -m alex.cli apwg --dry-run
+
+  publish:
+    needs: apwg
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -277,7 +299,7 @@ jobs:
     #  - Alert: a failed or cancelled stage opens an issue (or comments on
     #    the open one), so watchers hear about the first failure, not the
     #    tenth. The next clean run closes it.
-    needs: [discover, chain, score, harvest, rescore, classify, publish, deploy]
+    needs: [discover, chain, score, harvest, rescore, classify, apwg, publish, deploy]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 10

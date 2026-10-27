@@ -2115,3 +2115,40 @@ class TestRescore:
         assert bool(accepted.iloc[0]["is_preprint"]) is True
         assert accepted.iloc[0]["rescore_run_id"] == token["run_id"]
         assert metrics["rescore_run_id"].iloc[0] == token["run_id"]
+
+
+def test_apwg_collection_match_preserves_existing_publication_identity():
+    from alex.pipelines.apwg_import import merge_corpus, LABEL
+    existing = pd.DataFrame([{
+        'title': 'Existing research', 'doi': '10.1234/existing',
+        'venue': 'Original research venue', 'publisher': 'Original publisher',
+        'year': 2007, 'abstract': 'Original abstract', 'Category': 'OSINT Methodology',
+    }])
+    incoming = [{'title': 'Existing research', 'doi': '10.1234/existing',
+                 'venue': 'Different recovered venue', 'publisher': 'Different publisher',
+                 'year': 2008, 'apwg_year': 2008, 'collection_source': LABEL}]
+    merged, report = merge_corpus(existing, incoming)
+    assert report['new_records'] == 0
+    assert merged.iloc[0]['venue'] == 'Original research venue'
+    assert merged.iloc[0]['publisher'] == 'Original publisher'
+    assert merged.iloc[0]['year'] == 2007
+    assert merged.iloc[0]['abstract'] == 'Original abstract'
+    assert merged.iloc[0]['Category'] == 'OSINT Methodology'
+    assert merged.iloc[0]['collection_source'] == LABEL
+
+
+def test_authorized_apwg_release_preserves_full_master_and_adds_only_approved(tmp_path,monkeypatch):
+    import csv
+    from shutil import copyfile
+    from alex.pipelines.apwg_release import apply_release
+    from alex.utils.io import root_file
+    corpus=tmp_path/'accepted.csv'
+    copyfile(root_file('data','accepted_classified.csv'),corpus)
+    with corpus.open() as f:
+        existing=list(csv.DictReader(f))
+    monkeypatch.setenv('APWG_ENABLE_IMPORT','1')
+    result=apply_release(root_file('config','apwg_releases','2026-10-26-approved.json'),corpus,tmp_path/'receipt.json',True)
+    with corpus.open() as f:
+        actual=list(csv.DictReader(f))
+    assert result['records_added']==90 and len(actual)==len(existing)+90
+    assert all(all(actual[i][k]==v for k,v in row.items()) for i,row in enumerate(existing))

@@ -338,6 +338,7 @@ function displayPapers(list) {
       <h3>${escapeHtml(p.title || '')}</h3>
       <p class="meta"><strong>${escapeHtml(p.author || 'Author metadata incomplete')}</strong> (${escapeHtml(p.year || '')})${p.venue ? ' · ' + escapeHtml(p.venue) : ''}${p.retrieved ? ' · Retrieved ' + escapeHtml(p.retrieved) : ''}</p>
       <p><strong>Research category:</strong> ${escapeHtml(p.category || 'Not specified')}</p>
+      ${p.collection_source ? `<p class="meta"><strong>Collection:</strong> ${safeHref(p.collection_url) ? `<a href="${safeHref(p.collection_url)}" target="_blank" rel="noopener">${escapeHtml(p.collection_source)}</a>` : escapeHtml(p.collection_source)}</p>` : ''}
       <p>${escapeHtml(p.summary || '')}</p>
       <p>${links}</p>
     `;

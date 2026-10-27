@@ -1,0 +1,140 @@
+name: APWG eCrime import checks
+on:
+  pull_request:
+    paths:
+      - 'alex/pipelines/apwg_import.py'
+      - 'alex/cli.py'
+      - 'alex/pipelines/publish.py'
+      - 'index.html'
+      - 'tests/test_apwg_import.py'
+      - '.github/workflows/pipeline.yml'
+      - '.github/workflows/apwg_import_tests.yml'
+      - 'alex/pipelines/apwg_classification_review.py'
+      - 'tests/test_apwg_classification_review.py'
+      - 'alex/pipelines/apwg_quality_review.py'
+      - 'alex/pipelines/apwg_pdf_abstracts.py'
+      - 'tests/test_apwg_pdf_abstracts.py'
+      - 'alex/pipelines/apwg_editorial_review.py'
+      - 'config/apwg_editorial_decisions.json'
+      - 'tests/test_apwg_editorial_review.py'
+      - 'alex/pipelines/apwg_import_recommendation.py'
+      - 'tests/test_apwg_import_recommendation.py'
+      - 'alex/pipelines/apwg_abstract_checkpoint.py'
+      - 'config/apwg_abstract_checkpoint.json'
+      - 'tests/test_apwg_abstract_checkpoint.py'
+      - 'alex/pipelines/apwg_release.py'
+      - 'config/apwg_releases/**'
+      - 'tests/test_apwg_release.py'
+      - '.github/workflows/apwg_approved_release.yml'
+      - 'requirements.txt'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q tests/test_apwg_import.py tests/test_apwg_classification_review.py tests/test_apwg_pdf_abstracts.py tests/test_apwg_editorial_review.py tests/test_apwg_import_recommendation.py tests/test_apwg_abstract_checkpoint.py tests/test_apwg_release.py tests/test_pipelines.py
+  live_source_audit:
+    # Read-only APWG/dblp coverage probe. Never changes accepted_classified.csv.
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Read-only APWG and OpenAlex coverage audit
+        env:
+          APWG_MAX_METADATA_LOOKUPS: '0'
+          APWG_REVIEW_CSV: 'apwg_bibliographic_review.csv'
+          APWG_MAX_CROSSREF_LOOKUPS: '200'
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: |
+          set -euo pipefail
+          python -m alex.cli apwg --dry-run | tee apwg_coverage_audit.json
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apwg-coverage-audit
+          path: |
+            apwg_coverage_audit.json
+            apwg_bibliographic_review.csv
+          if-no-files-found: warn
+  classification_review:
+    # A review-only taxonomy preview from the audit artifact. No public
+    # corpus writes, and every label requires human/content review.
+    needs: [test, live_source_audit]
+    if: ${{ needs.test.result == 'success' && needs.live_source_audit.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: apwg-coverage-audit
+          path: _apwg_review_input
+      - name: Extract available abstract sections from APWG PDFs (no PDFs retained)
+        run: |
+          set -euo pipefail
+          python -m alex.pipelines.apwg_pdf_abstracts \
+            --input _apwg_review_input/apwg_bibliographic_review.csv \
+            --output apwg_bibliography_with_abstracts.csv \
+            --audit apwg_abstract_extraction_audit.csv \
+            --max-pdfs 110 | tee apwg_abstract_enrichment_summary.json
+      - name: Compare actual venue scores against the legacy synthetic venue
+        run: |
+          set -euo pipefail
+          python -m alex.pipelines.apwg_quality_review \
+            --input apwg_bibliography_with_abstracts.csv \
+            --output apwg_venue_score_comparison.csv | tee apwg_venue_score_summary.json
+      - name: Classify APWG with verified abstracts and ALEX quality review
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
+        run: |
+          set -euo pipefail
+          python -m alex.pipelines.apwg_classification_review \
+            --input apwg_bibliography_with_abstracts.csv \
+            --output apwg_classification_review.csv
+      - name: Audit approvals and suppress existing ALEX records from additions
+        run: |
+          python -m alex.pipelines.apwg_import_recommendation \
+            --review apwg_classification_review.csv \
+            --bibliography apwg_bibliography_with_abstracts.csv \
+            --output-dir _apwg_recommendation
+      - name: Upload category review (never publish to Pages)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apwg-provisional-classification-review
+          path: |
+            apwg_classification_review.csv
+            apwg_bibliography_with_abstracts.csv
+            apwg_abstract_extraction_audit.csv
+            apwg_abstract_enrichment_summary.json
+            apwg_venue_score_comparison.csv
+            apwg_venue_score_summary.json
+            _apwg_recommendation/*.csv
+            _apwg_recommendation/*.json
+          if-no-files-found: warn
