@@ -24393,7 +24393,7 @@
     {
       "candidate_id": "soups-4e3b8a23a59ba74570e5",
       "title": "Understanding the Viability of Gmail's Origin Indicator for Identifying the Sender",
-      "authors": "Enze Liu, Lu Sun, and Alex Bellon, Grant Ho, Geoffrey M. Voelker, Stefan Savage, and Imani N. S. Munyaka",
+      "authors": "Enze Liu; Lu Sun; Alex Bellon; Grant Ho; Geoffrey M. Voelker; Stefan Savage; Imani N. S. Munyaka",
       "author_byline": "Enze Liu, Lu Sun, and Alex Bellon, UC San Diego; Grant Ho, University of Chicago; Geoffrey M. Voelker, Stefan Savage, and Imani N. S. Munyaka, UC San Diego",
       "year": 2023,
       "conference_year": 2023,
@@ -24403,8 +24403,8 @@
       "document_type": "research_paper",
       "program_session": "Cybercrimes and Misinformation",
       "abstract": "The current design of email authentication mechanisms has made it challenging for email providers to establish the authenticity of email messages with complicated provenance, such as in the case of forwarding or third-party sending services, where the purported sender of an email is different from the actual originator. Email service providers such as Gmail have tried to address this issue by deploying sender identity indicators (SIIs), which seek to raise users' awareness about where a message originated and encourage safe behavior from users. However, the success of such indicators depends heavily on user interpretation and behavior, and there exists no work that empirically investigates these aspects. In this work, we conducted an interactive survey (n=180) that examined user comprehension of and behavior changes prompted by Gmail's passive SII, the 'via' indicator. Our quantitative analysis shows that although most participants (89%) noticed the indicator, it did not have a significant impact on whether users would adopt safe behaviors. Additionally, our qualitative analysis suggests that once prompted to consider why 'via' is presented, the domain name displayed after 'via' heavily influenced participants' interpretation of the message 'via' is communicating. Our work highlights the limitations of using passive indicators to assist users in making decisions about email messages with complicated provenance.",
-      "abstract_source": "https://www.usenix.org/conference/soups2023/technical-sessions",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2023/presentation/liu",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -24412,9 +24412,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "94af65869209e4357365b752268fd4695bd286f194a0742fcff9e5a10ffa5987",
+      "content_sha256": "13913260f529a463e77aa8b4120bcebd21e2fa55fd3399b99b0df32a835b5aef",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -24425,7 +24425,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2023-liu.pdf",
+      "venue": "Nineteenth Symposium on Usable Privacy and Security (SOUPS 2023)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "e563a1c0d452b54d7c305278005adedd70e4710dc1733f94cc399dd62a4053a6",
+      "review_number": 196,
+      "recommendation": "include",
+      "relevance": "direct",
+      "review_reason": "Tests how users interpret Gmail's sender-origin indicator for messages with complex provenance. Directly relevant to phishing resistance, sender-identity interpretation and the limits of authentication cues.",
+      "metadata_issue": "In a 180-person interactive survey, noticing an indicator did not establish safer behaviour. Do not confuse the displayed origin cue with verified identity. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2023/presentation/liu"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-51af107b968db02cf508",
@@ -24704,7 +24732,7 @@
     {
       "candidate_id": "soups-a4873a063d623954c2e8",
       "title": "Adventures in Recovery Land: Testing the Account Recovery of Popular Websites When the Second Factor is Lost",
-      "authors": "Eva Gerlitz, Maximilian Häring and Charlotte Theresa Mädler, Matthew Smith, Christian Tiefenau",
+      "authors": "Eva Gerlitz; Maximilian Häring; Charlotte Theresa Mädler; Matthew Smith; Christian Tiefenau",
       "author_byline": "Eva Gerlitz, Fraunhofer FKIE; Maximilian Häring and Charlotte Theresa Mädler, University of Bonn; Matthew Smith, University of Bonn and Fraunhofer FKIE; Christian Tiefenau, University of Bonn",
       "year": 2023,
       "conference_year": 2023,
@@ -24714,8 +24742,8 @@
       "document_type": "research_paper",
       "program_session": "Authentication",
       "abstract": "Literature on two-factor authentication (2FA) lists users' fear of losing the second factor as one major constraint on acceptability. Nonetheless, more and more services offer or even enforce 2FA. Yet, little is published about what services do to prevent users from losing access to their accounts and how well users are guided through the process of regaining access to their accounts in case they lose their second factor. To fill this gap, we set up 2FA on 78 popular online services and apps and analyzed their user interface during the 2FA setup and recovery. Although there is no straightforward solution for account recovery when using a second factor, we identified easily fixable usability flaws. For example, in the setup phase, 28 services do not mention the possibility of losing the second factor at all. Furthermore, while it is common for services to provide a clearly visible “forgotten password”-link beneath the login field, an equivalent for 2FA is often missing, and a user is left alone with the problem. Our study provides insights for website designers and security practitioners seeking to enhance the usability of 2FA. We also discuss further directions for research.",
-      "abstract_source": "https://www.usenix.org/conference/soups2023/technical-sessions",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2023/presentation/gerlitz-adventures",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -24723,9 +24751,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "d77d60257e32a895666f4be36d5d9c38f317a9de2914b4f8bb8b77bf6a79bb46",
+      "content_sha256": "0e0e43cd06c4dda65dde6aff26aaf6e3f9c3dc559db4e89078a85205c8cea1ec",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -24736,7 +24764,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2023-gerlitz-adventures.pdf",
+      "venue": "Nineteenth Symposium on Usable Privacy and Security (SOUPS 2023)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "a2fea3c587e7f857ea718d506ed17450b17693d5f43ea8de6e7308a8e35dc99f",
+      "review_number": 197,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Audits second-factor setup and recovery interfaces across 78 services, identifying gaps in helping users regain access. Supports account-remediation practice and understanding barriers after loss of authentication factors.",
+      "metadata_issue": "A usability audit; it does not measure account-takeover exploitability or establish that a recovery process is secure. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2023/presentation/gerlitz-adventures"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-63bf780c5f98bf3dbc2a",
@@ -25000,7 +25056,7 @@
     {
       "candidate_id": "soups-006886aaa25c557b8eeb",
       "title": "Who Comes Up with this Stuff? Interviewing Authors to Understand How They Produce Security Advice",
-      "authors": "Lorenzo Neil, Harshini Sri Ramulu, Yasemin Acar, Bradley Reaves",
+      "authors": "Lorenzo Neil; Harshini Sri Ramulu; Yasemin Acar; Bradley Reaves",
       "author_byline": "Lorenzo Neil, North Carolina State University; Harshini Sri Ramulu, The George Washington University; Yasemin Acar, Paderborn University & The George Washington University; Bradley Reaves, North Carolina State University",
       "year": 2023,
       "conference_year": 2023,
@@ -25010,8 +25066,8 @@
       "document_type": "research_paper",
       "program_session": "Beyond End Users/Developers and Experts",
       "abstract": "Users have a wealth of available security advice --- far too much, according to prior work. Experts and users alike struggle to prioritize and practice advised behaviours, negating both the advice's purpose and potentially their security. While the problem is clear, no rigorous studies have established the root causes of overproduction, lack of prioritization, or other problems with security advice. Without understanding the causes, we cannot hope to remedy their effects. In this paper, we investigate the processes that authors follow to develop published security advice. In a semi-structured interview study with 21 advice writers, we asked about the authors' backgrounds, advice creation processes in their organizations, the parties involved, and how they decide to review, update, or publish new content. Among the 17 themes we identified from our interviews, we learned that authors seek to cover as much content as possible, leverage multiple diverse external sources for content, typically only review or update content after major security events, and make few if any conscious attempts to deprioritize or curate less essential content. We recommend that researchers develop methods for curating security advice and guidance on messaging for technically diverse user bases and that authors then judiciously identify key messaging ideas and schedule periodic proactive content reviews. If implemented, these actionable recommendations would help authors and users both reduce the burden of advice overproduction while improving compliance with secure computing practices.",
-      "abstract_source": "https://www.usenix.org/conference/soups2023/technical-sessions",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2023/presentation/neil",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -25019,9 +25075,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "db616a01ac3c016f3aea5c06a1b5841fc7418e18d5a8671db6ab4dfeaf73ce4a",
+      "content_sha256": "3b8d03290274c193c3eed25ba3d5b9d36455e1751e888323492b25fcb2c7e81e",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -25032,7 +25088,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2023-neil.pdf",
+      "venue": "Nineteenth Symposium on Usable Privacy and Security (SOUPS 2023)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "25a3fe45b3003543cf7b8845b41af0f174680fed660d9cce266f9fbd185d129d",
+      "review_number": 198,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Investigates how security advice is produced, prioritised and maintained, finding weak curation and reactive updates. Supports evaluating guidance supplied to practitioners and potential victims.",
+      "metadata_issue": "Twenty-one advice-writer interviews; the proposed curation practices were not evaluated for security outcomes. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2023/presentation/neil"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-f71e042b61bb0cedfda5",
@@ -25844,7 +25928,7 @@
     {
       "candidate_id": "soups-3923b004c1730d4426a5",
       "title": "Beyond the Office Walls: Understanding Security and Shadow Security Behaviours in a Remote Work Context",
-      "authors": "Sarah Alromaih, Ivan Flechais, George Chalhoub",
+      "authors": "Sarah Alromaih; Ivan Flechais; George Chalhoub",
       "author_byline": "Sarah Alromaih, University of Oxford and King Abdulaziz City for Science and Technology; Ivan Flechais, University of Oxford; George Chalhoub, University of Oxford and University College London",
       "year": 2024,
       "conference_year": 2024,
@@ -25854,8 +25938,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "Organisational security research has primarily focused on user security behaviour within workplace boundaries, examining behaviour that complies with security policies and behaviour that does not. Here, researchers identified shadow security behaviour: where security-conscious users apply their own security practices which are not in compliance with official security policy. Driven by the growth in remote work and the increasing diversity of remote working arrangements, our qualitative research study aims to investigate the nature of security behaviours within remote work settings. Using Grounded Theory, we interviewed 20 remote workers to explore security related practices within remote work. Our findings describe a model of personal security and how this interacts with an organisational security model in remote settings. We model how remote workers use an appraisal process to relate the personal and organisational security models, driving their security-related behaviours. Our model explains how different levels of alignment between the personal and organisational models can drive compliance, non-compliance, and shadow security behaviour in remote work settings. We discuss the implications of our findings for remote work security and highlight the importance of maintaining informal security communications for remote workers, homogenising security interactions, and adopting user experience design for remote work solutions.",
-      "abstract_source": "https://www.usenix.org/conference/soups2024/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2024/presentation/alromaih",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -25863,9 +25947,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "ef3e7734a56247771fa50181a2368fea7b3bdd29437b0afe46172c8b9a7e867f",
+      "content_sha256": "867021b0c1c5485d3c6b912b1372665c71d8d86c7d5b3ccc149ad7173305f5da",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -25876,7 +25960,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2024-alromaih.pdf",
+      "venue": "Twentieth Symposium on Usable Privacy and Security (SOUPS 2024)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "bf0e91f10cdfa0615f68cd53673c6b83ae907287cffd3b2615821e5da104842b",
+      "review_number": 189,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Investigates remote workers' informal security practices and differences between personal and organisational security models. Supports interpreting how policy and actual behaviour diverge during organisational incident analysis.",
+      "metadata_issue": "A qualitative model from twenty interviews, not a measure of security incidents or proof that informal practices are malicious. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2024/presentation/alromaih"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-c12fc96ced3bcaf635a5",
@@ -25918,7 +26030,7 @@
     {
       "candidate_id": "soups-5e32fd652ec23261f484",
       "title": "Threat modeling state of practice in Dutch organizations",
-      "authors": "Stef Verreydt, Koen Yskout, Laurens Sion, and Wouter Joosen",
+      "authors": "Stef Verreydt; Koen Yskout; Laurens Sion; Wouter Joosen",
       "author_byline": "Stef Verreydt, Koen Yskout, Laurens Sion, and Wouter Joosen, DistriNet, KU Leuven",
       "year": 2024,
       "conference_year": 2024,
@@ -25928,8 +26040,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "Threat modeling is a key technique to apply a security by design mindset, allowing the systematic identification of security and privacy threats based on design-level abstractions of a system. Despite threat modeling being a best practice, there are few studies analyzing its application in practice. This paper investigates the state of practice on threat modeling in large Dutch organizations through semi-structured interviews. Compared to related work, which mainly addresses the execution of threat modeling activities, our findings reveal multiple human and organizational factors which significantly impact the embedding of threat modeling within organizations. First, while threat modeling is appreciated for its ability to uncover threats, it is also recognized as an important activity for raising security awareness among developers. Second, leveraging developers' intrinsic motivation is considered more important than enforcing threat modeling as a compliance requirement. Third, organizations face numerous challenges related to threat modeling, such as managing the scope, obtaining relevant architectural documentation, scaling, and systematically following up on the results. Organizations can use these findings to assess their current threat modeling activities, and help inform decisions to start, extend, or reorient them. Furthermore, threat modeling facilitators and researchers may base future efforts on the challenges identified in this study.",
-      "abstract_source": "https://www.usenix.org/conference/soups2024/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2024/presentation/verreydt",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -25937,9 +26049,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "f8108f4ae7fefef659bedf6a10d474eeed6e6be063ebc8aaa527e064ec788b1e",
+      "content_sha256": "eebc075d042e43a8720bb32384e5bbbefa430a6ce6264e4750c321a015990f47",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -25950,7 +26062,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2024-verreydt.pdf",
+      "venue": "Twentieth Symposium on Usable Privacy and Security (SOUPS 2024)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "05749ca3867f350170668295caef1b135bdf47a7bfed62981ac85084ca2277eb",
+      "review_number": 190,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Identifies practical barriers to threat modelling, including missing documentation, scope management and failure to follow up results. Supports systematic analysis and communication of organisational security threats.",
+      "metadata_issue": "Interview-based findings from large Dutch organisations; no evaluated improvement in incident outcomes is reported. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2024/presentation/verreydt"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-c35398134f55d50851d1",
@@ -26172,7 +26312,7 @@
     {
       "candidate_id": "soups-1dbdb297b163f6f5dcb8",
       "title": "Navigating Autonomy: Unveiling Security Experts' Perspectives on Augmented Intelligence in Cybersecurity",
-      "authors": "Neele Roch, Hannah Sievers, Lorin Schöni, and Verena Zimmermann",
+      "authors": "Neele Roch; Hannah Sievers; Lorin Schöni; Verena Zimmermann",
       "author_byline": "Neele Roch, Hannah Sievers, Lorin Schöni, and Verena Zimmermann, ETH Zurich",
       "year": 2024,
       "conference_year": 2024,
@@ -26182,8 +26322,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "The rapidly evolving cybersecurity threat landscape and shortage of skilled professionals are amplifying the need for technical support. AI tools offer great opportunities to support security experts by augmenting their intelligence and allowing them to focus on their unique human skills and expertise. For the successful design of AI tools and expert-AI interfaces, however, it is essential to understand the specialised security-critical context and the experts' requirements. To this end, 27 in-depth interviews with security experts, mostly in high-level managerial roles, were conducted and analysed using a grounded theory approach. The interviews showed that experts assigned tasks to AI, humans, or the human-AI team according to the skills they attributed to them. However, deciding how autonomously an AI tool should be able to perform tasks is a challenge that requires experts to weigh up factors such as trust, type of task, benefits, and risks. The resulting decision framework enhances understanding of the interplay between trust in AI, especially influenced by its transparency, and different levels of autonomy. As these factors affect the adoption of AI and the success of expert-AI collaboration in cybersecurity, it is important to further investigate them in the context of experts' AI-related decision-making processes.",
-      "abstract_source": "https://www.usenix.org/conference/soups2024/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2024/presentation/roch",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -26191,9 +26331,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "601e5eff0d464c967b9ac3128313e12c7cda9d1913f6d6133ff1c8a72c28fb97",
+      "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -26204,7 +26344,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2024-roch.pdf",
+      "venue": "Twentieth Symposium on Usable Privacy and Security (SOUPS 2024)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "2e587af74af48c5a0df714500de23d2be56393eaee33fe07694229b463128891",
+      "review_number": 191,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Builds a framework for allocating cybersecurity tasks to humans, AI or combined teams, considering trust and autonomy. Supports design and supervision of AI-assisted analytical workflows.",
+      "metadata_issue": "Twenty-seven interviews, mostly managerial perspectives; the framework is not an operational accuracy benchmark. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2024/presentation/roch"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-8290af9f71eff28f9bb7",
@@ -26312,7 +26480,7 @@
     {
       "candidate_id": "soups-657abe4c5d969d030d2d",
       "title": "Digital Nudges for Access Reviews: Guiding Deciders to Revoke Excessive Authorizations",
-      "authors": "Thomas Baumer, Tobias Reittinger, Sascha Kern, Günther Pernul",
+      "authors": "Thomas Baumer; Tobias Reittinger; Sascha Kern; Günther Pernul",
       "author_byline": "Thomas Baumer, Nexis GmbH; Tobias Reittinger, Universität Regensburg; Sascha Kern, Nexis GmbH; Günther Pernul, Universität Regensburg",
       "year": 2024,
       "conference_year": 2024,
@@ -26321,9 +26489,9 @@
       "doi": "",
       "document_type": "research_paper",
       "program_session": "",
-      "abstract": "Organizations tend to over-authorize their members, ensuring smooth operations. However, these excessive authorizations offer a substantial attack surface and are the reason regulative authorities demand periodic checks of their authorizations. Thus, organizations conduct time-consuming and costly access reviews to verify these authorizations by human decision-makers. Still, these deciders only marginally revoke authorizations due to the poor usability of access reviews. In this work, we apply digital nudges to guide human deciders during access reviews to tackle this issue and improve security. In detail, we formalize the access review problem, interview experts (n=10) to identify several nudges helpful for access reviews, and conduct a user study (n=102) for the Choice Defaults Nudge . We show significant behavior changes in revoking authorizations. We also achieve time savings and less stress. However, we also found that improving the overall quality requires more advanced means. Finally, we discuss design implications for access reviews with digital nudges.",
-      "abstract_source": "https://www.usenix.org/conference/soups2024/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract": "Organizations tend to over-authorize their members, ensuring smooth operations. However, these excessive authorizations offer a substantial attack surface and are the reason regulative authorities demand periodic checks of their authorizations. Thus, organizations conduct time-consuming and costly access reviews to verify these authorizations by human decision-makers. Still, these deciders only marginally revoke authorizations due to the poor usability of access reviews. In this work, we apply digital nudges to guide human deciders during access reviews to tackle this issue and improve security. In detail, we formalize the access review problem, interview experts (n=10) to identify several nudges helpful for access reviews, and conduct a user study (n=102) for the Choice Defaults Nudge. We show significant behavior changes in revoking authorizations. We also achieve time savings and less stress. However, we also found that improving the overall quality requires more advanced means. Finally, we discuss design implications for access reviews with digital nudges.",
+      "abstract_source": "https://www.usenix.org/conference/soups2024/presentation/baumer",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -26331,9 +26499,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "e6623e639a4051c10c1b65de4bab8f6693820e738b488a6e95a921190c011b0f",
+      "content_sha256": "c8e11cff40f069de5084c24b8d4df4efe149227ab50ae24ff517673bc235b815",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -26344,7 +26512,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2024-baumer.pdf",
+      "venue": "Twentieth Symposium on Usable Privacy and Security (SOUPS 2024)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "9f3ff6dc457cf00c8eb63c2356cebcc2588d9ac493368aba7e79dfa04a2af60a",
+      "review_number": 192,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Studies whether access-review interface choices prompt removal of excessive permissions. Supports prevention and examination of authorisation-related attack surfaces and insider access.",
+      "metadata_issue": "More revocations and reduced effort do not by themselves establish better access decisions; the authors identify remaining quality limitations. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2024/presentation/baumer"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-9f7de45d26ace7040cf6",
@@ -26404,7 +26600,7 @@
     {
       "candidate_id": "soups-65abe745a00695f65835",
       "title": "Comparing Teacher and Creator Perspectives on the Design of Cybersecurity and Privacy Educational Resources",
-      "authors": "Joy McLeod, Leah Zhang-Kennedy, Elizabeth Stobert",
+      "authors": "Joy McLeod; Leah Zhang-Kennedy; Elizabeth Stobert",
       "author_byline": "Joy McLeod, Carleton University; Leah Zhang-Kennedy, University of Waterloo; Elizabeth Stobert, Carleton University",
       "year": 2024,
       "conference_year": 2024,
@@ -26414,8 +26610,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "Various educational resources have been developed to teach children about cybersecurity and privacy. Our qualitative interview study with 15 middle school teachers and 8 creators of cybersecurity educational resources compares and analyzes the design considerations of cybersecurity resource creators with the resource selection strategies and classroom practices of teachers in their delivery of cybersecurity lessons to middle school students. Our thematic analysis showed that teachers predominately used free, low-tech, modular, and modifiable resources such as lesson plans, short educational videos, and segmented learning modules to fit their classroom teaching needs. The topics focus on helping students develop critical thinking skills rather than technical knowledge. Creators, on the other hand, focused their resource design considerations primarily on cybersecurity trends and students' media learning preferences, such as developing games and other types of interactive content to increase engagement. We highlight areas of misalignment between creators' design considerations compared to how teachers access and deliver cybersecurity and privacy lessons to students.",
-      "abstract_source": "https://www.usenix.org/conference/soups2024/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2024/presentation/mcleod",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -26423,9 +26619,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "4b2236e9e18d534eb62f292feb9daa38f95399021fe6b666dd88d409cf31689b",
+      "content_sha256": "4bdfa8daa0f8bb3549acd1149c71d1b0bbbb90ccc5e1930ed1cd2f02df7b221d",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -26436,7 +26632,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2024-mcleod.pdf",
+      "venue": "Twentieth Symposium on Usable Privacy and Security (SOUPS 2024)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "b6bd4061946771c7f321375f93113dbb9af16830d65b47fb18d34a7c584c53ae",
+      "review_number": 193,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Compares educators' needs with designers' assumptions for children's cybersecurity lessons. Supports selecting and adapting usable prevention resources rather than relying on engagement claims alone.",
+      "metadata_issue": "Interviews with fifteen teachers and eight creators; learning retention and victimisation reduction were not measured. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2024/presentation/mcleod"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-80d252c2d8bb8cb9b30c",
@@ -26521,7 +26745,7 @@
     {
       "candidate_id": "soups-d5ee5f3b0d7b31e61b37",
       "title": "Well-intended but half-hearted: Hosts’ consideration of guests’ privacy using smart devices on rental properties",
-      "authors": "Sunyup Park, Weijia He, Elmira Deldari, Pardis Emami-Naeini, Danny Yuxing Huang, Jessica Vitak, Yaxing Yao, Michael Zimmer",
+      "authors": "Sunyup Park; Weijia He; Elmira Deldari; Pardis Emami-Naeini; Danny Yuxing Huang; Jessica Vitak; Yaxing Yao; Michael Zimmer",
       "author_byline": "Sunyup Park, University of Maryland, College Park; Weijia He, Dartmouth College; Elmira Deldari, University of Maryland, Baltimore County; Pardis Emami-Naeini, Duke University; Danny Yuxing Huang, New York University; Jessica Vitak, University of Maryland, College Park; Yaxing Yao, Virginia Tech; Michael Zimmer, Marquette University",
       "year": 2024,
       "conference_year": 2024,
@@ -26531,8 +26755,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "The increased use of smart home devices (SHDs) on short-term rental (STR) properties raises privacy concerns for guests. While previous literature identifies guests' privacy concerns and the need to negotiate guests' privacy preferences with hosts, there is a lack of research from the hosts' perspectives. This paper investigates if and how hosts consider guests' privacy when using their SHDs on their STRs, to understand hosts' willingness to accommodate guests' privacy concerns, a starting point for negotiation. We conducted online interviews with 15 STR hosts (e.g., Airbnb/Vrbo), finding that they generally use, manage, and disclose their SHDs in ways that protect guests' privacy. However, hosts' practices fell short of their intentions because of competing needs and goals (i.e., protecting their property versus protecting guests' privacy). Findings also highlight that hosts do not have proper support from the platforms on how to navigate these competing goals. Therefore, we discuss how to improve platforms' guidelines/policies to prevent and resolve conflicts with guests and measures to increase engagement from both sides to set ground for negotiation.",
-      "abstract_source": "https://www.usenix.org/conference/soups2024/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2024/presentation/park",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -26540,9 +26764,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "ac2959f535d5b5fb60d2dad765d7930f7e3aa44f23d7730e26bda741e33e8925",
+      "content_sha256": "ce0bfc03edf40377f7cc202db87db73c383e6d93e775a529d1162c45d0c9d4a4",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -26553,7 +26777,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2024-park.pdf",
+      "venue": "Twentieth Symposium on Usable Privacy and Security (SOUPS 2024)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "91d428a6fb23d78d120d256fa242a44d1b9fd0ac7aa0a7190185bbd1fbb070d0",
+      "review_number": 194,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Investigates how rental-property hosts manage and disclose smart devices that can affect guests' privacy. Supports understanding surveillance risks, consent failures and practical gaps in protective policies.",
+      "metadata_issue": "Fifteen host interviews; reported intentions and practices do not establish covert recording, unlawful conduct or guest experience. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2024/presentation/park"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-46f36f1097fda1104ab6",
@@ -27039,7 +27291,7 @@
     {
       "candidate_id": "soups-616aa8b781f0140d014c",
       "title": "Negative Effects of Social Triggers on User Security and Privacy Behaviors",
-      "authors": "Lachlan Moore, Tatsuya Mori, Ayako A. Hasegawa",
+      "authors": "Lachlan Moore; Tatsuya Mori; Ayako A. Hasegawa",
       "author_byline": "Lachlan Moore, Waseda University and NICT; Tatsuya Mori, Waseda University, NICT, and RIKEN AIP; Ayako A. Hasegawa, NICT",
       "year": 2024,
       "conference_year": 2024,
@@ -27049,8 +27301,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "People make decisions while being influenced by those around them. Previous studies have shown that users often adopt security practices on the basis of advice from others and have proposed collaborative and community-based approaches to enhance user security behaviors. In this paper, we focused on the negative effects of social triggers and investigated whether risky user behaviors are socially triggered. We conducted an online survey to understand the triggers for risky user behaviors and the practices of sharing the behaviors. We found that a non-negligible percentage of participants experienced social triggers before engaging in risky behaviors. We also show that socially triggered risky behaviors are more likely to be socially shared, i.e., there are negative chains of risky behaviors. Our findings suggest that more efforts are needed to reduce negative social effects, and we propose specific approaches to accomplish this.",
-      "abstract_source": "https://www.usenix.org/conference/soups2024/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2024/presentation/moore",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -27058,9 +27310,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "6ca0705d41479ffe5de2c28ea52ac27d5479b84b79519e3a034f9ea16217af00",
+      "content_sha256": "d2711f8c2407857ba4ca66afb5286e4699369c1c960574abb6483f4b279a1ee0",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -27071,7 +27323,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2024-moore.pdf",
+      "venue": "Twentieth Symposium on Usable Privacy and Security (SOUPS 2024)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "8412690a65d9fdb917b7f6016c709997bd2b21a059d34b30846f55347a2bb202",
+      "review_number": 195,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Examines social influences that lead to risky security and privacy behaviour and its onward sharing. Supports understanding propagation of unsafe practices and designing social prevention interventions.",
+      "metadata_issue": "Survey-based associations do not establish causation, actual criminal harm or effectiveness of proposed interventions. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2024/presentation/moore"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-5e4e1ee7b75d5bbed431",
@@ -27258,7 +27538,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "63bbd357658e13843849929ade843c14d645dc79dfe1cb4b093dd0ebb9235057",
-      "decision": "pending",
+      "decision": "rejected",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -27298,12 +27578,17 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "63bbd357658e13843849929ade843c14d645dc79dfe1cb4b093dd0ebb9235057",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-f3f72b980425a5944cbd",
       "title": "Shiny Shells, Rusty Cores: A Crowdsourced Security Evaluation of Integrated Web Browsers",
-      "authors": "Gertjan Franken, Pieter Claeys, Tom Van Goethem, and Lieven Desmet",
+      "authors": "Gertjan Franken; Pieter Claeys; Tom Van Goethem; Lieven Desmet",
       "author_byline": "Gertjan Franken, Pieter Claeys, Tom Van Goethem, and Lieven Desmet, DistriNet, KU Leuven",
       "year": 2025,
       "conference_year": 2025,
@@ -27313,8 +27598,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "Over the past decade, web browsers have expanded far beyond their traditional role as standalone applications. Today, browsers are also integrated into a wide range of consumer products—including smart TVs, e-readers, gaming consoles, and even cars—where they serve as secondary features for users. However, while users can rely on the transparent security practices and frequent updates of standalone browsers, integrated browsers often lack these guarantees. In this paper, we assess the security of integrated browsers from two perspectives: their obsolescence and the completeness of their security policy implementations. To overcome the challenges posed by closed-source firmware and hardware, we developed a crowdsourcing framework that leverages dynamic analysis to examine the security properties of browsers integrated into consumer products. Using this framework, we conducted a study in which participants tested their personal devices, resulting in 76 enrollments across 53 unique products and 68 unique software versions. Our findings reveal that while security policies are generally fully supported, many embedded browsers rely on outdated engines—some already obsolete at product release. By reproducing publicly disclosed vulnerabilities, we illustrate that users face considerable and hidden security risks due to the presence of unpatched flaws.",
-      "abstract_source": "https://www.usenix.org/conference/soups2025/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2025/presentation/franken",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -27322,9 +27607,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "31fda2c195c618eef43ae6901d1d124738cf9a32b606350ca7141ea387b9b39e",
+      "content_sha256": "41a74e4e8c8347063ba2c2cfc4dbfbf332d7ee86ea2775d93ded8eee5eea64b0",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -27335,7 +27620,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2025-franken.pdf",
+      "venue": "Twenty-First Symposium on Usable Privacy and Security (SOUPS 2025)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "1ad0d9ab64f44668a83aef9b46145e725fbfb651bf88303c7f53d689943e5d22",
+      "review_number": 179,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Evaluates hidden browser engines in consumer devices and reproduces known vulnerabilities. Supports understanding compromise opportunities and the limitations of device security assurances.",
+      "metadata_issue": "Crowdsourced coverage spans 53 products; the abstract does not establish real-world exploitation or a complete census. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2025/presentation/franken"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-9082751fd9276e3f7dbc",
@@ -27774,7 +28087,7 @@
     {
       "candidate_id": "soups-98123e6080b509c25510",
       "title": "Minoritised Ethnic People’s Security and Privacy Concerns and Responses towards Essential Online Services",
-      "authors": "Aunam Quyoum and Mark Wong, Sebati Ghosh and Siamak F. Shahandashti",
+      "authors": "Aunam Quyoum; Mark Wong; Sebati Ghosh; Siamak F. Shahandashti",
       "author_byline": "Aunam Quyoum and Mark Wong, University of Glasgow; Sebati Ghosh and Siamak F. Shahandashti, University of York",
       "year": 2025,
       "conference_year": 2025,
@@ -27784,8 +28097,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "Minoritised ethnic people are marginalised in society, and therefore at a higher risk of adverse online harms, including those arising from the loss of security and privacy of personal data. Despite this, there has been very little research focused on minoritised ethnic people's security and privacy concerns, attitudes, and behaviours. In this work, we provide the results of one of the first studies in this regard. We explore minoritised ethnic people's experiences of using essential online services across three sectors: health, social housing, and energy, their security and privacy-related concerns, and responses towards these services. We conducted a thematic analysis of 44 semi-structured interviews with people of various reported minoritised ethnicities in the UK. Privacy concerns and lack of control over personal data emerged as a major theme, with many interviewees considering privacy as their most significant concern when using online services. Several creative tactics to exercise some agency were reported, including selective and inconsistent disclosure of personal data. A core concern about how data may be used was driven by a fear of repercussions, including penalisation and discrimination, influenced by prior experiences of institutional and online racism. The increased concern and potential for harm resulted in minoritised ethnic people grappling with a higher-stakes dilemma of whether to disclose personal information online or not. Furthermore, trust in institutions, or lack thereof, was found to be embedded throughout as a basis for adapting behaviour. We draw on our results to provide lessons learned for the design of more inclusive, marginalisation-aware, and privacy-preserving online services.",
-      "abstract_source": "https://www.usenix.org/conference/soups2025/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2025/presentation/quyoum",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -27793,9 +28106,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "a79842180ddd6a95e7359c0a55aa07e61ae30324c6d802f59535f91d12401232",
+      "content_sha256": "1dc0acac0d73cf81c0f1d11ddf80153615bc8bc541192d31fa9f52336d64c9c3",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -27806,12 +28119,40 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2025-quyoum.pdf",
+      "venue": "Twenty-First Symposium on Usable Privacy and Security (SOUPS 2025)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "48be57d10069b42376ef71b5e934245ee11504c896ef9550afa95f2a5a8f4e0d",
+      "review_number": 180,
+      "recommendation": "exclude",
+      "relevance": "out_of_scope",
+      "review_reason": "Examines privacy concerns and coping practices in essential online services. The abstract addresses institutional trust and inclusion without a concrete cybercrime, abuse-investigation or response contribution.",
+      "metadata_issue": "Interviews with 44 UK participants; perceived risks and discrimination concerns are not proof of criminal misuse. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2025/presentation/quyoum"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-c45cde53e5361016c4f9",
       "title": "Adopting AI to Protect Industrial Control Systems: Assessing Challenges and Opportunities from the Operators’ Perspective",
-      "authors": "Clement Fung, Eric Zeng, Lujo Bauer",
+      "authors": "Clement Fung; Eric Zeng; Lujo Bauer",
       "author_byline": "Clement Fung, Carnegie Mellon University; Eric Zeng, Georgetown University; Lujo Bauer, Carnegie Mellon University",
       "year": 2025,
       "conference_year": 2025,
@@ -27821,8 +28162,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "Industrial control systems (ICS) manage critical physical processes such as electric distribution and water treatment. Attackers infiltrate ICS and manipulate these critical processes, causing damage and harm. AI-based approaches can detect such attacks and raise alarms for operators, but they are not commonly used in practice and it is unclear why. In this work, we directly asked practitioners about current practices for alarms in ICS and their perspectives on adopting AI to support these practices. We conducted 18 semi-structured interviews with practitioners who work on protecting ICS, through which we identified tasks commonly performed for alarms such as raising alarms when anomalies are detected, coordinating operator response to alarms, and analyzing data to improve alarm rule sets. We found that practitioners often struggle with tasks beyond anomaly detection, such as alarm diagnosis, and we propose designing AI-based tools to support these tasks. We also identified barriers to adopting AI in ICS (e.g., limited data collection, low trust in vendor technology) and recommend ways to make AI-based tools more effective and trusted by practitioners, such as demonstrating model transparency through interactive pilot projects.",
-      "abstract_source": "https://www.usenix.org/conference/soups2025/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2025/presentation/fung",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -27830,9 +28171,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "58e25adc56cc91248b827ac532ba24498781e6d460640f17ca65caec78a451e8",
+      "content_sha256": "59ec61fc82c2821dee8234210332a5e982d3411a9aa3ce0383345a170bc2fe49",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -27843,12 +28184,40 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2025-fung.pdf",
+      "venue": "Twenty-First Symposium on Usable Privacy and Security (SOUPS 2025)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "4dd1debfeb8eab77f15b3da8fbc997baa8ca654ed40df340bf6b6eab6199df0e",
+      "review_number": 181,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Studies how ICS practitioners diagnose alarms and coordinate responses, identifying gaps beyond anomaly detection. Useful evidence for designing tools and workflows for critical-infrastructure incident analysis.",
+      "metadata_issue": "Eighteen practitioner interviews; proposed AI improvements were not evaluated as deployed protections. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2025/presentation/fung"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-50b5422148ef6d9df3ad",
       "title": "\"You go now! No trouble!\" Understanding the Offboarding Process in Companies from an IT Security Perspective",
-      "authors": "Christina Detsika, Timo Jagusch, Nora Weidner, Larissa Weir, Florin Martius, and Christian Tiefenau",
+      "authors": "Christina Detsika; Timo Jagusch; Nora Weidner; Larissa Weir; Florin Martius; Christian Tiefenau",
       "author_byline": "Christina Detsika, Fraunhofer FKIE; Timo Jagusch, Nora Weidner, Larissa Weir, Florin Martius, and Christian Tiefenau, University of Bonn",
       "year": 2025,
       "conference_year": 2025,
@@ -27858,8 +28227,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "Insider threats account for a significant portion of security breaches. One strategy to mitigate this threat is effective offboarding practices. However, existing standards from ISO, NIST, and BSI provide limited actionable guidance on offboarding, leaving it an underexplored aspect of IT security. In this paper, we collected offboarding advice from these standards and conducted qualitative interviews with 15 professionals directly responsible for managing or overseeing offboarding in their organizations. We identified gaps and usability issues in current practices and highlighted the need for structured, usability-focused solutions. To support organizations in addressing these challenges, we reviewed and consolidated the offboarding advice contained in multiple standards into a collection of offboarding actions, integrating them with insights from our study.",
-      "abstract_source": "https://www.usenix.org/conference/soups2025/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2025/presentation/detsika",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -27867,9 +28236,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "d8773b41957d9c81ce48aaa3fbb9d8e48cf00463188d90601603ed1d7774488e",
+      "content_sha256": "85d050f6bc66dde638a1ad5537d088f966a93439f4a3b3a316c840149b5577e9",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -27880,7 +28249,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2025-detsika.pdf",
+      "venue": "Twenty-First Symposium on Usable Privacy and Security (SOUPS 2025)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "abce9876b37705722e730a732069b920fbe1bd333dbdb72781c7c3ff25cbcbb1",
+      "review_number": 182,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Examines offboarding practices as a control against insider threats and consolidates actions with practitioner evidence. Supports investigation readiness and closing access gaps when staff leave.",
+      "metadata_issue": "Fifteen professional interviews; no causal reduction in insider incidents is established. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2025/presentation/detsika"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-f0a9484324e0cfa58590",
@@ -27940,7 +28337,7 @@
     {
       "candidate_id": "soups-b7d16424a7a27bda1274",
       "title": "Design and Evaluation of Privacy-Preserving Protocols for Agent-Facilitated Mobile Money Services in Kenya",
-      "authors": "Karen Sowon, Collins W. Munyendo, Lily Klucinec, Eunice Maingi and Gerald Suleh, Lorrie Faith Cranor and Giulia Fanti, Conrad Tucker and Assane Gueye",
+      "authors": "Karen Sowon; Collins W. Munyendo; Lily Klucinec; Eunice Maingi; Gerald Suleh; Lorrie Faith Cranor; Giulia Fanti; Conrad Tucker; Assane Gueye",
       "author_byline": "Karen Sowon, Indiana University; Collins W. Munyendo, The George Washington University; Lily Klucinec, Carnegie Mellon University; Eunice Maingi and Gerald Suleh, Strathmore University; Lorrie Faith Cranor and Giulia Fanti, Carnegie Mellon University; Conrad Tucker and Assane Gueye, Carnegie Mellon University-Africa IAPP SOUPS Privacy Award",
       "year": 2025,
       "conference_year": 2025,
@@ -27950,8 +28347,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "Mobile Money (MoMo), a technology that allows users to complete financial transactions using a mobile phone without requiring a bank account, is a common method for processing financial transactions in Africa and other developing regions. Users can deposit and withdraw money with the help of human agents. During deposit and withdraw operations, know-your-customer (KYC) processes require agents to access and verify customer information such as name and ID number, which can introduce privacy and security risks. In this work, we design alternative protocols for MoMo deposits/withdrawals that protect users’ privacy while enabling KYC checks by redirecting the flow of sensitive information from the agent to the MoMo provider. We evaluate the usability and efficiency of our proposed protocols in a role-play and semi-structured interview study with 32 users and 15 agents in Kenya. We find that users and agents prefer the new protocols, due in part to convenient and efficient verification using biometrics as well as better data privacy and access control. However, our study also surfaced challenges that need to be addressed before these protocols can be deployed.",
-      "abstract_source": "https://www.usenix.org/conference/soups2025/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2025/presentation/sowon",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -27959,9 +28356,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "fd00b527c9228517c1f0ab7ba81fe20f5e108c8d2674a7972dbbb909af76a800",
+      "content_sha256": "1f32c87d4f71c4cf9b70f0ebdcb014d8d98caabe080904cfc390bc9de2624310",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -27972,12 +28369,40 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2025-sowon.pdf",
+      "venue": "Twenty-First Symposium on Usable Privacy and Security (SOUPS 2025)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "19a3802289007f4bc10a5c388d52486b48fabc65bb9db3bed339fd86efea80a6",
+      "review_number": 183,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Designs and evaluates mobile-money workflows that reduce agents' exposure to identity data while retaining customer verification. Relevant to financial-service identity protection and abuse prevention.",
+      "metadata_issue": "Role-play and interviews with 32 users and 15 agents; preference and usability findings do not establish fraud reduction or deployment readiness. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2025/presentation/sowon"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-0c25dff1da23b141c44e",
       "title": "Trust-Enabled Privacy: Social Media Designs to Support Adolescent User Boundary Regulation",
-      "authors": "JaeWon Kim and Robert Wolfe, Ramya Bhagirathi Subramanian, Mei-Hsuan Lee, and Jessica Colnago, Alexis Hiniker",
+      "authors": "JaeWon Kim; Robert Wolfe; Ramya Bhagirathi Subramanian; Mei-Hsuan Lee; Jessica Colnago; Alexis Hiniker",
       "author_byline": "JaeWon Kim and Robert Wolfe, University of Washington; Ramya Bhagirathi Subramanian, Mei-Hsuan Lee, and Jessica Colnago, Independent Contributor; Alexis Hiniker, University of Washington",
       "year": 2025,
       "conference_year": 2025,
@@ -27987,8 +28412,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "Adolescents heavily rely on social media to build and maintain close relationships, yet current platform designs often make self-disclosure feel risky or uncomfortable. Through a three-part study involving 19 teens aged 13–18, we identify key barriers to meaningful self-disclosure on social media. Our findings reveal that while these adolescents seek casual, frequent sharing to strengthen relationships, existing platform norms often discourage such interactions. Based on our co-design interview findings, we propose platform design ideas to foster a more dynamic and nuanced privacy experience for teen social media users. We then introduce trust-enabled privacy as a framework that recognizes trust—whether building or eroding—as central to boundary regulation, and foregrounds the role of platform design in shaping the very norms and interaction patterns that influence how trust unfolds. When trust is supported, boundary regulation becomes more adaptive and empowering; when it erodes, users resort to self-censorship or disengagement. This work provides empirical insights and actionable guidelines for designing social media spaces where teens feel empowered to engage in meaningful relationship-building processes.",
-      "abstract_source": "https://www.usenix.org/conference/soups2025/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2025/presentation/kim",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -27996,9 +28421,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "c6e5873132e30d74ba070d5b7ec6be08f160e534fa5960aa134ef062e99d4c51",
+      "content_sha256": "be71a8204608be07ff35dce93774641a67523dd98ea6d58a820b2210972053de",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -28009,7 +28434,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2025-kim.pdf",
+      "venue": "Twenty-First Symposium on Usable Privacy and Security (SOUPS 2025)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "79445319e4aeb6f7596355874d59a1281360745dfb5079649e50a3e5735812f7",
+      "review_number": 184,
+      "recommendation": "exclude",
+      "relevance": "out_of_scope",
+      "review_reason": "Studies adolescent self-disclosure, relationships and boundary regulation on social media. The abstract does not connect its proposed framework to a concrete abuse, cybercrime or investigative problem.",
+      "metadata_issue": "Nineteen participants; avoid inferring safeguarding effectiveness from design ideas that were not tested against abuse. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2025/presentation/kim"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-0ad44751d6411e485e3f",
@@ -28106,7 +28559,7 @@
     {
       "candidate_id": "soups-423b20e8da2814eca04c",
       "title": "Misuse, Misreporting, Misinterpretation of Statistical Methods in Usable Privacy and Security Papers",
-      "authors": "Jenny Tang, Lujo Bauer, and Nicolas Christin",
+      "authors": "Jenny Tang; Lujo Bauer; Nicolas Christin",
       "author_byline": "Jenny Tang, Lujo Bauer, and Nicolas Christin, Carnegie Mellon University",
       "year": 2025,
       "conference_year": 2025,
@@ -28116,8 +28569,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "Null hypothesis significance testing (NHST) is commonly used in quantitative usable privacy and security studies. Many papers use results from statistical tests to assert whether effects or differences exist depending on the resulting p-value. We conduct a systematic review of papers published in 10 editions of the Symposium on Usable Privacy and Security over a span of 20 years to evaluate the field's use of NHST. We code statistical tests for potential statistical validity, reporting, or interpretation issues that may undermine assertions made in the 121 papers that use NHST. Most problematically, tests in 23% of papers inadequately account for non-independence between samples, leading to potentially invalid claims. 58% of papers lack information to verify whether an assertion is supported, such as imprecisely specifying the statistical test conducted. Many papers contain more minor statistical issues or report statistics in ways that deviate from best practice. We conclude with recommendations for statistical reporting and statistical thinking in the field.",
-      "abstract_source": "https://www.usenix.org/conference/soups2025/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2025/presentation/tang",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -28125,9 +28578,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "ecaf0b8404a1d13d5c73278a7b3d8061ba2eb226d6ecc156ec1941be705f3123",
+      "content_sha256": "a6d9edca8c8e7d609249ac34e9fac52d0e11f7e90593294c1f9299eb362518c1",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -28138,12 +28591,40 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2025-tang.pdf",
+      "venue": "Twenty-First Symposium on Usable Privacy and Security (SOUPS 2025)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "4bcf45f975338b55a8feec66c1e2ab9e14119238b4492c8747168da8dab8e407",
+      "review_number": 185,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Audits statistical validity, reporting and interpretation in usable-security papers. Supports evaluating the reliability of research evidence used in ALEX and distinguishing measured findings from unsupported assertions.",
+      "metadata_issue": "The reported percentages concern the reviewed SOUPS sample, not all cybersecurity research; individual papers require their own assessment. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2025/presentation/tang"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-75e93a58a1232318a4cd",
       "title": "\"We are not Future-ready\": Understanding AI Privacy Risks and Existing Mitigation Strategies from the Perspective of AI Developers in Europe",
-      "authors": "Alexandra Klymenko and Stephen Meisenbacher, Patrick Gage Kelley, Sai Teja Peddinti, and Kurt Thomas, Florian Matthes",
+      "authors": "Alexandra Klymenko; Stephen Meisenbacher; Patrick Gage Kelley; Sai Teja Peddinti; Kurt Thomas; Florian Matthes",
       "author_byline": "Alexandra Klymenko and Stephen Meisenbacher, Technical University of Munich; Patrick Gage Kelley, Sai Teja Peddinti, and Kurt Thomas, Google; Florian Matthes, Technical University of Munich",
       "year": 2025,
       "conference_year": 2025,
@@ -28153,8 +28634,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "The proliferation of AI has sparked privacy concerns related to training data, model interfaces, downstream applications, and more. We interviewed 25 AI developers based in Europe to understand which privacy threats they believe pose the greatest risk to users, developers, and businesses and what protective strategies, if any, would help to mitigate them. We find that there is little consensus among AI developers on the relative ranking of privacy risks. These differences stem from salient reasoning patterns that often relate to human rather than purely technical factors. Furthermore, while AI developers are aware of proposed mitigation strategies for addressing these risks, they reported minimal real-world adoption. Our findings highlight both gaps and opportunities for empowering AI developers to better address privacy risks in AI.",
-      "abstract_source": "https://www.usenix.org/conference/soups2025/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2025/presentation/klymenko",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -28162,9 +28643,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "c643823a320793cfb7fddb848b6830c4760b938a1590fd504f5b9aa0cc6c9203",
+      "content_sha256": "2c6d9a46f462769c2611ca1b48d4fb74d9f43475db076a127c7da53b9dcb05ed",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -28175,12 +28656,40 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2025-klymenko.pdf",
+      "venue": "Twenty-First Symposium on Usable Privacy and Security (SOUPS 2025)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "67d4a47296334e6b23f7d29cb2a0b0395e75b1b1bac68a2a0ee15d2fb4fcfb70",
+      "review_number": 186,
+      "recommendation": "exclude",
+      "relevance": "out_of_scope",
+      "review_reason": "Explores developers' general rankings of AI privacy risks and mitigation adoption. The abstract provides no concrete cybercrime investigation, victim-support case or tested operational method.",
+      "metadata_issue": "Twenty-five European developers; risk perceptions and limited adoption do not establish effectiveness of particular mitigations. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2025/presentation/klymenko"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-4edbbe2dd1004bfca324",
       "title": "Replication: “No one can hack my mind” - 10 years later: An update and outlook on experts’ and non-experts’ security practices and advice",
-      "authors": "Anna-Marie Ortloff, Jenny Tang, Arthi Arumugam, Daniel Huschina, Lisa Geierhaas, and Florin Martius, Luisa Jansen, Kolja von der Twer and Lilly Jungbluth, Matthew Smith",
+      "authors": "Anna-Marie Ortloff; Jenny Tang; Arthi Arumugam; Daniel Huschina; Lisa Geierhaas; Florin Martius; Luisa Jansen; Kolja von der Twer; Lilly Jungbluth; Matthew Smith",
       "author_byline": "Anna-Marie Ortloff, University of Bonn; Jenny Tang, Carnegie Mellon University; Arthi Arumugam, Daniel Huschina, Lisa Geierhaas, and Florin Martius, University of Bonn; Luisa Jansen, University of Bern; Kolja von der Twer and Lilly Jungbluth, University of Bonn; Matthew Smith, University of Bonn and Fraunhofer FKIE",
       "year": 2025,
       "conference_year": 2025,
@@ -28190,8 +28699,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "In 2015, Ion, Reeder, and Consolvo studied IT security advice and self-reported security behavior of experts and non-experts. In 2019, Busse et al. replicated this study and found only minor changes in expert advice and non-expert behavior, with persisting differences between the two groups. Now, 10 years later, we replicated the study with an updated survey and compared our results to both prior studies. Additionally, we interviewed security experts and asked them for their views on the past and future of IT security advice. We report the current state of security behavior and advice based on two survey samples: one non-expert (N=990), and one expert sample (N=75) and an additional expert interview sample (N=35). We identified notable changes in reported security behavior for both experts and non-experts, including that experts and non-experts are beginning to adopt new security practices in authentication. The expert interviews show a path forward, with experts hoping for more improvements to usability and targeted advice for specific user and device-contexts.",
-      "abstract_source": "https://www.usenix.org/conference/soups2025/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2025/presentation/ortloff",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -28199,9 +28708,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "7281a5b6eea961dd2834e2a6f8db26110d7b4f25115e7a2c0c442b78a737c146",
+      "content_sha256": "5fedd66512e576765dc7733c47652080880a15597c87146ec767cbed8cd7cd1c",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -28212,12 +28721,40 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2025-ortloff.pdf",
+      "venue": "Twenty-First Symposium on Usable Privacy and Security (SOUPS 2025)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "787748a6b7634956e89c12c9f334805481f57e3dbff76f04fea8ecbc9413911d",
+      "review_number": 187,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Replicates expert and non-expert security-advice research over time with surveys and interviews. Supports prioritising practical protective guidance and understanding changes in reported security behaviour.",
+      "metadata_issue": "Self-reported practices are not direct observations of protection or incident outcomes. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2025/presentation/ortloff"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-8b39f47b8fb4e6a123c8",
       "title": "More than Usability: Differential Access to Digital Security and Privacy",
-      "authors": "Annalina Buckmann and Jan Magnus Nold, Yasemin Acar, Yixin Zou",
+      "authors": "Annalina Buckmann; Jan Magnus Nold; Yasemin Acar; Yixin Zou",
       "author_byline": "Annalina Buckmann and Jan Magnus Nold, Ruhr University Bochum; Yasemin Acar, Paderborn University and The George Washington University; Yixin Zou, Max Planck Institute for Security and Privacy",
       "year": 2025,
       "conference_year": 2025,
@@ -28227,8 +28764,8 @@
       "document_type": "research_paper",
       "program_session": "",
       "abstract": "Despite over two decades of usable security and privacy (S&P) research, there remains a yawning gap between expert-recommended S&P advice and user behavior. The Security and Privacy Acceptance Framework (SPAF) identifies awareness, motivation, and ability as main factors influencing S&P behavior. The inclusive S&P literature highlights the importance of user diversity, yet there are open questions regarding how and why sociodemographic differences in S&P emerge. We apply SPAF to analyze interview data from 47 participants with varying age, gender, education, income, (dis)ability, and expertise. Our findings highlight seven new underlying factors not covered by SPAF (e.g., how experiences with threats and doing one's own research contribute to awareness) and four barriers (e.g., limited social support). Drawing from our findings, we establish the notion of differential access as a new concept to consider for inclusive S&P research beyond system-level accessibility: Users' access to S&P protections and information largely hinges on their social and relational position within the society and access to resources, which varies across sociodemographics.",
-      "abstract_source": "https://www.usenix.org/conference/soups2025/accepted-papers",
-      "metadata_status": "annual_program_metadata; individual_bibliography_pending",
+      "abstract_source": "https://www.usenix.org/conference/soups2025/presentation/buckmann",
+      "metadata_status": "official_individual_citation_verified; remaining_checks_pending",
       "collection_source": "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)",
       "publication_approved": false,
       "duplicate_check": {
@@ -28236,9 +28773,9 @@
         "matches": [],
         "doi_check": "pending_missing_doi"
       },
-      "content_sha256": "96389818b062c1fe7733d5b46e11aa7bf9e5d76606135356ca611147fe27d977",
+      "content_sha256": "489ecd297edee368b88caef63fe5f9b1c6bbfc97d38d6ad2aa9484f547fa6817",
       "decision": "pending",
-      "screening_status": "not_assessed",
+      "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -28249,7 +28786,35 @@
           "name": "USENIX",
           "url": "https://www.usenix.org/"
         }
-      ]
+      ],
+      "pdf_url": "https://www.usenix.org/system/files/soups2025-buckmann.pdf",
+      "venue": "Twenty-First Symposium on Usable Privacy and Security (SOUPS 2025)",
+      "publisher": "USENIX Association",
+      "source_html_sha256": "fb8876aa47143e9dca9fde8f8bf1037d4e8fd89a6a4c30408e04397e59137219",
+      "review_number": 188,
+      "recommendation": "include",
+      "relevance": "supporting",
+      "review_reason": "Examines how resources, social support and threat experience affect access to security and privacy protections. Useful context for inclusive prevention and assistance to people who cannot readily follow standard advice.",
+      "metadata_issue": "Forty-seven qualitative interviews; the framework does not quantify victimisation or test an intervention. Official abstract assessed; full paper, DOI lookup, citations and quality checks remain pending.",
+      "assessment_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks.",
+      "assessment_date": "2026-10-27",
+      "review_evidence": [
+        "https://www.usenix.org/conference/soups2025/presentation/buckmann"
+      ],
+      "abstract_text_status": "official_individual_HTML_abstract_checked",
+      "full_paper_reviewed": false,
+      "quality_status": "not_run",
+      "classification_status": "not_proposed",
+      "doi_discovery_status": "pending",
+      "citation_count": null,
+      "citation_status": "not_looked_up",
+      "dedupe_evidence": {
+        "source_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/papers.json",
+        "corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+        "corpus_records": 3598,
+        "date": "2026-10-27",
+        "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
+      }
     },
     {
       "candidate_id": "soups-e53e318feada4d39895f",
@@ -28703,7 +29268,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "e91b04f6aa93e3e2d50c3417faa58967f0577c4fdf2510611a0b7b73ab85cef2",
-      "decision": "pending",
+      "decision": "rejected",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -28743,7 +29308,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "e91b04f6aa93e3e2d50c3417faa58967f0577c4fdf2510611a0b7b73ab85cef2",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-772e5b1c75df08a2195d",
@@ -28811,7 +29381,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "c06a74f1a4d2c0497ac83188afdb24d7214811a1ce60a95b98f37a181763031f",
-      "decision": "pending",
+      "decision": "rejected",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -28851,7 +29421,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "c06a74f1a4d2c0497ac83188afdb24d7214811a1ce60a95b98f37a181763031f",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-2c1088150267ae0dc731",
@@ -28876,7 +29451,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "abce5756b693f26f1b35bf6857613dad3ed881ce828cd480a3a47dcc97a54ad3",
-      "decision": "pending",
+      "decision": "rejected",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -28916,7 +29491,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "abce5756b693f26f1b35bf6857613dad3ed881ce828cd480a3a47dcc97a54ad3",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-305ea9f4e28638b9b3aa",
@@ -29044,7 +29624,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "4ed4d81ef8b114b451a95a5198a7dcc644737563d4d5ce88a8862a2610fe7a9f",
-      "decision": "pending",
+      "decision": "rejected",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -29084,7 +29664,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "4ed4d81ef8b114b451a95a5198a7dcc644737563d4d5ce88a8862a2610fe7a9f",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-fe61abd10e3be5415098",
@@ -29109,7 +29694,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "e0663dbfd1ac4c3649f77fe14ffd6065b05a9a8efd815725e7f0719f8a7fe5a9",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -29149,7 +29734,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "e0663dbfd1ac4c3649f77fe14ffd6065b05a9a8efd815725e7f0719f8a7fe5a9",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-6c0052732ba7c27a4ae7",
@@ -29174,7 +29764,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "dc10f78c113b0bf60005563868c883a1d5998d3325ab45869f6c984d60982551",
-      "decision": "pending",
+      "decision": "rejected",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -29214,7 +29804,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "dc10f78c113b0bf60005563868c883a1d5998d3325ab45869f6c984d60982551",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-07228444c2e7d3304b34",
@@ -29343,7 +29938,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "7aa38ead6771225e3f144ebbc3b0ac216d809f1ba3f430f80eaecd7acc5ea29d",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -29383,7 +29978,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "7aa38ead6771225e3f144ebbc3b0ac216d809f1ba3f430f80eaecd7acc5ea29d",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-aeda760f0a3b35a4fb85",
@@ -29408,7 +30008,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "d52cffdb23cbf64a9c239b65ebfa1a56961da8ab71b36bb1bd0e160a5920814f",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -29448,7 +30048,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "d52cffdb23cbf64a9c239b65ebfa1a56961da8ab71b36bb1bd0e160a5920814f",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-b75595eb59c478f40124",
@@ -29810,7 +30415,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "9719312d8889db13019037904316f542802e44b42f6da3b6ae339ab2b67bb0f3",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -29850,7 +30455,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "9719312d8889db13019037904316f542802e44b42f6da3b6ae339ab2b67bb0f3",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-4d47267cd9ac60620755",
@@ -29930,7 +30540,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "66baf71976cad8f79a36193fdd3a385c1405fd87602780d5ad38273c24fd35a6",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -29970,7 +30580,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "66baf71976cad8f79a36193fdd3a385c1405fd87602780d5ad38273c24fd35a6",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-4810a1d6fed6443d1ab8",
@@ -29995,7 +30610,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "9577c9e736a0c047da441641c08d31802244b1c8811cb8f1eb6ef0f62f250ba0",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -30035,7 +30650,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "9577c9e736a0c047da441641c08d31802244b1c8811cb8f1eb6ef0f62f250ba0",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-e3e2fd8b774f4a74931b",
@@ -30060,7 +30680,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "ac61a09db2baa5d6b2b297bc9255547fb8ff75589cc76799faf9c939d96a09f4",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -30100,7 +30720,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "ac61a09db2baa5d6b2b297bc9255547fb8ff75589cc76799faf9c939d96a09f4",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-b12e920799adbf0cb447",
@@ -30125,7 +30750,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "40da94a54d4216fb67b33563b2f494605c6d7b85e2d6e77e20d328db1c00e667",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -30165,7 +30790,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "40da94a54d4216fb67b33563b2f494605c6d7b85e2d6e77e20d328db1c00e667",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-7a3bf1994dc73e94f8d9",
@@ -30245,7 +30875,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "fa5d98153b465e1a3c94ad2ff1633e2fc4585320702e3c276fce67c526e4b997",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -30285,7 +30915,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "fa5d98153b465e1a3c94ad2ff1633e2fc4585320702e3c276fce67c526e4b997",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-423edadd64539f93d482",
@@ -30310,7 +30945,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "0088d81c9f0f69d17851c58ae45965a39f5743c4f100025a7bf641cd5d2fd177",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -30350,7 +30985,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "0088d81c9f0f69d17851c58ae45965a39f5743c4f100025a7bf641cd5d2fd177",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-a29bfedd2c0e6f9b4c15",
@@ -30481,7 +31121,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "64498a73d7978e0d53ac54002569be4ba78b9f3e49a3cc8201a73d4d5a8f8ccd",
-      "decision": "pending",
+      "decision": "rejected",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -30521,7 +31161,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "64498a73d7978e0d53ac54002569be4ba78b9f3e49a3cc8201a73d4d5a8f8ccd",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-541d551c06df350f0d97",
@@ -30641,7 +31286,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "891876aeaf6847c44fd9b52f03594957660af1beaf6450542ebe7abe0f9dfbed",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -30681,7 +31326,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "891876aeaf6847c44fd9b52f03594957660af1beaf6450542ebe7abe0f9dfbed",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-2f6b5d9d5e3bfaf18a9c",
@@ -30706,7 +31356,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "db78023a50f00ba8c65295856f2150ec6104ad1a931ae3a91123af4f28bfa413",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -30746,7 +31396,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "db78023a50f00ba8c65295856f2150ec6104ad1a931ae3a91123af4f28bfa413",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-1a5bf3a15a6956b34c1d",
@@ -30771,7 +31426,7 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "bd8f00512d26615a2c2331346ea7e4cbdf22cc5255f0baf25565a6e7a38fdb99",
-      "decision": "pending",
+      "decision": "approved",
       "screening_status": "abstract_review_complete",
       "collection_url": "https://soups.page/",
       "collection_links": [
@@ -30811,7 +31466,12 @@
         "corpus_records": 3598,
         "date": "2026-10-27",
         "scope": "DOI when supplied, normalized title, canonical URL, fuzzy title threshold 0.90; missing DOI and alternate versions remain limitations"
-      }
+      },
+      "decision_date": "2026-10-27",
+      "decision_content_sha256": "bd8f00512d26615a2c2331346ea7e4cbdf22cc5255f0baf25565a6e7a38fdb99",
+      "decision_basis": "Completed console submission 8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_id": "8b3feba0-1acd-46ff-b309-a80c21376473",
+      "gui_submission_revision": 1
     },
     {
       "candidate_id": "soups-0624bc5b4cdf8e557728",
@@ -33836,8 +34496,8 @@
   ],
   "initial_inventory_research_papers": 503,
   "initial_inventory_other_documents": 249,
-  "reviewed_candidates": 178,
-  "approved_candidates": 149,
+  "reviewed_candidates": 198,
+  "approved_candidates": 162,
   "dedup_limitations": [
     "Missing DOIs and alternate-title versions require follow-up; no-match is not proof of uniqueness.",
     "DOIs absent from batch-1 individual USENIX citations; DOI discovery remains pending."
@@ -33854,8 +34514,8 @@
       "url": "https://www.usenix.org/"
     }
   ],
-  "rejected_candidates": 9,
-  "substantive_abstract_assessments": 157,
+  "rejected_candidates": 16,
+  "substantive_abstract_assessments": 177,
   "doi_policy": {
     "required_for_inclusion": false,
     "lookup_required": true,
@@ -33874,11 +34534,11 @@
   "ancillary_content_assessments": 45,
   "review_order": "Continue substantive source screening and prepare review batches; preserve existing acceptance and publication policies. Accepted content may enter mechanical assessments without waiting for all source screening.",
   "latest_prepared_batch": {
-    "batch": 9,
-    "first": 159,
-    "last": 178,
+    "batch": 10,
+    "first": 179,
+    "last": 198,
     "pending": 20,
     "assessed_at": "2026-10-27",
-    "evidence_basis": "Substantive reading of official individual USENIX abstracts; individual citation titles, authors, years and advertised PDF links verified. No full papers assessed."
+    "evidence_basis": "Substantive reading of twenty freshly retrieved official USENIX individual abstracts; citation titles, authors, years and paper PDF links verified. Full papers not assessed. Research papers are distinct from presentation decks."
   }
 }
