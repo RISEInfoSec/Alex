@@ -1,7 +1,7 @@
 {
   "name": "Content Review",
-  "version": 5,
-  "status": "scheduled_initial_backlog_preparation",
+  "version": 6,
+  "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
   "scope": {
@@ -28,22 +28,40 @@
     "only_substantively_assessed_candidates_count_as_review_ready": true,
     "source_order": "Explicit user priority first; otherwise oldest waiting work without starving other active collections.",
     "global_review_ready_target_applies_to": "Candidates actually requiring human review; automatically accepted candidates do not consume the manual-review buffer.",
-    "buffer_thresholds_status": "User-confirmed: strictly below 100 triggers replenishment to 250."
+    "buffer_thresholds_status": "User-confirmed: strictly below 100 triggers replenishment to 250.",
+    "only_preflight_passed_candidates_count_as_review_ready": true
   },
   "preparation": {
     "stages": [
-      "discover or resume an existing inventory",
+      "discover or resume retained inventory",
       "normalize identities and provenance",
-      "deduplicate within and across queues and the public corpus",
-      "retrieve substantive original evidence",
-      "apply existing source-appropriate scoring and hard gates",
-      "route automatic accepts and rejections under existing rules",
-      "prepare recommendations and stable console batches only for manual exceptions and explicitly curated collections"
+      "deduplicate within and across all inventories and the current public corpus",
+      "resolve source/access and verify actual resource type",
+      "reconcile metadata and identifiers; record unknown citations as null",
+      "run existing source-appropriate quality hard gates and schema dry run",
+      "route existing automatic accepts/rejections and isolate unresolved holds",
+      "prepare content-based relevance recommendations only for surviving manual-review candidates",
+      "publish complete stable batches only after hash-bound preflight passes"
     ],
     "title_only_assessment_allowed": false,
     "keyword_triage_counts_as_review": false,
     "preserve_document_types": true,
-    "unavailable_or_inadequate_evidence": "Hold for evidence; do not invent findings or silently count as reviewed."
+    "unavailable_or_inadequate_evidence": "Hold for evidence; do not invent findings or silently count as reviewed.",
+    "mechanical_preflight_required_before_human_review": true,
+    "preflight_checks": [
+      "format",
+      "access",
+      "metadata",
+      "duplicates",
+      "quality",
+      "schema"
+    ],
+    "preflight_contract": {
+      "status": "passed",
+      "content_sha256": "must match reviewed record",
+      "checks": "Each required check must record status=passed, checked_at and substantive evidence.",
+      "hold_location": "Source manifest preflight_records or non-ready records; never part of the human buffer."
+    }
   },
   "submission_handoff": {
     "event": "content_review.batch_submitted",
@@ -66,9 +84,9 @@
     "changed_content": "Require reassessment for material changes to the reviewed content; do not reuse acceptance for a different content hash.",
     "feedback": [
       "submission saved",
-      "checks queued/running/held/complete",
-      "next prepared batch ready",
-      "preparation requested when no ready batch exists",
+      "final validation queued/running/held/complete",
+      "next preflight-cleared batch ready",
+      "preflight processing with actual deficit",
       "last successful worker run and actionable error"
     ],
     "current_chat_wake_up_assumed": false,
@@ -104,7 +122,9 @@
     "acceptance_routes": [
       "existing automatic acceptance",
       "completed manual review submission"
-    ]
+    ],
+    "pre_review_required": true,
+    "post_acceptance_scope": "Final/time-sensitive revalidation and changed-content checks; initial format/access/metadata/duplicate/quality/schema gates run before human review."
   },
   "release": {
     "publication_approved_by_relevance_selection": false,
@@ -116,11 +136,11 @@
     "existing_regular_pipeline": "Integrate status reporting and automatic assessments while preserving current automatic-acceptance and publication rules. Saving this proposal does not alter the live pipeline."
   },
   "implementation_work_remaining": [
-    "Complete initial assessed-buffer publication and verify live counts.",
-    "Run and record type-appropriate checks for accepted candidates; report unavailable stages honestly.",
-    "Preserve controlled curated release gates and existing qualifying automatic route."
+    "Run and record source-specific preflight checks; release only evidenced passes into manual review.",
+    "Restore five SOUPS batches and global250 after preflight; report current deficits honestly.",
+    "Continue final validation for existing accepted records; preserve release authorization and automatic route."
   ],
-  "automation_capability_observed": "The current automation event-source inventory exposes GitHub, but no direct Sites review-submission event. An outbox/worker integration is required; no event trigger or substitute polling schedule has been created.",
+  "automation_capability_observed": "Hourly linked cloud Content Review task verified read/write access; production D1 submission outbox persists work immediately for the next worker pass.",
   "routing": {
     "preserve_existing_scoring_thresholds_and_hard_gates": true,
     "automatic_acceptance": "Regular inbound candidates meeting the existing source-appropriate scoring, relevance, evidence and quality rules continue through the automatic route. No universal manual content-review gate is added.",
@@ -129,7 +149,7 @@
     "rejection_and_holds": "Keep existing low-score rejection/audit rules and distinguish retryable or unresolved evidence holds. Preserve rejection history.",
     "high_score_does_not_override_hard_hold": true
   },
-  "clarification": "27 October 2026: the user explicitly clarified that high-quality, high-scoring entries should continue to be auto-accepted as previously done; Content Review is not universal manual review.",
+  "clarification": "27 October 2026: the user explicitly clarified that high-quality, high-scoring entries should continue to be auto-accepted as previously done; Content Review is not universal manual review. On 27 October the user made human time the highest priority: all foreseeable mechanical disqualifiers must be checked before manual relevance review, globally.",
   "buffer_policy": {
     "status": "user_confirmed",
     "trigger": "review_ready_count < 100",
@@ -137,13 +157,16 @@
     "target": 250,
     "comparison": "strictly_below",
     "scope": "Global across the active human-review queues.",
-    "counted": "Distinct, substantively assessed, still-unreviewed candidates with current evidence and recommendations, after reconciling completed console submissions.",
+    "counted": "Distinct, preflight-passed, substantively assessed and still-unreviewed candidates; every required mechanical check is evidence-backed and bound to current content hash, after overlaying complete console decisions.",
     "excluded": [
       "automatically accepted candidates",
       "already accepted or rejected candidates",
       "raw unassessed discoveries",
       "duplicate or evidence-held records",
-      "stale content awaiting reassessment"
+      "stale content awaiting reassessment",
+      "preflight pending or failed candidates",
+      "format-unverified records",
+      "records with unresolved mechanical quality or schema blockers"
     ],
     "action": "Prepare and publish enough additional review-ready candidates to restore the current global count to 250.",
     "recheck_before_completion": true,
@@ -151,7 +174,8 @@
     "preserve_existing_decisions_and_content_hashes": true,
     "retry_policy": "Checkpoint completed work and resume after transient failures or source limits until the target is reached, or explicitly report source exhaustion or a blocking failure.",
     "worker_integration": "Enabled hourly Content Review cloud task, linked to review console. Immutable submission requests trigger assessment/refill work on the next worker pass; independent SOUPS reserve maintained.",
-    "confirmed_at": "2026-10-27"
+    "confirmed_at": "2026-10-27",
+    "target_is_not_permission_to_bypass_preflight": true
   },
   "material_usefulness_policy": {
     "path": "config/content_review_material_policy.json",
@@ -171,7 +195,13 @@
     "weekly_source": "main/data/review_queue.csv",
     "weekly_initial_inventory": 4041,
     "new_weekly_arrivals": "Refresh upstream review-tier inventory each run and ingest additively, preserving prior IDs/decisions; no duplicate reintroduction.",
-    "backlog_outside_active_buffer": "Retain all discoveries in source inventory; promote only substantively assessed candidates into the active shared buffer."
+    "backlog_outside_active_buffer": "Retain all discoveries in source inventory; promote only substantively assessed candidates into the active shared buffer.",
+    "preflight_first": true,
+    "hold_inventory": 250,
+    "preflight_inventory_counts": {
+      "soups": 100,
+      "weekly": 150
+    }
   },
   "background_worker": {
     "automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
@@ -184,5 +214,11 @@
     "status": "config/content_review_worker_status.json",
     "submission_requests": "Production D1 review_jobs atomically queued with completed review submissions; drafts enqueue nothing.",
     "execution_latency": "Requests persist immediately; scheduled processing checks at most hourly. No claim of instant execution."
+  },
+  "human_effort_policy": {
+    "priority": "Human review time is the most valuable resource.",
+    "confirmed_at": "2026-10-27",
+    "rule": "Complete mechanical checks before asking for editorial relevance review. Targets never justify admitting unchecked candidates.",
+    "recheck_after_acceptance": "Only changed/time-sensitive evidence and final publication validation; do not postpone foreseeable disqualifying checks until after manual review."
   }
 }
