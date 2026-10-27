@@ -1,12 +1,22 @@
 {
   "name": "Content Review",
-  "version": 1,
+  "version": 2,
   "status": "proposed_not_activated",
-  "purpose": "One inbound ALEX workflow with a prepared review buffer, durable submission feedback and automatic post-acceptance assessments before release.",
+  "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
   "scope": {
-    "intake": ["SOUPS", "Virus Bulletin", "APWG", "regular discovery backlogs", "additional sources explicitly requested by the user"],
-    "existing_content": ["Other classification backlog", "metadata corrections", "reclassification"],
+    "intake": [
+      "SOUPS",
+      "Virus Bulletin",
+      "APWG",
+      "regular discovery backlogs",
+      "additional sources explicitly requested by the user"
+    ],
+    "existing_content": [
+      "Other classification backlog",
+      "metadata corrections",
+      "reclassification"
+    ],
     "preserve_original_source_and_existing_public_record": true
   },
   "proposed_defaults": {
@@ -16,10 +26,19 @@
     "human_review_batch_size": 20,
     "source_specific_preparation_checkpoints": true,
     "only_substantively_assessed_candidates_count_as_review_ready": true,
-    "source_order": "Explicit user priority first; otherwise oldest waiting work without starving other active collections."
+    "source_order": "Explicit user priority first; otherwise oldest waiting work without starving other active collections.",
+    "global_review_ready_target_applies_to": "Candidates actually requiring human review; automatically accepted candidates do not consume the manual-review buffer."
   },
   "preparation": {
-    "stages": ["discover or resume an existing inventory", "normalize identities and provenance", "deduplicate within and across source queues and the public corpus", "retrieve substantive original evidence", "prepare include/exclude/discuss recommendation and rationale", "publish stable review batches to the console"],
+    "stages": [
+      "discover or resume an existing inventory",
+      "normalize identities and provenance",
+      "deduplicate within and across queues and the public corpus",
+      "retrieve substantive original evidence",
+      "apply existing source-appropriate scoring and hard gates",
+      "route automatic accepts and rejections under existing rules",
+      "prepare recommendations and stable console batches only for manual exceptions and explicitly curated collections"
+    ],
     "title_only_assessment_allowed": false,
     "keyword_triage_counts_as_review": false,
     "preserve_document_types": true,
@@ -27,41 +46,90 @@
   },
   "submission_handoff": {
     "event": "content_review.batch_submitted",
-    "durable_transaction": ["final submission receipt", "per-candidate decisions tied to reviewed content hashes", "outbox jobs for accepted-candidate assessments and buffer replenishment"],
+    "durable_transaction": [
+      "final submission receipt",
+      "per-candidate decisions tied to reviewed content hashes",
+      "outbox jobs for accepted-candidate assessments and buffer replenishment"
+    ],
     "drafts_trigger_work": false,
     "dispatch_after_commit": true,
     "retry_from_durable_outbox": true,
-    "idempotency_scope": ["collection", "candidate_id", "content_sha256", "submission_revision", "assessment_version"],
+    "idempotency_scope": [
+      "collection",
+      "candidate_id",
+      "content_sha256",
+      "submission_revision",
+      "assessment_version"
+    ],
     "edited_decision": "Only the latest complete valid revision governs eligibility; preserve historical decisions and superseded checks.",
     "changed_content": "Require reassessment for material changes to the reviewed content; do not reuse acceptance for a different content hash.",
-    "feedback": ["submission saved", "checks queued/running/held/complete", "next prepared batch ready", "preparation requested when no ready batch exists", "last successful worker run and actionable error"],
-    "current_chat_wake_up_assumed": false
+    "feedback": [
+      "submission saved",
+      "checks queued/running/held/complete",
+      "next prepared batch ready",
+      "preparation requested when no ready batch exists",
+      "last successful worker run and actionable error"
+    ],
+    "current_chat_wake_up_assumed": false,
+    "additional_event": "content_review.candidate_auto_accepted",
+    "both_acceptance_routes_start_assessments": true
   },
   "automatic_assessments_after_acceptance": {
     "start_without_waiting_for_other_batches_or_collections": true,
-    "checks": ["reviewed-content and submission integrity", "bibliographic and author/year reconciliation", "official source and linked-document verification", "type-appropriate text and evidence checks", "DOI and other identifier discovery", "citation evidence lookup", "fresh cross-source and public-corpus duplicate checks", "existing ALEX quality policy", "existing taxonomy classification and uncertainty flags", "schema compatibility and dry-run import validation"],
+    "checks": [
+      "reviewed-content and submission integrity",
+      "bibliographic and author/year reconciliation",
+      "official source and linked-document verification",
+      "type-appropriate text and evidence checks",
+      "DOI and other identifier discovery",
+      "citation evidence lookup",
+      "fresh cross-source and public-corpus duplicate checks",
+      "existing ALEX quality policy",
+      "existing taxonomy classification and uncertainty flags",
+      "schema compatibility and dry-run import validation"
+    ],
     "checks_are_document_type_aware": true,
     "missing_doi_disqualifies": false,
     "unknown_citations": null,
     "quality_thresholds_or_exceptions_changed": false,
-    "outcomes": ["ready_for_release_review", "held_with_reason", "retryable_failure", "needs_editorial_followup"],
+    "outcomes": [
+      "ready_for_configured_release_path",
+      "held_with_reason",
+      "retryable_failure",
+      "needs_editorial_followup"
+    ],
     "only_affected_records_return_for_review": true,
-    "source_or_quota_failures": "Record failure and retry/backoff status; never silently substitute a low-quality assessment or publish incomplete work."
+    "source_or_quota_failures": "Record failure and retry/backoff status; never silently substitute a low-quality assessment or publish incomplete work.",
+    "acceptance_routes": [
+      "existing automatic acceptance",
+      "completed manual review submission"
+    ]
   },
   "release": {
     "publication_approved_by_relevance_selection": false,
-    "automatic_public_corpus_mutation": false,
-    "release_approval_required": true,
+    "universal_manual_release_gate": false,
+    "preserve_existing_publication_policy": true,
+    "regular_automatic_intake": "Continue through the existing automatic publication path only after required checks pass; do not add a universal human approval step.",
+    "explicitly_curated_collections": "Preserve their existing controlled import, merge and deployment authorization requirements.",
     "ready_records_may_be_released_without_waiting_for_held_records": true,
-    "existing_regular_pipeline": "Route new inbound candidates through staging and Content Review before publication; review the current automatic publishing path as part of implementation. Do not alter the live pipeline merely by saving this proposal."
+    "existing_regular_pipeline": "Integrate status reporting and automatic assessments while preserving current automatic-acceptance and publication rules. Saving this proposal does not alter the live pipeline."
   },
   "implementation_work_remaining": [
     "Add durable submission outbox/job tracking to the console's existing transactional storage.",
     "Connect an authenticated unattended worker for research preparation and mechanical assessments.",
     "Adapt existing source-specific review/assessment stages behind the common workflow contract.",
     "Expose prepared-buffer and assessment progress in the console.",
-    "Introduce the staging/release gate into regular intake without overwriting the existing corpus.",
+    "Integrate exception staging and collection-specific release gates without interrupting the existing qualifying automatic route or overwriting the public corpus.",
     "Verify retry, revision, source failure, quota failure and restart behaviour before unattended activation."
   ],
-  "automation_capability_observed": "The current automation event-source inventory exposes GitHub, but no direct Sites review-submission event. An outbox/worker integration is required; no event trigger or substitute polling schedule has been created."
+  "automation_capability_observed": "The current automation event-source inventory exposes GitHub, but no direct Sites review-submission event. An outbox/worker integration is required; no event trigger or substitute polling schedule has been created.",
+  "routing": {
+    "preserve_existing_scoring_thresholds_and_hard_gates": true,
+    "automatic_acceptance": "Regular inbound candidates meeting the existing source-appropriate scoring, relevance, evidence and quality rules continue through the automatic route. No universal manual content-review gate is added.",
+    "manual_review": "Borderline scores, ambiguous relevance or classification, conflicting metadata, possible duplicates, Other reclassification, and collections explicitly designated for human curation.",
+    "explicit_collection_curation": "SOUPS and Virus Bulletin retain their requested manual review batches unless the user changes that collection's mode. A global workflow name does not silently change collection-specific curation.",
+    "rejection_and_holds": "Keep existing low-score rejection/audit rules and distinguish retryable or unresolved evidence holds. Preserve rejection history.",
+    "high_score_does_not_override_hard_hold": true
+  },
+  "clarification": "27 October 2026: the user explicitly clarified that high-quality, high-scoring entries should continue to be auto-accepted as previously done; Content Review is not universal manual review."
 }
