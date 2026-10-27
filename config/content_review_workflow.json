@@ -1,7 +1,7 @@
 {
   "name": "Content Review",
-  "version": 4,
-  "status": "proposed_not_activated",
+  "version": 5,
+  "status": "scheduled_initial_backlog_preparation",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
   "scope": {
@@ -116,13 +116,9 @@
     "existing_regular_pipeline": "Integrate status reporting and automatic assessments while preserving current automatic-acceptance and publication rules. Saving this proposal does not alter the live pipeline."
   },
   "implementation_work_remaining": [
-    "Add durable submission outbox/job tracking to the console's existing transactional storage.",
-    "Connect an authenticated unattended worker for research preparation and mechanical assessments.",
-    "Adapt existing source-specific review/assessment stages behind the common workflow contract.",
-    "Expose prepared-buffer and assessment progress in the console.",
-    "Integrate exception staging and collection-specific release gates without interrupting the existing qualifying automatic route or overwriting the public corpus.",
-    "Verify retry, revision, source failure, quota failure and restart behaviour before unattended activation.",
-    "Integrate the confirmed material-usefulness deduction and verify matching full recordings; preserve existing research-paper scoring thresholds."
+    "Complete initial assessed-buffer publication and verify live counts.",
+    "Run and record type-appropriate checks for accepted candidates; report unavailable stages honestly.",
+    "Preserve controlled curated release gates and existing qualifying automatic route."
   ],
   "automation_capability_observed": "The current automation event-source inventory exposes GitHub, but no direct Sites review-submission event. An outbox/worker integration is required; no event trigger or substitute polling schedule has been created.",
   "routing": {
@@ -154,7 +150,7 @@
     "concurrent_refill_jobs_allowed": 1,
     "preserve_existing_decisions_and_content_hashes": true,
     "retry_policy": "Checkpoint completed work and resume after transient failures or source limits until the target is reached, or explicitly report source exhaustion or a blocking failure.",
-    "worker_integration": "Apply this policy in the background worker when it is activated; no separate polling task is created by this policy update.",
+    "worker_integration": "Enabled hourly Content Review cloud task, linked to review console. Immutable submission requests trigger assessment/refill work on the next worker pass; independent SOUPS reserve maintained.",
     "confirmed_at": "2026-10-27"
   },
   "material_usefulness_policy": {
@@ -164,5 +160,29 @@
     "presentation_without_verified_substantive_audio": "Major resource-usefulness deduction; no automatic acceptance while audio is absent or unverified.",
     "verified_full_recording": "A matching substantive recording with usable audio improves inclusion value and removes the missing-audio deduction after verification.",
     "do_not_infer_paper_status_from_pdf": true
+  },
+  "rolling_backlog": {
+    "global_target": 250,
+    "global_low_watermark": 100,
+    "trigger": "strictly_below",
+    "soups_min_ready_batches": 5,
+    "soups_batch_size": 20,
+    "soups_floor_is_independent": true,
+    "weekly_source": "main/data/review_queue.csv",
+    "weekly_initial_inventory": 4041,
+    "new_weekly_arrivals": "Refresh upstream review-tier inventory each run and ingest additively, preserving prior IDs/decisions; no duplicate reintroduction.",
+    "backlog_outside_active_buffer": "Retain all discoveries in source inventory; promote only substantively assessed candidates into the active shared buffer."
+  },
+  "background_worker": {
+    "automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
+    "site_project_id": "appgprj_6ae0e13117b48191b3b024311ee18342",
+    "schedule": "hourly",
+    "timezone": "America/Toronto",
+    "enabled": true,
+    "unattended_read_write_test": "completed; persisted heartbeat read back 2026-10-27T22:40:36Z",
+    "instructions": "docs/content_review_background_worker.md",
+    "status": "config/content_review_worker_status.json",
+    "submission_requests": "Production D1 review_jobs atomically queued with completed review submissions; drafts enqueue nothing.",
+    "execution_latency": "Requests persist immediately; scheduled processing checks at most hourly. No claim of instant execution."
   }
 }
