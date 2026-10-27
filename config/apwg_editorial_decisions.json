@@ -612,7 +612,18 @@
       "reviewed_abstract_sha256": "1469fa9c1bdfdd8717e713c2f8f6d4c189525951d6e708dc9c6c881f922ebc13",
       "source_run": 40427031598,
       "source_artifact": 12701110589,
-      "reason": "Verify completeness of the short OpenAlex abstract, which describes background but no proposed framework or findings. Truncation is suspected, not established. Retain OpenAlex source preference; no generated replacement. Hold remains until explicitly reviewed again."
+      "reason": "Abstract completeness check resolved: the reviewed OpenAlex text contains only the first paragraph of the author's three-paragraph original abstract. It omits the proposed framework and phoneybots. Hold remains pending a source-specific metadata correction, rescoring and explicit editorial review. OpenAlex preference is unchanged globally.",
+      "abstract_completeness_status": "confirmed_incomplete_in_reviewed_snapshot",
+      "completeness_evidence": {
+        "checked_date": "2026-10-26",
+        "author_page": "https://www.hooklee.com/honeypots4anti-phishing.asp",
+        "author_pdf": "https://www.hooklee.com/papers/apwg-ecrs2009.pdf",
+        "finding": "Author companion page identifies the exact title, both authors, 2009 IEEE proceedings and DOI, and supplies three abstract paragraphs. Reviewed OpenAlex text ends after paragraph one. Indexed author PDF first-page abstract also contains the missing framework and phoneybot paragraphs; direct PDF retrieval timed out.",
+        "recommended_category": "Cybercrime & Fraud",
+        "recommended_investigation_type": "Phishing Analysis",
+        "recommendation_status": "proposed_not_approved",
+        "source_override_approved": false
+      }
     }
   ]
 }
