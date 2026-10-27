@@ -366,7 +366,7 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
     scholarly metadata service already used by ALEX's normal discovery.
     """
     attempted = matched = 0
-    access_status = "ok"
+    access_status = "disabled" if max_lookups <= 0 else "ok"
     blocked = getattr(client, "_host_blocked", lambda _url: False)
     for row in sorted(records, key=lambda r: (-int(r.get("apwg_year") or 0), normalize_title(r.get("title", "")))):
         if blocked(openalex.OPENALEX):

@@ -19,6 +19,7 @@ import requests
 from pypdf import PdfReader
 
 from alex.utils.text import clean, normalize_title
+from alex.pipelines.apwg_abstract_checkpoint import restore
 from alex.pipelines.apwg_classification_review import fallback_watchlist
 from alex.pipelines.apwg_editorial_review import normalized_abstract, apply_abstract_override
 
@@ -166,6 +167,7 @@ def enrich(input_path: Path, output_path: Path, audit_path: Path, max_pdfs: int 
     audit = []
     session = requests.Session()
     for i, row in rows:
+        row, checkpoint_restored = restore(row)
         row, source_corrected = apply_abstract_override(row)
         records[i] = row
         url = clean(row.get("apwg_paper_url"))
@@ -188,6 +190,8 @@ def enrich(input_path: Path, output_path: Path, audit_path: Path, max_pdfs: int 
         if glyph_cleanup:
             row["abstract"] = corrected
             row["abstract_source"] += "; visually verified editorial fi/fl glyph cleanup"
+        if checkpoint_restored:
+            status = "verified_abstract_checkpoint_restored"
         if source_corrected:
             status = "verified_author_abstract_replacement"
         audit.append({

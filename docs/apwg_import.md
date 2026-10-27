@@ -369,3 +369,29 @@ corpus and publication authorization are unchanged. Every publication flag
 remains false. A release recommendation still requires checking current-head
 workflow artifacts for changed metadata/content and outstanding bibliography
 conflicts; editorial approval does not itself authorize import or publication.
+
+
+### Existing-record suppression and completed-artifact reconciliation
+
+The recommendation exporter suppresses existing ALEX matches from additions,
+approved-candidate and hold queues while retaining them in the full audit and
+suppression evidence. No live record is removed. See
+[approval audit and hold-enrichment plan](apwg_hold_enrichment.md) and
+[machine-readable comparison](apwg_review_audit_2026-10-26.json).
+The completed 8e4f79e artifact is rate-limit-degraded: 18 of 90 approvals match,
+72 are held for changed/missing approved text. All 90 match when replaying the
+reviewed baseline with the approved paper-21 correction. Do not publish the
+latest live files without restoring verified source metadata and reconciling
+the manifest again. A successful CI run does not imply source completeness.
+
+
+### Verified abstract checkpoint and OpenAlex restraint
+
+Routine PR audits disable OpenAlex metadata requests (lookup limit zero) and
+reuse the 163 verified new-candidate abstracts in
+`config/apwg_abstract_checkpoint.json` before attempting PDFs. Only missing
+text with matching publication identity is restored; available new text is
+preserved, and changed versions still require re-review. The source artifact
+and digests remain auditable. Normal weekly discovery is unchanged. No
+nighttime collector has been scheduled. See the hold-enrichment plan for
+current key verification and citation-provider discrepancies.
