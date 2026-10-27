@@ -224,3 +224,15 @@ PDF-specific glyph cleanup does not rewrite the preferred OpenAlex text.
 Further unrecognized changes still produce a review hold. The source preference
 does not change verified original publication years, publisher/venue evidence,
 quality gates, corpus-write authorization or editorial classifications.
+
+
+### Second approved editorial batch: papers 14–18
+
+The user approved the five-paper batch drawn from run `40427031598`, artifact
+`12701110589`. The cumulative shortlist is now **18 papers**. Item 14
+(CryptoLocker ransom measurement) uses Cybercrime & Fraud / Other; item 16
+(REAPER) uses OSINT Methodology / Attribution. Items 15, 17 and 18 retain their
+reviewed pairs. Each new decision records its reviewed abstract digest and
+source evidence, with OpenAlex preferred where available. This remains
+editorial approval only; publication, corpus import, merge and deployment
+remain separately gated.

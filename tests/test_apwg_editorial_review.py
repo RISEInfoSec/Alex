@@ -88,18 +88,21 @@ def test_pdf_review_output_gets_verified_cleanup_without_modifying_source(tmp_pa
     assert not list(tmp_path.glob('*.pdf'))
 
 
-def test_real_manifest_records_the_13_approved_decisions_without_release_authorization():
+def test_real_manifest_records_the_approved_decisions_without_release_authorization():
     from alex.utils.io import load_json, root_file
     from alex.pipelines.classify import CATEGORIES, INVESTIGATION_TYPES
     manifest = load_json(root_file('config', 'apwg_editorial_decisions.json'))
     assert manifest['publication_approved'] is False
     rows = manifest['papers']
-    assert len(rows) == len({r['doi'] for r in rows}) == 13
+    assert len(rows) == len({r['doi'] for r in rows}) == 18
     assert all(r['selection_approved'] and r['classification_approved'] for r in rows)
     assert all(r['category'] in CATEGORIES and r['investigation_type'] in INVESTIGATION_TYPES for r in rows)
     numbered = {r['review_number']: r for r in rows}
     assert numbered[9]['investigation_type'] == numbered[10]['investigation_type'] == 'Other'
     assert numbered[12]['category'] == 'AI/ML for Security'
+    assert numbered[14]['investigation_type'] == 'Other'
+    assert numbered[16]['category'] == 'OSINT Methodology'
+    assert set(numbered) == set(range(1,19))
     assert numbered[8]['abstract_glyph_replacements']['\ue000'] == 'fi'
     assert numbered[8]['abstract_glyph_replacements']['security\ue001aws'] == 'security flaws'
 
