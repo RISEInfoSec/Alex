@@ -2,7 +2,7 @@
 
 Baseline: GitHub main `9422994515c40e91a9b878a1a4d5445db3d781cd`; 3,598 records in both the verified repository corpus and live JSON. No public data, taxonomy, pipeline schedules or deployments changed.
 
-Proposed collection label: **SOUPS — Symposium on Usable Privacy and Security**. Venue and publisher remain separate bibliographic fields.
+Required collection attribution: **Collection:** [SOUPS](https://soups.page/) (Symposium On Usable Privacy and Security) and [USENIX](https://www.usenix.org/) (the Advanced Computing Systems Association). Venue and publisher remain separate bibliographic fields.
 
 ## Discovery coverage
 
@@ -57,13 +57,15 @@ python -m pytest -q tests/test_soups_review.py
 
 Acquisition is serial, paced and bounded to official HTML hosts. Raw snapshots stay in the local cache; PDFs are not downloaded. Receipts record source hashes and access outcomes. The Python program writes only the review manifest and cannot import or publish. A refresh preserves stable numbers and decisions, and requires reassessment if reviewed content changes.
 
-Validation: six focused regression tests passed; Node module syntax and acquisition replay validated (cached annual sources plus two successful fresh requests). The public corpus and public index retain their verified baseline hashes. No site build is needed for these review-only files; release work must run the repository’s normal classification, quality, schema and build checks.
+Validation: eight focused regression tests passed; Node module syntax and acquisition replay validated (cached annual sources plus two successful fresh requests). The public corpus and public index retain their verified baseline hashes. No site build is needed for these review-only files; release work must run the repository’s normal classification, quality, schema and build checks.
 
 ## Batch 1
 
-All decisions are pending. Recommendations: 18 include, 2 discuss. Selection approval does not grant merge or deployment permission.
+User decisions recorded 27 October 2026: **19 approved; one rejected (paper 17)**. Paper 15 is approved despite the initial discuss recommendation. All other include recommendations are accepted. Selection approval does not grant merge or deployment permission.
 
 ### 1. “I didn’t know I would be this excited not to be scammed.” Exploring Emotional and Behavioral Responses During Phishing Attacks (2026)
+
+**User decision: Approved.**
 
 Authors: Raphael Weidhaas; Alexandra von Preuschen; Verena Distler
 
@@ -75,6 +77,8 @@ ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pend
 
 ### 2. Anxious and Aware: Examining the Effects of Social Anxiety on Social Engineering Resilience and Vulnerability (2026)
 
+**User decision: Approved.**
+
 Authors: Martin Dechant; Victoria Woo; Florence Tomlin; Bettina Moltrecht; Mark Warner
 
 Official paper: https://www.usenix.org/conference/soups2026/presentation/dechant
@@ -84,6 +88,8 @@ Official paper: https://www.usenix.org/conference/soups2026/presentation/dechant
 ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pending.
 
 ### 3. Quantifying Risk Perception and Scam Response Among International and Domestic US University Students (2026)
+
+**User decision: Approved.**
 
 Authors: Alexandra Xinran Li; Elijah Bouma-Sims; Lily Klucinec; Ray Liu; Ayesha Binte Mostofa; Arjun Arunasalam; Lorrie Faith Cranor; Pubali Datta; Lucy Simko; Karen Sowon
 
@@ -95,6 +101,8 @@ ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pend
 
 ### 4. Experiences with Digital Scams Post-Incarceration in the U.S. (2026)
 
+**User decision: Approved.**
+
 Authors: Yael Eiger; Candice Baughman; Rory Andes; Bryan Glant; Franziska Roesner
 
 Official paper: https://www.usenix.org/conference/soups2026/presentation/eiger
@@ -104,6 +112,8 @@ Official paper: https://www.usenix.org/conference/soups2026/presentation/eiger
 ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pending.
 
 ### 5. Usability Determines Safety for At-Risk Users: Evaluating Hidden Device Detectors for Intimate Partner Surveillance (2026)
+
+**User decision: Approved.**
 
 Authors: Akhil Polamarasetty; Leonie Maria Tanczer; Enrico Costanza; Kevin Chetty
 
@@ -115,6 +125,8 @@ ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pend
 
 ### 6. "Don't Let Them Get To You": Understanding the Role of TikTok as a Source of Support for Cyberbullying Victims (2026)
 
+**User decision: Approved.**
+
 Authors: Saba Iqbal; Warda Usman; Daniel Zappala
 
 Official paper: https://www.usenix.org/conference/soups2026/presentation/iqbal
@@ -124,6 +136,8 @@ Official paper: https://www.usenix.org/conference/soups2026/presentation/iqbal
 ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pending.
 
 ### 7. "You Have Been Selected as the Winner": Characterizing User-Reported Scams on TikTok (2026)
+
+**User decision: Approved.**
 
 Authors: Smirity Kaushik; Kyle Beadle; Gauri Nayak; Madelyn Rose Sanfilippo; Mainack Mondal; Yang Wang; Sai Teja Peddinti; Jingjie Li; Yixin Zou
 
@@ -135,6 +149,8 @@ ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pend
 
 ### 8. SoK: Mapping Threats to Defenses in Online Survey Fraud (2026)
 
+**User decision: Approved.**
+
 Authors: Shiza Ali; Wellington Esposito Barbosa; Matthias Fassl; Aditi Ganapathi; Jaron Mink; Adam J. Aviv
 
 Official paper: https://www.usenix.org/conference/soups2026/presentation/ali
@@ -144,6 +160,8 @@ Official paper: https://www.usenix.org/conference/soups2026/presentation/ali
 ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pending.
 
 ### 9. "Hello, is this Anna?": Unpacking the Lifecycle of Pig-Butchering Scams (2025)
+
+**User decision: Approved.**
 
 Authors: Rajvardhan Oak; Zubair Shafiq
 
@@ -155,6 +173,8 @@ ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pend
 
 ### 10. Can You Walk Me Through It? Explainable SMS Phishing Detection using LLM-based Agents (2025)
 
+**User decision: Approved.**
+
 Authors: Yizhu Wang; Haoyu Zhai; Chenkai Wang; Qingying Hao; Nick A. Cohen; Roopa Foulger; Jonathan A. Handler; Gang Wang
 
 Official paper: https://www.usenix.org/conference/soups2025/presentation/wang
@@ -164,6 +184,8 @@ Official paper: https://www.usenix.org/conference/soups2025/presentation/wang
 ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pending.
 
 ### 11. Between Court Orders and Platform Policies: Understanding Law Enforcement and Meta Interactions in Addressing Non-Consensual Image Disclosure Abuse (2025)
+
+**User decision: Approved.**
 
 Authors: Amna Batool; Kentaro Toyama
 
@@ -175,6 +197,8 @@ ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pend
 
 ### 12. Spy-oT: Understanding How Users Learn to Use Internet of Things Devices For Abusive Purposes (2025)
 
+**User decision: Approved.**
+
 Authors: Kieron Ivy Turk; Alice Hutchings
 
 Official paper: https://www.usenix.org/conference/soups2025/presentation/turk
@@ -184,6 +208,8 @@ Official paper: https://www.usenix.org/conference/soups2025/presentation/turk
 ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pending.
 
 ### 13. Integrating Large Language Models into Security Incident Response (2025)
+
+**User decision: Approved.**
 
 Authors: Diana Kramer; Lambert Rosique; Ajay Narotam; Elie Bursztein; Patrick Gage Kelley; Kurt Thomas; Allison Woodruff
 
@@ -195,6 +221,8 @@ ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pend
 
 ### 14. Language as Lure: A Naturalistic Study on Pasifika Phishing Susceptibility (2025)
 
+**User decision: Approved.**
+
 Authors: Eric Spero; Isa Seow; Lucas Betts; Eddie Fuatimau; Robert Biddle; Danielle Lottridge; Giovanni Russello
 
 Official paper: https://www.usenix.org/conference/soups2025/presentation/spero
@@ -204,6 +232,8 @@ Official paper: https://www.usenix.org/conference/soups2025/presentation/spero
 ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pending.
 
 ### 15. Youth-Centered GAI Risks (YAIR): A Taxonomy of Generative AI Risks from Empirical Data (2025)
+
+**User decision: Approved.**
 
 Authors: Yaman Yu; Yiren Liu; Jacky Zhang; Yun Huang; Yang Wang
 
@@ -215,6 +245,8 @@ ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pend
 
 ### 16. Victims, Vigilantes, and Advice Givers: An Analysis of Scam-Related Discourse on Reddit (2025)
 
+**User decision: Approved.**
+
 Authors: Rajvardhan Oak; Zubair Shafiq
 
 Official paper: https://www.usenix.org/conference/soups2025/presentation/oak-discourse
@@ -224,6 +256,8 @@ Official paper: https://www.usenix.org/conference/soups2025/presentation/oak-dis
 ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pending.
 
 ### 17. “TikTok, Do Your Thing”: User Reactions to Social Surveillance in the Public Sphere (2025)
+
+**User decision: Rejected.**
 
 Authors: Meira Gilbert; Miranda Wei; Lindah Kotut
 
@@ -235,6 +269,8 @@ ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pend
 
 ### 18. What Drives SMiShing Susceptibility? A U.S. Interview Study of How and Why Mobile Phone Users Judge Text Messages to be Real or Fake (2024)
 
+**User decision: Approved.**
+
 Authors: Sarah Tabassum; Cori Faklaris; Heather Richter Lipford
 
 Official paper: https://www.usenix.org/conference/soups2024/presentation/tabassum-sarah
@@ -244,6 +280,8 @@ Official paper: https://www.usenix.org/conference/soups2024/presentation/tabassu
 ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pending.
 
 ### 19. Comparing Malware Evasion Theory with Practice: Results from Interviews with Expert Analysts (2024)
+
+**User decision: Approved.**
 
 Authors: Miuyin Yong Wong; Matthew Landen; Frank Li; Fabian Monrose; Mustaque Ahamad
 
@@ -255,6 +293,8 @@ ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pend
 
 ### 20. "Violation of my body:" Perceptions of AI-generated non-consensual (intimate) imagery (2024)
 
+**User decision: Approved.**
+
 Authors: Natalie Grace Brigham; Miranda Wei; Tadayoshi Kohno; Elissa M. Redmiles
 
 Official paper: https://www.usenix.org/conference/soups2024/presentation/brigham
@@ -263,3 +303,7 @@ Official paper: https://www.usenix.org/conference/soups2024/presentation/brigham
 
 ALEX match: none found. DOI not supplied; DOI discovery and PDF link checks pending.
 
+
+## Collection display implementation
+
+The search-card renderer recognizes the exact collection label and links SOUPS and USENIX individually to their homepages. The manifest and scraper attach this attribution to every SOUPS candidate, ready for approved additions. Publisher and actual publication venue remain independent fields. The attribution is a presentation requirement, not a claim that USENIX published the ACM-era papers. No corpus import or deployment has occurred.

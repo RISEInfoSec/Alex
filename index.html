@@ -317,6 +317,19 @@ function paperMatches(p) {
   return true;
 }
 
+function collectionAttributionHtml(p) {
+  if (!p.collection_source) return '';
+  const soupsLabel = 'SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)';
+  let attribution;
+  if (p.collection_source === soupsLabel) {
+    attribution = '<a href="https://soups.page/" target="_blank" rel="noopener">SOUPS</a> (Symposium On Usable Privacy and Security) and <a href="https://www.usenix.org/" target="_blank" rel="noopener">USENIX</a> (the Advanced Computing Systems Association)';
+  } else {
+    const href = safeHref(p.collection_url);
+    attribution = href ? `<a href="${href}" target="_blank" rel="noopener">${escapeHtml(p.collection_source)}</a>` : escapeHtml(p.collection_source);
+  }
+  return `<p class="meta"><strong>Collection:</strong> ${attribution}</p>`;
+}
+
 function displayPapers(list) {
   resultsEl.innerHTML = '';
   summaryEl.textContent = `${list.length} paper${list.length === 1 ? '' : 's'} shown`;
@@ -338,7 +351,7 @@ function displayPapers(list) {
       <h3>${escapeHtml(p.title || '')}</h3>
       <p class="meta"><strong>${escapeHtml(p.author || 'Author metadata incomplete')}</strong> (${escapeHtml(p.year || '')})${p.venue ? ' · ' + escapeHtml(p.venue) : ''}${p.retrieved ? ' · Retrieved ' + escapeHtml(p.retrieved) : ''}</p>
       <p><strong>Research category:</strong> ${escapeHtml(p.category || 'Not specified')}</p>
-      ${p.collection_source ? `<p class="meta"><strong>Collection:</strong> ${safeHref(p.collection_url) ? `<a href="${safeHref(p.collection_url)}" target="_blank" rel="noopener">${escapeHtml(p.collection_source)}</a>` : escapeHtml(p.collection_source)}</p>` : ''}
+      ${collectionAttributionHtml(p)}
       <p>${escapeHtml(p.summary || '')}</p>
       <p>${links}</p>
     `;

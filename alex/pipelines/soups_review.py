@@ -17,7 +17,16 @@ from urllib.parse import urljoin, urlsplit, urlunsplit
 from bs4 import BeautifulSoup
 from alex.utils.text import clean, normalize_title
 
-LABEL = "SOUPS — Symposium on Usable Privacy and Security"
+LABEL = "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)"
+COLLECTION_LINKS = (
+    {'name': 'SOUPS', 'url': 'https://soups.page/'},
+    {'name': 'USENIX', 'url': 'https://www.usenix.org/'},
+)
+
+
+def attribution_fields() -> dict:
+    return {'collection_source': LABEL, 'collection_url': COLLECTION_LINKS[0]['url'],
+            'collection_links': [dict(link) for link in COLLECTION_LINKS]}
 
 
 def canonical_url(url: str) -> str:
@@ -67,7 +76,7 @@ def usenix_records(html: str, year: int, url: str) -> list[dict]:
             abstract=clean(description.get_text(' ', strip=True)) if description else '',
             abstract_source=url if description else '',
             metadata_status='annual_program_metadata; individual_bibliography_pending',
-            collection_source=LABEL, publication_approved=False,
+            **attribution_fields(), publication_approved=False,
         ))
     return out
 
@@ -106,7 +115,7 @@ def legacy_records(html: str, year: int, url: str) -> list[dict]:
             year=year, conference_year=year, source_url=target, discovery_url=url,
             doi='', document_type=kind, abstract='', abstract_source='',
             metadata_status='program_title_only; authors_and_abstract_require_verification',
-            collection_source=LABEL, publication_approved=False,
+            **attribution_fields(), publication_approved=False,
         ))
     return out
 
@@ -160,13 +169,17 @@ def merge_state(rows: list[dict], previous: dict) -> list[dict]:
     for row in rows:
         row['content_sha256'] = digest(row)
         prior = old.pop(row['candidate_id'], {})
-        for key in ('review_number', 'recommendation', 'relevance', 'review_reason', 'review_evidence', 'proposed_category', 'proposed_investigation_type'):
+        for key in ('review_number', 'recommendation', 'relevance', 'review_reason', 'review_evidence',
+                    'proposed_category', 'proposed_investigation_type', 'decision_basis',
+                    'decision_date', 'decision_content_sha256', 'previous_decision',
+                    'previous_decision_content_sha256'):
             if key in prior:
                 row[key] = prior[key]
         row['decision'] = prior.get('decision', 'pending')
         row['screening_status'] = prior.get('screening_status', 'not_assessed')
         if prior and prior.get('content_sha256') != row['content_sha256']:
             row['previous_decision'] = row['decision']
+            row['previous_decision_content_sha256'] = prior.get('decision_content_sha256', '')
             row['decision'] = 'pending_content_changed'
             row['screening_status'] = 'needs_reassessment'
         row['publication_approved'] = False
@@ -217,7 +230,7 @@ def build(snapshots: Path, corpus_path: Path, output: Path, base_commit: str = '
         raise ValueError('Duplicate source identity in inventory')
     result = dict(schema_version=1, base_commit=base_commit,
                   baseline_corpus_sha256=hashlib.sha256(corpus_path.read_bytes()).hexdigest(),
-                  existing_corpus_records=len(corpus), collection_source=LABEL,
+                  existing_corpus_records=len(corpus), **attribution_fields(),
                   publication_approved=False, annual_coverage=coverage, records=records)
     result['initial_inventory_research_papers'] = sum(c['research_papers'] for c in coverage)
     result['initial_inventory_other_documents'] = sum(c['other_program_documents'] for c in coverage)

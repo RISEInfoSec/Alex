@@ -1,6 +1,7 @@
 from alex.pipelines.soups_review import (
     digest, duplicate_check, enrich_presentation, identity, legacy_records,
     merge_state, usenix_records,
+    attribution_fields, LABEL,
 )
 import pytest
 
@@ -61,3 +62,23 @@ def test_individual_citation_must_match_title_and_year():
 
 def test_source_fragment_does_not_renumber_identity():
     assert identity('https://www.usenix.org/paper#abstract') == identity('https://www.usenix.org/paper/')
+
+
+def test_user_collection_attribution_and_links():
+    fields = attribution_fields()
+    assert fields['collection_source'] == 'SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)'
+    assert fields['collection_links'] == [dict(name='SOUPS', url='https://soups.page/'),
+                                         dict(name='USENIX', url='https://www.usenix.org/')]
+    fields['collection_links'][0]['url'] = 'changed'
+    assert attribution_fields()['collection_links'][0]['url'] == 'https://soups.page/'
+
+
+def test_selection_decision_evidence_survives_refresh():
+    row = dict(candidate_id='a', title='A paper', authors='A', year=2025, source_url='https://example.org/a', abstract='original')
+    prior = {**row, 'content_sha256':digest(row), 'decision':'approved', 'review_number':15,
+             'decision_basis':'User approval', 'decision_date':'2026-10-27', 'decision_content_sha256':digest(row)}
+    result = merge_state([dict(row)], {'records':[prior]})[0]
+    assert result['decision'] == 'approved'
+    assert result['decision_basis'] == 'User approval'
+    assert result['decision_content_sha256'] == digest(row)
+    assert result['publication_approved'] is False
