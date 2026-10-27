@@ -1,3 +1,5 @@
+> Superseded queue readiness,27October2026: all150 abstract-assessed entries were withdrawn from manual review and retained in preflight_records. None are cleared review-ready. Mechanical format/access/metadata/duplicate/quality/schema checks must pass before human review. The historical assessment/provenance report follows; it does not authorize queue admission.
+
 # Weekly intake preparation, 27 October 2026
 
 The weekly manifest contains 150 manually assessed candidates: seven batches of 20 and one batch of 10. Recommendations are 95 include, 49 discuss and 6 exclude. These are recommendations for pending review, not recorded user decisions or permission to publish. Every source record is already in the upstream human-review tier; all original scores and applicable thresholds are preserved.
