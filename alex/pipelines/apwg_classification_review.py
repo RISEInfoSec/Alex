@@ -16,6 +16,7 @@ from pathlib import Path
 
 from alex.pipelines import classify
 from alex.pipelines.apwg_quality_review import assess, load_policy
+from alex.pipelines.apwg_editorial_review import decision_for, normalized_abstract
 from alex.utils.io import root_file, load_json
 from alex.utils.text import clean
 
@@ -66,6 +67,7 @@ def _available_fields() -> list[str]:
         "proposed_osint_source_types", "classification_status",
         "classification_basis", "quality_review_status",
         "publication_approved", "review_flags",
+        "editorial_selection_status", "editorial_classification_status", "editorial_review_basis",
         "quality_score", "quality_venue_score", "quality_citation_score",
         "quality_relevance_score", "quality_institution_score",
         "quality_institution_bonus", "quality_title_bonus",
@@ -89,6 +91,9 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
         "classification_basis": "paper title and available bibliographic metadata",
         "quality_review_status": "not_scored",
         "publication_approved": "false",
+        "editorial_selection_status": "not_reviewed",
+        "editorial_classification_status": "not_reviewed",
+        "editorial_review_basis": "",
     })
     from alex.utils.text import normalize_title
     watchlisted = normalize_title(row.get("title", "")) in fallback_watchlist()
@@ -108,6 +113,18 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
         result["classification_status"] = "possible_duplicate_held"
         result["review_flags"] = "possible_duplicate_needs_review"
         return result
+
+    entry, editorial_status = decision_for(row)
+    if entry:
+        # Keep approval tied to the exact reviewed content. Normalize only
+        # the specific, visually checked glyphs recorded in the manifest.
+        corrected, changed = normalized_abstract(row)
+        row = {**row, "abstract": corrected}
+        result["abstract"] = corrected
+        if changed:
+            result["abstract_source"] += "; visually verified editorial fi/fl glyph cleanup"
+    elif editorial_status.startswith("reviewed_"):
+        issues.append("Previously reviewed content changed; editorial approval held")
 
     # Assess with exactly the same scoring functions, thresholds and veto
     # gates as ALEX rescore; never write to accepted_harvested/classified.
@@ -132,6 +149,28 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
     else:
         issues.append("Abstract-informed provisional review; individual approval required")
     issues.append("Individual quality assessment required")
+
+    if entry:
+        if (entry["category"] not in classify.CATEGORIES or
+                entry["investigation_type"] not in classify.INVESTIGATION_TYPES):
+            raise ValueError("Editorial decision outside established taxonomy")
+        result.update({
+            "proposed_category": entry["category"],
+            "proposed_investigation_type": entry["investigation_type"],
+            "classification_status": "editorial_classification_approved",
+            "classification_basis": "User-approved abstract-based editorial review; guarded DOI/title/year/abstract",
+            "editorial_selection_status": "approved",
+            "editorial_classification_status": "approved",
+            "editorial_review_basis": "config/apwg_editorial_decisions.json; source artifact 12698353817",
+        })
+        # These decisions supersede model/fallback proposals, including an
+        # intentional Other investigation subtype for economic research.
+        issues = [s for s in issues if s not in (
+            "Abstract-informed provisional review; individual approval required",
+            "Individual quality assessment required")]
+        issues.append("Editorial selection/classification approved; publication authorization pending")
+        result["review_flags"] = "; ".join(issues)
+        return result
 
     payload = {
         "title": result["title"],
@@ -235,7 +274,9 @@ def classify_review(input_path: Path, output_path: Path, worker_count: int = REV
             "abstracts_available": sum(bool(x["abstract"]) for x in output_rows),
             "original_fallbacks_checked": sum(x["prior_fallback_watchlist"] == "true" for x in output_rows),
             "non_phishing_topic_holds": sum(x["classification_status"] == "provisional_non_phishing_topic_review" for x in output_rows),
-            "quality_statuses": quality_statuses, "corpus_modified": False}
+            "quality_statuses": quality_statuses,
+            "editorial_selections_approved": sum(x["editorial_selection_status"] == "approved" for x in output_rows),
+            "publication_approvals": 0, "corpus_modified": False}
 
 
 def main() -> None:

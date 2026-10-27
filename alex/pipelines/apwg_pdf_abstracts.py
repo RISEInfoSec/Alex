@@ -20,6 +20,7 @@ from pypdf import PdfReader
 
 from alex.utils.text import clean, normalize_title
 from alex.pipelines.apwg_classification_review import fallback_watchlist
+from alex.pipelines.apwg_editorial_review import normalized_abstract
 
 MAX_PDF_BYTES = 6 * 1024 * 1024
 MAX_ABSTRACT_CHARACTERS = 2600
@@ -181,6 +182,10 @@ def enrich(input_path: Path, output_path: Path, audit_path: Path, max_pdfs: int 
             status = "ieee_or_other_external_source"
         elif not clean(row.get("abstract")) and attempts >= max_pdfs:
             status = "review_budget_reached"
+        corrected, glyph_cleanup = normalized_abstract(row)
+        if glyph_cleanup:
+            row["abstract"] = corrected
+            row["abstract_source"] += "; visually verified editorial fi/fl glyph cleanup"
         audit.append({
             "apwg_year": row.get("apwg_year", ""),
             "title": row.get("title", ""),

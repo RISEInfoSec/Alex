@@ -184,3 +184,31 @@ Regression coverage includes full 99-source budget completion, explicitly
 reported partial passes, IEEE small-cap section boundaries, explicit abstract
 end boundaries, excluded reader advisories, preserved existing abstracts and bibliographic
 fields, no PDF persistence, duplicate holds and disabled corpus writes.
+
+
+## User-approved 13-paper editorial shortlist
+
+`config/apwg_editorial_decisions.json` records the user's approval of the
+numbered 13-paper review based on commit `46e20f5` and artifact `12698353817`.
+This approves editorial selection and the proposed category/investigation
+pairs, including Other for papers 9 and 10 and AI/ML for Security for paper 12.
+It does **not** authorize corpus import, merge, deployment or publication.
+
+`apwg_editorial_review.py` binds decisions to DOI, normalized title, original
+year and SHA-256 of the reviewed abstract. A changed identity or abstract
+cannot inherit approval. On matching review records, approved classifications
+supersede model proposals, including an intentional Other subtype. Existing
+ALEX records and possible duplicates are still preserved/held first. Quality
+scores and gates remain unchanged; approval does not bypass a quality hold.
+OSINT source-type labels were not part of this approval and are not invented.
+
+Leaky Kits (paper 8) has two visually checked PDF ligatures: U+E000 represents
+fi and U+E001 represents fl. Only its matching original abstract is normalized;
+a second approved hash verifies the cleaned text. The original PDF first page
+was rendered from memory for inspection; no PDF file was retained. The source
+and extraction audit record the specific glyph cleanup, without changing any
+other wording or creating a summary.
+
+The review CSV now separates `editorial_selection_status` and
+`editorial_classification_status` from `publication_approved`, which remains
+false. These decisions live on the draft branch, separate from the live corpus.
