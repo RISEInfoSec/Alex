@@ -1,0 +1,22 @@
+/** Execute the real card-rendering helpers without loading the page or network. */
+import fs from 'node:fs/promises';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+const html = await fs.readFile(new URL('../index.html', import.meta.url), 'utf8');
+const helpers = html.slice(html.indexOf('function escapeHtml('), html.indexOf("fetch('data/papers.json')"));
+const attribution = html.slice(html.indexOf('function collectionAttributionHtml('), html.indexOf('function displayPapers('));
+const context = vm.createContext({});
+vm.runInContext(helpers+'\n'+attribution, context);
+const label = 'SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)';
+const rendered = context.collectionAttributionHtml({collection_source:label});
+assert.equal((rendered.match(/<a /g)||[]).length, 2);
+assert.match(rendered, /<a href="https:\/\/soups\.page\/"[^>]*>SOUPS<\/a>/);
+assert.match(rendered, /<a href="https:\/\/www\.usenix\.org\/"[^>]*>USENIX<\/a>/);
+assert.equal(rendered.replace(/<[^>]*>/g,''), 'Collection: '+label);
+assert.equal(context.collectionAttributionHtml({}), '');
+const legacy = context.collectionAttributionHtml({collection_source:'APWG.org eCrimes Research',collection_url:'https://ecrimeresearch.org/'});
+assert.match(legacy, /href="https:\/\/ecrimeresearch\.org\/"/);
+const unsafe = context.collectionAttributionHtml({collection_source:'<img onerror=x>',collection_url:'javascript:alert(1)'});
+assert.ok(!unsafe.includes('<img'));
+assert.ok(!unsafe.includes('href='));
+console.log('SOUPS/USENIX links, exact text, legacy attribution and escaping passed.');

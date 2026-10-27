@@ -4,6 +4,8 @@ Baseline: GitHub main `9422994515c40e91a9b878a1a4d5445db3d781cd`; 3,598 records 
 
 Required collection attribution: **Collection:** [SOUPS](https://soups.page/) (Symposium On Usable Privacy and Security) and [USENIX](https://www.usenix.org/) (the Advanced Computing Systems Association). Venue and publisher remain separate bibliographic fields.
 
+Latest status: [progress and next review batches](soups_progress_2026-10-27.md).
+
 ## Discovery coverage
 
 503 provisionally identified research-paper links; 249 separately typed program or ancillary document links. The latter are not a complete poster/workshop inventory. All 22 annual program/proceedings pages were retrieved. A retrieved page is not proof of a complete proceedings inventory.
@@ -43,7 +45,7 @@ Required collection attribution: **Collection:** [SOUPS](https://soups.page/) (S
 - Poster, workshop, lightning-talk and tutorial sources are tracked separately in `soups_ancillary_sources.json`; ancillary coverage remains partial for every year.
 - Batch 1: all 20 author lists, conference years, venues, publishers and paper landing pages verified against individual USENIX citation metadata. All 20 have official abstracts. None supplies a DOI in that metadata; DOI discovery and PDF link verification remain pending.
 - No exact normalized-title or official-URL match, or title similarity >=0.90 hold, was found for batch 1 in the baseline ALEX corpus. Missing DOIs and alternate-title versions remain limitations.
-- Only the first 20 candidates have had substantive abstract review. The rest remain not assessed. No full-text findings are inferred.
+- The initial batch contained 20 substantive abstract reviews. See [the progress report](soups_progress_2026-10-27.md) for the expanded 137-paper assessment and remaining work. No unreviewed paper is imported.
 - Review numbers are stable. User selection decisions are distinct from recommendations and publication approval. Changed reviewed content invalidates the decision; disappearing sources retain their identity and decision.
 - Existing APWG release checks require APWG-specific identities and DOI metadata. Do not run SOUPS rows through that release code or invent identifiers to satisfy it. Reuse its content-bound approval approach when implementing a SOUPS release after editorial review.
 

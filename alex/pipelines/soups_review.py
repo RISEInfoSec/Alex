@@ -16,6 +16,7 @@ from urllib.parse import urljoin, urlsplit, urlunsplit
 
 from bs4 import BeautifulSoup
 from alex.utils.text import clean, normalize_title
+from alex.pipelines.soups_evidence import restore_evidence
 
 LABEL = "SOUPS (Symposium On Usable Privacy and Security) and USENIX (the Advanced Computing Systems Association)"
 COLLECTION_LINKS = (
@@ -172,7 +173,7 @@ def merge_state(rows: list[dict], previous: dict) -> list[dict]:
         for key in ('review_number', 'recommendation', 'relevance', 'review_reason', 'review_evidence',
                     'proposed_category', 'proposed_investigation_type', 'decision_basis',
                     'decision_date', 'decision_content_sha256', 'previous_decision',
-                    'previous_decision_content_sha256'):
+                    'previous_decision_content_sha256', 'abstract_text_status', 'classification_status'):
             if key in prior:
                 row[key] = prior[key]
         row['decision'] = prior.get('decision', 'pending')
@@ -220,6 +221,7 @@ def build(snapshots: Path, corpus_path: Path, output: Path, base_commit: str = '
     details = {canonical_url(r.get('final_url', '')): r for r in fetches
                if r.get('status') == 200 and r['key'].startswith('paper-')}
     for row in all_rows:
+        row.update(restore_evidence(row, corpus_path.parent.parent/'config'))
         detail = details.get(canonical_url(row['source_url']))
         if detail:
             row.update(enrich_presentation(row, (snapshots/(detail['key']+'.html')).read_text(), row['source_url']))
@@ -236,6 +238,8 @@ def build(snapshots: Path, corpus_path: Path, output: Path, base_commit: str = '
     result['initial_inventory_other_documents'] = sum(c['other_program_documents'] for c in coverage)
     result['reviewed_candidates'] = sum(bool(r.get('review_number')) for r in records)
     result['approved_candidates'] = sum(r.get('decision') == 'approved' for r in records)
+    result['rejected_candidates'] = sum(r.get('decision') == 'rejected' for r in records)
+    result['substantive_abstract_assessments'] = sum(r.get('screening_status', 'not_assessed') != 'not_assessed' for r in records)
     result['dedup_limitations'] = ['Missing DOIs and alternate-title versions require follow-up; no-match is not proof of uniqueness.']
     for entry in coverage:
         count = sum(bool(r.get('review_number')) and r['year'] == entry['year'] for r in records)
