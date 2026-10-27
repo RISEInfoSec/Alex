@@ -4,7 +4,7 @@
 
 - 503 provisionally identified research-paper links across 2005–2026; 249 separately typed ancillary/program links.
 - 137 papers have substantive abstract assessments, including 18 extracted historical abstracts that still require formatting review. **366 research papers remain unassessed.** Automated keyword triage is not counted as substantive review and does not reject papers.
-- User decisions: **57 approved and three rejected (papers 17, 24 and 26)**. Batch 2 approved every paper except 24 and 26, including paper 25.
+- User decisions: **76 approved and four rejected (papers 17, 24, 26 and 74)**. Batch 2 approved every paper except 24 and 26, including paper 25.
 - [Batch 2: papers 21–40](soups_review_batch_02.md) and [batch 3: papers 41–60](soups_review_batch_03.md) are ready for review. Batch 2 has 18 approvals and two rejections; all 20 papers in batch 3 are approved. Individual USENIX bibliography is verified for all 40, with no existing ALEX title/URL matches found.
 - Unnumbered assessments remain in the manifest for later batch preparation. Source-linked assessment reasons distinguish direct, supporting, uncertain and out-of-scope recommendations.
 
@@ -50,7 +50,7 @@ The full baseline public CSV and JSON retain their verified hashes. No additions
 
 ## Next work
 
-1. Review batch 4 (papers 61–80); preserve paper numbers 1–80.
+1. Prepare batch 5; preserve paper numbers 1–80.
 2. Continue substantive screening of the remaining 366 papers and prepare further batches; finish early PDF formatting checks and bibliographic holds.
 3. Resolve classification and quality holds for selected papers, then prepare the controlled import and pull request.
 4. Merge and deploy only after explicit user authorization.
@@ -68,4 +68,6 @@ A DOI is optional for inclusion. Search official paper/proceedings metadata and 
 
 References: https://www.crossref.org/membership/ and https://community.crossref.org/t/can-i-register-dois-for-articles-in-older-issues-of-a-journal-membership-ticket-of-the-month-september-2025/14473
 
-Batch 4: [papers 61–80](soups_review_batch_04.md), all decisions pending. Official individual citation metadata verified for all 20; recommendations 18 include and two discuss (73, 74). These two recommendations were revised after closer review of the abstracts; substantive assessment count remains 137. DOI lookup and PDF-link checks remain outstanding. No additional publication approvals.
+Batch 4: [papers 61–80](soups_review_batch_04.md), 19 approved and paper 74 rejected; paper 73 explicitly approved. Official individual citation metadata verified for all 20; recommendations 18 include and two discuss (73, 74). These two recommendations were revised after closer review of the abstracts; substantive assessment count remains 137. DOI lookup and PDF-link checks remain outstanding. No additional publication approvals.
+
+Batch-4 decision update: user approved 61–73 and 75–80 and rejected 74. Cumulative selections: 76 approved, four rejected. Decisions are bound to the reviewed content hashes. Technical checks remain outstanding; no corpus import, merge or deployment occurred.

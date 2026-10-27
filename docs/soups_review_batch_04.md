@@ -1,6 +1,6 @@
 # SOUPS review batch 4: papers 61–80
 
-All 20 user decisions are pending. Recommendations: 18 include; 2 discuss (73 and 74). Individual official USENIX citation metadata was checked on 27 October 2026. Abstracts were assessed; full texts have not been reviewed for this batch.
+User decisions recorded on 27 October 2026: **19 approved; paper 74 rejected. Paper 73 explicitly approved.** Recommendations: 18 include; 2 discuss (73 and 74). Individual official USENIX citation metadata was checked on 27 October 2026. Abstracts were assessed; full texts have not been reviewed for this batch.
 
 Collection: [SOUPS](https://soups.page/) (Symposium On Usable Privacy and Security) and [USENIX](https://www.usenix.org/) (the Advanced Computing Systems Association).
 
@@ -245,3 +245,5 @@ No existing ALEX match was found in the checked baseline. DOI discovery and PDF-
 **ALEX duplicate check:** no_match_found.
 
 **Outstanding checks:** DOI lookup, PDF link and final text QA.
+
+Selection decisions: approve 61–73 and 75–80; reject 74. Existing technical and text-formatting holds remain outstanding.
