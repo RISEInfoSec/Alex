@@ -455,3 +455,16 @@ review or further investigation (including the two earlier explicit holds).
 The original 90-paper release bundle is unchanged and cannot release these
 newly selected records. Work continues on a new draft branch because PR #77
 was completed and merged.
+
+
+### October 27 review: papers 113–132
+
+The user approved 18 editorial selections/classifications and explicitly
+rejected 115 (Chasing shuabang in apps stores) and 123 (Risk Assessment
+Mitigation for Core Security Capabilities), rather than holding them. Their
+rejections are persistent and excluded from proposed-addition queues.
+There are now 126 editorial selections: 90 published and 36 unpublished with
+quality holds intact. Four records are rejected (95, 96, 115, 123). The pending
+worklist contains 74 unpublished candidates: 36 editorially approved but held,
+36 unreviewed and the two earlier explicit holds (50 and 90). No new release
+permission or quality-policy change is included.
