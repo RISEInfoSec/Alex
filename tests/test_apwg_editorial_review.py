@@ -94,7 +94,7 @@ def test_real_manifest_records_the_approved_decisions_without_release_authorizat
     manifest = load_json(root_file('config', 'apwg_editorial_decisions.json'))
     assert manifest['publication_approved'] is False
     rows = manifest['papers']
-    assert len(rows) == len({r['doi'] for r in rows}) == 77
+    assert len(rows) == len({r['doi'] for r in rows}) == 87
     assert all(r['selection_approved'] and r['classification_approved'] for r in rows)
     assert all(r['category'] in CATEGORIES and r['investigation_type'] in INVESTIGATION_TYPES for r in rows)
     numbered = {r['review_number']: r for r in rows}
@@ -113,6 +113,14 @@ def test_real_manifest_records_the_approved_decisions_without_release_authorizat
     assert numbered[58]['category'] == 'Dark Web & Underground'
     assert numbered[59]['investigation_type'] == 'Dark Web Analysis'
     assert numbered[60]['category'] == 'AI/ML for Security'
+    assert numbered[79]['category'] == 'Privacy & Surveillance'
+    assert numbered[80]['category'] == 'Network & Infrastructure Security'
+    assert numbered[81]['investigation_type'] == 'Malware Analysis'
+    assert numbered[84]['category'] == 'Cybercrime & Fraud'
+    assert numbered[85]['category'] == 'Dark Web & Underground'
+    assert numbered[86]['category'] == 'Digital Forensics & Evidence'
+    assert numbered[87]['category'] == 'AI/ML for Security'
+    assert (numbered[88]['category'], numbered[88]['investigation_type']) == ('AI/ML for Security', 'Other')
     assert all(numbered[n]['investigation_type'] == 'Other' for n in [69, 71, 78])
     assert (numbered[72]['category'], numbered[72]['investigation_type']) == ('Cyber Threat Intelligence', 'Attribution')
     assert (numbered[74]['category'], numbered[74]['investigation_type']) == ('Cybercrime & Fraud', 'Social Media Analysis')
@@ -126,7 +134,7 @@ def test_real_manifest_records_the_approved_decisions_without_release_authorizat
     assert manifest['held_papers'][0]['editorial_hold'] is True
     assert manifest['held_papers'][0]['selection_approved'] is False
     assert numbered[21]['approved_abstract_sha256'] == numbered[21]['abstract_override']['sha256']
-    assert set(numbered) == set(range(1,79)) - {50}
+    assert set(numbered) == set(range(1,89)) - {50}
     assert numbered[8]['abstract_glyph_replacements']['\ue000'] == 'fi'
     assert numbered[8]['abstract_glyph_replacements']['security\ue001aws'] == 'security flaws'
 

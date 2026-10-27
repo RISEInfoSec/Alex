@@ -335,3 +335,17 @@ offender's real-world identity; broad historical claims in 73 remain attributed
 to that study. Source artifact: 12701110589, run 40427031598. Scores remain
 48.84–50.75; 14 further human-review candidates remain in that snapshot.
 Quality policy and publication authorization remain unchanged.
+
+
+### Approved human-review tier batch: papers 79–88
+
+The user approved all ten, bringing the shortlist to **87 approved**, with
+paper 50 still held. Corrections: 79 Privacy & Surveillance / Dark Web Analysis;
+80 Network & Infrastructure Security / Threat Hunting; 81 Malware & Exploits /
+Malware Analysis; 84 Cybercrime & Fraud / Phishing Analysis; 85 Dark Web &
+Underground / Dark Web Analysis; 86 Digital Forensics & Evidence / Forensic
+Investigation; 87 AI/ML for Security / Phishing Analysis; 88 AI/ML for Security /
+Other. Other pairs retain reviewed labels. Source artifact: 12701110589, run
+40427031598. Scores remain 46.58–48.82; four further human-review candidates
+remain in that snapshot. Quality policy and publication authorization remain
+unchanged.
