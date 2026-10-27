@@ -509,3 +509,45 @@ existing ALEX match. All 168 potential additions now have a final editorial
 selection decision. Paper 50 retains its human-quality-review requirement;
 acceptance does not authorize publication. The existing release bundle and
 live corpus are unchanged.
+
+
+### October 27 second release authorization
+
+The user explicitly approved the 66 selected pending papers on provenance,
+conditional on mechanical checks, and instructed proceeding. This supersedes
+the earlier instruction against quality-score exceptions for this exact batch;
+it does not change discovery queries, global scores, thresholds or automatic
+admission rules. The exact digest-bound release is
+`config/apwg_releases/2026-10-27-approved.json`: **65 records**, including
+**63 explicit human quality exceptions**, with raw scores/statuses retained.
+The exception map must match the recomputed status/score and bundle digest.
+All records must still match editorial identity, abstract hash and approved
+classification and pass mandatory metadata, year, DOI, text and duplicate
+checks. Old release authorizations cannot acquire an exception implicitly.
+
+Paper **165**, Checkout Checkup, remains held because its DOI is unconfirmed.
+All 12 explicit rejections remain excluded. Paper 167's broken-word spacing
+and missing hyphen were mechanically repaired, after visual comparison with
+page 1 of the original author-hosted PDF:
+https://cups.cs.cmu.edu/soups/2007/proceedings/p88_sheng.pdf . The per-paper
+replacement map, raw/clean hashes and evidence URL are retained in the
+editorial manifest; there is no generated abstract or wording rewrite.
+
+The source is completed run 40484176361, artifact 12724787640, on commit
+6cb4782b7e11173bcb385030ce207a99e16cc6ff. All 66 pending source versions matched
+their editorial approvals before mechanical cleanup. The 65 release records
+have unique DOI/title identities, no exact live matches and no conservative
+potential-title-variant flags against the current 3,533-record master.
+Zero fuzzy flags do not prove the absence of every possible duplicate.
+
+The local release/publisher preview yields **3,598** records, preserves all
+existing corpus cells and public record fields, and exports only the 65
+authorized additions. No source API calls are required for the release.
+The normal pipeline still cannot auto-publish APWG; corpus writes require
+APWG_ENABLE_IMPORT=1. The previous 90-paper release bundle/receipt are
+preserved. The new receipt is
+`data/apwg_release_receipts/2026-10-27-approved.json`.
+
+This entry documents authorization and validation, not a claim that merge or
+deployment has completed; verify the release receipt and successful Pages run
+before reporting publication.

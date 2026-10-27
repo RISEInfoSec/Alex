@@ -2170,3 +2170,32 @@ def test_apwg_archive_carries_independent_venue_into_quality_review():
     assert row['publisher'] == 'IEEE'
     assert row['collection_source'] == 'APWG.org eCrimes Research'
     assert assess(row)['quality_venue_score'] == 100
+
+
+
+def test_human_approved_apwg_release_exports_only_authorized_papers(tmp_path, monkeypatch):
+    import csv
+    from alex.pipelines.apwg_release import apply_release
+    from alex.utils.io import root_file
+    manifest = root_file('config','apwg_releases','2026-10-27-approved.json')
+    bundle = json.loads(manifest.read_text())
+    released = {r['doi'].lower() for r in bundle['records']}
+    original_public = json.loads(root_file('data','papers.json').read_text())
+    original_public = [r for r in original_public if r.get('doi','').lower() not in released]
+    with root_file('data','accepted_classified.csv').open() as f:
+        reader = csv.DictReader(f); fields = reader.fieldnames
+        original = [r for r in reader if r.get('doi','').lower() not in released]
+    corpus = tmp_path/'data'/'accepted_classified.csv';corpus.parent.mkdir()
+    with corpus.open('w',newline='') as f:
+        w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(original)
+    (tmp_path/'data'/'papers.json').write_text(json.dumps(original_public))
+    monkeypatch.setenv('APWG_ENABLE_IMPORT','1')
+    apply_release(manifest,corpus,tmp_path/'receipt.json',True)
+    monkeypatch.setattr('alex.utils.io.ROOT',tmp_path)
+    publish.run(record_collection=True)
+    exported=json.loads((tmp_path/'data'/'papers.json').read_text())
+    assert len(exported)==len(original_public)+65
+    assert exported[:len(original_public)]==original_public
+    assert {r['doi'].lower() for r in exported[len(original_public):]}==released
+    assert all(r['summary'] and r['category'] and r['investigation_type'] for r in exported)
+    assert json.loads((tmp_path/'data'/'collection_status.json').read_text())['new_papers_added']==65
