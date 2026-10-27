@@ -93,9 +93,9 @@ def test_real_manifest_records_the_approved_decisions_without_release_authorizat
     from alex.pipelines.classify import CATEGORIES, INVESTIGATION_TYPES
     manifest = load_json(root_file('config', 'apwg_editorial_decisions.json'))
     assert manifest['publication_approved'] is False
-    assert [r['review_number'] for r in manifest['rejected_papers']] == [95,96,115,123]
+    assert [r['review_number'] for r in manifest['rejected_papers']] == [95,96,115,123,138]
     rows = manifest['papers']
-    assert len(rows) == len({r['doi'] for r in rows}) == 126
+    assert len(rows) == len({r['doi'] for r in rows}) == 145
     assert all(r['selection_approved'] and r['classification_approved'] for r in rows)
     assert all(r['category'] in CATEGORIES and r['investigation_type'] in INVESTIGATION_TYPES for r in rows)
     numbered = {r['review_number']: r for r in rows}
@@ -137,7 +137,7 @@ def test_real_manifest_records_the_approved_decisions_without_release_authorizat
     assert manifest['held_papers'][0]['editorial_hold'] is True
     assert manifest['held_papers'][0]['selection_approved'] is False
     assert numbered[21]['approved_abstract_sha256'] == numbered[21]['abstract_override']['sha256']
-    assert set(numbered) == set(range(1,133)) - {50,90,95,96,115,123}
+    assert set(numbered) == set(range(1,153)) - {50,90,95,96,115,123,138}
     assert numbered[8]['abstract_glyph_replacements']['\ue000'] == 'fi'
     assert numbered[8]['abstract_glyph_replacements']['security\ue001aws'] == 'security flaws'
 
@@ -239,7 +239,7 @@ def test_author_exception_is_identity_source_and_content_bound_and_idempotent(tm
             editorial.apply_abstract_override(row)
 
 
-@pytest.mark.parametrize('number', [95, 96, 115, 123])
+@pytest.mark.parametrize('number', [95, 96, 115, 123, 138])
 def test_explicit_rejection_is_persistent_and_never_classified_or_proposed(number):
     from alex.pipelines.apwg_import_recommendation import recommendation
     entry = next(e for e in editorial.decisions().values() if e['review_number'] == number)

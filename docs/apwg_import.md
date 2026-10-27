@@ -468,3 +468,16 @@ quality holds intact. Four records are rejected (95, 96, 115, 123). The pending
 worklist contains 74 unpublished candidates: 36 editorially approved but held,
 36 unreviewed and the two earlier explicit holds (50 and 90). No new release
 permission or quality-policy change is included.
+
+
+### October 27 review: papers 133–152
+
+The user approved 19 editorial selections/classifications and explicitly
+rejected 138 (A Kubernetes Underlay for OpenTDIP Forensic Computing Backend),
+rather than holding it. Its persistent rejection is excluded from proposed
+additions. There are now 145 editorial selections: 90 published and 55 new
+unpublished selections with quality holds intact. Five records are rejected
+(95, 96, 115, 123, 138). The pending worklist contains 73 unpublished candidates:
+55 editorially approved but held, 16 unreviewed and the two earlier explicit
+holds (50 and 90). No new release permission or quality-policy change is
+included.
