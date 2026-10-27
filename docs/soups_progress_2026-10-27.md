@@ -8,7 +8,7 @@
 - [Batch 2: papers 21–40](soups_review_batch_02.md) and [batch 3: papers 41–60](soups_review_batch_03.md) are ready for review. Batch 2 has 18 approvals and two rejections; all 20 papers in batch 3 are approved. Individual USENIX bibliography is verified for all 40, with no existing ALEX title/URL matches found.
 - Unnumbered assessments remain in the manifest for later batch preparation. Source-linked assessment reasons distinguish direct, supporting, uncertain and out-of-scope recommendations.
 
-Researcher recommendations among the 137 assessed papers: {'include': 90, 'discuss': 29, 'exclude': 18}. These are not additional user decisions.
+Researcher recommendations among the 137 assessed papers: {'include': 97, 'discuss': 20, 'exclude': 20}. These are not additional user decisions.
 
 ## Approved batch checks
 
@@ -50,7 +50,7 @@ The full baseline public CSV and JSON retain their verified hashes. No additions
 
 ## Next work
 
-1. Prepare batch 6 (18 remaining assessed candidates); preserve paper numbers 1–100.
+1. Review batch 6 (101–118); preserve paper numbers 1–118.
 2. Continue substantive screening of the remaining 366 papers and prepare further batches; finish early PDF formatting checks and bibliographic holds.
 3. Resolve classification and quality holds for selected papers, then prepare the controlled import and pull request.
 4. Merge and deploy only after explicit user authorization.
@@ -75,3 +75,5 @@ Batch-4 decision update: user approved 61–73 and 75–80 and rejected 74. Cumu
 Batch 5: [papers 81–100](soups_review_batch_05.md), 19 approved and paper 93 rejected; original recommendations: 16 include and four discuss. Paper 87 moved to discuss and paper 100 moved to include after closer abstract review, leaving recommendation totals unchanged. Original-PDF authors recovered for paper 93; subtitle discrepancy retained as a hold. Current assessed new-addition queue is 118 candidates (six batches), excluding existing Anti-Phishing Phil; after this batch 18 remain. Final batch count remains unknown while 366 research-paper records await assessment.
 
 Batch-5 decision update: user approved 81–92 and 94–100 and rejected 93. Cumulative selections: 95 approved, five rejected. Decisions are bound to reviewed content hashes; all previous decisions are preserved. No corpus import, merge or deployment occurred.
+
+Batch 6: [papers 101–118](soups_review_batch_06.md), all 18 decisions pending. Official individual citation metadata verified; recommendations seven include, nine discuss and two exclude (107 and 118). Earlier discuss assessments were reassessed against the abstracts to distinguish concrete supporting relevance from general security research. All 118 initial new-addition candidates have now been presented; screening remains incomplete with 366 research-paper records unassessed. Existing decisions remain 95 approved and five rejected; no corpus import.
