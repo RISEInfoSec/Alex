@@ -1,6 +1,6 @@
 # SOUPS review batch 5: papers 81–100
 
-All 20 decisions are pending. Recommendations: 16 include; four discuss (87, 93, 94, 99). Historical abstracts were recovered from original PDFs and metadata checked against exact-title Crossref evidence, with paper 93 authors checked directly from its PDF. Abstract formatting holds remain. Full texts have not been substantively assessed.
+User decisions recorded on 27 October 2026: **19 approved; paper 93 rejected.** Papers 87, 94 and 99 approved despite discuss recommendations. Recommendations: 16 include; four discuss (87, 93, 94, 99). Historical abstracts were recovered from original PDFs and metadata checked against exact-title Crossref evidence, with paper 93 authors checked directly from its PDF. Abstract formatting holds remain. Full texts have not been substantively assessed.
 
 Collection: [SOUPS](https://soups.page/) (Symposium On Usable Privacy and Security) and [USENIX](https://www.usenix.org/) (the Advanced Computing Systems Association). Actual ACM-era publisher provenance is preserved.
 
@@ -247,3 +247,5 @@ Current review queue: 118 distinct new-addition candidates, six batches at 20 pe
 **Duplicate check:** no_match_found. **DOI:** lookup pending; not required for inclusion.
 
 **Metadata/text holds:**  official_abstract_control_character; formatting_review_required
+
+Selection decisions: approve 81–92 and 94–100; reject 93. Outstanding metadata and formatting checks remain for approved papers.

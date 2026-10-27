@@ -4,7 +4,7 @@
 
 - 503 provisionally identified research-paper links across 2005–2026; 249 separately typed ancillary/program links.
 - 137 papers have substantive abstract assessments, including 18 extracted historical abstracts that still require formatting review. **366 research papers remain unassessed.** Automated keyword triage is not counted as substantive review and does not reject papers.
-- User decisions: **76 approved and four rejected (papers 17, 24, 26 and 74)**. Batch 2 approved every paper except 24 and 26, including paper 25.
+- User decisions: **95 approved and five rejected (papers 17, 24, 26, 74 and 93)**. Batch 2 approved every paper except 24 and 26, including paper 25.
 - [Batch 2: papers 21–40](soups_review_batch_02.md) and [batch 3: papers 41–60](soups_review_batch_03.md) are ready for review. Batch 2 has 18 approvals and two rejections; all 20 papers in batch 3 are approved. Individual USENIX bibliography is verified for all 40, with no existing ALEX title/URL matches found.
 - Unnumbered assessments remain in the manifest for later batch preparation. Source-linked assessment reasons distinguish direct, supporting, uncertain and out-of-scope recommendations.
 
@@ -50,7 +50,7 @@ The full baseline public CSV and JSON retain their verified hashes. No additions
 
 ## Next work
 
-1. Review batch 5 (81–100); preserve paper numbers 1–100.
+1. Prepare batch 6 (18 remaining assessed candidates); preserve paper numbers 1–100.
 2. Continue substantive screening of the remaining 366 papers and prepare further batches; finish early PDF formatting checks and bibliographic holds.
 3. Resolve classification and quality holds for selected papers, then prepare the controlled import and pull request.
 4. Merge and deploy only after explicit user authorization.
@@ -72,4 +72,6 @@ Batch 4: [papers 61–80](soups_review_batch_04.md), 19 approved and paper 74 re
 
 Batch-4 decision update: user approved 61–73 and 75–80 and rejected 74. Cumulative selections: 76 approved, four rejected. Decisions are bound to the reviewed content hashes. Technical checks remain outstanding; no corpus import, merge or deployment occurred.
 
-Batch 5: [papers 81–100](soups_review_batch_05.md), all decisions pending; 16 include and four discuss. Paper 87 moved to discuss and paper 100 moved to include after closer abstract review, leaving recommendation totals unchanged. Original-PDF authors recovered for paper 93; subtitle discrepancy retained as a hold. Current assessed new-addition queue is 118 candidates (six batches), excluding existing Anti-Phishing Phil; after this batch 18 remain. Final batch count remains unknown while 366 research-paper records await assessment.
+Batch 5: [papers 81–100](soups_review_batch_05.md), 19 approved and paper 93 rejected; original recommendations: 16 include and four discuss. Paper 87 moved to discuss and paper 100 moved to include after closer abstract review, leaving recommendation totals unchanged. Original-PDF authors recovered for paper 93; subtitle discrepancy retained as a hold. Current assessed new-addition queue is 118 candidates (six batches), excluding existing Anti-Phishing Phil; after this batch 18 remain. Final batch count remains unknown while 366 research-paper records await assessment.
+
+Batch-5 decision update: user approved 81–92 and 94–100 and rejected 93. Cumulative selections: 95 approved, five rejected. Decisions are bound to reviewed content hashes; all previous decisions are preserved. No corpus import, merge or deployment occurred.
