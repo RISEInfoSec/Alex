@@ -1,0 +1,39 @@
+name: APWG approved release
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'config/apwg_releases/2026-10-26-approved.json'
+permissions:
+  contents: write
+concurrency:
+  group: pipeline
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Apply only explicitly authorized papers
+        env:
+          APWG_ENABLE_IMPORT: '1'
+        run: |
+          python -m alex.pipelines.apwg_release \
+            --manifest config/apwg_releases/2026-10-26-approved.json --write
+      - name: Publish updated corpus
+        run: python -m alex.cli publish --record-collection
+      - name: Save approved corpus and release receipt
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/accepted_classified.csv data/osint_cyber_papers.csv data/papers.json data/collection_status.json data/apwg_release_receipt.json
+          git diff --cached --quiet || git commit -m "Publish 90 explicitly approved APWG research papers"
+          git push

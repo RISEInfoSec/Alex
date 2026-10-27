@@ -22,6 +22,10 @@ on:
       - 'alex/pipelines/apwg_abstract_checkpoint.py'
       - 'config/apwg_abstract_checkpoint.json'
       - 'tests/test_apwg_abstract_checkpoint.py'
+      - 'alex/pipelines/apwg_release.py'
+      - 'config/apwg_releases/**'
+      - 'tests/test_apwg_release.py'
+      - '.github/workflows/apwg_approved_release.yml'
       - 'requirements.txt'
   workflow_dispatch:
 permissions:
@@ -37,7 +41,7 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
       - run: pip install -r requirements.txt
-      - run: python -m pytest -q tests/test_apwg_import.py tests/test_apwg_classification_review.py tests/test_apwg_pdf_abstracts.py tests/test_apwg_editorial_review.py tests/test_apwg_import_recommendation.py tests/test_apwg_abstract_checkpoint.py tests/test_pipelines.py
+      - run: python -m pytest -q tests/test_apwg_import.py tests/test_apwg_classification_review.py tests/test_apwg_pdf_abstracts.py tests/test_apwg_editorial_review.py tests/test_apwg_import_recommendation.py tests/test_apwg_abstract_checkpoint.py tests/test_apwg_release.py tests/test_pipelines.py
   live_source_audit:
     # Read-only APWG/dblp coverage probe. Never changes accepted_classified.csv.
     runs-on: ubuntu-latest

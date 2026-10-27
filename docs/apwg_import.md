@@ -408,3 +408,31 @@ The three provider-discrepant approvals return to scores 46.35, 45.70 and
 45.23 under unchanged rules. Offline reconciliation verifies all 90 editorial
 approvals as candidates pending separate release authorization. See
 [the citation evidence](apwg_citation_reconciliation.json).
+
+### Explicitly authorized 90-paper release
+
+The user subsequently authorized merging and publishing the approved additions
+and retaining everything unapproved for later review. This authorization is
+limited to the exact 90 records from completed run 40436247313, artifact
+12704820934, commit 6332a2b1ba05715c8dc7610063c369092698c43d.
+`config/apwg_releases/2026-10-26-approved.json` records that separate release
+permission, complete reviewed inputs and a SHA-256 content digest. The general
+editorial manifest remains incapable of granting publication permission.
+
+The release workflow runs once when this exact authorization file reaches
+main. It requires APWG_ENABLE_IMPORT=1 only within its dedicated job, validates
+each record against editorial decisions and recomputed unchanged quality gates,
+and fails before writing on a duplicate, changed abstract or unapproved input.
+It appends without modifying existing cells, records a release receipt, invokes
+the normal publisher, and commits the corpus/public assets. The existing Pages
+workflow also listens for successful completion of this release workflow;
+Pages concurrency and deployment checks remain unchanged. Weekly APWG discovery
+remains review-only. No API requests or PDFs are needed for the release.
+
+`config/apwg_pending_review.json` preserves all 78 unapproved candidates and
+their reasons/source evidence for the next review session. The already-present
+ALEX record is excluded from the release. Local full-suite validation passed
+376 tests. A full preview adds exactly 90 records (3443 → 3533), preserves every
+existing master-cell value and existing public-paper field, and retains
+APWG.org eCrimes Research attribution separately from the actual publisher.
+These preview counts must be verified against the eventual live receipt.

@@ -2135,3 +2135,20 @@ def test_apwg_collection_match_preserves_existing_publication_identity():
     assert merged.iloc[0]['abstract'] == 'Original abstract'
     assert merged.iloc[0]['Category'] == 'OSINT Methodology'
     assert merged.iloc[0]['collection_source'] == LABEL
+
+
+def test_authorized_apwg_release_preserves_full_master_and_adds_only_approved(tmp_path,monkeypatch):
+    import csv
+    from shutil import copyfile
+    from alex.pipelines.apwg_release import apply_release
+    from alex.utils.io import root_file
+    corpus=tmp_path/'accepted.csv'
+    copyfile(root_file('data','accepted_classified.csv'),corpus)
+    with corpus.open() as f:
+        existing=list(csv.DictReader(f))
+    monkeypatch.setenv('APWG_ENABLE_IMPORT','1')
+    result=apply_release(root_file('config','apwg_releases','2026-10-26-approved.json'),corpus,tmp_path/'receipt.json',True)
+    with corpus.open() as f:
+        actual=list(csv.DictReader(f))
+    assert result['records_added']==90 and len(actual)==len(existing)+90
+    assert all(all(actual[i][k]==v for k,v in row.items()) for i,row in enumerate(existing))
