@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 2,
+  "version": 3,
   "status": "proposed_not_activated",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -27,7 +27,8 @@
     "source_specific_preparation_checkpoints": true,
     "only_substantively_assessed_candidates_count_as_review_ready": true,
     "source_order": "Explicit user priority first; otherwise oldest waiting work without starving other active collections.",
-    "global_review_ready_target_applies_to": "Candidates actually requiring human review; automatically accepted candidates do not consume the manual-review buffer."
+    "global_review_ready_target_applies_to": "Candidates actually requiring human review; automatically accepted candidates do not consume the manual-review buffer.",
+    "buffer_thresholds_status": "User-confirmed: strictly below 100 triggers replenishment to 250."
   },
   "preparation": {
     "stages": [
@@ -131,5 +132,28 @@
     "rejection_and_holds": "Keep existing low-score rejection/audit rules and distinguish retryable or unresolved evidence holds. Preserve rejection history.",
     "high_score_does_not_override_hard_hold": true
   },
-  "clarification": "27 October 2026: the user explicitly clarified that high-quality, high-scoring entries should continue to be auto-accepted as previously done; Content Review is not universal manual review."
+  "clarification": "27 October 2026: the user explicitly clarified that high-quality, high-scoring entries should continue to be auto-accepted as previously done; Content Review is not universal manual review.",
+  "buffer_policy": {
+    "status": "user_confirmed",
+    "trigger": "review_ready_count < 100",
+    "low_watermark": 100,
+    "target": 250,
+    "comparison": "strictly_below",
+    "scope": "Global across the active human-review queues.",
+    "counted": "Distinct, substantively assessed, still-unreviewed candidates with current evidence and recommendations, after reconciling completed console submissions.",
+    "excluded": [
+      "automatically accepted candidates",
+      "already accepted or rejected candidates",
+      "raw unassessed discoveries",
+      "duplicate or evidence-held records",
+      "stale content awaiting reassessment"
+    ],
+    "action": "Prepare and publish enough additional review-ready candidates to restore the current global count to 250.",
+    "recheck_before_completion": true,
+    "concurrent_refill_jobs_allowed": 1,
+    "preserve_existing_decisions_and_content_hashes": true,
+    "retry_policy": "Checkpoint completed work and resume after transient failures or source limits until the target is reached, or explicitly report source exhaustion or a blocking failure.",
+    "worker_integration": "Apply this policy in the background worker when it is activated; no separate polling task is created by this policy update.",
+    "confirmed_at": "2026-10-27"
+  }
 }
