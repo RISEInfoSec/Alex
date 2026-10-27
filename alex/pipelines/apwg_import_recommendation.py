@@ -26,6 +26,8 @@ def recommendation(row: dict) -> tuple[str, str]:
     if row.get('duplicate_review_status') == 'hold_possible_variant':
         return 'hold_duplicate_review', 'Resolve publication identity before selection'
     entry, status = decision_for(row)
+    if status == 'rejected':
+        return 'excluded_editorial_rejection', entry['reason']
     if status == 'held':
         return 'hold_editorial', entry['reason']
     if entry is None and status.startswith('reviewed_'):
@@ -79,8 +81,9 @@ def build(review_path: Path, bibliography_path: Path, output_dir: Path) -> dict:
         disposition, action = recommendation(row)
         audit.append({**row, 'recommendation': disposition, 'next_action': action,
                       'publication_approved': 'false'})
-    candidates = [r for r in audit if r['recommendation'] != 'suppressed_existing_alex']
+    candidates = [r for r in audit if r['recommendation'] not in {'suppressed_existing_alex', 'excluded_editorial_rejection'}]
     suppressed = [r for r in audit if r['recommendation'] == 'suppressed_existing_alex']
+    excluded = [r for r in audit if r['recommendation'] == 'excluded_editorial_rejection']
     approved = [r for r in candidates if r['recommendation'] == 'editorially_approved_pending_release']
     holds = [r for r in candidates if r not in approved]
     fields = list(audit[0])
@@ -88,13 +91,14 @@ def build(review_path: Path, bibliography_path: Path, output_dir: Path) -> dict:
                        ('apwg_additions_review.csv', candidates),
                        ('apwg_approved_pending_release.csv', approved),
                        ('apwg_hold_worklist.csv', holds),
-                       ('apwg_suppressed_existing.csv', suppressed)]:
+                       ('apwg_suppressed_existing.csv', suppressed),
+                       ('apwg_excluded_editorial.csv', excluded)]:
         write_csv(output_dir / name, rows, fields)
     artifact_dois = {identity(r)[0] for r in review}
     missing = sorted(doi for doi, e in decisions().items()
                      if e.get('selection_approved') and doi not in artifact_dois)
     summary = {'records_audited': len(audit), 'candidate_additions': len(candidates),
-               'suppressed_existing': len(suppressed), 'approved_pending_release': len(approved),
+               'suppressed_existing': len(suppressed), 'editorial_rejections': len(excluded), 'approved_pending_release': len(approved),
                'holds': len(holds), 'dispositions': dict(Counter(r['recommendation'] for r in audit)),
                'manifest_approvals_absent_from_artifact': missing,
                'publication_approvals': 0, 'corpus_modified': False}

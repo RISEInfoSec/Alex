@@ -436,3 +436,118 @@ ALEX record is excluded from the release. Local full-suite validation passed
 existing master-cell value and existing public-paper field, and retains
 APWG.org eCrimes Research attribution separately from the actual publisher.
 These preview counts must be verified against the eventual live receipt.
+
+### October 27 review: papers 93–112
+
+The user approved 18 selections/classifications and explicitly rejected **95**
+(Revisiting password rules) and **96** (Password advice shouldn't be boring).
+Rejections live separately in `rejected_papers`, are never sent to the model,
+and are excluded from additions/hold/approved queues. They remain auditable in
+`apwg_excluded_editorial.csv`; a changed abstract cannot clear a rejection.
+Existing live records are always preserved first.
+
+The 18 approvals remain subject to their core-term or relevance-floor holds.
+No thresholds, query registry, corpus or release authorization were changed.
+There are 108 editorial selections in total: 90 already published and 18
+quality-held. Two new rejections are removed from the pending worklist, leaving
+76 unpublished candidates: 18 approved-but-quality-held and 58 awaiting content
+review or further investigation (including the two earlier explicit holds).
+The original 90-paper release bundle is unchanged and cannot release these
+newly selected records. Work continues on a new draft branch because PR #77
+was completed and merged.
+
+
+### October 27 review: papers 113–132
+
+The user approved 18 editorial selections/classifications and explicitly
+rejected 115 (Chasing shuabang in apps stores) and 123 (Risk Assessment
+Mitigation for Core Security Capabilities), rather than holding them. Their
+rejections are persistent and excluded from proposed-addition queues.
+There are now 126 editorial selections: 90 published and 36 unpublished with
+quality holds intact. Four records are rejected (95, 96, 115, 123). The pending
+worklist contains 74 unpublished candidates: 36 editorially approved but held,
+36 unreviewed and the two earlier explicit holds (50 and 90). No new release
+permission or quality-policy change is included.
+
+
+### October 27 review: papers 133–152
+
+The user approved 19 editorial selections/classifications and explicitly
+rejected 138 (A Kubernetes Underlay for OpenTDIP Forensic Computing Backend),
+rather than holding it. Its persistent rejection is excluded from proposed
+additions. There are now 145 editorial selections: 90 published and 55 new
+unpublished selections with quality holds intact. Five records are rejected
+(95, 96, 115, 123, 138). The pending worklist contains 73 unpublished candidates:
+55 editorially approved but held, 16 unreviewed and the two earlier explicit
+holds (50 and 90). No new release permission or quality-policy change is
+included.
+
+
+### October 27 review complete: papers 153–168
+
+The user approved 10 editorial selections/classifications and explicitly
+rejected 156, 159, 160, 162, 164 and 168. These six are excluded, not held for
+automatic recovery or reconsideration. All 168 potential additions have now
+received an individual editorial disposition: 155 selections (90 published,
+65 unpublished pending quality/metadata work), 11 rejections and two earlier
+explicit holds (50 and 90). The one original existing ALEX match remains
+suppressed separately. No unreviewed APWG candidates remain. The pending
+worklist contains 67 unpublished records: 65 selected with holds intact and
+the two undecided holds. All new decisions remain review-only; the existing
+90-paper release bundle, live corpus and quality policy are unchanged.
+
+
+### October 27 reconsideration: papers 50 and 90
+
+The user explicitly accepted 50, *Identifying Unintended Harms of Cybersecurity
+Countermeasures*, as Foundations & Surveys / Other, and rejected 90,
+*Koobface: The evolution of the social botnet*. These decisions supersede their
+earlier editorial holds. Final editorial accounting is 156 selections (90
+already published and 66 unpublished with quality/metadata review intact),
+12 explicit rejections, no undecided holds and one separately suppressed
+existing ALEX match. All 168 potential additions now have a final editorial
+selection decision. Paper 50 retains its human-quality-review requirement;
+acceptance does not authorize publication. The existing release bundle and
+live corpus are unchanged.
+
+
+### October 27 second release authorization
+
+The user explicitly approved the 66 selected pending papers on provenance,
+conditional on mechanical checks, and instructed proceeding. This supersedes
+the earlier instruction against quality-score exceptions for this exact batch;
+it does not change discovery queries, global scores, thresholds or automatic
+admission rules. The exact digest-bound release is
+`config/apwg_releases/2026-10-27-approved.json`: **65 records**, including
+**63 explicit human quality exceptions**, with raw scores/statuses retained.
+The exception map must match the recomputed status/score and bundle digest.
+All records must still match editorial identity, abstract hash and approved
+classification and pass mandatory metadata, year, DOI, text and duplicate
+checks. Old release authorizations cannot acquire an exception implicitly.
+
+Paper **165**, Checkout Checkup, remains held because its DOI is unconfirmed.
+All 12 explicit rejections remain excluded. Paper 167's broken-word spacing
+and missing hyphen were mechanically repaired, after visual comparison with
+page 1 of the original author-hosted PDF:
+https://cups.cs.cmu.edu/soups/2007/proceedings/p88_sheng.pdf . The per-paper
+replacement map, raw/clean hashes and evidence URL are retained in the
+editorial manifest; there is no generated abstract or wording rewrite.
+
+The source is completed run 40484176361, artifact 12724787640, on commit
+6cb4782b7e11173bcb385030ce207a99e16cc6ff. All 66 pending source versions matched
+their editorial approvals before mechanical cleanup. The 65 release records
+have unique DOI/title identities, no exact live matches and no conservative
+potential-title-variant flags against the current 3,533-record master.
+Zero fuzzy flags do not prove the absence of every possible duplicate.
+
+The local release/publisher preview yields **3,598** records, preserves all
+existing corpus cells and public record fields, and exports only the 65
+authorized additions. No source API calls are required for the release.
+The normal pipeline still cannot auto-publish APWG; corpus writes require
+APWG_ENABLE_IMPORT=1. The previous 90-paper release bundle/receipt are
+preserved. The new receipt is
+`data/apwg_release_receipts/2026-10-27-approved.json`.
+
+This entry documents authorization and validation, not a claim that merge or
+deployment has completed; verify the release receipt and successful Pages run
+before reporting publication.

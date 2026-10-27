@@ -178,7 +178,26 @@ def _apply_verified_correction(row: dict, corrections: dict[str, dict]) -> dict:
         "original_apwg_title": original_title,
         "author_source": "Curated primary bibliographic evidence",
     })
-    return result
+    return _apply_verified_venue(result, c)
+
+
+def _apply_verified_venue(row: dict, correction: dict) -> dict:
+    """Fill an absent venue only for the exact independently verified paper."""
+    if (clean(row.get("venue")) or
+            clean(row.get("in_existing_alex_corpus")).lower() == "true" or
+            row.get("duplicate_review_status") in {"exact_doi_or_title_match", "hold_possible_variant"}):
+        return row
+    c = correction
+    url = clean(row.get("apwg_source_url")) or clean(row.get("apwg_paper_url"))
+    if (not c.get("venue") or not c.get("venue_evidence_url") or
+            not c.get("url_suffix") or not url.endswith(c["url_suffix"]) or
+            normalize_title(row.get("title", "")) != normalize_title(c["title"]) or
+            _doi(row.get("doi", "")) != _doi(c["doi"]) or
+            clean(row.get("year")) != str(c["year"])):
+        return row
+    return {**row, "venue": c["venue"],
+            "venue_source": "Curated independent publication venue evidence",
+            "venue_evidence_url": c["venue_evidence_url"]}
 
 
 def archive_papers(html: str, year: int, year_url: str) -> list[dict]:
