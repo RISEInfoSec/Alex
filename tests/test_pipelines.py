@@ -254,6 +254,7 @@ class TestQualityGate:
         assert accepted.empty
 
 
+@pytest.mark.usefixtures("collection_site")
 class TestPublish:
     def test_json_output_structure(self, tmp_path):
         classified = pd.DataFrame([{
@@ -2173,6 +2174,7 @@ def test_apwg_archive_carries_independent_venue_into_quality_review():
 
 
 
+@pytest.mark.usefixtures("collection_site")
 def test_human_approved_apwg_release_exports_only_authorized_papers(tmp_path, monkeypatch):
     import csv
     from alex.pipelines.apwg_release import apply_release

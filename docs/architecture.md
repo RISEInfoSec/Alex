@@ -16,6 +16,8 @@ This is the **operational** view of how the pipeline runs today. For the origina
 
 After Publish, the `pipeline.yml` `deploy` job stages `index.html`, `papers.json`, and `osint_cyber_papers.csv` to the `_site/` artifact and pushes it to GitHub Pages.
 
+Publish also generates the allowlisted static research collections and sitemap. Both deploy paths use `scripts/stage_site.py` to regenerate, validate and include these pages in `_site`. See [Hybrid research collections](hybrid_seo.md) for the pilot scope, editorial source, pagination and complete publishing-path integration.
+
 ## Data ownership
 
 Working state — `discovery_candidates`, `accepted_candidates`, `rejected_candidates`, `quality_metrics`, `rescore_metrics` — lives gzipped on the `pipeline-state` branch, not `main` (`scripts/state.sh pull|push`). Everything else below is committed to `main`.

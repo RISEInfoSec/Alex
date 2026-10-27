@@ -25,37 +25,7 @@ OPENAI_URL = "https://api.openai.com/v1/responses"
 # affects how downstream consumers (the site, search, filters) bucket papers.
 # When "Other" exceeds ~20% of a run, that's a signal to add a category, not
 # silently drift on the model's whim.
-CATEGORIES = [
-    "OSINT Methodology",
-    "Social Media & SOCMINT",
-    "Dark Web & Underground",
-    "Cyber Threat Intelligence",
-    "Digital Forensics & Evidence",
-    "Malware & Exploits",
-    "Vulnerability Research",
-    "Disinformation & Influence",
-    "Cybercrime & Fraud",
-    "Network & Infrastructure Security",
-    "IoT & CPS Security",
-    "Privacy & Surveillance",
-    "AI/ML for Security",
-    "Foundations & Surveys",
-    "Other",
-]
-
-INVESTIGATION_TYPES = [
-    "Network Investigation",
-    "Social Media Analysis",
-    "Dark Web Analysis",
-    "Malware Analysis",
-    "Attribution",
-    "Phishing Analysis",
-    "Forensic Investigation",
-    "Threat Hunting",
-    "Vulnerability Assessment",
-    "Incident Response",
-    "Other",
-]
+from alex.taxonomy import CATEGORIES, INVESTIGATION_TYPES
 
 OSINT_SOURCE_TYPES = [
     "Social Media",

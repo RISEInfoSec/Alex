@@ -1,0 +1,234 @@
+"""Membership, metadata, generation and artifact regressions; all offline."""
+from __future__ import annotations
+
+import csv
+import json
+import shutil
+from pathlib import Path
+
+import pandas as pd
+import pytest
+from bs4 import BeautifulSoup
+
+from alex.collections import BASE, PAGE_SIZE, build, generate, load_editorial, route, select_collections
+from alex.pipelines import publish
+from alex.taxonomy import CATEGORIES, INVESTIGATION_TYPES
+from scripts.check_seo import check
+from scripts.stage_site import stage
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def papers(count=61):
+    return [{"id": n + 1, "title": f"Paper {n:03d} <evidence>", "author": 'A & B',
+             "year": 2020.0 + n % 5, "category": "OSINT Methodology",
+             "investigation_type": "Phishing Analysis" if n % 2 == 0 else "Other",
+             "doi": f"10.1234/test{n}", "source_url": f"https://example.org/{n}",
+             "summary": "An original abstract", "venue": "Original venue"} for n in range(count)]
+
+
+def soup(outputs, path):
+    return BeautifulSoup(outputs[path + "index.html"], "html.parser")
+
+
+def test_taxonomy_preserves_classifier_schema():
+    from alex.pipelines.classify import CLASSIFICATION_SCHEMA
+    assert CLASSIFICATION_SCHEMA["properties"]["Category"]["enum"] == CATEGORIES
+    assert CLASSIFICATION_SCHEMA["properties"]["Investigation_Type"]["enum"] == INVESTIGATION_TYPES
+    assert len(CATEGORIES) == 15 and len(INVESTIGATION_TYPES) == 11
+
+
+def test_dimensions_membership_counts_and_pagination(collection_site):
+    source = papers()
+    output = build(collection_site, source)
+    category = soup(output, "research/categories/osint-methodology/")
+    second = soup(output, "research/categories/osint-methodology/page/2/")
+    investigation = soup(output, "research/investigations/phishing-analysis/")
+    assert len(category.select("li.paper")) == PAGE_SIZE
+    assert len(second.select("li.paper")) == 11
+    assert len(investigation.select("li.paper")) == 31
+    expected = {p["title"] for p in source if p["investigation_type"] == "Phishing Analysis"}
+    assert {h.get_text() for h in investigation.select("li.paper h3")} == expected
+    assert second.select_one('link[rel="canonical"]')["href"] == BASE + "research/categories/osint-methodology/page/2/"
+    assert category.select_one('a[href="/research/categories/osint-methodology/page/2/"]')
+    assert second.select_one('a[href="/research/categories/osint-methodology/"]')
+    assert second.select_one('ol')["start"] == "51"
+    assert '2024.0' not in category.get_text() and '2024' in category.get_text()
+    assert "<evidence>" in category.get_text() and category.find("evidence") is None
+    assert not category.find_all("script", src=True)
+
+
+def test_real_accepted_membership_is_exact_across_all_pages():
+    output = build(ROOT)
+    with (ROOT / "data/accepted_classified.csv").open(newline="", encoding="utf-8") as f:
+        accepted = list(csv.DictReader(f))
+    for collection in load_editorial(ROOT):
+        field = {"category": "Category", "investigation_type": "Investigation_Type"}[collection["dimension"]]
+        expected = sorted(r["title"] for r in accepted if r[field] == collection["value"])
+        path = route(collection)
+        actual = []
+        for filename, html in output.items():
+            if filename.startswith(path):
+                actual.extend(h.get_text() for h in BeautifulSoup(html, "html.parser").select("li.paper h3"))
+        assert sorted(actual) == expected
+
+
+def test_schema_describes_only_visible_bibliography(collection_site):
+    output = build(collection_site, papers())
+    for path, raw in output.items():
+        if not path.endswith(".html"):
+            continue
+        page = BeautifulSoup(raw, "html.parser")
+        data = json.loads(page.select_one('script[type="application/ld+json"]').string)
+        assert data["@type"] == "CollectionPage"
+        if "mainEntity" not in data:
+            continue
+        items = data["mainEntity"]
+        visible = page.select("li.paper h3")
+        assert items["numberOfItems"] == len(visible) == len(items["itemListElement"])
+        for item, heading in zip(items["itemListElement"], visible):
+            assert item["name"] == heading.get_text()
+            assert item["url"] == heading.a["href"]
+
+
+def test_empty_small_and_identical_memberships_are_omitted(collection_site):
+    editorial = load_editorial(collection_site)
+    assert not select_collections([], editorial)[0]
+    assert not select_collections(papers(4), editorial)[0]
+    source = papers(10)
+    for p in source:
+        p["investigation_type"] = "Phishing Analysis"
+    active, notes = select_collections(source, editorial)
+    assert len(active) == 1 and "identical membership" in notes[0]
+    # Overlap below identity preserves both dimensions and reports high overlap.
+    source[0]["investigation_type"] = "Other"
+    active, notes = select_collections(source, editorial)
+    assert len(active) == 2 and "90%" in notes[0]
+    output = build(collection_site, [])
+    assert set(output) == {"research/index.html", "sitemap.xml"}
+    assert "No collection bibliographies" in output["research/index.html"]
+
+
+@pytest.mark.parametrize("change", [
+    {"slug": "../escape"}, {"slug": "OSINT"}, {"value": "Invented category"},
+    {"value": "Other"}, {"dimension": "tag"}, {"intro": ""}, {"related": ["categories/missing"]},
+])
+def test_invalid_editorial_fails_before_writing(collection_site, change):
+    path = collection_site / "config/research_collections.json"
+    config = json.loads(path.read_text())
+    config["collections"][0].update(change)
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError):
+        generate(collection_site, papers())
+    assert not (collection_site / "research").exists()
+
+
+def test_duplicate_routes_and_metadata_are_rejected(collection_site):
+    path = collection_site / "config/research_collections.json"
+    config = json.loads(path.read_text())
+    config["collections"].append(config["collections"][0])
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError, match="Duplicate"):
+        load_editorial(collection_site)
+
+
+def test_duplicate_metadata_is_rejected(collection_site):
+    path = collection_site / "config/research_collections.json"
+    config = json.loads(path.read_text())
+    config["collections"][1]["title"] = config["collections"][0]["title"]
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError, match="titles must be unique"):
+        load_editorial(collection_site)
+
+
+def test_record_metadata_provenance_and_unsafe_links(collection_site):
+    source = papers(10)
+    record = source[0]
+    record.update(author="", year="", apwg_year="2025", retrieved="2026-10-27", doi="", link="javascript:alert(1)",
+                  source_url='data:text/html,unsafe', collection_source="APWG.org eCrimes Research",
+                  collection_url="https://ecrimeresearch.org/", venue="Actual publication venue")
+    output = build(collection_site, source)
+    page = soup(output, "research/categories/osint-methodology/")
+    paper = next(li for li in page.select("li.paper") if record["title"] in li.get_text())
+    assert "Author metadata incomplete" in paper.get_text()
+    assert "Publication year not recorded" in paper.get_text()
+    assert "2025" not in paper.get_text() and "2026-10-27" not in paper.get_text()
+    assert "Collection: APWG.org eCrimes Research" in paper.get_text()
+    assert "Actual publication venue" in paper.get_text()
+    assert all(not a["href"].startswith(("data:", "javascript:")) for a in paper.select("a"))
+
+
+def test_determinism_regeneration_and_obsolete_page_cleanup(collection_site):
+    source = papers(121)
+    output = build(collection_site, source)
+    reversed_source = list(reversed(source))
+    for i, p in enumerate(reversed_source):
+        p["id"] = i + 9000
+    assert output == build(collection_site, reversed_source)
+    generate(collection_site, source)
+    generate(collection_site, source, check=True)
+    generate(collection_site, papers(20))
+    assert not (collection_site / "research/categories/osint-methodology/page/2/index.html").exists()
+    assert "page/2/" not in (collection_site / "sitemap.xml").read_text()
+    (collection_site / "research/index.html").write_text("stale")
+    with pytest.raises(ValueError, match="Regenerate"):
+        generate(collection_site, papers(20), check=True)
+
+
+def test_publish_regenerates_counts_without_changing_accepted_records(collection_site, monkeypatch):
+    data = collection_site / "data"
+    data.mkdir()
+    source = papers(51)
+    rows = [{"title": p["title"], "authors": p["author"], "year": p["year"], "doi": p["doi"],
+             "Category": p["category"], "Investigation_Type": p["investigation_type"]} for p in source]
+    accepted = data / "accepted_classified.csv"
+    pd.DataFrame(rows).to_csv(accepted, index=False)
+    original = accepted.read_bytes()
+    monkeypatch.setattr("alex.utils.io.ROOT", collection_site)
+    publish.run()
+    assert accepted.read_bytes() == original
+    assert "51 papers" in (collection_site / "research/categories/osint-methodology/index.html").read_text()
+    assert (collection_site / "research/categories/osint-methodology/page/2/index.html").exists()
+    pd.DataFrame(rows[:20]).to_csv(accepted, index=False)
+    publish.run()
+    assert "20 papers" in (collection_site / "research/categories/osint-methodology/index.html").read_text()
+    assert not (collection_site / "research/categories/osint-methodology/page/2/index.html").exists()
+
+
+def test_both_pages_workflows_use_tested_staging_and_keep_deploy_controls():
+    pages = (ROOT / ".github/workflows/pages.yml").read_text()
+    pipeline = (ROOT / ".github/workflows/pipeline.yml").read_text()
+    assert "group: pages\n  cancel-in-progress: true" in pages
+    for workflow in (pages, pipeline):
+        assert "ref: main" in workflow
+        assert "python3 scripts/stage_site.py" in workflow
+        assert "path: _site" in workflow
+    for filename in ("publish.yml", "pipeline.yml", "rebuild_site.yml", "apwg_approved_release.yml"):
+        workflow = (ROOT / ".github/workflows" / filename).read_text()
+        assert "git add -A research sitemap.xml" in workflow
+
+
+def test_actual_artifact_includes_all_pages_and_preserves_downloads(tmp_path):
+    # Isolate staging; no network, deployment or source-corpus writes.
+    for name in ("index.html", "robots.txt", "sitemap.xml"):
+        shutil.copy2(ROOT / name, tmp_path / name)
+    for name in ("assets", "config"):
+        shutil.copytree(ROOT / name, tmp_path / name)
+    (tmp_path / "data").mkdir()
+    for name in ("accepted_classified.csv", "papers.json", "osint_cyber_papers.csv", "collection_status.json"):
+        shutil.copy2(ROOT / "data" / name, tmp_path / "data" / name)
+    stage(tmp_path, tmp_path / "_site")
+    artifact = tmp_path / "_site"
+    for path in build(tmp_path):
+        assert (artifact / path).read_bytes() == (tmp_path / path).read_bytes()
+    for name in ("papers.json", "osint_cyber_papers.csv", "collection_status.json"):
+        assert (artifact / "data" / name).read_bytes() == (ROOT / "data" / name).read_bytes()
+    assert not (artifact / "data/accepted_classified.csv").exists()
+    assert not (artifact / "config").exists()
+    # Stale artifacts are cleared and absent output pages are caught.
+    (artifact / "research/stale.html").write_text("stale")
+    stage(tmp_path, artifact)
+    assert not (artifact / "research/stale.html").exists()
+    (artifact / "research/categories/osint-methodology/index.html").unlink()
+    with pytest.raises(AssertionError, match="Missing or stale"):
+        check(artifact, source_root=tmp_path)

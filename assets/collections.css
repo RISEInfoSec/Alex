@@ -1,0 +1,95 @@
+
+    :root {
+      color-scheme: light;
+      --rise-navy: #0b3046;
+      --rise-slate: #3e5062;
+      --page-background: #faf8f7;
+      --surface: #ffffff;
+      --text: #4f555b;
+      --muted: #626b73;
+      --border: #d8dde1;
+      --link: #155878;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: var(--page-background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      background: var(--rise-navy);
+      padding: 28px max(24px, 5vw);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 4px solid var(--rise-slate);
+    }
+    header img { display: block; max-width: 100%; height: auto; max-height: 100px; object-fit: contain; }
+    .rise-brand { max-width: 360px; }
+    .alex-brand { max-width: 300px; }
+    .container { width: 90%; max-width: 1440px; margin: auto; padding: 28px 0; }
+    .filters, .section {
+      background: var(--surface);
+      margin-bottom: 20px;
+      padding: 24px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      border-top: 5px solid var(--rise-navy);
+      box-shadow: 0 2px 5px rgb(11 48 70 / 7%);
+    }
+    .filter-grid { display: grid; grid-template-columns: 2fr repeat(4, 1fr); gap: 12px; }
+    .filter-grid > div { min-width: 0; }
+    .filter-grid label { display: block; font-size: 13px; color: var(--rise-slate); margin-bottom: 6px; font-weight: 600; }
+    input, select {
+      width: 100%; padding: 12px; border-radius: 4px;
+      border: 1px solid #9daab4; background: var(--surface);
+      color: var(--text); font: inherit; font-size: 14px;
+    }
+    .actions { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+    button, .button {
+      background: var(--rise-navy); color: #fff; border: 1px solid var(--rise-navy);
+      border-radius: 4px; padding: 10px 14px; cursor: pointer;
+      text-decoration: none; display: inline-block; font: inherit; font-size: 14px;
+    }
+    button:hover, .button:hover { background: var(--rise-slate); color: #fff; text-decoration: none; }
+    button.secondary, .button.secondary { background: var(--surface); border: 1px solid var(--rise-slate); color: var(--rise-navy); }
+    button.secondary:hover, .button.secondary:hover { background: #edf1f4; }
+    :focus-visible { outline: 3px solid var(--link); outline-offset: 3px; }
+    header a:focus-visible { outline-color: #fff; }
+    .section h1, .section h2, .section h3 { margin-top: 0; color: var(--rise-navy); line-height: 1.35; }
+    .section h1 { font-size: clamp(1.8rem, 2.8vw, 2.4rem); }
+    .section .lead { font-size: 1.25rem; color: var(--rise-navy); margin-bottom: 8px; }
+    .section h3 { font-size: 20px; }
+    .section { overflow-wrap: anywhere; }
+    .meta { color: var(--muted); font-size: 14px; margin-top: -6px; margin-bottom: 10px; }
+    a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--rise-navy); }
+    .summary-line { color: var(--muted); margin-bottom: 18px; }
+    footer { text-align: center; padding: 24px; font-size: 14px; background: var(--rise-slate); color: #fff; }
+    footer a { color: #fff; }
+    footer a:hover { color: #fff; }
+    @media (max-width: 1100px) { .filter-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 700px) {
+      header { flex-direction: column; padding: 24px; gap: 20px; }
+      .rise-brand { width: min(100%, 300px); }
+      .alex-brand { width: min(100%, 220px); }
+      .container { width: calc(100% - 32px); padding: 20px 0; }
+      .filters, .section { padding: 18px; }
+      .filter-grid { grid-template-columns: 1fr; }
+    }
+  
+/* Collection-only additions; this stylesheet is not loaded by ALEX search. */
+.skip-link { position: absolute; top: -80px; left: 16px; background: white; padding: 12px; z-index: 1; }
+.skip-link:focus { top: 12px; }
+.collection-nav { margin-bottom: 20px; }
+.bibliography { padding-left: 2rem; }
+.bibliography .paper { padding: 16px 0; border-bottom: 1px solid var(--border); }
+.bibliography h3 { font-size: 1.1rem; margin: 0 0 8px; }
+.bibliography p { margin: 8px 0; }
+.collection-source { font-size: .9rem; }
+.pagination { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+.pagination a, .pagination span { padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; }
+.pagination [aria-current] { color: white; background: var(--rise-navy); }

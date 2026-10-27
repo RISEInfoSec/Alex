@@ -3,6 +3,23 @@ on:
   pull_request:
     paths:
       - 'index.html'
+      - 'alex/collections.py'
+      - 'alex/taxonomy.py'
+      - 'alex/pipelines/classify.py'
+      - 'alex/pipelines/publish.py'
+      - 'config/research_collections.json'
+      - 'research/**'
+      - 'assets/**'
+      - 'data/papers.json'
+      - 'data/accepted_classified.csv'
+      - 'scripts/stage_site.py'
+      - 'tests/test_collections.py'
+      - 'tests/test_pipelines.py'
+      - 'tests/test_apwg_import.py'
+      - 'tests/conftest.py'
+      - '.github/workflows/publish.yml'
+      - '.github/workflows/rebuild_site.yml'
+      - '.github/workflows/apwg_approved_release.yml'
       - 'sitemap.xml'
       - 'robots.txt'
       - 'scripts/check_seo.py'
@@ -18,5 +35,19 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Validate homepage metadata and crawl files
-        run: python3 scripts/check_seo.py
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Test collections and publishing
+        run: python -m pytest tests/test_collections.py tests/test_pipelines.py tests/test_apwg_import.py -q
+      - name: Check committed generation
+        run: python -m alex.collections --check
+      - name: Generate and validate the actual Pages artifact (no deployment)
+        run: python scripts/stage_site.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: alex-collections-preview
+          path: _site
+          retention-days: 14
