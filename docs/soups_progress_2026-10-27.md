@@ -93,3 +93,9 @@ Artifacts: [additional collections](soups_additional_collections.json), [coverag
 The ancillary parser has 3 targeted regression tests; these and the 8 existing SOUPS review tests pass (11 total). These validate discovery/document typing, not import eligibility. No quality/citation/import pipeline, merge, deployment or public corpus mutation was run.
 
 Ancillary HTML acquisition is resumable in bounded batches: `node scripts/soups_fetch_ancillary.mjs config/soups_ancillary_sources.json`; replay inventory with `python -m alex.pipelines.soups_ancillary`. Both commands remain discovery-only.
+
+## Shared GUI for all batch reviews
+
+The user requested deployment of an accept/reject interface before further batch reviews, and clarified that it must serve all collections with explicit recommendations beside each entry. [ALEX Research Review](https://alex-research-review.neil-schwartzm917549.chatgpt.site) is now deployed owner-private. It supports collection-scoped drafts, authenticated whole-batch submissions, content-hash binding, revision conflict protection and immutable per-paper decision receipts. Current collections are SOUPS and APWG; future normalized review manifests can be registered without changing the UI. No APWG quality hold was reopened as a pending editorial decision.
+
+Before presenting more batches or applying imports, read the console’s final `review_decisions` records via Sites and reconcile them with the repository using the [documented intake procedure](review_console.md). Drafts are never approval. Current repository selections remain 109 approved, nine rejected and 20 ancillary candidates pending. Import checks remain paused per user direction.
