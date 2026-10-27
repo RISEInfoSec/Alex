@@ -44,6 +44,9 @@ jobs:
       - run: python -m pytest -q tests/test_apwg_import.py tests/test_apwg_classification_review.py tests/test_apwg_pdf_abstracts.py tests/test_apwg_editorial_review.py tests/test_apwg_import_recommendation.py tests/test_apwg_abstract_checkpoint.py tests/test_apwg_release.py tests/test_pipelines.py
   live_source_audit:
     # Read-only APWG/dblp coverage probe. Never changes accepted_classified.csv.
+    # PRs run offline regressions only. Live scholarly lookups and the
+    # downstream PDF/LLM review must be explicitly launched by a maintainer.
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     timeout-minutes: 18
     permissions:
@@ -78,7 +81,7 @@ jobs:
     # A review-only taxonomy preview from the audit artifact. No public
     # corpus writes, and every label requires human/content review.
     needs: [test, live_source_audit]
-    if: ${{ needs.test.result == 'success' && needs.live_source_audit.result == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && needs.test.result == 'success' && needs.live_source_audit.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 22
     permissions:

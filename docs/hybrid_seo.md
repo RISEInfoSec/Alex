@@ -74,6 +74,7 @@ Current Google Search Central references, consulted for this implementation:
 3. Both existing deploy paths—`pages.yml` and the Pipeline deploy job—call `python3 scripts/stage_site.py`. It regenerates at the artifact boundary, validates the source, stages all seven pilot HTML files plus CSS/assets/downloads, then validates `_site` itself before upload.
 4. The existing Pages `workflow_run` bridge also covers Rebuild site assets, whose bot-authored push cannot itself trigger Pages. It remains restricted to successful main-branch workflow completions. The main checkout, workflow permissions and `group: pages` / `cancel-in-progress: true` behavior are preserved.
 5. The PR SEO check runs tests, rejects stale committed generation, builds the same `_site`, and uploads `alex-collections-preview` as a downloadable review artifact. It does **not** deploy. Draft status does not prevent these read-only checks.
+6. Existing APWG offline regression tests still run on matching PRs. APWG live coverage lookups and the dependent PDF/LLM classification review now require `workflow_dispatch`; opening an SEO PR must not restart live ingestion/review work. No permissions or APWG record decisions are changed by this guard. The first pilot PR opening exposed the pre-existing automatic live-audit trigger; that original run needs separate cancellation because a later commit cannot retroactively change its job conditions.
 
 Commands (offline once dependencies are installed):
 

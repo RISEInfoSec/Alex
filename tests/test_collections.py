@@ -208,6 +208,15 @@ def test_both_pages_workflows_use_tested_staging_and_keep_deploy_controls():
         assert "git add -A research sitemap.xml" in workflow
 
 
+def test_apwg_network_audits_are_manual_only():
+    workflow = (ROOT / ".github/workflows/apwg_import_tests.yml").read_text()
+    audit = workflow.split("  live_source_audit:", 1)[1].split("  classification_review:", 1)[0]
+    review = workflow.split("  classification_review:", 1)[1]
+    assert "if: ${{ github.event_name == 'workflow_dispatch' }}" in audit
+    assert "if: ${{ github.event_name == 'workflow_dispatch' &&" in review
+    assert "  pull_request:" in workflow and "  test:" in workflow
+
+
 def test_actual_artifact_includes_all_pages_and_preserves_downloads(tmp_path):
     # Isolate staging; no network, deployment or source-corpus writes.
     for name in ("index.html", "robots.txt", "sitemap.xml"):
