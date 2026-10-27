@@ -1,89 +1,103 @@
-# Hybrid research collections: review pilot
+# ALEX-wide hybrid SEO architecture
 
-## Verified baseline — 27 October 2026
+## Scope and coverage
 
-- Main: `9422994515c40e91a9b878a1a4d5445db3d781cd`.
-- PR #78 merged; Pages run [40498391571](https://github.com/RISEInfoSec/Alex/actions/runs/40498391571) completed successfully.
-- Live homepage and the 3,598-record public JSON matched that main snapshot.
-- Initial homepage HTML includes the introduction, metadata, downloads and search controls, but an empty `#results`. JavaScript fetches `data/papers.json`, then initially displays five recent additions. The full-library button and filters reveal further records through interaction.
-- The baseline sitemap contains only the canonical homepage. There are no static subject bibliographies.
+This architecture covers the **entire accepted ALEX corpus across all sources**. Research categories and investigation types remain separate controlled dimensions. Membership depends solely on existing assignments, never on source, conference, publisher or import batch.
 
-These observations establish a JavaScript and interaction dependency for bibliography access, **not** an inability for Google to render or index the site. Search Console indexing data was not available for this work. No indexing or ranking gain is claimed.
+On 27 October 2026, the live homepage and public JSON matched main `9422994515c40e91a9b878a1a4d5445db3d781cd`, with 3,598 papers and successful [Pages deployment 40498391571](https://github.com/RISEInfoSec/Alex/actions/runs/40498391571). Main remains unchanged during this draft work.
 
-## Smallest maintainable extension
+Initial homepage HTML contains the introduction, metadata, downloads and search controls, but an empty results container. JavaScript loads the corpus and initially shows five additions. Browsing all records or filtering requires interaction. This establishes a rendering and interaction dependency, not an inability for Google to render or index ALEX. Search Console indexing evidence was unavailable. No indexing or ranking gain is claimed.
 
-Keep the existing homepage/search script and data downloads. Add directory-index HTML compatible with the existing GitHub Pages root/custom-domain deployment:
+The initial revision demonstrated two collections. The user subsequently authorized expansion across the taxonomy:
 
-| Route | Purpose |
-| --- | --- |
-| `/research/` | Navigation hub explaining the two classification dimensions |
-| `/research/categories/osint-methodology/` | Research-category pilot: 73 accepted records at baseline |
-| `/research/investigations/phishing-analysis/` | Investigation-type pilot: 156 accepted records at baseline |
-| `<collection>/page/2/` and subsequent pages | Fixed 50-record bibliography continuations |
+| Route family | Coverage | HTML files at baseline |
+| --- | --- | ---: |
+| `/research/` | Navigation hub and explanation of both dimensions | 1 |
+| `/research/categories/<slug>/` | 14 named research categories, including pagination | 77 |
+| `/research/investigations/<slug>/` | 10 named investigation types, including pagination | 53 |
+| `/research/bibliography/` | Complete accepted corpus, including pagination | 72 |
 
-There are two pilot collections, six bibliography HTML files and one hub. `/page/1/` is not generated. No paper-detail pages, tags, year pages or combined-filter pages are generated. The root homepage gains only a hub link and a `noscript` fallback. Its executable search JavaScript is unchanged; it does not fetch collection assets or bibliography HTML.
+There are **203 research HTML files**, plus the existing homepage: 204 sitemap URLs. Directory-index files work with the existing GitHub Pages custom-domain/root deployment. Continuations use `<collection>/page/2/` and subsequent numbered directories; `/page/1/` is never generated.
 
-Collection CSS uses the approved homepage colours, responsive rules, typography and header/footer design, with collection-only navigation/list rules. Header logo URLs and footer attribution are taken from the approved homepage. No substitute branding or new logos.
+The complete bibliography lists each of the **3,598 accepted records exactly once**. Named topic collections cover 3,451 distinct records; the remaining 147 are classified as Other in both dimensions and are included in the complete bibliography. A paper can occur in both a subject and an investigation collection without changing its assignments.
 
-## Sources and editorial review
+`research/coverage.json` accounts for all 26 controlled values, their counts, routes or reasons for omission, and full-corpus coverage. The normal reader-facing routes are the hub and bibliographies. The complete directory is a way to browse all records, not an additional classification dimension.
 
-`config/research_collections.json` is the explicit publication allowlist and the source of topic-specific editorial copy. Its two entries are pilot copy for review in this PR, not blanket approval to publish the taxonomy. Each entry has a dimension, an exact taxonomy value, an explicit stable slug, unique metadata, a topic introduction, scope, investigative-use guidance and intentional related links.
+No per-paper pages, tags, source pages, year pages or combined-filter pages are generated. The page count is finite and derived from bibliography sizes.
 
-`alex/taxonomy.py` contains the **unchanged**, ordered category and investigation-type enums extracted from `classify.py`; the classifier imports and re-exports them. This lets the standard-library collection builder validate the same controlled definitions without loading classification/API dependencies. There is no new taxonomy, reclassification or inference from title/abstract text.
+## Editorial source and record ownership
 
-`alex/collections.py` consumes `data/papers.json`, the projection of `data/accepted_classified.csv` already produced by Publish. The deployment validator independently compares the public snapshot's count, order and bibliographic/classification fields against the accepted CSV. A mismatch stops staging instead of publishing incompatible counts. No scholarly APIs or LLMs are called by generation or validation.
+`config/research_collections.json` contains explicit stable slugs, unique metadata, topic-specific introductions, scope, investigative-use guidance, concise hub summaries and intentional related links for all 24 named collections. Its `bibliography` entry supplies the complete-directory copy. This copy is authored for review in the draft PR. A new taxonomy value requires its own editorial entry before a topic page appears.
 
-Bibliography entries preserve stored titles, author strings, publication years, venue and source metadata. Display formatting removes a numeric year’s `.0`; it never substitutes APWG symposium years or retrieval dates for publication years. Prefer a syntactically valid recorded DOI, otherwise a recorded HTTP(S) source link. A separate source-page link appears where it differs. These checks validate stored URL syntax, not the external destination’s current availability. An existing link to a PDF remains a link; no PDF is fetched or republished.
+The category and investigation-type enum lists were extracted **unchanged and in the same order** from `classify.py` into dependency-free `alex/taxonomy.py`. The classifier imports and re-exports them. The collection generator validates these same controlled definitions without loading API dependencies. There is no reclassification or membership inference from title/abstract text.
 
-Some legacy records lack author or source details (at baseline: 7 author gaps in OSINT Methodology and 4 in Phishing Analysis). Those entries remain included and visibly marked. We do not repair, rescore or exclude accepted records during this SEO work. APWG collection attribution has its own labelled line and is never substituted for the publication venue/publisher. No abstracts are excerpted in this pilot; the existing abstracts remain intact in search/downloads. Abstract excerpts can be selected and reviewed separately if they add value later.
+`alex/collections.py` consumes the existing public projection `data/papers.json` of `data/accepted_classified.csv`. Publish passes that same in-memory projection to generation after export. The deployment validator independently compares count, order, citation/classification fields and abstracts against the accepted CSV. A mismatch stops staging.
 
-## Which values get pages?
+No scholarly APIs, LLM calls, PDF downloads or generated summaries are used for these pages. Existing links to original PDFs remain links.
 
-- **Explicit allowlist only.** Presence in the controlled taxonomy does not create a URL.
-- **Other:** disallowed as a collection entry in either dimension; remains searchable and unchanged in the corpus.
-- **Empty/very small:** fewer than five records means no collection page, no hub link and no sitemap entry. Five is a local editorial floor, not a Google rule or an assertion that record count establishes quality. Expansion still requires useful, reviewed copy.
-- **Identical membership:** omit a later allowlisted collection with exactly the same membership and report it for review. Allowlist order determines the retained route. No cross-dimensional canonical is guessed.
-- **Substantial overlap:** report Jaccard similarity of 80% or more. Distinct subjects/applications can share records; similarity alone does not make their pages duplicates. Existing distinct allowlisted pages remain self-canonical. Evaluate purpose and editorial differentiation before adding more collections.
-- **Partial overlap:** a record appears in each applicable collection. It is counted once within each dimension's exact assignment, not silently moved or retagged.
+Bibliography entries preserve recorded titles, author strings, publication years, venue and source attribution. Rendering removes a numeric year’s `.0`; it never substitutes collection, retrieval or symposium years for publication years. Prefer a syntactically valid recorded DOI, otherwise an existing HTTP(S) source. Show a distinct source-page link when available. Syntax checks do not establish current external availability.
 
-The current pilot collections share no records. Related links explicitly describe another perspective rather than asserting shared membership.
+Collection provenance has its own labelled line and never replaces the publication venue or publisher. Missing citation details are marked. No new abstract excerpts are published; existing abstracts remain intact in search/downloads. Some legacy metadata, including unusually long titles, remains imperfect and is preserved for later human review.
 
-`research/` is exclusively generated output. Generation removes obsolete files there, so shrinking collections and removed allowlist entries cannot leave stale bibliography pages. Slugs are stored, never recomputed from mutable labels. A future published-slug change or removal needs an explicit link/redirect/retirement review; GitHub Pages has no general server-side redirect rules. This pilot adds new routes only.
+## Miscellaneous, small and overlapping collections
 
-## Pagination, canonicalization and crawl controls
+- **Named values:** all 14 named categories and 10 named investigation types have authored copy and routes. Every current named value has at least 15 records.
+- **Other:** no generic topic landing page is generated in either dimension. The hub shows counts and links to the complete bibliography. Assignments and accepted records are unchanged.
+- **Empty/small:** fewer than five records means no topic page, hub link or sitemap entry. Five is local editorial policy, not a Google quality rule. The complete bibliography still covers those records.
+- **Identical membership:** omit an exactly identical later allowlisted topic collection and report it for review. Allowlist order determines the retained route. The complete bibliography is not suppressed by this rule because it provides full coverage and assignment navigation.
+- **Substantial overlap:** report Jaccard similarity of 80% or more for editorial review. Overlap does not itself make different subjects/applications duplicates. Existing distinct pages remain self-canonical. Current named collections do not trigger the threshold.
+- **Partial overlap:** preserve every stored assignment. Count a record once per applicable bibliography and once in the complete directory.
 
-Each collection has a full count and a deterministic bibliography ordered by publication year descending, then title and stable metadata. Pages contain at most 50 records and include ordinary HTML links to the previous, next and numbered pages. First pages contain the editorial guidance; continuations link to it and have distinct titles/descriptions/H1s and record ranges.
+`research/` is exclusively generated output. Regeneration removes obsolete files when page counts shrink or editorial entries are withdrawn. Slugs are explicit rather than recomputed from mutable labels. Future changes to a publicly deployed route require a link/redirect/retirement review; GitHub Pages has no general server-side redirect configuration. This draft adds new routes only.
 
-Every generated page has one absolute HTTPS self-canonical. Continuations have different records and therefore do **not** canonicalize to page one. The sitemap includes the homepage, hub and all generated bibliography pages, with no fabricated modification timestamps. Directory URLs are the canonical form; internal links do not use `/index.html` aliases.
+## Deferred human review
 
-Search filters remain in-memory controls, without adding query-string navigation or combinations to the sitemap. Homepage fragments such as `/#search` are navigation anchors, not new indexable filter routes. No new `robots.txt` restrictions are required. Unbuilt collection routes are absent, rather than empty indexable stubs. Query parameters manually attached to static collection URLs do not vary their content; the static self-canonical continues to identify the clean URL.
+The user plans to review irrelevant and other problematic records later, particularly those labelled Other. Do not rescore, reclassify, reject or remove them during this SEO work.
 
-JSON-LD uses `CollectionPage` and an `ItemList` describing only the records visibly present on that page, with corresponding positions, titles and original-source URLs where available. No per-paper structured-data pages or rich-result promises.
+The future process should use a **human-friendly GUI**: readable paper details and source links, checkboxes, clear keep/reject decisions, an undecided state, a review step before applying changes, and recovery from mistakes. Ordinary editorial decisions should not require CSV editing or GitHub navigation. That interface is a separate future task; no review GUI or new corpus decisions are implemented here.
 
-Current Google Search Central references, consulted for this implementation:
+## Pagination and crawl decisions
 
-- [JavaScript SEO basics](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics): rendering can expose client-generated content; prerendered content is also useful for crawlers that do not execute JavaScript.
-- [Pagination and incremental loading](https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading): use crawlable page links, distinct URLs and self-canonicals; crawlers generally do not click buttons to reveal content.
-- [Canonical URL methods](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls): consistent canonical annotations and sitemap URLs communicate a preference; they do not guarantee Google's choice.
-- [Crawlable links](https://developers.google.com/search/docs/crawling-indexing/links-crawlable): ordinary anchors with resolvable `href` values support discovery.
+Each bibliography page displays up to 50 records, the full count and its record range. Order is deterministic: recorded publication year descending, then title and stable metadata. Sequential frontend IDs do not affect ordering. First pages contain substantive topic guidance; continuations link back and have unique titles, descriptions and H1s.
 
-## Generation and every publishing path
+Ordinary HTML pagination links include previous/next, first/last and a small window around the current page. Ellipses keep navigation usable even for the 72-page complete directory. Every generated page is reachable from the hub through HTML links. A “Go to the bibliography” anchor avoids a long introductory scroll.
 
-1. `python -m alex.cli publish` still exports the existing corpus and now calls the common generator on that same in-memory projection. The empty-input preservation path generates from the retained public snapshot. It never changes accepted records or collection status solely for an asset rebuild.
-2. Weekly Pipeline, standalone Publish assets, Rebuild site assets and APWG approved release each stage `research/` and `sitemap.xml` alongside their existing outputs. `git add -A` captures obsolete-page deletions as well as additions.
-3. Both existing deploy paths—`pages.yml` and the Pipeline deploy job—call `python3 scripts/stage_site.py`. It regenerates at the artifact boundary, validates the source, stages all seven pilot HTML files plus CSS/assets/downloads, then validates `_site` itself before upload.
-4. The existing Pages `workflow_run` bridge also covers Rebuild site assets, whose bot-authored push cannot itself trigger Pages. It remains restricted to successful main-branch workflow completions. The main checkout, workflow permissions and `group: pages` / `cancel-in-progress: true` behavior are preserved.
-5. The PR SEO check runs tests, rejects stale committed generation, builds the same `_site`, and uploads `alex-collections-preview` as a downloadable review artifact. It does **not** deploy. Draft status does not prevent these read-only checks.
-6. Existing APWG offline regression tests still run on matching PRs. APWG live coverage lookups and the dependent PDF/LLM classification review now require `workflow_dispatch`; opening an SEO PR must not restart live ingestion/review work. No permissions or APWG record decisions are changed by this guard. The first pilot PR opening exposed the pre-existing automatic live-audit trigger; that original run needs separate cancellation because a later commit cannot retroactively change its job conditions.
+Each page has one absolute HTTPS self-canonical. Continuations have distinct records and do **not** canonicalize to page one. Sitemap entries include the homepage, hub and bibliography pages, without fabricated modification dates. Internal links use canonical directory routes, not `/index.html` aliases. The coverage JSON is not a sitemap page.
 
-Commands (offline once dependencies are installed):
+Search filters remain in-memory controls. No query-string filter combinations are linked or added to the sitemap. Fragments such as `/#search` are navigation anchors. Manually attached query parameters do not vary a static page’s content; the clean self-canonical remains in initial HTML. Existing `robots.txt` is unchanged.
+
+JSON-LD uses CollectionPage and ItemList for the records visibly present on each page, with corresponding positions, titles and original-source URLs where available. No rich-result eligibility is promised.
+
+Google Search Central references consulted:
+
+- [JavaScript SEO basics](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics): rendering can expose client-generated content; prerendered content also serves crawlers that do not execute JavaScript.
+- [Pagination and incremental loading](https://developers.google.com/search/docs/specialty/ecommerce/pagination-and-incremental-page-loading): crawlable links, distinct URLs and self-canonicals; crawlers generally do not click buttons to reveal content.
+- [Canonical URL methods](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls): consistent annotations and sitemap URLs express a preference without guaranteeing Google’s choice.
+- [Crawlable links](https://developers.google.com/search/docs/crawling-indexing/links-crawlable): ordinary anchors with resolvable href values support discovery.
+
+## Publishing integration
+
+1. `python -m alex.cli publish` exports the existing corpus and calls the generator on that projection. Its empty-input preservation path generates from the retained public snapshot. Rebuilding assets does not independently change collection status.
+2. Weekly Pipeline, standalone Publish, Rebuild site assets and approved-release workflows stage `research/` and `sitemap.xml` alongside existing outputs. `git add -A` includes obsolete-page deletions.
+3. Both deploy paths use `python3 scripts/stage_site.py`. It regenerates at the artifact boundary, validates accepted/public corpus parity, stages all HTML/CSS/assets/downloads and validates `_site` before upload.
+4. The Pages workflow-run bridge includes successful main-branch rebuilds along with existing publishing paths. Bot-authored pushes cannot themselves trigger downstream workflows. Main checkouts, permissions and Pages concurrency (`group: pages`, `cancel-in-progress: true`) are preserved.
+5. PR validation runs offline tests, checks committed generation and uploads the same `_site` as `alex-collections-preview` for review. It does **not** deploy.
+6. Existing import-related offline regressions still run on PRs. Legacy live-source audits and dependent PDF/LLM review require manual dispatch so SEO changes do not restart ingestion. Neither permissions nor corpus decisions change.
+
+The homepage gains only a collection link and no-JavaScript fallback. Its executable search script, public downloads/corpus, branding, domain, HTTPS and responsive design are unchanged. Collection pages reuse the approved design/header/footer. Their CSS is not loaded by homepage search.
+
+## Validation and approval boundary
+
+Tests independently check exact accepted membership for every topic, complete-corpus coverage, source-neutral membership, miscellaneous-only and empty corpora, pagination bounds, HTML-link reachability, metadata, structured data, sitemap, regeneration and obsolete-page cleanup. Staging verifies the actual Pages artifact and byte-for-byte preservation of public downloads.
+
+The PR job also runs `scripts/check_collection_layouts.py` in an isolated Chromium runner at 320, 390 and 1440 pixels with JavaScript disabled. It checks every research HTML page, native pagination, keyboard skip navigation and the existing JavaScript search. The separate `alex-layout-review` artifact contains screenshots and a machine-readable report; no screenshots are deployed. Playwright is installed only in the test runner, and the bounded validation-job timeout accommodates browser setup. Production dependencies and deployment permissions are unchanged.
 
 ```sh
-python -m alex.collections           # rebuild collection HTML and sitemap
+python -m alex.collections           # rebuild HTML, coverage report and sitemap
 python -m alex.collections --check   # reject stale committed outputs
-python scripts/check_seo.py         # metadata, corpus parity, links and sitemap
+python scripts/check_seo.py         # markup, corpus parity, coverage and links
 python scripts/stage_site.py        # exact validated Pages artifact
-python -m pytest -q                 # existing suite plus collection tests
+python -m pytest -q                 # full offline test suite
 ```
 
-The initial implementation is a review pilot. Merging, deploying, expanding the allowlist and changing APWG editorial decisions are outside this PR's authorization. After any approved deployment, verify live responses and use Search Console separately to inspect rendering, Google-selected canonical URLs and eventual indexing.
+This is an expanded **draft for user review**. Merge and deployment still require explicit approval. After any approved deployment, live HTTP checks and Search Console inspection remain separate from artifact validation. Making bibliographies crawlable is not evidence that Google has indexed or ranked them.

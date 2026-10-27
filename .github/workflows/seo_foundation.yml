@@ -13,6 +13,7 @@ on:
       - 'data/papers.json'
       - 'data/accepted_classified.csv'
       - 'scripts/stage_site.py'
+      - 'scripts/check_collection_layouts.py'
       - 'tests/test_collections.py'
       - 'tests/test_pipelines.py'
       - 'tests/test_apwg_import.py'
@@ -33,7 +34,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -47,6 +48,19 @@ jobs:
         run: python -m alex.collections --check
       - name: Generate and validate the actual Pages artifact (no deployment)
         run: python scripts/stage_site.py
+      - name: Prepare isolated layout-test browser
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Verify every collection layout and existing search
+        run: python scripts/check_collection_layouts.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: alex-layout-review
+          path: _layout_review
+          if-no-files-found: warn
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         with:
           name: alex-collections-preview

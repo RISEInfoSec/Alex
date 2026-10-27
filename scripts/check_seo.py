@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import csv
+from collections import Counter
 import struct
 import sys
 from html.parser import HTMLParser
@@ -25,6 +26,7 @@ class Homepage(HTMLParser):
         super().__init__()
         self.titles = []
         self.h1s = []
+        self.h3s = []
         self.descriptions = []
         self.canonicals = []
         self.meta = {}
@@ -46,7 +48,7 @@ class Homepage(HTMLParser):
             self.resources.append(attrs.get("href", ""))
         if tag == "li" and attrs.get("class") == "paper":
             self.paper_count += 1
-        if tag == "title" or tag == "h1" or (
+        if tag in {"title", "h1", "h3"} or (
             tag == "script" and attrs.get("type") == "application/ld+json"
         ):
             self._capture = "json_ld" if tag == "script" else tag
@@ -134,15 +136,20 @@ def check(root: Path = ROOT, source_root: Path | None = None) -> None:
             assert left == right, f"Public metadata differs from accepted: {output} / {public.get('title')}"
 
     expected = build(source_root, papers)
-    collection_paths = {p for p in expected if p.startswith("research/")}
+    managed_paths = {p for p in expected if p.startswith("research/")}
+    collection_paths = {p for p in managed_paths if p.endswith(".html")}
     actual_paths = {str(p.relative_to(root)) for p in (root / "research").rglob("*") if p.is_file()}
-    assert actual_paths == collection_paths, "Missing or stale collection pages"
+    assert actual_paths == managed_paths, "Missing or stale collection pages"
+    assert (root / "research/coverage.json").read_text(encoding="utf-8") == expected["research/coverage.json"], "Stale corpus coverage report"
     titles, descriptions = set(), set()
+    complete_titles = []
     for path in sorted(collection_paths):
         raw = (root / path).read_text(encoding="utf-8")
         assert raw == expected[path], f"Generated collection content is stale: {path}"
         parsed = Homepage()
         parsed.feed(raw)
+        if path.startswith("research/bibliography/"):
+            complete_titles.extend(parsed.h3s)
         canonical = BASE + path.removesuffix("index.html")
         assert len(parsed.titles) == len(parsed.descriptions) == len(parsed.h1s) == 1, path
         assert parsed.titles[0] not in titles and parsed.descriptions[0] not in descriptions, "Duplicate collection metadata"
@@ -169,6 +176,8 @@ def check(root: Path = ROOT, source_root: Path | None = None) -> None:
                 destination = Homepage()
                 destination.feed(target.read_text(encoding="utf-8"))
                 assert url.fragment in destination.ids, f"Broken anchor in {path}: {href}"
+
+    assert Counter(complete_titles) == Counter(str(p.get("title") or "Title metadata incomplete").strip() for p in papers), "Complete bibliography must cover every accepted record exactly once"
 
     sitemap_path = root / "sitemap.xml"
     xml = ET.parse(sitemap_path).getroot()

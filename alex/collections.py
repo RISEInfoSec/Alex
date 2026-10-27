@@ -50,8 +50,11 @@ def paper_url(paper: dict) -> str:
 
 
 def route(collection: dict, page: int = 1) -> str:
-    prefix = DIMENSIONS[collection["dimension"]][0]
-    root = f"research/{prefix}/{collection['slug']}/"
+    if collection["dimension"] == "corpus":
+        root = "research/bibliography/"
+    else:
+        prefix = DIMENSIONS[collection["dimension"]][0]
+        root = f"research/{prefix}/{collection['slug']}/"
     return root if page == 1 else root + f"page/{page}/"
 
 
@@ -74,14 +77,18 @@ def load_editorial(root: Path) -> list[dict]:
             raise ValueError("Duplicate collection route or taxonomy assignment")
         seen.add(key)
         values.add((dimension, value))
-        for field in ("title", "description", "intro", "scope", "use"):
+        for field in ("title", "description", "summary", "intro", "scope", "use"):
             if not isinstance(collection.get(field), str) or not collection[field].strip():
                 raise ValueError(f"Missing editorial field: {field}")
     for collection in collections:
         if any(key + "/" not in seen for key in collection.get("related", [])):
             raise ValueError("Related collection must reference the explicit allowlist")
+    bibliography = config["bibliography"]
+    for field in ("title", "description", "intro", "scope", "use"):
+        if not isinstance(bibliography.get(field), str) or not bibliography[field].strip():
+            raise ValueError(f"Missing complete-bibliography editorial field: {field}")
     for field in ("title", "description"):
-        if len({c[field] for c in collections}) != len(collections):
+        if len({c[field] for c in collections + [bibliography]}) != len(collections) + 1:
             raise ValueError(f"Collection {field}s must be unique")
     return collections
 
@@ -119,7 +126,7 @@ def anchor(path: str, label: str) -> str:
     return f'<a href="/{escape(path, quote=True)}">{escape(label)}</a>'
 
 
-def layout(root: Path, title: str, description: str, path: str, body: str, structured: dict) -> str:
+def layout(root: Path, title: str, description: str, path: str, body: str, structured: dict, has_bibliography: bool = True) -> str:
     # Reuse the approved header/footer markup verbatim; no new logo assets.
     homepage = (root / "index.html").read_text(encoding="utf-8")
     header = homepage[homepage.index("<header>"):homepage.index("</header>") + len("</header>")]
@@ -149,7 +156,7 @@ def layout(root: Path, title: str, description: str, path: str, body: str, struc
 <a class="skip-link" href="#main">Skip to content</a>
 {header}
 <main class="container" id="main">
-<nav class="collection-nav" aria-label="Library navigation">{anchor('#search', 'Search ALEX')} · {anchor('research/', 'Research collections')}</nav>
+<nav class="collection-nav" aria-label="Library navigation">{anchor('#search', 'Search ALEX')} · {anchor('research/', 'Research collections')}{' · ' + anchor('research/bibliography/', 'Complete bibliography') if has_bibliography else ''}</nav>
 {body}
 </main>
 {footer}
@@ -158,7 +165,7 @@ def layout(root: Path, title: str, description: str, path: str, body: str, struc
 '''
 
 
-def bibliography_item(paper: dict) -> str:
+def bibliography_item(paper: dict, taxonomy_routes: dict | None = None) -> str:
     title = escape(str(paper.get("title") or "Title metadata incomplete"))
     url = paper_url(paper)
     title = f'<a href="{escape(url, quote=True)}">{title}</a>' if url else title
@@ -177,7 +184,15 @@ def bibliography_item(paper: dict) -> str:
             name = f'<a href="{escape(collection_url, quote=True)}">{name}</a>'
         attribution = f'<p class="collection-source"><strong>Collection:</strong> {name}</p>'
     availability = '<p>Source link not recorded in ALEX.</p>' if not url else ""
-    return f'<li class="paper"><h3>{title}</h3><p>{author} ({year}){venue}</p>{attribution}{availability}{"<p>" + " · ".join(links) + "</p>" if links else ""}</li>'
+    assignments = ""
+    if taxonomy_routes is not None:
+        labels = []
+        for dimension, (_, label, _) in DIMENSIONS.items():
+            value = str(paper.get(dimension) or "Not specified")
+            target = taxonomy_routes.get((dimension, value))
+            labels.append(f'{label}: {anchor(target, value) if target else escape(value)}')
+        assignments = '<p class="meta">' + ' · '.join(labels) + '</p>'
+    return f'<li class="paper"><h3>{title}</h3><p>{author} ({year}){venue}</p>{assignments}{attribution}{availability}{"<p>" + " · ".join(links) + "</p>" if links else ""}</li>'
 
 
 def pagination(collection: dict, current: int, total: int) -> str:
@@ -186,35 +201,83 @@ def pagination(collection: dict, current: int, total: int) -> str:
     links = []
     if current > 1:
         links.append(anchor(route(collection, current - 1), "Previous"))
-    links.extend(f'<span aria-current="page">Page {n}</span>' if n == current else anchor(route(collection, n), f"Page {n}") for n in range(1, total + 1))
+    numbers = sorted({1, total, *range(max(1, current - 2), min(total, current + 2) + 1)})
+    previous = 0
+    for n in numbers:
+        if previous and n - previous > 1:
+            links.append('<span class="pagination-gap" aria-hidden="true">…</span>')
+        links.append(f'<span aria-current="page">Page {n}</span>' if n == current else anchor(route(collection, n), f"Page {n}"))
+        previous = n
     if current < total:
         links.append(anchor(route(collection, current + 1), "Next"))
     return '<nav class="pagination" aria-label="Bibliography pages">' + " ".join(links) + '</nav>'
+
+
+def coverage_report(papers: list[dict], editorial: list[dict], active: list[dict]) -> dict:
+    """Account for every record and taxonomy value without changing assignments."""
+    active_values = {(c["dimension"], c["value"]): route(c) for c in active}
+    configured_values = {(c["dimension"], c["value"]) for c in editorial}
+    topic_covered = sum(any((dimension, p.get(dimension)) in active_values for dimension in DIMENSIONS) for p in papers)
+    rows = []
+    for dimension, (_, _, values) in DIMENSIONS.items():
+        for value in values:
+            count = sum(p.get(dimension) == value for p in papers)
+            path = active_values.get((dimension, value))
+            if path:
+                reason = "Topic bibliography"
+            elif value == "Other":
+                reason = "Miscellaneous assignment; records included in the complete bibliography"
+            elif not count:
+                reason = "Empty; no topic page generated"
+            elif count < MIN_RECORDS:
+                reason = "Below local editorial floor; records included in the complete bibliography"
+            elif (dimension, value) not in configured_values:
+                reason = "Editorial copy not configured; records included in the complete bibliography"
+            else:
+                reason = "Identical-membership collection omitted; records included in the complete bibliography"
+            rows.append({"dimension": dimension, "value": value, "count": count, "path": path, "handling": reason})
+    return {"total_papers": len(papers), "complete_bibliography_records": len(papers),
+            "topic_collection_records": topic_covered, "complete_bibliography_only_records": len(papers) - topic_covered,
+            "topic_collections": len(active), "taxonomy": rows}
 
 
 def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
     """Return the complete managed output, with no filesystem mutations."""
     if papers is None:
         papers = json.loads((root / "data/papers.json").read_text(encoding="utf-8"))
-    active, notes = select_collections(papers, load_editorial(root))
+    editorial = load_editorial(root)
+    active, notes = select_collections(papers, editorial)
+    report = coverage_report(papers, editorial, active)
+    bibliography_copy = json.loads((root / "config/research_collections.json").read_text(encoding="utf-8"))["bibliography"]
+    complete = {**bibliography_copy, "dimension": "corpus", "value": "Complete research bibliography", "papers": sorted(papers, key=sort_key)}
     for note in notes:
         print(note)
-    outputs = {}
+    outputs = {"research/coverage.json": json.dumps(report, ensure_ascii=False, indent=2) + "\n"}
     hub = '''<section class="section"><h1>Cybercrime &amp; OSINT research collections</h1>
 <p>Browse subject and investigation bibliographies from the ALEX research library. Research categories describe a paper’s subject; investigation types describe its investigative application. A paper can appear in both dimensions.</p>
 <p>These collections provide publication references and original source links without requiring JavaScript. For full abstracts, keyword searches and all available classifications, <a href="/#search">search the complete library</a>.</p></section>'''
-    for dimension, (_, label, _) in DIMENSIONS.items():
+    if papers:
+        hub += f'<section class="section"><h2>Browse the complete library</h2><p>{len(papers):,} accepted papers across all sources. {anchor(route(complete), "Open the complete research bibliography")} for a publication-year listing, including papers classified as Other.</p><p><a href="#categories">Research categories</a> · <a href="#investigations">Investigation types</a></p></section>'
+    for dimension, (prefix, label, _) in DIMENSIONS.items():
         collections = [c for c in active if c["dimension"] == dimension]
         if collections:
-            hub += f'<section class="section"><h2>{label} collections</h2><ul>'
+            hub += f'<section class="section" id="{prefix}"><h2>{label} collections</h2><ul>'
             for collection in collections:
-                hub += f'<li>{anchor(route(collection), collection["value"])} — {len(collection["papers"]):,} papers<p>{escape(collection["scope"])}</p></li>'
+                hub += f'<li>{anchor(route(collection), collection["value"])} — {len(collection["papers"]):,} papers<p>{escape(collection.get("summary", collection["scope"]))}</p></li>'
             hub += '</ul></section>'
+        elif papers:
+            hub += f'<section class="section" id="{prefix}"><h2>{label} collections</h2><p>No topic bibliographies are currently available in this dimension. Browse the {anchor(route(complete), "complete bibliography")} for all accepted records.</p></section>'
+    if papers:
+        other_counts = [(label, sum(p.get(dimension) == "Other" for p in papers)) for dimension, (_, label, _) in DIMENSIONS.items()]
+        hub += '<section class="section"><h2>Records classified as Other</h2><p>Other is a miscellaneous classification rather than a single research subject. '
+        hub += '; '.join(f'{label}: {count:,} papers' for label, count in other_counts) + '. Counts from the two dimensions can overlap.</p>'
+        hub += f'<p>These records remain in the {anchor(route(complete), "complete bibliography")}. Their existing assignments are preserved.</p></section>'
     if not active:
-        hub += '<section class="section"><p>No collection bibliographies are currently available. Use ALEX search to browse the library.</p></section>'
-    outputs["research/index.html"] = layout(root, "Cybercrime & OSINT Research Collections | ALEX by RISE", "Browse ALEX research bibliographies by subject and investigative application, with publication details and links to original sources.", "research/", hub, {"@type": "CollectionPage", "name": "Cybercrime & OSINT research collections", "url": BASE + "research/"})
+        hub += '<section class="section"><p>No topic bibliographies are currently available. Use ALEX search or the complete bibliography when available to browse the library.</p></section>'
+    outputs["research/index.html"] = layout(root, "Cybercrime & OSINT Research Collections | ALEX by RISE", "Browse ALEX research bibliographies by subject and investigative application, with publication details and links to original sources.", "research/", hub, {"@type": "CollectionPage", "name": "Cybercrime & OSINT research collections", "url": BASE + "research/"}, has_bibliography=bool(papers))
     active_routes = {route(c).removeprefix("research/"): c for c in active}
-    for collection in active:
+    taxonomy_routes = {(c["dimension"], c["value"]): route(c) for c in active}
+    for collection in active + ([complete] if papers else []):
         members = collection["papers"]
         total = math.ceil(len(members) / PAGE_SIZE)
         for page in range(1, total + 1):
@@ -222,11 +285,13 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
             start = (page - 1) * PAGE_SIZE
             chunk = members[start:start + PAGE_SIZE]
             suffix = f" — Page {page}" if page > 1 else ""
-            heading = collection["value"] + " research" + suffix
+            is_complete = collection["dimension"] == "corpus"
+            heading = collection["value"] + ("" if is_complete else " research") + suffix
             title = collection["title"] if page == 1 else collection["title"].replace(" | ", f" — Page {page} | ", 1)
-            description = collection["description"] if page == 1 else f"{collection['value']} bibliography, page {page} of {total}: records {start + 1}–{start + len(chunk)} of {len(members)}. Original publication details and source links from ALEX."
+            description = collection["description"] if page == 1 else f"{collection['value']}{'' if is_complete else ' bibliography'}, page {page} of {total}: records {start + 1}–{start + len(chunk)} of {len(members)}. Original publication details and source links from ALEX."
             body = f'<section class="section"><h1>{escape(heading)}</h1>'
-            body += f'<p class="lead">{len(members):,} papers · {DIMENSIONS[collection["dimension"]][1]}</p><p><a href="#bibliography">Go to the bibliography</a></p>'
+            dimension_label = "Complete accepted corpus" if is_complete else DIMENSIONS[collection["dimension"]][1]
+            body += f'<p class="lead">{len(members):,} papers · {dimension_label}</p><p><a href="#bibliography">Go to the bibliography</a></p>'
             if page == 1:
                 body += f'<p>{escape(collection["intro"])}</p><h2>Scope of this collection</h2><p>{escape(collection["scope"])}</p><h2>Using this research</h2><p>{escape(collection["use"])}</p>'
             else:
@@ -234,7 +299,7 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
             body += '<p>References reproduce the metadata held by ALEX. Missing author, year or source details are identified in the listing. Publication years are shown as recorded; collection and retrieval dates are not substituted. Follow the original source to verify a citation.</p></section>'
             pager = pagination(collection, page, total)
             body += f'<section class="section" id="bibliography"><h2>Bibliography</h2><p>Showing {start + 1}–{start + len(chunk)} of {len(members):,} papers, ordered by publication year (newest first), then title.</p>{pager}<ol class="bibliography" start="{start + 1}">'
-            body += '\n'.join(bibliography_item(p) for p in chunk)
+            body += '\n'.join(bibliography_item(p, taxonomy_routes if is_complete else None) for p in chunk)
             body += '</ol>' + pager + '</section>'
             related = [active_routes[key + "/"] for key in collection.get("related", []) if key + "/" in active_routes]
             if related:
@@ -245,7 +310,7 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
                               {"@type": "ListItem", "position": start + i + 1, "name": str(p.get("title") or "Title metadata incomplete"),
                                **({"url": paper_url(p)} if paper_url(p) else {})} for i, p in enumerate(chunk)]}}
             outputs[path + "index.html"] = layout(root, title, description, path, body, structured)
-    urls = [BASE] + [BASE + path.removesuffix("index.html") for path in sorted(outputs)]
+    urls = [BASE] + [BASE + path.removesuffix("index.html") for path in sorted(outputs) if path.endswith(".html")]
     outputs["sitemap.xml"] = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{xml_escape(url)}</loc></url>\n' for url in urls) + '</urlset>\n'
     return outputs
 

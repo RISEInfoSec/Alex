@@ -4,13 +4,14 @@ from __future__ import annotations
 import csv
 import json
 import shutil
+from collections import Counter
 from pathlib import Path
 
 import pandas as pd
 import pytest
 from bs4 import BeautifulSoup
 
-from alex.collections import BASE, PAGE_SIZE, build, generate, load_editorial, route, select_collections
+from alex.collections import BASE, PAGE_SIZE, build, generate, load_editorial, pagination, route, select_collections
 from alex.pipelines import publish
 from alex.taxonomy import CATEGORIES, INVESTIGATION_TYPES
 from scripts.check_seo import check
@@ -99,14 +100,15 @@ def test_empty_small_and_identical_memberships_are_omitted(collection_site):
     for p in source:
         p["investigation_type"] = "Phishing Analysis"
     active, notes = select_collections(source, editorial)
-    assert len(active) == 1 and "identical membership" in notes[0]
+    assert len(active) == 1 and any("identical membership" in note for note in notes)
     # Overlap below identity preserves both dimensions and reports high overlap.
     source[0]["investigation_type"] = "Other"
     active, notes = select_collections(source, editorial)
-    assert len(active) == 2 and "90%" in notes[0]
+    assert len(active) == 2 and any("90%" in note for note in notes)
     output = build(collection_site, [])
-    assert set(output) == {"research/index.html", "sitemap.xml"}
-    assert "No collection bibliographies" in output["research/index.html"]
+    assert set(output) == {"research/index.html", "research/coverage.json", "sitemap.xml"}
+    assert "No topic bibliographies" in output["research/index.html"]
+    assert '/research/bibliography/' not in output["research/index.html"]
 
 
 @pytest.mark.parametrize("change", [
@@ -215,6 +217,92 @@ def test_apwg_network_audits_are_manual_only():
     assert "if: ${{ github.event_name == 'workflow_dispatch' }}" in audit
     assert "if: ${{ github.event_name == 'workflow_dispatch' &&" in review
     assert "  pull_request:" in workflow and "  test:" in workflow
+
+
+def test_editorial_covers_every_named_controlled_taxonomy_value():
+    editorial = load_editorial(ROOT)
+    assert {c["value"] for c in editorial if c["dimension"] == "category"} == set(CATEGORIES) - {"Other"}
+    assert {c["value"] for c in editorial if c["dimension"] == "investigation_type"} == set(INVESTIGATION_TYPES) - {"Other"}
+    for field in ("intro", "scope", "use", "summary"):
+        assert len({c[field] for c in editorial}) == len(editorial)
+
+
+def test_complete_bibliography_covers_all_sources_and_miscellaneous_records():
+    records = json.loads((ROOT / "data/papers.json").read_text())
+    output = build(ROOT)
+    visible = []
+    for path, raw in output.items():
+        if path.startswith("research/bibliography/") and path.endswith(".html"):
+            visible.extend(h.get_text() for h in BeautifulSoup(raw, "html.parser").select("li.paper h3"))
+    assert Counter(visible) == Counter(p["title"] for p in records)
+    # This assertion explicitly includes records from every source and both-Other.
+    for record in records:
+        assert record["title"] in visible
+    report = json.loads(output["research/coverage.json"])
+    assert report["total_papers"] == report["complete_bibliography_records"] == len(records)
+    expected_miscellaneous = sum(p["category"] == "Other" and p["investigation_type"] == "Other" for p in records)
+    assert report["complete_bibliography_only_records"] == expected_miscellaneous
+    assert report["topic_collections"] == len(load_editorial(ROOT))
+    assert len(report["taxonomy"]) == len(CATEGORIES) + len(INVESTIGATION_TYPES)
+    assert all(row["path"] is None for row in report["taxonomy"] if row["value"] == "Other")
+    assert not any('/other/' in path for path in output)
+
+
+def test_collection_membership_never_filters_by_source(collection_site):
+    records = papers(12)
+    records[0]["collection_source"] = "APWG.org eCrimes Research"
+    records[1]["collection_source"] = "Independent research archive"
+    records[2]["collection_source"] = ""
+    output = build(collection_site, records)
+    page = soup(output, "research/categories/osint-methodology/")
+    assert Counter(h.get_text() for h in page.select('li.paper h3')) == Counter(p["title"] for p in records)
+    assert "APWG.org eCrimes Research" in page.get_text()
+    assert "Independent research archive" in page.get_text()
+
+
+def test_miscellaneous_only_corpus_keeps_every_record_without_topic_stubs(collection_site):
+    records = papers(4)
+    for paper in records:
+        paper["category"] = paper["investigation_type"] = "Other"
+    output = build(collection_site, records)
+    assert set(output) == {'research/index.html', 'research/bibliography/index.html', 'research/coverage.json', 'sitemap.xml'}
+    report = json.loads(output['research/coverage.json'])
+    assert report['complete_bibliography_only_records'] == 4
+    assert len(soup(output, 'research/bibliography/').select('li.paper')) == 4
+    assert 'Research category: Other' in soup(output, 'research/bibliography/').get_text()
+
+
+def test_large_bibliography_pagination_is_bounded_and_has_crawlable_neighbors():
+    complete = {'dimension': 'corpus'}
+    for current in (1, 2, 36, 71, 72):
+        page = BeautifulSoup(pagination(complete, current, 72), 'html.parser')
+        assert len(page.select('a')) <= 8
+        assert page.select_one('[aria-current="page"]').get_text() == f'Page {current}'
+        if current > 1:
+            assert page.find('a', string='Previous')['href'] == '/' + route(complete, current - 1)
+        if current < 72:
+            assert page.find('a', string='Next')['href'] == '/' + route(complete, current + 1)
+        assert not any('?page=' in a['href'] for a in page.select('a'))
+
+
+def test_every_static_bibliography_page_is_reachable_from_hub():
+    output = build(ROOT)
+    expected = {path for path in output if path.endswith('.html')}
+    visited, pending = set(), ['research/index.html']
+    while pending:
+        path = pending.pop()
+        if path in visited:
+            continue
+        visited.add(path)
+        page = BeautifulSoup(output[path], 'html.parser')
+        for link in page.select('a[href]'):
+            href = link['href'].split('#', 1)[0]
+            if not href.startswith('/research/'):
+                continue
+            target = href.lstrip('/') + ('index.html' if href.endswith('/') else '')
+            if target in expected and target not in visited:
+                pending.append(target)
+    assert visited == expected
 
 
 def test_actual_artifact_includes_all_pages_and_preserves_downloads(tmp_path):
