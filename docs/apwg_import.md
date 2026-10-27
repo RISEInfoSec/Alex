@@ -265,3 +265,17 @@ assumptions as current operational guidance. All approvals retain exact
 reviewed abstract hashes and verified OpenAlex preference. Paper 21 remains
 explicitly held. Publication, corpus import, merge and deployment remain
 unauthorized; quality gates and the live corpus are unchanged.
+
+
+### Approved human-review tier batch: papers 29–38
+
+The user approved ten individually reviewed candidates from the existing
+human-quality-review tier, bringing the editorial shortlist to **38**.
+Scores remain 57.76–59.92; approval does not relabel these as automatic passes
+or alter thresholds. Corrections: 31 OSINT Methodology / Other (training-method
+study); 34 Dark Web & Underground / Dark Web Analysis; 36 Social Media &
+SOCMINT / Social Media Analysis (Telegram); 37 Cybercrime & Fraud / Other
+(ransomware financial event study, not incident response). Other pairs retain
+the reviewed recommendations. Source artifact: 12701110589, run 40427031598.
+All decisions bind identity and abstract hashes. There are 54 further
+human-review candidates in that snapshot. Publication remains unauthorized.
