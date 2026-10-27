@@ -16,7 +16,7 @@ from pathlib import Path
 
 from alex.pipelines import classify
 from alex.pipelines.apwg_quality_review import assess, load_policy
-from alex.pipelines.apwg_editorial_review import decision_for, normalized_abstract
+from alex.pipelines.apwg_editorial_review import decision_for, normalized_abstract, apply_abstract_override, abstract_digest
 from alex.utils.io import root_file, load_json
 from alex.utils.text import clean
 
@@ -114,6 +114,11 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
         result["review_flags"] = "possible_duplicate_needs_review"
         return result
 
+    row, source_corrected = apply_abstract_override(row)
+    if source_corrected:
+        result["abstract"] = row["abstract"]
+        result["abstract_source"] = row["abstract_source"]
+        issues.append("Verified author abstract replaces reviewed incomplete source version")
     entry, editorial_status = decision_for(row)
     if entry and editorial_status == "approved":
         # Keep approval tied to the exact reviewed content. Normalize only
@@ -157,6 +162,17 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
             "editorial_classification_status": "held",
             "editorial_review_basis": "config/apwg_editorial_decisions.json; explicit user-approved hold",
         })
+        correction = entry.get("abstract_override", {})
+        reviewed_source = correction.get("source", "") + "; " + correction.get("source_url", "")
+        if (entry.get("classification_approved") is True and
+                abstract_digest(row.get("abstract", "")) == correction.get("sha256") and
+                clean(row.get("abstract_source")) == reviewed_source):
+            if (entry["category"] not in classify.CATEGORIES or
+                    entry["investigation_type"] not in classify.INVESTIGATION_TYPES):
+                raise ValueError("Editorial decision outside established taxonomy")
+            result["proposed_category"] = entry["category"]
+            result["proposed_investigation_type"] = entry["investigation_type"]
+            result["editorial_classification_status"] = "approved"
         issues.append("Editorial hold: " + entry["reason"])
         result["review_flags"] = "; ".join(issues)
         return result

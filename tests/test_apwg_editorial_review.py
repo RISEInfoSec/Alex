@@ -155,3 +155,49 @@ def test_explicit_hold_survives_score_and_new_abstract_until_reviewed(monkeypatc
     assert 'completeness' in result['review_flags']
     existing = review.review_row({**row, 'in_existing_alex_corpus': 'true'}, classifier=no_model)
     assert existing['classification_status'] == 'existing_alex_record_preserved'
+
+
+def test_author_exception_is_identity_source_and_content_bound_and_idempotent(tmp_path, monkeypatch):
+    entry = editorial.decisions()['10.1109/ecrime.2009.5342609']
+    correction = entry['abstract_override']
+    # The real source version is exercised by the artifact replay. Here a
+    # controlled hash verifies the same guards without duplicating its text.
+    from copy import deepcopy
+    entry = deepcopy(entry)
+    entry['abstract_override']['replaces_sha256'] = editorial.abstract_digest('Reviewed short abstract')
+    row = {'doi': entry['doi'], 'title': entry['title'], 'year': str(entry['year']),
+           'abstract': 'Reviewed short abstract', 'abstract_source': correction['replaces_source']}
+    from unittest.mock import patch
+    with patch.object(editorial, 'decisions', return_value={entry['doi']: entry}):
+        fixed, changed = editorial.apply_abstract_override(row)
+        assert changed and fixed['abstract'] == ' '.join(correction['abstract'].split())
+        assert row['abstract'] == 'Reviewed short abstract'
+        assert editorial.apply_abstract_override(fixed) == (fixed, False)
+        for field, value in [('doi','10.1234/other'), ('title','Different'), ('year','2010'),
+                             ('abstract','New OpenAlex version'), ('abstract_source','Other'),
+                             ('in_existing_alex_corpus','true'),
+                             ('duplicate_review_status','hold_possible_variant')]:
+            changed_row = {**row, field:value}
+            assert editorial.apply_abstract_override(changed_row) == (changed_row, False)
+        source, output, audit = (tmp_path / p for p in ['input.csv', 'output.csv', 'audit.csv'])
+        row['apwg_paper_url'] = 'https://ieeexplore.ieee.org/document/5342609/'
+        with source.open('w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=list(row))
+            writer.writeheader(); writer.writerow(row)
+        monkeypatch.setattr(pdf, 'fetch_pdf_abstract', lambda *a, **k: pytest.fail('No PDF request'))
+        summary = pdf.enrich(source, output, audit)
+        enriched = next(csv.DictReader(output.open()))
+        assert enriched['abstract'] == fixed['abstract']
+        assert enriched['abstract_source'] == fixed['abstract_source']
+        assert summary['abstract_status_counts']['verified_author_abstract_replacement'] == 1
+        result = review.review_row(enriched, classifier=lambda _: pytest.fail('No classifier'))
+        assert result['editorial_selection_status'] == 'held'
+        assert result['editorial_classification_status'] == 'approved'
+        assert result['proposed_category'] == 'Cybercrime & Fraud'
+        assert result['publication_approved'] == 'false'
+        unreviewed = review.review_row({**enriched, 'abstract': 'Changed upstream abstract'})
+        assert unreviewed['editorial_classification_status'] == 'held'
+        assert unreviewed['proposed_category'] == ''
+        entry['abstract_override']['abstract'] += ' tampered'
+        with pytest.raises(ValueError, match='digest'):
+            editorial.apply_abstract_override(row)

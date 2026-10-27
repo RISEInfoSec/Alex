@@ -35,3 +35,27 @@ The 27 approved selections, live corpus and publication gate are unchanged.
 This update records evidence and a recommendation only. JSON was parsed and
 approval/hold invariants checked; no pipeline execution or score validation
 was possible because the execution environment became unavailable.
+
+
+## Approved correction and unchanged-policy rescore
+
+The user agreed to the author-source exception, rescoring and proposed
+classification. The manifest now stores the complete original author abstract,
+its source URL and SHA-256, and the reviewed incomplete OpenAlex source/hash.
+Review enrichment replaces only that exact identity/source/content combination;
+changed upstream text is not overwritten. Existing records and possible
+duplicates retain precedence. No PDF request is needed for this correction.
+Both bibliography enrichment and direct classification review apply the same
+idempotent correction before scoring. Global OpenAlex preference is unchanged.
+
+Replay against artifact 12701110589 changes the score from **61.55 to 65.96**;
+core-term and relevance gates pass with unchanged thresholds and weights.
+The contribution is a banking anti-phishing framework using honeytokens and
+automated decoy users; classification is approved as **Cybercrime & Fraud /
+Phishing Analysis**, replacing Malware & Exploits. The source page describes a
+proposal; this is not a claim of demonstrated deployment effectiveness.
+
+Editorial selection remains pending explicit review of this corrected record;
+27 previous selections remain approved. Publication remains unauthorized.
+The earlier execution limitation above describes the evidence-only commit;
+the correction was subsequently tested and scored in the restored environment.

@@ -20,7 +20,7 @@ from pypdf import PdfReader
 
 from alex.utils.text import clean, normalize_title
 from alex.pipelines.apwg_classification_review import fallback_watchlist
-from alex.pipelines.apwg_editorial_review import normalized_abstract
+from alex.pipelines.apwg_editorial_review import normalized_abstract, apply_abstract_override
 
 MAX_PDF_BYTES = 6 * 1024 * 1024
 MAX_ABSTRACT_CHARACTERS = 2600
@@ -166,6 +166,8 @@ def enrich(input_path: Path, output_path: Path, audit_path: Path, max_pdfs: int 
     audit = []
     session = requests.Session()
     for i, row in rows:
+        row, source_corrected = apply_abstract_override(row)
+        records[i] = row
         url = clean(row.get("apwg_paper_url"))
         is_priority = normalize_title(row.get("title", "")) in watch
         status = "already_has_abstract" if clean(row.get("abstract")) else "not_attempted"
@@ -186,6 +188,8 @@ def enrich(input_path: Path, output_path: Path, audit_path: Path, max_pdfs: int 
         if glyph_cleanup:
             row["abstract"] = corrected
             row["abstract_source"] += "; visually verified editorial fi/fl glyph cleanup"
+        if source_corrected:
+            status = "verified_author_abstract_replacement"
         audit.append({
             "apwg_year": row.get("apwg_year", ""),
             "title": row.get("title", ""),

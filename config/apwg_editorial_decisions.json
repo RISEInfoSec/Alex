@@ -607,12 +607,12 @@
       "title": "A novel anti-phishing framework based on honeypots",
       "year": 2009,
       "selection_approved": false,
-      "classification_approved": false,
+      "classification_approved": true,
       "editorial_hold": true,
       "reviewed_abstract_sha256": "1469fa9c1bdfdd8717e713c2f8f6d4c189525951d6e708dc9c6c881f922ebc13",
       "source_run": 40427031598,
       "source_artifact": 12701110589,
-      "reason": "Abstract completeness check resolved: the reviewed OpenAlex text contains only the first paragraph of the author's three-paragraph original abstract. It omits the proposed framework and phoneybots. Hold remains pending a source-specific metadata correction, rescoring and explicit editorial review. OpenAlex preference is unchanged globally.",
+      "reason": "Abstract completeness resolved using the approved author-source exception. Classification approved; editorial selection remains pending individual quality review of the corrected abstract. Publication remains unauthorized.",
       "abstract_completeness_status": "confirmed_incomplete_in_reviewed_snapshot",
       "completeness_evidence": {
         "checked_date": "2026-10-26",
@@ -621,8 +621,21 @@
         "finding": "Author companion page identifies the exact title, both authors, 2009 IEEE proceedings and DOI, and supplies three abstract paragraphs. Reviewed OpenAlex text ends after paragraph one. Indexed author PDF first-page abstract also contains the missing framework and phoneybot paragraphs; direct PDF retrieval timed out.",
         "recommended_category": "Cybercrime & Fraud",
         "recommended_investigation_type": "Phishing Analysis",
-        "recommendation_status": "proposed_not_approved",
-        "source_override_approved": false
+        "recommendation_status": "source_and_classification_approved_selection_pending",
+        "source_override_approved": true
+      },
+      "category": "Cybercrime & Fraud",
+      "investigation_type": "Phishing Analysis",
+      "abstract_override": {
+        "approved": true,
+        "approval_date": "2026-10-26",
+        "basis": "User agreed with recommendation to use complete author abstract, rescore and classify as Cybercrime & Fraud / Phishing Analysis",
+        "replaces_sha256": "1469fa9c1bdfdd8717e713c2f8f6d4c189525951d6e708dc9c6c881f922ebc13",
+        "replaces_source": "OpenAlex title/DOI verified",
+        "abstract": "As a powerful anti-phishing tool, honeypots have been widely used by security service providers and financial institutes to collect phishing mails, so that new phishing sites can be earlier detected and quickly shut down. Another popular use of honeypots is to collect useful information about phishers\u2019 activities, which is used to make various kinds of statistics for the purposes of research and forensics. Recently, it has also been proposed to actively feed phishers with honeytokens.\n\nIn the present paper, we discuss some problems of existing antiphishing solutions based on honeypots. We propose to overcome these problems by transforming the real e-banking system itself into a honeypot equipped with honeytokens and supported by some other kinds of honeypots. A phishing detector is used to automatically detect suspicious phishers\u2019 attempts of stealing money from victims\u2019 accounts, and then ask for the potential victims\u2019 reconfirmation. This leads to a novel anti-phishing framework based on honeypots.\n\nAs an indispensable part of the framework, we also propose to use phoneybots, i.e., active honeypots running in virtual machines and mimicking real users\u2019 behavior to access the real ebanking system automatically, in order to submit honeytokens to pharmers and phishing malware. The involvement of phoneybots is crucial to fight gainst advanced phishing attacks such as pharming and malware-based phishing attacks.",
+        "sha256": "fe55525f45e8c1afbc4de20a0d125bc23d8bb647b23d9c591179107db0492d55",
+        "source": "Author companion page explicit abstract; verified DOI/title/year",
+        "source_url": "https://www.hooklee.com/honeypots4anti-phishing.asp"
       }
     }
   ]

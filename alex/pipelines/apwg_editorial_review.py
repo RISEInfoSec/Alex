@@ -67,3 +67,23 @@ def normalized_abstract(row: dict) -> tuple[str, bool]:
     if abstract_digest(corrected) != entry["approved_abstract_sha256"]:
         raise ValueError("Glyph correction differs from reviewed abstract")
     return corrected, corrected != original
+
+
+def apply_abstract_override(row: dict) -> tuple[dict, bool]:
+    """Replace one verified incomplete source version in review outputs only."""
+    if (clean(row.get("in_existing_alex_corpus")).lower() == "true" or
+            clean(row.get("duplicate_review_status")) in
+            {"exact_doi_or_title_match", "hold_possible_variant"}):
+        return row, False
+    entry, _ = reviewed_identity(row)
+    correction = (entry or {}).get("abstract_override", {})
+    if correction.get("approved") is not True:
+        return row, False
+    if (abstract_digest(row.get("abstract", "")) != correction["replaces_sha256"] or
+            clean(row.get("abstract_source")) != correction["replaces_source"]):
+        return row, False
+    replacement = clean(correction["abstract"])
+    if abstract_digest(replacement) != correction["sha256"]:
+        raise ValueError("Author abstract differs from reviewed source digest")
+    return {**row, "abstract": replacement,
+            "abstract_source": correction["source"] + "; " + correction["source_url"]}, True
