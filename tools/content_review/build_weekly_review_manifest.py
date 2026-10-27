@@ -23,7 +23,7 @@ def sha(v):return hashlib.sha256(v).hexdigest()
 def number(v):
  try:return float(v)
  except (ValueError,TypeError):return None
-def build():
+def build(limit=138,output='/tmp/weekly-ready-manifest.json',receipt_name='weekly_preparation_receipt.json',extra_manifests=()):
  csv.field_size_limit(sys.maxsize)
  raw=SOURCE.read_bytes();source=list(csv.DictReader(io.StringIO(raw.decode())))
  inputs=json.loads(INPUTS.read_text());index={r['screen_number']:r for r in inputs}
@@ -32,6 +32,8 @@ def build():
  for path in [ROOT/'alex-soups/config/soups_review_manifest.json',ROOT/'alex-virusbulletin/data/review_manifest.json']:
   if not path.exists():path=ROOT/'config'/('soups_review_manifest.json' if 'soups' in str(path) else 'virusbulletin_review_manifest.json')
   if path.exists():corpus.extend(json.loads(path.read_text()).get('records',[]))
+ for path in extra_manifests:
+  extra=json.loads(Path(path).read_text());corpus.extend(extra if isinstance(extra,list) else extra.get('records',[]))
  titles=[(norm(r.get('title')),r) for r in corpus];dois={doi(r.get('doi')) for r in corpus if r.get('doi')}
  urls={url(r.get(k)) for r in corpus for k in ('source_url','Harvest_Source_URL','pdf_url','paper_url') if r.get(k)}
  records=[];holds=[dict(screen_number=n,reason=reason) for n,reason in [(41,'abstract_not_substantive'),(44,'truncated_abstract'),(78,'duplicate_of_screen_77_html_entity_variant'),(84,'software_release_requires_resource_adapter'),(117,'truncated_abstract'),(119,'podcast_requires_audio_resource_adapter'),(143,'book_description_requires_substantive_text_review')]];seen=set();seen_titles=set();weights=json.loads((DATA_ROOT/'config/quality_weights.json').read_text())
@@ -51,7 +53,7 @@ def build():
   abstract=r['abstract'].strip()
   if not abstract or len(abstract)<400 or len(abstract)>6500:raise ValueError('Invalid assessed evidence')
   seen.add(identity);seen_titles.add(title)
-  if len(records)>=138:holds.append(dict(screen_number=r['screen_number'],reason='assessed_reserve_outside_initial_138'));continue
+  if len(records)>=limit:holds.append(dict(screen_number=r['screen_number'],reason='assessed_reserve_outside_initial_'+str(limit)));continue
   n=len(records)+1;year=int(float(r['year']));preprint=r['is_preprint'].lower()=='true'
   recent=2026-year<weights['recent_paper_window_years'];auto=weights['preprint_auto_include_threshold'] if preprint or recent else weights['auto_include_threshold'];review=weights['preprint_review_threshold'] if preprint or recent else weights['review_threshold']
   score=number(r['total_quality_score'])
@@ -77,8 +79,7 @@ def build():
  evidence_counts=Counter('empty_abstract' if not r.get('abstract','').strip() else 'abstract_under_400_characters' if len(r['abstract'].strip())<400 else 'abstract_over_6500_characters' if len(r['abstract'].strip())>6500 else 'abstract_400_to_6500_characters' for r in source)
  source_summary=dict(url='https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv',source_sha256=sha(raw),raw_records=len(source),nonempty_abstracts=sum(bool(r.get('abstract','').strip()) for r in source),abstract_length_inventory=dict(evidence_counts),discovery_source_counts=dict(Counter(r['discovery_source'] for r in source)),decision_tier_counts=dict(Counter(r['recommended_action'] for r in source)),screened_slice_count=len(inputs),future_arrivals='Retain all 4041 raw records outside active buffer and inspect CSV updates hourly; ingest changed source fingerprints additively and never reset completed decisions.',priority_note='Zenodo and other providers were not rejected globally; this initial slice prioritises complete scholarly abstracts from selected providers. Excluded provider records remain in raw inventory.')
  manifest=dict(schema_version=1,collection_id='weekly',collection_source='ALEX regular weekly discovery review queue',run_date=DATE,publication_approved=False,source_inventory=source_summary,records=records,prepared_count=len(records),assessment_count=len(assessments),duplicate_holds=holds,automatic_acceptance_policy='Preserve existing source-appropriate automatic acceptance. These are explicit existing human-review-tier records; no quality exceptions granted.',backlog_is_not_review_ready=True)
- Path('/tmp/weekly-ready-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
- (HERE/'weekly_preparation_receipt.json').write_text(json.dumps(dict(source_inventory=source_summary,prepared_count=len(records),assessments=len(assessments),recommendation_counts=dict(Counter(r['recommendation'] for r in records)),document_type_counts=dict(Counter(r['document_type'] for r in records)),filter_reason_counts=dict(Counter(r['reason'] for r in holds)),holds=holds,candidate_ids=[r['candidate_id'] for r in records]),ensure_ascii=False,indent=2)+'\n')
+ Path(output).write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
+ (HERE/receipt_name).write_text(json.dumps(dict(source_inventory=source_summary,prepared_count=len(records),assessments=len(assessments),recommendation_counts=dict(Counter(r['recommendation'] for r in records)),document_type_counts=dict(Counter(r['document_type'] for r in records)),filter_reason_counts=dict(Counter(r['reason'] for r in holds)),holds=holds,candidate_ids=[r['candidate_id'] for r in records]),ensure_ascii=False,indent=2)+'\n')
  print(json.dumps(dict(prepared=len(records),assessed=len(assessments),holds=holds,source_sha256=source_summary['source_sha256'])))
 if __name__=='__main__':build()
-
