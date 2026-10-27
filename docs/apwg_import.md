@@ -495,3 +495,17 @@ suppressed separately. No unreviewed APWG candidates remain. The pending
 worklist contains 67 unpublished records: 65 selected with holds intact and
 the two undecided holds. All new decisions remain review-only; the existing
 90-paper release bundle, live corpus and quality policy are unchanged.
+
+
+### October 27 reconsideration: papers 50 and 90
+
+The user explicitly accepted 50, *Identifying Unintended Harms of Cybersecurity
+Countermeasures*, as Foundations & Surveys / Other, and rejected 90,
+*Koobface: The evolution of the social botnet*. These decisions supersede their
+earlier editorial holds. Final editorial accounting is 156 selections (90
+already published and 66 unpublished with quality/metadata review intact),
+12 explicit rejections, no undecided holds and one separately suppressed
+existing ALEX match. All 168 potential additions now have a final editorial
+selection decision. Paper 50 retains its human-quality-review requirement;
+acceptance does not authorize publication. The existing release bundle and
+live corpus are unchanged.
