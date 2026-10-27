@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-27T23:05:43.163744+00:00",
+  "updated_at": "2026-10-27T23:43:28.145712+00:00",
   "records": [
     {
       "key": "virusbulletin/vb-2025-16decf5155fa227b39/40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c/1/1",
@@ -14,7 +14,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-16decf5155fa227b39",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -45,11 +45,34 @@
           "checked_at": "2026-10-27T23:01:05.910261+00:00",
           "content_sha256": "40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-16decf5155fa227b39",
+              "content_sha256": "40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3AWhen+avatars+come+alive&per-page=10",
+              "checked_at": "2026-10-27T23:40:48.395383+00:00",
+              "result_count": 0,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:40:48.395383+00:00",
+          "content_sha256": "40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-16decf5155fa227b39",
+            "content_sha256": "40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3AWhen+avatars+come+alive&per-page=10",
+            "checked_at": "2026-10-27T23:40:48.395383+00:00",
+            "result_count": 0,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -134,7 +157,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -152,7 +174,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-17d33473609bfbf5f8",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -183,11 +205,34 @@
           "checked_at": "2026-10-27T23:00:30.570097+00:00",
           "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-17d33473609bfbf5f8",
+              "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3ASilent+Lynx+uncovering+a&per-page=10",
+              "checked_at": "2026-10-27T23:40:52.497767+00:00",
+              "result_count": 0,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:40:52.497767+00:00",
+          "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-17d33473609bfbf5f8",
+            "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3ASilent+Lynx+uncovering+a&per-page=10",
+            "checked_at": "2026-10-27T23:40:52.497767+00:00",
+            "result_count": 0,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -272,7 +317,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -290,7 +334,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-235a7b4e68aeb6c9e7",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -321,11 +365,34 @@
           "checked_at": "2026-10-27T23:00:38.781842+00:00",
           "content_sha256": "84bff2ecbdfb31e5b2f416736e4a1a1290b8dab95b786e6fd76f7051463c7b7e",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-235a7b4e68aeb6c9e7",
+              "content_sha256": "84bff2ecbdfb31e5b2f416736e4a1a1290b8dab95b786e6fd76f7051463c7b7e",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3AUnmasking+GrassCall+campaign+the&per-page=10",
+              "checked_at": "2026-10-27T23:40:56.481740+00:00",
+              "result_count": 0,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:40:56.481740+00:00",
+          "content_sha256": "84bff2ecbdfb31e5b2f416736e4a1a1290b8dab95b786e6fd76f7051463c7b7e",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-235a7b4e68aeb6c9e7",
+            "content_sha256": "84bff2ecbdfb31e5b2f416736e4a1a1290b8dab95b786e6fd76f7051463c7b7e",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3AUnmasking+GrassCall+campaign+the&per-page=10",
+            "checked_at": "2026-10-27T23:40:56.481740+00:00",
+            "result_count": 0,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -410,7 +477,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -428,7 +494,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-26d60fe73064b6d6f1",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -459,11 +525,34 @@
           "checked_at": "2026-10-27T23:00:26.264083+00:00",
           "content_sha256": "917ad329b95859c800409b2e8ba8cb1688eb5888bfa5975ed50d0c74bad40b8f",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-26d60fe73064b6d6f1",
+              "content_sha256": "917ad329b95859c800409b2e8ba8cb1688eb5888bfa5975ed50d0c74bad40b8f",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3AGoodbye+loaders%2C+hello+RMM&per-page=10",
+              "checked_at": "2026-10-27T23:41:01.294847+00:00",
+              "result_count": 0,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:41:01.294847+00:00",
+          "content_sha256": "917ad329b95859c800409b2e8ba8cb1688eb5888bfa5975ed50d0c74bad40b8f",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-26d60fe73064b6d6f1",
+            "content_sha256": "917ad329b95859c800409b2e8ba8cb1688eb5888bfa5975ed50d0c74bad40b8f",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3AGoodbye+loaders%2C+hello+RMM&per-page=10",
+            "checked_at": "2026-10-27T23:41:01.294847+00:00",
+            "result_count": 0,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -548,7 +637,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -566,7 +654,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-2a6e68cfd7e666d6aa",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -597,11 +685,34 @@
           "checked_at": "2026-10-27T23:00:21.815548+00:00",
           "content_sha256": "18214c7f4c22e57afac4675388aabfd7c4f6c5840b4b123b1b56864e31937a04",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-2a6e68cfd7e666d6aa",
+              "content_sha256": "18214c7f4c22e57afac4675388aabfd7c4f6c5840b4b123b1b56864e31937a04",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3AGoogle+Calendar+as+C2&per-page=10",
+              "checked_at": "2026-10-27T23:41:05.890149+00:00",
+              "result_count": 0,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:41:05.890149+00:00",
+          "content_sha256": "18214c7f4c22e57afac4675388aabfd7c4f6c5840b4b123b1b56864e31937a04",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-2a6e68cfd7e666d6aa",
+            "content_sha256": "18214c7f4c22e57afac4675388aabfd7c4f6c5840b4b123b1b56864e31937a04",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3AGoogle+Calendar+as+C2&per-page=10",
+            "checked_at": "2026-10-27T23:41:05.890149+00:00",
+            "result_count": 0,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -686,7 +797,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -704,7 +814,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-3f38a01b9044131a9b",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -735,11 +845,34 @@
           "checked_at": "2026-10-27T23:00:57.548867+00:00",
           "content_sha256": "6c63f0197311b7c6030dcc0958c22ea93f87f4c4e4c3c54ddc554bdfecbd7b7e",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-3f38a01b9044131a9b",
+              "content_sha256": "6c63f0197311b7c6030dcc0958c22ea93f87f4c4e4c3c54ddc554bdfecbd7b7e",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3AVo1d+rising+inside+the&per-page=10",
+              "checked_at": "2026-10-27T23:41:10.381958+00:00",
+              "result_count": 0,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:41:10.381958+00:00",
+          "content_sha256": "6c63f0197311b7c6030dcc0958c22ea93f87f4c4e4c3c54ddc554bdfecbd7b7e",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-3f38a01b9044131a9b",
+            "content_sha256": "6c63f0197311b7c6030dcc0958c22ea93f87f4c4e4c3c54ddc554bdfecbd7b7e",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3AVo1d+rising+inside+the&per-page=10",
+            "checked_at": "2026-10-27T23:41:10.381958+00:00",
+            "result_count": 0,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -824,7 +957,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -842,7 +974,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-4405a9ca8db74f6aec",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -873,11 +1005,34 @@
           "checked_at": "2026-10-27T23:00:16.968509+00:00",
           "content_sha256": "37efc7f774b4251658fac7cb911abd4b42e5f1a8540d221b60caba090374dfd4",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-4405a9ca8db74f6aec",
+              "content_sha256": "37efc7f774b4251658fac7cb911abd4b42e5f1a8540d221b60caba090374dfd4",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3AInvisible+thieves+in+the&per-page=10",
+              "checked_at": "2026-10-27T23:41:14.969824+00:00",
+              "result_count": 2,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:41:14.969824+00:00",
+          "content_sha256": "37efc7f774b4251658fac7cb911abd4b42e5f1a8540d221b60caba090374dfd4",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-4405a9ca8db74f6aec",
+            "content_sha256": "37efc7f774b4251658fac7cb911abd4b42e5f1a8540d221b60caba090374dfd4",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3AInvisible+thieves+in+the&per-page=10",
+            "checked_at": "2026-10-27T23:41:14.969824+00:00",
+            "result_count": 2,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -962,7 +1117,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -980,7 +1134,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-4cf4c387d9f4f212ff",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -1011,11 +1165,34 @@
           "checked_at": "2026-10-27T23:01:01.854553+00:00",
           "content_sha256": "31352f0b7f8dcd7197ac731fd5f1f8f564c68fe7281ad04fa25a505eba4a4291",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-4cf4c387d9f4f212ff",
+              "content_sha256": "31352f0b7f8dcd7197ac731fd5f1f8f564c68fe7281ad04fa25a505eba4a4291",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3AArachnid+alert+Latrodectus+loader&per-page=10",
+              "checked_at": "2026-10-27T23:41:19.610842+00:00",
+              "result_count": 0,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:41:19.610842+00:00",
+          "content_sha256": "31352f0b7f8dcd7197ac731fd5f1f8f564c68fe7281ad04fa25a505eba4a4291",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-4cf4c387d9f4f212ff",
+            "content_sha256": "31352f0b7f8dcd7197ac731fd5f1f8f564c68fe7281ad04fa25a505eba4a4291",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3AArachnid+alert+Latrodectus+loader&per-page=10",
+            "checked_at": "2026-10-27T23:41:19.610842+00:00",
+            "result_count": 0,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -1100,7 +1277,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -1118,7 +1294,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-5850070a1c35c72767",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -1149,11 +1325,34 @@
           "checked_at": "2026-10-27T23:00:52.601138+00:00",
           "content_sha256": "d96a1d11f79915c72b50cf7ca7042dfa941c8ad2f40e1ff508c9cbc76cab1f35",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-5850070a1c35c72767",
+              "content_sha256": "d96a1d11f79915c72b50cf7ca7042dfa941c8ad2f40e1ff508c9cbc76cab1f35",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3AHunting+potential+C2+commands&per-page=10",
+              "checked_at": "2026-10-27T23:41:23.959321+00:00",
+              "result_count": 0,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:41:23.959321+00:00",
+          "content_sha256": "d96a1d11f79915c72b50cf7ca7042dfa941c8ad2f40e1ff508c9cbc76cab1f35",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-5850070a1c35c72767",
+            "content_sha256": "d96a1d11f79915c72b50cf7ca7042dfa941c8ad2f40e1ff508c9cbc76cab1f35",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3AHunting+potential+C2+commands&per-page=10",
+            "checked_at": "2026-10-27T23:41:23.959321+00:00",
+            "result_count": 0,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -1238,7 +1437,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -1256,7 +1454,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-85f5e56172a15844de",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -1287,11 +1485,34 @@
           "checked_at": "2026-10-27T23:00:48.037641+00:00",
           "content_sha256": "8ebf97bcbef16bd31350cdc2895aeec4ebe3e812dfbcf1beb0a6df8a1a76248a",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-85f5e56172a15844de",
+              "content_sha256": "8ebf97bcbef16bd31350cdc2895aeec4ebe3e812dfbcf1beb0a6df8a1a76248a",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3ACracked+by+the+GRU&per-page=10",
+              "checked_at": "2026-10-27T23:41:28.607799+00:00",
+              "result_count": 1,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:41:28.607799+00:00",
+          "content_sha256": "8ebf97bcbef16bd31350cdc2895aeec4ebe3e812dfbcf1beb0a6df8a1a76248a",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-85f5e56172a15844de",
+            "content_sha256": "8ebf97bcbef16bd31350cdc2895aeec4ebe3e812dfbcf1beb0a6df8a1a76248a",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3ACracked+by+the+GRU&per-page=10",
+            "checked_at": "2026-10-27T23:41:28.607799+00:00",
+            "result_count": 1,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -1376,7 +1597,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -1394,7 +1614,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-875aea5c60cc2e1440",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -1425,11 +1645,34 @@
           "checked_at": "2026-10-27T23:00:34.568504+00:00",
           "content_sha256": "cc733ed43483eeced8b10e5ee3f841af2bdf62088be730e9d755cb0b428045b9",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-875aea5c60cc2e1440",
+              "content_sha256": "cc733ed43483eeced8b10e5ee3f841af2bdf62088be730e9d755cb0b428045b9",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3AThe+dark+prescription+inside&per-page=10",
+              "checked_at": "2026-10-27T23:41:33.238493+00:00",
+              "result_count": 0,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:41:33.238493+00:00",
+          "content_sha256": "cc733ed43483eeced8b10e5ee3f841af2bdf62088be730e9d755cb0b428045b9",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-875aea5c60cc2e1440",
+            "content_sha256": "cc733ed43483eeced8b10e5ee3f841af2bdf62088be730e9d755cb0b428045b9",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3AThe+dark+prescription+inside&per-page=10",
+            "checked_at": "2026-10-27T23:41:33.238493+00:00",
+            "result_count": 0,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -1514,7 +1757,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -1532,7 +1774,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-f5bba218ffdf8c505b",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-27T23:05:43.163744+00:00",
+      "updated_at": "2026-10-27T23:43:28.145712+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -1563,11 +1805,34 @@
           "checked_at": "2026-10-27T23:00:43.580440+00:00",
           "content_sha256": "fbb7a90a4efb9c17c67b9290abff8c73c6900a2c3ef312848c1e82109852d877",
           "evidence": "Searched text extracted from first three PDF pages; external registries and remaining pages not searched. No inferred absence of DOI.",
-          "candidates": []
+          "candidates": [],
+          "registry_searches": [
+            {
+              "candidate_id": "vb-2025-f5bba218ffdf8c505b",
+              "content_sha256": "fbb7a90a4efb9c17c67b9290abff8c73c6900a2c3ef312848c1e82109852d877",
+              "source_url": "https://api.openalex.org/works?filter=title.search%3ATA+Phone+Home+EDR&per-page=10",
+              "checked_at": "2026-10-27T23:41:38.159016+00:00",
+              "result_count": 0,
+              "citation_count": null,
+              "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+            }
+          ]
         },
         "citation_evidence": {
-          "status": "pending",
-          "value": null
+          "status": "completed_unknown",
+          "checked_at": "2026-10-27T23:41:38.159016+00:00",
+          "content_sha256": "fbb7a90a4efb9c17c67b9290abff8c73c6900a2c3ef312848c1e82109852d877",
+          "value": null,
+          "evidence": {
+            "candidate_id": "vb-2025-f5bba218ffdf8c505b",
+            "content_sha256": "fbb7a90a4efb9c17c67b9290abff8c73c6900a2c3ef312848c1e82109852d877",
+            "source_url": "https://api.openalex.org/works?filter=title.search%3ATA+Phone+Home+EDR&per-page=10",
+            "checked_at": "2026-10-27T23:41:38.159016+00:00",
+            "result_count": 0,
+            "citation_count": null,
+            "limitation": "No unique exact normalized-title/year match among returned indexed works; citation/DOI unknown, not verified zero/absent."
+          },
+          "limitations": "Registry lookup completed; no matching indexed work verified. Unknown citation count is not scientific rejection or verified zero."
         },
         "live_source_refresh": {
           "status": "passed",
@@ -1652,7 +1917,6 @@
       "next_action": "Resume each listed missing/held stage from unchanged hash-bound evidence; do not repeat editorial review or authorize publication.",
       "remaining_checks": [
         "doi_discovery",
-        "citation_evidence",
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
@@ -19133,7 +19397,9 @@
       "requests": 0,
       "tokens": 0
     },
-    "no_publication_authorized": true
+    "no_publication_authorized": true,
+    "citation_registry_lookups_completed": 12,
+    "verified_citation_counts": 0
   },
   "provenance": "Real Virus Bulletin batch5 completed submission; no production test decisions and no fabricated completed checks."
 }
