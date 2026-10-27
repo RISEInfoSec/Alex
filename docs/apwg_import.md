@@ -279,3 +279,16 @@ SOCMINT / Social Media Analysis (Telegram); 37 Cybercrime & Fraud / Other
 the reviewed recommendations. Source artifact: 12701110589, run 40427031598.
 All decisions bind identity and abstract hashes. There are 54 further
 human-review candidates in that snapshot. Publication remains unauthorized.
+
+
+### Approved human-review tier batch: papers 39–48
+
+The user approved the next ten individually reviewed candidates, bringing
+the editorial shortlist to **48**. Scores remain 55.42–57.69. Paper 44,
+Department-Specific Security Awareness Campaigns, uses Cybercrime & Fraud /
+Other rather than unsupported Disinformation & Influence / Social Media
+Analysis. Other pairs retain the reviewed recommendations. Paper 42 is an
+exploratory criminological study, not proof that game cheating causes crime.
+Source artifact: 12701110589, run 40427031598. There are 44 further candidates
+in the human-review tier in that snapshot. Quality thresholds and gates are
+unchanged; editorial selection does not authorize publication or import.
