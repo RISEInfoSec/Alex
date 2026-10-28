@@ -34,7 +34,7 @@
   "global_deficit": 250,
   "soups_batch_deficit": 5,
   "last_completed_at": "2026-10-28T02:54:42Z",
-  "last_action": "Reused hash-verified actual PDF bytes to reconcile 34 literal printed USENIX venue names with preserved BibTeX aliases. Existing whitelist, score functions, weights and thresholds unchanged. Six SOUPS candidates now pass quality; 94 remain quality-held. Independent normalized review-record structural subchecks passed for those six, but full target-import/schema validation remains held. No source refetch or paid API call. All 132 latest decisions valid, weekly source/corpus unchanged; exact immutable-commit readbacks confirm 0 cleared-ready.",
+  "last_action": "Checkpointed another 20 SOUPS source/PDF pairs and citation lookups: format/access/metadata 66/100, quality 8 passed/92 held, full schema still held. Ten legacy VB presentation abstracts verified, one poster verified, one linked paper 404 retained as retryable access failure. Continuing remaining SOUPS source checks.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -46,7 +46,10 @@
     "openai_requests": 0,
     "openai_tokens": 0,
     "citation_registry_lookups_completed": 12,
-    "verified_citation_counts_from_this_run": 0
+    "verified_citation_counts_from_this_run": 0,
+    "legacy_abstracts_reachability_and_material_verified": 10,
+    "verified_posters": 1,
+    "retryable_link_failures": 1
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
   "last_started_at": "2026-10-28T03:39:48.436Z",
@@ -63,19 +66,19 @@
   "preflight_stage_totals": {
     "soups": {
       "duplicates_passed": 100,
-      "quality_held": 94,
-      "core_gate_held": 89,
+      "quality_passed": 8,
+      "quality_held": 92,
+      "core_gate_held": 87,
       "below_threshold_held": 4,
       "relevance_floor_held": 1,
-      "format_held": 54,
-      "access_held": 54,
-      "metadata_held": 54,
+      "format_passed": 66,
+      "access_passed": 66,
+      "metadata_passed": 66,
+      "format_held": 34,
+      "access_held": 34,
+      "metadata_held": 34,
       "schema_held": 100,
-      "format_passed": 46,
-      "access_passed": 46,
-      "metadata_passed": 46,
-      "quality_passed": 6,
-      "review_record_structural_subchecks_passed": 6
+      "review_record_structural_subchecks_passed": 8
     },
     "weekly": {
       "duplicates_passed": 149,
@@ -132,5 +135,6 @@
     "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
     "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
     "ready_counts_after_readback_and_D1_recheck": 0
-  }
+  },
+  "checkpointed_at": "2026-10-28T03:44:25.529Z"
 }
