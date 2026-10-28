@@ -8,10 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": null,
-  "lease": {
-    "owner": "publication-2026-10-28-explicit-approval",
-    "expires_at": "2026-10-28T10:27:46.352Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -33,7 +30,7 @@
   "global_deficit": 247,
   "soups_batch_deficit": 5,
   "last_completed_at": "2026-10-28T09:53:53.008Z",
-  "last_action": "Reconciled10 authenticated complete submissions and178 exact candidate/hash decisions, including all46 newly accepted papers. All46 passed final source reachability checks and current target serialization using saved paid taxonomy; no repeat paid classification for accepted papers. Saved46 completed assessment job IDs; remaining251 legacy accepted records retain independent holds. Verified three actual arXiv PDFs, completed isolated exact-hash classification/schema workflow40667231581, reassessed complete current abstracts and sealed weekly batch11 with3 ready papers. Current cleared buffer3/250, SOUPS0/5 full batches,201 preflight holds. All4041 weekly identities preserved; no new arrivals.476 tests passed. Current maintenance request prohibits public import, merge or deployment; no public ALEX changes.",
+  "last_action": "Published all46 explicitly authorized accepted papers (35weekly,11SOUPS) through PR81 and successful release/Pages workflows. Live public data verified:3644 total, all46 reviewed content/classifications present, no missing release records. Existing3598 records preserved. Release receipt is authoritative over older archived assessment publication flags. Worker lease released.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -138,8 +135,8 @@
     }
   ],
   "held_stage": {
-    "stage": "remaining_preflight_and_publication_scope",
-    "reason": "3 papers ready for manual review;247 deficit and five full SOUPS batches remain.46 accepted papers passed final validation but the current maintenance request prohibits public import, merge and deployment."
+    "stage": "remaining_preflight",
+    "reason": "46 accepted and validated papers are now published. Other candidate holds and3 ready manual-review papers remain unchanged."
   },
   "last_run_checkpoint": {
     "verified_at": "2026-10-28T09:53:53.008Z",
@@ -199,7 +196,7 @@
     "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
     "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66"
   },
-  "checkpointed_at": "2026-10-28T09:53:53.008Z",
+  "checkpointed_at": "2026-10-28T10:07:20.930Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
@@ -214,9 +211,9 @@
   "next_actions": [
     "Continue preflight and seal newly cleared candidates into new batches of1–20; never append to submitted batches. Current ready3/250; preserve all4041 weekly identities and future arrivals.",
     "Restore five full pending SOUPS batches of20 independently; current0/5. Keep existing quality, format, media, metadata and duplicate holds.",
-    "Process new accepted-candidate jobs using current decision/hash/revision; reuse unchanged valid paid results and source/type evidence.46 new final assessments are complete;251 legacy accepted assessments remain held/partial.",
+    "Process new accepted-candidate jobs using current decision/hash/revision; reuse unchanged valid paid results and source/type evidence.46 new final assessments are complete and their papers published;251 legacy accepted assessments remain held/partial.",
     "Do not issue OpenAlex requests before2026-10-29T00:00:36Z.",
-    "Reuse all seven immutable paid receipts. Current maintenance request prohibits public import, merge or deployment; report validation complete separately from published."
+    "Before considering any reimport, reconcile config/content_review_publication_receipts/2026-10-28-accepted-46.json with the main release receipt. All46 are already published; archived pre-publication assessment flags do not undo this release."
   ],
   "paid_execution": {
     "status": "operational_verified",
@@ -279,10 +276,19 @@
   "publication_status": {
     "accepted_this_run": 46,
     "final_validation_complete": 46,
-    "published": 0,
-    "status": "authorized_release_preparation",
-    "restriction_source": null,
-    "checked_at": "2026-10-28T09:53:53.008Z",
-    "authorization": "User explicitly authorized publication in current conversation, superseding the prior maintenance prohibition for all46 accepted and validated papers."
+    "published": 46,
+    "status": "published_live_verified",
+    "authorization": "User explicitly authorized publication on2026-10-28, superseding the earlier maintenance prohibition for these46 accepted papers.",
+    "release_id": "2026-10-28-accepted-46",
+    "receipt": "config/content_review_publication_receipts/2026-10-28-accepted-46.json",
+    "public_receipt": "data/content_review_release_receipts/2026-10-28-accepted-46.json",
+    "pr": 81,
+    "release_workflow_run": 40669313451,
+    "pages_workflow_run": 40669393009,
+    "public_commit": "8585d665b471363a8141b3bc9aa1f45edfc3fc15",
+    "public_total": 3644,
+    "live_verified_records": 46,
+    "live_url": "https://alex.riseinfosec.org/",
+    "checked_at": "2026-10-28T10:07:20.930Z"
   }
 }
