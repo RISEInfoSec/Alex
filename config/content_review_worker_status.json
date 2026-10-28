@@ -8,11 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": null,
-  "lease": {
-    "owner": "discovery-focus-2026-10-28T15-28-42-516Z",
-    "acquired_at": "2026-10-28T15:28:42.516Z",
-    "expires_at": "2026-10-28T15:58:42.516Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -194,6 +190,7 @@
     }
   },
   "next_actions": [
+    "Prioritize the active SOUPS/USENIX and Virus Bulletin archive discovery campaign each pass, with bounded courteous requests and persisted coverage checkpoints; defer SANS, FIRST.org and other new collections pending disposition of this intake.",
     "Respect config/corpus_exclusions.json before any preflight, substantive recommendation, manual admission or publication. Read config/editorial_relevance_feedback.json as labeled positive and negative examples; do not treat audit recommendations as human reasons or infer provider bans.",
     "All490 audit removal jobs and eight new assessment jobs are complete: consult config/review_application_status.json and the publication receipt before any replay. Corpus-audit keeps mean retain existing records, never new imports.",
     "Refill the actual cleared manual buffer toward250 when below100 and restore five full pending SOUPS batches; apply current complete-discovery and continuing-usefulness policies, preserve all holds, and exclude audit work from intake counts.",
@@ -315,14 +312,30 @@
   },
   "workflow_policy_update": {
     "confirmed_at": "2026-10-28",
-    "recorded_at": "2026-10-28T15:11:57.294Z",
-    "workflow_version": 8,
+    "recorded_at": "2026-10-28T15:29:39.266Z",
+    "workflow_version": 9,
     "material_policy_version": 3,
-    "scope": "Complete accessible SOUPS/USENIX and Virus Bulletin discovery; bounded preflight before recommendation; recent-first curated preparation; content-based continuing-usefulness assessment; no age cutoff or numerical scoring changes.",
+    "scope": "Active courteous SOUPS/USENIX and Virus Bulletin discovery campaign; new sources deferred until current intake disposition; continuing-usefulness policy preserved.",
     "files": [
       "config/content_review_material_policy.json",
       "config/content_review_workflow.json",
       "docs/content_review_background_worker.md"
     ]
+  },
+  "discovery_campaign": {
+    "status": "active",
+    "configured_at": "2026-10-28T15:29:39.266Z",
+    "workflow_version": 9,
+    "sources": [
+      "soups",
+      "virusbulletin"
+    ],
+    "deferred_sources": [
+      "SANS",
+      "FIRST.org",
+      "other new collections"
+    ],
+    "policy": "config/content_review_workflow.json#archive_discovery_policy",
+    "next_action": "Resume bounded archive discovery for each available source alongside preflight, recording coverage and unique discoveries. One request per origin at a time, minimum2seconds pacing,20-second timeouts and stricter published/provider limits."
   }
 }
