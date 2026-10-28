@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-28T19:42:24.939Z",
+  "updated_at": "2026-10-28T20:45:34.410275+00:00",
   "records": [
     {
       "key": "virusbulletin/vb-2025-16decf5155fa227b39/40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c/1/1",
@@ -14,7 +14,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-16decf5155fa227b39",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-28T18:40:44.031Z",
+      "updated_at": "2026-10-28T20:45:34.410275+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -105,46 +105,76 @@
         },
         "fresh_cross_source_duplicates": {
           "status": "passed",
-          "checked_at": "2026-10-28T03:50:34.934054+00:00",
+          "checked_at": "2026-10-28T20:45:34.410275+00:00",
           "content_sha256": "40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c",
           "evidence": {
-            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+            "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
             "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-            "weekly_inventory_records": 4041,
-            "all_prepared_collections": [
-              "soups",
-              "weekly",
-              "virusbulletin",
-              "apwg"
-            ],
-            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-            "matches": []
+            "source_counts": {
+              "soups": 797,
+              "weekly": 150,
+              "virusbulletin": 92,
+              "soups-ancillary": 593,
+              "public": 3162,
+              "weekly-upstream": 4041,
+              "apwg": 1,
+              "archive-discovery": 2061
+            },
+            "scope": "Fresh exact DOI, canonical source/resource URLs and normalized titles across current corpus, all prepared collections, ancillary,4041 upstream weekly rows and2061 raw archive URL identities. Same candidate and same-source raw resource provenance excluded as self overlaps. Distinct versions preserved.",
+            "matches": [],
+            "raw_self_provenance_overlaps": [
+              "virusbulletin-url-2e759275baa6fe9344bca309"
+            ]
           }
         },
         "quality_assessment": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
+          "checked_at": "2026-10-28T20:42:38.783855+00:00",
           "content_sha256": "40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c",
           "evidence": {
-            "quality_score": 11.41,
-            "quality_venue_score": 20,
-            "quality_citation_score": 0,
-            "quality_relevance_score": 17.65,
-            "quality_institution_score": 40,
-            "quality_institution_bonus": 0,
-            "quality_title_bonus": 0,
-            "quality_auto_threshold": 60,
-            "quality_review_threshold": 45,
-            "quality_core_term_gate": "fail",
+            "quality_score": 29.06,
+            "quality_venue_score": 20.0,
+            "quality_citation_score": 0.0,
+            "quality_relevance_score": 88.24,
+            "quality_institution_score": 40.0,
+            "quality_institution_bonus": 0.0,
+            "quality_title_bonus": 0.0,
+            "quality_auto_threshold": 60.0,
+            "quality_review_threshold": 45.0,
+            "quality_core_term_gate": "pass",
             "quality_relevance_gate": "pass",
             "citation_count_known": false,
-            "quality_review_status": "hold_missing_abstract",
+            "quality_review_status": "hold_below_review_threshold",
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Existing policy; missing citations remain unknown. Provisional lower-bound score is not bibliographic evidence of zero citations."
+          "input_provenance": {
+            "candidate_id": "vb-2025-16decf5155fa227b39",
+            "content_sha256": "40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c",
+            "checked_at": "2026-10-28T20:42:38.783855+00:00",
+            "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb2025/papers/When-avatars-come-alive-understanding-hybrid-threat-actors.pdf",
+            "http_status": 200,
+            "resource_sha256": "d1f746795762a3d751aa028b6c10685bf130dd048bbf2f655b968722053adef1",
+            "publication_approved": false,
+            "status": "reconciled_unchanged_source_abstract",
+            "abstract_sha256": "20f1cdef62e9f3572965db229d88b9e67501eb7209d79757c34fb9a51243f683",
+            "abstract_characters": 2003,
+            "extracted_text_sha256": "e8a0bb8d13434e8d090e4354320008eccca133abff19316ae8266eca33e22262",
+            "assessment_depth": "Explicit ABSTRACT to INTRODUCTION section of same previously verified written paper; no full scientific critique.",
+            "input_changed_fields": [
+              "abstract"
+            ],
+            "scoring_input_sha256": "ef3ff8037b6376abd174a03b3bbf706cdaf6259ce119a70b0bdad0c2ece71c3c",
+            "policy_files": {
+              "alex/pipelines/apwg_quality_review.py": "19567aa9ed0b74ae2d8cc8f01f2b005424104cbee7b510ef97af4aca16b1250d",
+              "alex/utils/scoring.py": "497d385e984a2e285fa858e62878b69a244ff7f7ecf891c05b81af2d7d648cc3",
+              "config/quality_weights.json": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a",
+              "config/query_registry.json": "3432f76347880cc75aa9ce72965152bb0f0b4d0f520515abbf9c59d17592f782",
+              "config/venue_whitelist.json": "60df40a1bb94ced86d15fc94f24a34d34c1e42f5c2428ac5f11a8dbb68f1c574"
+            },
+            "limitations": "Supplemental original-resource mechanical evidence; original reviewed-content hash and acceptance remain immutable. Missing citations remain null. Existing venue input retained; no metadata/scoring threshold override. Independent DOI, duplicate freshness, taxonomy and schema holds remain."
+          },
+          "limitations": "Supplemental original-resource mechanical evidence; original reviewed-content hash and acceptance remain immutable. Missing citations remain null. Existing venue input retained; no metadata/scoring threshold override. Independent DOI, duplicate freshness, taxonomy and schema holds remain."
         },
         "taxonomy": {
           "status": "held",
@@ -176,6 +206,37 @@
             "checked_at": "2026-10-27T23:01:05.910261+00:00",
             "inspection": "Written conference-paper front matter, title/byline, 2025 conference year, abstract and opening prose inspected; not slides; no full scientific critique or peer-review claim."
           }
+        },
+        "source_abstract_recovery": {
+          "status": "reconciled",
+          "checked_at": "2026-10-28T20:42:38.783855+00:00",
+          "content_sha256": "40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c",
+          "evidence": {
+            "candidate_id": "vb-2025-16decf5155fa227b39",
+            "content_sha256": "40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c",
+            "checked_at": "2026-10-28T20:42:38.783855+00:00",
+            "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb2025/papers/When-avatars-come-alive-understanding-hybrid-threat-actors.pdf",
+            "http_status": 200,
+            "resource_sha256": "d1f746795762a3d751aa028b6c10685bf130dd048bbf2f655b968722053adef1",
+            "publication_approved": false,
+            "status": "reconciled_unchanged_source_abstract",
+            "abstract_sha256": "20f1cdef62e9f3572965db229d88b9e67501eb7209d79757c34fb9a51243f683",
+            "abstract_characters": 2003,
+            "extracted_text_sha256": "e8a0bb8d13434e8d090e4354320008eccca133abff19316ae8266eca33e22262",
+            "assessment_depth": "Explicit ABSTRACT to INTRODUCTION section of same previously verified written paper; no full scientific critique.",
+            "input_changed_fields": [
+              "abstract"
+            ],
+            "scoring_input_sha256": "ef3ff8037b6376abd174a03b3bbf706cdaf6259ce119a70b0bdad0c2ece71c3c",
+            "policy_files": {
+              "alex/pipelines/apwg_quality_review.py": "19567aa9ed0b74ae2d8cc8f01f2b005424104cbee7b510ef97af4aca16b1250d",
+              "alex/utils/scoring.py": "497d385e984a2e285fa858e62878b69a244ff7f7ecf891c05b81af2d7d648cc3",
+              "config/quality_weights.json": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a",
+              "config/query_registry.json": "3432f76347880cc75aa9ce72965152bb0f0b4d0f520515abbf9c59d17592f782",
+              "config/venue_whitelist.json": "60df40a1bb94ced86d15fc94f24a34d34c1e42f5c2428ac5f11a8dbb68f1c574"
+            },
+            "limitations": "Supplemental original-resource mechanical evidence; original reviewed-content hash and acceptance remain immutable. Missing citations remain null. Existing venue input retained; no metadata/scoring threshold override. Independent DOI, duplicate freshness, taxonomy and schema holds remain."
+          }
         }
       },
       "publication_approved": false,
@@ -185,6 +246,53 @@
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
+      ],
+      "quality_assessment_history": [
+        {
+          "status": "held",
+          "checked_at": "2026-10-27T23:05:43.163744+00:00",
+          "content_sha256": "40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c",
+          "evidence": {
+            "quality_score": 11.41,
+            "quality_venue_score": 20,
+            "quality_citation_score": 0,
+            "quality_relevance_score": 17.65,
+            "quality_institution_score": 40,
+            "quality_institution_bonus": 0,
+            "quality_title_bonus": 0,
+            "quality_auto_threshold": 60,
+            "quality_review_threshold": 45,
+            "quality_core_term_gate": "fail",
+            "quality_relevance_gate": "pass",
+            "citation_count_known": false,
+            "quality_review_status": "hold_missing_abstract",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Existing policy; missing citations remain unknown. Provisional lower-bound score is not bibliographic evidence of zero citations."
+        }
+      ],
+      "duplicate_check_history": [
+        {
+          "status": "passed",
+          "checked_at": "2026-10-28T03:50:34.934054+00:00",
+          "content_sha256": "40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c",
+          "evidence": {
+            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+            "weekly_inventory_records": 4041,
+            "all_prepared_collections": [
+              "soups",
+              "weekly",
+              "virusbulletin",
+              "apwg"
+            ],
+            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+            "matches": []
+          }
+        }
       ]
     },
     {
@@ -199,7 +307,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-17d33473609bfbf5f8",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-28T19:42:24.939Z",
+      "updated_at": "2026-10-28T20:45:34.410275+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -290,46 +398,76 @@
         },
         "fresh_cross_source_duplicates": {
           "status": "passed",
-          "checked_at": "2026-10-28T03:50:34.934054+00:00",
+          "checked_at": "2026-10-28T20:45:34.410275+00:00",
           "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
           "evidence": {
-            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+            "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
             "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-            "weekly_inventory_records": 4041,
-            "all_prepared_collections": [
-              "soups",
-              "weekly",
-              "virusbulletin",
-              "apwg"
-            ],
-            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-            "matches": []
+            "source_counts": {
+              "soups": 797,
+              "weekly": 150,
+              "virusbulletin": 92,
+              "soups-ancillary": 593,
+              "public": 3162,
+              "weekly-upstream": 4041,
+              "apwg": 1,
+              "archive-discovery": 2061
+            },
+            "scope": "Fresh exact DOI, canonical source/resource URLs and normalized titles across current corpus, all prepared collections, ancillary,4041 upstream weekly rows and2061 raw archive URL identities. Same candidate and same-source raw resource provenance excluded as self overlaps. Distinct versions preserved.",
+            "matches": [],
+            "raw_self_provenance_overlaps": [
+              "virusbulletin-url-2e0b8c948765701437857bed"
+            ]
           }
         },
         "quality_assessment": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
+          "checked_at": "2026-10-28T20:42:36.752236+00:00",
           "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
           "evidence": {
-            "quality_score": 12,
-            "quality_venue_score": 20,
-            "quality_citation_score": 0,
-            "quality_relevance_score": 0,
-            "quality_institution_score": 40,
-            "quality_institution_bonus": 0,
-            "quality_title_bonus": 5,
-            "quality_auto_threshold": 60,
-            "quality_review_threshold": 45,
+            "quality_score": 25.24,
+            "quality_venue_score": 20.0,
+            "quality_citation_score": 0.0,
+            "quality_relevance_score": 52.94,
+            "quality_institution_score": 40.0,
+            "quality_institution_bonus": 0.0,
+            "quality_title_bonus": 5.0,
+            "quality_auto_threshold": 60.0,
+            "quality_review_threshold": 45.0,
             "quality_core_term_gate": "pass",
-            "quality_relevance_gate": "fail",
+            "quality_relevance_gate": "pass",
             "citation_count_known": false,
-            "quality_review_status": "hold_missing_abstract",
+            "quality_review_status": "hold_below_review_threshold",
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Existing policy; missing citations remain unknown. Provisional lower-bound score is not bibliographic evidence of zero citations."
+          "input_provenance": {
+            "candidate_id": "vb-2025-17d33473609bfbf5f8",
+            "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
+            "checked_at": "2026-10-28T20:42:36.752236+00:00",
+            "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb2025/papers/Silent-Lynx-uncovering-a-cyber-espionage-campaign-in-Central-Asia.pdf",
+            "http_status": 200,
+            "resource_sha256": "d667349b3b2cbe93f20dcd2924a27ab54e78a3dec416a3f735c235b0f22e0e68",
+            "publication_approved": false,
+            "status": "reconciled_unchanged_source_abstract",
+            "abstract_sha256": "a9317f321e7ae8a12d30ecd92648db526128fe18ff3ecd8faf9982f62ff365aa",
+            "abstract_characters": 1473,
+            "extracted_text_sha256": "3a693a50130e391a6bc3bbf7d51ec5727b91fbd528cac8adfc72a8d7e36d09bf",
+            "assessment_depth": "Explicit ABSTRACT to INTRODUCTION section of same previously verified written paper; no full scientific critique.",
+            "input_changed_fields": [
+              "abstract"
+            ],
+            "scoring_input_sha256": "9c0abbb2b2bca7bcb8cb2b8246d85303c0b91e39a8dbb5b0b0ab991424ae640f",
+            "policy_files": {
+              "alex/pipelines/apwg_quality_review.py": "19567aa9ed0b74ae2d8cc8f01f2b005424104cbee7b510ef97af4aca16b1250d",
+              "alex/utils/scoring.py": "497d385e984a2e285fa858e62878b69a244ff7f7ecf891c05b81af2d7d648cc3",
+              "config/quality_weights.json": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a",
+              "config/query_registry.json": "3432f76347880cc75aa9ce72965152bb0f0b4d0f520515abbf9c59d17592f782",
+              "config/venue_whitelist.json": "60df40a1bb94ced86d15fc94f24a34d34c1e42f5c2428ac5f11a8dbb68f1c574"
+            },
+            "limitations": "Supplemental original-resource mechanical evidence; original reviewed-content hash and acceptance remain immutable. Missing citations remain null. Existing venue input retained; no metadata/scoring threshold override. Independent DOI, duplicate freshness, taxonomy and schema holds remain."
+          },
+          "limitations": "Supplemental original-resource mechanical evidence; original reviewed-content hash and acceptance remain immutable. Missing citations remain null. Existing venue input retained; no metadata/scoring threshold override. Independent DOI, duplicate freshness, taxonomy and schema holds remain."
         },
         "taxonomy": {
           "status": "held",
@@ -363,27 +501,34 @@
           }
         },
         "source_abstract_recovery": {
-          "status": "source_text_recovered_pending_quality_reconciliation",
-          "checked_at": "2026-10-28T19:41:31.749896+00:00",
+          "status": "reconciled",
+          "checked_at": "2026-10-28T20:42:36.752236+00:00",
           "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
           "evidence": {
-            "schema_version": 1,
             "candidate_id": "vb-2025-17d33473609bfbf5f8",
             "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
-            "checked_at": "2026-10-28T19:41:31.749896+00:00",
+            "checked_at": "2026-10-28T20:42:36.752236+00:00",
             "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb2025/papers/Silent-Lynx-uncovering-a-cyber-espionage-campaign-in-Central-Asia.pdf",
             "http_status": 200,
-            "bytes": 3948089,
             "resource_sha256": "d667349b3b2cbe93f20dcd2924a27ab54e78a3dec416a3f735c235b0f22e0e68",
             "publication_approved": false,
-            "quality_pass_claimed": false,
-            "extracted_text_sha256": "3a693a50130e391a6bc3bbf7d51ec5727b91fbd528cac8adfc72a8d7e36d09bf",
-            "abstract_boundary_found": true,
-            "abstract_characters": 1473,
+            "status": "reconciled_unchanged_source_abstract",
             "abstract_sha256": "a9317f321e7ae8a12d30ecd92648db526128fe18ff3ecd8faf9982f62ff365aa",
-            "diagnostic_excerpt": "Silent Lynx is a newly identified cyber espionage campaign uncovered by Seqrite Labs in 2025, with a primary focus on government institutions, financial entities, and defence agenc",
-            "source_text_recovery_status": "recovered_pending_quality_input_reconciliation",
-            "next_step": "Reconcile extracted source abstract with original review evidence and existing quality-scoring input. Preserve accepted content hash and decision; rerun unchanged policy only with verified input. No threshold, content mutation or false quality pass."
+            "abstract_characters": 1473,
+            "extracted_text_sha256": "3a693a50130e391a6bc3bbf7d51ec5727b91fbd528cac8adfc72a8d7e36d09bf",
+            "assessment_depth": "Explicit ABSTRACT to INTRODUCTION section of same previously verified written paper; no full scientific critique.",
+            "input_changed_fields": [
+              "abstract"
+            ],
+            "scoring_input_sha256": "9c0abbb2b2bca7bcb8cb2b8246d85303c0b91e39a8dbb5b0b0ab991424ae640f",
+            "policy_files": {
+              "alex/pipelines/apwg_quality_review.py": "19567aa9ed0b74ae2d8cc8f01f2b005424104cbee7b510ef97af4aca16b1250d",
+              "alex/utils/scoring.py": "497d385e984a2e285fa858e62878b69a244ff7f7ecf891c05b81af2d7d648cc3",
+              "config/quality_weights.json": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a",
+              "config/query_registry.json": "3432f76347880cc75aa9ce72965152bb0f0b4d0f520515abbf9c59d17592f782",
+              "config/venue_whitelist.json": "60df40a1bb94ced86d15fc94f24a34d34c1e42f5c2428ac5f11a8dbb68f1c574"
+            },
+            "limitations": "Supplemental original-resource mechanical evidence; original reviewed-content hash and acceptance remain immutable. Missing citations remain null. Existing venue input retained; no metadata/scoring threshold override. Independent DOI, duplicate freshness, taxonomy and schema holds remain."
           }
         }
       },
@@ -394,6 +539,53 @@
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
+      ],
+      "quality_assessment_history": [
+        {
+          "status": "held",
+          "checked_at": "2026-10-27T23:05:43.163744+00:00",
+          "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
+          "evidence": {
+            "quality_score": 12,
+            "quality_venue_score": 20,
+            "quality_citation_score": 0,
+            "quality_relevance_score": 0,
+            "quality_institution_score": 40,
+            "quality_institution_bonus": 0,
+            "quality_title_bonus": 5,
+            "quality_auto_threshold": 60,
+            "quality_review_threshold": 45,
+            "quality_core_term_gate": "pass",
+            "quality_relevance_gate": "fail",
+            "citation_count_known": false,
+            "quality_review_status": "hold_missing_abstract",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Existing policy; missing citations remain unknown. Provisional lower-bound score is not bibliographic evidence of zero citations."
+        }
+      ],
+      "duplicate_check_history": [
+        {
+          "status": "passed",
+          "checked_at": "2026-10-28T03:50:34.934054+00:00",
+          "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
+          "evidence": {
+            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+            "weekly_inventory_records": 4041,
+            "all_prepared_collections": [
+              "soups",
+              "weekly",
+              "virusbulletin",
+              "apwg"
+            ],
+            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+            "matches": []
+          }
+        }
       ]
     },
     {
@@ -408,7 +600,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-235a7b4e68aeb6c9e7",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-28T18:40:44.031Z",
+      "updated_at": "2026-10-28T20:45:34.410275+00:00",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -499,46 +691,76 @@
         },
         "fresh_cross_source_duplicates": {
           "status": "passed",
-          "checked_at": "2026-10-28T03:50:34.934054+00:00",
+          "checked_at": "2026-10-28T20:45:34.410275+00:00",
           "content_sha256": "84bff2ecbdfb31e5b2f416736e4a1a1290b8dab95b786e6fd76f7051463c7b7e",
           "evidence": {
-            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+            "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
             "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-            "weekly_inventory_records": 4041,
-            "all_prepared_collections": [
-              "soups",
-              "weekly",
-              "virusbulletin",
-              "apwg"
-            ],
-            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-            "matches": []
+            "source_counts": {
+              "soups": 797,
+              "weekly": 150,
+              "virusbulletin": 92,
+              "soups-ancillary": 593,
+              "public": 3162,
+              "weekly-upstream": 4041,
+              "apwg": 1,
+              "archive-discovery": 2061
+            },
+            "scope": "Fresh exact DOI, canonical source/resource URLs and normalized titles across current corpus, all prepared collections, ancillary,4041 upstream weekly rows and2061 raw archive URL identities. Same candidate and same-source raw resource provenance excluded as self overlaps. Distinct versions preserved.",
+            "matches": [],
+            "raw_self_provenance_overlaps": [
+              "virusbulletin-url-828553fdd6502fd33a536b45"
+            ]
           }
         },
         "quality_assessment": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
+          "checked_at": "2026-10-28T20:42:40.813435+00:00",
           "content_sha256": "84bff2ecbdfb31e5b2f416736e4a1a1290b8dab95b786e6fd76f7051463c7b7e",
           "evidence": {
-            "quality_score": 12,
-            "quality_venue_score": 20,
-            "quality_citation_score": 0,
-            "quality_relevance_score": 0,
-            "quality_institution_score": 40,
-            "quality_institution_bonus": 0,
-            "quality_title_bonus": 5,
-            "quality_auto_threshold": 60,
-            "quality_review_threshold": 45,
+            "quality_score": 25.24,
+            "quality_venue_score": 20.0,
+            "quality_citation_score": 0.0,
+            "quality_relevance_score": 52.94,
+            "quality_institution_score": 40.0,
+            "quality_institution_bonus": 0.0,
+            "quality_title_bonus": 5.0,
+            "quality_auto_threshold": 60.0,
+            "quality_review_threshold": 45.0,
             "quality_core_term_gate": "pass",
-            "quality_relevance_gate": "fail",
+            "quality_relevance_gate": "pass",
             "citation_count_known": false,
-            "quality_review_status": "hold_missing_abstract",
+            "quality_review_status": "hold_below_review_threshold",
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Existing policy; missing citations remain unknown. Provisional lower-bound score is not bibliographic evidence of zero citations."
+          "input_provenance": {
+            "candidate_id": "vb-2025-235a7b4e68aeb6c9e7",
+            "content_sha256": "84bff2ecbdfb31e5b2f416736e4a1a1290b8dab95b786e6fd76f7051463c7b7e",
+            "checked_at": "2026-10-28T20:42:40.813435+00:00",
+            "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb2025/papers/Unmasking-the-GrassCall-campaign-the-hackers-behind-job-recruitment-cyber-scams.pdf",
+            "http_status": 200,
+            "resource_sha256": "64330707c49628639915ecad0832cf2f2faf8cf96740228356a48c997c33883e",
+            "publication_approved": false,
+            "status": "reconciled_unchanged_source_abstract",
+            "abstract_sha256": "8012b4b6fd34cda6785902638ce6e53fb3114d5f3dbed9b1aaa1cbd12c7ed81c",
+            "abstract_characters": 919,
+            "extracted_text_sha256": "93d89f6dee3b1b65fd21abc7794f296699a02e72726be660d89d9aff9b5da5df",
+            "assessment_depth": "Explicit ABSTRACT to INTRODUCTION section of same previously verified written paper; no full scientific critique.",
+            "input_changed_fields": [
+              "abstract"
+            ],
+            "scoring_input_sha256": "510e7d07c0ae945005bed4eba3e788ea2f797ec413c49a66f68a3471e6be6e78",
+            "policy_files": {
+              "alex/pipelines/apwg_quality_review.py": "19567aa9ed0b74ae2d8cc8f01f2b005424104cbee7b510ef97af4aca16b1250d",
+              "alex/utils/scoring.py": "497d385e984a2e285fa858e62878b69a244ff7f7ecf891c05b81af2d7d648cc3",
+              "config/quality_weights.json": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a",
+              "config/query_registry.json": "3432f76347880cc75aa9ce72965152bb0f0b4d0f520515abbf9c59d17592f782",
+              "config/venue_whitelist.json": "60df40a1bb94ced86d15fc94f24a34d34c1e42f5c2428ac5f11a8dbb68f1c574"
+            },
+            "limitations": "Supplemental original-resource mechanical evidence; original reviewed-content hash and acceptance remain immutable. Missing citations remain null. Existing venue input retained; no metadata/scoring threshold override. Independent DOI, duplicate freshness, taxonomy and schema holds remain."
+          },
+          "limitations": "Supplemental original-resource mechanical evidence; original reviewed-content hash and acceptance remain immutable. Missing citations remain null. Existing venue input retained; no metadata/scoring threshold override. Independent DOI, duplicate freshness, taxonomy and schema holds remain."
         },
         "taxonomy": {
           "status": "held",
@@ -570,6 +792,37 @@
             "checked_at": "2026-10-27T23:00:38.781842+00:00",
             "inspection": "Written conference-paper front matter, title/byline, 2025 conference year, abstract and opening prose inspected; not slides; no full scientific critique or peer-review claim."
           }
+        },
+        "source_abstract_recovery": {
+          "status": "reconciled",
+          "checked_at": "2026-10-28T20:42:40.813435+00:00",
+          "content_sha256": "84bff2ecbdfb31e5b2f416736e4a1a1290b8dab95b786e6fd76f7051463c7b7e",
+          "evidence": {
+            "candidate_id": "vb-2025-235a7b4e68aeb6c9e7",
+            "content_sha256": "84bff2ecbdfb31e5b2f416736e4a1a1290b8dab95b786e6fd76f7051463c7b7e",
+            "checked_at": "2026-10-28T20:42:40.813435+00:00",
+            "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb2025/papers/Unmasking-the-GrassCall-campaign-the-hackers-behind-job-recruitment-cyber-scams.pdf",
+            "http_status": 200,
+            "resource_sha256": "64330707c49628639915ecad0832cf2f2faf8cf96740228356a48c997c33883e",
+            "publication_approved": false,
+            "status": "reconciled_unchanged_source_abstract",
+            "abstract_sha256": "8012b4b6fd34cda6785902638ce6e53fb3114d5f3dbed9b1aaa1cbd12c7ed81c",
+            "abstract_characters": 919,
+            "extracted_text_sha256": "93d89f6dee3b1b65fd21abc7794f296699a02e72726be660d89d9aff9b5da5df",
+            "assessment_depth": "Explicit ABSTRACT to INTRODUCTION section of same previously verified written paper; no full scientific critique.",
+            "input_changed_fields": [
+              "abstract"
+            ],
+            "scoring_input_sha256": "510e7d07c0ae945005bed4eba3e788ea2f797ec413c49a66f68a3471e6be6e78",
+            "policy_files": {
+              "alex/pipelines/apwg_quality_review.py": "19567aa9ed0b74ae2d8cc8f01f2b005424104cbee7b510ef97af4aca16b1250d",
+              "alex/utils/scoring.py": "497d385e984a2e285fa858e62878b69a244ff7f7ecf891c05b81af2d7d648cc3",
+              "config/quality_weights.json": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a",
+              "config/query_registry.json": "3432f76347880cc75aa9ce72965152bb0f0b4d0f520515abbf9c59d17592f782",
+              "config/venue_whitelist.json": "60df40a1bb94ced86d15fc94f24a34d34c1e42f5c2428ac5f11a8dbb68f1c574"
+            },
+            "limitations": "Supplemental original-resource mechanical evidence; original reviewed-content hash and acceptance remain immutable. Missing citations remain null. Existing venue input retained; no metadata/scoring threshold override. Independent DOI, duplicate freshness, taxonomy and schema holds remain."
+          }
         }
       },
       "publication_approved": false,
@@ -579,6 +832,53 @@
         "quality_assessment",
         "taxonomy",
         "dry_run_import"
+      ],
+      "quality_assessment_history": [
+        {
+          "status": "held",
+          "checked_at": "2026-10-27T23:05:43.163744+00:00",
+          "content_sha256": "84bff2ecbdfb31e5b2f416736e4a1a1290b8dab95b786e6fd76f7051463c7b7e",
+          "evidence": {
+            "quality_score": 12,
+            "quality_venue_score": 20,
+            "quality_citation_score": 0,
+            "quality_relevance_score": 0,
+            "quality_institution_score": 40,
+            "quality_institution_bonus": 0,
+            "quality_title_bonus": 5,
+            "quality_auto_threshold": 60,
+            "quality_review_threshold": 45,
+            "quality_core_term_gate": "pass",
+            "quality_relevance_gate": "fail",
+            "citation_count_known": false,
+            "quality_review_status": "hold_missing_abstract",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Existing policy; missing citations remain unknown. Provisional lower-bound score is not bibliographic evidence of zero citations."
+        }
+      ],
+      "duplicate_check_history": [
+        {
+          "status": "passed",
+          "checked_at": "2026-10-28T03:50:34.934054+00:00",
+          "content_sha256": "84bff2ecbdfb31e5b2f416736e4a1a1290b8dab95b786e6fd76f7051463c7b7e",
+          "evidence": {
+            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+            "weekly_inventory_records": 4041,
+            "all_prepared_collections": [
+              "soups",
+              "weekly",
+              "virusbulletin",
+              "apwg"
+            ],
+            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+            "matches": []
+          }
+        }
       ]
     },
     {
@@ -37706,7 +38006,8 @@
     "retryable_link_failures": 1,
     "legacy_accepted_paid_requests": 0,
     "latest_authorized_release": "2026-10-28-completed-reviews",
-    "note_latest_run": "Silent Lynx original PDF unchanged; explicit1473-character abstract recovered for quality-input reconciliation. Prior reviewed record/decision hashes retained, and quality/taxonomy/import holds remain independent."
+    "note_latest_run": "Reconciled explicit original-PDF abstracts for three accepted Virus Bulletin papers with unchanged source hashes and immutable decisions. Existing scorer rerun changed only abstract input; all three remain held below review threshold. Independent DOI/duplicate freshness/taxonomy/schema checks remain.",
+    "legacy_quality_inputs_reconciled_this_run": 3
   },
   "provenance": "Real Virus Bulletin batch5 completed submission; no production test decisions and no fabricated completed checks.",
   "continuation_runs": [
