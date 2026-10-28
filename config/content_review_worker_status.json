@@ -8,7 +8,10 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": null,
-  "lease": null,
+  "lease": {
+    "owner": "publication-2026-10-28-explicit-approval",
+    "expires_at": "2026-10-28T10:27:46.352Z"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -277,8 +280,9 @@
     "accepted_this_run": 46,
     "final_validation_complete": 46,
     "published": 0,
-    "status": "paused_by_current_maintenance_no_import_merge_deploy_instruction",
-    "restriction_source": "Current maintenance request explicitly prohibits public ALEX import, merge and deployment.",
-    "checked_at": "2026-10-28T09:53:53.008Z"
+    "status": "authorized_release_preparation",
+    "restriction_source": null,
+    "checked_at": "2026-10-28T09:53:53.008Z",
+    "authorization": "User explicitly authorized publication in current conversation, superseding the prior maintenance prohibition for all46 accepted and validated papers."
   }
 }
