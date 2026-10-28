@@ -8,7 +8,10 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": null,
-  "lease": null,
+  "lease": {
+    "owner": "apply-final-reviews-2026-10-28",
+    "expires_at": "2026-10-28T12:55:30.071Z"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -283,5 +286,13 @@
     "source": "Latest production review_submissions; counts refreshed after initial decision/job read. No audit decisions applied to public data.",
     "verified_at": "2026-10-28T11:50:42.717Z",
     "handling": "Dedicated removal pass required; never intake or buffer work."
+  },
+  "review_application": {
+    "status": "in_progress",
+    "authorization": "User completed reviews and explicitly authorized all removals, approvals and appropriate deployment.",
+    "audit_removals": 490,
+    "audit_keeps": 224,
+    "new_weekly_approvals": 8,
+    "new_weekly_rejections": 1
   }
 }
