@@ -1,21 +1,17 @@
 {
   "schema_version": 1,
   "phase": "active",
-  "ready_total": 0,
-  "soups_ready_batches": 0,
+  "ready_total": 1,
+  "soups_ready_batches": 1,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "run_id": "enrichment-order-2026-10-28T22:19:59.162Z",
-    "acquired_at": "2026-10-28T22:19:59.162Z",
-    "expires_at": "2026-10-28T22:49:59.162Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
-    "soups": 0,
+    "soups": 1,
     "weekly": 0,
     "virusbulletin": 0,
     "apwg": 0
@@ -26,15 +22,15 @@
   "pending_mechanical_jobs": 22,
   "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
   "workflow": "preflight_first",
-  "preflight_pending": 193,
+  "preflight_pending": 192,
   "preflight_source_counts": {
-    "soups": 89,
+    "soups": 88,
     "weekly": 104
   },
-  "global_deficit": 250,
+  "global_deficit": 249,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-10-28T21:41:42.692Z",
-  "last_action": "Bounded discovery checked five pages: added 98 canonical resource URLs, inventory 2,159 (766 SOUPS, 1,393 Virus Bulletin). Nine accepted original PDFs retained identical hashes; seven explicit abstracts reconciled and quality rerun: six below threshold, one core-term hold; two abstract-boundary holds. Seven fresh duplicate passes. No new submissions or weekly arrivals. Cleared 0/250; no public ALEX changes. Per-origin request overlap detected and shared lock added and verified.",
+  "last_completed_at": "2026-10-28T22:29:39.743Z",
+  "last_action": "Applied provider-independent enrichment ordering workflow v11. Five formerly OpenAlex-blocked candidates retain citation-independent core-gate holds and are excluded from registry retry. Sixth completed official metadata and Crossref search, fresh duplicates and verified paid taxonomy/schema; substantive abstract/usefulness assessment bound to unchanged hash. Sealed SOUPS batch16 has one cleared paper. Ready1/250, deficit249;192 intake holds. No OpenAlex calls or public changes.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -43,8 +39,8 @@
     "fresh_pdf_access_and_front_matter_passed": 17,
     "quality_passed": 5,
     "quality_held": 246,
-    "openai_requests": 57,
-    "openai_tokens": 39769,
+    "openai_requests": 58,
+    "openai_tokens": 40418,
     "citation_registry_lookups_completed": 27,
     "verified_citation_counts_from_this_run": 0,
     "legacy_abstracts_reachability_and_material_verified": 10,
@@ -52,11 +48,11 @@
     "retryable_link_failures": 1,
     "fresh_cross_source_duplicates_passed": 248,
     "fresh_cross_source_duplicates_held": 3,
-    "preflight_openai_requests": 57,
+    "preflight_openai_requests": 58,
     "legacy_accepted_openai_requests": 0,
-    "pre_review_taxonomy_and_target_schema_passed": 57,
-    "current_hash_substantive_recommendations": 57,
-    "recommendations_changed_this_run": 0,
+    "pre_review_taxonomy_and_target_schema_passed": 58,
+    "current_hash_substantive_recommendations": 58,
+    "recommendations_changed_this_run": 1,
     "openalex_retry_requests_this_run": 0,
     "openalex_rate_limits_this_run": 0,
     "tracked_accepted_total": 307,
@@ -91,15 +87,15 @@
       "relevance_floor_held": 2,
       "format_held": 0,
       "access_held": 0,
-      "metadata_held": 6,
-      "schema_held": 89,
+      "metadata_held": 5,
+      "schema_held": 88,
       "format_passed": 100,
       "access_passed": 100,
-      "metadata_passed": 94,
+      "metadata_passed": 95,
       "quality_passed": 12,
       "full_author_lists_reconciled": 100,
       "review_record_structural_subchecks_passed": 12,
-      "schema_passed": 11
+      "schema_passed": 12
     },
     "weekly": {
       "duplicates_passed": 149,
@@ -131,7 +127,7 @@
   "blocked_sources": [
     {
       "source": "soups",
-      "reason": "89 preflight candidates retain independent quality/metadata/schema holds; identifier-dependent backoff respected. Process through the same shared buffer as every source; no SOUPS reserve or batch deficit.",
+      "reason": "88 held intake candidates; one fully cleared candidate admitted in sealed batch16. All sources use the shared buffer; no source reserve.",
       "exhausted": false
     },
     {
@@ -141,72 +137,56 @@
     },
     {
       "source": "OpenAlex",
-      "reason": "Existing HTTP429 Retry-After remains active. No OpenAlex traffic was sent this run; six identifier-dependent holds remain separate.",
+      "reason": "Provider cooldown preserved. Five former candidates deferred for independent core-gate holds; sixth completed required metadata using official source and Crossref without OpenAlex. No automatic six-candidate retry queue.",
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
       "exhausted": false
     }
   ],
   "held_stage": {
     "stage": "remaining_preflight_and_final_access",
-    "reason": "Shared cleared buffer 0/250. 193 existing preflight candidates remain held, plus separate raw archive discovery and legacy accepted-candidate holds. All sources share the same rules; no SOUPS reserve deficit."
+    "reason": "Shared cleared1/250; deficit249.192 existing intake holds remain separate from raw discovery and accepted legacy checks."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-28T21:41:42.692Z",
-    "scope": "bounded_discovery_legacy_original_pdf_quality_and_duplicates",
-    "workflow_version": 10,
-    "source_request_timeout_seconds": 20,
+    "verified_at": "2026-10-28T22:29:39.743Z",
+    "scope": "user_requested_alternative_enrichment_and_admission",
+    "workflow_version": 11,
+    "ready_total": 1,
+    "global_deficit": 249,
+    "preflight_held": 192,
     "source_reserve_enabled": false,
-    "new_acceptances": 0,
-    "ready_total": 0,
-    "global_deficit": 250,
-    "preflight_held": 193,
-    "discovery_programme_pages_checked": 5,
-    "discovery_item_links_observed": 98,
-    "supplemental_unique_urls_added": 98,
-    "cumulative_canonical_urls": 2159,
-    "exclusion_url_matches": 10,
-    "verified_new_unique_discoveries": null,
-    "original_pdf_hashes_unchanged": 9,
-    "legacy_abstracts_recovered": 7,
-    "legacy_quality_passes_added": 0,
-    "legacy_quality_below_threshold": 6,
-    "legacy_quality_core_gate_held": 1,
-    "legacy_abstract_boundary_held": 2,
-    "fresh_duplicate_rechecks_passed": 7,
-    "openai_usage_this_run": {
-      "requests": 0,
-      "input_tokens": 0,
-      "output_tokens": 0,
-      "total_tokens": 0
-    },
+    "previous_openalex_candidates": 6,
+    "independent_core_gate_deferred": 5,
+    "alternative_metadata_completed": 1,
+    "new_manual_ready": 1,
+    "sealed_batch": 16,
+    "openalex_requests": 0,
+    "crossref_requests": 1,
+    "paid_requests": 1,
+    "paid_tokens": 649,
+    "paid_run": 40779947905,
     "public_corpus_modified": false,
     "published_count": 0,
-    "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
-    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-    "openalex_requests": 0,
-    "openalex_retry_not_before": "2026-10-29T00:00:36.339996+00:00",
-    "quality_checkpoint": "config/content_review_mechanical_checkpoints/2026-10-28T2136Z-quality.json",
-    "duplicate_checkpoint": "config/content_review_mechanical_checkpoints/2026-10-28T2139Z-duplicates.json",
-    "source_request_serial_compliance": false,
-    "source_request_remediation": {
-      "status": "corrected_and_fake_transport_verified",
-      "helper": "tools/content_review/courteous_requests.py",
-      "detail": "Two scripts started concurrently against Virus Bulletin. Cross-process origin lock added to both source scripts. Verified serialization and2second completion interval with fake transport; no further source calls this pass."
-    }
+    "policy_helper_tests": "6 routing scenarios and every existing preflight record exercised",
+    "enrichment_plan": "config/content_review_enrichment_plan.json"
   },
-  "checkpointed_at": "2026-10-28T21:41:42.692Z",
+  "checkpointed_at": "2026-10-28T22:29:39.743Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
-      "affected_candidates": 6,
+      "affected_candidates": 0,
       "retry_after_seconds": 62010,
       "state": "active_backoff",
       "attempted_candidates_this_run": 0,
-      "remaining_candidates_not_attempted": 5,
-      "retry_policy": "Do not issue OpenAlex requests before retry_not_before. After backoff, retry one corrected query first; honor Retry-After and stop the provider after any new429. Preserve source/PDF/byline evidence and individual holds."
+      "remaining_candidates_not_attempted": 0,
+      "retry_policy": "Retain provider cooldown and one-targeted-lookup cap. Former six are not an automatic retry queue: five have independent current-hash core-term holds, one has complete alternative metadata. Reconsider only after relevant evidence/inputs change; consult enrichment_order.py and current ledger first.",
+      "original_affected_candidates": 6,
+      "independent_gate_deferred": 5,
+      "resolved_by_alternative": 1
     }
   },
   "next_actions": [
+    "Apply config/content_review_workflow.json enrichment_order_policy and tools/content_review/enrichment_order.py before any scarce registry call. Resolve current source-text/metadata/duplicate/hard-gate holds first; OpenAlex is only a targeted fallback. Five formerly rate-limited core-gate failures must not reenter an automatic retry queue.",
+    "One cleared candidate is ready in SOUPS batch16; refresh latest D1 submissions before reporting counts. Follow any acceptance immediately with changed/time-sensitive final validation, reusing unchanged valid evidence. Deficit249 remains.",
     "Use tools/content_review/courteous_requests.py install() in source scripts to enforce cross-process origin serialization and a2second completion interval. Retain stricter robots/provider pacing,20second timeouts and backoff; never run unguarded source scripts concurrently.",
     "Resume official Virus Bulletin archive links to reconcile pre2002 and2021 gaps; continue SOUPS annual-root/ancillary reconciliation at2006. Preserve raw resource type uncertainty, stable canonical identities and exclusions.",
     "Inspect actual section headings for accepted vb-2025-4cf4c387d9f4f212ff and vb-2025-f5bba218ffdf8c505b. Original PDF hashes match but explicit abstract boundary recovery failed; independent holds remain.",
@@ -223,7 +203,7 @@
     "status": "operational_verified",
     "workflow": ".github/workflows/content_review_paid.yml",
     "documentation": "docs/content_review_paid_worker.md",
-    "verified_at": "2026-10-28T14:48:21.548Z",
+    "verified_at": "2026-10-28T22:29:39.743Z",
     "successful_runs": [
       40633160529,
       40633500505,
@@ -235,7 +215,8 @@
       40674876427,
       40682716745,
       40700105545,
-      40709032219
+      40709032219,
+      40779947905
     ],
     "completed_request_ids": [
       "0a6451404a02ab0772d27ce9dba13d605af10bdc85cefb82dafea031a7ee2f65",
@@ -248,16 +229,17 @@
       "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951",
       "f25c59ee65f26041554506c96b989562864a4420e8407e8ce70a69c47100283f",
       "18f01424d706303e6be0cef881a66c0a847af2e1973b05dafe76a4cd7176bedf",
-      "cd7c1ac6f2b1b2a010f03951ce5f4f707c83249fb7335d6fd0ae70a41cd65f2b"
+      "cd7c1ac6f2b1b2a010f03951ce5f4f707c83249fb7335d6fd0ae70a41cd65f2b",
+      "94b8e1067ff78664f76c994181d76f8a472b6c014e036e955a0505f6d41f89a6"
     ],
-    "completed_candidates": 57,
+    "completed_candidates": 58,
     "corpus_modified": false,
     "publication_approved": false,
     "reported_usage": {
-      "requests": 57,
-      "input_tokens": 37985,
-      "output_tokens": 1784,
-      "total_tokens": 39769
+      "requests": 58,
+      "input_tokens": 38611,
+      "output_tokens": 1807,
+      "total_tokens": 40418
     },
     "legacy_accepted_paid_requests": 0,
     "local_tests_passed": 39
@@ -267,22 +249,22 @@
     "weekly": 0
   },
   "preflight_hold_counts": {
-    "soups": 89,
+    "soups": 88,
     "weekly": 104
   },
   "recommendation_result_totals": {
-    "current_hash_substantive_recommendations": 57,
+    "current_hash_substantive_recommendations": 58,
     "weekly": 46,
-    "soups": 11,
+    "soups": 12,
     "include": 47,
-    "discuss": 9,
+    "discuss": 10,
     "exclude": 1,
     "full_papers_claimed_reviewed": 0,
-    "manual_ready": 0,
-    "complete_stable_batches": 0,
+    "manual_ready": 1,
+    "complete_stable_batches": 1,
     "full_pending_batches": 0,
     "full_soups_pending_batches": 0,
-    "assessed_at": "2026-10-28T14:48:21.548Z"
+    "assessed_at": "2026-10-28T22:29:39.743Z"
   },
   "pending_mechanical_jobs_basis": "567 immutable requests observed;55 intake assessments complete and490 corpus-removal jobs already applied. Remaining22 requests include13 held assessment jobs and9 partial buffer jobs. Legacy accepted partial assessments remain tracked separately.",
   "publication_status": {
@@ -386,5 +368,14 @@
   "preflight_initial_reserved_counts": {
     "soups": 100,
     "weekly": 150
+  },
+  "enrichment_order": {
+    "workflow_version": 11,
+    "confirmed_at": "2026-10-28T22:29:39.743Z",
+    "plan": "config/content_review_enrichment_plan.json",
+    "provider_independent_holds_first": true,
+    "alternative_metadata_completed": 1,
+    "openalex_calls": 0,
+    "registry_deferred": 192
   }
 }
