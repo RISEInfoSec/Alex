@@ -41,7 +41,8 @@ def apply_submissions(manifest, rows):
     audit = []
     for batch, key in sorted(latest.items()):
         selected = grouped[key]
-        expected = {cid for cid, r in indexed.items() if batch_number(r['review_number']) == batch}
+        expected = {cid for cid, r in indexed.items()
+                    if (r.get('review_batch') or batch_number(r['review_number'])) == batch}
         if {r['candidate_id'] for r in selected} != expected or len(selected) != len(expected):
             raise ValueError(f'Incomplete or repeated decision rows for batch {batch}')
         owners = {r.get('user_id') for r in selected}
