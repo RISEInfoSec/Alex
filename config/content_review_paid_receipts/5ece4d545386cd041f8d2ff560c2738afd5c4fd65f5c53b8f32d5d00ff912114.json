@@ -1,0 +1,369 @@
+{
+  "schema_version": 1,
+  "request_id": "5ece4d545386cd041f8d2ff560c2738afd5c4fd65f5c53b8f32d5d00ff912114",
+  "run_id": 40652256203,
+  "run_attempt": 1,
+  "head_sha": "710e7e8884c2e8fdfd8676f2c9cfb7a9e2f4f7cd",
+  "verified_at": "2026-10-28T07:48:30.835326+00:00",
+  "result_sha256": "bf3d2850ce2e6094b4759cbe2c59f39ff04dd30a50dab2f07681fd8af9ae679a",
+  "usage": {
+    "requests": 5,
+    "input_tokens": 3489,
+    "output_tokens": 178,
+    "total_tokens": 3667,
+    "usage_unavailable_responses": 0
+  },
+  "applied": [
+    {
+      "collection": "weekly",
+      "candidate_id": "weekly-ec276c64538042bd9bad4786",
+      "content_sha256": "94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294",
+      "preflight_passed": true,
+      "idempotency_key": "weekly/weekly-ec276c64538042bd9bad4786/94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294/0/1"
+    },
+    {
+      "collection": "weekly",
+      "candidate_id": "weekly-6bb1f7a23885aaa536d66a7a",
+      "content_sha256": "86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5",
+      "preflight_passed": true,
+      "idempotency_key": "weekly/weekly-6bb1f7a23885aaa536d66a7a/86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5/0/1"
+    },
+    {
+      "collection": "weekly",
+      "candidate_id": "weekly-dddfd1a1f0631aea293a5a3c",
+      "content_sha256": "772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b",
+      "preflight_passed": true,
+      "idempotency_key": "weekly/weekly-dddfd1a1f0631aea293a5a3c/772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b/0/1"
+    },
+    {
+      "collection": "weekly",
+      "candidate_id": "weekly-a05a5bc7f867d5f9a49e598a",
+      "content_sha256": "17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2",
+      "preflight_passed": true,
+      "idempotency_key": "weekly/weekly-a05a5bc7f867d5f9a49e598a/17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2/0/1"
+    },
+    {
+      "collection": "weekly",
+      "candidate_id": "weekly-6862e8dd13b1f283d7436d7b",
+      "content_sha256": "71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49",
+      "preflight_passed": true,
+      "idempotency_key": "weekly/weekly-6862e8dd13b1f283d7436d7b/71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49/0/1"
+    }
+  ],
+  "held": [],
+  "publication_approved": false,
+  "corpus_modified": false,
+  "artifact": {
+    "id": 12800516299,
+    "sha256": "40cca3ef3aef5f77727ef9e39a7b5558b746238dcf624ae96d2952c5aa52a1e3"
+  },
+  "verified_result": {
+    "schema_version": 1,
+    "status": "complete",
+    "started_at": "2026-10-28T07:47:08.909290+00:00",
+    "records": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-ec276c64538042bd9bad4786",
+        "content_sha256": "94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294",
+        "purpose": "preflight",
+        "submission_revision": 0,
+        "assessment_version": 1,
+        "manifest_sha256": "053ae12c78bc99d99b94c28adbdf1773109e9e0be5e3e0789e6a1251cf551465",
+        "gate_evidence_sha256": "3a18eae0b6ac0307a9340841fd098e39266fcdbd9b3c3731be2ca658fb4b3325",
+        "classification_input_sha256": "43133d48bbb74c18da364fa3fe1c671a6f843c9078431dc33aa9984b8c57f382",
+        "idempotency_key": "weekly/weekly-ec276c64538042bd9bad4786/94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294/0/1",
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T07:47:11.250141+00:00",
+          "content_sha256": "94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294",
+          "evidence": {
+            "classification": {
+              "Category": "Cyber Threat Intelligence",
+              "Investigation_Type": "Threat Hunting",
+              "OSINT_Source_Types": [
+                "Public Records",
+                "News Media",
+                "Academic Literature"
+              ]
+            },
+            "response_id": "resp_0d7aef6752eaf9a8016ae1a87de98487d19e5da72cabcc3966",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 676,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 31,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 707
+            },
+            "uncertainty_flags": []
+          }
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-10-28T07:47:11.256282+00:00",
+          "content_sha256": "94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "9a09acbc5f6a6b29226aeda8bebede4ae4cfad87f36681e26531639a82469c2a",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release."
+          }
+        }
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-6bb1f7a23885aaa536d66a7a",
+        "content_sha256": "86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5",
+        "purpose": "preflight",
+        "submission_revision": 0,
+        "assessment_version": 1,
+        "manifest_sha256": "053ae12c78bc99d99b94c28adbdf1773109e9e0be5e3e0789e6a1251cf551465",
+        "gate_evidence_sha256": "8035104cedd4b847f01c8ad1b1bfdf577b431b586d0fee76a0f6ec5f8e506f88",
+        "classification_input_sha256": "4decc6ddab72b82c27ef69b53a9d5d6a793a307179be57fc5992b07b321e6c9c",
+        "idempotency_key": "weekly/weekly-6bb1f7a23885aaa536d66a7a/86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5/0/1",
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T07:47:12.113249+00:00",
+          "content_sha256": "86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5",
+          "evidence": {
+            "classification": {
+              "Category": "Disinformation & Influence",
+              "Investigation_Type": "Social Media Analysis",
+              "OSINT_Source_Types": [
+                "Public Records",
+                "News Media",
+                "Forums & Communities"
+              ]
+            },
+            "response_id": "resp_0eeb2766feb27a7c016ae1a87f610c87d1b45986bdde2674a8",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 665,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 34,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 699
+            },
+            "uncertainty_flags": []
+          }
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-10-28T07:47:12.120220+00:00",
+          "content_sha256": "86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "283f8a472ed4f08cd4ed0472b82f14b3b125d68e43034429e461e77cf1203f4a",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release."
+          }
+        }
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-dddfd1a1f0631aea293a5a3c",
+        "content_sha256": "772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b",
+        "purpose": "preflight",
+        "submission_revision": 0,
+        "assessment_version": 1,
+        "manifest_sha256": "053ae12c78bc99d99b94c28adbdf1773109e9e0be5e3e0789e6a1251cf551465",
+        "gate_evidence_sha256": "65f73ee93ab18a97e4c7bcd4265b55b27049dff43486f95e5b86d8236e56dbbb",
+        "classification_input_sha256": "ce21b5f5fe8c0bc9bf3dca6de2c287663c1f20412f8266b207928642804e7878",
+        "idempotency_key": "weekly/weekly-dddfd1a1f0631aea293a5a3c/772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b/0/1",
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T07:47:15.242468+00:00",
+          "content_sha256": "772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b",
+          "evidence": {
+            "classification": {
+              "Category": "Cybercrime & Fraud",
+              "Investigation_Type": "Phishing Analysis",
+              "OSINT_Source_Types": [
+                "Social Media",
+                "Public Records",
+                "Forums & Communities",
+                "Other"
+              ]
+            },
+            "response_id": "resp_023ee0cf19031678016ae1a880470487d18403d14aaab1bf2a",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 773,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 55,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 828
+            },
+            "uncertainty_flags": []
+          }
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-10-28T07:47:15.246923+00:00",
+          "content_sha256": "772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "e1c4a4b3da59adebd4a19d1d0c8167959dfd4b89bce69d615861ffed87be1c67",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release."
+          }
+        }
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-a05a5bc7f867d5f9a49e598a",
+        "content_sha256": "17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2",
+        "purpose": "preflight",
+        "submission_revision": 0,
+        "assessment_version": 1,
+        "manifest_sha256": "053ae12c78bc99d99b94c28adbdf1773109e9e0be5e3e0789e6a1251cf551465",
+        "gate_evidence_sha256": "46c0af03995586f892570866185712a11e4d553cc7549a055db0117c5e6272fa",
+        "classification_input_sha256": "5c4b4ab7f06ed76b6709a8533f152db1e65fbad3981cc4f6feb9f169ee3ea1a7",
+        "idempotency_key": "weekly/weekly-a05a5bc7f867d5f9a49e598a/17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2/0/1",
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T07:47:16.827085+00:00",
+          "content_sha256": "17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2",
+          "evidence": {
+            "classification": {
+              "Category": "Cyber Threat Intelligence",
+              "Investigation_Type": "Attribution",
+              "OSINT_Source_Types": []
+            },
+            "response_id": "resp_031bcb09f9ae1b4c016ae1a883697087d198311ecc8038cbb4",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 745,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 31,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 776
+            },
+            "uncertainty_flags": []
+          }
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-10-28T07:47:16.831696+00:00",
+          "content_sha256": "17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "b89936bf90ab70280a2a018ff39d1589ebebce61bb7c7bec66f862e2d31705f3",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release."
+          }
+        }
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-6862e8dd13b1f283d7436d7b",
+        "content_sha256": "71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49",
+        "purpose": "preflight",
+        "submission_revision": 0,
+        "assessment_version": 1,
+        "manifest_sha256": "053ae12c78bc99d99b94c28adbdf1773109e9e0be5e3e0789e6a1251cf551465",
+        "gate_evidence_sha256": "4b31b1af3ec259f83372224770c19797d7af38356f8eb33bbe5b102b8cc1a30f",
+        "classification_input_sha256": "8b628c326b3f0515e866ddc18fd2159633337dc2869fd3c93ffa7b46a3cbec23",
+        "idempotency_key": "weekly/weekly-6862e8dd13b1f283d7436d7b/71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49/0/1",
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T07:47:17.662479+00:00",
+          "content_sha256": "71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49",
+          "evidence": {
+            "classification": {
+              "Category": "Malware & Exploits",
+              "Investigation_Type": "Threat Hunting",
+              "OSINT_Source_Types": [
+                "Other"
+              ]
+            },
+            "response_id": "resp_08e5a5256a7a3639016ae1a884f27c87d186a5976d9012f681",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 630,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 27,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 657
+            },
+            "uncertainty_flags": []
+          }
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-10-28T07:47:17.666871+00:00",
+          "content_sha256": "71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "2aa4bb0ddf394c14d38a530af380a9f5451c57bb1e94a258699b6c283fd6bd2e",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release."
+          }
+        }
+      }
+    ],
+    "usage": {
+      "requests": 5,
+      "input_tokens": 3489,
+      "output_tokens": 178,
+      "total_tokens": 3667,
+      "usage_unavailable_responses": 0
+    },
+    "corpus_modified": false,
+    "publication_approved": false,
+    "provenance": {
+      "GITHUB_RUN_ID": "40652256203",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_SHA": "710e7e8884c2e8fdfd8676f2c9cfb7a9e2f4f7cd",
+      "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+      "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+    },
+    "request_id": "5ece4d545386cd041f8d2ff560c2738afd5c4fd65f5c53b8f32d5d00ff912114",
+    "request_file_sha256": "c7607278f7e16c1e52a1117327d25f94326886db170ae27b3bcc0a4be6881c4b",
+    "contract": {
+      "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+      "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+      "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+      "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+      "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+      "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+    },
+    "completed_at": "2026-10-28T07:47:17.667570+00:00"
+  }
+}
