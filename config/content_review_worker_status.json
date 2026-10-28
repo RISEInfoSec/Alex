@@ -6,13 +6,9 @@
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
-  "soups_min_ready_batches": 5,
+  "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "owner": "uniform-review-2026-10-28T18-01-16-359Z",
-    "acquired_at": "2026-10-28T18:01:16.359Z",
-    "expires_at": "2026-10-28T18:31:16.359Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -32,7 +28,7 @@
     "weekly": 150
   },
   "global_deficit": 250,
-  "soups_batch_deficit": 5,
+  "soups_batch_deficit": 0,
   "last_completed_at": "2026-10-28T17:38:10.066Z",
   "last_action": "Continued bounded courteous discovery through eight2017-2020 official programme/conference pages. Observed395 item links and added391 canonical URLs to the supplemental inventory:1009 total (354SOUPS,655Virus Bulletin), including10 existing explicit exclusion URL matches. Captured68 VB2020 virtual-conference presentation links; VB2021 coverage gap retained. No new console decisions or weekly arrivals; no gates waived, manual admissions or public changes. Ready0/250; SOUPS0/5.",
   "mechanical_result_totals": {
@@ -141,7 +137,7 @@
   ],
   "held_stage": {
     "stage": "remaining_preflight_and_final_access",
-    "reason": "Ready0/250; SOUPS0/5.193 existing preflight holds remain, plus raw archive discovery outside that inventory. One of two newly accepted papers is final-validation complete; the other has a publisher403 access hold."
+    "reason": "Shared cleared buffer0/250.193 existing preflight holds remain, plus raw archive discovery. All sources use the same processing policy; no separate SOUPS reserve deficit."
   },
   "last_run_checkpoint": {
     "verified_at": "2026-10-28T17:38:10.066Z",
@@ -191,7 +187,7 @@
     "Prioritize the active SOUPS/USENIX and Virus Bulletin archive discovery campaign each pass, with bounded courteous requests and persisted coverage checkpoints; defer SANS, FIRST.org and other new collections pending disposition of this intake.",
     "Respect config/corpus_exclusions.json before any preflight, substantive recommendation, manual admission or publication. Read config/editorial_relevance_feedback.json as labeled positive and negative examples; do not treat audit recommendations as human reasons or infer provider bans.",
     "All490 audit removal jobs and eight new assessment jobs are complete: consult config/review_application_status.json and the publication receipt before any replay. Corpus-audit keeps mean retain existing records, never new imports.",
-    "Refill the actual cleared manual buffer toward250 when below100 and restore five full pending SOUPS batches; apply current complete-discovery and continuing-usefulness policies, preserve all holds, and exclude audit work from intake counts.",
+    "Refill the actual cleared manual buffer toward250 when below100; apply current complete-discovery and continuing-usefulness policies, preserve all holds, and exclude audit work from intake counts.",
     "Preserve all4041 weekly identities and future arrivals. Complete missing checks for251 legacy accepted held/partial records without repeating human relevance review or waiving quality requirements.",
     "Do not issue OpenAlex requests before2026-10-29T00:00:36Z; preserve the existing backoff.",
     "Complete accessible SOUPS/USENIX and Virus Bulletin discovery additively while preflight proceeds. Prioritize newer curated material and actual papers; assess currently useful, foundational/historical or superseded value after all gates pass."
@@ -310,10 +306,10 @@
   },
   "workflow_policy_update": {
     "confirmed_at": "2026-10-28",
-    "recorded_at": "2026-10-28T15:29:39.266Z",
-    "workflow_version": 9,
+    "recorded_at": "2026-10-28T18:02:15.721Z",
+    "workflow_version": 10,
     "material_policy_version": 3,
-    "scope": "Active courteous SOUPS/USENIX and Virus Bulletin discovery campaign; new sources deferred until current intake disposition; continuing-usefulness policy preserved.",
+    "scope": "Uniform post-discovery processing across sources; independent SOUPS reserve and preparation preference removed; shared250/100 buffer preserved.",
     "files": [
       "config/content_review_material_policy.json",
       "config/content_review_workflow.json",
@@ -358,5 +354,6 @@
     },
     "canonical_exclusion_matches": 10,
     "supplemental_unique_urls_added": 391
-  }
+  },
+  "source_reserve_enabled": false
 }
