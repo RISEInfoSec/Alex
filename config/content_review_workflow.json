@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 7,
+  "version": 8,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -26,21 +26,21 @@
     "human_review_batch_size": 20,
     "source_specific_preparation_checkpoints": true,
     "only_substantively_assessed_candidates_count_as_review_ready": true,
-    "source_order": "Explicit user priority first; otherwise oldest waiting work without starving other active collections.",
+    "source_order": "Explicit user priority first; restore the independent SOUPS floor and allow Virus Bulletin and regular weekly work to progress. Within unprocessed curated archives, prioritize newer publication years and verified papers; use waiting age as a tie-breaker and prevent starvation. Preserve oldest-waiting order for otherwise equivalent regular-weekly candidates.",
     "global_review_ready_target_applies_to": "Candidates actually requiring human review; automatically accepted candidates do not consume the manual-review buffer.",
     "buffer_thresholds_status": "User-confirmed: strictly below 100 triggers replenishment to 250.",
     "only_preflight_passed_candidates_count_as_review_ready": true
   },
   "preparation": {
     "stages": [
-      "discover or resume retained inventory",
+      "discover or resume retained inventory, completing accessible source archives additively without waiting for human review",
       "normalize identities and provenance",
       "deduplicate within and across all inventories and the current public corpus",
       "resolve source/access and verify actual resource type",
       "reconcile metadata and identifiers; record unknown citations as null",
       "run existing source-appropriate quality hard gates and schema dry run",
       "route existing automatic accepts/rejections and isolate unresolved holds",
-      "prepare content-based relevance recommendations only for surviving manual-review candidates",
+      "assess continuing usefulness and prepare content-based relevance recommendations only after all mechanical gates pass for surviving manual-review candidates",
       "seal batches of 1–20 cleared candidates independently of held discovery reservations"
     ],
     "title_only_assessment_allowed": false,
@@ -229,5 +229,57 @@
     "confirmed_at": "2026-10-27",
     "rule": "Complete mechanical checks before asking for editorial relevance review. Targets never justify admitting unchecked candidates.",
     "recheck_after_acceptance": "Only changed/time-sensitive evidence and final publication validation; do not postpone foreseeable disqualifying checks until after manual review."
+  },
+  "archive_discovery_policy": {
+    "confirmed_at": "2026-10-28",
+    "sources": [
+      "SOUPS / USENIX",
+      "Virus Bulletin"
+    ],
+    "goal": "Capture the complete accessible archive into a durable discovery inventory without waiting for manual review or completion of earlier mechanical checks.",
+    "discovery_contents": [
+      "stable source and candidate identities",
+      "title, authors and year as observed",
+      "canonical programme/item URLs",
+      "paper, slides and recording links with provisional types",
+      "source provenance and retrieval timestamps",
+      "annual and ancillary coverage gaps, request failures and retry/backoff state"
+    ],
+    "additive": true,
+    "deduplication": "Reconcile overlapping main, ancillary and programme inventories and preserve distinct versions. Report unique identities and overlaps; never add raw counts as if disjoint.",
+    "execution": "Resume discovery and mechanical processing in bounded checkpointed batches under the single-writer lease, request timeouts, source pacing and provider backoff. Discovery may progress while earlier candidates remain held.",
+    "processing_priority": "Newer publication years and actual papers first within curated archives; presentations require separate resource/audio verification. Historical archive gaps remain recorded and are revisited without starving other sources.",
+    "before_new_work": "Consult durable corpus exclusions, preserve authenticated decisions and prior content hashes.",
+    "admission": "Raw discoveries remain outside the cleared manual buffer. Complete format, access, metadata, fresh duplicates, existing quality/hard gates and schema before substantive recommendations and admission.",
+    "counts": "Report discovered, mechanically held, cleared awaiting admission and ready separately; never describe discovery coverage as validated eligible papers."
+  },
+  "current_usefulness_policy": {
+    "path": "config/content_review_material_policy.json",
+    "section": "current_usefulness",
+    "confirmed_at": "2026-10-28",
+    "scope": "All inbound sources and collections, including SOUPS, Virus Bulletin and regular weekly discovery.",
+    "assessment_timing": "After all six mechanical preflight gates pass and before substantive recommendation binding/manual admission.",
+    "priority": "Present-day usefulness to cybercrime research and investigation takes precedence over historical existence or accumulated citations.",
+    "labels": {
+      "currently_useful": "The method, evidence or insight remains applicable; explain its current use and limitations.",
+      "foundational_historical": "Retains demonstrable foundational or historical value; label that value explicitly and give it lower preparation priority.",
+      "superseded": "Depends on obsolete conditions and offers little transferable value; recommend exclusion with a concrete content-based reason."
+    },
+    "evidence_required": [
+      "reviewed content SHA-256",
+      "assessment date",
+      "material actually inspected and assessment depth",
+      "usefulness label",
+      "specific present-day application or historical contribution",
+      "obsolete assumptions, dependencies or superseding evidence when applicable",
+      "uncertainty and limitations"
+    ],
+    "older_material": "Require a stronger explicit explanation of continuing usefulness for older material; distinguish obsolete platform-specific techniques from transferable methods, behavioural findings and investigative principles.",
+    "unknown": "If usefulness or supersession cannot be established, record uncertainty and discuss or hold as appropriate; do not infer obsolescence from publication year.",
+    "no_automatic_age_cutoff": true,
+    "numeric_scoring_changed": false,
+    "citation_counts_do_not_establish_current_usefulness": true,
+    "preserve": "Existing scores, hard gates, automatic acceptance, prior decisions and reviewed-content hashes remain in force. No retroactive removal or decision reversal without the existing authenticated decision process.",
+    "implementation_scope": "Recorded worker/editorial instructions. No new numerical age penalty, score weight or public UI badge is claimed as implemented."
   }
 }
