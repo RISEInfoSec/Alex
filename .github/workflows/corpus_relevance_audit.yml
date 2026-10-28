@@ -1,0 +1,40 @@
+name: Full corpus relevance audit
+on:
+  push:
+    branches: [codex/corpus-relevance-audit-20261028]
+    paths: ['config/corpus_relevance_audit/request.json']
+permissions:
+  contents: write
+concurrency:
+  group: corpus-relevance-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/corpus-relevance-audit-20261028
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: Audit every published abstract
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
+        run: python tools/content_review/corpus_relevance_audit.py
+      - name: Save audit evidence only
+        if: always()
+        run: |
+          git diff --exit-code -- data
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add config/corpus_relevance_audit/results.json
+          git diff --cached --quiet || git commit -m 'Checkpoint full corpus relevance audit'
+          git push
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: corpus-relevance-audit
+          path: config/corpus_relevance_audit/results.json
