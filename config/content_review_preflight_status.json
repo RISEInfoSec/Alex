@@ -4636,7 +4636,7 @@
         "metadata": {
           "status": "held",
           "content_sha256": "9fa8b4f3fe13b64725616ea1e4d4109438a7656491be1a9e2cbf2921006cc552",
-          "checked_at": "2026-10-28T03:47:50.057117+00:00",
+          "checked_at": "2026-10-28T06:47:06.339996+00:00",
           "evidence": {
             "official_title": "Please do not use !?_ or your License Plate Number: Analyzing Password Policies in German Companies",
             "official_authors": [
@@ -4657,12 +4657,32 @@
             "identifier_and_citation_search": {
               "candidate_id": "soups-09b3db927196c4dca77f",
               "content_sha256": "9fa8b4f3fe13b64725616ea1e4d4109438a7656491be1a9e2cbf2921006cc552",
+              "source_url": "https://api.openalex.org/works?search=Please+do+not+use+License+Plate+Number+Analyzing+Password+Policies+German+Companies&per-page=10",
+              "checked_at": "2026-10-28T06:47:06.339996+00:00",
+              "error": "HTTPError: HTTP Error 429: Too Many Requests",
+              "retry_after_seconds": 62010,
+              "returned_bibliographic_candidates": [],
+              "query_correction": "Removed punctuation and used alphanumeric full-title search terms."
+            },
+            "limitations": "No DOI or universal citation count inferred from absence. Different-year versions or unverified matches are not assigned to the reviewed record.",
+            "prior_identifier_and_citation_search": {
+              "candidate_id": "soups-09b3db927196c4dca77f",
+              "content_sha256": "9fa8b4f3fe13b64725616ea1e4d4109438a7656491be1a9e2cbf2921006cc552",
               "source_url": "https://api.openalex.org/works?filter=title.search%3APlease+do+not+use+%21%3F_+or&per-page=10",
               "checked_at": "2026-10-28T03:48:41.629884+00:00",
               "error": "HTTPError: HTTP Error 400: Bad Request",
               "returned_bibliographic_candidates": []
             },
-            "limitations": "No DOI or universal citation count inferred from absence. Different-year versions or unverified matches are not assigned to the reviewed record."
+            "prior_identifier_registry_subcheck": null,
+            "identifier_registry_subcheck": {
+              "status": "retryable_failure",
+              "checked_at": "2026-10-28T06:47:06.339996+00:00",
+              "content_sha256": "9fa8b4f3fe13b64725616ea1e4d4109438a7656491be1a9e2cbf2921006cc552",
+              "error": "HTTP429 Too Many Requests",
+              "retry_after_seconds": 62010,
+              "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
+              "source_url": "https://api.openalex.org/works?search=Please+do+not+use+License+Plate+Number+Analyzing+Password+Policies+German+Companies&per-page=10"
+            }
           },
           "venue_evidence": {
             "checked_at": "2026-10-28T03:50:01.110365+00:00",
@@ -40610,7 +40630,7 @@
       }
     }
   },
-  "updated_at": "2026-10-28T06:44:13.473872+00:00",
+  "updated_at": "2026-10-28T06:47:06.339996+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
@@ -41103,6 +41123,18 @@
       "complete_stable_batches": 0,
       "manual_ready": 0,
       "quality_or_scoring_rules_changed": false
+    },
+    {
+      "checked_at": "2026-10-28T06:47:06.339996+00:00",
+      "stage": "soups_identifier_retry",
+      "provider": "OpenAlex",
+      "corrected_query_attempts": 1,
+      "http_429": 1,
+      "retry_after_seconds": 62010,
+      "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
+      "remaining_candidates_not_attempted": 5,
+      "provider_stopped_immediately": true,
+      "metadata_passes_changed": 0
     }
   ],
   "cumulative_weekly_network_counts": {
