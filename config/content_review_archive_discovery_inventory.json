@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-28T22:44:21.054269+00:00",
+  "updated_at": "2026-10-28T23:50:29.224959+00:00",
   "scope": "Canonical resource URL inventory from checkpointed historical programme pages; supplement to existing source inventories, not complete archive coverage. Counts overlap existing manifests and the prior1398-entry VB aggregate.",
   "publication_approved": false,
   "coverage_complete": false,
@@ -11,7 +11,7 @@
       "excluded_by_exact_canonical_url": 7
     },
     "virusbulletin": {
-      "unique_observed_urls": 1394,
+      "unique_observed_urls": 1396,
       "review_ready": 0,
       "excluded_by_exact_canonical_url": 3
     }
@@ -53805,6 +53805,58 @@
       ]
     },
     {
+      "discovery_identity": "virusbulletin-url-155752bc902266a7c602d5d1",
+      "collection": "virusbulletin",
+      "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb2000/VB2000_report.pdf",
+      "observed_title": "here",
+      "document_type": "format_unverified",
+      "observed_resource_type_hint": "conference_report",
+      "review_ready": false,
+      "recommendation": null,
+      "disposition": "unprocessed_discovery",
+      "first_seen_at": "2026-10-28T23:50:29.224959+00:00",
+      "provenance": [
+        {
+          "discovery_url": "https://virusbulletin.com/conference/vb2000/",
+          "checked_at": "2026-10-28T23:50:29.224959+00:00"
+        }
+      ],
+      "preflight_blockers": [
+        "format",
+        "access",
+        "metadata",
+        "duplicates",
+        "quality",
+        "schema"
+      ]
+    },
+    {
+      "discovery_identity": "virusbulletin-url-6cd27d324a86cf87e11294f3",
+      "collection": "virusbulletin",
+      "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb2000/vb2000White.pdf",
+      "observed_title": "VB2010 - a retrospective",
+      "document_type": "format_unverified",
+      "observed_resource_type_hint": "retrospective_article",
+      "review_ready": false,
+      "recommendation": null,
+      "disposition": "unprocessed_discovery",
+      "first_seen_at": "2026-10-28T23:50:29.224959+00:00",
+      "provenance": [
+        {
+          "discovery_url": "https://virusbulletin.com/conference/vb2000/",
+          "checked_at": "2026-10-28T23:50:29.224959+00:00"
+        }
+      ],
+      "preflight_blockers": [
+        "format",
+        "access",
+        "metadata",
+        "duplicates",
+        "quality",
+        "schema"
+      ]
+    },
+    {
       "discovery_identity": "virusbulletin-url-51ed31311b1d9d28319777f0",
       "collection": "virusbulletin",
       "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb2001/VB2001report.pdf",
@@ -54110,11 +54162,11 @@
   "resume_queue": {
     "soups": [],
     "virusbulletin": [
-      "https://virusbulletin.com/conference/vb2000/"
+      "https://virusbulletin.com/conference/vb99/"
     ]
   },
   "vblocalhost_limitation": "Conference page retrieved; alternative item-link structure not extracted by abstract-path parser. Requires dedicated link parser; no claim of complete2021 coverage.",
-  "coverage_note": "SOUPS/USENIX annual and programme index pages for 2005-2026 have been visited, including the SOUPS 2006 programme; file-level resource typing and ancillary verification remain incomplete. Virus Bulletin official archive roots now resolve through 2001; resume bounded older-root reconciliation at VB2000. Raw resources remain fully preflight-held.",
+  "coverage_note": "SOUPS/USENIX annual and programme index pages for 2005-2026 have been visited; file-level typing and ancillary verification remain incomplete. Virus Bulletin official archive roots now resolve through VB2000; two VB2000 PDFs were captured as raw resources. Resume at VB99. All raw resources remain fully preflight-held.",
   "execution_diagnostics": {
     "source_request_overlap_detected": true,
     "remediation": "Discovery and accepted-paper scripts were started concurrently. Subsequent work is sequential; a process-shared per-origin requests lock now enforces one in-flight request and at least2seconds after completion. Full-run serial-pacing compliance is not claimed.",
