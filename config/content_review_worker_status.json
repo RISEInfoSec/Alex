@@ -1,50 +1,46 @@
 {
   "schema_version": 1,
   "phase": "active",
-  "ready_total": 46,
+  "ready_total": 3,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": null,
-  "lease": {
-    "owner": "content-review-2026-10-28T09:44:47.231Z",
-    "acquired_at": "2026-10-28T09:44:47.231Z",
-    "expires_at": "2026-10-28T10:14:47.231Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
-    "soups": 11,
-    "weekly": 35,
+    "soups": 0,
+    "weekly": 3,
     "virusbulletin": 0,
     "apwg": 0
   },
   "unattended_access_verified_at": "2026-10-27T22:40:36Z",
   "verification_result": "Unattended access verified: production D1 binding DB exposes review_decisions, review_drafts, review_jobs and review_submissions; review_jobs read succeeded (empty). Branch source registry config/review_console.json read successfully (SOUPS, APWG, Virus Bulletin; weekly not yet registered). Initial-fill lease and all counts preserved; no candidate or assessment mutation.",
-  "weekly_prepared_batches": 2,
-  "pending_mechanical_jobs": 251,
+  "weekly_prepared_batches": 1,
+  "pending_mechanical_jobs": 12,
   "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
   "workflow": "preflight_first",
-  "preflight_pending": 204,
+  "preflight_pending": 201,
   "preflight_source_counts": {
     "soups": 100,
     "weekly": 150
   },
-  "global_deficit": 204,
+  "global_deficit": 247,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-28T09:07:50.914Z",
-  "last_action": "Repaired batch admission after user instruction: sealed 46 candidates with six current content-hash-bound gates and current substantive recommendations into weekly batches9(20) and10(15), plus SOUPS batch15(11). Preserved every candidate ID, paper number, reviewed-content hash, prior decision and former reservation provenance. Later clearances receive new sealed batches; no additions to sealed/submitted batches. Updated SOUPS decision intake to honor explicit batch IDs, the worker policy and reusable admission helper. Corrected console held-versus-cleared counts and deployed the owner-private review console.476 repository tests and24 console tests passed, TypeScript and production build passed, live manifest readback confirms46 ready and204 held. All132 D1 decision hashes and4041 initial weekly identities preserved. No public ALEX import, merge or deployment.",
+  "last_completed_at": "2026-10-28T09:53:53.008Z",
+  "last_action": "Reconciled10 authenticated complete submissions and178 exact candidate/hash decisions, including all46 newly accepted papers. All46 passed final source reachability checks and current target serialization using saved paid taxonomy; no repeat paid classification for accepted papers. Saved46 completed assessment job IDs; remaining251 legacy accepted records retain independent holds. Verified three actual arXiv PDFs, completed isolated exact-hash classification/schema workflow40667231581, reassessed complete current abstracts and sealed weekly batch11 with3 ready papers. Current cleared buffer3/250, SOUPS0/5 full batches,201 preflight holds. All4041 weekly identities preserved; no new arrivals.476 tests passed. Current maintenance request prohibits public import, merge or deployment; no public ALEX changes.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
-    "complete": 0,
+    "complete": 46,
     "held_or_partial": 251,
     "fresh_pdf_access_and_front_matter_passed": 12,
     "quality_passed": 5,
     "quality_held": 246,
-    "openai_requests": 46,
-    "openai_tokens": 31982,
+    "openai_requests": 49,
+    "openai_tokens": 34046,
     "citation_registry_lookups_completed": 24,
     "verified_citation_counts_from_this_run": 0,
     "legacy_abstracts_reachability_and_material_verified": 10,
@@ -52,13 +48,17 @@
     "retryable_link_failures": 1,
     "fresh_cross_source_duplicates_passed": 248,
     "fresh_cross_source_duplicates_held": 3,
-    "preflight_openai_requests": 46,
+    "preflight_openai_requests": 49,
     "legacy_accepted_openai_requests": 0,
-    "pre_review_taxonomy_and_target_schema_passed": 46,
-    "current_hash_substantive_recommendations": 46,
+    "pre_review_taxonomy_and_target_schema_passed": 49,
+    "current_hash_substantive_recommendations": 49,
     "recommendations_changed_this_run": 0,
     "openalex_retry_requests_this_run": 0,
-    "openalex_rate_limits_this_run": 0
+    "openalex_rate_limits_this_run": 0,
+    "tracked_accepted_total": 297,
+    "newly_accepted_this_run": 46,
+    "newly_accepted_final_validation_complete": 46,
+    "final_source_revalidations_passed_this_run": 46
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
   "last_started_at": "2026-10-28T09:44:47.231Z",
@@ -69,7 +69,7 @@
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
     "refresh_result": "Unchanged original source blob; no identities deleted or rewritten.",
-    "refreshed_at": "2026-10-28T08:49:21.385Z"
+    "refreshed_at": "2026-10-28T09:53:53.008Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
@@ -96,32 +96,35 @@
       "duplicate_held": 1,
       "quality_passed": 149,
       "quality_held": 1,
-      "format_passed": 42,
-      "access_passed": 42,
-      "metadata_passed": 49,
-      "format_held": 108,
-      "access_held": 108,
-      "metadata_held": 101,
-      "schema_held": 115,
-      "schema_passed": 35
+      "format_passed": 45,
+      "access_passed": 45,
+      "metadata_passed": 52,
+      "format_held": 105,
+      "access_held": 105,
+      "metadata_held": 98,
+      "schema_held": 112,
+      "schema_passed": 38
     }
   },
   "reconciliation": {
-    "completed_submissions": 7,
-    "latest_decisions_validated": 132,
+    "completed_submissions": 10,
+    "latest_decisions_validated": 178,
     "content_hash_mismatches": 0,
-    "immutable_jobs": 13,
-    "verified_at": "2026-10-28T09:07:50.914Z"
+    "submission_payload_hashes_validated": 10,
+    "immutable_jobs": 62,
+    "completed_assessment_jobs": 46,
+    "remaining_immutable_jobs": 16,
+    "verified_at": "2026-10-28T09:53:53.008Z"
   },
   "blocked_sources": [
     {
       "source": "soups",
-      "reason": "11 candidates are ready in sealed batch15.89 preflight candidates retain separate holds. No full pending batch of20; deficit remains five full SOUPS batches. Source not exhausted.",
+      "reason": "All11 admitted SOUPS papers were accepted and passed final validation.89 preflight candidates retain quality/metadata/schema holds; OpenAlex backoff respected. No pending full SOUPS batches; deficit5. Source not exhausted.",
       "exhausted": false
     },
     {
       "source": "weekly",
-      "reason": "35 candidates are ready in sealed batches9(20) and10(15).115 preflight candidates retain separate holds. All4041 weekly identities preserved; source not exhausted.",
+      "reason": "All35 earlier admitted weekly papers were accepted and passed final validation.3 newly cleared papers are pending in sealed batch11.112 candidates retain independent holds. All4041 source identities preserved; source not exhausted.",
       "exhausted": false
     },
     {
@@ -132,66 +135,68 @@
     }
   ],
   "held_stage": {
-    "stage": "remaining_candidate_preflight",
-    "reason": "46 cleared candidates have been admitted.204 candidates retain mechanical holds. Replenish the shared buffer toward250 and independently prepare five full SOUPS batches without withholding cleared work."
+    "stage": "remaining_preflight_and_publication_scope",
+    "reason": "3 papers ready for manual review;247 deficit and five full SOUPS batches remain.46 accepted papers passed final validation but the current maintenance request prohibits public import, merge and deployment."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-28T09:07:50.914Z",
-    "scope": "cleared_batch_admission_and_console_count_repair",
+    "verified_at": "2026-10-28T09:53:53.008Z",
+    "scope": "completed_decisions_final_revalidation_and_three_paper_refill",
     "local_tests_passed": 476,
-    "console_tests_passed": 24,
-    "typescript_check": "passed",
-    "production_build": "passed",
+    "completed_submissions": 10,
+    "decisions_validated": 178,
+    "content_hash_mismatches": 0,
+    "immutable_jobs": 62,
+    "assessment_jobs_completed": 46,
+    "new_acceptances": 46,
+    "final_validation_complete": 46,
+    "source_requests_for_accepted_final_checks": 46,
+    "source_request_timeout_seconds": 20,
+    "serial_provider_pacing_seconds": 0.5,
+    "paid_taxonomy_reused_for_accepted": 46,
     "mechanical_passed": {
       "soups": 11,
-      "weekly": 35
+      "weekly": 38
+    },
+    "recommendations_current": {
+      "soups": 11,
+      "weekly": 38
     },
     "ready_by_collection": {
-      "soups": 11,
-      "weekly": 35
+      "soups": 0,
+      "weekly": 3
     },
-    "ready_total": 46,
-    "preflight_held": 204,
-    "sealed_batches": {
-      "soups": [
-        {
-          "batch": 15,
-          "count": 11
-        }
-      ],
-      "weekly": [
-        {
-          "batch": 9,
-          "count": 20
-        },
-        {
-          "batch": 10,
-          "count": 15
-        }
-      ]
+    "ready_total": 3,
+    "preflight_held": 201,
+    "new_ready_batch": {
+      "collection": "weekly",
+      "batch": 11,
+      "papers": 3
     },
     "soups_ready_batches": 0,
-    "global_deficit": 204,
+    "global_deficit": 247,
     "soups_batch_deficit": 5,
-    "content_decisions_changed": 0,
-    "scoring_policy_changes": 0,
-    "content_hashes_changed": 0,
-    "paper_numbers_changed": 0,
-    "public_corpus_modified": false,
-    "readback_commit": "1d9b46469a17da98daa4d66325a37922d878e01f",
-    "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-    "console_source_commit": "011de8fecde2076770b272b70dc9fd131f7652e1",
-    "console_deployment_id": "appgdep_6ae1bb110a088191b903f69422552873",
-    "console_deployment_status": "succeeded",
     "openai_usage_this_run": {
-      "requests": 0,
-      "input_tokens": 0,
-      "output_tokens": 0,
-      "total_tokens": 0
-    }
+      "requests": 3,
+      "input_tokens": 1982,
+      "output_tokens": 82,
+      "total_tokens": 2064,
+      "usage_unavailable_responses": 0
+    },
+    "openai_usage_cumulative": {
+      "requests": 49,
+      "input_tokens": 32524,
+      "output_tokens": 1522,
+      "total_tokens": 34046
+    },
+    "openalex_requests": 0,
+    "openalex_retry_not_before": "2026-10-29T00:00:36.339996+00:00",
+    "public_corpus_modified": false,
+    "published_count": 0,
+    "readback_commit": "aee3ae803ddec8b634b8a742b8409d3f89772496",
+    "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66"
   },
-  "checkpointed_at": "2026-10-28T09:07:50.914Z",
+  "checkpointed_at": "2026-10-28T09:53:53.008Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
@@ -204,25 +209,25 @@
     }
   },
   "next_actions": [
-    "Run tools/content_review/admit_cleared.py to seal new cleared candidates into batches of1–20, allocating new explicit IDs beyond reservations; never append to sealed/submitted batches. Preserve IDs, paper numbers, content hashes and decisions.",
-    "Restore the shared ready buffer from46 to250 and independently prepare five full SOUPS batches of20; short SOUPS batches do not count toward that floor.",
-    "Continue all source-specific format, access, metadata, duplicate, quality and schema holds independently. No unchecked entries admitted.",
-    "Do not query OpenAlex before2026-10-29T00:00:36Z; honor provider backoff.",
-    "After new acceptances, reconcile immutable jobs and start final/time-sensitive checks, reusing unchanged valid evidence. Continue missing legacy accepted checks.",
-    "Retain all4041 weekly identities and future arrivals additively. Reuse six existing paid receipts."
+    "Continue preflight and seal newly cleared candidates into new batches of1–20; never append to submitted batches. Current ready3/250; preserve all4041 weekly identities and future arrivals.",
+    "Restore five full pending SOUPS batches of20 independently; current0/5. Keep existing quality, format, media, metadata and duplicate holds.",
+    "Process new accepted-candidate jobs using current decision/hash/revision; reuse unchanged valid paid results and source/type evidence.46 new final assessments are complete;251 legacy accepted assessments remain held/partial.",
+    "Do not issue OpenAlex requests before2026-10-29T00:00:36Z.",
+    "Reuse all seven immutable paid receipts. Current maintenance request prohibits public import, merge or deployment; report validation complete separately from published."
   ],
   "paid_execution": {
     "status": "operational_verified",
     "workflow": ".github/workflows/content_review_paid.yml",
     "documentation": "docs/content_review_paid_worker.md",
-    "verified_at": "2026-10-28T08:49:21.385Z",
+    "verified_at": "2026-10-28T09:53:53.008Z",
     "successful_runs": [
       40633160529,
       40633500505,
       40640121934,
       40640440335,
       40652256203,
-      40658900271
+      40658900271,
+      40667231581
     ],
     "completed_request_ids": [
       "0a6451404a02ab0772d27ce9dba13d605af10bdc85cefb82dafea031a7ee2f65",
@@ -230,16 +235,17 @@
       "6ff3689b55335b5ba1567f3b28638cd28e7fef0299d47fc4ffe3d275fc1a4ece",
       "bb4f5f0e70164f62b4cf677fc2f2ccc7209e69c9981fed44f325b0dc074f3dad",
       "5ece4d545386cd041f8d2ff560c2738afd5c4fd65f5c53b8f32d5d00ff912114",
-      "f9a6ea4ded9a9e9925ed4c288dd545200b6e9934c07df3aa698e6ddaaf8789d6"
+      "f9a6ea4ded9a9e9925ed4c288dd545200b6e9934c07df3aa698e6ddaaf8789d6",
+      "e86b1f96ab699884bc1d17e353b8cf593277cfc8cebfae0b5e8723b3a148ac24"
     ],
-    "completed_candidates": 46,
+    "completed_candidates": 49,
     "corpus_modified": false,
     "publication_approved": false,
     "reported_usage": {
-      "requests": 46,
-      "input_tokens": 30542,
-      "output_tokens": 1440,
-      "total_tokens": 31982
+      "requests": 49,
+      "input_tokens": 32524,
+      "output_tokens": 1522,
+      "total_tokens": 34046
     },
     "legacy_accepted_paid_requests": 0,
     "local_tests_passed": 476
@@ -250,21 +256,29 @@
   },
   "preflight_hold_counts": {
     "soups": 89,
-    "weekly": 115
+    "weekly": 112
   },
   "recommendation_result_totals": {
-    "current_hash_substantive_recommendations": 46,
-    "weekly": 35,
+    "current_hash_substantive_recommendations": 49,
+    "weekly": 38,
     "soups": 11,
-    "include": 37,
+    "include": 40,
     "discuss": 8,
     "exclude": 1,
     "full_papers_claimed_reviewed": 0,
-    "complete_stable_batches": 3,
-    "manual_ready": 46,
-    "assessed_at": "2026-10-28T08:47:10.080388+00:00",
-    "full_pending_batches": 1,
-    "full_soups_pending_batches": 0
+    "manual_ready": 3,
+    "complete_stable_batches": 1,
+    "full_pending_batches": 0,
+    "full_soups_pending_batches": 0,
+    "assessed_at": "2026-10-28T09:53:53.008Z"
   },
-  "pending_mechanical_jobs_basis": "251 legacy accepted assessments remain partial/held; review admission does not clear those jobs."
+  "pending_mechanical_jobs_basis": "62 immutable jobs:46 accepted assessment jobs completed,12 earlier accepted assessment jobs still held,4 buffer reconciliation requests remain partial until targets are restored. Legacy accepted assessment inventory is tracked separately.",
+  "publication_status": {
+    "accepted_this_run": 46,
+    "final_validation_complete": 46,
+    "published": 0,
+    "status": "paused_by_current_maintenance_no_import_merge_deploy_instruction",
+    "restriction_source": "Current maintenance request explicitly prohibits public ALEX import, merge and deployment.",
+    "checked_at": "2026-10-28T09:53:53.008Z"
+  }
 }
