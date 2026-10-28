@@ -40454,7 +40454,7 @@
       }
     }
   },
-  "updated_at": "2026-10-28T05:53:45.863898+00:00",
+  "updated_at": "2026-10-28T05:54:56.141146+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
@@ -40463,7 +40463,7 @@
     "source_pacing_seconds": 0.5,
     "retry_policy": "Failed access/registry requests checkpointed separately; next-run backoff, no automatic pass."
   },
-  "schema_stage_blocker": "Supported paid classification credential unavailable; no substitute classification or false dry-run pass.",
+  "schema_stage_blocker": "Paid route operational. Remaining schema holds are candidate-specific and no unchecked candidate is auto-passed.",
   "continuation_runs": [
     {
       "checked_at": "2026-10-27T23:43:28.145712+00:00",
@@ -40904,6 +40904,24 @@
       "mechanical_passed": 12,
       "manual_ready": 0,
       "public_corpus_modified": false
+    },
+    {
+      "checked_at": "2026-10-28T05:54:56.141146+00:00",
+      "stage": "verified_weekly_type_normalization_and_paid_schema",
+      "type_normalized_with_old_record_and_hash_archived": 27,
+      "workflow_runs": [
+        40640121934,
+        40640440335
+      ],
+      "paid_requests": 27,
+      "input_tokens": 18377,
+      "output_tokens": 851,
+      "total_tokens": 19228,
+      "weekly_mechanical_passed_total": 28,
+      "manual_ready": 0,
+      "recommendation_reassessment_pending": 28,
+      "public_corpus_modified": false,
+      "scoring_policy_changed": false
     }
   ],
   "cumulative_weekly_network_counts": {
