@@ -1,5 +1,6 @@
 from __future__ import annotations
 import json
+from alex.editorial_exclusions import filter_frame
 import logging
 import os
 import re
@@ -393,6 +394,7 @@ def run() -> None:
     if not df.empty:
         validate_columns(df, ["title", "abstract", "venue", "authors", "citation_count"], "accepted_harvested.csv")
 
+    df = filter_frame(df, root_file("config", "corpus_exclusions.json"))
     rows = []
     if not df.empty:
         seminal_threshold = _seminal_threshold()
@@ -442,7 +444,7 @@ def run() -> None:
         existing_keep = existing[~existing.apply(_dedup_key, axis=1).isin(replacement_keys)]
         merged = pd.concat([existing_keep, new_df], ignore_index=True)
 
-    merged = _drop_duplicate_papers(merged)
+    merged = filter_frame(_drop_duplicate_papers(merged), root_file("config", "corpus_exclusions.json"))
     save_df(output_path, merged)
     if window_path.exists():
         window_path.unlink()

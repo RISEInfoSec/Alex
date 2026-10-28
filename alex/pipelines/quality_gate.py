@@ -1,5 +1,6 @@
 from __future__ import annotations
 import logging
+from alex.editorial_exclusions import load_keys, record_keys
 from datetime import datetime, timezone
 
 import pandas as pd
@@ -39,6 +40,7 @@ def run() -> None:
     weights = load_json(root_file("config", "quality_weights.json"))
     now = datetime.now(timezone.utc).isoformat()
 
+    excluded_keys = load_keys(root_file("config", "corpus_exclusions.json"))
     metrics = []
     accepted, review, rejected = [], [], []
 
@@ -132,7 +134,12 @@ def run() -> None:
         # `min_core_keyword_hits_untrusted`.
         trusted = (v >= 1.0) or (i_score >= 0.7) or title_anchored
         core_min = 1 if trusted else untrusted_core_min
-        if not has_core_term(row.get("title", ""), row.get("abstract", ""), core_terms, core_min):
+        if record_keys(row) & excluded_keys:
+            out["review_reason"] = "Explicit human editorial exclusion"
+            out["recommended_action"] = "reject"
+            rejected.append(out)
+            text_vetoed.append(idx)
+        elif not has_core_term(row.get("title", ""), row.get("abstract", ""), core_terms, core_min):
             out["review_reason"] = (
                 "No core cyber/OSINT term" if core_min == 1
                 else f"Below {core_min}-term core gate (untrusted source)"

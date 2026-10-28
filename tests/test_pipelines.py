@@ -2203,3 +2203,14 @@ def test_human_approved_apwg_release_exports_only_authorized_papers(tmp_path, mo
     assert {r['doi'].lower() for r in exported[len(original_public):]}==released
     assert all(r['summary'] and r['category'] and r['investigation_type'] for r in exported)
     assert json.loads((tmp_path/'data'/'collection_status.json').read_text())['new_papers_added']==65
+
+@pytest.mark.usefixtures('collection_site')
+def test_human_exclusion_cannot_be_republished_from_restored_csv(tmp_path,monkeypatch):
+    """A stale CSV must not undo an explicit human removal."""
+    from alex.utils.io import root_file
+    (tmp_path/'data').mkdir()
+    pd.DataFrame([dict(title='Excluded cyber paper',authors='Author',year=2026,abstract='Cyber research',doi='10.1234/excluded',source_url='https://example.org/excluded',Category='Other',Investigation_Type='Other'),dict(title='Retained cyber paper',authors='Author',year=2026,abstract='Cyber research',doi='10.1234/retained',source_url='https://example.org/retained',Category='Other',Investigation_Type='Other')]).to_csv(tmp_path/'data/accepted_classified.csv',index=False)
+    (tmp_path/'config/corpus_exclusions.json').write_text(json.dumps({'schema_version':1,'records':[dict(title='Excluded cyber paper',year=2026,doi='10.1234/excluded',decision='rejected',submission_id='submission',reviewed_content_sha256='reviewhash')]}))
+    monkeypatch.setattr('alex.utils.io.ROOT',tmp_path)
+    publish.run()
+    assert [r['title'] for r in json.loads((tmp_path/'data/papers.json').read_text())]==['Retained cyber paper']
