@@ -44314,22 +44314,26 @@
         "checks": {
           "duplicates": {
             "status": "passed",
-            "checked_at": "2026-10-28T03:50:34.934054+00:00",
             "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
+            "checked_at": "2026-10-28T22:24:21.088837+00:00",
             "evidence": {
-              "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-              "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+              "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
               "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-              "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-              "weekly_inventory_records": 4041,
-              "all_prepared_collections": [
-                "soups",
-                "weekly",
-                "virusbulletin",
-                "apwg"
+              "source_counts": {
+                "soups": 797,
+                "weekly": 150,
+                "virusbulletin": 92,
+                "soups-ancillary": 593,
+                "public": 3162,
+                "weekly-upstream": 4041,
+                "apwg": 1,
+                "archive-discovery": 2159
+              },
+              "matches": [],
+              "raw_self_provenance_overlaps": [
+                "soups-url-d85263235387fae2769e2f6b"
               ],
-              "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-              "matches": []
+              "scope": "Fresh exact DOI/canonical source and resource URLs/normalized title across current corpus and all prepared, ancillary, raw archive and4041 retained weekly rows; same identity excluded."
             }
           },
           "quality": {
@@ -44419,9 +44423,9 @@
             }
           },
           "metadata": {
-            "status": "held",
+            "status": "passed",
             "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
-            "checked_at": "2026-10-28T03:49:21.314382+00:00",
+            "checked_at": "2026-10-28T22:21:22.941209+00:00",
             "evidence": {
               "official_title": "Facial Recognition: Understanding Privacy Concerns and Attitudes Across Increasingly Diverse Deployment Scenarios",
               "official_authors": [
@@ -44465,6 +44469,59 @@
             },
             "prior_status": "passed",
             "identifier_registry_subcheck": {
+              "status": "completed_unknown",
+              "checked_at": "2026-10-28T22:21:22.941209+00:00",
+              "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
+              "evidence": {
+                "candidate_id": "soups-ec512a117d6d9917bd8c",
+                "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
+                "checked_at": "2026-10-28T22:21:22.941209+00:00",
+                "source_url": "https://www.usenix.org/conference/soups2021/presentation/zhang-shikun",
+                "official_html_sha256": "cdbe71b24350603a1aac03c3303c35a164aa1e9b9e948d04c7876c0641d3bdc6",
+                "official_metadata": {
+                  "citation_title": [
+                    "Facial Recognition: Understanding Privacy Concerns and Attitudes Across Increasingly Diverse Deployment Scenarios"
+                  ],
+                  "citation_author": [
+                    "Shikun Zhang",
+                    "Yuanyuan Feng",
+                    "Norman Sadeh"
+                  ],
+                  "citation_author_institution": [
+                    "Carnegie Mellon University",
+                    "Carnegie Mellon University",
+                    "Carnegie Mellon University"
+                  ],
+                  "citation_publication_date": [
+                    "2021"
+                  ],
+                  "citation_conference_title": [
+                    "Seventeenth Symposium on Usable Privacy and Security (SOUPS 2021)"
+                  ],
+                  "citation_firstpage": [
+                    "243"
+                  ],
+                  "citation_lastpage": [
+                    "262"
+                  ],
+                  "citation_isbn": [
+                    "978-1-939133-25-0"
+                  ],
+                  "citation_pdf_url": [
+                    "https://www.usenix.org/system/files/soups2021-zhang-shikun.pdf"
+                  ]
+                },
+                "openalex_requests": 0,
+                "crossref": {
+                  "http_status": 200,
+                  "response_sha256": "dfe28c89b9fd4fdc4f673633e4ced20543a8be3e81263824e93fabc79b84329d",
+                  "exact_title_candidates": [],
+                  "result": "no_exact_title_match"
+                }
+              },
+              "scope": "Official publisher DOI/BibTeX metadata and individual Crossref title query checked. No DOI verified; citations remain null. No OpenAlex dependency or false claim of DOI absence."
+            },
+            "prior_identifier_attempt": {
               "status": "retryable_failure",
               "checked_at": "2026-10-28T03:49:18.211787+00:00",
               "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
@@ -44472,6 +44529,53 @@
               "retry_not_before": "2026-10-28T05:50:34.386627+00:00",
               "backoff": "No further OpenAlex requests this pass; two-hour source backoff. For HTTP400 retry using alphanumeric title tokens rather than punctuation in filter. No failed lookup or unknown citation assigned zero.",
               "scope": "Publisher title/year/full author byline verified separately; failed identifier/citation registry request has not passed."
+            },
+            "alternative_enrichment": {
+              "candidate_id": "soups-ec512a117d6d9917bd8c",
+              "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
+              "checked_at": "2026-10-28T22:21:22.941209+00:00",
+              "source_url": "https://www.usenix.org/conference/soups2021/presentation/zhang-shikun",
+              "official_html_sha256": "cdbe71b24350603a1aac03c3303c35a164aa1e9b9e948d04c7876c0641d3bdc6",
+              "official_metadata": {
+                "citation_title": [
+                  "Facial Recognition: Understanding Privacy Concerns and Attitudes Across Increasingly Diverse Deployment Scenarios"
+                ],
+                "citation_author": [
+                  "Shikun Zhang",
+                  "Yuanyuan Feng",
+                  "Norman Sadeh"
+                ],
+                "citation_author_institution": [
+                  "Carnegie Mellon University",
+                  "Carnegie Mellon University",
+                  "Carnegie Mellon University"
+                ],
+                "citation_publication_date": [
+                  "2021"
+                ],
+                "citation_conference_title": [
+                  "Seventeenth Symposium on Usable Privacy and Security (SOUPS 2021)"
+                ],
+                "citation_firstpage": [
+                  "243"
+                ],
+                "citation_lastpage": [
+                  "262"
+                ],
+                "citation_isbn": [
+                  "978-1-939133-25-0"
+                ],
+                "citation_pdf_url": [
+                  "https://www.usenix.org/system/files/soups2021-zhang-shikun.pdf"
+                ]
+              },
+              "openalex_requests": 0,
+              "crossref": {
+                "http_status": 200,
+                "response_sha256": "dfe28c89b9fd4fdc4f673633e4ced20543a8be3e81263824e93fabc79b84329d",
+                "exact_title_candidates": [],
+                "result": "no_exact_title_match"
+              }
             }
           },
           "schema": {
