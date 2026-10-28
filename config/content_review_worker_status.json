@@ -7,11 +7,11 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
-  "last_error": "Paid taxonomy execution unavailable in this worker; full target-import/schema validation remains held. Six SOUPS identifier lookups held separately (one HTTP400 query error, five OpenAlex HTTP429 rate limits); retry only after source backoff. Existing quality, media and access holds remain.",
+  "last_error": "Isolated paid classification pilot awaiting execution/result verification. No paid success or schema pass claimed; existing quality, source, media and identifier holds remain.",
   "lease": {
     "owner": "classification-repair-2026-10-28T04:22:48.457Z",
     "acquired_at": "2026-10-28T04:22:48.457Z",
-    "expires_at": "2026-10-28T04:52:48.457Z"
+    "expires_at": "2026-10-28T05:05:56.784Z"
   },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
@@ -34,7 +34,7 @@
   "global_deficit": 250,
   "soups_batch_deficit": 5,
   "last_completed_at": "2026-10-28T03:53:13.849Z",
-  "last_action": "Implementing isolated paid review classifier and secure immutable request/artifact handoff; ready counts unchanged.",
+  "last_action": "Installed isolated review classification runner, hash-bound request/artifact handoff and corrected credential smoketest on the review branch.460 local tests passed. A single SOUPS pilot request was saved/read back; awaiting the actual GitHub Actions result before clearing any gate.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -153,7 +153,7 @@
     "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
     "ready_counts_after_readback_and_D1_recheck": 0
   },
-  "checkpointed_at": "2026-10-28T03:44:25.529Z",
+  "checkpointed_at": "2026-10-28T04:35:56.784Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-28T05:50:34.386627+00:00",
@@ -166,5 +166,15 @@
     "Continue independent weekly source/metadata/access checks and missing legacy accepted material checks, reusing hash-bound valid evidence.",
     "Resume taxonomy/full schema only through a supported isolated paid execution route; no general corpus Classify dispatch, import, merge or public deploy.",
     "Refresh weekly arrivals additively and reconcile immutable D1 requests each pass; release only candidates with every evidenced gate passed."
-  ]
+  ],
+  "paid_execution": {
+    "status": "pilot_requested",
+    "workflow": ".github/workflows/content_review_paid.yml",
+    "request_id": "0a6451404a02ab0772d27ce9dba13d605af10bdc85cefb82dafea031a7ee2f65",
+    "request_commit": "e083f29e0ab177e4303af721fe5f973e7989d155",
+    "local_tests_passed": 460,
+    "corpus_write_permission": false,
+    "requested_candidates": 1,
+    "verified_result": null
+  }
 }
