@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 6,
+  "version": 7,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -41,7 +41,7 @@
       "run existing source-appropriate quality hard gates and schema dry run",
       "route existing automatic accepts/rejections and isolate unresolved holds",
       "prepare content-based relevance recommendations only for surviving manual-review candidates",
-      "publish complete stable batches only after hash-bound preflight passes"
+      "seal batches of 1–20 cleared candidates independently of held discovery reservations"
     ],
     "title_only_assessment_allowed": false,
     "keyword_triage_counts_as_review": false,
@@ -61,6 +61,15 @@
       "content_sha256": "must match reviewed record",
       "checks": "Each required check must record status=passed, checked_at and substantive evidence.",
       "hold_location": "Source manifest preflight_records or non-ready records; never part of the human buffer."
+    },
+    "batch_admission": {
+      "policy": "Seal cleared candidates immediately in batches of 1–20; held peers do not delay admission.",
+      "confirmed_at": "2026-10-28",
+      "preserve_candidate_ids_paper_numbers_and_hashes": true,
+      "explicit_new_batch_ids": true,
+      "never_append_to_sealed_batches": true,
+      "soups_full_batch_floor_size": 20,
+      "helper": "tools/content_review/admit_cleared.py"
     }
   },
   "submission_handoff": {
