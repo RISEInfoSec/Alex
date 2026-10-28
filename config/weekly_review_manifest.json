@@ -28294,51 +28294,15 @@
       },
       "readiness_status": "passed",
       "admitted_at": "2026-10-28T13:52:53.882300+00:00"
-    }
-  ],
-  "prepared_count": 1,
-  "assessment_count": 151,
-  "duplicate_holds": [
-    {
-      "screen_number": 41,
-      "reason": "abstract_not_substantive"
     },
-    {
-      "screen_number": 44,
-      "reason": "truncated_abstract"
-    },
-    {
-      "screen_number": 78,
-      "reason": "duplicate_of_screen_77_html_entity_variant"
-    },
-    {
-      "screen_number": 84,
-      "reason": "software_release_requires_resource_adapter"
-    },
-    {
-      "screen_number": 117,
-      "reason": "truncated_abstract"
-    },
-    {
-      "screen_number": 119,
-      "reason": "podcast_requires_audio_resource_adapter"
-    },
-    {
-      "screen_number": 143,
-      "reason": "book_description_requires_substantive_text_review"
-    }
-  ],
-  "automatic_acceptance_policy": "Preserve existing source-appropriate automatic acceptance. These are explicit existing human-review-tier records; no quality exceptions granted.",
-  "backlog_is_not_review_ready": true,
-  "preflight_records": [
     {
       "candidate_id": "weekly-4eab976a4e932d7c008c8a26",
       "upstream_candidate_id": "877",
       "upstream_stable_identity": "10.1108/jfc-11-2023-0302",
       "source_row": 58,
       "review_number": 2,
-      "review_batch": 1,
-      "batch": 1,
+      "review_batch": 15,
+      "batch": 15,
       "title": "Guardians of the vault: unmasking online threats and fortifying e-banking security, a systematic review",
       "authors": "Iftikhar Ahmad; Salim Khan; Shahid Iqbal",
       "year": 2024,
@@ -28349,7 +28313,7 @@
       "format_verification_status": "verified_written_research_paper",
       "abstract": "Purpose The purpose of this paper is to investigate and analyze the adoption of digital technologies in the banking industry and its impact on the rise of digital fraudulent activities, specifically focusing on online banking frauds. This paper aims to provide insights into the current technologies implemented by banks to secure their online banking systems and explores the methods used by cybercriminals to exploit security vulnerabilities in these systems. Design/methodology/approach In order to understand how digital technologies in banking can be secured against online fraud, this research conducted a systematic literature review (SLR) on digital banking, online banking fraud, and security measurements. The review encompasses a variety of sources from online databases such as Emerald Insight, Google Scholar, IEEE, JSTOR, Springer and Science Direct. Findings The key finding of the paper is that the adoption of digital technologies in the banking industry has led to a significant increase in digital fraudulent activities, particularly in the form of online banking frauds. This paper emphasizes that these frauds have become a global concern and have evolved into an industry where cybercriminals use sophisticated tools such as phishing attacks, denial-of-service attacks, Trojan horses, malware infections, identity theft and computer viruses. Research limitations/implications This study relies solely on a literature review without incorporating primary data or case studies; therefore, it might miss out on the firsthand experiences and perspectives of banks and cybersecurity professionals. Practical implications This study emphasizes the need for banks to adopt advanced security measures to safeguard their online banking systems. Social implications This study underscores the importance of ongoing training and awareness programs for both bank employees and customers. Originality/value This study specifically addresses the adoption of digital technologies in the banking industry and its correlation with the increase in digital fraudulent activities. This focus on the intersection of technology and fraud in the banking sector is a distinctive aspect. This study conducts a SLR to examine the current technologies implemented by banks to safeguard their online banking systems. This comprehensive approach provides insights into the diverse security measures used by banks to protect against various types of cyber threats.",
       "abstract_source": "https://www.semanticscholar.org/paper/6d02bcb6e18e34ef82f984142520878b0c5a7aaa",
-      "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+      "assessment_basis": "Substantive reread of the complete current abstract after exact-hash mechanical preflight; actual source access and written-paper type were independently verified. Full paper not assessed.",
       "review_evidence": [
         {
           "resource_url": "https://www.emerald.com/jfc/article-abstract/31/6/1485/1237759/Guardians-of-the-vault-unmasking-online-threats?redirectedFrom=fulltext",
@@ -28368,11 +28332,11 @@
       "collection_url": "https://github.com/RISEInfoSec/Alex",
       "recommendation": "include",
       "relevance": "direct",
-      "review_reason": "Synthesises online-banking fraud mechanisms and protective technologies. Useful background for financial-fraud prevention and understanding the services attackers exploit.",
-      "metadata_issue": "Literature synthesis contains no primary bank case data; causal claims about digital adoption and fraud need scrutiny. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 49.44; effective review threshold: 45; effective automatic-inclusion threshold: 60; quality status: existing_human_quality_review_required.",
-      "screening_status": "cached_abstract_review_complete",
-      "assessment_depth": "cached_abstract",
-      "assessment_date": "2026-10-27",
+      "review_reason": "Systematically reviews digital-banking technologies, online-banking fraud and security controls, synthesizing threats including phishing, denial-of-service attacks, trojans, malware and identity theft. It is directly useful as background for financial-cybercrime and fraud-prevention research. The work relies on secondary literature and reports no primary data or case studies, so its findings should be treated as synthesis rather than independent empirical evidence.",
+      "metadata_issue": "Verified publisher literature-review article and complete structured abstract. Full subscriber text was not reviewed. The study reports no primary data or case studies. Existing quality score 49.44 remains within the manual-review band; no threshold, automatic-acceptance rule or hard gate was changed.",
+      "screening_status": "current_abstract_recommendation_complete_after_preflight",
+      "assessment_depth": "complete_current_abstract_after_preflight",
+      "assessment_date": "2026-10-28",
       "full_paper_reviewed": false,
       "paper_format_verified": true,
       "source_verification_status": "publisher_resource_and_written_paper_verified",
@@ -28410,13 +28374,11 @@
       "institution_bonus": 0,
       "title_anchor_bonus": 0,
       "content_sha256": "51b8da3e5a568d6222a5c5526973483be1b6bb603d6c01bcd8d40af229eed973",
-      "review_ready": false,
-      "preflight_status": "held",
-      "preflight_blockers": [
-        "schema"
-      ],
+      "review_ready": true,
+      "preflight_status": "passed",
+      "preflight_blockers": [],
       "preflight": {
-        "status": "held",
+        "status": "passed",
         "content_sha256": "51b8da3e5a568d6222a5c5526973483be1b6bb603d6c01bcd8d40af229eed973",
         "checks": {
           "format": {
@@ -28582,22 +28544,84 @@
             "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "schema": {
-            "status": "held",
-            "checked_at": "2026-10-28T14:44:27.159843+00:00",
+            "status": "passed",
+            "checked_at": "2026-10-28T14:45:52.353401+00:00",
             "content_sha256": "51b8da3e5a568d6222a5c5526973483be1b6bb603d6c01bcd8d40af229eed973",
-            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "7e2f5bbd2b570900c6af5d9205d506f3cbe4ff73eaba28a6f41e64cc05293791",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-28T14:45:52.347918+00:00",
+                "content_sha256": "51b8da3e5a568d6222a5c5526973483be1b6bb603d6c01bcd8d40af229eed973",
+                "evidence": {
+                  "classification": {
+                    "Category": "Cybercrime & Fraud",
+                    "Investigation_Type": "Threat Hunting",
+                    "OSINT_Source_Types": [
+                      "Public Records",
+                      "News Media",
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_01a8dc42d652a925016ae20a9efffc87d1b5974ac5d473be1f",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 798,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 48,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 846
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "40709032219",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "f32b0d6aa5b2baf16495315f7ecc11c6af29433b",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "cd7c1ac6f2b1b2a010f03951ce5f4f707c83249fb7335d6fd0ae70a41cd65f2b"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 40709032219
+            },
+            "revalidated_at": "2026-10-28T14:47:01.998015+00:00",
             "prior_evidence": {
               "status": "held",
-              "checked_at": "2026-10-27T23:05:43.163744+00:00",
-              "content_sha256": "84b80193e55329dd5e4b7ea14a8646b99cf2c45598272bffd584a3e627ba39b1",
-              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              "checked_at": "2026-10-28T14:44:27.159843+00:00",
+              "content_sha256": "51b8da3e5a568d6222a5c5526973483be1b6bb603d6c01bcd8d40af229eed973",
+              "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+              "prior_evidence": {
+                "status": "held",
+                "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                "content_sha256": "84b80193e55329dd5e4b7ea14a8646b99cf2c45598272bffd584a3e627ba39b1",
+                "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              }
             }
           }
         }
       },
-      "editorial_queue_eligible": false,
+      "editorial_queue_eligible": true,
       "verified_document_type": "research_paper",
       "publisher": "Emerald Publishing",
       "bibliographic_verification": {
@@ -28876,10 +28900,132 @@
           }
         }
       ],
-      "recommendation_content_sha256": "84b80193e55329dd5e4b7ea14a8646b99cf2c45598272bffd584a3e627ba39b1",
-      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
-      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
+      "recommendation_content_sha256": "51b8da3e5a568d6222a5c5526973483be1b6bb603d6c01bcd8d40af229eed973",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "admission_hold": null,
+      "taxonomy_verification": {
+        "status": "passed",
+        "checked_at": "2026-10-28T14:45:52.347918+00:00",
+        "content_sha256": "51b8da3e5a568d6222a5c5526973483be1b6bb603d6c01bcd8d40af229eed973",
+        "evidence": {
+          "classification": {
+            "Category": "Cybercrime & Fraud",
+            "Investigation_Type": "Threat Hunting",
+            "OSINT_Source_Types": [
+              "Public Records",
+              "News Media",
+              "Other"
+            ]
+          },
+          "response_id": "resp_01a8dc42d652a925016ae20a9efffc87d1b5974ac5d473be1f",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 798,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 48,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 846
+          },
+          "uncertainty_flags": []
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "40709032219",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "f32b0d6aa5b2baf16495315f7ecc11c6af29433b",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "cd7c1ac6f2b1b2a010f03951ce5f4f707c83249fb7335d6fd0ae70a41cd65f2b"
+      },
+      "recommendation_versions": [
+        {
+          "content_sha256": "84b80193e55329dd5e4b7ea14a8646b99cf2c45598272bffd584a3e627ba39b1",
+          "recommendation": "include",
+          "relevance": "direct",
+          "review_reason": "Systematically reviews digital-banking technologies, online-banking fraud and security controls, synthesizing threats including phishing, denial-of-service attacks, trojans, malware and identity theft. It is directly useful as background for financial-cybercrime and fraud-prevention research. The work relies on secondary literature and reports no primary data or case studies, so its findings should be treated as synthesis rather than independent empirical evidence.",
+          "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+          "assessment_depth": "cached_abstract",
+          "assessment_date": "2026-10-27",
+          "status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+          "superseded_at": "2026-10-28T14:47:01.999898+00:00"
+        }
+      ],
+      "recommendation_assessed_at": "2026-10-28T14:47:01.999898+00:00",
+      "recommendation_evidence": {
+        "content_sha256": "51b8da3e5a568d6222a5c5526973483be1b6bb603d6c01bcd8d40af229eed973",
+        "abstract_sha256": "c4ee658df32dd0f3e779c09b5cdf5f0ca42a5ced1559fd09866347a6f3c50178",
+        "assessment_depth": "complete_current_abstract",
+        "method": "Direct substantive reread of the complete current abstract after all six mechanical gates passed; recommendation and reason checked against the described methods/findings.",
+        "source_provenance": [
+          {
+            "resource_url": "https://www.emerald.com/jfc/article-abstract/31/6/1485/1237759/Guardians-of-the-vault-unmasking-online-threats?redirectedFrom=fulltext",
+            "retrieved_text_evidence_sha256": "d00607a35363debc8ebbeaf1832ff4fa9f9071d7ec2f9f2d5233b8fe28dbcbd5",
+            "retrieval_kind": "Indexed official publisher abstract page",
+            "inspection": "Publisher title, full author list, journal citation, DOI, complete structured abstract, method, findings, implications and stated limitations",
+            "observed_publication": "Journal of Financial Crime 31(6):1485-1501",
+            "observed_doi": "10.1108/JFC-11-2023-0302",
+            "observed_document_type": "written journal literature-review article",
+            "limitations": "Direct automated retrieval met an HTTP403 challenge and subscriber full text is restricted. The indexed official publisher page exposed sufficient current bibliographic and structured-abstract content to verify the written article and assess its abstract; no full-paper review is claimed.",
+            "verified_at": "2026-10-28T14:44:27.159843+00:00"
+          }
+        ],
+        "format_checked_at": "2026-10-28T14:44:27.159843+00:00",
+        "access_checked_at": "2026-10-28T14:44:27.159843+00:00",
+        "limitations": "Full paper not assessed for this recommendation. Mechanical source/type evidence is separate; this assessment does not waive quality, batch, decision, or release controls.",
+        "recommendation": "include",
+        "relevance": "direct",
+        "basis": "Systematically reviews digital-banking technologies, online-banking fraud and security controls, synthesizing threats including phishing, denial-of-service attacks, trojans, malware and identity theft. It is directly useful as background for financial-cybercrime and fraud-prevention research. The work relies on secondary literature and reports no primary data or case studies, so its findings should be treated as synthesis rather than independent empirical evidence.",
+        "assessed_at": "2026-10-28T14:47:01.999898+00:00"
+      },
+      "batch_admission_eligible": true,
+      "preflight_reservation": {
+        "review_number": 2,
+        "review_batch": 1
+      },
+      "readiness_status": "passed",
+      "admitted_at": "2026-10-28T14:47:01.999963+00:00"
+    }
+  ],
+  "prepared_count": 2,
+  "assessment_count": 151,
+  "duplicate_holds": [
+    {
+      "screen_number": 41,
+      "reason": "abstract_not_substantive"
     },
+    {
+      "screen_number": 44,
+      "reason": "truncated_abstract"
+    },
+    {
+      "screen_number": 78,
+      "reason": "duplicate_of_screen_77_html_entity_variant"
+    },
+    {
+      "screen_number": 84,
+      "reason": "software_release_requires_resource_adapter"
+    },
+    {
+      "screen_number": 117,
+      "reason": "truncated_abstract"
+    },
+    {
+      "screen_number": 119,
+      "reason": "podcast_requires_audio_resource_adapter"
+    },
+    {
+      "screen_number": 143,
+      "reason": "book_description_requires_substantive_text_review"
+    }
+  ],
+  "automatic_acceptance_policy": "Preserve existing source-appropriate automatic acceptance. These are explicit existing human-review-tier records; no quality exceptions granted.",
+  "backlog_is_not_review_ready": true,
+  "preflight_records": [
     {
       "candidate_id": "weekly-04d1aec124745c3f359da27f",
       "upstream_candidate_id": "21473",
@@ -47156,11 +47302,11 @@
       "editorial_queue_eligible": false
     }
   ],
-  "ready_count": 1,
+  "ready_count": 2,
   "abstract_assessed_count": 150,
   "preflight_policy": "Admit only six current hash-bound gate passes and current substantive recommendations. Seal batches of 1–20 cleared candidates independently of held peers; never append to sealed batches.",
   "mechanical_passed_awaiting_batch_admission": 0,
-  "preflight_held_count": 105,
+  "preflight_held_count": 104,
   "recommendation_current_count": 38,
   "batch_admission_eligible_count": 38,
   "sealed_review_batches": [
@@ -47433,6 +47579,19 @@
           "candidate_id": "weekly-d3bd8a9de831af91bc7ffd57",
           "review_number": 1,
           "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8"
+        }
+      ],
+      "policy": "Cleared candidates sealed independently of held inventory; never append."
+    },
+    {
+      "batch": 15,
+      "sealed_at": "2026-10-28T14:47:01.999963+00:00",
+      "count": 1,
+      "members": [
+        {
+          "candidate_id": "weekly-4eab976a4e932d7c008c8a26",
+          "review_number": 2,
+          "content_sha256": "51b8da3e5a568d6222a5c5526973483be1b6bb603d6c01bcd8d40af229eed973"
         }
       ],
       "policy": "Cleared candidates sealed independently of held inventory; never append."
