@@ -23222,8 +23222,8 @@
       "candidate_id": "weekly-745c7f10cefebb4faec0cffe",
       "review_number": 12,
       "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
@@ -23333,24 +23333,90 @@
           "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-28T10:45:50.754275+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-28T10:47:54.469790+00:00",
           "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
-          "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "8193ec5604a2e0513080bf0a6ff8719a1a6d67bfa18467ac9f4ea8615219a3d1",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-28T10:47:54.463512+00:00",
+              "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+              "evidence": {
+                "classification": {
+                  "Category": "Disinformation & Influence",
+                  "Investigation_Type": "Phishing Analysis",
+                  "OSINT_Source_Types": [
+                    "Social Media",
+                    "Public Records",
+                    "Other"
+                  ]
+                },
+                "response_id": "resp_0c92b4c4cd688fb5016ae1d2d96d1087d19a0191c4e89b0895",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 676,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 32,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 708
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "40674876427",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "4d66c4caf94c5d3a99dbedc411bdfa672d40aebf",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 40674876427
+          },
+          "revalidated_at": "2026-10-28T10:49:31.743819+00:00",
           "prior_evidence": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-28T10:45:50.754275+00:00",
+            "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "verified_document_type": "research_paper"
+      "blockers": [],
+      "verified_document_type": "research_paper",
+      "recommendation_content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-28T10:50:32.236370+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-10-28T10:52:00Z",
+      "review_batch": 12
     },
     {
       "collection": "weekly",
@@ -24639,8 +24705,8 @@
       "candidate_id": "weekly-cc03c13fc15e6a2896786ad3",
       "review_number": 21,
       "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
@@ -24750,24 +24816,86 @@
           "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-28T10:45:50.754667+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-28T10:47:55.477926+00:00",
           "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
-          "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "eaa74b1811422e833d8d9c4ebf20cf778857056a568e3770b72db3b8130e3bf9",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-28T10:47:55.473299+00:00",
+              "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Incident Response",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_0126493988ba9552016ae1d2da9e0087d1a892baf89e5f7954",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 616,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 33,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 649
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "40674876427",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "4d66c4caf94c5d3a99dbedc411bdfa672d40aebf",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 40674876427
+          },
+          "revalidated_at": "2026-10-28T10:49:31.747396+00:00",
           "prior_evidence": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-28T10:45:50.754667+00:00",
+            "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "verified_document_type": "research_paper"
+      "blockers": [],
+      "verified_document_type": "research_paper",
+      "recommendation_content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-28T10:50:32.236573+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-10-28T10:52:00Z",
+      "review_batch": 12
     },
     {
       "collection": "weekly",
@@ -39534,8 +39662,8 @@
       "candidate_id": "weekly-215139a72d69c0a2e1c2029e",
       "review_number": 123,
       "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
@@ -39645,24 +39773,89 @@
           "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-28T10:45:50.754893+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-28T10:47:56.548054+00:00",
           "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
-          "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "b46702d4bdf13fed99899d91739a13d507cc3763e57fc89b95e34340d2f503c6",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-28T10:47:56.543438+00:00",
+              "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+              "evidence": {
+                "classification": {
+                  "Category": "Cyber Threat Intelligence",
+                  "Investigation_Type": "Malware Analysis",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "Code Repositories"
+                  ]
+                },
+                "response_id": "resp_0518ddfb35679d1e016ae1d2db9fac87d1ac4b818efc68f3d2",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 662,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 30,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 692
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "40674876427",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "4d66c4caf94c5d3a99dbedc411bdfa672d40aebf",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 40674876427
+          },
+          "revalidated_at": "2026-10-28T10:49:31.750404+00:00",
           "prior_evidence": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-28T10:45:50.754893+00:00",
+            "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "verified_document_type": "research_paper"
+      "blockers": [],
+      "verified_document_type": "research_paper",
+      "recommendation_content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-28T10:50:32.236640+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-10-28T10:52:00Z",
+      "review_batch": 12
     },
     {
       "collection": "weekly",
@@ -41165,8 +41358,8 @@
       "candidate_id": "weekly-24e99891c7a0a2479f0e8d9a",
       "review_number": 141,
       "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
@@ -41276,24 +41469,86 @@
           "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-28T10:45:50.755214+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-28T10:47:57.473540+00:00",
           "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
-          "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "94032b059670e003f1b19da59d88a6244a0880e126d5838e673e5c5c5678036b",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-28T10:47:57.468550+00:00",
+              "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+              "evidence": {
+                "classification": {
+                  "Category": "Digital Forensics & Evidence",
+                  "Investigation_Type": "Forensic Investigation",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_007981fdebf26c0e016ae1d2dcad3887d1baddcc3aa5a1261d",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 647,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 25,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 672
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "40674876427",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "4d66c4caf94c5d3a99dbedc411bdfa672d40aebf",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 40674876427
+          },
+          "revalidated_at": "2026-10-28T10:49:31.752918+00:00",
           "prior_evidence": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-28T10:45:50.755214+00:00",
+            "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "verified_document_type": "research_paper"
+      "blockers": [],
+      "verified_document_type": "research_paper",
+      "recommendation_content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-28T10:50:32.236698+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-10-28T10:52:00Z",
+      "review_batch": 12
     },
     {
       "collection": "weekly",
@@ -41476,8 +41731,8 @@
       "candidate_id": "weekly-0ee24fb49a0062004577ab3c",
       "review_number": 144,
       "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
@@ -41587,24 +41842,91 @@
           "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-28T10:45:50.755453+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-28T10:47:58.635304+00:00",
           "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
-          "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "4cdbfe7afbcface4bf3481dfcadef66514a2bd673c92ddf4e2be479db43c50a5",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-28T10:47:58.630873+00:00",
+              "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+              "evidence": {
+                "classification": {
+                  "Category": "Malware & Exploits",
+                  "Investigation_Type": "Phishing Analysis",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "News Media",
+                    "Forums & Communities",
+                    "Other"
+                  ]
+                },
+                "response_id": "resp_001ccb845caa8b58016ae1d2dd9cfc87d18e8652f4765aa2fb",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 753,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 38,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 791
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "40674876427",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "4d66c4caf94c5d3a99dbedc411bdfa672d40aebf",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 40674876427
+          },
+          "revalidated_at": "2026-10-28T10:49:31.756732+00:00",
           "prior_evidence": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-28T10:45:50.755453+00:00",
+            "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "verified_document_type": "research_paper"
+      "blockers": [],
+      "verified_document_type": "research_paper",
+      "recommendation_content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-28T10:50:32.236748+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-10-28T10:52:00Z",
+      "review_batch": 12
     },
     {
       "collection": "weekly",
@@ -42144,49 +42466,49 @@
         "passed": 100
       },
       "metadata": {
-        "held": 6,
-        "passed": 94
+        "passed": 94,
+        "held": 6
       },
       "duplicates": {
         "passed": 100
       },
       "quality": {
-        "held": 88,
-        "passed": 12
+        "passed": 12,
+        "held": 88
       },
       "schema": {
-        "held": 89,
-        "passed": 11
+        "passed": 11,
+        "held": 89
       }
     },
     "weekly": {
       "format": {
-        "held": 105,
-        "passed": 45
+        "passed": 50,
+        "held": 100
       },
       "access": {
-        "held": 105,
-        "passed": 45
+        "passed": 50,
+        "held": 100
       },
       "metadata": {
-        "held": 98,
-        "passed": 52
+        "passed": 57,
+        "held": 93
       },
       "duplicates": {
-        "held": 1,
-        "passed": 149
+        "passed": 149,
+        "held": 1
       },
       "quality": {
-        "held": 1,
-        "passed": 149
+        "passed": 149,
+        "held": 1
       },
       "schema": {
-        "held": 112,
-        "passed": 38
+        "passed": 43,
+        "held": 107
       }
     }
   },
-  "updated_at": "2026-10-28T10:45:50.755656+00:00",
+  "updated_at": "2026-10-28T10:52:00Z",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
