@@ -1,29 +1,25 @@
 {
   "schema_version": 1,
   "phase": "active",
-  "ready_total": 2,
+  "ready_total": 0,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": null,
-  "lease": {
-    "owner": "content-review-2026-10-28T15-42-30-373Z",
-    "acquired_at": "2026-10-28T15:42:30.373Z",
-    "expires_at": "2026-10-28T16:12:30.373Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
-    "weekly": 2,
+    "weekly": 0,
     "virusbulletin": 0,
     "apwg": 0
   },
   "unattended_access_verified_at": "2026-10-27T22:40:36Z",
   "verification_result": "Unattended access verified: production D1 binding DB exposes review_decisions, review_drafts, review_jobs and review_submissions; review_jobs read succeeded (empty). Branch source registry config/review_console.json read successfully (SOUPS, APWG, Virus Bulletin; weekly not yet registered). Initial-fill lease and all counts preserved; no candidate or assessment mutation.",
-  "weekly_prepared_batches": 2,
-  "pending_mechanical_jobs": 19,
+  "weekly_prepared_batches": 0,
+  "pending_mechanical_jobs": 22,
   "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
   "workflow": "preflight_first",
   "preflight_pending": 193,
@@ -31,15 +27,15 @@
     "soups": 100,
     "weekly": 150
   },
-  "global_deficit": 248,
+  "global_deficit": 250,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-28T14:48:21.548Z",
-  "last_action": "Cleared the next oldest eligible weekly journal review through indexed official-publisher format/access evidence, current3162-corpus and501-exclusion duplicate checks, unchanged quality policy, paid exact-hash taxonomy/schema, and substantive abstract assessment. Sealed weekly batch15 with one review-ready paper; batch14 remains pending. D1 remains49 completed submissions/901 decisions. Weekly source remains4041 identities with no arrivals. Ready2/250; SOUPS0/5 full batches. OpenAlex backoff respected; no public import, merge or deployment.",
+  "last_completed_at": "2026-10-28T15:49:09.459Z",
+  "last_action": "Validated batches14/15 final decisions, both current content hashes and submission payload digests; reconciled two new approvals. Reused valid unchanged metadata/quality/taxonomy evidence and dry-ran target schema. Fresh inspected author full text completed final validation for the phishing paper; banking review final access remains held on publisherHTTP403. Checkpointed four paced official SOUPS/VB programme fetches and209 item links outside the manual queue. No new-unique discovery total claimed pending canonical/raw inventory reconciliation. Ready0/250; SOUPS0/5; no public import, merge or deployment.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
-    "complete": 54,
-    "held_or_partial": 251,
+    "complete": 55,
+    "held_or_partial": 252,
     "fresh_pdf_access_and_front_matter_passed": 17,
     "quality_passed": 5,
     "quality_held": 246,
@@ -56,13 +52,13 @@
     "legacy_accepted_openai_requests": 0,
     "pre_review_taxonomy_and_target_schema_passed": 57,
     "current_hash_substantive_recommendations": 57,
-    "recommendations_changed_this_run": 1,
+    "recommendations_changed_this_run": 0,
     "openalex_retry_requests_this_run": 0,
     "openalex_rate_limits_this_run": 0,
-    "tracked_accepted_total": 305,
-    "newly_accepted_this_run": 0,
-    "newly_accepted_final_validation_complete": 0,
-    "final_source_revalidations_passed_this_run": 0
+    "tracked_accepted_total": 307,
+    "newly_accepted_this_run": 2,
+    "newly_accepted_final_validation_complete": 1,
+    "final_source_revalidations_passed_this_run": 1
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
   "last_started_at": "2026-10-28T15:42:30.373Z",
@@ -72,8 +68,8 @@
     "source_blob_sha": "32a7992a37b15d3d5f698354a0209157660a9d66",
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
-    "refresh_result": "Unchanged original source blob; all4041 identities retained additively and no arrival observed.",
-    "refreshed_at": "2026-10-28T14:48:21.548Z"
+    "refresh_result": "Current main weekly source blob remains32a7992a37b15d3d5f698354a0209157660a9d66; retained4041 identities unchanged.",
+    "refreshed_at": "2026-10-28T15:49:09.459Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
@@ -111,15 +107,15 @@
     }
   },
   "reconciliation": {
-    "completed_submissions": 49,
-    "latest_decisions_validated": 901,
+    "completed_submissions": 51,
+    "latest_decisions_validated": 903,
     "content_hash_mismatches": 0,
-    "submission_payload_hashes_validated": 49,
-    "immutable_jobs": 563,
-    "completed_assessment_jobs": 54,
+    "submission_payload_hashes_validated": 51,
+    "immutable_jobs": 567,
+    "completed_assessment_jobs": 55,
     "completed_corpus_removal_jobs": 490,
-    "remaining_immutable_jobs": 19,
-    "verified_at": "2026-10-28T14:48:21.548Z"
+    "remaining_immutable_jobs": 22,
+    "verified_at": "2026-10-28T15:49:09.459Z"
   },
   "blocked_sources": [
     {
@@ -129,7 +125,7 @@
     },
     {
       "source": "weekly",
-      "reason": "Two cleared papers are sealed separately in weekly batches14 and15.104 candidates retain independent holds, including the arXiv2026 versus PDF copyright2025 conflict. All4041 original identities remain; source snapshot unchanged and no arrivals.",
+      "reason": "Batches14 and15 approved and removed from pending count. One final validation complete; one final publisher-access403 hold.104 preflight-held weekly candidates remain; all4041 upstream identities preserved.",
       "exhausted": false
     },
     {
@@ -140,39 +136,34 @@
     }
   ],
   "held_stage": {
-    "stage": "remaining_preflight",
-    "reason": "All714 audit reviews and nine prior weekly decisions are already applied. Cleared intake buffer2/250 (deficit248); SOUPS0/5 full batches.251 older accepted records retain independent technical/quality holds."
+    "stage": "remaining_preflight_and_final_access",
+    "reason": "Ready0/250; SOUPS0/5.193 existing preflight holds remain, plus raw archive discovery outside that inventory. One of two newly accepted papers is final-validation complete; the other has a publisher403 access hold."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-28T14:48:21.548Z",
-    "scope": "one_weekly_publisher_abstract_schema_batch15",
+    "verified_at": "2026-10-28T15:49:09.459Z",
+    "scope": "batches14_15_final_checks_and_archive_discovery",
     "source_request_timeout_seconds": 20,
-    "serial_provider_pacing_seconds": 0.5,
-    "local_tests_passed": 39,
-    "intake_submissions": 13,
-    "intake_decisions_validated": 187,
-    "content_hash_mismatches": 0,
-    "intake_immutable_jobs": 73,
-    "new_acceptances": 0,
-    "ready_total": 2,
-    "global_deficit": 248,
+    "serial_provider_pacing_seconds": 2,
+    "new_acceptances": 2,
+    "newly_accepted_final_validation_complete": 1,
+    "newly_accepted_final_access_held": 1,
+    "submission_payload_digests_validated_this_run": 2,
+    "content_hashes_validated_this_run": 2,
+    "completed_submissions": 51,
+    "immutable_jobs": 567,
+    "ready_total": 0,
+    "global_deficit": 250,
     "soups_ready_batches": 0,
     "soups_batch_deficit": 5,
     "preflight_held": 193,
-    "new_ready_batch": {
-      "collection": "weekly",
-      "batch": 15,
-      "papers": 1
-    },
-    "primary_pdf_checks_completed": 0,
-    "source_access_checks_completed": 1,
-    "new_metadata_conflicts": 0,
+    "discovery_programme_pages_checked": 4,
+    "discovery_item_links_observed": 209,
+    "verified_new_unique_discoveries": null,
     "openai_usage_this_run": {
-      "requests": 1,
-      "input_tokens": 798,
-      "output_tokens": 48,
-      "total_tokens": 846,
-      "usage_unavailable_responses": 0
+      "requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0
     },
     "public_corpus_modified": false,
     "published_count": 0,
@@ -181,7 +172,7 @@
     "openalex_requests": 0,
     "openalex_retry_not_before": "2026-10-29T00:00:36.339996+00:00"
   },
-  "checkpointed_at": "2026-10-28T14:48:21.548Z",
+  "checkpointed_at": "2026-10-28T15:49:09.459Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
@@ -261,13 +252,13 @@
     "discuss": 9,
     "exclude": 1,
     "full_papers_claimed_reviewed": 0,
-    "manual_ready": 2,
-    "complete_stable_batches": 2,
+    "manual_ready": 0,
+    "complete_stable_batches": 0,
     "full_pending_batches": 0,
     "full_soups_pending_batches": 0,
     "assessed_at": "2026-10-28T14:48:21.548Z"
   },
-  "pending_mechanical_jobs_basis": "563 immutable jobs observed;54 mechanical assessments completed (46 prior plus8 new),490 corpus removal requests applied,12 older assessment jobs retain holds and7 buffer reconciliation jobs remain partial pending targets. The251-record legacy held assessment inventory is tracked separately.",
+  "pending_mechanical_jobs_basis": "567 immutable requests observed;55 intake assessments complete and490 corpus-removal jobs already applied. Remaining22 requests include13 held assessment jobs and9 partial buffer jobs. Legacy accepted partial assessments remain tracked separately.",
   "publication_status": {
     "accepted_this_run": 8,
     "final_validation_complete": 8,
@@ -340,6 +331,21 @@
       "other new collections"
     ],
     "policy": "config/content_review_workflow.json#archive_discovery_policy",
-    "next_action": "Resume bounded archive discovery for each available source alongside preflight, recording coverage and unique discoveries. One request per origin at a time, minimum2seconds pacing,20-second timeouts and stricter published/provider limits."
+    "next_action": "Resume bounded archive discovery for each available source alongside preflight, recording coverage and unique discoveries. One request per origin at a time, minimum2seconds pacing,20-second timeouts and stricter published/provider limits.",
+    "last_checkpoint": "config/content_review_discovery_checkpoints/2026-10-28T1541Z.json",
+    "checked_at": "2026-10-28T15:49:09.459Z",
+    "pages_checked": 4,
+    "item_links_reconciled": 209,
+    "verified_new_unique_candidates": null,
+    "coverage_complete": false,
+    "resume_queue": {
+      "soups": [
+        "https://www.usenix.org/conference/soups2024/accepted-papers"
+      ],
+      "virusbulletin": [
+        "https://virusbulletin.com/conference/vb2024/programme/"
+      ]
+    },
+    "limitation": "209 links are observed programme identities, not new ready candidates. Canonical www/non-www variants and the broader1398-entry VB programme aggregate still require reconciliation."
   }
 }
