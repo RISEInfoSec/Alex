@@ -1,40 +1,36 @@
 {
   "schema_version": 1,
   "phase": "active",
-  "ready_total": 0,
+  "ready_total": 1,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": null,
-  "lease": {
-    "owner": "content-review-2026-10-28T13-41-22-096Z",
-    "acquired_at": "2026-10-28T13:41:22.096Z",
-    "expires_at": "2026-10-28T14:11:22.096Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
-    "weekly": 0,
+    "weekly": 1,
     "virusbulletin": 0,
     "apwg": 0
   },
   "unattended_access_verified_at": "2026-10-27T22:40:36Z",
   "verification_result": "Unattended access verified: production D1 binding DB exposes review_decisions, review_drafts, review_jobs and review_submissions; review_jobs read succeeded (empty). Branch source registry config/review_console.json read successfully (SOUPS, APWG, Virus Bulletin; weekly not yet registered). Initial-fill lease and all counts preserved; no candidate or assessment mutation.",
-  "weekly_prepared_batches": 0,
+  "weekly_prepared_batches": 1,
   "pending_mechanical_jobs": 19,
   "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
   "workflow": "preflight_first",
-  "preflight_pending": 195,
+  "preflight_pending": 194,
   "preflight_source_counts": {
     "soups": 100,
     "weekly": 150
   },
-  "global_deficit": 250,
+  "global_deficit": 249,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-28T12:43:29.568Z",
-  "last_action": "Applied all49 completed submissions after validating901 current hashes and49 payload digests. Published490 removals and8 approved additions;224 audit keeps retained. Live verification confirmed3162 records and no excluded identities. The501 explicit rejection identities and714 human audit labels are durable. All3154 surviving original public records retained metadata. Full regression/import/site checks and final Pages deployment passed. Worker lease released.",
+  "last_completed_at": "2026-10-28T13:55:37.363Z",
+  "last_action": "Cleared one weekly journal article through inspected full-text format/access evidence, current3162-corpus and501-exclusion duplicate checks, unchanged quality policy, paid exact-hash taxonomy/schema, and substantive content assessment. Sealed weekly batch14 with one review-ready paper. D1 remains49 completed submissions/901 decisions; no new console decision. Weekly source remains4041 identities with no arrivals. Ready1/250; SOUPS0/5 full batches. OpenAlex backoff respected; no public import, merge or deployment.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -43,8 +39,8 @@
     "fresh_pdf_access_and_front_matter_passed": 17,
     "quality_passed": 5,
     "quality_held": 246,
-    "openai_requests": 55,
-    "openai_tokens": 38203,
+    "openai_requests": 56,
+    "openai_tokens": 38923,
     "citation_registry_lookups_completed": 24,
     "verified_citation_counts_from_this_run": 0,
     "legacy_abstracts_reachability_and_material_verified": 10,
@@ -52,10 +48,10 @@
     "retryable_link_failures": 1,
     "fresh_cross_source_duplicates_passed": 248,
     "fresh_cross_source_duplicates_held": 3,
-    "preflight_openai_requests": 55,
+    "preflight_openai_requests": 56,
     "legacy_accepted_openai_requests": 0,
-    "pre_review_taxonomy_and_target_schema_passed": 55,
-    "current_hash_substantive_recommendations": 55,
+    "pre_review_taxonomy_and_target_schema_passed": 56,
+    "current_hash_substantive_recommendations": 56,
     "recommendations_changed_this_run": 1,
     "openalex_retry_requests_this_run": 0,
     "openalex_rate_limits_this_run": 0,
@@ -72,8 +68,8 @@
     "source_blob_sha": "32a7992a37b15d3d5f698354a0209157660a9d66",
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
-    "refresh_result": "Unchanged original source blob; no identities deleted or rewritten.",
-    "refreshed_at": "2026-10-28T11:50:42.717Z"
+    "refresh_result": "Unchanged original source blob; all4041 identities retained additively and no arrival observed.",
+    "refreshed_at": "2026-10-28T13:55:37.363Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
@@ -100,14 +96,14 @@
       "duplicate_held": 1,
       "quality_passed": 149,
       "quality_held": 1,
-      "format_passed": 52,
-      "access_passed": 52,
+      "format_passed": 53,
+      "access_passed": 53,
       "metadata_passed": 58,
-      "format_held": 98,
-      "access_held": 98,
+      "format_held": 97,
+      "access_held": 97,
       "metadata_held": 92,
-      "schema_held": 106,
-      "schema_passed": 44
+      "schema_held": 105,
+      "schema_passed": 45
     }
   },
   "reconciliation": {
@@ -119,75 +115,76 @@
     "completed_assessment_jobs": 54,
     "completed_corpus_removal_jobs": 490,
     "remaining_immutable_jobs": 19,
-    "verified_at": "2026-10-28T12:43:29.568Z"
+    "verified_at": "2026-10-28T13:55:37.363Z"
   },
   "blocked_sources": [
     {
       "source": "soups",
-      "reason": "All11 admitted SOUPS papers were accepted and passed final validation.89 preflight candidates retain quality/metadata/schema holds; OpenAlex backoff respected. No pending full SOUPS batches; deficit5. Source not exhausted.",
+      "reason": "All11 admitted SOUPS papers were accepted and passed final validation.89 preflight candidates retain independent quality/metadata/schema holds; OpenAlex backoff respected. No pending full SOUPS batches; deficit5. Source not exhausted.",
       "exhausted": false
     },
     {
       "source": "weekly",
-      "reason": "Nine cleared papers in sealed batches11,12,13.106 candidates retain independent holds. Newly inspected malware paper has arXiv2026 versus PDF copyright2025 conflict. All4041 original identities retained; unchanged source snapshot; no new arrivals.",
+      "reason": "One newly cleared paper is sealed in weekly batch14.105 candidates retain independent holds, including the arXiv2026 versus PDF copyright2025 conflict. All4041 original identities remain; source snapshot unchanged and no arrivals.",
       "exhausted": false
     },
     {
       "source": "OpenAlex",
-      "reason": "Corrected alphanumeric query received HTTP429 with Retry-After62010 seconds. Provider stopped immediately after one request; five additional identifier lookups were not attempted and all six remain held.",
+      "reason": "Existing HTTP429 Retry-After remains active. No OpenAlex traffic was sent this run; six identifier-dependent holds remain separate.",
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
       "exhausted": false
     }
   ],
   "held_stage": {
     "stage": "remaining_preflight",
-    "reason": "All714 audit reviews and nine new weekly decisions have been applied. Ready buffer0/250; SOUPS0/5.251 older accepted records retain independent technical/quality holds."
+    "reason": "All714 audit reviews and nine prior weekly decisions are already applied. Cleared intake buffer1/250 (deficit249); SOUPS0/5 full batches.251 older accepted records retain independent technical/quality holds."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-28T11:50:42.717Z",
-    "scope": "two_primary_resources_one_schema_pass_batch13",
+    "verified_at": "2026-10-28T13:55:37.363Z",
+    "scope": "one_weekly_author_fulltext_schema_batch14",
     "source_request_timeout_seconds": 20,
     "serial_provider_pacing_seconds": 0.5,
-    "local_tests_passed": 45,
-    "intake_submissions": 10,
-    "intake_decisions_validated": 178,
+    "local_tests_passed": 39,
+    "intake_submissions": 13,
+    "intake_decisions_validated": 187,
     "content_hash_mismatches": 0,
-    "intake_immutable_jobs": 62,
+    "intake_immutable_jobs": 73,
     "new_acceptances": 0,
-    "ready_total": 9,
-    "global_deficit": 241,
+    "ready_total": 1,
+    "global_deficit": 249,
     "soups_ready_batches": 0,
     "soups_batch_deficit": 5,
-    "preflight_held": 195,
+    "preflight_held": 194,
     "new_ready_batch": {
       "collection": "weekly",
-      "batch": 13,
+      "batch": 14,
       "papers": 1
     },
-    "primary_pdf_checks_completed": 2,
-    "new_metadata_conflicts": 1,
+    "primary_pdf_checks_completed": 0,
+    "source_access_checks_completed": 1,
+    "new_metadata_conflicts": 0,
     "openai_usage_this_run": {
       "requests": 1,
-      "input_tokens": 620,
-      "output_tokens": 25,
-      "total_tokens": 645,
+      "input_tokens": 689,
+      "output_tokens": 31,
+      "total_tokens": 720,
       "usage_unavailable_responses": 0
     },
     "public_corpus_modified": false,
     "published_count": 0,
-    "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+    "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
     "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
     "openalex_requests": 0,
     "openalex_retry_not_before": "2026-10-29T00:00:36.339996+00:00"
   },
-  "checkpointed_at": "2026-10-28T12:43:29.568Z",
+  "checkpointed_at": "2026-10-28T13:55:37.363Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
       "affected_candidates": 6,
       "retry_after_seconds": 62010,
       "state": "active_backoff",
-      "attempted_candidates_this_run": 1,
+      "attempted_candidates_this_run": 0,
       "remaining_candidates_not_attempted": 5,
       "retry_policy": "Do not issue OpenAlex requests before retry_not_before. After backoff, retry one corrected query first; honor Retry-After and stop the provider after any new429. Preserve source/PDF/byline evidence and individual holds."
     }
@@ -203,7 +200,7 @@
     "status": "operational_verified",
     "workflow": ".github/workflows/content_review_paid.yml",
     "documentation": "docs/content_review_paid_worker.md",
-    "verified_at": "2026-10-28T11:50:42.717Z",
+    "verified_at": "2026-10-28T13:55:37.363Z",
     "successful_runs": [
       40633160529,
       40633500505,
@@ -213,7 +210,8 @@
       40658900271,
       40667231581,
       40674876427,
-      40682716745
+      40682716745,
+      40700105545
     ],
     "completed_request_ids": [
       "0a6451404a02ab0772d27ce9dba13d605af10bdc85cefb82dafea031a7ee2f65",
@@ -224,19 +222,20 @@
       "f9a6ea4ded9a9e9925ed4c288dd545200b6e9934c07df3aa698e6ddaaf8789d6",
       "e86b1f96ab699884bc1d17e353b8cf593277cfc8cebfae0b5e8723b3a148ac24",
       "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951",
-      "f25c59ee65f26041554506c96b989562864a4420e8407e8ce70a69c47100283f"
+      "f25c59ee65f26041554506c96b989562864a4420e8407e8ce70a69c47100283f",
+      "18f01424d706303e6be0cef881a66c0a847af2e1973b05dafe76a4cd7176bedf"
     ],
-    "completed_candidates": 55,
+    "completed_candidates": 56,
     "corpus_modified": false,
     "publication_approved": false,
     "reported_usage": {
-      "requests": 55,
-      "input_tokens": 36498,
-      "output_tokens": 1705,
-      "total_tokens": 38203
+      "requests": 56,
+      "input_tokens": 37187,
+      "output_tokens": 1736,
+      "total_tokens": 38923
     },
     "legacy_accepted_paid_requests": 0,
-    "local_tests_passed": 476
+    "local_tests_passed": 39
   },
   "mechanical_passed_awaiting_batch_admission": {
     "soups": 0,
@@ -244,21 +243,21 @@
   },
   "preflight_hold_counts": {
     "soups": 89,
-    "weekly": 106
+    "weekly": 105
   },
   "recommendation_result_totals": {
-    "current_hash_substantive_recommendations": 55,
-    "weekly": 44,
+    "current_hash_substantive_recommendations": 56,
+    "weekly": 45,
     "soups": 11,
-    "include": 45,
+    "include": 46,
     "discuss": 9,
     "exclude": 1,
     "full_papers_claimed_reviewed": 0,
-    "manual_ready": 0,
-    "complete_stable_batches": 0,
+    "manual_ready": 1,
+    "complete_stable_batches": 1,
     "full_pending_batches": 0,
     "full_soups_pending_batches": 0,
-    "assessed_at": "2026-10-28T11:50:42.717Z"
+    "assessed_at": "2026-10-28T13:55:37.363Z"
   },
   "pending_mechanical_jobs_basis": "563 immutable jobs observed;54 mechanical assessments completed (46 prior plus8 new),490 corpus removal requests applied,12 older assessment jobs retain holds and7 buffer reconciliation jobs remain partial pending targets. The251-record legacy held assessment inventory is tracked separately.",
   "publication_status": {
@@ -276,7 +275,7 @@
     "pr": 82,
     "release_workflow_run": 40689524006,
     "pages_workflow_run": 40689611287,
-    "public_commit": "29cbc0509df846b697b351cb77a0896fc3fc15",
+    "public_commit": "29cbc0509df846b697b351cb77a0896fc3f69bf2",
     "public_total": 3162,
     "live_url": "https://alex.riseinfosec.org/",
     "checked_at": "2026-10-28T12:44:13.664Z"
