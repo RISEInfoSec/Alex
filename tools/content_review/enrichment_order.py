@@ -24,6 +24,7 @@ def plan(record):
         return {'eligible': False, 'reason': 'current_official_metadata_first'}
     evidence = metadata.get('evidence', {})
     compared = evidence.get('comparison', {}) if isinstance(evidence, dict) else {}
+    compared = compared if isinstance(compared, dict) else {}
     official = all(compared.get(k) is True for k in ('title_matches', 'year_matches', 'author_families_match'))
     complete = metadata.get('full_author_reconciliation', {}).get('status') == 'passed'
     if metadata.get('status') != 'passed' and not (official and complete):
