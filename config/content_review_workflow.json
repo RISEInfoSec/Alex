@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 10,
+  "version": 11,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -347,5 +347,25 @@
     "global_low_watermark": 100,
     "source_reserve_enabled": false,
     "preserve": "Source attribution, stable identities, existing decisions, content hashes, verified material types, existing scoring/hard gates and qualifying regular automatic acceptance remain unchanged. Source-specific parsing/access requirements do not imply preferential treatment."
+  },
+  "enrichment_order_policy": {
+    "confirmed_at": "2026-10-28",
+    "priority": "Resolve provider-independent disqualifiers before spending scarce registry requests.",
+    "order": [
+      "Preserve exclusions, decisions and current content identity; reuse unchanged valid evidence.",
+      "Resolve actual resource type, access, source text/abstract, fresh duplicates and official bibliographic metadata using publisher/conference pages, original documents and legitimate repositories.",
+      "Run existing text-dependent hard gates with verified inputs. Route failures to explicit mechanical holds/dispositions; do not spend OpenAlex or paid-classification requests that cannot change them.",
+      "For survivors, use source DOI/BibTeX, Crossref and supported authoritative repositories before OpenAlex. Verify exact title, complete authors, year and version; provider coverage differs.",
+      "Use OpenAlex only for a specific still-missing datum that can affect eligibility, deduplication or a required check, after all independent holds are resolved. Retain cooldown, one-lookup-per-run and pacing limits."
+    ],
+    "distinguish": [
+      "A core-term/relevance failure on verified complete content is independent of citation counts; defer registry enrichment until that input/gate changes.",
+      "A low provisional score with unknown citations can improve through verified bibliometrics or corrected metadata. Do not label it immutable or reject solely because citations are unknown.",
+      "Missing/truncated abstract, incomplete metadata, access failures and unverified media are evidence holds, not scientific rejection.",
+      "A missing DOI is allowed; citations remain null. A completed legitimate alternative check may satisfy a registry subcheck without OpenAlex, preserving the original failure as history and documenting the replacement evidence."
+    ],
+    "preserve": "No changes to scores, hard gates, automatic acceptance, prior decisions, source/version distinctions or publication restrictions. Already accepted records keep their human decision; independent mechanical holds remain.",
+    "helper": "tools/content_review/enrichment_order.py",
+    "candidate_ledger": "config/content_review_enrichment_plan.json"
   }
 }
