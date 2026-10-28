@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "request_id": "0a6451404a02ab0772d27ce9dba13d605af10bdc85cefb82dafea031a7ee2f65",
+  "run_id": 40633160529,
+  "run_attempt": 1,
+  "head_sha": "e083f29e0ab177e4303af721fe5f973e7989d155",
+  "verified_at": "2026-10-28T04:36:38.672239+00:00",
+  "result_sha256": "1c12e504f4ad556b190d75623d17d881d21fc07ee7dd1f4a182277d16fcc8a78",
+  "usage": {
+    "requests": 1,
+    "input_tokens": 635,
+    "output_tokens": 32,
+    "total_tokens": 667,
+    "usage_unavailable_responses": 0
+  },
+  "applied": [
+    {
+      "collection": "soups",
+      "candidate_id": "soups-1dbdb297b163f6f5dcb8",
+      "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
+      "preflight_passed": true,
+      "idempotency_key": "soups/soups-1dbdb297b163f6f5dcb8/41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5/0/1"
+    }
+  ],
+  "held": [],
+  "publication_approved": false,
+  "corpus_modified": false,
+  "artifact": {
+    "id": 12792715847,
+    "sha256": "e175941b4a18961539f8dca2d00df84c7e064dc049ea0d4a8e326a5e5e229a4e"
+  },
+  "verified_result": {
+    "schema_version": 1,
+    "status": "complete",
+    "started_at": "2026-10-28T04:35:43.968164+00:00",
+    "records": [
+      {
+        "collection": "soups",
+        "candidate_id": "soups-1dbdb297b163f6f5dcb8",
+        "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
+        "purpose": "preflight",
+        "submission_revision": 0,
+        "assessment_version": 1,
+        "manifest_sha256": "596fa5c2f26a20500b9f6045c1e133196c77c7eb705cc4a245144f79f177ca6e",
+        "gate_evidence_sha256": "87d3b11475cb705ae51d16b97c2b0deaaafc8b0c40954da5c1dc3bff4593ef64",
+        "classification_input_sha256": "8acbd3c4230f0244ca9dfabb7b6bc7c8334611a57edf019fc6e629c7e6d89b12",
+        "idempotency_key": "soups/soups-1dbdb297b163f6f5dcb8/41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5/0/1",
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T04:35:46.786027+00:00",
+          "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
+          "evidence": {
+            "classification": {
+              "Category": "AI/ML for Security",
+              "Investigation_Type": "Other",
+              "OSINT_Source_Types": []
+            },
+            "response_id": "resp_037549316453f87b016ae17ba10d9487d0994ee9dcad1c4ad2",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 635,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 32,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 667
+            },
+            "uncertainty_flags": [
+              "Investigation_Type_other"
+            ]
+          }
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-10-28T04:35:46.791177+00:00",
+          "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "0a3ececacfaaf81fbd8243fedf20733e61d516455c63c0a8940b69c6e6d13efe",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release."
+          }
+        }
+      }
+    ],
+    "usage": {
+      "requests": 1,
+      "input_tokens": 635,
+      "output_tokens": 32,
+      "total_tokens": 667,
+      "usage_unavailable_responses": 0
+    },
+    "corpus_modified": false,
+    "publication_approved": false,
+    "provenance": {
+      "GITHUB_RUN_ID": "40633160529",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_SHA": "e083f29e0ab177e4303af721fe5f973e7989d155",
+      "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+      "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+    },
+    "request_id": "0a6451404a02ab0772d27ce9dba13d605af10bdc85cefb82dafea031a7ee2f65",
+    "request_file_sha256": "60f00f527d74451d385bb5c99a3d225334961154472f2712bcada2b3e239c965",
+    "contract": {
+      "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+      "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+      "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+      "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+      "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+      "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+    },
+    "completed_at": "2026-10-28T04:35:46.791485+00:00"
+  }
+}
