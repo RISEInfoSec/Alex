@@ -6662,8 +6662,8 @@
       "candidate_id": "soups-ec512a117d6d9917bd8c",
       "review_number": 277,
       "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "duplicates": {
           "status": "passed",
@@ -6932,38 +6932,100 @@
           }
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-28T22:26:45.765796+00:00",
           "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "structural_subcheck": {
-            "status": "passed",
-            "checked_at": "2026-10-28T03:50:02.373608+00:00",
-            "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
-            "scope": "Normalized review-record structural projection described by docs/review_console.md, existing/reserved number contract, HTTPS source, current hash reproduction and JSON serialization. No placeholder public taxonomy or paid classification was assigned.",
-            "projection": {
-              "candidate_id": "soups-ec512a117d6d9917bd8c",
-              "title": "Facial Recognition: Understanding Privacy Concerns and Attitudes Across Increasingly Diverse Deployment Scenarios",
-              "authors": "Shikun Zhang, Yuanyuan Feng, and Norman Sadeh",
-              "year": 2021,
-              "source_url": "https://www.usenix.org/conference/soups2021/presentation/zhang-shikun",
-              "document_type": "research_paper",
-              "recommendation": "discuss",
-              "review_reason": "Studies reactions to facial-recognition deployments, including bias and broad surveillance concerns. Potential context for assessing trust in investigative technology, but accuracy and investigative outcomes are not evaluated.",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "8a3205c0334228c0062d527b54c54fb250af1ee687d6a953d8d9258e3c9c19e7",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-28T22:26:45.759328+00:00",
               "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
-              "review_number": 277,
-              "review_batch": 14
+              "evidence": {
+                "classification": {
+                  "Category": "Privacy & Surveillance",
+                  "Investigation_Type": "Social Media Analysis",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_0bf06120be6f684d016ae276a4915087d282dbafa6f78b9887",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 626,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 23,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 649
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "40779947905",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "e1abd3d9672f0c43b463c8db2b508628db089e01",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "94b8e1067ff78664f76c994181d76f8a472b6c014e036e955a0505f6d41f89a6"
             },
-            "limitations": "This is a structural subcheck, not completed target-import dry-run or publication readiness. Full schema gate stays held; no candidate moved to records and no partial submitted batch constructed."
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 40779947905
           },
-          "previous_evidence": "Normalized review-record structure verified independently. Full target-import dry run and taxonomy remain unperformed/held; no successful paid stage claimed.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "revalidated_at": "2026-10-28T22:27:08.551698+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "structural_subcheck": {
+              "status": "passed",
+              "checked_at": "2026-10-28T03:50:02.373608+00:00",
+              "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
+              "scope": "Normalized review-record structural projection described by docs/review_console.md, existing/reserved number contract, HTTPS source, current hash reproduction and JSON serialization. No placeholder public taxonomy or paid classification was assigned.",
+              "projection": {
+                "candidate_id": "soups-ec512a117d6d9917bd8c",
+                "title": "Facial Recognition: Understanding Privacy Concerns and Attitudes Across Increasingly Diverse Deployment Scenarios",
+                "authors": "Shikun Zhang, Yuanyuan Feng, and Norman Sadeh",
+                "year": 2021,
+                "source_url": "https://www.usenix.org/conference/soups2021/presentation/zhang-shikun",
+                "document_type": "research_paper",
+                "recommendation": "discuss",
+                "review_reason": "Studies reactions to facial-recognition deployments, including bias and broad surveillance concerns. Potential context for assessing trust in investigative technology, but accuracy and investigative outcomes are not evaluated.",
+                "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
+                "review_number": 277,
+                "review_batch": 14
+              },
+              "limitations": "This is a structural subcheck, not completed target-import dry-run or publication readiness. Full schema gate stays held; no candidate moved to records and no partial submitted batch constructed."
+            },
+            "previous_evidence": "Normalized review-record structure verified independently. Full target-import dry run and taxonomy remain unperformed/held; no successful paid stage claimed.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "verified_document_type": "research_paper"
+      "blockers": [],
+      "verified_document_type": "research_paper",
+      "recommendation_content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-28T22:27:50.737399+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-10-28T22:27:50.737399+00:00",
+      "review_batch": 16
     },
     {
       "collection": "soups",
@@ -42770,8 +42832,8 @@
         "passed": 100
       },
       "metadata": {
-        "held": 6,
-        "passed": 94
+        "held": 5,
+        "passed": 95
       },
       "duplicates": {
         "passed": 100
@@ -42781,8 +42843,8 @@
         "passed": 12
       },
       "schema": {
-        "held": 89,
-        "passed": 11
+        "held": 88,
+        "passed": 12
       }
     },
     "weekly": {
@@ -42812,7 +42874,7 @@
       }
     }
   },
-  "updated_at": "2026-10-28T22:24:21.100843+00:00",
+  "updated_at": "2026-10-28T22:27:50.737399+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
