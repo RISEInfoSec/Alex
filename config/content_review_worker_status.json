@@ -7,12 +7,8 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
-  "last_error": "Paid classification is operational and verified. No complete cleared review batch is ready yet:12papers passed mechanical preflight and await batch admission; remaining source, identifier, quality, media and schema holds are preserved.",
-  "lease": {
-    "owner": "content-review-20261028T054305429Z-c1de293b",
-    "acquired_at": "2026-10-28T05:43:05.429Z",
-    "expires_at": "2026-10-28T06:13:05.429Z"
-  },
+  "last_error": "No execution failure. The cleared queue remains0/250 and SOUPS0/5 because39 exact-hash mechanical passes still await current recommendation evidence and complete stable batch admission; all separate holds remain enforced.",
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -23,18 +19,18 @@
   "unattended_access_verified_at": "2026-10-27T22:40:36Z",
   "verification_result": "Unattended access verified: production D1 binding DB exposes review_decisions, review_drafts, review_jobs and review_submissions; review_jobs read succeeded (empty). Branch source registry config/review_console.json read successfully (SOUPS, APWG, Virus Bulletin; weekly not yet registered). Initial-fill lease and all counts preserved; no candidate or assessment mutation.",
   "weekly_prepared_batches": 0,
-  "pending_mechanical_jobs": 12,
+  "pending_mechanical_jobs": 39,
   "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
   "workflow": "preflight_first",
-  "preflight_pending": 238,
+  "preflight_pending": 211,
   "preflight_source_counts": {
     "soups": 100,
     "weekly": 150
   },
   "global_deficit": 250,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-28T04:47:30.165Z",
-  "last_action": "Restored isolated paid Content Review classification using existing repository OPEN_API_KEY; corrected stale smoketest.460 local tests passed. Live pilot and11-paper follow-up succeeded; downloaded artifacts matched GitHub digests and were verified against current hashes/contracts.11SOUPS+1weekly candidates now pass all mechanical gates, awaiting current recommendation/complete stable batch admission;0manual-ready and0SOUPS batches.12actual API calls,7693reported tokens.132decisions valid;4041weekly identities retained, no arrivals. No public import, merge or deploy.",
+  "last_completed_at": "2026-10-28T05:56:26.857Z",
+  "last_action": "Normalized27 actually verified weekly research-paper types with complete prior records/hashes archived and first-five evidence explicitly rebound; no decision inherited. Two isolated paid workflows classified and disposable-schema-tested all27 exact new hashes. Artifacts, GitHub digests, provenance, API response IDs and current data were verified; immutable receipts saved. Weekly mechanical passes rose1→28; combined with11SOUPS,39 now pass every mechanical gate but remain outside manual review pending current recommendations/complete stable batches.464 tests passed.132decisions,13jobs and4041weekly identities remain unchanged; no arrivals, scoring changes, public import, merge or deploy.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -43,8 +39,8 @@
     "fresh_pdf_access_and_front_matter_passed": 12,
     "quality_passed": 5,
     "quality_held": 246,
-    "openai_requests": 12,
-    "openai_tokens": 7693,
+    "openai_requests": 39,
+    "openai_tokens": 26921,
     "citation_registry_lookups_completed": 24,
     "verified_citation_counts_from_this_run": 0,
     "legacy_abstracts_reachability_and_material_verified": 10,
@@ -52,9 +48,9 @@
     "retryable_link_failures": 1,
     "fresh_cross_source_duplicates_passed": 248,
     "fresh_cross_source_duplicates_held": 3,
-    "preflight_openai_requests": 12,
+    "preflight_openai_requests": 39,
     "legacy_accepted_openai_requests": 0,
-    "pre_review_taxonomy_and_target_schema_passed": 12
+    "pre_review_taxonomy_and_target_schema_passed": 39
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
   "last_started_at": "2026-10-28T05:43:05.429Z",
@@ -65,7 +61,7 @@
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
     "refresh_result": "Unchanged original source blob; no identities deleted or rewritten.",
-    "refreshed_at": "2026-10-28T04:47:30.165Z"
+    "refreshed_at": "2026-10-28T05:56:26.857Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
@@ -97,8 +93,8 @@
       "format_held": 116,
       "access_held": 116,
       "metadata_held": 108,
-      "schema_held": 149,
-      "schema_passed": 1
+      "schema_held": 122,
+      "schema_passed": 28
     }
   },
   "reconciliation": {
@@ -106,108 +102,121 @@
     "latest_decisions_validated": 132,
     "content_hash_mismatches": 0,
     "immutable_jobs": 13,
-    "verified_at": "2026-10-28T04:47:30.165Z"
+    "verified_at": "2026-10-28T05:56:26.857Z"
   },
   "blocked_sources": [
     {
       "source": "soups",
-      "reason": "100staged written papers/access verified;94metadata passes,6identifier retries deferred until source backoff.12quality passes/88holds;11fullschema passes/89held or unperformed.11mechanical passes await complete stable batch admission. Source not exhausted.",
+      "reason": "100staged written papers/access verified;94metadata passes,6identifier retries remain.12quality passes/88holds;11full mechanical passes await current recommendations and complete stable batch admission. Source not exhausted.",
       "exhausted": false
     },
     {
       "source": "weekly",
-      "reason": "4041identities preserved;150staged candidates include34format/access passes,42metadata passes,1duplicate hold and1fullschema pass awaiting refreshed recommendation/batch admission. Other verified candidate types need hash-preserving archival normalization before paid requests. Source not exhausted.",
+      "reason": "4041identities preserved;150staged candidates include28 exact-hash full mechanical passes and122 separate holds. All28 remain outside the manual queue pending current recommendation evidence and complete stable batches. Source not exhausted.",
       "exhausted": false
     },
     {
       "source": "OpenAlex",
-      "reason": "Six prior identifier lookups remain retry-held:one malformed query andfive rate limits. Existing recorded source backoff remains in effect.",
+      "reason": "Prior backoff has expired; six SOUPS identifier lookups remain eligible for bounded retry (one corrected alphanumeric query, then stop on any new429). Existing primary title/year/byline evidence and individual identifier holds are preserved.",
       "retry_not_before": "2026-10-28T05:50:34.386627+00:00",
       "exhausted": false
     }
   ],
   "held_stage": {
-    "stage": "remaining_candidate_preflight_and_batch_admission",
-    "reason": "The paid execution connection is fixed.12papers have passed every mechanical gate; no complete stable manual batch admitted. Other candidates retain individual quality/source/identifier/media/type/schema holds. Legacy accepted candidates still need their missing type-appropriate checks; acceptance does not override holds."
+    "stage": "current_recommendations_and_complete_stable_batch_admission",
+    "reason": "39papers pass every mechanical gate (11SOUPS,28weekly), but none is admitted until a current substantive recommendation is bound to its exact hash and the existing stable batch contract is complete. Other candidates retain individual quality/source/identifier/media/type/schema holds."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-28T04:47:30.165Z",
-    "scope": "isolated_paid_classification_repair_and_preflight",
-    "local_tests_passed": 460,
+    "verified_at": "2026-10-28T05:56:26.857Z",
+    "scope": "verified_weekly_type_normalization_and_paid_preflight",
+    "local_tests_passed": 464,
     "successful_workflow_runs": [
-      40633160529,
-      40633500505
+      40640121934,
+      40640440335
     ],
     "mechanical_passed": {
       "soups": 11,
-      "weekly": 1
+      "weekly": 28
+    },
+    "newly_mechanical_passed": {
+      "weekly": 27
     },
     "ready_total": 0,
     "soups_ready_batches": 0,
     "global_deficit": 250,
     "soups_batch_deficit": 5,
-    "openai_usage": {
-      "requests": 12,
-      "input_tokens": 7351,
-      "output_tokens": 342,
-      "total_tokens": 7693
+    "openai_usage_this_run": {
+      "requests": 27,
+      "input_tokens": 18377,
+      "output_tokens": 851,
+      "total_tokens": 19228
+    },
+    "openai_usage_cumulative": {
+      "requests": 39,
+      "input_tokens": 25728,
+      "output_tokens": 1193,
+      "total_tokens": 26921
     },
     "legacy_accepted_classified": 0,
     "content_decisions_changed": 0,
     "scoring_policy_changes": 0,
     "new_weekly_arrivals": 0,
-    "readback_commit": "48a860fc6303bafc9f0dd6f15d6ff9e792f3267f",
+    "readback_commit": "9302b362fa21731c7942dbaf946571575c9d1371",
     "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
     "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
     "public_corpus_modified": false
   },
-  "checkpointed_at": "2026-10-28T04:35:56.784Z",
+  "checkpointed_at": "2026-10-28T05:56:26.857Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-28T05:50:34.386627+00:00",
       "affected_candidates": 6,
-      "retry_policy": "Do not issue OpenAlex requests before this time. Retry the HTTP400 query with alphanumeric title tokens; honor Retry-After and stop the source after any new429. Preserve completed source/PDF/bibliographic evidence."
+      "retry_policy": "Backoff expired. Retry the prior HTTP400 with alphanumeric title tokens; honor Retry-After and stop the whole provider after any new429. Preserve completed source/PDF/bibliographic evidence.",
+      "state": "eligible_for_bounded_retry"
     }
   },
   "next_actions": [
-    "Reuse the two immutable paid receipts and current hash-bound taxonomy/schema evidence; do not spend again for unchanged valid results.",
-    "Prepare current substantive recommendations and complete stable batches only after all gates pass, preserving existing numbers, batch membership and submitted histories.",
-    "Normalize only actually verified weekly paper types with archived previous content/hash and evidence rebinding; retain all4041source identities and require recommendation reassessment for changed content.",
-    "Continue independent preflight through remaining SOUPS/weekly inventory and missing legacy accepted material/bibliographic/quality checks; do not waive holds.",
-    "Honor OpenAlex retry_not_before; retry failed identifier work with bounded requests/backoff and corrected HTTP400 query.",
-    "Refresh D1 immutable requests and weekly arrivals each pass; ingest additively. Use the documented isolated GitHub transport for eligible paid checks, never general corpus classification/import/merge/deploy."
+    "Prepare exact-hash substantive recommendation reassessments for the39 fully mechanical-passed papers; admit only complete stable batches and preserve all existing numbering/submission histories.",
+    "Retry the six held SOUPS identifier lookups with corrected alphanumeric query/backoff; stop OpenAlex immediately on a new429.",
+    "Continue independent SOUPS/weekly/legacy gates and verified paper/presentation/media distinctions; reuse unchanged evidence and never waive quality holds.",
+    "Refresh D1 immutable requests and weekly arrivals each pass; retain all4041 identities additively.",
+    "Reuse all four immutable paid receipts; do not spend again for unchanged valid results and never use the paid transport for public import/merge/deploy."
   ],
   "paid_execution": {
     "status": "operational_verified",
     "workflow": ".github/workflows/content_review_paid.yml",
     "documentation": "docs/content_review_paid_worker.md",
-    "verified_at": "2026-10-28T04:47:30.165Z",
+    "verified_at": "2026-10-28T05:56:26.857Z",
     "successful_runs": [
       40633160529,
-      40633500505
+      40633500505,
+      40640121934,
+      40640440335
     ],
     "completed_request_ids": [
       "0a6451404a02ab0772d27ce9dba13d605af10bdc85cefb82dafea031a7ee2f65",
-      "81db6e8998c1f4b67f73469255c42d3c631d55e3614bd5ec7f1edf84560dc42c"
+      "81db6e8998c1f4b67f73469255c42d3c631d55e3614bd5ec7f1edf84560dc42c",
+      "6ff3689b55335b5ba1567f3b28638cd28e7fef0299d47fc4ffe3d275fc1a4ece",
+      "bb4f5f0e70164f62b4cf677fc2f2ccc7209e69c9981fed44f325b0dc074f3dad"
     ],
-    "completed_candidates": 12,
+    "completed_candidates": 39,
     "corpus_modified": false,
     "publication_approved": false,
     "reported_usage": {
-      "requests": 12,
-      "input_tokens": 7351,
-      "output_tokens": 342,
-      "total_tokens": 7693
+      "requests": 39,
+      "input_tokens": 25728,
+      "output_tokens": 1193,
+      "total_tokens": 26921
     },
     "legacy_accepted_paid_requests": 0,
-    "local_tests_passed": 460
+    "local_tests_passed": 464
   },
   "mechanical_passed_awaiting_batch_admission": {
     "soups": 11,
-    "weekly": 1
+    "weekly": 28
   },
   "preflight_hold_counts": {
     "soups": 89,
-    "weekly": 149
+    "weekly": 122
   }
 }
