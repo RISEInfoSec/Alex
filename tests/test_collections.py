@@ -386,7 +386,7 @@ def test_invalid_or_ambiguous_source_profiles_fail(collection_site, change):
 
 def test_actual_artifact_includes_all_pages_and_preserves_downloads(tmp_path):
     # Isolate staging; no network, deployment or source-corpus writes.
-    for name in ("index.html", "robots.txt", "sitemap.xml"):
+    for name in ("index.html", "robots.txt", "sitemap.xml", "data-license-v1.html"):
         shutil.copy2(ROOT / name, tmp_path / name)
     for name in ("assets", "config"):
         shutil.copytree(ROOT / name, tmp_path / name)
