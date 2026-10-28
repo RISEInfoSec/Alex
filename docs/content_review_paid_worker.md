@@ -85,7 +85,7 @@ submission_revision/assessment_version. Reuse unchanged valid evidence.
    Save a new immutable receipt with the result/run provenance and actual usage.
    Replaying a receipt must not spend again or erase existing decisions.
 6. The helper deliberately leaves review_ready=false. Admit only after a
-   current substantive recommendation and complete stable batch are verified
+   current substantive recommendation and sealed batch of 1–20 cleared candidates are verified
    using the existing numbering contract. A preflight pass alone is not a
    claim that the rolling manual buffer or SOUPS batch floor is restored.
 
