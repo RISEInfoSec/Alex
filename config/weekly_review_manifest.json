@@ -27330,7 +27330,7 @@
       "format_verification_status": "verified_written_research_paper",
       "abstract": "Malware research primarily studies the results, the methods, and the impact. Even from an offensive security perspective, what is examined is the method, not the development strategy of the offender. This study investigates the behavioral signatures and coding patterns embedded in the malware source code. By analyzing a large corpus of leaked malware code and comparing it with carefully selected benign open-source software, we apply static application security testing and compute multiple software metrics. Based on cognitive psychology and criminological theories, our work interprets differences in code structure and quality as behavioral indicators, reflecting distinct motivational structures, risk tolerances, and development strategies of malware authors compared to benign software developers. Our findings reveal that malware code is generally smaller, less documented, and exhibits higher cyclomatic complexity per function, with reduced use of abstraction mechanisms such as classes and closures. Vulnerability analysis further reveals that malware exhibits more issues of the types that benign code typically avoids, suggesting a minimal investment in secure development practices. These patterns imply a development style optimized for expedience, operational secrecy, and evasion rather than long-term maintainability. Nonetheless, the code quality metrics indicate that it does not deviate significantly from benign software enough to be distinctive. By framing code metrics as proxies for behavioral signals and strategic choices, we demonstrate how quantitative software analysis can enrich behavioral cybersecurity research, offering new insights into the practices and priorities of malware developers. Our results pave the way for further research in the behavioral profiling of cyber offenders.",
       "abstract_source": "https://doi.org/10.48550/arxiv.2606.05945",
-      "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+      "assessment_basis": "Substantive reread of the complete current abstract after exact-hash mechanical preflight; actual source access and written-paper type were independently verified. Full paper not assessed.",
       "review_evidence": [
         "https://doi.org/10.48550/arxiv.2606.05945",
         "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
@@ -27342,9 +27342,9 @@
       "relevance": "direct",
       "review_reason": "Compares leaked malware and benign code metrics as possible behavioural signals about developer practice.",
       "metadata_issue": "The authors acknowledge weak distinctiveness; code quality and complexity should not be treated as reliable personal attribution. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 31.65; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
-      "screening_status": "cached_abstract_review_complete",
-      "assessment_depth": "cached_abstract",
-      "assessment_date": "2026-10-27",
+      "screening_status": "current_abstract_recommendation_complete_after_preflight",
+      "assessment_depth": "complete_current_abstract_after_preflight",
+      "assessment_date": "2026-10-28",
       "full_paper_reviewed": false,
       "paper_format_verified": true,
       "source_verification_status": "primary_resource_front_matter_verified",
@@ -27384,11 +27384,9 @@
       "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
       "review_ready": false,
       "preflight_status": "held",
-      "preflight_blockers": [
-        "schema"
-      ],
+      "preflight_blockers": [],
       "preflight": {
-        "status": "held",
+        "status": "passed",
         "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
         "checks": {
           "duplicates": {
@@ -27502,17 +27500,78 @@
             }
           },
           "schema": {
-            "status": "held",
-            "checked_at": "2026-10-28T08:42:51.629022+00:00",
+            "status": "passed",
+            "checked_at": "2026-10-28T08:44:34.884805+00:00",
             "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
-            "evidence": "Verified type changed the reviewed-content hash. Exact-hash taxonomy and target-record dry-run must complete; no prior schema result is inherited.",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "636baf556309003b947d9f36d3d5752d50c7dfb1e2d967b5b28936241c14ffdd",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-28T08:44:34.879827+00:00",
+                "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
+                "evidence": {
+                  "classification": {
+                    "Category": "Malware & Exploits",
+                    "Investigation_Type": "Malware Analysis",
+                    "OSINT_Source_Types": [
+                      "Leaked Data",
+                      "Code Repositories"
+                    ]
+                  },
+                  "response_id": "resp_077cff3033ee9b6c016ae1b5f1613887d1adb08052c271d2bc",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 669,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 34,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 703
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "40658900271",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "903601d2adbe09f10047cf6892a8739548f0a6ef",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "f9a6ea4ded9a9e9925ed4c288dd545200b6e9934c07df3aa698e6ddaaf8789d6"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 40658900271
+            },
+            "revalidated_at": "2026-10-28T08:47:04.519804+00:00",
             "prior_evidence": {
               "status": "held",
-              "checked_at": "2026-10-27T23:05:43.163744+00:00",
-              "content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
-              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              "checked_at": "2026-10-28T08:42:51.629022+00:00",
+              "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
+              "evidence": "Verified type changed the reviewed-content hash. Exact-hash taxonomy and target-record dry-run must complete; no prior schema result is inherited.",
+              "prior_evidence": {
+                "status": "held",
+                "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                "content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
+                "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              }
             }
           }
         }
@@ -27684,10 +27743,79 @@
           }
         }
       ],
-      "recommendation_content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
-      "recommendation_status": "awaiting_reassessment_for_verified_source_after_preflight",
-      "batch_admission_eligible": false,
-      "admission_hold": "Await exact-hash taxonomy/schema pass, then current substantive recommendation and complete stable batch"
+      "recommendation_content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "batch_admission_eligible": true,
+      "admission_hold": "Await complete stable batch; recommendation and all mechanical gates are current",
+      "taxonomy_verification": {
+        "status": "passed",
+        "checked_at": "2026-10-28T08:44:34.879827+00:00",
+        "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
+        "evidence": {
+          "classification": {
+            "Category": "Malware & Exploits",
+            "Investigation_Type": "Malware Analysis",
+            "OSINT_Source_Types": [
+              "Leaked Data",
+              "Code Repositories"
+            ]
+          },
+          "response_id": "resp_077cff3033ee9b6c016ae1b5f1613887d1adb08052c271d2bc",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 669,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 34,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 703
+          },
+          "uncertainty_flags": []
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "40658900271",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "903601d2adbe09f10047cf6892a8739548f0a6ef",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "f9a6ea4ded9a9e9925ed4c288dd545200b6e9934c07df3aa698e6ddaaf8789d6"
+      },
+      "recommendation_versions": [
+        {
+          "content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
+          "recommendation": "include",
+          "relevance": "direct",
+          "review_reason": "Compares leaked malware and benign code metrics as possible behavioural signals about developer practice.",
+          "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+          "assessment_depth": "cached_abstract",
+          "assessment_date": "2026-10-27",
+          "status": "awaiting_reassessment_for_verified_source_after_preflight",
+          "superseded_at": "2026-10-28T08:47:10.080095+00:00"
+        }
+      ],
+      "recommendation_assessed_at": "2026-10-28T08:47:10.080095+00:00",
+      "recommendation_evidence": {
+        "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
+        "abstract_sha256": "e3e20ed23391402e909e70958f22dd66d0c346275618f231e2bb044767d3dc43",
+        "assessment_depth": "complete_current_abstract",
+        "method": "Direct substantive reread of the complete current abstract after all six mechanical gates passed; recommendation and reason checked against the described methods/findings.",
+        "source_provenance": [
+          "https://doi.org/10.48550/arxiv.2606.05945",
+          "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+        ],
+        "format_checked_at": "2026-10-28T08:42:51.629022+00:00",
+        "access_checked_at": "2026-10-28T08:42:51.629022+00:00",
+        "limitations": "Full paper not assessed for this recommendation. Mechanical source/type evidence is separate; this assessment does not waive quality, batch, decision, or release controls.",
+        "recommendation": "include",
+        "relevance": "direct",
+        "basis": "Compares leaked malware and benign code metrics as possible behavioural signals about developer practice.",
+        "assessed_at": "2026-10-28T08:47:10.080095+00:00"
+      }
     },
     {
       "candidate_id": "weekly-e41b1e4a4efdbef08566aadf",
@@ -27865,7 +27993,7 @@
       "format_verification_status": "verified_written_research_paper",
       "abstract": "The classification of malware families is a key challenge in cybersecurity, which enables threat attribution, analysis of attack operations, and the formulation of effective defense strategies. Emerging malware samples are becoming increasingly structurally similar and obfuscated, making accurate multiclass classification challenging for traditional machine learning models, especially when deployed at scale. In this research, we propose a scalable Quantum Kernel-based Machine Learning (QKML) framework for malware family classification that addresses both accuracy and efficiency constraints. The proposed framework extracts structural features from executable files and uses a supervised Linear Discriminant Analysis (LDA) projection to generate a compact, class-aware representation well suited for quantum processing. The nonlinear relationships among malware families are captured using a fidelity-based quantum kernel built from parameterized quantum circuits. We use the Nyström approximation method to obtain a low-rank approximation of the quantum kernel, which enables effective multiclass classification via ridge regression and enables learning from all available training samples without incurring the quadratic computational cost of kernel matrix construction. The proposed model achieves strong classification performance, with 80.88% accuracy, outperforming classical machine learning baselines under identical feature and data splits, according to experimental evaluation on a large-scale malware dataset that includes 18,836 samples across 23 malware families. These findings suggest that scalable quantum-kernel-based machine learning can offer measurable performance advantages for real-world malware family classification tasks.",
       "abstract_source": "https://arxiv.org/abs/2606.16191",
-      "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+      "assessment_basis": "Substantive reread of the complete current abstract after exact-hash mechanical preflight; actual source access and written-paper type were independently verified. Full paper not assessed.",
       "review_evidence": [
         "https://arxiv.org/abs/2606.16191",
         "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
@@ -27877,9 +28005,9 @@
       "relevance": "supporting",
       "review_reason": "Evaluates quantum-kernel methods for classifying malware families using executable features and a low-rank approximation.",
       "metadata_issue": "Benchmark accuracy across23 families does not establish attribution to operators or practical quantum advantage in operational deployment. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 31.65; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
-      "screening_status": "cached_abstract_review_complete",
-      "assessment_depth": "cached_abstract",
-      "assessment_date": "2026-10-27",
+      "screening_status": "current_abstract_recommendation_complete_after_preflight",
+      "assessment_depth": "complete_current_abstract_after_preflight",
+      "assessment_date": "2026-10-28",
       "full_paper_reviewed": false,
       "paper_format_verified": true,
       "source_verification_status": "primary_resource_front_matter_verified",
@@ -27919,11 +28047,9 @@
       "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
       "review_ready": false,
       "preflight_status": "held",
-      "preflight_blockers": [
-        "schema"
-      ],
+      "preflight_blockers": [],
       "preflight": {
-        "status": "held",
+        "status": "passed",
         "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
         "checks": {
           "duplicates": {
@@ -28038,17 +28164,75 @@
             }
           },
           "schema": {
-            "status": "held",
-            "checked_at": "2026-10-28T08:42:51.629022+00:00",
+            "status": "passed",
+            "checked_at": "2026-10-28T08:44:36.606702+00:00",
             "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
-            "evidence": "Verified type changed the reviewed-content hash. Exact-hash taxonomy and target-record dry-run must complete; no prior schema result is inherited.",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "346236533169c0e69f97d097a788df0167a351d18663e1fd6b99c620405d30b9",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-28T08:44:36.602843+00:00",
+                "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
+                "evidence": {
+                  "classification": {
+                    "Category": "Malware & Exploits",
+                    "Investigation_Type": "Malware Analysis",
+                    "OSINT_Source_Types": []
+                  },
+                  "response_id": "resp_03b83fc46360c1e1016ae1b5f30d5487d199774880e17ae493",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 656,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 35,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 691
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "40658900271",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "903601d2adbe09f10047cf6892a8739548f0a6ef",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "f9a6ea4ded9a9e9925ed4c288dd545200b6e9934c07df3aa698e6ddaaf8789d6"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 40658900271
+            },
+            "revalidated_at": "2026-10-28T08:47:04.523053+00:00",
             "prior_evidence": {
               "status": "held",
-              "checked_at": "2026-10-27T23:05:43.163744+00:00",
-              "content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
-              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              "checked_at": "2026-10-28T08:42:51.629022+00:00",
+              "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
+              "evidence": "Verified type changed the reviewed-content hash. Exact-hash taxonomy and target-record dry-run must complete; no prior schema result is inherited.",
+              "prior_evidence": {
+                "status": "held",
+                "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                "content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
+                "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              }
             }
           }
         }
@@ -28220,10 +28404,76 @@
           }
         }
       ],
-      "recommendation_content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
-      "recommendation_status": "awaiting_reassessment_for_verified_source_after_preflight",
-      "batch_admission_eligible": false,
-      "admission_hold": "Await exact-hash taxonomy/schema pass, then current substantive recommendation and complete stable batch"
+      "recommendation_content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "batch_admission_eligible": true,
+      "admission_hold": "Await complete stable batch; recommendation and all mechanical gates are current",
+      "taxonomy_verification": {
+        "status": "passed",
+        "checked_at": "2026-10-28T08:44:36.602843+00:00",
+        "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
+        "evidence": {
+          "classification": {
+            "Category": "Malware & Exploits",
+            "Investigation_Type": "Malware Analysis",
+            "OSINT_Source_Types": []
+          },
+          "response_id": "resp_03b83fc46360c1e1016ae1b5f30d5487d199774880e17ae493",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 656,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 35,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 691
+          },
+          "uncertainty_flags": []
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "40658900271",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "903601d2adbe09f10047cf6892a8739548f0a6ef",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "f9a6ea4ded9a9e9925ed4c288dd545200b6e9934c07df3aa698e6ddaaf8789d6"
+      },
+      "recommendation_versions": [
+        {
+          "content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
+          "recommendation": "include",
+          "relevance": "supporting",
+          "review_reason": "Evaluates quantum-kernel methods for classifying malware families using executable features and a low-rank approximation.",
+          "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+          "assessment_depth": "cached_abstract",
+          "assessment_date": "2026-10-27",
+          "status": "awaiting_reassessment_for_verified_source_after_preflight",
+          "superseded_at": "2026-10-28T08:47:10.080337+00:00"
+        }
+      ],
+      "recommendation_assessed_at": "2026-10-28T08:47:10.080337+00:00",
+      "recommendation_evidence": {
+        "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
+        "abstract_sha256": "ed132022f39291150806fc9cf2075a57f9149d3069d5771df6fb348440af19f3",
+        "assessment_depth": "complete_current_abstract",
+        "method": "Direct substantive reread of the complete current abstract after all six mechanical gates passed; recommendation and reason checked against the described methods/findings.",
+        "source_provenance": [
+          "https://arxiv.org/abs/2606.16191",
+          "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+        ],
+        "format_checked_at": "2026-10-28T08:42:51.629022+00:00",
+        "access_checked_at": "2026-10-28T08:42:51.629022+00:00",
+        "limitations": "Full paper not assessed for this recommendation. Mechanical source/type evidence is separate; this assessment does not waive quality, batch, decision, or release controls.",
+        "recommendation": "include",
+        "relevance": "supporting",
+        "basis": "Evaluates quantum-kernel methods for classifying malware families using executable features and a low-rank approximation.",
+        "assessed_at": "2026-10-28T08:47:10.080337+00:00"
+      }
     },
     {
       "candidate_id": "weekly-388340f7d9bd8ceeaca2a20b",
@@ -41666,8 +41916,8 @@
   "ready_count": 0,
   "abstract_assessed_count": 150,
   "preflight_policy": "Only hash-bound passed mechanical gates, current substantive recommendations and complete stable batches qualify for manual admission. Unknown, failed and stale checks remain explicit holds.",
-  "mechanical_passed_awaiting_batch_admission": 33,
-  "preflight_held_count": 117,
-  "recommendation_current_count": 33,
-  "batch_admission_eligible_count": 33
+  "mechanical_passed_awaiting_batch_admission": 35,
+  "preflight_held_count": 115,
+  "recommendation_current_count": 35,
+  "batch_admission_eligible_count": 35
 }
