@@ -27575,51 +27575,15 @@
       "decision_date": "2026-10-28T12:20:00.942Z",
       "publication_status": "published",
       "publication_release": "2026-10-28-completed-reviews"
-    }
-  ],
-  "prepared_count": 9,
-  "assessment_count": 151,
-  "duplicate_holds": [
-    {
-      "screen_number": 41,
-      "reason": "abstract_not_substantive"
     },
-    {
-      "screen_number": 44,
-      "reason": "truncated_abstract"
-    },
-    {
-      "screen_number": 78,
-      "reason": "duplicate_of_screen_77_html_entity_variant"
-    },
-    {
-      "screen_number": 84,
-      "reason": "software_release_requires_resource_adapter"
-    },
-    {
-      "screen_number": 117,
-      "reason": "truncated_abstract"
-    },
-    {
-      "screen_number": 119,
-      "reason": "podcast_requires_audio_resource_adapter"
-    },
-    {
-      "screen_number": 143,
-      "reason": "book_description_requires_substantive_text_review"
-    }
-  ],
-  "automatic_acceptance_policy": "Preserve existing source-appropriate automatic acceptance. These are explicit existing human-review-tier records; no quality exceptions granted.",
-  "backlog_is_not_review_ready": true,
-  "preflight_records": [
     {
       "candidate_id": "weekly-d3bd8a9de831af91bc7ffd57",
       "upstream_candidate_id": "983",
       "upstream_stable_identity": "10.1016/j.eswa.2018.09.029",
       "source_row": 63,
       "review_number": 1,
-      "review_batch": 1,
-      "batch": 1,
+      "review_batch": 14,
+      "batch": 14,
       "title": "Machine learning based phishing detection from URLs",
       "authors": "O. K. Sahingoz; Ebubekir Buber; Önder Demir; B. Diri",
       "year": 2019,
@@ -27630,7 +27594,7 @@
       "format_verification_status": "verified_written_research_paper",
       "abstract": "Abstract Due to the rapid growth of the Internet, users change their preference from traditional shopping to the electronic commerce. Instead of bank/shop robbery, nowadays, criminals try to find their victims in the cyberspace with some specific tricks. By using the anonymous structure of the Internet, attackers set out new techniques, such as phishing, to deceive victims with the use of false websites to collect their sensitive information such as account IDs, usernames, passwords, etc. Understanding whether a web page is legitimate or phishing is a very challenging problem, due to its semantics-based attack structure, which mainly exploits the computer users’ vulnerabilities. Although software companies launch new anti-phishing products, which use blacklists, heuristics, visual and machine learning-based approaches, these products cannot prevent all of the phishing attacks. In this paper, a real-time anti-phishing system, which uses seven different classification algorithms and natural language processing (NLP) based features, is proposed. The system has the following distinguishing properties from other studies in the literature: language independence, use of a huge size of phishing and legitimate data, real-time execution, detection of new websites, independence from third-party services and use of feature-rich classifiers. For measuring the performance of the system, a new dataset is constructed, and the experimental results are tested on it. According to the experimental and comparative results from the implemented classification algorithms, Random Forest algorithm with only NLP based features gives the best performance with the 97.98% accuracy rate for detection of phishing URLs.",
       "abstract_source": "https://www.semanticscholar.org/paper/8dd4a8eefa366b1b7d2471c1b8580df5bea23924",
-      "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+      "assessment_basis": "Substantive reread of the complete current abstract after exact-hash mechanical preflight; actual source access and written-paper type were independently verified. Full paper not assessed.",
       "review_evidence": [
         {
           "resource_url": "https://www.researchgate.net/publication/344952543_Machine_learning_based_phishing_detection_from_URLs",
@@ -27649,11 +27613,11 @@
       "collection_url": "https://github.com/RISEInfoSec/Alex",
       "recommendation": "include",
       "relevance": "direct",
-      "review_reason": "Compares URL classifiers using NLP-derived features to identify phishing sites. Directly supports analysis of phishing indicators and detection-method evaluation.",
-      "metadata_issue": "The reported Random Forest accuracy is dataset-specific; temporal leakage and performance on current campaigns need checking. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 57.11; effective review threshold: 45; effective automatic-inclusion threshold: 60; quality status: existing_human_quality_review_required.",
-      "screening_status": "cached_abstract_review_complete",
-      "assessment_depth": "cached_abstract",
-      "assessment_date": "2026-10-27",
+      "review_reason": "Evaluates real-time URL phishing detection using seven classifiers and word-vector, NLP and hybrid feature sets on 36,400 legitimate and 37,175 phishing URLs. The reported best result is 97.98% accuracy for Random Forest using NLP features. This is directly relevant to phishing-indicator analysis and detection-method evaluation. The result is dataset-specific and based on 2018-era data, so present-day campaign generalization should not be assumed.",
+      "metadata_issue": "Verified journal article and accessible author-uploaded full text. The 97.98% result is dataset-specific; current-campaign generalization and temporal leakage were not established by the inspected abstract and opening sections. Existing quality score 57.11 remains within the manual-review band (45-60); no threshold or hard gate was changed.",
+      "screening_status": "current_abstract_recommendation_complete_after_preflight",
+      "assessment_depth": "complete_current_abstract_after_preflight",
+      "assessment_date": "2026-10-28",
       "full_paper_reviewed": false,
       "paper_format_verified": true,
       "source_verification_status": "publisher_resource_and_written_paper_verified",
@@ -27691,13 +27655,11 @@
       "institution_bonus": 0,
       "title_anchor_bonus": 0,
       "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
-      "review_ready": false,
-      "preflight_status": "held",
-      "preflight_blockers": [
-        "schema"
-      ],
+      "review_ready": true,
+      "preflight_status": "passed",
+      "preflight_blockers": [],
       "preflight": {
-        "status": "held",
+        "status": "passed",
         "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
         "checks": {
           "format": {
@@ -27876,22 +27838,83 @@
             "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "schema": {
-            "status": "held",
-            "checked_at": "2026-10-28T13:48:33.788967+00:00",
+            "status": "passed",
+            "checked_at": "2026-10-28T13:50:51.996519+00:00",
             "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
-            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "db32827248ef3a9009bb69f396249455b9f06a9d36bd62e90bbbb645479a0f4f",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-28T13:50:51.990410+00:00",
+                "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
+                "evidence": {
+                  "classification": {
+                    "Category": "Malware & Exploits",
+                    "Investigation_Type": "Phishing Analysis",
+                    "OSINT_Source_Types": [
+                      "Public Records",
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_07ad9faa26405b10016ae1fdba83b087d1a4bad660933cca19",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 689,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 31,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 720
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "40700105545",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "630adde0542c48e8a2893db175b454794d2c722c",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "18f01424d706303e6be0cef881a66c0a847af2e1973b05dafe76a4cd7176bedf"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 40700105545
+            },
+            "revalidated_at": "2026-10-28T13:52:53.880672+00:00",
             "prior_evidence": {
               "status": "held",
-              "checked_at": "2026-10-27T23:05:43.163744+00:00",
-              "content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
-              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              "checked_at": "2026-10-28T13:48:33.788967+00:00",
+              "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
+              "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+              "prior_evidence": {
+                "status": "held",
+                "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                "content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+                "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              }
             }
           }
         }
       },
-      "editorial_queue_eligible": false,
+      "editorial_queue_eligible": true,
       "verified_document_type": "research_paper",
       "publisher": "Elsevier BV",
       "bibliographic_verification": {
@@ -28183,10 +28206,131 @@
           }
         }
       ],
-      "recommendation_content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
-      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
-      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
+      "recommendation_content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "admission_hold": null,
+      "taxonomy_verification": {
+        "status": "passed",
+        "checked_at": "2026-10-28T13:50:51.990410+00:00",
+        "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
+        "evidence": {
+          "classification": {
+            "Category": "Malware & Exploits",
+            "Investigation_Type": "Phishing Analysis",
+            "OSINT_Source_Types": [
+              "Public Records",
+              "Other"
+            ]
+          },
+          "response_id": "resp_07ad9faa26405b10016ae1fdba83b087d1a4bad660933cca19",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 689,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 31,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 720
+          },
+          "uncertainty_flags": []
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "40700105545",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "630adde0542c48e8a2893db175b454794d2c722c",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "18f01424d706303e6be0cef881a66c0a847af2e1973b05dafe76a4cd7176bedf"
+      },
+      "recommendation_versions": [
+        {
+          "content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+          "recommendation": "include",
+          "relevance": "direct",
+          "review_reason": "Evaluates real-time URL phishing detection using seven classifiers and word-vector, NLP and hybrid feature sets on 36,400 legitimate and 37,175 phishing URLs. The reported best result is 97.98% accuracy for Random Forest using NLP features. This is directly relevant to phishing-indicator analysis and detection-method evaluation. The result is dataset-specific and based on 2018-era data, so present-day campaign generalization should not be assumed.",
+          "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+          "assessment_depth": "cached_abstract",
+          "assessment_date": "2026-10-27",
+          "status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+          "superseded_at": "2026-10-28T13:52:53.882239+00:00"
+        }
+      ],
+      "recommendation_assessed_at": "2026-10-28T13:52:53.882239+00:00",
+      "recommendation_evidence": {
+        "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
+        "abstract_sha256": "17f37ad494a8babfe7307fc9cc16a5fbb7a9ee2e546212476d0d704a4ad42ee2",
+        "assessment_depth": "complete_current_abstract",
+        "method": "Direct substantive reread of the complete current abstract after all six mechanical gates passed; recommendation and reason checked against the described methods/findings.",
+        "source_provenance": [
+          {
+            "resource_url": "https://www.researchgate.net/publication/344952543_Machine_learning_based_phishing_detection_from_URLs",
+            "retrieved_text_evidence_sha256": "98c414b7cd1bc527896c3a792b48d6ee8c88366bccb11d3aab08c05e54262bf8",
+            "retrieval_kind": "Indexed author-uploaded full-text page",
+            "inspection": "Title, full byline, affiliations, article history, abstract, introduction, section structure and substantive opening prose",
+            "observed_publication": "Expert Systems with Applications 117 (2019) 345-357",
+            "observed_doi": "10.1016/j.eswa.2018.09.029",
+            "observed_document_type": "written journal research article",
+            "limitations": "The direct ScienceDirect endpoint returned its 195-byte Site Unavailable page. The indexed author-uploaded full-text page exposed the article front matter and substantive text; no claim of unrestricted publisher PDF access is made.",
+            "verified_at": "2026-10-28T13:48:33.788967+00:00"
+          }
+        ],
+        "format_checked_at": "2026-10-28T13:48:33.788967+00:00",
+        "access_checked_at": "2026-10-28T13:48:33.788967+00:00",
+        "limitations": "Full paper not assessed for this recommendation. Mechanical source/type evidence is separate; this assessment does not waive quality, batch, decision, or release controls.",
+        "recommendation": "include",
+        "relevance": "direct",
+        "basis": "Evaluates real-time URL phishing detection using seven classifiers and word-vector, NLP and hybrid feature sets on 36,400 legitimate and 37,175 phishing URLs. The reported best result is 97.98% accuracy for Random Forest using NLP features. This is directly relevant to phishing-indicator analysis and detection-method evaluation. The result is dataset-specific and based on 2018-era data, so present-day campaign generalization should not be assumed.",
+        "assessed_at": "2026-10-28T13:52:53.882239+00:00"
+      },
+      "batch_admission_eligible": true,
+      "preflight_reservation": {
+        "review_number": 1,
+        "review_batch": 1
+      },
+      "readiness_status": "passed",
+      "admitted_at": "2026-10-28T13:52:53.882300+00:00"
+    }
+  ],
+  "prepared_count": 1,
+  "assessment_count": 151,
+  "duplicate_holds": [
+    {
+      "screen_number": 41,
+      "reason": "abstract_not_substantive"
     },
+    {
+      "screen_number": 44,
+      "reason": "truncated_abstract"
+    },
+    {
+      "screen_number": 78,
+      "reason": "duplicate_of_screen_77_html_entity_variant"
+    },
+    {
+      "screen_number": 84,
+      "reason": "software_release_requires_resource_adapter"
+    },
+    {
+      "screen_number": 117,
+      "reason": "truncated_abstract"
+    },
+    {
+      "screen_number": 119,
+      "reason": "podcast_requires_audio_resource_adapter"
+    },
+    {
+      "screen_number": 143,
+      "reason": "book_description_requires_substantive_text_review"
+    }
+  ],
+  "automatic_acceptance_policy": "Preserve existing source-appropriate automatic acceptance. These are explicit existing human-review-tier records; no quality exceptions granted.",
+  "backlog_is_not_review_ready": true,
+  "preflight_records": [
     {
       "candidate_id": "weekly-4eab976a4e932d7c008c8a26",
       "upstream_candidate_id": "877",
@@ -46694,11 +46838,11 @@
       "editorial_queue_eligible": false
     }
   ],
-  "ready_count": 9,
+  "ready_count": 1,
   "abstract_assessed_count": 150,
   "preflight_policy": "Admit only six current hash-bound gate passes and current substantive recommendations. Seal batches of 1–20 cleared candidates independently of held peers; never append to sealed batches.",
   "mechanical_passed_awaiting_batch_admission": 0,
-  "preflight_held_count": 106,
+  "preflight_held_count": 105,
   "recommendation_current_count": 38,
   "batch_admission_eligible_count": 38,
   "sealed_review_batches": [
@@ -46958,6 +47102,19 @@
           "candidate_id": "weekly-ac42e40c7a771d5d961a5bdb",
           "review_number": 113,
           "content_sha256": "26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265"
+        }
+      ],
+      "policy": "Cleared candidates sealed independently of held inventory; never append."
+    },
+    {
+      "batch": 14,
+      "sealed_at": "2026-10-28T13:52:53.882300+00:00",
+      "count": 1,
+      "members": [
+        {
+          "candidate_id": "weekly-d3bd8a9de831af91bc7ffd57",
+          "review_number": 1,
+          "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8"
         }
       ],
       "policy": "Cleared candidates sealed independently of held inventory; never append."
