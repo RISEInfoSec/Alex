@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-28T23:49:30.605973+00:00",
+  "publication_approved": false,
+  "public_corpus_modified": false,
+  "transaction": {
+    "submission": {
+      "id": "eb51c866-00a1-428e-80ad-dcaf0f0f42d1",
+      "collection": "soups",
+      "batch": 16,
+      "revision": 1,
+      "accepted": 0,
+      "rejected": 1,
+      "payload_hash": "156f71bfb1015f8c746761aee3bfe79cabfb8fa77d610f5dbc93fc57405ed3a6",
+      "created_at": "2026-10-28T23:41:17.958Z"
+    },
+    "decision": {
+      "id": "eb51c866-00a1-428e-80ad-dcaf0f0f42d1:soups-ec512a117d6d9917bd8c",
+      "submission_id": "eb51c866-00a1-428e-80ad-dcaf0f0f42d1",
+      "collection": "soups",
+      "batch": 16,
+      "revision": 1,
+      "candidate_id": "soups-ec512a117d6d9917bd8c",
+      "review_number": 277,
+      "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
+      "decision": "rejected",
+      "created_at": "2026-10-28T23:41:17.958Z"
+    },
+    "job": {
+      "id": "buffer:eb51c866-00a1-428e-80ad-dcaf0f0f42d1",
+      "submission_id": "eb51c866-00a1-428e-80ad-dcaf0f0f42d1",
+      "collection": "soups",
+      "kind": "buffer_reconcile",
+      "revision": 1,
+      "created_at": "2026-10-28T23:41:17.958Z"
+    }
+  },
+  "transaction_sha256": "e3146c39683ec1e842dfc8902e5807f3ddfd9099426dde2c580db8c38b5c45c4",
+  "validation": {
+    "latest_complete_revision_for_collection_batch": true,
+    "submission_counts_match_decisions": true,
+    "decision_id_matches_submission_candidate": true,
+    "candidate_id_matches_manifest": true,
+    "review_number_matches_manifest": true,
+    "content_hash_matches_current_manifest": true,
+    "recommendation_snapshot_content_hash_matches": true,
+    "recommendation_snapshot_matches_current_record": true,
+    "immutable_buffer_job_matches_submission_revision": true,
+    "mechanical_assessment_job_expected": false,
+    "decision_request_http_status": 200,
+    "decision_request_content_length": 364,
+    "server_payload_hash_observed": "156f71bfb1015f8c746761aee3bfe79cabfb8fa77d610f5dbc93fc57405ed3a6",
+    "raw_request_body_retained_in_read_only_d1": false
+  },
+  "effect": {
+    "prior_state": {
+      "decision": "pending",
+      "review_ready": true,
+      "editorial_queue_eligible": true,
+      "screening_status": "current_abstract_recommendation_complete_after_preflight",
+      "batch_admission_eligible": true
+    },
+    "current_state": {
+      "decision": "rejected",
+      "review_ready": false,
+      "editorial_queue_eligible": false,
+      "screening_status": "human_review_rejected",
+      "batch_admission_eligible": false
+    },
+    "cleared_buffer_delta": -1,
+    "publication_delta": 0,
+    "assessment_job_delta": 0
+  },
+  "limitations": "Production D1 retains the server-calculated payload hash and atomic submission/decision/job rows, but not the raw POST body. The exact candidate, content hash, recommendation snapshot, counts, revision, decision and immutable job were independently reconciled. This rejection authorizes no import, publication, or corpus mutation."
+}
