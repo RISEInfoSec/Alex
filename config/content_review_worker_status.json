@@ -8,11 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": null,
-  "lease": {
-    "owner": "workflow-policy-2026-10-28T15-10-41-420Z",
-    "acquired_at": "2026-10-28T15:10:41.420Z",
-    "expires_at": "2026-10-28T15:40:41.420Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -196,9 +192,10 @@
   "next_actions": [
     "Respect config/corpus_exclusions.json before any preflight, substantive recommendation, manual admission or publication. Read config/editorial_relevance_feedback.json as labeled positive and negative examples; do not treat audit recommendations as human reasons or infer provider bans.",
     "All490 audit removal jobs and eight new assessment jobs are complete: consult config/review_application_status.json and the publication receipt before any replay. Corpus-audit keeps mean retain existing records, never new imports.",
-    "Refill the cleared manual buffer from0 toward250 after the strict-below100 trigger, restoring five full pending SOUPS batches independently; preserve all source-specific holds and never count audit work as intake.",
+    "Refill the actual cleared manual buffer toward250 when below100 and restore five full pending SOUPS batches; apply current complete-discovery and continuing-usefulness policies, preserve all holds, and exclude audit work from intake counts.",
     "Preserve all4041 weekly identities and future arrivals. Complete missing checks for251 legacy accepted held/partial records without repeating human relevance review or waiving quality requirements.",
-    "Do not issue OpenAlex requests before2026-10-29T00:00:36Z; preserve the existing backoff."
+    "Do not issue OpenAlex requests before2026-10-29T00:00:36Z; preserve the existing backoff.",
+    "Complete accessible SOUPS/USENIX and Virus Bulletin discovery additively while preflight proceeds. Prioritize newer curated material and actual papers; assess currently useful, foundational/historical or superseded value after all gates pass."
   ],
   "paid_execution": {
     "status": "operational_verified",
@@ -311,5 +308,17 @@
     "release_workflow_run": 40689524006,
     "pages_workflow_run": 40689611287,
     "verified_at": "2026-10-28T12:43:29.568Z"
+  },
+  "workflow_policy_update": {
+    "confirmed_at": "2026-10-28",
+    "recorded_at": "2026-10-28T15:11:57.294Z",
+    "workflow_version": 8,
+    "material_policy_version": 3,
+    "scope": "Complete accessible SOUPS/USENIX and Virus Bulletin discovery; bounded preflight before recommendation; recent-first curated preparation; content-based continuing-usefulness assessment; no age cutoff or numerical scoring changes.",
+    "files": [
+      "config/content_review_material_policy.json",
+      "config/content_review_workflow.json",
+      "docs/content_review_background_worker.md"
+    ]
   }
 }
