@@ -7,11 +7,8 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
-  "last_error": "Paid taxonomy classification credential unavailable in this execution environment; stage held. Source-specific access/metadata failures are recorded in hash-bound checkpoints.",
-  "lease": {
-    "owner": "preflight-2026-10-28T02:40:27.820Z",
-    "expires_at": "2026-10-28T03:10:27.820Z"
-  },
+  "last_error": "Paid taxonomy execution unavailable in this worker; full target-import/schema validation remains held. Independent structural checks and source evidence continue; no false paid-stage or import-readiness pass.",
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -32,8 +29,8 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-28T01:53:59Z",
-  "last_action": "Verified 20 further SOUPS papers/bibliographies and ran 20 index searches; 3 exact citation matches used, all quality holds retained. Examined weekly candidates 41–60: 17 DOI registry requests (3 no-DOI searches remain pending), 15 primary-resource requests, 12 format/access passes and 15 net metadata passes. Corrected one incomplete five-author byline and verified type as a new hash-bound version, retaining original record/hash; recommendation awaits reassessment after full preflight. All 132 latest decisions remain valid; no new arrivals/jobs. Exact immutable-commit raw readbacks verified: 0 cleared-ready.",
+  "last_completed_at": "2026-10-28T02:54:42Z",
+  "last_action": "Reused hash-verified actual PDF bytes to reconcile 34 literal printed USENIX venue names with preserved BibTeX aliases. Existing whitelist, score functions, weights and thresholds unchanged. Six SOUPS candidates now pass quality; 94 remain quality-held. Independent normalized review-record structural subchecks passed for those six, but full target-import/schema validation remains held. No source refetch or paid API call. All 132 latest decisions valid, weekly source/corpus unchanged; exact immutable-commit readbacks confirm 0 cleared-ready.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -56,15 +53,15 @@
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
     "refresh_result": "Unchanged original source blob; no identities deleted or rewritten.",
-    "refreshed_at": "2026-10-28T01:53:59Z"
+    "refreshed_at": "2026-10-28T02:54:42Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
     "soups": {
       "duplicates_passed": 100,
-      "quality_held": 100,
-      "core_gate_held": 90,
-      "below_threshold_held": 9,
+      "quality_held": 94,
+      "core_gate_held": 89,
+      "below_threshold_held": 4,
       "relevance_floor_held": 1,
       "format_held": 54,
       "access_held": 54,
@@ -72,7 +69,9 @@
       "schema_held": 100,
       "format_passed": 46,
       "access_passed": 46,
-      "metadata_passed": 46
+      "metadata_passed": 46,
+      "quality_passed": 6,
+      "review_record_structural_subchecks_passed": 6
     },
     "weekly": {
       "duplicates_passed": 149,
@@ -92,12 +91,12 @@
     "latest_decisions_validated": 132,
     "content_hash_mismatches": 0,
     "immutable_jobs": 13,
-    "verified_at": "2026-10-28T01:53:59Z"
+    "verified_at": "2026-10-28T02:54:42Z"
   },
   "blocked_sources": [
     {
       "source": "soups",
-      "reason": "46 of 100 have verified paper format/access/bibliography; 54 remain source-held. All 100 still quality-held (90 core-term, 9 threshold, 1 relevance floor) under unchanged policy. Source not exhausted.",
+      "reason": "46 written papers/bibliographies verified. Reconciliation of 34 exact PDF-printed venue aliases clears 6 quality holds under unchanged policy. 94 quality holds remain (89 core-term, 4 threshold, 1 relevance floor). All full schema gates still held; structural subchecks passed for 6. Source not exhausted.",
       "exhausted": false
     },
     {
@@ -107,29 +106,27 @@
     }
   ],
   "held_stage": {
-    "stage": "taxonomy_and_target_schema_dry_run",
-    "reason": "Required paid classification stage uses supported OPENAI_API_KEY path; neither that credential nor workflow OPEN_API_KEY alias is available in this environment. Stage not invoked; no fallback classification or false schema pass.",
-    "retry": "Resume when supported credential becomes available; continue independent preflight checks meanwhile."
+    "stage": "paid_taxonomy_and_full_target_import_validation",
+    "reason": "Supported local paid-classification credential unavailable; no paid stage invoked. The existing standalone Classify workflow pulls/writes pipeline/corpus state and has no isolated review-request input; it was not dispatched. Currently exposed native GitHub tools do not provide general workflow dispatch. Full target-import validation remains unperformed; independent normalized review-record structure was checked separately for six candidates.",
+    "retry": "Resume paid stage only through a supported isolated credential/execution route. Continue independent evidence checks; do not run general corpus classification, import, merge or deploy.",
+    "workflow_inspected": ".github/workflows/classify.yml",
+    "workflow_blob_sha": "582815b22fa1cc654b2afd20fc509be177a60b76",
+    "independent_structural_subchecks_passed": 6
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-28T01:53:59Z",
-    "soups_primary_source_pairs": 20,
-    "soups_index_lookups": 20,
-    "soups_verified_index_counts": 3,
-    "weekly_records_examined": 20,
-    "weekly_registry_request_attempts": 17,
-    "weekly_identifier_search_pending_missing_doi": 3,
-    "weekly_primary_resource_requests": 15,
-    "weekly_new_format_access_passes": 12,
-    "weekly_net_metadata_passes": 15,
-    "corrected_bibliographic_versions": 1,
-    "completed_decisions_affected": 0,
-    "accepted_registry_lookups": 0,
-    "request_timeout_seconds": 20,
-    "serial_source_pacing_seconds": 0.5,
+    "verified_at": "2026-10-28T02:54:42Z",
+    "exact_printed_venue_aliases_reconciled": 34,
+    "quality_holds_cleared": 6,
+    "scoring_policy_changes": 0,
+    "review_record_structural_subchecks": 6,
+    "full_schema_passes": 0,
+    "source_refetches": 0,
+    "openai_requests": 0,
+    "openai_tokens": 0,
+    "new_arrivals": 0,
+    "readback_commit": "92dcb385a66893e7b47dcfdb5fa72dc9e9ee6dce",
     "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
     "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-    "readback_commit": "f9fb18b2e5933b0a1623e4f16822c075efb7b1cd",
     "ready_counts_after_readback_and_D1_recheck": 0
   }
 }
