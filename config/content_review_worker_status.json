@@ -8,10 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": "Paid taxonomy classification credential unavailable in this execution environment; stage held. Source-specific access/metadata failures are recorded in hash-bound checkpoints.",
-  "lease": {
-    "owner": "preflight-2026-10-28T01:37:57.567Z",
-    "expires_at": "2026-10-28T02:07:57.567Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -32,8 +29,8 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-28T00:50:50Z",
-  "last_action": "Completed another 20 held SOUPS official-source/PDF inspections and 20 index lookups. All 20 verified as written papers with reconciled title/authors/year; 6 verified exact-match index citation counts used. Refreshed duplicate checks and unchanged-policy scores; all 100 SOUPS remain quality-held. Reused unchanged weekly and legacy evidence, validated all 132 latest decisions, and confirmed no new jobs/arrivals. Read back manifests: 0 cleared-ready; no publication action.",
+  "last_completed_at": "2026-10-28T01:53:59Z",
+  "last_action": "Verified 20 further SOUPS papers/bibliographies and ran 20 index searches; 3 exact citation matches used, all quality holds retained. Examined weekly candidates 41–60: 17 DOI registry requests (3 no-DOI searches remain pending), 15 primary-resource requests, 12 format/access passes and 15 net metadata passes. Corrected one incomplete five-author byline and verified type as a new hash-bound version, retaining original record/hash; recommendation awaits reassessment after full preflight. All 132 latest decisions remain valid; no new arrivals/jobs. Exact immutable-commit raw readbacks verified: 0 cleared-ready.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -56,34 +53,34 @@
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
     "refresh_result": "Unchanged original source blob; no identities deleted or rewritten.",
-    "refreshed_at": "2026-10-28T00:50:50Z"
+    "refreshed_at": "2026-10-28T01:53:59Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
     "soups": {
       "duplicates_passed": 100,
       "quality_held": 100,
-      "core_gate_held": 93,
-      "below_threshold_held": 6,
+      "core_gate_held": 90,
+      "below_threshold_held": 9,
       "relevance_floor_held": 1,
-      "format_held": 74,
-      "access_held": 74,
-      "metadata_held": 74,
+      "format_held": 54,
+      "access_held": 54,
+      "metadata_held": 54,
       "schema_held": 100,
-      "format_passed": 26,
-      "access_passed": 26,
-      "metadata_passed": 26
+      "format_passed": 46,
+      "access_passed": 46,
+      "metadata_passed": 46
     },
     "weekly": {
       "duplicates_passed": 149,
       "duplicate_held": 1,
       "quality_passed": 150,
-      "format_passed": 22,
-      "access_passed": 22,
-      "metadata_passed": 27,
-      "format_held": 128,
-      "access_held": 128,
-      "metadata_held": 123,
+      "format_passed": 34,
+      "access_passed": 34,
+      "metadata_passed": 42,
+      "format_held": 116,
+      "access_held": 116,
+      "metadata_held": 108,
       "schema_held": 150
     }
   },
@@ -92,17 +89,17 @@
     "latest_decisions_validated": 132,
     "content_hash_mismatches": 0,
     "immutable_jobs": 13,
-    "verified_at": "2026-10-28T00:50:50Z"
+    "verified_at": "2026-10-28T01:53:59Z"
   },
   "blocked_sources": [
     {
       "source": "soups",
-      "reason": "26 of 100 have actual written-paper format/access and reconciled bibliography evidence; remaining 74 source stages held. All 100 still held by unchanged quality policy (93 core-term gate, 6 score threshold, 1 relevance floor). Six additional verified index counts did not clear these holds. Source not exhausted.",
+      "reason": "46 of 100 have verified paper format/access/bibliography; 54 remain source-held. All 100 still quality-held (90 core-term, 9 threshold, 1 relevance floor) under unchanged policy. Source not exhausted.",
       "exhausted": false
     },
     {
       "source": "weekly",
-      "reason": "40 registry lookups and 34 primary resource requests cumulatively checkpointed. 22 format/access passes and 27 metadata passes; one duplicate hold. Unknown/failed or unperformed checks remain separate holds.",
+      "reason": "60 candidates examined; 54 actual DOI registry requests (6 missing-DOI searches pending), 49 primary-resource requests. 34 format/access passes, 42 metadata passes and one duplicate hold; other holds remain. One author list corrected with original version archived; no admission to review.",
       "exhausted": false
     }
   ],
@@ -112,17 +109,24 @@
     "retry": "Resume when supported credential becomes available; continue independent preflight checks meanwhile."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-28T00:50:50Z",
+    "verified_at": "2026-10-28T01:53:59Z",
     "soups_primary_source_pairs": 20,
     "soups_index_lookups": 20,
-    "soups_verified_index_counts": 6,
-    "weekly_registry_lookups": 0,
-    "weekly_primary_resource_requests": 0,
+    "soups_verified_index_counts": 3,
+    "weekly_records_examined": 20,
+    "weekly_registry_request_attempts": 17,
+    "weekly_identifier_search_pending_missing_doi": 3,
+    "weekly_primary_resource_requests": 15,
+    "weekly_new_format_access_passes": 12,
+    "weekly_net_metadata_passes": 15,
+    "corrected_bibliographic_versions": 1,
+    "completed_decisions_affected": 0,
     "accepted_registry_lookups": 0,
     "request_timeout_seconds": 20,
     "serial_source_pacing_seconds": 0.5,
     "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
     "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-    "ready_counts_after_manifest_readback_and_D1_recheck": 0
+    "readback_commit": "f9fb18b2e5933b0a1623e4f16822c075efb7b1cd",
+    "ready_counts_after_readback_and_D1_recheck": 0
   }
 }
