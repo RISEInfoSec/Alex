@@ -1,0 +1,46 @@
+name: Content Review paid preflight
+on:
+  push:
+    branches: [codex/soups-corpus-review]
+    paths: ['config/content_review_paid_requests/*.json']
+permissions:
+  contents: read
+concurrency:
+  group: content-review-paid
+  cancel-in-progress: false
+jobs:
+  review-classification:
+    if: github.repository == 'RISEInfoSec/Alex' && github.ref == 'refs/heads/codex/soups-corpus-review'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Test isolated request and artifact contract
+        run: python -m pytest -q tests/test_content_review_paid_worker.py
+      - name: Classify immutable request and dry-run disposable target record
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
+        run: >-
+          python -m tools.content_review.paid_worker
+          --event "$GITHUB_EVENT_PATH"
+          --output .cache/content-review-paid/result.json
+      - name: Verify public and pipeline files were not modified
+        if: always()
+        run: |
+          git diff --exit-code -- data alex config .github
+          test -z "$(git ls-files --others --exclude-standard -- data alex config .github)"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: content-review-paid-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .cache/content-review-paid/result.json
+          if-no-files-found: error
+          retention-days: 30
