@@ -8,7 +8,11 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": "No user-actionable execution failure. OpenAlex remains under the previously recorded provider backoff until2026-10-29T00:00:36Z. The cleared queue remains0/250 and SOUPS0/5 because the44 fully mechanical-passed, currently recommended records are distributed across incomplete stable batches; weekly batch3 is17/20.",
-  "lease": null,
+  "lease": {
+    "owner": "content-review-20261028T083906660Z-cb8e4e2b",
+    "acquired_at": "2026-10-28T08:39:06.660Z",
+    "expires_at": "2026-10-28T09:09:06.660Z"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -57,7 +61,7 @@
     "openalex_rate_limits_this_run": 1
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-10-28T07:39:49.760Z",
+  "last_started_at": "2026-10-28T08:39:06.660Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
@@ -203,11 +207,11 @@
     }
   },
   "next_actions": [
-      "Continue mechanical preflight within preserved weekly batch3 first; its remaining blockers are two publisher access holds and one verified student project report with quality/schema holds. Admit only when the existing stable batch reaches20 exact-hash passes with current substantive recommendations.",
+    "Continue mechanical preflight within preserved weekly batch3 first; its remaining blockers are two publisher access holds and one verified student project report with quality/schema holds. Admit only when the existing stable batch reaches20 exact-hash passes with current substantive recommendations.",
     "Do not query OpenAlex before2026-10-29T00:00:36Z; then test one corrected identifier query and stop immediately on any new429.",
     "Continue independent legacy accepted paper/presentation/media and bibliographic checks; reuse unchanged valid evidence and never waive quality or media holds.",
     "Refresh D1 immutable requests and weekly arrivals each pass; retain all4041 identities additively.",
-      "Reuse all five immutable paid receipts; no further paid spend is needed for the44 unchanged mechanical passes."
+    "Reuse all five immutable paid receipts; no further paid spend is needed for the44 unchanged mechanical passes."
   ],
   "paid_execution": {
     "status": "operational_verified",
