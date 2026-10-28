@@ -42,3 +42,15 @@ def test_other_collections_are_not_applied_to_soups():
     result, audit = apply_submissions(manifest,[dict(r,collection='apwg') for r in rows])
     assert audit == []
     assert all(r['decision']=='pending' for r in result['records'])
+
+
+def test_sealed_batch_override_preserves_original_paper_numbers():
+    manifest, rows = fixture()
+    for paper in manifest['records']:
+        paper['review_batch'] = 15
+    rows = [dict(r, batch=15) for r in rows]
+    result, audit = apply_submissions(manifest, rows)
+    assert [p['review_number'] for p in result['records']] == [119, 120]
+    assert audit[0]['batch'] == 15
+    with pytest.raises(ValueError):
+        apply_submissions(manifest, rows[:1])
