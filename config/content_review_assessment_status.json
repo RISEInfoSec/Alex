@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-28T18:40:44.031Z",
+  "updated_at": "2026-10-28T19:42:24.939Z",
   "records": [
     {
       "key": "virusbulletin/vb-2025-16decf5155fa227b39/40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c/1/1",
@@ -199,7 +199,7 @@
       "job_id": "assessment:f2073d1c-dbff-4ecc-9992-23b0e0349ed6:vb-2025-17d33473609bfbf5f8",
       "status": "held_with_reason",
       "started_at": "2026-10-27T22:51:22.624Z",
-      "updated_at": "2026-10-28T18:40:44.031Z",
+      "updated_at": "2026-10-28T19:42:24.939Z",
       "checks": {
         "completed_submission_integrity": {
           "status": "passed",
@@ -360,6 +360,30 @@
             "bytes": 3948089,
             "checked_at": "2026-10-27T23:00:30.570097+00:00",
             "inspection": "Written conference-paper front matter, title/byline, 2025 conference year, abstract and opening prose inspected; not slides; no full scientific critique or peer-review claim."
+          }
+        },
+        "source_abstract_recovery": {
+          "status": "source_text_recovered_pending_quality_reconciliation",
+          "checked_at": "2026-10-28T19:41:31.749896+00:00",
+          "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
+          "evidence": {
+            "schema_version": 1,
+            "candidate_id": "vb-2025-17d33473609bfbf5f8",
+            "content_sha256": "64e962842f473ba9417135bd9d9d6a0b3cee13ab0a4565d5ad0b3c646dc9bddf",
+            "checked_at": "2026-10-28T19:41:31.749896+00:00",
+            "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb2025/papers/Silent-Lynx-uncovering-a-cyber-espionage-campaign-in-Central-Asia.pdf",
+            "http_status": 200,
+            "bytes": 3948089,
+            "resource_sha256": "d667349b3b2cbe93f20dcd2924a27ab54e78a3dec416a3f735c235b0f22e0e68",
+            "publication_approved": false,
+            "quality_pass_claimed": false,
+            "extracted_text_sha256": "3a693a50130e391a6bc3bbf7d51ec5727b91fbd528cac8adfc72a8d7e36d09bf",
+            "abstract_boundary_found": true,
+            "abstract_characters": 1473,
+            "abstract_sha256": "a9317f321e7ae8a12d30ecd92648db526128fe18ff3ecd8faf9982f62ff365aa",
+            "diagnostic_excerpt": "Silent Lynx is a newly identified cyber espionage campaign uncovered by Seqrite Labs in 2025, with a primary focus on government institutions, financial entities, and defence agenc",
+            "source_text_recovery_status": "recovered_pending_quality_input_reconciliation",
+            "next_step": "Reconcile extracted source abstract with original review evidence and existing quality-scoring input. Preserve accepted content hash and decision; rerun unchanged policy only with verified input. No threshold, content mutation or false quality pass."
           }
         }
       },
@@ -37682,7 +37706,7 @@
     "retryable_link_failures": 1,
     "legacy_accepted_paid_requests": 0,
     "latest_authorized_release": "2026-10-28-completed-reviews",
-    "note_latest_run": "Three accepted Virus Bulletin records received individual Crossref identifier searches. No exact title match; unknown DOI/citations and independent quality/taxonomy holds preserved."
+    "note_latest_run": "Silent Lynx original PDF unchanged; explicit1473-character abstract recovered for quality-input reconciliation. Prior reviewed record/decision hashes retained, and quality/taxonomy/import holds remain independent."
   },
   "provenance": "Real Virus Bulletin batch5 completed submission; no production test decisions and no fabricated completed checks.",
   "continuation_runs": [
