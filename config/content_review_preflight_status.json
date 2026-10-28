@@ -29056,14 +29056,14 @@
       "collection": "weekly",
       "candidate_id": "weekly-ec276c64538042bd9bad4786",
       "review_number": 43,
-      "content_sha256": "5088c1d04968b9d5a6b26a1ab7d11472221b8bca0df6d11e971cfe8ef7113ff4",
+      "content_sha256": "94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294",
       "status": "held",
       "review_ready": false,
       "checks": {
         "duplicates": {
           "status": "passed",
           "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "5088c1d04968b9d5a6b26a1ab7d11472221b8bca0df6d11e971cfe8ef7113ff4",
+          "content_sha256": "94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294",
           "evidence": {
             "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
             "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
@@ -29078,12 +29078,15 @@
             ],
             "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
             "matches": []
-          }
+          },
+          "rebound_from_content_sha256": "5088c1d04968b9d5a6b26a1ab7d11472221b8bca0df6d11e971cfe8ef7113ff4",
+          "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+          "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
         },
         "quality": {
           "status": "passed",
           "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "5088c1d04968b9d5a6b26a1ab7d11472221b8bca0df6d11e971cfe8ef7113ff4",
+          "content_sha256": "94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294",
           "evidence": {
             "quality_score": 32.24,
             "quality_venue_score": 40.0,
@@ -29101,59 +29104,107 @@
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "5088c1d04968b9d5a6b26a1ab7d11472221b8bca0df6d11e971cfe8ef7113ff4",
+          "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+          "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
         },
         "format": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "5088c1d04968b9d5a6b26a1ab7d11472221b8bca0df6d11e971cfe8ef7113ff4",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294",
+          "evidence": {
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://zenodo.org/api/records/19499802/files/22.%20Sonali%20Sanjay%20Alappanavar.pdf/content",
+            "http_status": 200,
+            "content_type": "application/octet-stream,application/octet-stream",
+            "resource_sha256": "719de48fae69ffd7ea0e3a06dfb296d5663126aa7aeeed8a0cba123aceb708b6",
+            "bytes": 674558,
+            "pages": 10,
+            "observed_format": "PDF",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research resource verified without inferring peer review or full scientific evaluation.",
+            "source_kind": "Zenodo deposited journal article",
+            "zenodo_record": "19499802",
+            "zenodo_resource_type": {
+              "title": "Journal article",
+              "type": "publication",
+              "subtype": "article"
+            },
+            "doi": "10.5281/zenodo.19499802"
+          }
         },
         "access": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "5088c1d04968b9d5a6b26a1ab7d11472221b8bca0df6d11e971cfe8ef7113ff4",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294",
+          "evidence": {
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://zenodo.org/api/records/19499802/files/22.%20Sonali%20Sanjay%20Alappanavar.pdf/content",
+            "http_status": 200,
+            "content_type": "application/octet-stream,application/octet-stream",
+            "resource_sha256": "719de48fae69ffd7ea0e3a06dfb296d5663126aa7aeeed8a0cba123aceb708b6",
+            "bytes": 674558,
+            "pages": 10,
+            "observed_format": "PDF",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research resource verified without inferring peer review or full scientific evaluation.",
+            "source_kind": "Zenodo deposited journal article",
+            "zenodo_record": "19499802",
+            "zenodo_resource_type": {
+              "title": "Journal article",
+              "type": "publication",
+              "subtype": "article"
+            },
+            "doi": "10.5281/zenodo.19499802"
+          }
         },
         "metadata": {
-          "status": "held",
-          "checked_at": "2026-10-28T01:38:49.140347+00:00",
-          "content_sha256": "5088c1d04968b9d5a6b26a1ab7d11472221b8bca0df6d11e971cfe8ef7113ff4",
-          "source_url": null,
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294",
           "evidence": {
-            "DOI": null,
-            "title": null,
-            "author": null,
-            "published": null,
-            "type": null,
-            "publisher": null,
-            "container-title": null,
-            "is-referenced-by-count": null
-          },
-          "comparison": {
-            "year_matches": false,
-            "title_matches": false,
-            "author_families_match": false
-          },
-          "limitations": "HTTPError: HTTP Error 404: Not Found"
+            "title": "Cybersecurity in Fintech: Protecting Digital Transactions and Financial Innovation",
+            "authors": [
+              "Sonali Sanjay Alappanavar"
+            ],
+            "publication_date": "2026-04-25",
+            "year": 2026,
+            "doi": "10.5281/zenodo.19499802",
+            "resource_type": {
+              "title": "Journal article",
+              "type": "publication",
+              "subtype": "article"
+            },
+            "source_url": "https://zenodo.org/api/records/19499802",
+            "pdf_sha256": "719de48fae69ffd7ea0e3a06dfb296d5663126aa7aeeed8a0cba123aceb708b6",
+            "comparison": {
+              "title_matches": true,
+              "year_matches": true,
+              "author_families_match": true
+            },
+            "citation_count": null,
+            "limitations": "Zenodo deposit metadata and actual PDF; unknown citations remain null."
+          }
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "5088c1d04968b9d5a6b26a1ab7d11472221b8bca0df6d11e971cfe8ef7113ff4",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "94642cc1fdfe0cc144aa6030e0810d4c7360677503a4cc0bbde7b6ab8794d294",
+          "evidence": "Exact-hash taxonomy/target compatibility not performed for this normalized resource type.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "5088c1d04968b9d5a6b26a1ab7d11472221b8bca0df6d11e971cfe8ef7113ff4",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
-      ]
+      ],
+      "verified_document_type": "research_paper",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
@@ -29396,14 +29447,14 @@
       "collection": "weekly",
       "candidate_id": "weekly-6bb1f7a23885aaa536d66a7a",
       "review_number": 45,
-      "content_sha256": "e6c63498aef97805ee73841e3829bb211735cce8378738abe80dcb403c670c05",
+      "content_sha256": "86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5",
       "status": "held",
       "review_ready": false,
       "checks": {
         "duplicates": {
           "status": "passed",
           "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "e6c63498aef97805ee73841e3829bb211735cce8378738abe80dcb403c670c05",
+          "content_sha256": "86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5",
           "evidence": {
             "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
             "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
@@ -29418,12 +29469,15 @@
             ],
             "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
             "matches": []
-          }
+          },
+          "rebound_from_content_sha256": "e6c63498aef97805ee73841e3829bb211735cce8378738abe80dcb403c670c05",
+          "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+          "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
         },
         "quality": {
           "status": "passed",
           "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "e6c63498aef97805ee73841e3829bb211735cce8378738abe80dcb403c670c05",
+          "content_sha256": "86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5",
           "evidence": {
             "quality_score": 32.24,
             "quality_venue_score": 40.0,
@@ -29441,72 +29495,105 @@
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "e6c63498aef97805ee73841e3829bb211735cce8378738abe80dcb403c670c05",
+          "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+          "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
         },
         "format": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "e6c63498aef97805ee73841e3829bb211735cce8378738abe80dcb403c670c05",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5",
+          "evidence": {
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://arxiv.org/pdf/2605.10755",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "32e0129f234f67ba2e4cc887e8b40da6311ebe64cbfb96e70030bc482f7639f6",
+            "bytes": 637573,
+            "pages": 37,
+            "observed_format": "PDF",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research resource verified without inferring peer review or full scientific evaluation.",
+            "source_kind": "arXiv preprint",
+            "arxiv_id": "2605.10755"
+          }
         },
         "access": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "e6c63498aef97805ee73841e3829bb211735cce8378738abe80dcb403c670c05",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5",
+          "evidence": {
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://arxiv.org/pdf/2605.10755",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "32e0129f234f67ba2e4cc887e8b40da6311ebe64cbfb96e70030bc482f7639f6",
+            "bytes": 637573,
+            "pages": 37,
+            "observed_format": "PDF",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research resource verified without inferring peer review or full scientific evaluation.",
+            "source_kind": "arXiv preprint",
+            "arxiv_id": "2605.10755"
+          }
         },
         "metadata": {
-          "status": "held",
-          "checked_at": "2026-10-28T01:38:54.652476+00:00",
-          "content_sha256": "e6c63498aef97805ee73841e3829bb211735cce8378738abe80dcb403c670c05",
-          "source_url": null,
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5",
           "evidence": {
-            "DOI": null,
-            "title": null,
-            "author": null,
-            "published": null,
-            "type": null,
-            "publisher": null,
-            "container-title": null,
-            "is-referenced-by-count": null
-          },
-          "comparison": {
-            "year_matches": false,
-            "title_matches": false,
-            "author_families_match": false
-          },
-          "limitations": "No supplied DOI; title-based identifier search remains pending"
+            "title": "Cybercrime and Prevention: Colonel Blotto in Social Engineering",
+            "authors": [
+              "Gergely Benkő",
+              "Katalin Parti",
+              "Gergely Biczók"
+            ],
+            "year": 2026,
+            "arxiv_id": "2605.10755",
+            "source_url": "https://arxiv.org/pdf/2605.10755",
+            "pdf_sha256": "32e0129f234f67ba2e4cc887e8b40da6311ebe64cbfb96e70030bc482f7639f6",
+            "comparison": {
+              "title_matches": true,
+              "year_matches": true,
+              "author_families_match": true
+            },
+            "doi": null,
+            "citation_count": null,
+            "limitations": "Actual arXiv PDF front matter; no DOI or citation count inferred."
+          }
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "e6c63498aef97805ee73841e3829bb211735cce8378738abe80dcb403c670c05",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "86f157404d8a4e048a56d61ee934c383feadcd6a386f82ae82f15a14bffc7fe5",
+          "evidence": "Exact-hash taxonomy/target compatibility not performed for this normalized resource type.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "e6c63498aef97805ee73841e3829bb211735cce8378738abe80dcb403c670c05",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
-      ]
+      ],
+      "verified_document_type": "research_paper",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-dddfd1a1f0631aea293a5a3c",
       "review_number": 46,
-      "content_sha256": "4c57b0b71ac84ad68f6389e761475d19ef8bd4a30ec3d0a01cad8947c9ae0778",
+      "content_sha256": "772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b",
       "status": "held",
       "review_ready": false,
       "checks": {
         "duplicates": {
           "status": "passed",
           "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "4c57b0b71ac84ad68f6389e761475d19ef8bd4a30ec3d0a01cad8947c9ae0778",
+          "content_sha256": "772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b",
           "evidence": {
             "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
             "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
@@ -29521,12 +29608,15 @@
             ],
             "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
             "matches": []
-          }
+          },
+          "rebound_from_content_sha256": "4c57b0b71ac84ad68f6389e761475d19ef8bd4a30ec3d0a01cad8947c9ae0778",
+          "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+          "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
         },
         "quality": {
           "status": "passed",
           "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "4c57b0b71ac84ad68f6389e761475d19ef8bd4a30ec3d0a01cad8947c9ae0778",
+          "content_sha256": "772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b",
           "evidence": {
             "quality_score": 32.24,
             "quality_venue_score": 40.0,
@@ -29544,141 +29634,168 @@
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "4c57b0b71ac84ad68f6389e761475d19ef8bd4a30ec3d0a01cad8947c9ae0778",
+          "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+          "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
         },
         "format": {
-          "status": "held",
-          "content_sha256": "4c57b0b71ac84ad68f6389e761475d19ef8bd4a30ec3d0a01cad8947c9ae0778",
-          "checked_at": "2026-10-28T01:41:29.549895+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b",
           "evidence": {
-            "checked_at": "2026-10-28T01:41:29.549895+00:00",
-            "url": "https://jurnal.kopusindo.com/index.php/jkhkp/article/download/1901/1632",
-            "error": "HTTPError: HTTP Error 500: Internal Server Error",
-            "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-            "inspection": "Unknown/failed resource access and unverified format retained as separate holds. HTTP failures do not constitute scientific rejection."
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://jurnal.kopusindo.com/index.php/jkhkp/article/view/1901",
+            "http_status": 200,
+            "content_type": "text/html; charset=utf-8",
+            "resource_sha256": "8f43f483c98c627a857590877af2ae69485169af5fe93a392546fc62034c0f37",
+            "bytes": 66306,
+            "observed_format": "publisher HTML journal article",
+            "inspection": "Publisher article page title, complete byline, DOI, abstract and substantive article references inspected; written journal article verified."
           }
         },
         "access": {
-          "status": "held",
-          "content_sha256": "4c57b0b71ac84ad68f6389e761475d19ef8bd4a30ec3d0a01cad8947c9ae0778",
-          "checked_at": "2026-10-28T01:41:29.549895+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b",
           "evidence": {
-            "checked_at": "2026-10-28T01:41:29.549895+00:00",
-            "url": "https://jurnal.kopusindo.com/index.php/jkhkp/article/download/1901/1632",
-            "error": "HTTPError: HTTP Error 500: Internal Server Error",
-            "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-            "inspection": "Unknown/failed resource access and unverified format retained as separate holds. HTTP failures do not constitute scientific rejection."
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://jurnal.kopusindo.com/index.php/jkhkp/article/view/1901",
+            "http_status": 200,
+            "content_type": "text/html; charset=utf-8",
+            "resource_sha256": "8f43f483c98c627a857590877af2ae69485169af5fe93a392546fc62034c0f37",
+            "bytes": 66306,
+            "observed_format": "publisher HTML journal article",
+            "inspection": "Publisher article page title, complete byline, DOI, abstract and substantive article references inspected; written journal article verified."
           }
         },
         "metadata": {
           "status": "passed",
-          "checked_at": "2026-10-28T01:38:55.153406+00:00",
-          "content_sha256": "4c57b0b71ac84ad68f6389e761475d19ef8bd4a30ec3d0a01cad8947c9ae0778",
-          "source_url": "https://api.crossref.org/works/10.62379%2Fjkhkp.v3i2.1901",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b",
           "evidence": {
-            "DOI": "10.62379/jkhkp.v3i2.1901",
-            "title": [
-              "Peran Korban dalam Tindak Pidana Penipuan Transaksi Elektronik: Perspektif Cyber Victimology"
-            ],
-            "author": [
-              {
-                "given": "Maria Hera",
-                "family": "Agathea Manik",
-                "sequence": "first",
-                "affiliation": [],
-                "role": [
-                  {
-                    "vocabulary": "crossref",
-                    "role": "author"
-                  }
-                ]
-              },
-              {
-                "given": "Andita",
-                "family": "Amelia",
-                "sequence": "additional",
-                "affiliation": [],
-                "role": [
-                  {
-                    "vocabulary": "crossref",
-                    "role": "author"
-                  }
-                ]
-              },
-              {
-                "given": "Akilah Putri",
-                "family": "Ibrahim",
-                "sequence": "additional",
-                "affiliation": [],
-                "role": [
-                  {
-                    "vocabulary": "crossref",
-                    "role": "author"
-                  }
-                ]
-              },
-              {
-                "given": "Muhammad Arsya",
-                "family": "Zaky",
-                "sequence": "additional",
-                "affiliation": [],
-                "role": [
-                  {
-                    "vocabulary": "crossref",
-                    "role": "author"
-                  }
-                ]
-              },
-              {
-                "given": "Fathia Aisya",
-                "family": "Zahra",
-                "sequence": "additional",
-                "affiliation": [],
-                "role": [
-                  {
-                    "vocabulary": "crossref",
-                    "role": "author"
-                  }
-                ]
-              }
-            ],
-            "published": {
-              "date-parts": [
-                [
-                  2026,
-                  5,
-                  29
-                ]
-              ]
+            "publisher_page": {
+              "checked_at": "2026-10-28T07:45:34.096722+00:00",
+              "url": "https://jurnal.kopusindo.com/index.php/jkhkp/article/view/1901",
+              "http_status": 200,
+              "content_type": "text/html; charset=utf-8",
+              "resource_sha256": "8f43f483c98c627a857590877af2ae69485169af5fe93a392546fc62034c0f37",
+              "bytes": 66306,
+              "observed_format": "publisher HTML journal article",
+              "inspection": "Publisher article page title, complete byline, DOI, abstract and substantive article references inspected; written journal article verified."
             },
-            "type": "journal-article",
-            "publisher": "CV Information Technology and Training Center Indonesia",
-            "container-title": [
-              "Jurnal Kajian Hukum Dan Kebijakan Publik |  E-ISSN : 3031-8882"
-            ],
-            "is-referenced-by-count": 1
-          },
-          "comparison": {
-            "year_matches": true,
-            "title_matches": true,
-            "author_families_match": true
-          },
-          "limitations": "Publisher-deposited Crossref metadata; no inferred document type or peer review. Registry citation values do not replace upstream quality scores."
+            "crossref": {
+              "DOI": "10.62379/jkhkp.v3i2.1901",
+              "title": [
+                "Peran Korban dalam Tindak Pidana Penipuan Transaksi Elektronik: Perspektif Cyber Victimology"
+              ],
+              "author": [
+                {
+                  "given": "Maria Hera",
+                  "family": "Agathea Manik",
+                  "sequence": "first",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "given": "Andita",
+                  "family": "Amelia",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "given": "Akilah Putri",
+                  "family": "Ibrahim",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "given": "Muhammad Arsya",
+                  "family": "Zaky",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "given": "Fathia Aisya",
+                  "family": "Zahra",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                }
+              ],
+              "published": {
+                "date-parts": [
+                  [
+                    2026,
+                    5,
+                    29
+                  ]
+                ]
+              },
+              "type": "journal-article",
+              "publisher": "CV Information Technology and Training Center Indonesia",
+              "container-title": [
+                "Jurnal Kajian Hukum Dan Kebijakan Publik |  E-ISSN : 3031-8882"
+              ],
+              "is-referenced-by-count": 1
+            },
+            "comparison": {
+              "title_matches": true,
+              "year_matches": true,
+              "author_families_match": true
+            },
+            "citation_count": 0,
+            "limitations": "Publisher HTML and Crossref metadata agree; full PDF download previously returned 500 but sufficient substantive publisher page content is accessible."
+          }
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "4c57b0b71ac84ad68f6389e761475d19ef8bd4a30ec3d0a01cad8947c9ae0778",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "772876aaad7d35b9237470961bae21e481e5b2931d611597cb532bb647551d6b",
+          "evidence": "Exact-hash taxonomy/target compatibility not performed for this normalized resource type.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "4c57b0b71ac84ad68f6389e761475d19ef8bd4a30ec3d0a01cad8947c9ae0778",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "format",
-        "access",
         "schema"
-      ]
+      ],
+      "verified_document_type": "research_paper",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
@@ -29981,26 +30098,28 @@
         },
         "format": {
           "status": "held",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
           "content_sha256": "5db5c8edcbb88694561f176c70ac1b99eeeac26721cc84fa28d3f4c35ec611d6",
-          "checked_at": "2026-10-28T01:41:43.137571+00:00",
           "evidence": {
-            "checked_at": "2026-10-28T01:41:43.137571+00:00",
-            "url": "https://doi.org/10.1142/s0218126626502269",
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://www.worldscientific.com/doi/10.1142/S0218126626502269",
+            "http_status": 403,
             "error": "HTTPError: HTTP Error 403: Forbidden",
-            "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-            "inspection": "Unknown/failed resource access and unverified format retained as separate holds. HTTP failures do not constitute scientific rejection."
+            "inspection": "Publisher denied automated access; actual resource type/content remains unverified. Access failure is not scientific rejection.",
+            "retry": "Seek an alternate authoritative resource in a later pass; do not treat registry type or PDF URL as format proof."
           }
         },
         "access": {
           "status": "held",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
           "content_sha256": "5db5c8edcbb88694561f176c70ac1b99eeeac26721cc84fa28d3f4c35ec611d6",
-          "checked_at": "2026-10-28T01:41:43.137571+00:00",
           "evidence": {
-            "checked_at": "2026-10-28T01:41:43.137571+00:00",
-            "url": "https://doi.org/10.1142/s0218126626502269",
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://www.worldscientific.com/doi/10.1142/S0218126626502269",
+            "http_status": 403,
             "error": "HTTPError: HTTP Error 403: Forbidden",
-            "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-            "inspection": "Unknown/failed resource access and unverified format retained as separate holds. HTTP failures do not constitute scientific rejection."
+            "inspection": "Publisher denied automated access; actual resource type/content remains unverified. Access failure is not scientific rejection.",
+            "retry": "Seek an alternate authoritative resource in a later pass; do not treat registry type or PDF URL as format proof."
           }
         },
         "metadata": {
@@ -30978,14 +31097,14 @@
       "collection": "weekly",
       "candidate_id": "weekly-a05a5bc7f867d5f9a49e598a",
       "review_number": 52,
-      "content_sha256": "bd1dd377b5b40773996fb6734de7980294e8e96c4ca656896b1c1db0a61a2ff0",
+      "content_sha256": "17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2",
       "status": "held",
       "review_ready": false,
       "checks": {
         "duplicates": {
           "status": "passed",
           "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "bd1dd377b5b40773996fb6734de7980294e8e96c4ca656896b1c1db0a61a2ff0",
+          "content_sha256": "17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2",
           "evidence": {
             "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
             "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
@@ -31000,12 +31119,15 @@
             ],
             "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
             "matches": []
-          }
+          },
+          "rebound_from_content_sha256": "bd1dd377b5b40773996fb6734de7980294e8e96c4ca656896b1c1db0a61a2ff0",
+          "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+          "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
         },
         "quality": {
           "status": "passed",
           "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "bd1dd377b5b40773996fb6734de7980294e8e96c4ca656896b1c1db0a61a2ff0",
+          "content_sha256": "17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2",
           "evidence": {
             "quality_score": 32.0,
             "quality_venue_score": 20.0,
@@ -31023,72 +31145,113 @@
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "bd1dd377b5b40773996fb6734de7980294e8e96c4ca656896b1c1db0a61a2ff0",
+          "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+          "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
         },
         "format": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "bd1dd377b5b40773996fb6734de7980294e8e96c4ca656896b1c1db0a61a2ff0",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2",
+          "evidence": {
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://arxiv.org/pdf/2606.07158",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "ccecae09bd4ffe169893659b1d01292643496613d6c61a41c79989460592b8e1",
+            "bytes": 853000,
+            "pages": 27,
+            "observed_format": "PDF",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research resource verified without inferring peer review or full scientific evaluation.",
+            "source_kind": "arXiv preprint",
+            "arxiv_id": "2606.07158"
+          }
         },
         "access": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "bd1dd377b5b40773996fb6734de7980294e8e96c4ca656896b1c1db0a61a2ff0",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2",
+          "evidence": {
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://arxiv.org/pdf/2606.07158",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "ccecae09bd4ffe169893659b1d01292643496613d6c61a41c79989460592b8e1",
+            "bytes": 853000,
+            "pages": 27,
+            "observed_format": "PDF",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research resource verified without inferring peer review or full scientific evaluation.",
+            "source_kind": "arXiv preprint",
+            "arxiv_id": "2606.07158"
+          }
         },
         "metadata": {
-          "status": "held",
-          "checked_at": "2026-10-28T01:39:14.062176+00:00",
-          "content_sha256": "bd1dd377b5b40773996fb6734de7980294e8e96c4ca656896b1c1db0a61a2ff0",
-          "source_url": null,
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2",
           "evidence": {
-            "DOI": null,
-            "title": null,
-            "author": null,
-            "published": null,
-            "type": null,
-            "publisher": null,
-            "container-title": null,
-            "is-referenced-by-count": null
-          },
-          "comparison": {
-            "year_matches": false,
-            "title_matches": false,
-            "author_families_match": false
-          },
-          "limitations": "No supplied DOI; title-based identifier search remains pending"
+            "title": "Synthetic APTs: the Collapse of TTP-Based Attribution",
+            "authors": [
+              "Francesco Balassone",
+              "Víctor Mayoral-Vilches",
+              "María Sanz-Gómez",
+              "Paul Zabalegui-Landa",
+              "Stefan Rass",
+              "Davide Quarta",
+              "Daniel Sanchez-Prieto",
+              "Marina Oteiza-Álvarez",
+              "Almerindo Graziano",
+              "Lauren Min Kim",
+              "MinSeok Choi"
+            ],
+            "year": 2026,
+            "arxiv_id": "2606.07158",
+            "source_url": "https://arxiv.org/pdf/2606.07158",
+            "pdf_sha256": "ccecae09bd4ffe169893659b1d01292643496613d6c61a41c79989460592b8e1",
+            "comparison": {
+              "title_matches": true,
+              "year_matches": true,
+              "author_families_match": true
+            },
+            "doi": null,
+            "citation_count": null,
+            "limitations": "Actual arXiv PDF front matter; no DOI or citation count inferred."
+          }
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "bd1dd377b5b40773996fb6734de7980294e8e96c4ca656896b1c1db0a61a2ff0",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "17d5ae4b7d6374daf26f7bbcc7fd172fbf87673f46ae69d8f9601d65b825fda2",
+          "evidence": "Exact-hash taxonomy/target compatibility not performed for this normalized resource type.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "bd1dd377b5b40773996fb6734de7980294e8e96c4ca656896b1c1db0a61a2ff0",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
-      ]
+      ],
+      "verified_document_type": "research_paper",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-6862e8dd13b1f283d7436d7b",
       "review_number": 53,
-      "content_sha256": "ed64b4e0c8289ad36d4b89871216cdd29092b8581f79dcf57a4f99eab0ab873d",
+      "content_sha256": "71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49",
       "status": "held",
       "review_ready": false,
       "checks": {
         "duplicates": {
           "status": "passed",
           "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "ed64b4e0c8289ad36d4b89871216cdd29092b8581f79dcf57a4f99eab0ab873d",
+          "content_sha256": "71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49",
           "evidence": {
             "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
             "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
@@ -31103,12 +31266,15 @@
             ],
             "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
             "matches": []
-          }
+          },
+          "rebound_from_content_sha256": "ed64b4e0c8289ad36d4b89871216cdd29092b8581f79dcf57a4f99eab0ab873d",
+          "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+          "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
         },
         "quality": {
           "status": "passed",
           "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "ed64b4e0c8289ad36d4b89871216cdd29092b8581f79dcf57a4f99eab0ab873d",
+          "content_sha256": "71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49",
           "evidence": {
             "quality_score": 31.65,
             "quality_venue_score": 40.0,
@@ -31126,59 +31292,94 @@
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "ed64b4e0c8289ad36d4b89871216cdd29092b8581f79dcf57a4f99eab0ab873d",
+          "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+          "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
         },
         "format": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "ed64b4e0c8289ad36d4b89871216cdd29092b8581f79dcf57a4f99eab0ab873d",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49",
+          "evidence": {
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://arxiv.org/pdf/2604.17522",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "66a7493b58ddadecc8e34b3c70a604107c215d26570bc2fa843bfa2cc067a7b0",
+            "bytes": 805743,
+            "pages": 11,
+            "observed_format": "PDF",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research resource verified without inferring peer review or full scientific evaluation.",
+            "source_kind": "arXiv-hosted journal article",
+            "arxiv_id": "2604.17522"
+          }
         },
         "access": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "ed64b4e0c8289ad36d4b89871216cdd29092b8581f79dcf57a4f99eab0ab873d",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49",
+          "evidence": {
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://arxiv.org/pdf/2604.17522",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "66a7493b58ddadecc8e34b3c70a604107c215d26570bc2fa843bfa2cc067a7b0",
+            "bytes": 805743,
+            "pages": 11,
+            "observed_format": "PDF",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research resource verified without inferring peer review or full scientific evaluation.",
+            "source_kind": "arXiv-hosted journal article",
+            "arxiv_id": "2604.17522"
+          }
         },
         "metadata": {
-          "status": "held",
-          "checked_at": "2026-10-28T01:39:14.563547+00:00",
-          "content_sha256": "ed64b4e0c8289ad36d4b89871216cdd29092b8581f79dcf57a4f99eab0ab873d",
-          "source_url": null,
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49",
           "evidence": {
-            "DOI": null,
-            "title": null,
-            "author": null,
-            "published": null,
-            "type": null,
-            "publisher": null,
-            "container-title": null,
-            "is-referenced-by-count": null
-          },
-          "comparison": {
-            "year_matches": false,
-            "title_matches": false,
-            "author_families_match": false
-          },
-          "limitations": "No supplied DOI; title-based identifier search remains pending"
+            "title": "Explainable Attention-Based LSTM Framework for Early Detection of AI-Assisted Ransomware via File System Behavioral Analysis",
+            "authors": [
+              "Prabhudarshi Nayak",
+              "Gogulakrishnan Thiyagarajan",
+              "Debashree Priyadarshini",
+              "Vinay Bist",
+              "Rohan Swain"
+            ],
+            "year": 2026,
+            "arxiv_id": "2604.17522",
+            "source_url": "https://arxiv.org/pdf/2604.17522",
+            "pdf_sha256": "66a7493b58ddadecc8e34b3c70a604107c215d26570bc2fa843bfa2cc067a7b0",
+            "comparison": {
+              "title_matches": true,
+              "year_matches": true,
+              "author_families_match": true
+            },
+            "doi": null,
+            "citation_count": null,
+            "limitations": "Actual arXiv PDF front matter; no DOI or citation count inferred."
+          }
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "ed64b4e0c8289ad36d4b89871216cdd29092b8581f79dcf57a4f99eab0ab873d",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "71f038952df75ece590f2fffc485cfbf21f3bb6aa8d328ca6164905b7d8bec49",
+          "evidence": "Exact-hash taxonomy/target compatibility not performed for this normalized resource type.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "ed64b4e0c8289ad36d4b89871216cdd29092b8581f79dcf57a4f99eab0ab873d",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
-      ]
+      ],
+      "verified_document_type": "research_paper",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
@@ -31233,28 +31434,28 @@
         },
         "format": {
           "status": "held",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
           "content_sha256": "03a42bd6903894f2f1e955276e2fd4e74618652e420d01118d7b524650057301",
-          "checked_at": "2026-10-28T01:42:14.217860+00:00",
           "evidence": {
-            "checked_at": "2026-10-28T01:42:14.217860+00:00",
-            "url": "https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781394305612.ch16",
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://onlinelibrary.wiley.com/doi/10.1002/9781394305612.ch16",
+            "http_status": 403,
             "error": "HTTPError: HTTP Error 403: Forbidden",
-            "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-            "inspection": "Unknown/failed resource access and unverified format retained as separate holds. HTTP failures do not constitute scientific rejection."
-          },
-          "registry_type": "other",
-          "registry_type_note": "Registration type is not proof of paper format; only inspected resource evidence can clear this gate."
+            "inspection": "Publisher denied automated access; actual resource type/content remains unverified. Access failure is not scientific rejection.",
+            "retry": "Seek an alternate authoritative resource in a later pass; do not treat registry type or PDF URL as format proof."
+          }
         },
         "access": {
           "status": "held",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
           "content_sha256": "03a42bd6903894f2f1e955276e2fd4e74618652e420d01118d7b524650057301",
-          "checked_at": "2026-10-28T01:42:14.217860+00:00",
           "evidence": {
-            "checked_at": "2026-10-28T01:42:14.217860+00:00",
-            "url": "https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781394305612.ch16",
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://onlinelibrary.wiley.com/doi/10.1002/9781394305612.ch16",
+            "http_status": 403,
             "error": "HTTPError: HTTP Error 403: Forbidden",
-            "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-            "inspection": "Unknown/failed resource access and unverified format retained as separate holds. HTTP failures do not constitute scientific rejection."
+            "inspection": "Publisher denied automated access; actual resource type/content remains unverified. Access failure is not scientific rejection.",
+            "retry": "Seek an alternate authoritative resource in a later pass; do not treat registry type or PDF URL as format proof."
           }
         },
         "metadata": {
@@ -31601,14 +31802,14 @@
       "collection": "weekly",
       "candidate_id": "weekly-1604394b4ec021349bbc44b1",
       "review_number": 56,
-      "content_sha256": "25e58df6e6990f4ca5315bbde0ecd6192a10768b39ceb310991fe5743c195473",
+      "content_sha256": "30be80b37048747dda6158ff731f739e98710b4e0d597459a1ae5d2b5604abf2",
       "status": "held",
       "review_ready": false,
       "checks": {
         "duplicates": {
           "status": "passed",
           "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "25e58df6e6990f4ca5315bbde0ecd6192a10768b39ceb310991fe5743c195473",
+          "content_sha256": "30be80b37048747dda6158ff731f739e98710b4e0d597459a1ae5d2b5604abf2",
           "evidence": {
             "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
             "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
@@ -31623,82 +31824,141 @@
             ],
             "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
             "matches": []
-          }
+          },
+          "rebound_from_content_sha256": "25e58df6e6990f4ca5315bbde0ecd6192a10768b39ceb310991fe5743c195473",
+          "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+          "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
         },
         "quality": {
-          "status": "passed",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "25e58df6e6990f4ca5315bbde0ecd6192a10768b39ceb310991fe5743c195473",
-          "evidence": {
-            "quality_score": 31.65,
-            "quality_venue_score": 40.0,
-            "quality_citation_score": 0.0,
-            "quality_relevance_score": 70.59,
-            "quality_institution_score": 40.0,
-            "quality_institution_bonus": 0.0,
-            "quality_title_bonus": 0.0,
-            "quality_auto_threshold": 35.0,
-            "quality_review_threshold": 20.0,
-            "quality_core_term_gate": "pass",
-            "quality_relevance_gate": "pass",
-            "citation_count_known": true,
-            "quality_review_status": "human_quality_review",
-            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-            "quality_requires_review": true
-          },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+          "status": "held",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "30be80b37048747dda6158ff731f739e98710b4e0d597459a1ae5d2b5604abf2",
+          "evidence": "Verified student project report requires a type-appropriate quality policy; the prior research-paper-candidate score is preserved but cannot pass this type.",
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "content_sha256": "30be80b37048747dda6158ff731f739e98710b4e0d597459a1ae5d2b5604abf2",
+            "evidence": {
+              "quality_score": 31.65,
+              "quality_venue_score": 40.0,
+              "quality_citation_score": 0.0,
+              "quality_relevance_score": 70.59,
+              "quality_institution_score": 40.0,
+              "quality_institution_bonus": 0.0,
+              "quality_title_bonus": 0.0,
+              "quality_auto_threshold": 35.0,
+              "quality_review_threshold": 20.0,
+              "quality_core_term_gate": "pass",
+              "quality_relevance_gate": "pass",
+              "citation_count_known": true,
+              "quality_review_status": "human_quality_review",
+              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+              "quality_requires_review": true
+            },
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "25e58df6e6990f4ca5315bbde0ecd6192a10768b39ceb310991fe5743c195473",
+            "rebound_at": "2026-10-28T07:45:34.096722+00:00",
+            "rebound_basis": "Title, year, DOI/source URL and abstract are unchanged. Verified type/author normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at retained."
+          }
         },
         "format": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "25e58df6e6990f4ca5315bbde0ecd6192a10768b39ceb310991fe5743c195473",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "30be80b37048747dda6158ff731f739e98710b4e0d597459a1ae5d2b5604abf2",
+          "evidence": {
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://zenodo.org/api/records/20094445/files/Real%20Time%20Phishing%20Detection%20Using%20ML%20-%208105_SK%20(1).pdf/content",
+            "http_status": 200,
+            "content_type": "application/octet-stream,application/octet-stream",
+            "resource_sha256": "1cfa4927aa883e85b288113da8952aafa981280395fe2d7631d78139e7843c3b",
+            "bytes": 1554796,
+            "pages": 35,
+            "observed_format": "PDF",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research resource verified without inferring peer review or full scientific evaluation.",
+            "source_kind": "Zenodo deposited student project report",
+            "zenodo_record": "20094445",
+            "zenodo_resource_type": {
+              "title": "Conference paper",
+              "type": "publication",
+              "subtype": "conferencepaper"
+            },
+            "resource_identity_correction": "Deposit labels conference paper, but actual 35-page PDF cover/certificate identifies an MSc Computer Applications project report."
+          }
         },
         "access": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "25e58df6e6990f4ca5315bbde0ecd6192a10768b39ceb310991fe5743c195473",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "30be80b37048747dda6158ff731f739e98710b4e0d597459a1ae5d2b5604abf2",
+          "evidence": {
+            "checked_at": "2026-10-28T07:45:34.096722+00:00",
+            "url": "https://zenodo.org/api/records/20094445/files/Real%20Time%20Phishing%20Detection%20Using%20ML%20-%208105_SK%20(1).pdf/content",
+            "http_status": 200,
+            "content_type": "application/octet-stream,application/octet-stream",
+            "resource_sha256": "1cfa4927aa883e85b288113da8952aafa981280395fe2d7631d78139e7843c3b",
+            "bytes": 1554796,
+            "pages": 35,
+            "observed_format": "PDF",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research resource verified without inferring peer review or full scientific evaluation.",
+            "source_kind": "Zenodo deposited student project report",
+            "zenodo_record": "20094445",
+            "zenodo_resource_type": {
+              "title": "Conference paper",
+              "type": "publication",
+              "subtype": "conferencepaper"
+            },
+            "resource_identity_correction": "Deposit labels conference paper, but actual 35-page PDF cover/certificate identifies an MSc Computer Applications project report."
+          }
         },
         "metadata": {
-          "status": "held",
-          "checked_at": "2026-10-28T01:39:22.671027+00:00",
-          "content_sha256": "25e58df6e6990f4ca5315bbde0ecd6192a10768b39ceb310991fe5743c195473",
-          "source_url": null,
+          "status": "passed",
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "30be80b37048747dda6158ff731f739e98710b4e0d597459a1ae5d2b5604abf2",
           "evidence": {
-            "DOI": null,
-            "title": null,
-            "author": null,
-            "published": null,
-            "type": null,
-            "publisher": null,
-            "container-title": null,
-            "is-referenced-by-count": null
-          },
-          "comparison": {
-            "year_matches": false,
-            "title_matches": false,
-            "author_families_match": false
-          },
-          "limitations": "HTTPError: HTTP Error 404: Not Found"
+            "title": "Real Time Phishing Detection Using ML",
+            "authors": [
+              "Sakshi Ajit Katrajkar"
+            ],
+            "publication_date": "2026-05-09",
+            "year": 2026,
+            "doi": "10.5281/zenodo.20094445",
+            "deposit_resource_type": {
+              "title": "Conference paper",
+              "type": "publication",
+              "subtype": "conferencepaper"
+            },
+            "verified_actual_type": "student_project_report",
+            "source_url": "https://zenodo.org/api/records/20094445",
+            "pdf_sha256": "1cfa4927aa883e85b288113da8952aafa981280395fe2d7631d78139e7843c3b",
+            "comparison": {
+              "title_matches": true,
+              "year_matches": true,
+              "author_families_match": true
+            },
+            "citation_count": null,
+            "limitations": "Actual PDF overrides deposit type label; unknown citations remain null."
+          }
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "25e58df6e6990f4ca5315bbde0ecd6192a10768b39ceb310991fe5743c195473",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-10-28T07:45:34.096722+00:00",
+          "content_sha256": "30be80b37048747dda6158ff731f739e98710b4e0d597459a1ae5d2b5604abf2",
+          "evidence": "Current paid adapter supports verified research_paper only; no silent conversion of student report.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "25e58df6e6990f4ca5315bbde0ecd6192a10768b39ceb310991fe5743c195473",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "format",
-        "access",
-        "metadata",
+        "quality",
         "schema"
-      ]
+      ],
+      "verified_document_type": "student_project_report",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
@@ -40589,48 +40849,49 @@
         "passed": 100
       },
       "metadata": {
-        "held": 6,
-        "passed": 94
+        "passed": 94,
+        "held": 6
       },
       "duplicates": {
         "passed": 100
       },
       "quality": {
-        "held": 88,
-        "passed": 12
+        "passed": 12,
+        "held": 88
       },
       "schema": {
-        "held": 89,
-        "passed": 11
+        "passed": 11,
+        "held": 89
       }
     },
     "weekly": {
       "format": {
-        "held": 116,
-        "passed": 34
+        "passed": 40,
+        "held": 110
       },
       "access": {
-        "held": 116,
-        "passed": 34
+        "passed": 40,
+        "held": 110
       },
       "metadata": {
-        "held": 108,
-        "passed": 42
+        "passed": 47,
+        "held": 103
       },
       "duplicates": {
-        "held": 1,
-        "passed": 149
+        "passed": 149,
+        "held": 1
       },
       "quality": {
-        "passed": 150
+        "passed": 149,
+        "held": 1
       },
       "schema": {
-        "held": 122,
-        "passed": 28
+        "passed": 28,
+        "held": 122
       }
     }
   },
-  "updated_at": "2026-10-28T06:47:06.339996+00:00",
+  "updated_at": "2026-10-28T07:45:34.096722+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
@@ -41135,6 +41396,20 @@
       "remaining_candidates_not_attempted": 5,
       "provider_stopped_immediately": true,
       "metadata_passes_changed": 0
+    },
+    {
+      "checked_at": "2026-10-28T07:45:34.096722+00:00",
+      "stage": "weekly_batch3_primary_source_verification",
+      "candidates_examined": 8,
+      "verified_research_papers": 5,
+      "verified_student_project_reports": 1,
+      "publisher_access_holds": 2,
+      "actual_pdf_resources_inspected": 5,
+      "publisher_HTML_articles_inspected": 1,
+      "openalex_requests": 0,
+      "source_timeout_seconds": 20,
+      "serial_provider_pacing_seconds": 0.5,
+      "complete_batch_admission": false
     }
   ],
   "cumulative_weekly_network_counts": {
