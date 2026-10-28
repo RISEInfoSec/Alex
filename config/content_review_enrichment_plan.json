@@ -346,11 +346,11 @@
       "quality_status": "human_quality_review",
       "fresh_duplicate_snapshot": true,
       "registry_plan": {
-        "eligible": true,
-        "reason": "alternative_enrichment_first_openalex_targeted_fallback",
-        "citation_sensitive_score": false,
+        "eligible": false,
+        "reason": "all_required_checks_completed_without_openalex",
         "automatic_openalex_request": false
-      }
+      },
+      "disposition": "manual_ready"
     },
     {
       "collection": "soups",
@@ -2215,13 +2215,13 @@
     }
   ],
   "summary": {
-    "held_intake_tracked": 193,
+    "held_intake_tracked": 192,
     "deferred_registry": 192,
-    "alternative_enrichment_eligible": 1,
+    "alternative_enrichment_eligible": 0,
     "previous_openalex_six": {
       "independent_core_gate_deferred": 5,
       "alternative_metadata_completed": 1
     },
-    "manual_ready_added": 0
+    "manual_ready_added": 1
   }
 }
