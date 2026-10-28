@@ -24,7 +24,7 @@ def stage(root: Path, destination: Path) -> None:
     if destination.exists():
         shutil.rmtree(destination)
     destination.mkdir()
-    for name in ("index.html", "robots.txt", "sitemap.xml"):
+    for name in ("index.html", "data-license-v1.html", "robots.txt", "sitemap.xml"):
         shutil.copy2(root / name, destination / name)
     shutil.copytree(root / "research", destination / "research")
     (destination / "assets").mkdir()
