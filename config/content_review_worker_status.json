@@ -8,11 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": null,
-  "lease": {
-    "owner": "content-review-2026-10-28T17-35-34-949Z",
-    "acquired_at": "2026-10-28T17:35:34.949Z",
-    "expires_at": "2026-10-28T18:05:34.949Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -33,8 +29,8 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-28T16:38:03.918Z",
-  "last_action": "Resumed courteous archive discovery: eight official programme/conference pages retrieved,409 item URLs observed. Published cumulative canonical discovery inventory618 URLs (228SOUPS,390Virus Bulletin);10 exact canonical URLs match durable human exclusions. Counts overlap existing manifests and prior1398-entry VB aggregate; no new-unique archive total or clearance claimed. Reconciled assessment summary307 tracked/55 complete/252 held. D1 remains51 submissions; main corpus and4041 weekly source identities unchanged. Ready0/250; SOUPS0/5. No public import, merge or deployment.",
+  "last_completed_at": "2026-10-28T17:38:10.066Z",
+  "last_action": "Continued bounded courteous discovery through eight2017-2020 official programme/conference pages. Observed395 item links and added391 canonical URLs to the supplemental inventory:1009 total (354SOUPS,655Virus Bulletin), including10 existing explicit exclusion URL matches. Captured68 VB2020 virtual-conference presentation links; VB2021 coverage gap retained. No new console decisions or weekly arrivals; no gates waived, manual admissions or public changes. Ready0/250; SOUPS0/5.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -72,8 +68,8 @@
     "source_blob_sha": "32a7992a37b15d3d5f698354a0209157660a9d66",
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
-    "refresh_result": "Unchanged main source blob32a7992a37b15d3d5f698354a0209157660a9d66; all4041 initial identities retained.",
-    "refreshed_at": "2026-10-28T16:38:03.918Z"
+    "refresh_result": "Current main source blob unchanged32a7992a37b15d3d5f698354a0209157660a9d66; all4041 identities retained.",
+    "refreshed_at": "2026-10-28T17:38:10.066Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
@@ -119,7 +115,7 @@
     "completed_assessment_jobs": 55,
     "completed_corpus_removal_jobs": 490,
     "remaining_immutable_jobs": 22,
-    "verified_at": "2026-10-28T16:38:03.918Z"
+    "verified_at": "2026-10-28T17:38:10.066Z"
   },
   "blocked_sources": [
     {
@@ -144,8 +140,8 @@
     "reason": "Ready0/250; SOUPS0/5.193 existing preflight holds remain, plus raw archive discovery outside that inventory. One of two newly accepted papers is final-validation complete; the other has a publisher403 access hold."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-28T16:38:03.918Z",
-    "scope": "eight_archive_pages_canonical_inventory_and_summary_reconciliation",
+    "verified_at": "2026-10-28T17:38:10.066Z",
+    "scope": "eight_2017_2020_archive_pages_and_additive_canonical_inventory",
     "source_request_timeout_seconds": 20,
     "serial_provider_pacing_seconds_minimum": 2,
     "stricter_robots_crawl_delay_honored": true,
@@ -156,8 +152,9 @@
     "soups_batch_deficit": 5,
     "preflight_held": 193,
     "discovery_programme_pages_checked": 8,
-    "discovery_item_links_observed": 409,
-    "cumulative_canonical_urls": 618,
+    "discovery_item_links_observed": 395,
+    "supplemental_unique_urls_added": 391,
+    "cumulative_canonical_urls": 1009,
     "exclusion_url_matches": 10,
     "verified_new_unique_discoveries": null,
     "openai_usage_this_run": {
@@ -173,7 +170,7 @@
     "openalex_requests": 0,
     "openalex_retry_not_before": "2026-10-29T00:00:36.339996+00:00"
   },
-  "checkpointed_at": "2026-10-28T16:38:03.918Z",
+  "checkpointed_at": "2026-10-28T17:38:10.066Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
@@ -186,7 +183,7 @@
     }
   },
   "next_actions": [
-    "Resume archive discovery from persisted2020 checkpoints. Merge future discoveries additively into config/content_review_archive_discovery_inventory.json using canonical identities; preserve explicit exclusions and provenance. Implement source-specific parsing of VB2021 vblocalhost link structure before claiming coverage.",
+    "Resume archive discovery from persisted2016 checkpoints. Merge future discoveries additively into config/content_review_archive_discovery_inventory.json using canonical identities; preserve explicit exclusions and provenance. Complete VB2021 alternative-link coverage before claiming archive completeness.",
     "Prioritize the active SOUPS/USENIX and Virus Bulletin archive discovery campaign each pass, with bounded courteous requests and persisted coverage checkpoints; defer SANS, FIRST.org and other new collections pending disposition of this intake.",
     "Respect config/corpus_exclusions.json before any preflight, substantive recommendation, manual admission or publication. Read config/editorial_relevance_feedback.json as labeled positive and negative examples; do not treat audit recommendations as human reasons or infer provider bans.",
     "All490 audit removal jobs and eight new assessment jobs are complete: consult config/review_application_status.json and the publication receipt before any replay. Corpus-audit keeps mean retain existing records, never new imports.",
@@ -334,27 +331,28 @@
     ],
     "policy": "config/content_review_workflow.json#archive_discovery_policy",
     "next_action": "Resume bounded archive discovery for each available source alongside preflight, recording coverage and unique discoveries. One request per origin at a time, minimum2seconds pacing,20-second timeouts and stricter published/provider limits.",
-    "last_checkpoint": "config/content_review_discovery_checkpoints/2026-10-28T1634Z.json",
-    "checked_at": "2026-10-28T16:38:03.918Z",
+    "last_checkpoint": "config/content_review_discovery_checkpoints/2026-10-28T1735Z.json",
+    "checked_at": "2026-10-28T17:38:10.066Z",
     "pages_checked": 8,
-    "item_links_reconciled": 409,
+    "item_links_reconciled": 395,
     "verified_new_unique_candidates": null,
     "coverage_complete": false,
     "resume_queue": {
       "soups": [
-        "https://www.usenix.org/conference/soups2020/technical-sessions"
+        "https://www.usenix.org/conference/soups2016/technical-sessions"
       ],
       "virusbulletin": [
-        "https://virusbulletin.com/conference/vb2020/"
+        "https://virusbulletin.com/conference/vb2016/programme/"
       ]
     },
-    "limitation": "618 canonical URLs are cumulative observed programme items, overlapping existing source inventories; not new cleared candidates. VB2021 vblocalhost alternative link structure needs dedicated parsing; no complete coverage claim.",
+    "limitation": "1009 URLs overlap existing manifests and previous VB1398-entry aggregate. They are raw discovery, not new cleared candidates. VB2020 presentation links captured; VB2021 alternative link coverage remains incomplete.",
     "inventory": "config/content_review_archive_discovery_inventory.json",
-    "cumulative_canonical_item_urls": 618,
+    "cumulative_canonical_item_urls": 1009,
     "canonical_source_counts": {
-      "soups": 228,
-      "virusbulletin": 390
+      "soups": 354,
+      "virusbulletin": 655
     },
-    "canonical_exclusion_matches": 10
+    "canonical_exclusion_matches": 10,
+    "supplemental_unique_urls_added": 391
   }
 }
