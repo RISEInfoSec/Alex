@@ -20,21 +20,21 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install requests
-      - name: Audit every published abstract
+      - name: Verify disputed audit flags individually
         env:
           OPENAI_API_KEY: ${{ secrets.OPEN_API_KEY }}
-        run: python tools/content_review/corpus_relevance_audit.py
+        run: python -m tools.content_review.corpus_relevance_verify
       - name: Save audit evidence only
         if: always()
         run: |
           git diff --exit-code -- data
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add config/corpus_relevance_audit/results.json
+          git add config/corpus_relevance_audit/
           git diff --cached --quiet || git commit -m 'Checkpoint full corpus relevance audit'
           git push
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: corpus-relevance-audit
-          path: config/corpus_relevance_audit/results.json
+          path: config/corpus_relevance_audit/
