@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-28T09:50:46.699230+00:00",
+  "updated_at": "2026-10-28T12:42:26.061729+00:00",
   "records": [
     {
       "key": "virusbulletin/vb-2025-16decf5155fa227b39/40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c/1/1",
@@ -35701,6 +35701,1431 @@
       "remaining_checks": [],
       "release_status": "not_published_current_maintenance_request_prohibits_import_merge_deploy",
       "next_action": "Validation complete; current maintenance request prohibits public import, merge and deployment."
+    },
+    {
+      "key": "weekly/weekly-745c7f10cefebb4faec0cffe/7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f/1/1",
+      "collection": "weekly",
+      "candidate_id": "weekly-745c7f10cefebb4faec0cffe",
+      "review_number": 12,
+      "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+      "submission_id": "849e44fb-a08c-460f-8f91-681eb7e2b0a8",
+      "submission_revision": 1,
+      "assessment_version": 1,
+      "job_id": "assessment:849e44fb-a08c-460f-8f91-681eb7e2b0a8:weekly-745c7f10cefebb4faec0cffe",
+      "status": "ready_for_configured_release_path",
+      "checks": {
+        "format": {
+          "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "verified_document_type": "research_paper",
+            "resource_url": "https://arxiv.org/pdf/2607.11707v2",
+            "resource_sha256": "d62e291becbc0653834f6efa4c85529d240658b2848ef6815146b68fd7113590",
+            "resource_bytes": 800051,
+            "pdf_pages": 34,
+            "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+            "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+            "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+          },
+          "rebound_from_content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+          "rebound_at": "2026-10-28T10:45:50.754275+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "access": {
+          "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "resource_url": "https://arxiv.org/pdf/2607.11707v2",
+            "http_method": "GET",
+            "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+            "resource_sha256": "d62e291becbc0653834f6efa4c85529d240658b2848ef6815146b68fd7113590",
+            "resource_bytes": 800051,
+            "pdf_pages": 34,
+            "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+            "serial_provider_pacing_seconds": 0.5
+          },
+          "rebound_from_content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+          "rebound_at": "2026-10-28T10:45:50.754275+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "metadata": {
+          "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "authoritative_record": "https://arxiv.org/abs/2607.11707",
+            "identifier": "arXiv:2607.11707",
+            "version": "v2",
+            "submitted_at": "2026-07-13T15:36:19Z",
+            "revised_at": "2026-07-15T14:17:22Z",
+            "title_matches": true,
+            "authors_match_complete_byline": true,
+            "publication_year_matches": true,
+            "doi": null,
+            "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+            "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+          },
+          "rebound_from_content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+          "rebound_at": "2026-10-28T10:45:50.754275+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "duplicates": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:47:06.591497+00:00",
+          "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+          "evidence": {
+            "matches": [],
+            "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+            "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_inventory_records": 4041,
+            "scope": "Fresh DOI, source/resource URL and normalized-title comparison with current3644 public records and all prepared intake collections; unchanged immutable4041 upstream comparison reused. Corpus audit is an annotation of public records, not a new intake source."
+          }
+        },
+        "quality": {
+          "status": "passed",
+          "checked_at": "2026-10-27T23:05:42.201570+00:00",
+          "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+          "evidence": {
+            "quality_score": 32.82,
+            "quality_venue_score": 40.0,
+            "quality_citation_score": 0.0,
+            "quality_relevance_score": 35.29,
+            "quality_institution_score": 80.0,
+            "quality_institution_bonus": 10.0,
+            "quality_title_bonus": 0.0,
+            "quality_auto_threshold": 35.0,
+            "quality_review_threshold": 20.0,
+            "quality_core_term_gate": "pass",
+            "quality_relevance_gate": "pass",
+            "citation_count_known": true,
+            "quality_review_status": "human_quality_review",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+          "rebound_at": "2026-10-28T10:45:50.754275+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "schema": {
+          "status": "passed",
+          "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+          "checked_at": "2026-10-28T12:30:22.632528+00:00",
+          "evidence_sha256": "8c3341f20db246c5d161f29e3a2f1357f867623ce443b1ff22353952292ae05e",
+          "evidence": "Current main publisher on isolated one-record fixture, using current collection configuration; reviewed fields and saved taxonomy preserved."
+        },
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T10:47:54.463512+00:00",
+          "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+          "evidence": {
+            "classification": {
+              "Category": "Disinformation & Influence",
+              "Investigation_Type": "Phishing Analysis",
+              "OSINT_Source_Types": [
+                "Social Media",
+                "Public Records",
+                "Other"
+              ]
+            },
+            "response_id": "resp_0c92b4c4cd688fb5016ae1d2d96d1087d19a0191c4e89b0895",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 676,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 32,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 708
+            },
+            "uncertainty_flags": []
+          },
+          "provenance": {
+            "GITHUB_RUN_ID": "40674876427",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_SHA": "4d66c4caf94c5d3a99dbedc411bdfa672d40aebf",
+            "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+            "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+          },
+          "request_id": "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951"
+        },
+        "final_source_revalidation": {
+          "status": "passed",
+          "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+          "checked_at": "2026-10-28T12:30:29.113871+00:00",
+          "evidence_sha256": "d62e291becbc0653834f6efa4c85529d240658b2848ef6815146b68fd7113590",
+          "url": "https://arxiv.org/pdf/2607.11707v2",
+          "http_status": 200,
+          "bytes": 800051,
+          "method": "Full primary PDF hash matches previously inspected written resource; prior format/access/metadata evidence reused."
+        },
+        "completed_submission_integrity": {
+          "status": "passed",
+          "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+          "checked_at": "2026-10-28T12:30:29.113871+00:00",
+          "evidence_sha256": "3a1ffc55cfb57a36e3b75242235113b6bff3ec3b8aa208efea604b55f10d504a"
+        }
+      },
+      "publication_approved": true,
+      "remaining_checks": [],
+      "release_status": "published_in_2026-10-28-completed-reviews",
+      "publication_receipt": "config/content_review_publication_receipts/2026-10-28-completed-reviews.json",
+      "updated_at": "2026-10-28T12:42:26.061729+00:00"
+    },
+    {
+      "key": "weekly/weekly-cc03c13fc15e6a2896786ad3/0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf/1/1",
+      "collection": "weekly",
+      "candidate_id": "weekly-cc03c13fc15e6a2896786ad3",
+      "review_number": 21,
+      "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+      "submission_id": "849e44fb-a08c-460f-8f91-681eb7e2b0a8",
+      "submission_revision": 1,
+      "assessment_version": 1,
+      "job_id": "assessment:849e44fb-a08c-460f-8f91-681eb7e2b0a8:weekly-cc03c13fc15e6a2896786ad3",
+      "status": "ready_for_configured_release_path",
+      "checks": {
+        "format": {
+          "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "verified_document_type": "research_paper",
+            "resource_url": "https://arxiv.org/pdf/2606.10281v2",
+            "resource_sha256": "b079fc600ecd62f7666f5460ace0c722640a765c2d5c80ae4a206c3c43d44069",
+            "resource_bytes": 643965,
+            "pdf_pages": 17,
+            "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+            "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+            "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+          },
+          "rebound_from_content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+          "rebound_at": "2026-10-28T10:45:50.754667+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "access": {
+          "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "resource_url": "https://arxiv.org/pdf/2606.10281v2",
+            "http_method": "GET",
+            "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+            "resource_sha256": "b079fc600ecd62f7666f5460ace0c722640a765c2d5c80ae4a206c3c43d44069",
+            "resource_bytes": 643965,
+            "pdf_pages": 17,
+            "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+            "serial_provider_pacing_seconds": 0.5
+          },
+          "rebound_from_content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+          "rebound_at": "2026-10-28T10:45:50.754667+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "metadata": {
+          "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "authoritative_record": "https://arxiv.org/abs/2606.10281",
+            "identifier": "arXiv:2606.10281",
+            "version": "v2",
+            "submitted_at": "2026-06-09T01:09:04Z",
+            "revised_at": "2026-09-26T18:04:03Z",
+            "title_matches": true,
+            "authors_match_complete_byline": true,
+            "publication_year_matches": true,
+            "doi": null,
+            "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+            "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+          },
+          "rebound_from_content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+          "rebound_at": "2026-10-28T10:45:50.754667+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "duplicates": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:47:06.591497+00:00",
+          "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+          "evidence": {
+            "matches": [],
+            "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+            "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_inventory_records": 4041,
+            "scope": "Fresh DOI, source/resource URL and normalized-title comparison with current3644 public records and all prepared intake collections; unchanged immutable4041 upstream comparison reused. Corpus audit is an annotation of public records, not a new intake source."
+          }
+        },
+        "quality": {
+          "status": "passed",
+          "checked_at": "2026-10-27T23:05:42.201570+00:00",
+          "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+          "evidence": {
+            "quality_score": 32.82,
+            "quality_venue_score": 40.0,
+            "quality_citation_score": 0.0,
+            "quality_relevance_score": 35.29,
+            "quality_institution_score": 80.0,
+            "quality_institution_bonus": 10.0,
+            "quality_title_bonus": 0.0,
+            "quality_auto_threshold": 35.0,
+            "quality_review_threshold": 20.0,
+            "quality_core_term_gate": "pass",
+            "quality_relevance_gate": "pass",
+            "citation_count_known": true,
+            "quality_review_status": "human_quality_review",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+          "rebound_at": "2026-10-28T10:45:50.754667+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "schema": {
+          "status": "passed",
+          "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+          "checked_at": "2026-10-28T12:30:29.767124+00:00",
+          "evidence_sha256": "eeb9a6fe226440965509665fb7e4090d081be0e94a3a2081d44dabd8175ffc61",
+          "evidence": "Current main publisher on isolated one-record fixture, using current collection configuration; reviewed fields and saved taxonomy preserved."
+        },
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T10:47:55.473299+00:00",
+          "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+          "evidence": {
+            "classification": {
+              "Category": "AI/ML for Security",
+              "Investigation_Type": "Incident Response",
+              "OSINT_Source_Types": []
+            },
+            "response_id": "resp_0126493988ba9552016ae1d2da9e0087d1a892baf89e5f7954",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 616,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 33,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 649
+            },
+            "uncertainty_flags": []
+          },
+          "provenance": {
+            "GITHUB_RUN_ID": "40674876427",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_SHA": "4d66c4caf94c5d3a99dbedc411bdfa672d40aebf",
+            "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+            "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+          },
+          "request_id": "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951"
+        },
+        "final_source_revalidation": {
+          "status": "passed",
+          "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+          "checked_at": "2026-10-28T12:30:33.262241+00:00",
+          "evidence_sha256": "b079fc600ecd62f7666f5460ace0c722640a765c2d5c80ae4a206c3c43d44069",
+          "url": "https://arxiv.org/pdf/2606.10281v2",
+          "http_status": 200,
+          "bytes": 643965,
+          "method": "Full primary PDF hash matches previously inspected written resource; prior format/access/metadata evidence reused."
+        },
+        "completed_submission_integrity": {
+          "status": "passed",
+          "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+          "checked_at": "2026-10-28T12:30:33.262241+00:00",
+          "evidence_sha256": "bf8060d41e2d8c43be63f6af7cb3ae7c1c375799bfb935a045b571223ba95a7f"
+        }
+      },
+      "publication_approved": true,
+      "remaining_checks": [],
+      "release_status": "published_in_2026-10-28-completed-reviews",
+      "publication_receipt": "config/content_review_publication_receipts/2026-10-28-completed-reviews.json",
+      "updated_at": "2026-10-28T12:42:26.061729+00:00"
+    },
+    {
+      "key": "weekly/weekly-215139a72d69c0a2e1c2029e/4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9/1/1",
+      "collection": "weekly",
+      "candidate_id": "weekly-215139a72d69c0a2e1c2029e",
+      "review_number": 123,
+      "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+      "submission_id": "849e44fb-a08c-460f-8f91-681eb7e2b0a8",
+      "submission_revision": 1,
+      "assessment_version": 1,
+      "job_id": "assessment:849e44fb-a08c-460f-8f91-681eb7e2b0a8:weekly-215139a72d69c0a2e1c2029e",
+      "status": "ready_for_configured_release_path",
+      "checks": {
+        "format": {
+          "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "verified_document_type": "research_paper",
+            "resource_url": "https://arxiv.org/pdf/2605.26791v1",
+            "resource_sha256": "4079ea03ef3fc461aa1277d7dbb3c057ab6ceaabca1ea6f650e1a3db6d52fbe9",
+            "resource_bytes": 1073373,
+            "pdf_pages": 14,
+            "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+            "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+            "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+          },
+          "rebound_from_content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+          "rebound_at": "2026-10-28T10:45:50.754893+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "access": {
+          "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "resource_url": "https://arxiv.org/pdf/2605.26791v1",
+            "http_method": "GET",
+            "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+            "resource_sha256": "4079ea03ef3fc461aa1277d7dbb3c057ab6ceaabca1ea6f650e1a3db6d52fbe9",
+            "resource_bytes": 1073373,
+            "pdf_pages": 14,
+            "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+            "serial_provider_pacing_seconds": 0.5
+          },
+          "rebound_from_content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+          "rebound_at": "2026-10-28T10:45:50.754893+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "metadata": {
+          "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "authoritative_record": "https://arxiv.org/abs/2605.26791",
+            "identifier": "arXiv:2605.26791",
+            "version": "v1",
+            "submitted_at": "2026-05-26T10:01:50Z",
+            "revised_at": null,
+            "title_matches": true,
+            "authors_match_complete_byline": true,
+            "publication_year_matches": true,
+            "doi": null,
+            "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+            "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+          },
+          "rebound_from_content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+          "rebound_at": "2026-10-28T10:45:50.754893+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "duplicates": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:47:06.591497+00:00",
+          "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+          "evidence": {
+            "matches": [],
+            "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+            "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_inventory_records": 4041,
+            "scope": "Fresh DOI, source/resource URL and normalized-title comparison with current3644 public records and all prepared intake collections; unchanged immutable4041 upstream comparison reused. Corpus audit is an annotation of public records, not a new intake source."
+          }
+        },
+        "quality": {
+          "status": "passed",
+          "checked_at": "2026-10-27T23:05:42.201570+00:00",
+          "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+          "evidence": {
+            "quality_score": 27.24,
+            "quality_venue_score": 40.0,
+            "quality_citation_score": 0.0,
+            "quality_relevance_score": 52.94,
+            "quality_institution_score": 40.0,
+            "quality_institution_bonus": 0.0,
+            "quality_title_bonus": 0.0,
+            "quality_auto_threshold": 35.0,
+            "quality_review_threshold": 20.0,
+            "quality_core_term_gate": "pass",
+            "quality_relevance_gate": "pass",
+            "citation_count_known": true,
+            "quality_review_status": "human_quality_review",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+          "rebound_at": "2026-10-28T10:45:50.754893+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "schema": {
+          "status": "passed",
+          "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+          "checked_at": "2026-10-28T12:30:33.889145+00:00",
+          "evidence_sha256": "20eef20a514052f43bae03eabe7c59d0a0f448bc641011af61d855199564ea58",
+          "evidence": "Current main publisher on isolated one-record fixture, using current collection configuration; reviewed fields and saved taxonomy preserved."
+        },
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T10:47:56.543438+00:00",
+          "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+          "evidence": {
+            "classification": {
+              "Category": "Cyber Threat Intelligence",
+              "Investigation_Type": "Malware Analysis",
+              "OSINT_Source_Types": [
+                "Public Records",
+                "Code Repositories"
+              ]
+            },
+            "response_id": "resp_0518ddfb35679d1e016ae1d2db9fac87d1ac4b818efc68f3d2",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 662,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 30,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 692
+            },
+            "uncertainty_flags": []
+          },
+          "provenance": {
+            "GITHUB_RUN_ID": "40674876427",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_SHA": "4d66c4caf94c5d3a99dbedc411bdfa672d40aebf",
+            "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+            "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+          },
+          "request_id": "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951"
+        },
+        "final_source_revalidation": {
+          "status": "passed",
+          "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+          "checked_at": "2026-10-28T12:30:37.046540+00:00",
+          "evidence_sha256": "4079ea03ef3fc461aa1277d7dbb3c057ab6ceaabca1ea6f650e1a3db6d52fbe9",
+          "url": "https://arxiv.org/pdf/2605.26791v1",
+          "http_status": 200,
+          "bytes": 1073373,
+          "method": "Full primary PDF hash matches previously inspected written resource; prior format/access/metadata evidence reused."
+        },
+        "completed_submission_integrity": {
+          "status": "passed",
+          "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+          "checked_at": "2026-10-28T12:30:37.046540+00:00",
+          "evidence_sha256": "bff82f35d01ee2555be8b6f950ae95954fbb9f8c41ba014de9dfe150ae1d5701"
+        }
+      },
+      "publication_approved": true,
+      "remaining_checks": [],
+      "release_status": "published_in_2026-10-28-completed-reviews",
+      "publication_receipt": "config/content_review_publication_receipts/2026-10-28-completed-reviews.json",
+      "updated_at": "2026-10-28T12:42:26.061729+00:00"
+    },
+    {
+      "key": "weekly/weekly-24e99891c7a0a2479f0e8d9a/de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd/1/1",
+      "collection": "weekly",
+      "candidate_id": "weekly-24e99891c7a0a2479f0e8d9a",
+      "review_number": 141,
+      "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+      "submission_id": "849e44fb-a08c-460f-8f91-681eb7e2b0a8",
+      "submission_revision": 1,
+      "assessment_version": 1,
+      "job_id": "assessment:849e44fb-a08c-460f-8f91-681eb7e2b0a8:weekly-24e99891c7a0a2479f0e8d9a",
+      "status": "ready_for_configured_release_path",
+      "checks": {
+        "format": {
+          "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "verified_document_type": "research_paper",
+            "resource_url": "https://arxiv.org/pdf/2604.20378v1",
+            "resource_sha256": "0bc5b99310d77f80cacbace6bee663c6e1e75febc05818ccef3f134c720ee88b",
+            "resource_bytes": 1152747,
+            "pdf_pages": 8,
+            "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+            "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+            "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+          },
+          "rebound_from_content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+          "rebound_at": "2026-10-28T10:45:50.755214+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "access": {
+          "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "resource_url": "https://arxiv.org/pdf/2604.20378v1",
+            "http_method": "GET",
+            "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+            "resource_sha256": "0bc5b99310d77f80cacbace6bee663c6e1e75febc05818ccef3f134c720ee88b",
+            "resource_bytes": 1152747,
+            "pdf_pages": 8,
+            "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+            "serial_provider_pacing_seconds": 0.5
+          },
+          "rebound_from_content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+          "rebound_at": "2026-10-28T10:45:50.755214+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "metadata": {
+          "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "authoritative_record": "https://arxiv.org/abs/2604.20378",
+            "identifier": "arXiv:2604.20378",
+            "version": "v1",
+            "submitted_at": "2026-04-22T09:26:45Z",
+            "revised_at": null,
+            "title_matches": true,
+            "authors_match_complete_byline": true,
+            "publication_year_matches": true,
+            "doi": "10.48550/arxiv.2604.20378",
+            "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+            "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+          },
+          "rebound_from_content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+          "rebound_at": "2026-10-28T10:45:50.755214+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "duplicates": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:47:06.591497+00:00",
+          "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+          "evidence": {
+            "matches": [],
+            "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+            "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_inventory_records": 4041,
+            "scope": "Fresh DOI, source/resource URL and normalized-title comparison with current3644 public records and all prepared intake collections; unchanged immutable4041 upstream comparison reused. Corpus audit is an annotation of public records, not a new intake source."
+          }
+        },
+        "quality": {
+          "status": "passed",
+          "checked_at": "2026-10-27T23:05:42.201570+00:00",
+          "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+          "evidence": {
+            "quality_score": 22.82,
+            "quality_venue_score": 40.0,
+            "quality_citation_score": 0.0,
+            "quality_relevance_score": 35.29,
+            "quality_institution_score": 40.0,
+            "quality_institution_bonus": 0.0,
+            "quality_title_bonus": 0.0,
+            "quality_auto_threshold": 35.0,
+            "quality_review_threshold": 20.0,
+            "quality_core_term_gate": "pass",
+            "quality_relevance_gate": "pass",
+            "citation_count_known": true,
+            "quality_review_status": "human_quality_review",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+          "rebound_at": "2026-10-28T10:45:50.755214+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "schema": {
+          "status": "passed",
+          "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+          "checked_at": "2026-10-28T12:30:37.650981+00:00",
+          "evidence_sha256": "c4cc07b97a61e67ba741d8343641a5cba35869691256851f92a10d20ef4fd814",
+          "evidence": "Current main publisher on isolated one-record fixture, using current collection configuration; reviewed fields and saved taxonomy preserved."
+        },
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T10:47:57.468550+00:00",
+          "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+          "evidence": {
+            "classification": {
+              "Category": "Digital Forensics & Evidence",
+              "Investigation_Type": "Forensic Investigation",
+              "OSINT_Source_Types": []
+            },
+            "response_id": "resp_007981fdebf26c0e016ae1d2dcad3887d1baddcc3aa5a1261d",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 647,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 25,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 672
+            },
+            "uncertainty_flags": []
+          },
+          "provenance": {
+            "GITHUB_RUN_ID": "40674876427",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_SHA": "4d66c4caf94c5d3a99dbedc411bdfa672d40aebf",
+            "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+            "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+          },
+          "request_id": "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951"
+        },
+        "final_source_revalidation": {
+          "status": "passed",
+          "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+          "checked_at": "2026-10-28T12:30:42.674332+00:00",
+          "evidence_sha256": "0bc5b99310d77f80cacbace6bee663c6e1e75febc05818ccef3f134c720ee88b",
+          "url": "https://arxiv.org/pdf/2604.20378v1",
+          "http_status": 200,
+          "bytes": 1152747,
+          "method": "Full primary PDF hash matches previously inspected written resource; prior format/access/metadata evidence reused."
+        },
+        "completed_submission_integrity": {
+          "status": "passed",
+          "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+          "checked_at": "2026-10-28T12:30:42.674332+00:00",
+          "evidence_sha256": "d648ab1287057305b0a7d35ec54fe8988acbee3c533d2e6ce23aabd8645972b2"
+        }
+      },
+      "publication_approved": true,
+      "remaining_checks": [],
+      "release_status": "published_in_2026-10-28-completed-reviews",
+      "publication_receipt": "config/content_review_publication_receipts/2026-10-28-completed-reviews.json",
+      "updated_at": "2026-10-28T12:42:26.061729+00:00"
+    },
+    {
+      "key": "weekly/weekly-0ee24fb49a0062004577ab3c/33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7/1/1",
+      "collection": "weekly",
+      "candidate_id": "weekly-0ee24fb49a0062004577ab3c",
+      "review_number": 144,
+      "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+      "submission_id": "849e44fb-a08c-460f-8f91-681eb7e2b0a8",
+      "submission_revision": 1,
+      "assessment_version": 1,
+      "job_id": "assessment:849e44fb-a08c-460f-8f91-681eb7e2b0a8:weekly-0ee24fb49a0062004577ab3c",
+      "status": "ready_for_configured_release_path",
+      "checks": {
+        "format": {
+          "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "verified_document_type": "research_paper",
+            "resource_url": "https://arxiv.org/pdf/2605.11619v1",
+            "resource_sha256": "1b9a44bd786cfc9f471b7fd0cc49ba13cea64821af85fa12cf7e11aa5d2cc406",
+            "resource_bytes": 1055236,
+            "pdf_pages": 19,
+            "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+            "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+            "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+          },
+          "rebound_from_content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+          "rebound_at": "2026-10-28T10:45:50.755453+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "access": {
+          "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "resource_url": "https://arxiv.org/pdf/2605.11619v1",
+            "http_method": "GET",
+            "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+            "resource_sha256": "1b9a44bd786cfc9f471b7fd0cc49ba13cea64821af85fa12cf7e11aa5d2cc406",
+            "resource_bytes": 1055236,
+            "pdf_pages": 19,
+            "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+            "serial_provider_pacing_seconds": 0.5
+          },
+          "rebound_from_content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+          "rebound_at": "2026-10-28T10:45:50.755453+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "metadata": {
+          "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+          "checked_at": "2026-10-28T10:45:00Z",
+          "status": "passed",
+          "evidence": {
+            "authoritative_record": "https://arxiv.org/abs/2605.11619",
+            "identifier": "arXiv:2605.11619",
+            "version": "v1",
+            "submitted_at": "2026-05-12T06:46:40Z",
+            "revised_at": null,
+            "title_matches": true,
+            "authors_match_complete_byline": true,
+            "publication_year_matches": true,
+            "doi": null,
+            "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+            "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+          },
+          "rebound_from_content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+          "rebound_at": "2026-10-28T10:45:50.755453+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "duplicates": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:47:06.591497+00:00",
+          "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+          "evidence": {
+            "matches": [],
+            "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+            "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_inventory_records": 4041,
+            "scope": "Fresh DOI, source/resource URL and normalized-title comparison with current3644 public records and all prepared intake collections; unchanged immutable4041 upstream comparison reused. Corpus audit is an annotation of public records, not a new intake source."
+          }
+        },
+        "quality": {
+          "status": "passed",
+          "checked_at": "2026-10-27T23:05:42.201570+00:00",
+          "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+          "evidence": {
+            "quality_score": 22.82,
+            "quality_venue_score": 40.0,
+            "quality_citation_score": 0.0,
+            "quality_relevance_score": 35.29,
+            "quality_institution_score": 40.0,
+            "quality_institution_bonus": 0.0,
+            "quality_title_bonus": 0.0,
+            "quality_auto_threshold": 35.0,
+            "quality_review_threshold": 20.0,
+            "quality_core_term_gate": "pass",
+            "quality_relevance_gate": "pass",
+            "citation_count_known": true,
+            "quality_review_status": "human_quality_review",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+          "rebound_at": "2026-10-28T10:45:50.755453+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "schema": {
+          "status": "passed",
+          "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+          "checked_at": "2026-10-28T12:30:43.278502+00:00",
+          "evidence_sha256": "a596bb009efa7aad01f1cfaf8928ab0cd401e6d99734a634b52d2d5c487decf4",
+          "evidence": "Current main publisher on isolated one-record fixture, using current collection configuration; reviewed fields and saved taxonomy preserved."
+        },
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T10:47:58.630873+00:00",
+          "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+          "evidence": {
+            "classification": {
+              "Category": "Malware & Exploits",
+              "Investigation_Type": "Phishing Analysis",
+              "OSINT_Source_Types": [
+                "Public Records",
+                "News Media",
+                "Forums & Communities",
+                "Other"
+              ]
+            },
+            "response_id": "resp_001ccb845caa8b58016ae1d2dd9cfc87d18e8652f4765aa2fb",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 753,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 38,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 791
+            },
+            "uncertainty_flags": []
+          },
+          "provenance": {
+            "GITHUB_RUN_ID": "40674876427",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_SHA": "4d66c4caf94c5d3a99dbedc411bdfa672d40aebf",
+            "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+            "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+          },
+          "request_id": "81a6a32494b094ed4c821cd2c614ef9fea944b162560232bf019fad9785d7951"
+        },
+        "final_source_revalidation": {
+          "status": "passed",
+          "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+          "checked_at": "2026-10-28T12:30:46.934450+00:00",
+          "evidence_sha256": "1b9a44bd786cfc9f471b7fd0cc49ba13cea64821af85fa12cf7e11aa5d2cc406",
+          "url": "https://arxiv.org/pdf/2605.11619v1",
+          "http_status": 200,
+          "bytes": 1055236,
+          "method": "Full primary PDF hash matches previously inspected written resource; prior format/access/metadata evidence reused."
+        },
+        "completed_submission_integrity": {
+          "status": "passed",
+          "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+          "checked_at": "2026-10-28T12:30:46.934450+00:00",
+          "evidence_sha256": "8baa0f259273c896239ce33b68a2439a82286f09391a0da8d7366037395efdcd"
+        }
+      },
+      "publication_approved": true,
+      "remaining_checks": [],
+      "release_status": "published_in_2026-10-28-completed-reviews",
+      "publication_receipt": "config/content_review_publication_receipts/2026-10-28-completed-reviews.json",
+      "updated_at": "2026-10-28T12:42:26.061729+00:00"
+    },
+    {
+      "key": "weekly/weekly-addfd442dca45b7fff7c9252/335ae9b23c3139a9fa351e9e609054f74a55f0808e8075fd06c6edfd2517cfbe/1/1",
+      "collection": "weekly",
+      "candidate_id": "weekly-addfd442dca45b7fff7c9252",
+      "review_number": 82,
+      "content_sha256": "335ae9b23c3139a9fa351e9e609054f74a55f0808e8075fd06c6edfd2517cfbe",
+      "submission_id": "ee48bbec-43d8-4d39-92c9-457bb901d1b7",
+      "submission_revision": 1,
+      "assessment_version": 1,
+      "job_id": "assessment:ee48bbec-43d8-4d39-92c9-457bb901d1b7:weekly-addfd442dca45b7fff7c9252",
+      "status": "ready_for_configured_release_path",
+      "checks": {
+        "format": {
+          "status": "passed",
+          "checked_at": "2026-10-28T09:48:23.409131+00:00",
+          "content_sha256": "335ae9b23c3139a9fa351e9e609054f74a55f0808e8075fd06c6edfd2517cfbe",
+          "evidence": {
+            "url": "https://arxiv.org/pdf/2610.01893v1",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "a522a29d0411916af64adf7dcae4a5f1143584ea53e782681830082ffd87fef4",
+            "bytes": 4022040,
+            "pages": 9,
+            "arxiv_id": "2610.01893v1",
+            "inspection": "Actual PDF title, complete author byline, year, abstract and opening substantive prose inspected. Written research paper; no inferred peer-review status or full scientific critique."
+          },
+          "rebound_from_content_sha256": "472a5308cd5ce1d3891e0865bd88a7f4b0217a86a1c225a02fa5904c2b1fed13",
+          "rebound_at": "2026-10-28T09:48:23.409131+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "access": {
+          "status": "passed",
+          "checked_at": "2026-10-28T09:48:23.409131+00:00",
+          "content_sha256": "335ae9b23c3139a9fa351e9e609054f74a55f0808e8075fd06c6edfd2517cfbe",
+          "evidence": {
+            "url": "https://arxiv.org/pdf/2610.01893v1",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "a522a29d0411916af64adf7dcae4a5f1143584ea53e782681830082ffd87fef4",
+            "bytes": 4022040,
+            "pages": 9,
+            "arxiv_id": "2610.01893v1",
+            "inspection": "Actual PDF title, complete author byline, year, abstract and opening substantive prose inspected. Written research paper; no inferred peer-review status or full scientific critique."
+          },
+          "rebound_from_content_sha256": "472a5308cd5ce1d3891e0865bd88a7f4b0217a86a1c225a02fa5904c2b1fed13",
+          "rebound_at": "2026-10-28T09:48:23.409131+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "metadata": {
+          "status": "passed",
+          "checked_at": "2026-10-28T09:48:23.409131+00:00",
+          "content_sha256": "335ae9b23c3139a9fa351e9e609054f74a55f0808e8075fd06c6edfd2517cfbe",
+          "evidence": {
+            "url": "https://arxiv.org/pdf/2610.01893v1",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "a522a29d0411916af64adf7dcae4a5f1143584ea53e782681830082ffd87fef4",
+            "bytes": 4022040,
+            "pages": 9,
+            "arxiv_id": "2610.01893v1",
+            "inspection": "Actual PDF title, complete author byline, year, abstract and opening substantive prose inspected. Written research paper; no inferred peer-review status or full scientific critique.",
+            "title": "A Structured State Space Sequence Model for Multi-Class Classification of Malware",
+            "authors": [
+              "Emmanuela Andam",
+              "Rana Shaaban",
+              "Emanuel Grant",
+              "Naima Kaabouch"
+            ],
+            "year": 2026,
+            "comparison": {
+              "title_matches": true,
+              "all_authors_match": true,
+              "year_matches": true
+            },
+            "doi": null,
+            "citation_count": null,
+            "limitations": "Existing source scores unchanged; citations not newly verified. No inferred zero/absence."
+          },
+          "rebound_from_content_sha256": "472a5308cd5ce1d3891e0865bd88a7f4b0217a86a1c225a02fa5904c2b1fed13",
+          "rebound_at": "2026-10-28T09:48:23.409131+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "duplicates": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:47:06.591497+00:00",
+          "content_sha256": "335ae9b23c3139a9fa351e9e609054f74a55f0808e8075fd06c6edfd2517cfbe",
+          "evidence": {
+            "matches": [],
+            "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+            "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_inventory_records": 4041,
+            "scope": "Fresh DOI, source/resource URL and normalized-title comparison with current3644 public records and all prepared intake collections; unchanged immutable4041 upstream comparison reused. Corpus audit is an annotation of public records, not a new intake source."
+          }
+        },
+        "quality": {
+          "status": "passed",
+          "checked_at": "2026-10-27T23:05:42.201570+00:00",
+          "content_sha256": "335ae9b23c3139a9fa351e9e609054f74a55f0808e8075fd06c6edfd2517cfbe",
+          "evidence": {
+            "quality_score": 29.06,
+            "quality_venue_score": 20.0,
+            "quality_citation_score": 0.0,
+            "quality_relevance_score": 88.24,
+            "quality_institution_score": 40.0,
+            "quality_institution_bonus": 0.0,
+            "quality_title_bonus": 0.0,
+            "quality_auto_threshold": 35.0,
+            "quality_review_threshold": 20.0,
+            "quality_core_term_gate": "pass",
+            "quality_relevance_gate": "pass",
+            "citation_count_known": false,
+            "quality_review_status": "human_quality_review",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "472a5308cd5ce1d3891e0865bd88a7f4b0217a86a1c225a02fa5904c2b1fed13",
+          "rebound_at": "2026-10-28T09:48:23.409131+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "schema": {
+          "status": "passed",
+          "content_sha256": "335ae9b23c3139a9fa351e9e609054f74a55f0808e8075fd06c6edfd2517cfbe",
+          "checked_at": "2026-10-28T12:30:47.528041+00:00",
+          "evidence_sha256": "e72c351cd4c98952a2e6bf2dbc4711baffac0656a0374590b7866353bcff395a",
+          "evidence": "Current main publisher on isolated one-record fixture, using current collection configuration; reviewed fields and saved taxonomy preserved."
+        },
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T09:49:55.331984+00:00",
+          "content_sha256": "335ae9b23c3139a9fa351e9e609054f74a55f0808e8075fd06c6edfd2517cfbe",
+          "evidence": {
+            "classification": {
+              "Category": "Malware & Exploits",
+              "Investigation_Type": "Malware Analysis",
+              "OSINT_Source_Types": [
+                "Other"
+              ]
+            },
+            "response_id": "resp_0ddfb3edd69bec95016ae1c5421c2887d1858686dbfdd29141",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 648,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 28,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 676
+            },
+            "uncertainty_flags": []
+          },
+          "provenance": {
+            "GITHUB_RUN_ID": "40667231581",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_SHA": "61b0e27a0cf8a5083044abbedec4c287d1c90eab",
+            "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+            "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+          },
+          "request_id": "e86b1f96ab699884bc1d17e353b8cf593277cfc8cebfae0b5e8723b3a148ac24"
+        },
+        "final_source_revalidation": {
+          "status": "passed",
+          "content_sha256": "335ae9b23c3139a9fa351e9e609054f74a55f0808e8075fd06c6edfd2517cfbe",
+          "checked_at": "2026-10-28T12:30:51.413358+00:00",
+          "evidence_sha256": "a522a29d0411916af64adf7dcae4a5f1143584ea53e782681830082ffd87fef4",
+          "url": "https://arxiv.org/pdf/2610.01893v1",
+          "http_status": 200,
+          "bytes": 4022040,
+          "method": "Full primary PDF hash matches previously inspected written resource; prior format/access/metadata evidence reused."
+        },
+        "completed_submission_integrity": {
+          "status": "passed",
+          "content_sha256": "335ae9b23c3139a9fa351e9e609054f74a55f0808e8075fd06c6edfd2517cfbe",
+          "checked_at": "2026-10-28T12:30:51.413358+00:00",
+          "evidence_sha256": "7cff94456f9fbc54df4282fb9ab9154c8c8ff30af31d5045e14765bbacc52911"
+        }
+      },
+      "publication_approved": true,
+      "remaining_checks": [],
+      "release_status": "published_in_2026-10-28-completed-reviews",
+      "publication_receipt": "config/content_review_publication_receipts/2026-10-28-completed-reviews.json",
+      "updated_at": "2026-10-28T12:42:26.061729+00:00"
+    },
+    {
+      "key": "weekly/weekly-59067be454e27fa230fc5139/89112d238644e70ff8eaab74c19a45004cb7b6c55258cf3064d9f599eb7ac5b1/1/1",
+      "collection": "weekly",
+      "candidate_id": "weekly-59067be454e27fa230fc5139",
+      "review_number": 89,
+      "content_sha256": "89112d238644e70ff8eaab74c19a45004cb7b6c55258cf3064d9f599eb7ac5b1",
+      "submission_id": "ee48bbec-43d8-4d39-92c9-457bb901d1b7",
+      "submission_revision": 1,
+      "assessment_version": 1,
+      "job_id": "assessment:ee48bbec-43d8-4d39-92c9-457bb901d1b7:weekly-59067be454e27fa230fc5139",
+      "status": "ready_for_configured_release_path",
+      "checks": {
+        "format": {
+          "status": "passed",
+          "checked_at": "2026-10-28T09:48:23.409131+00:00",
+          "content_sha256": "89112d238644e70ff8eaab74c19a45004cb7b6c55258cf3064d9f599eb7ac5b1",
+          "evidence": {
+            "url": "https://arxiv.org/pdf/2610.29747",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "57fc2459714e3bd837c813f03cdcb73b397b9a969b1f61f5e52a069ffae7869b",
+            "bytes": 247886,
+            "pages": 14,
+            "arxiv_id": "2610.29747",
+            "inspection": "Actual PDF title, complete author byline, year, abstract and opening substantive prose inspected. Written research paper; no inferred peer-review status or full scientific critique."
+          },
+          "rebound_from_content_sha256": "e7d3aa99c4d4a7e8f976482d7236b180844a5ae3add756e9ce8eab1bacadc553",
+          "rebound_at": "2026-10-28T09:48:23.409131+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "access": {
+          "status": "passed",
+          "checked_at": "2026-10-28T09:48:23.409131+00:00",
+          "content_sha256": "89112d238644e70ff8eaab74c19a45004cb7b6c55258cf3064d9f599eb7ac5b1",
+          "evidence": {
+            "url": "https://arxiv.org/pdf/2610.29747",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "57fc2459714e3bd837c813f03cdcb73b397b9a969b1f61f5e52a069ffae7869b",
+            "bytes": 247886,
+            "pages": 14,
+            "arxiv_id": "2610.29747",
+            "inspection": "Actual PDF title, complete author byline, year, abstract and opening substantive prose inspected. Written research paper; no inferred peer-review status or full scientific critique."
+          },
+          "rebound_from_content_sha256": "e7d3aa99c4d4a7e8f976482d7236b180844a5ae3add756e9ce8eab1bacadc553",
+          "rebound_at": "2026-10-28T09:48:23.409131+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "metadata": {
+          "status": "passed",
+          "checked_at": "2026-10-28T09:48:23.409131+00:00",
+          "content_sha256": "89112d238644e70ff8eaab74c19a45004cb7b6c55258cf3064d9f599eb7ac5b1",
+          "evidence": {
+            "url": "https://arxiv.org/pdf/2610.29747",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "57fc2459714e3bd837c813f03cdcb73b397b9a969b1f61f5e52a069ffae7869b",
+            "bytes": 247886,
+            "pages": 14,
+            "arxiv_id": "2610.29747",
+            "inspection": "Actual PDF title, complete author byline, year, abstract and opening substantive prose inspected. Written research paper; no inferred peer-review status or full scientific critique.",
+            "title": "Prompt Injection Through Forensic Evidence: A Taxonomy and Proof of Concept of Anti-Forensic Attacks on LLM-Assisted Digital Investigations",
+            "authors": [
+              "Frank Breitinger",
+              "Jan Gruber",
+              "Christopher Hargreaves",
+              "Jan-Niclas Hilgert",
+              "Gaëtan Michelet",
+              "Mark Scanlon"
+            ],
+            "year": 2026,
+            "comparison": {
+              "title_matches": true,
+              "all_authors_match": true,
+              "year_matches": true
+            },
+            "doi": "10.48550/arxiv.2610.29747",
+            "citation_count": null,
+            "limitations": "Existing source scores unchanged; citations not newly verified. No inferred zero/absence."
+          },
+          "rebound_from_content_sha256": "e7d3aa99c4d4a7e8f976482d7236b180844a5ae3add756e9ce8eab1bacadc553",
+          "rebound_at": "2026-10-28T09:48:23.409131+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "duplicates": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:47:06.591497+00:00",
+          "content_sha256": "89112d238644e70ff8eaab74c19a45004cb7b6c55258cf3064d9f599eb7ac5b1",
+          "evidence": {
+            "matches": [],
+            "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+            "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_inventory_records": 4041,
+            "scope": "Fresh DOI, source/resource URL and normalized-title comparison with current3644 public records and all prepared intake collections; unchanged immutable4041 upstream comparison reused. Corpus audit is an annotation of public records, not a new intake source."
+          }
+        },
+        "quality": {
+          "status": "passed",
+          "checked_at": "2026-10-27T23:05:42.201570+00:00",
+          "content_sha256": "89112d238644e70ff8eaab74c19a45004cb7b6c55258cf3064d9f599eb7ac5b1",
+          "evidence": {
+            "quality_score": 28.41,
+            "quality_venue_score": 40.0,
+            "quality_citation_score": 0.0,
+            "quality_relevance_score": 17.65,
+            "quality_institution_score": 80.0,
+            "quality_institution_bonus": 10.0,
+            "quality_title_bonus": 0.0,
+            "quality_auto_threshold": 35.0,
+            "quality_review_threshold": 20.0,
+            "quality_core_term_gate": "pass",
+            "quality_relevance_gate": "pass",
+            "citation_count_known": true,
+            "quality_review_status": "human_quality_review",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "e7d3aa99c4d4a7e8f976482d7236b180844a5ae3add756e9ce8eab1bacadc553",
+          "rebound_at": "2026-10-28T09:48:23.409131+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "schema": {
+          "status": "passed",
+          "content_sha256": "89112d238644e70ff8eaab74c19a45004cb7b6c55258cf3064d9f599eb7ac5b1",
+          "checked_at": "2026-10-28T12:30:52.018794+00:00",
+          "evidence_sha256": "e2787c1ac3c88e55598832556027251ac2c887a488e4c80521a2432d4909f5f4",
+          "evidence": "Current main publisher on isolated one-record fixture, using current collection configuration; reviewed fields and saved taxonomy preserved."
+        },
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T09:49:56.744668+00:00",
+          "content_sha256": "89112d238644e70ff8eaab74c19a45004cb7b6c55258cf3064d9f599eb7ac5b1",
+          "evidence": {
+            "classification": {
+              "Category": "Digital Forensics & Evidence",
+              "Investigation_Type": "Forensic Investigation",
+              "OSINT_Source_Types": [
+                "Other"
+              ]
+            },
+            "response_id": "resp_06f33f9871d26641016ae1c5437d4887d1b6bb46a0fca5dbbc",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 649,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 27,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 676
+            },
+            "uncertainty_flags": []
+          },
+          "provenance": {
+            "GITHUB_RUN_ID": "40667231581",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_SHA": "61b0e27a0cf8a5083044abbedec4c287d1c90eab",
+            "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+            "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+          },
+          "request_id": "e86b1f96ab699884bc1d17e353b8cf593277cfc8cebfae0b5e8723b3a148ac24"
+        },
+        "final_source_revalidation": {
+          "status": "passed",
+          "content_sha256": "89112d238644e70ff8eaab74c19a45004cb7b6c55258cf3064d9f599eb7ac5b1",
+          "checked_at": "2026-10-28T12:30:56.782475+00:00",
+          "evidence_sha256": "57fc2459714e3bd837c813f03cdcb73b397b9a969b1f61f5e52a069ffae7869b",
+          "url": "https://arxiv.org/pdf/2610.29747",
+          "http_status": 200,
+          "bytes": 247886,
+          "method": "Full primary PDF hash matches previously inspected written resource; prior format/access/metadata evidence reused."
+        },
+        "completed_submission_integrity": {
+          "status": "passed",
+          "content_sha256": "89112d238644e70ff8eaab74c19a45004cb7b6c55258cf3064d9f599eb7ac5b1",
+          "checked_at": "2026-10-28T12:30:56.782475+00:00",
+          "evidence_sha256": "bac4de1ce89f74adc749cbbaa3ee988335ed0fd9ff5f5b1f66457438f30c37b1"
+        }
+      },
+      "publication_approved": true,
+      "remaining_checks": [],
+      "release_status": "published_in_2026-10-28-completed-reviews",
+      "publication_receipt": "config/content_review_publication_receipts/2026-10-28-completed-reviews.json",
+      "updated_at": "2026-10-28T12:42:26.061729+00:00"
+    },
+    {
+      "key": "weekly/weekly-ac42e40c7a771d5d961a5bdb/26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265/1/1",
+      "collection": "weekly",
+      "candidate_id": "weekly-ac42e40c7a771d5d961a5bdb",
+      "review_number": 113,
+      "content_sha256": "26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265",
+      "submission_id": "f8f65c7f-5bc2-486c-bb2c-73d28af3dfe0",
+      "submission_revision": 1,
+      "assessment_version": 1,
+      "job_id": "assessment:f8f65c7f-5bc2-486c-bb2c-73d28af3dfe0:weekly-ac42e40c7a771d5d961a5bdb",
+      "status": "ready_for_configured_release_path",
+      "checks": {
+        "format": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:47:06.591497+00:00",
+          "content_sha256": "26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265",
+          "evidence": {
+            "resource_url": "https://arxiv.org/pdf/2605.22604",
+            "resource_sha256": "e0b99a7d8707891c5f4e55f9ab4a73e6b45492108a8b73737659ade91f0757b0",
+            "resource_bytes": 1149048,
+            "pages": 14,
+            "inspection": "Actual PDF signature, complete title/byline, abstract and substantive opening prose inspected; written research paper verified. No peer-review claim."
+          },
+          "rebound_from_content_sha256": "5f140484a5b06d1f4a00486ebb36cc4317b35ffc2f7b43eab3f6edc517314dbc",
+          "rebound_at": "2026-10-28T11:47:06.591497+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "access": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:47:06.591497+00:00",
+          "content_sha256": "26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265",
+          "evidence": {
+            "resource_url": "https://arxiv.org/pdf/2605.22604",
+            "resource_sha256": "e0b99a7d8707891c5f4e55f9ab4a73e6b45492108a8b73737659ade91f0757b0",
+            "resource_bytes": 1149048,
+            "pages": 14,
+            "inspection": "Actual PDF signature, complete title/byline, abstract and substantive opening prose inspected; written research paper verified. No peer-review claim."
+          },
+          "rebound_from_content_sha256": "5f140484a5b06d1f4a00486ebb36cc4317b35ffc2f7b43eab3f6edc517314dbc",
+          "rebound_at": "2026-10-28T11:47:06.591497+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "metadata": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:47:06.591497+00:00",
+          "content_sha256": "26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265",
+          "evidence": {
+            "record_url": "https://arxiv.org/abs/2605.22604",
+            "title_matches": true,
+            "complete_authors_match": true,
+            "year": 2026,
+            "identifier": "2605.22604",
+            "doi": null,
+            "comparison": "Primary arXiv title and byline match PDF and manifest; arXiv submission21May2026."
+          },
+          "rebound_from_content_sha256": "5f140484a5b06d1f4a00486ebb36cc4317b35ffc2f7b43eab3f6edc517314dbc",
+          "rebound_at": "2026-10-28T11:47:06.591497+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "duplicates": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:47:06.591497+00:00",
+          "content_sha256": "26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265",
+          "evidence": {
+            "matches": [],
+            "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+            "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_inventory_records": 4041,
+            "scope": "Fresh DOI, source/resource URL and normalized-title comparison with current3644 public records and all prepared intake collections; unchanged immutable4041 upstream comparison reused. Corpus audit is an annotation of public records, not a new intake source."
+          },
+          "rebound_from_content_sha256": "5f140484a5b06d1f4a00486ebb36cc4317b35ffc2f7b43eab3f6edc517314dbc",
+          "rebound_at": "2026-10-28T11:47:06.591497+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "quality": {
+          "status": "passed",
+          "checked_at": "2026-10-27T23:05:42.201570+00:00",
+          "content_sha256": "26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265",
+          "evidence": {
+            "quality_score": 27.82,
+            "quality_venue_score": 40.0,
+            "quality_citation_score": 0.0,
+            "quality_relevance_score": 35.29,
+            "quality_institution_score": 40.0,
+            "quality_institution_bonus": 0.0,
+            "quality_title_bonus": 5.0,
+            "quality_auto_threshold": 35.0,
+            "quality_review_threshold": 20.0,
+            "quality_core_term_gate": "pass",
+            "quality_relevance_gate": "pass",
+            "citation_count_known": true,
+            "quality_review_status": "human_quality_review",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "5f140484a5b06d1f4a00486ebb36cc4317b35ffc2f7b43eab3f6edc517314dbc",
+          "rebound_at": "2026-10-28T11:47:06.591497+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "schema": {
+          "status": "passed",
+          "content_sha256": "26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265",
+          "checked_at": "2026-10-28T12:30:57.412474+00:00",
+          "evidence_sha256": "8558d835a37e7500bf8fc418a781ad6727ef7b8858e9cb22006971b3c73b4449",
+          "evidence": "Current main publisher on isolated one-record fixture, using current collection configuration; reviewed fields and saved taxonomy preserved."
+        },
+        "taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-10-28T11:48:23.223933+00:00",
+          "content_sha256": "26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265",
+          "evidence": {
+            "classification": {
+              "Category": "AI/ML for Security",
+              "Investigation_Type": "Other",
+              "OSINT_Source_Types": [
+                "Other"
+              ]
+            },
+            "response_id": "resp_098ce625b3f41f76016ae1e105d34887d1a55c8467c0024c1c",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 620,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 25,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 645
+            },
+            "uncertainty_flags": [
+              "Investigation_Type_other"
+            ]
+          },
+          "provenance": {
+            "GITHUB_RUN_ID": "40682716745",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_SHA": "a8be0ddafd4deda31ae29cbe19b2bcd95dda3b95",
+            "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+            "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+          },
+          "request_id": "f25c59ee65f26041554506c96b989562864a4420e8407e8ce70a69c47100283f"
+        },
+        "final_source_revalidation": {
+          "status": "passed",
+          "content_sha256": "26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265",
+          "checked_at": "2026-10-28T12:31:00.818336+00:00",
+          "evidence_sha256": "e0b99a7d8707891c5f4e55f9ab4a73e6b45492108a8b73737659ade91f0757b0",
+          "url": "https://arxiv.org/pdf/2605.22604",
+          "http_status": 200,
+          "bytes": 1149048,
+          "method": "Full primary PDF hash matches previously inspected written resource; prior format/access/metadata evidence reused."
+        },
+        "completed_submission_integrity": {
+          "status": "passed",
+          "content_sha256": "26eb8b5188a9c9417314af8180d8019b60651b27c5805d12538b7db16926a265",
+          "checked_at": "2026-10-28T12:31:00.818336+00:00",
+          "evidence_sha256": "4d22087a3644012ffe0624879ada51222052738edccb3e03d09a0930794a6786"
+        }
+      },
+      "publication_approved": true,
+      "remaining_checks": [],
+      "release_status": "published_in_2026-10-28-completed-reviews",
+      "publication_receipt": "config/content_review_publication_receipts/2026-10-28-completed-reviews.json",
+      "updated_at": "2026-10-28T12:42:26.061729+00:00"
     }
   ],
   "completed_job_ids": [
@@ -35749,11 +37174,19 @@
     "assessment:59ec08f5-d1ab-4b1a-80f3-83e8d26308a2:weekly-b9a00817192f56a2637fedd0",
     "assessment:59ec08f5-d1ab-4b1a-80f3-83e8d26308a2:weekly-c1d9cbd325a1dadac987f1d0",
     "assessment:59ec08f5-d1ab-4b1a-80f3-83e8d26308a2:weekly-cbf0c6c0e3246f50876c6b97",
-    "assessment:59ec08f5-d1ab-4b1a-80f3-83e8d26308a2:weekly-ec276c64538042bd9bad4786"
+    "assessment:59ec08f5-d1ab-4b1a-80f3-83e8d26308a2:weekly-ec276c64538042bd9bad4786",
+    "assessment:849e44fb-a08c-460f-8f91-681eb7e2b0a8:weekly-745c7f10cefebb4faec0cffe",
+    "assessment:849e44fb-a08c-460f-8f91-681eb7e2b0a8:weekly-cc03c13fc15e6a2896786ad3",
+    "assessment:849e44fb-a08c-460f-8f91-681eb7e2b0a8:weekly-215139a72d69c0a2e1c2029e",
+    "assessment:849e44fb-a08c-460f-8f91-681eb7e2b0a8:weekly-24e99891c7a0a2479f0e8d9a",
+    "assessment:849e44fb-a08c-460f-8f91-681eb7e2b0a8:weekly-0ee24fb49a0062004577ab3c",
+    "assessment:ee48bbec-43d8-4d39-92c9-457bb901d1b7:weekly-addfd442dca45b7fff7c9252",
+    "assessment:ee48bbec-43d8-4d39-92c9-457bb901d1b7:weekly-59067be454e27fa230fc5139",
+    "assessment:f8f65c7f-5bc2-486c-bb2c-73d28af3dfe0:weekly-ac42e40c7a771d5d961a5bdb"
   ],
   "summary": {
-    "tracked_accepted": 297,
-    "complete": 46,
+    "tracked_accepted": 305,
+    "complete": 54,
     "held": 251,
     "fresh_pdf_access_and_front_matter_passed": 12,
     "paid_classification": "isolated_route_verified; legacy accepted records await per-record prerequisites",
@@ -35761,13 +37194,14 @@
       "requests": 0,
       "tokens": 0
     },
-    "no_publication_authorized": true,
+    "no_publication_authorized": false,
     "citation_registry_lookups_completed": 24,
     "verified_citation_counts": 0,
     "legacy_abstracts_reachability_and_material_verified": 10,
     "verified_posters": 1,
     "retryable_link_failures": 1,
-    "legacy_accepted_paid_requests": 0
+    "legacy_accepted_paid_requests": 0,
+    "latest_authorized_release": "2026-10-28-completed-reviews"
   },
   "provenance": "Real Virus Bulletin batch5 completed submission; no production test decisions and no fabricated completed checks.",
   "continuation_runs": [

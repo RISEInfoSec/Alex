@@ -1,28 +1,25 @@
 {
   "schema_version": 1,
   "phase": "active",
-  "ready_total": 9,
+  "ready_total": 0,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": null,
-  "lease": {
-    "owner": "apply-final-reviews-2026-10-28",
-    "expires_at": "2026-10-28T12:55:30.071Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
-    "weekly": 9,
+    "weekly": 0,
     "virusbulletin": 0,
     "apwg": 0
   },
   "unattended_access_verified_at": "2026-10-27T22:40:36Z",
   "verification_result": "Unattended access verified: production D1 binding DB exposes review_decisions, review_drafts, review_jobs and review_submissions; review_jobs read succeeded (empty). Branch source registry config/review_console.json read successfully (SOUPS, APWG, Virus Bulletin; weekly not yet registered). Initial-fill lease and all counts preserved; no candidate or assessment mutation.",
-  "weekly_prepared_batches": 3,
-  "pending_mechanical_jobs": 12,
+  "weekly_prepared_batches": 0,
+  "pending_mechanical_jobs": 19,
   "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
   "workflow": "preflight_first",
   "preflight_pending": 195,
@@ -30,14 +27,14 @@
     "soups": 100,
     "weekly": 150
   },
-  "global_deficit": 241,
+  "global_deficit": 250,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-28T11:50:42.717Z",
-  "last_action": "Verified two additional weekly primary PDFs; cleared one paper through paid taxonomy/schema and substantive abstract assessment, sealed weekly batch13. Another paper retains a metadata year-conflict hold. Refreshed duplicate evidence for all pending cleared weekly papers. Ready9/250; SOUPS0/5 full batches. No new intake submissions. Corpus-audit submissions and removal requests remain separate.",
+  "last_completed_at": "2026-10-28T12:43:29.568Z",
+  "last_action": "Applied all49 completed submissions after validating901 current hashes and49 payload digests. Published490 removals and8 approved additions;224 audit keeps retained. Live verification confirmed3162 records and no excluded identities. The501 explicit rejection identities and714 human audit labels are durable. All3154 surviving original public records retained metadata. Full regression/import/site checks and final Pages deployment passed. Worker lease released.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
-    "complete": 46,
+    "complete": 54,
     "held_or_partial": 251,
     "fresh_pdf_access_and_front_matter_passed": 17,
     "quality_passed": 5,
@@ -58,7 +55,7 @@
     "recommendations_changed_this_run": 1,
     "openalex_retry_requests_this_run": 0,
     "openalex_rate_limits_this_run": 0,
-    "tracked_accepted_total": 297,
+    "tracked_accepted_total": 305,
     "newly_accepted_this_run": 0,
     "newly_accepted_final_validation_complete": 0,
     "final_source_revalidations_passed_this_run": 0
@@ -110,14 +107,15 @@
     }
   },
   "reconciliation": {
-    "completed_submissions": 10,
-    "latest_decisions_validated": 178,
+    "completed_submissions": 49,
+    "latest_decisions_validated": 901,
     "content_hash_mismatches": 0,
-    "submission_payload_hashes_validated": 10,
-    "immutable_jobs": 62,
-    "completed_assessment_jobs": 46,
-    "remaining_immutable_jobs": 16,
-    "verified_at": "2026-10-28T11:50:42.717Z"
+    "submission_payload_hashes_validated": 49,
+    "immutable_jobs": 563,
+    "completed_assessment_jobs": 54,
+    "completed_corpus_removal_jobs": 490,
+    "remaining_immutable_jobs": 19,
+    "verified_at": "2026-10-28T12:43:29.568Z"
   },
   "blocked_sources": [
     {
@@ -139,7 +137,7 @@
   ],
   "held_stage": {
     "stage": "remaining_preflight",
-    "reason": "Nine weekly papers ready;195 preflight candidates held (89 SOUPS,106 weekly). SOUPS reserve deficit remains5 full batches; no gate waivers."
+    "reason": "All714 audit reviews and nine new weekly decisions have been applied. Ready buffer0/250; SOUPS0/5.251 older accepted records retain independent technical/quality holds."
   },
   "last_run_checkpoint": {
     "verified_at": "2026-10-28T11:50:42.717Z",
@@ -178,7 +176,7 @@
     "openalex_requests": 0,
     "openalex_retry_not_before": "2026-10-29T00:00:36.339996+00:00"
   },
-  "checkpointed_at": "2026-10-28T11:50:42.717Z",
+  "checkpointed_at": "2026-10-28T12:43:29.568Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
@@ -191,11 +189,11 @@
     }
   },
   "next_actions": [
-    "Continue unresolved preflight and discover additional eligible SOUPS work without changing existing gates. Current ready9/250, SOUPS0/5; preserve4041 initial weekly identities and ingest future arrivals additively.",
-    "Restore five full pending SOUPS batches of20 independently; current0/5. Keep existing quality, format, media, metadata and duplicate holds.",
-    "Process new accepted-candidate jobs using current decision/hash/revision and revalidate changed/time-sensitive stages.46 recent final assessments are complete;251 legacy accepted assessments remain held/partial.",
-    "Do not issue OpenAlex requests before2026-10-29T00:00:36Z.",
-    "Do not import, merge or deploy public ALEX under this maintenance scope."
+    "Respect config/corpus_exclusions.json before any preflight, substantive recommendation, manual admission or publication. Read config/editorial_relevance_feedback.json as labeled positive and negative examples; do not treat audit recommendations as human reasons or infer provider bans.",
+    "All490 audit removal jobs and eight new assessment jobs are complete: consult config/review_application_status.json and the publication receipt before any replay. Corpus-audit keeps mean retain existing records, never new imports.",
+    "Refill the cleared manual buffer from0 toward250 after the strict-below100 trigger, restoring five full pending SOUPS batches independently; preserve all source-specific holds and never count audit work as intake.",
+    "Preserve all4041 weekly identities and future arrivals. Complete missing checks for251 legacy accepted held/partial records without repeating human relevance review or waiving quality requirements.",
+    "Do not issue OpenAlex requests before2026-10-29T00:00:36Z; preserve the existing backoff."
   ],
   "paid_execution": {
     "status": "operational_verified",
@@ -252,13 +250,13 @@
     "discuss": 9,
     "exclude": 1,
     "full_papers_claimed_reviewed": 0,
-    "manual_ready": 9,
-    "complete_stable_batches": 3,
+    "manual_ready": 0,
+    "complete_stable_batches": 0,
     "full_pending_batches": 0,
     "full_soups_pending_batches": 0,
     "assessed_at": "2026-10-28T11:50:42.717Z"
   },
-  "pending_mechanical_jobs_basis": "62 immutable jobs:46 accepted assessment jobs completed,12 earlier accepted assessment jobs still held,4 buffer reconciliation requests remain partial until targets are restored. Legacy accepted assessment inventory is tracked separately.",
+  "pending_mechanical_jobs_basis": "563 immutable jobs observed;54 mechanical assessments completed (46 prior plus8 new),490 corpus removal requests applied,12 older assessment jobs retain holds and7 buffer reconciliation jobs remain partial pending targets. The251-record legacy held assessment inventory is tracked separately.",
   "publication_status": {
     "accepted_this_run": 46,
     "final_validation_complete": 46,
@@ -279,20 +277,28 @@
   },
   "corpus_audit_checkpoint": {
     "outside_intake_buffer": true,
-    "completed_submissions_observed": 23,
-    "keep_decisions_reported": 45,
-    "removal_requests_reported": 415,
-    "jobs_read_this_run": 385,
-    "source": "Latest production review_submissions; counts refreshed after initial decision/job read. No audit decisions applied to public data.",
-    "verified_at": "2026-10-28T11:50:42.717Z",
-    "handling": "Dedicated removal pass required; never intake or buffer work."
+    "completed_submissions_observed": 36,
+    "keep_decisions_reported": 224,
+    "removal_requests_reported": 490,
+    "removals_applied": 490,
+    "keeps_applied": 224,
+    "remaining_audit_decisions": 0,
+    "verified_at": "2026-10-28T12:43:29.568Z",
+    "handling": "All36 complete audit batches applied. Completion of490 removal jobs is recorded in config/review_application_status.json. Never reimport these jobs."
   },
   "review_application": {
-    "status": "in_progress",
-    "authorization": "User completed reviews and explicitly authorized all removals, approvals and appropriate deployment.",
+    "status": "published_live_verified",
     "audit_removals": 490,
     "audit_keeps": 224,
     "new_weekly_approvals": 8,
-    "new_weekly_rejections": 1
+    "new_weekly_rejections": 1,
+    "exclusions": 501,
+    "public_records": 3162,
+    "receipt": "config/content_review_publication_receipts/2026-10-28-completed-reviews.json",
+    "status_file": "config/review_application_status.json",
+    "public_commit": "29cbc0509df846b697b351cb77a0896fc3f69bf2",
+    "release_workflow_run": 40689524006,
+    "pages_workflow_run": 40689611287,
+    "verified_at": "2026-10-28T12:43:29.568Z"
   }
 }
