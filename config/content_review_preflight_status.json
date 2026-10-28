@@ -33402,14 +33402,14 @@
       "collection": "weekly",
       "candidate_id": "weekly-48dada6d1bdaabc159030b3f",
       "review_number": 63,
-      "content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
+      "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
       "status": "held",
       "review_ready": false,
       "checks": {
         "duplicates": {
           "status": "passed",
           "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
+          "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
           "evidence": {
             "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
             "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
@@ -33424,12 +33424,15 @@
             ],
             "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
             "matches": []
-          }
+          },
+          "rebound_from_content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
+          "rebound_at": "2026-10-28T08:42:51.629022+00:00",
+          "rebound_basis": "Title, authors, year, DOI/source URL and abstract are unchanged. Verified type normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at is retained."
         },
         "quality": {
           "status": "passed",
           "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
+          "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
           "evidence": {
             "quality_score": 31.65,
             "quality_venue_score": 40.0,
@@ -33447,44 +33450,92 @@
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
+          "rebound_at": "2026-10-28T08:42:51.629022+00:00",
+          "rebound_basis": "Title, authors, year, DOI/source URL and abstract are unchanged. Verified type normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at is retained."
         },
         "format": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T08:42:51.629022+00:00",
+          "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
+          "evidence": {
+            "checked_at": "2026-10-28T08:42:51.629022+00:00",
+            "url": "https://arxiv.org/pdf/2606.05945",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "ca383ffe4e6146026b5c97f8d6f956f5528005c26f13a140af16ad6a96817ec3",
+            "bytes": 4446035,
+            "pages": 26,
+            "observed_format": "PDF",
+            "source_kind": "arXiv preprint",
+            "arxiv_id": "2606.05945",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research paper verified without inferring peer review or full scientific evaluation."
+          }
         },
         "access": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T08:42:51.629022+00:00",
+          "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
+          "evidence": {
+            "checked_at": "2026-10-28T08:42:51.629022+00:00",
+            "url": "https://arxiv.org/pdf/2606.05945",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "ca383ffe4e6146026b5c97f8d6f956f5528005c26f13a140af16ad6a96817ec3",
+            "bytes": 4446035,
+            "pages": 26,
+            "observed_format": "PDF",
+            "source_kind": "arXiv preprint",
+            "arxiv_id": "2606.05945",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research paper verified without inferring peer review or full scientific evaluation."
+          }
         },
         "metadata": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T08:42:51.629022+00:00",
+          "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
+          "evidence": {
+            "title": "Exploring the connection between coding habits and cognitive styles in malware developers",
+            "authors": [
+              "Vasilis Vouvoutsis",
+              "Constantinos Patsakis",
+              "Fran Casino"
+            ],
+            "year": 2026,
+            "arxiv_id": "2606.05945",
+            "doi": "10.48550/arxiv.2606.05945",
+            "source_url": "https://doi.org/10.48550/arxiv.2606.05945",
+            "pdf_sha256": "ca383ffe4e6146026b5c97f8d6f956f5528005c26f13a140af16ad6a96817ec3",
+            "comparison": {
+              "title_matches": true,
+              "year_matches": true,
+              "author_families_match": true
+            },
+            "citation_count": null,
+            "limitations": "Actual arXiv PDF front matter; no citation count inferred."
+          }
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-10-28T08:42:51.629022+00:00",
+          "content_sha256": "d2f7f70f3574dd820df026657ada38237ac4d67ced628ad8b67b90b24dd942d5",
+          "evidence": "Verified type changed the reviewed-content hash. Exact-hash taxonomy and target-record dry-run must complete; no prior schema result is inherited.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "10ccfbcaaa6e7441d7f7e7785ee392908463cc9c087ad798df22cc98877b9bd8",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
-      ]
+      ],
+      "verified_document_type": "research_paper",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
@@ -33578,14 +33629,14 @@
       "collection": "weekly",
       "candidate_id": "weekly-97733074b87306369a1c92cc",
       "review_number": 65,
-      "content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
+      "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
       "status": "held",
       "review_ready": false,
       "checks": {
         "duplicates": {
           "status": "passed",
           "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
+          "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
           "evidence": {
             "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
             "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
@@ -33600,12 +33651,15 @@
             ],
             "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
             "matches": []
-          }
+          },
+          "rebound_from_content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
+          "rebound_at": "2026-10-28T08:42:51.629022+00:00",
+          "rebound_basis": "Title, authors, year, DOI/source URL and abstract are unchanged. Verified type normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at is retained."
         },
         "quality": {
           "status": "passed",
           "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
+          "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
           "evidence": {
             "quality_score": 31.65,
             "quality_venue_score": 40.0,
@@ -33623,44 +33677,93 @@
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
+          "rebound_at": "2026-10-28T08:42:51.629022+00:00",
+          "rebound_basis": "Title, authors, year, DOI/source URL and abstract are unchanged. Verified type normalization does not alter the current duplicate snapshot or existing numeric quality evidence; original checked_at is retained."
         },
         "format": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T08:42:51.629022+00:00",
+          "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
+          "evidence": {
+            "checked_at": "2026-10-28T08:42:51.629022+00:00",
+            "url": "https://arxiv.org/pdf/2606.16191",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "3cfff1988ed20e0edbd92efa4e49a96400154c5073ebb0e7ec549f508a2d3c2a",
+            "bytes": 1189829,
+            "pages": 15,
+            "observed_format": "PDF",
+            "source_kind": "arXiv preprint",
+            "arxiv_id": "2606.16191",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research paper verified without inferring peer review or full scientific evaluation."
+          }
         },
         "access": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T08:42:51.629022+00:00",
+          "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
+          "evidence": {
+            "checked_at": "2026-10-28T08:42:51.629022+00:00",
+            "url": "https://arxiv.org/pdf/2606.16191",
+            "http_status": 200,
+            "content_type": "application/pdf",
+            "resource_sha256": "3cfff1988ed20e0edbd92efa4e49a96400154c5073ebb0e7ec549f508a2d3c2a",
+            "bytes": 1189829,
+            "pages": 15,
+            "observed_format": "PDF",
+            "source_kind": "arXiv preprint",
+            "arxiv_id": "2606.16191",
+            "inspection": "Actual PDF front matter/title/byline, abstract and opening substantive prose inspected; written research paper verified without inferring peer review or full scientific evaluation."
+          }
         },
         "metadata": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "status": "passed",
+          "checked_at": "2026-10-28T08:42:51.629022+00:00",
+          "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
+          "evidence": {
+            "title": "Scalable Malware Family Classification Using Quantum Kernel Based Machine Learning",
+            "authors": [
+              "Ratun Rahman",
+              "Hassan Jalil Hadi",
+              "Christopher Gabriel Pedraza Pohlenz",
+              "Ali Shoker"
+            ],
+            "year": 2026,
+            "arxiv_id": "2606.16191",
+            "doi": null,
+            "source_url": "https://arxiv.org/abs/2606.16191",
+            "pdf_sha256": "3cfff1988ed20e0edbd92efa4e49a96400154c5073ebb0e7ec549f508a2d3c2a",
+            "comparison": {
+              "title_matches": true,
+              "year_matches": true,
+              "author_families_match": true
+            },
+            "citation_count": null,
+            "limitations": "Actual arXiv PDF front matter; no citation count inferred."
+          }
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-10-28T08:42:51.629022+00:00",
+          "content_sha256": "7db0a5e19dd47a7761bb80c52ea409bd5dd0cc6b668e7f10fb1844139e38c276",
+          "evidence": "Verified type changed the reviewed-content hash. Exact-hash taxonomy and target-record dry-run must complete; no prior schema result is inherited.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "30422701e70b974f299d0548e84976187994868b570579de140418a5012f76f9",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
-      ]
+      ],
+      "verified_document_type": "research_paper",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
@@ -41159,49 +41262,49 @@
         "passed": 100
       },
       "metadata": {
-        "held": 6,
-        "passed": 94
+        "passed": 94,
+        "held": 6
       },
       "duplicates": {
         "passed": 100
       },
       "quality": {
-        "held": 88,
-        "passed": 12
+        "passed": 12,
+        "held": 88
       },
       "schema": {
-        "held": 89,
-        "passed": 11
+        "passed": 11,
+        "held": 89
       }
     },
     "weekly": {
       "format": {
-        "held": 110,
-        "passed": 40
+        "passed": 42,
+        "held": 108
       },
       "access": {
-        "held": 110,
-        "passed": 40
+        "passed": 42,
+        "held": 108
       },
       "metadata": {
-        "held": 103,
-        "passed": 47
+        "passed": 49,
+        "held": 101
       },
       "duplicates": {
-        "held": 1,
-        "passed": 149
+        "passed": 149,
+        "held": 1
       },
       "quality": {
-        "held": 1,
-        "passed": 149
+        "passed": 149,
+        "held": 1
       },
       "schema": {
-        "held": 117,
-        "passed": 33
+        "passed": 33,
+        "held": 117
       }
     }
   },
-  "updated_at": "2026-10-28T07:51:17.801469+00:00",
+  "updated_at": "2026-10-28T08:42:51.629022+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
@@ -41738,6 +41841,18 @@
       "complete_stable_batches": 0,
       "manual_ready": 0,
       "quality_or_scoring_rules_changed": false
+    },
+    {
+      "checked_at": "2026-10-28T08:42:51.629022+00:00",
+      "stage": "weekly_batch4_arxiv_primary_source_verification",
+      "candidates_examined": 3,
+      "verified_research_papers": 2,
+      "fresh_duplicate_holds_preserved": 1,
+      "actual_pdf_resources_inspected": 3,
+      "openalex_requests": 0,
+      "source_timeout_seconds": 20,
+      "serial_provider_pacing_seconds": 0.5,
+      "complete_batch_admission": false
     }
   ],
   "cumulative_weekly_network_counts": {
