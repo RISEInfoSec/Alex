@@ -41344,8 +41344,8 @@
         "doi_check": "pending_missing_doi"
       },
       "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
-      "decision": "pending",
-      "screening_status": "current_abstract_recommendation_complete_after_preflight",
+      "decision": "rejected",
+      "screening_status": "human_review_rejected",
       "collection_url": "https://soups.page/",
       "collection_links": [
         {
@@ -41382,8 +41382,8 @@
       },
       "reserved_review_number": 277,
       "reserved_review_batch": 14,
-      "review_ready": true,
-      "editorial_queue_eligible": true,
+      "review_ready": false,
+      "editorial_queue_eligible": false,
       "preflight_status": "passed",
       "readiness_status": "passed",
       "preflight_blockers": [],
@@ -41834,7 +41834,7 @@
         "assessed_at": "2026-10-28T22:27:50.737399+00:00"
       },
       "assessment_depth": "complete_current_abstract_after_preflight",
-      "batch_admission_eligible": true,
+      "batch_admission_eligible": false,
       "preflight_reservation": {
         "review_number": 277,
         "review_batch": 14
@@ -41842,7 +41842,23 @@
       "review_number": 277,
       "review_batch": 16,
       "batch": 16,
-      "admitted_at": "2026-10-28T22:27:50.737399+00:00"
+      "admitted_at": "2026-10-28T22:27:50.737399+00:00",
+      "decision_history": [
+        {
+          "decision": "pending",
+          "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
+          "recorded_at": "2026-10-28T22:27:50.737399+00:00",
+          "basis": "Cleared and admitted to sealed batch16 before console review."
+        }
+      ],
+      "decision_basis": "Completed authenticated production review-console decision.",
+      "decision_date": "2026-10-28",
+      "decision_content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872",
+      "submission_id": "eb51c866-00a1-428e-80ad-dcaf0f0f42d1",
+      "submission_revision": 1,
+      "submission_payload_hash": "156f71bfb1015f8c746761aee3bfe79cabfb8fa77d610f5dbc93fc57405ed3a6",
+      "decision_id": "eb51c866-00a1-428e-80ad-dcaf0f0f42d1:soups-ec512a117d6d9917bd8c",
+      "decision_created_at": "2026-10-28T23:41:17.958Z"
     }
   ],
   "initial_inventory_research_papers": 503,
@@ -61539,5 +61555,17 @@
       "policy": "Cleared candidates sealed independently of held inventory; never append."
     }
   ],
-  "prepared_count": 1
+  "prepared_count": 1,
+  "last_decision_reconciliation": {
+    "checked_at": "2026-10-28T23:49:30.605973+00:00",
+    "submission_id": "eb51c866-00a1-428e-80ad-dcaf0f0f42d1",
+    "collection": "soups",
+    "batch": 16,
+    "revision": 1,
+    "accepted": 0,
+    "rejected": 1,
+    "payload_hash": "156f71bfb1015f8c746761aee3bfe79cabfb8fa77d610f5dbc93fc57405ed3a6",
+    "candidate_id": "soups-ec512a117d6d9917bd8c",
+    "content_sha256": "d70f972516686886cde77f69cb92ebf8af70688438a07851a0ff65e4089e7872"
+  }
 }
