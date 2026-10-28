@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 8,
+  "version": 9,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -251,7 +251,63 @@
     "processing_priority": "Newer publication years and actual papers first within curated archives; presentations require separate resource/audio verification. Historical archive gaps remain recorded and are revisited without starving other sources.",
     "before_new_work": "Consult durable corpus exclusions, preserve authenticated decisions and prior content hashes.",
     "admission": "Raw discoveries remain outside the cleared manual buffer. Complete format, access, metadata, fresh duplicates, existing quality/hard gates and schema before substantive recommendations and admission.",
-    "counts": "Report discovered, mechanically held, cleared awaiting admission and ready separately; never describe discovery coverage as validated eligible papers."
+    "counts": "Report discovered, mechanically held, cleared awaiting admission and ready separately; never describe discovery coverage as validated eligible papers.",
+    "active_campaign": {
+      "confirmed_at": "2026-10-28",
+      "status": "active",
+      "sources": [
+        {
+          "id": "soups",
+          "name": "SOUPS / USENIX",
+          "seed_urls": [
+            "https://soups.page/"
+          ],
+          "scope": "SOUPS annual programmes, proceedings, papers, posters, workshops and linked supporting resources hosted by USENIX or official historical hosts. Do not interpret this as all unrelated USENIX conferences."
+        },
+        {
+          "id": "virusbulletin",
+          "name": "Virus Bulletin",
+          "seed_urls": [
+            "https://virusbulletin.com/conference/vb-conference-archive/"
+          ],
+          "scope": "Accessible conference annual archives, programmes, individual contributions, papers, posters, workshops, slides and matching recordings; follow official archive links and record missing coverage."
+        }
+      ],
+      "goal": "Gather as much accessible source material and metadata as can be obtained courteously, into deduplicated durable discovery inventories for mechanical processing.",
+      "run_obligation": "Each active worker pass resumes a bounded discovery checkpoint for these sources as well as applicable reconciliation/preflight work, unless a source is complete, blocked by access/backoff or another writer holds the lease. Do not spend every run solely on weekly preflight while these archive inventories remain incomplete. Record attempted pages, new unique identities and remaining coverage honestly.",
+      "deferred_sources": [
+        {
+          "name": "SANS",
+          "url": "https://www.sans.org/",
+          "status": "deferred"
+        },
+        {
+          "name": "FIRST.org",
+          "url": "https://www.first.org/",
+          "status": "deferred"
+        },
+        {
+          "name": "Other new source collections",
+          "status": "deferred"
+        }
+      ],
+      "expansion_gate": "Do not activate or crawl deferred/new source collections during this campaign. First reconcile current archive coverage and give gathered SOUPS/Virus Bulletin items a documented disposition: duplicate/exclusion, mechanical rejection, explicit evidence/access hold with retry/follow-up, completed editorial decision and final validation as applicable. Unchecked raw inventory is not dispositioned. Report the disposition summary before proposing the next source.",
+      "preserve_existing_intake": "Existing regular weekly ingestion, qualifying automatic acceptance, APWG obligations, completed decisions and accepted-candidate checks continue. Deferral applies to expanding source collections."
+    },
+    "neighbourly_access": {
+      "per_origin_concurrency": 1,
+      "minimum_interval_seconds": 2,
+      "source_specific_stricter_limits_take_precedence": true,
+      "request_timeout_seconds": 20,
+      "respect_robots_txt_and_published_access_rules": true,
+      "user_agent": "Use an honest identifiable ALEX crawler User-Agent and the supported configured contact path; do not invent contact details or log credentials.",
+      "caching": "Reuse unchanged snapshots and already verified resources; use ETag/Last-Modified conditional requests where supported. Avoid repeatedly crawling completed programme pages.",
+      "acquisition": "Collect programme/item metadata and resource links first. Fetch actual documents only as needed for mechanical verification; do not indiscriminately mirror large PDF/video archives.",
+      "backoff": "Honor Retry-After and all recorded cooldowns. A429 or repeated5xx/timeouts stops that origin for the pass and checkpoints a retry. No automatic retry loops or rate increases to catch up.",
+      "access_denials": "Do not bypass authentication, paywalls, anti-bot challenges or explicit access prohibitions; record gaps and permitted alternatives.",
+      "checkpoints": "Use bounded page batches and request budgets per pass; persist resume position and source failures so repeated runs make progress without re-fetching the entire archive.",
+      "openalex": "Retain the separate stricter OpenAlex no-traffic deadline, one-lookup-per-run cap and60-second process-wide pacing."
+    }
   },
   "current_usefulness_policy": {
     "path": "config/content_review_material_policy.json",
