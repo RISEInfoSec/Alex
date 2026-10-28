@@ -28851,7 +28851,7 @@
     {
       "checked_at": "2026-10-28T01:45:06.961713+00:00",
       "source": "weekly",
-      "registry_lookups": 20,
+      "registry_lookups": 17,
       "primary_resource_requests": 15,
       "format_and_access_passes_this_stage": 12,
       "author_list_conflict_holds_this_stage": 1,
@@ -28865,7 +28865,17 @@
         "new_content_sha256": "08a04e21271eaa4232fdb35f2a5ab87b3b9e30ec77e31931294ba06a54a8ab3e",
         "completed_decisions_affected": 0,
         "recommendation_reassessment_pending": true
-      }
+      },
+      "registry_candidates_examined": 20,
+      "identifier_lookup_not_attempted": 3,
+      "count_scope": "Lookup count means actual DOI registry request attempts; missing-DOI records were examined but title-based identifier searches remain pending."
     }
-  ]
+  ],
+  "cumulative_weekly_network_counts": {
+    "records_examined": 60,
+    "registry_request_attempts": 54,
+    "identifier_search_not_attempted_missing_doi": 6,
+    "primary_resource_request_attempts": 49,
+    "scope": "Recorded batch requests, excluding GitHub/Sites reads and exploratory access probes. Clarifies earlier candidate-count lookup totals."
+  }
 }
