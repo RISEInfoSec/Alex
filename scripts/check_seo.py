@@ -111,6 +111,14 @@ def check(root: Path = ROOT, source_root: Path | None = None) -> None:
     dataset = datasets[0]
     assert dataset.get("url") == BASE and len(dataset.get("description", "")) >= 50, "Dataset details"
     assert dataset.get("creator", {}).get("name") == "RISE Information Security Foundation", "Provenance"
+    licensing_url = BASE + "data-license-v1.html"
+    license_info = dataset.get("license", {})
+    assert isinstance(license_info, dict) and license_info.get("url") == licensing_url, "Dataset licence URL"
+    assert license_info.get("@type") == "CreativeWork", "Scoped data licensing notice"
+    assert 'href="/data-license-v1.html"' in page, "Homepage must link to data licence"
+    license_page = (root / "data-license-v1.html").read_text(encoding="utf-8")
+    assert "Creative Commons Attribution 4.0" in license_page, "Licence notice missing CC BY terms"
+    assert "Third-party material is excluded" in license_page, "Licence notice must exclude third-party rights"
     downloads = dataset.get("distribution", [])
     for path, mime in (("data/papers.json", "application/json"),
                        ("data/osint_cyber_papers.csv", "text/csv")):
