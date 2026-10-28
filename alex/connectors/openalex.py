@@ -53,10 +53,8 @@ def get_by_doi(client: HttpClient, doi: str, mailto: str = "") -> dict[str, Any]
     return results[0] if results else None
 
 
-# OpenAlex caps `per-page` at 200 but the OR-joined `filter=doi:...|...` URL
-# also has practical length limits — 50 is a safe chunk size that keeps the
-# query string well under any router's URL ceiling.
-_DOI_BATCH_SIZE = 50
+# Temporary diagnostic mode: exactly one DOI per HTTP request.
+_DOI_BATCH_SIZE = 1
 
 
 def get_many_by_doi(
@@ -64,9 +62,10 @@ def get_many_by_doi(
     dois: list[str],
     mailto: str = "",
 ) -> dict[str, dict[str, Any]]:
-    """Batch-resolve a list of DOIs to OpenAlex works.
+    """Resolve DOIs individually under the temporary slow-query policy.
 
-    Issues `ceil(len(unique_dois) / 50)` HTTP calls instead of one per DOI.
+    Issues one request per unique DOI; the shared HTTP client serializes
+    calls, enforces long pauses and stops provider work after failures.
     Returns a {bare_doi: work} map keyed on the DOI without the
     `https://doi.org/` prefix (callers store DOIs in either form, so the
     map is normalised on lookup too).

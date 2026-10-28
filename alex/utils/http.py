@@ -1,5 +1,7 @@
 from __future__ import annotations
 import json
+import fcntl
+from datetime import datetime, timezone
 import logging
 import os
 import re
@@ -18,6 +20,12 @@ CACHE = Path(__file__).resolve().parents[2] / ".alex_cache.json"
 # "key cached as None" (the latter is purged on init but defensive code
 # avoids ambiguity).
 _CACHE_MISS = object()
+_OPENALEX_LOCK = threading.Lock()
+_OPENALEX_POLICY_PATH = Path(__file__).resolve().parents[2] / 'config/openalex_request_policy.json'
+
+def _openalex_policy():
+    return json.loads(_OPENALEX_POLICY_PATH.read_text())
+
 
 # Retry only on transient failures: server-side errors and rate limits. 4xx
 # responses other than 429 are deterministic — retrying them just wastes time
@@ -122,6 +130,50 @@ class HttpClient:
             return params
         return {**(params or {}), auth[0]: value}
 
+    def _openalex_request(self, url, params, headers, timeout):
+        # Share pacing/backoff across threads, clients and CLI stages using
+        # this checkout. Independent runners must obey the worker checkpoint.
+        policy = _openalex_policy()
+        state_path = CACHE.with_name(CACHE.name + '.openalex-policy')
+        with _OPENALEX_LOCK, state_path.with_suffix(state_path.suffix + '.lock').open('a') as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            try:
+                state = json.loads(state_path.read_text()) if state_path.exists() else {}
+            except (ValueError, OSError):
+                logger.warning('OpenAlex pacing checkpoint unreadable; no request sent')
+                return None
+            now = time.time()
+            hold = policy.get('retry_not_before')
+            hold_until = datetime.fromisoformat(hold.replace('Z', '+00:00')).timestamp() if hold else 0
+            if now < max(hold_until, state.get('retry_not_before', 0)):
+                logger.info('OpenAlex remains in backoff; no request sent')
+                return None
+            delay = max(0, state.get('last_request_at', 0) + policy['min_interval_seconds'] - now)
+            if delay:
+                time.sleep(delay)
+            state['last_request_at'] = time.time()
+            def save():
+                temp = state_path.with_suffix(state_path.suffix + '.tmp')
+                temp.write_text(json.dumps(state))
+                temp.replace(state_path)
+            save()
+            try:
+                response = self.session.get(url, params=self._with_auth(url, params), headers=headers,
+                                            timeout=min(timeout, policy['request_timeout_seconds']))
+            except requests.exceptions.RequestException as exc:
+                state['retry_not_before'] = time.time() + policy['failure_cooldown_seconds']
+                state['last_failure'] = 'network_or_timeout'
+                save()
+                logger.warning('OpenAlex network/timeout failure; no automatic retry: %s', _redact(exc))
+                return None
+            if response.status_code == 429 or response.status_code >= 500:
+                retry_after = self._parse_retry_after(response.headers.get('Retry-After'))
+                state['retry_not_before'] = time.time() + max(retry_after or 0, policy['failure_cooldown_seconds'])
+                state['last_failure'] = 'HTTP' + str(response.status_code)
+                save()
+                logger.warning('OpenAlex HTTP%d; provider paused, no automatic retry', response.status_code)
+            return response
+
     def _request_with_retry(
         self,
         url: str,
@@ -132,6 +184,8 @@ class HttpClient:
     ) -> requests.Response | None:
         """GET with retry on 429/5xx. Returns the final Response, or None on
         unrecoverable failure. Honours Retry-After when present."""
+        if urlsplit(url).hostname == 'api.openalex.org':
+            return self._openalex_request(url, params, headers, timeout)
         last_exc: Exception | None = None
         params = self._with_auth(url, params)
         for attempt in range(1, max_attempts + 1):
@@ -179,9 +233,14 @@ class HttpClient:
         try:
             return float(value)
         except ValueError:
-            # HTTP-date form (rfc1123). Fall back to backoff schedule rather
-            # than parsing the date — rare in practice for the APIs we hit.
-            return None
+            from email.utils import parsedate_to_datetime
+            try:
+                date = parsedate_to_datetime(value)
+                if date.tzinfo is None:
+                    date = date.replace(tzinfo=timezone.utc)
+                return max(0.0, date.timestamp() - time.time())
+            except (ValueError, TypeError, OverflowError):
+                return None
 
     def get_raw(
         self,

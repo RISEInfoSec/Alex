@@ -1,7 +1,16 @@
 import json
+import pytest
 from unittest.mock import patch, MagicMock
 from alex.utils.http import HttpClient
 
+
+@pytest.fixture(autouse=True)
+def recovery_policy_without_calendar_hold(monkeypatch):
+    # Individual pacing tests cover the real hold separately. Generic auth
+    # tests must not depend on the calendar date this suite is run.
+    monkeypatch.setattr('alex.utils.http._openalex_policy', lambda: {
+        'min_interval_seconds':60,'request_timeout_seconds':20,
+        'failure_cooldown_seconds':3600,'retry_not_before':None})
 
 class TestHttpClientCache:
     def test_successful_response_is_cached(self, tmp_path):
@@ -248,7 +257,7 @@ class TestHttpClientRetryAfterCap:
             client = HttpClient()
             long_wait = self._resp(429, headers={"Retry-After": "36000"})
             with patch.object(client.session, "get", return_value=long_wait) as get_mock:
-                result = client.get_json("https://api.openalex.org/works")
+                result = client.get_json("https://api.example.org/works")
             assert result is None
             assert get_mock.call_count == 1  # no retry against a 10h wait
             sleep_args = [c.args[0] for c in sleep_mock.call_args_list if c.args]
@@ -261,9 +270,9 @@ class TestHttpClientRetryAfterCap:
             client = HttpClient()
             long_wait = self._resp(429, headers={"Retry-After": "36000"})
             with patch.object(client.session, "get", return_value=long_wait) as get_mock:
-                client.get_json("https://api.openalex.org/works", params={"q": "a"})
-                assert client.get_json("https://api.openalex.org/works", params={"q": "b"}) is None
-                assert client.get_raw("https://api.openalex.org/works", params={"q": "c"}) is None
+                client.get_json("https://api.example.org/works", params={"q": "a"})
+                assert client.get_json("https://api.example.org/works", params={"q": "b"}) is None
+                assert client.get_raw("https://api.example.org/works", params={"q": "c"}) is None
             assert get_mock.call_count == 1  # host blocked after the first long 429
 
     def test_block_is_per_host(self, tmp_path):
@@ -274,7 +283,7 @@ class TestHttpClientRetryAfterCap:
             long_wait = self._resp(429, headers={"Retry-After": "36000"})
             ok = self._resp(200, body={"ok": True})
             with patch.object(client.session, "get", side_effect=[long_wait, ok]):
-                client.get_json("https://api.openalex.org/works")
+                client.get_json("https://api.example.org/works")
                 assert client.get_json("https://api.crossref.org/works") == {"ok": True}
 
     def test_block_expires(self, tmp_path):
@@ -286,8 +295,8 @@ class TestHttpClientRetryAfterCap:
             long_wait = self._resp(429, headers={"Retry-After": "36000"})
             ok = self._resp(200, body={"ok": True})
             with patch.object(client.session, "get", side_effect=[long_wait, ok]):
-                client.get_json("https://api.openalex.org/works", params={"q": "a"})
-                assert client.get_json("https://api.openalex.org/works", params={"q": "b"}) == {"ok": True}
+                client.get_json("https://api.example.org/works", params={"q": "a"})
+                assert client.get_json("https://api.example.org/works", params={"q": "b"}) == {"ok": True}
 
     def test_retry_after_at_cap_is_still_honoured(self, tmp_path):
         cache_path = tmp_path / ".alex_cache.json"
@@ -297,7 +306,7 @@ class TestHttpClientRetryAfterCap:
             ok = self._resp(200, body={"ok": True})
             sequence = [self._resp(429, headers={"Retry-After": "38"}), ok]
             with patch.object(client.session, "get", side_effect=sequence):
-                assert client.get_json("https://api.openalex.org/works") == {"ok": True}
+                assert client.get_json("https://api.example.org/works") == {"ok": True}
             assert 38.0 in [c.args[0] for c in sleep_mock.call_args_list if c.args]
 
 

@@ -181,7 +181,7 @@ class TestOpenAlexBatchByDoi:
         assert openalex.get_many_by_doi(client, []) == {}
         client.get_json.assert_not_called()
 
-    def test_single_chunk_below_batch_size(self):
+    def test_each_identifier_uses_its_own_request(self):
         from unittest.mock import MagicMock
         client = MagicMock()
         client.get_json.return_value = {"results": [
@@ -189,12 +189,13 @@ class TestOpenAlexBatchByDoi:
             {"ids": {"doi": "https://doi.org/10.1/b"}, "abstract_inverted_index": {"y": [0]}},
         ]}
         out = openalex.get_many_by_doi(client, ["10.1/a", "10.1/b"], mailto="me@example.com")
-        assert client.get_json.call_count == 1
+        assert client.get_json.call_count == 2
+        filters=[call.kwargs["params"]["filter"] for call in client.get_json.call_args_list]
+        assert filters == ["doi:https://doi.org/10.1/a", "doi:https://doi.org/10.1/b"]
         params = client.get_json.call_args.kwargs["params"]
         assert params["filter"].startswith("doi:")
-        assert "https://doi.org/10.1/a" in params["filter"]
         assert "https://doi.org/10.1/b" in params["filter"]
-        assert params["per-page"] == 50
+        assert params["per-page"] == 1
         assert params["mailto"] == "me@example.com"
         assert set(out.keys()) == {"10.1/a", "10.1/b"}
 
@@ -202,19 +203,19 @@ class TestOpenAlexBatchByDoi:
         from unittest.mock import MagicMock
         client = MagicMock()
         client.get_json.return_value = {"results": []}
-        # 75 unique DOIs -> 2 chunks (50 + 25)
+        # 75 unique DOIs -> 75 individual requests
         dois = [f"10.1/x{i}" for i in range(75)]
         openalex.get_many_by_doi(client, dois)
-        assert client.get_json.call_count == 2
+        assert client.get_json.call_count == 75
 
     def test_dedupes_input_dois(self):
         from unittest.mock import MagicMock
         client = MagicMock()
         client.get_json.return_value = {"results": []}
-        # 60 entries but only 30 unique -> single chunk
+        # 60 entries but only 30 unique -> 30 individual requests
         dois = [f"10.1/x{i % 30}" for i in range(60)]
         openalex.get_many_by_doi(client, dois)
-        assert client.get_json.call_count == 1
+        assert client.get_json.call_count == 30
 
     def test_normalises_doi_prefix_and_case(self):
         from unittest.mock import MagicMock
