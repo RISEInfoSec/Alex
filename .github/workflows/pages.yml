@@ -11,7 +11,7 @@ on:
   # (The full `Pipeline` workflow handles its own deploy job and doesn't
   # need this trigger.)
   workflow_run:
-    workflows: ["Publish assets", "APWG approved release", "Rebuild site assets"]
+    workflows: ["Publish assets", "APWG approved release", "Rebuild site assets", "Content Review approved release"]
     types: [completed]
     branches: [main]
 permissions:

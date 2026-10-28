@@ -2184,6 +2184,8 @@ def test_human_approved_apwg_release_exports_only_authorized_papers(tmp_path, mo
     released = {r['doi'].lower() for r in bundle['records']}
     original_public = json.loads(root_file('data','papers.json').read_text())
     original_public = [r for r in original_public if r.get('doi','').lower() not in released]
+    # Removing an older release reindexes later records in this fixture.
+    original_public = [{**r, 'id': i + 1} for i, r in enumerate(original_public)]
     with root_file('data','accepted_classified.csv').open() as f:
         reader = csv.DictReader(f); fields = reader.fieldnames
         original = [r for r in reader if r.get('doi','').lower() not in released]
