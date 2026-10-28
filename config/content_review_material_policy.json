@@ -1,6 +1,6 @@
 {
   "name": "Content Review material usefulness policy",
-  "version": 2,
+  "version": 3,
   "status": "user_confirmed; source-independent console assessment implemented; numeric pipeline scoring integration pending",
   "confirmed_at": "2026-10-27",
   "material_identity": {
@@ -68,5 +68,32 @@
     "module": "lib/resource-usefulness.mjs",
     "checks_passed": 19,
     "research_paper_numeric_scorer_changed": false
+  },
+  "current_usefulness": {
+    "confirmed_at": "2026-10-28",
+    "scope": "All inbound sources and collections, including SOUPS, Virus Bulletin and regular weekly discovery.",
+    "assessment_timing": "After all six mechanical preflight gates pass and before substantive recommendation binding/manual admission.",
+    "priority": "Present-day usefulness to cybercrime research and investigation takes precedence over historical existence or accumulated citations.",
+    "labels": {
+      "currently_useful": "The method, evidence or insight remains applicable; explain its current use and limitations.",
+      "foundational_historical": "Retains demonstrable foundational or historical value; label that value explicitly and give it lower preparation priority.",
+      "superseded": "Depends on obsolete conditions and offers little transferable value; recommend exclusion with a concrete content-based reason."
+    },
+    "evidence_required": [
+      "reviewed content SHA-256",
+      "assessment date",
+      "material actually inspected and assessment depth",
+      "usefulness label",
+      "specific present-day application or historical contribution",
+      "obsolete assumptions, dependencies or superseding evidence when applicable",
+      "uncertainty and limitations"
+    ],
+    "older_material": "Require a stronger explicit explanation of continuing usefulness for older material; distinguish obsolete platform-specific techniques from transferable methods, behavioural findings and investigative principles.",
+    "unknown": "If usefulness or supersession cannot be established, record uncertainty and discuss or hold as appropriate; do not infer obsolescence from publication year.",
+    "no_automatic_age_cutoff": true,
+    "numeric_scoring_changed": false,
+    "citation_counts_do_not_establish_current_usefulness": true,
+    "preserve": "Existing scores, hard gates, automatic acceptance, prior decisions and reviewed-content hashes remain in force. No retroactive removal or decision reversal without the existing authenticated decision process.",
+    "implementation_scope": "Recorded worker/editorial instructions. No new numerical age penalty, score weight or public UI badge is claimed as implemented."
   }
 }
