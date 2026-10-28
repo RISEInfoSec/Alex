@@ -25515,15 +25515,21 @@
       "year": 2026,
       "doi": "",
       "source_url": "https://arxiv.org/abs/2607.11707",
-      "document_type": "research_paper_candidate",
-      "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-      "format_verification_status": "hold_original_document_type_unverified",
+      "document_type": "research_paper",
+      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
+      "format_verification_status": "verified_written_research_paper",
       "abstract": "Following the rapid progress of generative Artificial Intelligence, there is a growing threat posed by conversational scams. These scams often span over multiple weeks or months, gradually build trust and request for money or sensitive information. Existing scam-detection systems mainly focus on isolated messages, which renders them inadequate against this evolving threat. This paper extends single-message phishing detection and presents an explainable agentic system for detecting sophisticated conversational scams. It also introduces ConScamBench-278, an initial public multi-category benchmark for conversational scam detection spanning eight scam types, released to support reproducible evaluation and future expansion. On isolated messages the single-message detector attains 100% phishing recall, while the conversation-level detector identifies all conversational scams in the public LoveFraud02 corpus (83/83) and reaches 97.8% accuracy (95% CI [95.4, 99.0]) on ConScamBench-278. Two user studies (N = 100 and N = 45) further motivate the system: participants report frequently experiencing uncertainty when judging suspicious conversations. In an uncontrolled pre/post comparison, users self-reported trust, self-confidence, and perceived need for AI-based scam detection all increased (p < 0.001, Wilcoxon signed-rank). The system also receives a System Usability Scale score of 74.7 (95% CI [72.5, 76.9]), above the established usability benchmark.",
       "abstract_source": "https://arxiv.org/abs/2607.11707",
       "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
       "review_evidence": [
-        "https://arxiv.org/abs/2607.11707",
-        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+        {
+          "kind": "primary_pdf_and_authoritative_metadata",
+          "resource_url": "https://arxiv.org/pdf/2607.11707v2",
+          "metadata_url": "https://arxiv.org/abs/2607.11707",
+          "resource_sha256": "d62e291becbc0653834f6efa4c85529d240658b2848ef6815146b68fd7113590",
+          "verified_at": "2026-10-28T10:45:00Z",
+          "assessment_depth": "front matter, complete abstract, and opening substantive prose"
+        }
       ],
       "collection_id": "weekly",
       "collection_source": "ALEX regular weekly discovery review queue",
@@ -25536,8 +25542,8 @@
       "assessment_depth": "cached_abstract",
       "assessment_date": "2026-10-27",
       "full_paper_reviewed": false,
-      "paper_format_verified": false,
-      "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+      "paper_format_verified": true,
+      "source_verification_status": "publisher_resource_and_written_paper_verified",
       "quality_status": "existing_human_quality_review_required",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
       "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
@@ -25571,26 +25577,81 @@
       "institution_score": 80,
       "institution_bonus": 10,
       "title_anchor_bonus": 0,
-      "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+      "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
       ],
       "preflight": {
         "status": "held",
-        "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+        "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
         "checks": {
-          "duplicates": {
+          "format": {
+            "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+            "checked_at": "2026-10-28T10:45:00Z",
             "status": "passed",
-            "checked_at": "2026-10-28T03:50:34.934054+00:00",
-            "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
             "evidence": {
-              "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-              "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+              "verified_document_type": "research_paper",
+              "resource_url": "https://arxiv.org/pdf/2607.11707v2",
+              "resource_sha256": "d62e291becbc0653834f6efa4c85529d240658b2848ef6815146b68fd7113590",
+              "resource_bytes": 800051,
+              "pdf_pages": 34,
+              "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+              "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+              "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+            },
+            "rebound_from_content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+            "rebound_at": "2026-10-28T10:45:50.754275+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "access": {
+            "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "resource_url": "https://arxiv.org/pdf/2607.11707v2",
+              "http_method": "GET",
+              "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+              "resource_sha256": "d62e291becbc0653834f6efa4c85529d240658b2848ef6815146b68fd7113590",
+              "resource_bytes": 800051,
+              "pdf_pages": 34,
+              "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+              "serial_provider_pacing_seconds": 0.5
+            },
+            "rebound_from_content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+            "rebound_at": "2026-10-28T10:45:50.754275+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "metadata": {
+            "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "authoritative_record": "https://arxiv.org/abs/2607.11707",
+              "identifier": "arXiv:2607.11707",
+              "version": "v2",
+              "submitted_at": "2026-07-13T15:36:19Z",
+              "revised_at": "2026-07-15T14:17:22Z",
+              "title_matches": true,
+              "authors_match_complete_byline": true,
+              "publication_year_matches": true,
+              "doi": null,
+              "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+              "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+            },
+            "rebound_from_content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+            "rebound_at": "2026-10-28T10:45:50.754275+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "duplicates": {
+            "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+              "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+              "public_corpus_records": 3644,
               "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
               "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
               "weekly_inventory_records": 4041,
@@ -25600,14 +25661,17 @@
                 "virusbulletin",
                 "apwg"
               ],
-              "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+              "scope": "Recomputed exact DOI, canonical source/resource URLs and normalized title against the current public corpus, every prepared manifest, and all 4,041 retained upstream identities; the candidate's own identity was excluded.",
               "matches": []
-            }
+            },
+            "rebound_from_content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+            "rebound_at": "2026-10-28T10:45:50.754275+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "quality": {
             "status": "passed",
             "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+            "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
             "evidence": {
               "quality_score": 32.82,
               "quality_venue_score": 40.0,
@@ -25625,55 +25689,232 @@
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-          },
-          "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "metadata": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:01:44.943721+00:00",
-            "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
-            "evidence": {
-              "DOI": null,
-              "title": null,
-              "author": null,
-              "published": null,
-              "type": null,
-              "publisher": null,
-              "container-title": null,
-              "is-referenced-by-count": null
-            },
-            "source_url": null,
-            "comparison": {
-              "title_matches": false,
-              "publication_year_matches": false,
-              "author_families_match": false
-            },
-            "limitations": "No supplied DOI; title-based identifier search remains pending"
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+            "rebound_at": "2026-10-28T10:45:50.754275+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-28T10:45:50.754275+00:00",
+            "content_sha256": "7523e403a9b6ab2c1ddc3e12ea220c7391e24c318c09b3ad7ee5ca9b04938c2f",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "verified_document_type": "research_paper",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+          "superseded_at": "2026-10-28T10:45:50.754275+00:00",
+          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
+          "record": {
+            "candidate_id": "weekly-745c7f10cefebb4faec0cffe",
+            "upstream_candidate_id": "52410",
+            "upstream_stable_identity": "https://arxiv.org/abs/2607.11707",
+            "source_row": 2603,
+            "review_number": 12,
+            "review_batch": 1,
+            "batch": 1,
+            "title": "An Explainable Agentic System for Detection of Conversational Scams with Summary-Based Memory",
+            "authors": "Ahmed Omar Salim Adnan; Yogananda Manjunath; Shivanjali Khare",
+            "year": 2026,
+            "doi": "",
+            "source_url": "https://arxiv.org/abs/2607.11707",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "Following the rapid progress of generative Artificial Intelligence, there is a growing threat posed by conversational scams. These scams often span over multiple weeks or months, gradually build trust and request for money or sensitive information. Existing scam-detection systems mainly focus on isolated messages, which renders them inadequate against this evolving threat. This paper extends single-message phishing detection and presents an explainable agentic system for detecting sophisticated conversational scams. It also introduces ConScamBench-278, an initial public multi-category benchmark for conversational scam detection spanning eight scam types, released to support reproducible evaluation and future expansion. On isolated messages the single-message detector attains 100% phishing recall, while the conversation-level detector identifies all conversational scams in the public LoveFraud02 corpus (83/83) and reaches 97.8% accuracy (95% CI [95.4, 99.0]) on ConScamBench-278. Two user studies (N = 100 and N = 45) further motivate the system: participants report frequently experiencing uncertainty when judging suspicious conversations. In an uncontrolled pre/post comparison, users self-reported trust, self-confidence, and perceived need for AI-based scam detection all increased (p < 0.001, Wilcoxon signed-rank). The system also receives a System Usability Scale score of 74.7 (95% CI [72.5, 76.9]), above the established usability benchmark.",
+            "abstract_source": "https://arxiv.org/abs/2607.11707",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              {
+                "kind": "primary_pdf_and_authoritative_metadata",
+                "resource_url": "https://arxiv.org/pdf/2607.11707v2",
+                "metadata_url": "https://arxiv.org/abs/2607.11707",
+                "resource_sha256": "d62e291becbc0653834f6efa4c85529d240658b2848ef6815146b68fd7113590",
+                "verified_at": "2026-10-28T10:45:00Z",
+                "assessment_depth": "front matter, complete abstract, and opening substantive prose"
+              }
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "include",
+            "relevance": "direct",
+            "review_reason": "Evaluates an explainable system for detecting scams across extended conversations, releasing a benchmark and reporting user-study evidence.",
+            "metadata_issue": "Benchmark results and uncontrolled self-reported pre/post changes do not establish real-world fraud-prevention effectiveness. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 32.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 32.82,
+            "quality_score": 32.82,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 35.29,
+            "is_preprint": false,
+            "venue": "arXiv (Cornell University)",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "lookup_pending",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "threat intelligence collection",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "dd41656c7d2f2ad86302efd5823c561589e18e5747f2fb0b2013e08687e03dea",
+            "assessed_text_sha256": "da5d53c5b8efed5f03827a11dd9cc813ed63e951e4b6b052f0f3e9efc319aedd",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 80,
+            "institution_bonus": 10,
+            "title_anchor_bonus": 0,
+            "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "format",
+              "access",
+              "metadata",
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+              "checks": {
+                "duplicates": {
+                  "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+                    "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+                    "public_corpus_records": 3644,
+                    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                    "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                    "weekly_inventory_records": 4041,
+                    "all_prepared_collections": [
+                      "soups",
+                      "weekly",
+                      "virusbulletin",
+                      "apwg"
+                    ],
+                    "scope": "Recomputed exact DOI, canonical source/resource URLs and normalized title against the current public corpus, every prepared manifest, and all 4,041 retained upstream identities; the candidate's own identity was excluded.",
+                    "matches": []
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+                  "evidence": {
+                    "quality_score": 32.82,
+                    "quality_venue_score": 40.0,
+                    "quality_citation_score": 0.0,
+                    "quality_relevance_score": 35.29,
+                    "quality_institution_score": 80.0,
+                    "quality_institution_bonus": 10.0,
+                    "quality_title_bonus": 0.0,
+                    "quality_auto_threshold": 35.0,
+                    "quality_review_threshold": 20.0,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "verified_document_type": "research_paper",
+                    "resource_url": "https://arxiv.org/pdf/2607.11707v2",
+                    "resource_sha256": "d62e291becbc0653834f6efa4c85529d240658b2848ef6815146b68fd7113590",
+                    "resource_bytes": 800051,
+                    "pdf_pages": 34,
+                    "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+                    "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+                    "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+                  }
+                },
+                "access": {
+                  "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "resource_url": "https://arxiv.org/pdf/2607.11707v2",
+                    "http_method": "GET",
+                    "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+                    "resource_sha256": "d62e291becbc0653834f6efa4c85529d240658b2848ef6815146b68fd7113590",
+                    "resource_bytes": 800051,
+                    "pdf_pages": 34,
+                    "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+                    "serial_provider_pacing_seconds": 0.5
+                  }
+                },
+                "metadata": {
+                  "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "authoritative_record": "https://arxiv.org/abs/2607.11707",
+                    "identifier": "arXiv:2607.11707",
+                    "version": "v2",
+                    "submitted_at": "2026-07-13T15:36:19Z",
+                    "revised_at": "2026-07-15T14:17:22Z",
+                    "title_matches": true,
+                    "authors_match_complete_byline": true,
+                    "publication_year_matches": true,
+                    "doi": null,
+                    "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+                    "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "verified_document_type": "research_paper"
+          }
+        }
+      ],
+      "recommendation_content_sha256": "7c32e3b58652c5f84380329cb57c51b216c90352ff5b0d9eb9d0ad69bb97b30a",
+      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
     },
     {
       "candidate_id": "weekly-fedafa22d1659db395c02b49",
@@ -27530,15 +27771,21 @@
       "year": 2026,
       "doi": "",
       "source_url": "https://arxiv.org/abs/2606.10281",
-      "document_type": "research_paper_candidate",
-      "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-      "format_verification_status": "hold_original_document_type_unverified",
+      "document_type": "research_paper",
+      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
+      "format_verification_status": "verified_written_research_paper",
       "abstract": "This paper presents AuditBench, a new benchmark dataset for evaluating the capabilities of LLMs at investigating security-related system audit logs. We design and use this benchmark to explore the performance of LLMs on four log-investigation tasks that incident response teams commonly perform, ranging from triaging alerts generated by detectors to identifying persistence mechanisms on compromised systems. AuditBench consists of system audit logs collected from Linux and Windows machines, and spans over 50 different security investigation scenarios, including both malicious and benign activity. Using our benchmark, we evaluate and analyze the performance of five frontier LLMs at analyzing audit logs for attack investigations. Our analysis illuminates how LLM performance and error profiles vary according to different design choices, such as differences in model size, data representation, prompt construction, and specific investigation tasks. Additionally, we characterize the quality of the explanations produced by LLMs and the types of errors that models make across our benchmark. Collectively, our work provides a foundation for assessing the capabilities of LLMs for investigating security logs, novel insights for practitioners using LLMs in security operations, and important directions for future research.",
       "abstract_source": "https://arxiv.org/abs/2606.10281",
       "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
       "review_evidence": [
-        "https://arxiv.org/abs/2606.10281",
-        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+        {
+          "kind": "primary_pdf_and_authoritative_metadata",
+          "resource_url": "https://arxiv.org/pdf/2606.10281v2",
+          "metadata_url": "https://arxiv.org/abs/2606.10281",
+          "resource_sha256": "b079fc600ecd62f7666f5460ace0c722640a765c2d5c80ae4a206c3c43d44069",
+          "verified_at": "2026-10-28T10:45:00Z",
+          "assessment_depth": "front matter, complete abstract, and opening substantive prose"
+        }
       ],
       "collection_id": "weekly",
       "collection_source": "ALEX regular weekly discovery review queue",
@@ -27551,8 +27798,8 @@
       "assessment_depth": "cached_abstract",
       "assessment_date": "2026-10-27",
       "full_paper_reviewed": false,
-      "paper_format_verified": false,
-      "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+      "paper_format_verified": true,
+      "source_verification_status": "publisher_resource_and_written_paper_verified",
       "quality_status": "existing_human_quality_review_required",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
       "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
@@ -27586,26 +27833,81 @@
       "institution_score": 80,
       "institution_bonus": 10,
       "title_anchor_bonus": 0,
-      "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+      "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
       ],
       "preflight": {
         "status": "held",
-        "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+        "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
         "checks": {
-          "duplicates": {
+          "format": {
+            "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+            "checked_at": "2026-10-28T10:45:00Z",
             "status": "passed",
-            "checked_at": "2026-10-28T03:50:34.934054+00:00",
-            "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
             "evidence": {
-              "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-              "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+              "verified_document_type": "research_paper",
+              "resource_url": "https://arxiv.org/pdf/2606.10281v2",
+              "resource_sha256": "b079fc600ecd62f7666f5460ace0c722640a765c2d5c80ae4a206c3c43d44069",
+              "resource_bytes": 643965,
+              "pdf_pages": 17,
+              "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+              "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+              "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+            },
+            "rebound_from_content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+            "rebound_at": "2026-10-28T10:45:50.754667+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "access": {
+            "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "resource_url": "https://arxiv.org/pdf/2606.10281v2",
+              "http_method": "GET",
+              "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+              "resource_sha256": "b079fc600ecd62f7666f5460ace0c722640a765c2d5c80ae4a206c3c43d44069",
+              "resource_bytes": 643965,
+              "pdf_pages": 17,
+              "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+              "serial_provider_pacing_seconds": 0.5
+            },
+            "rebound_from_content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+            "rebound_at": "2026-10-28T10:45:50.754667+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "metadata": {
+            "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "authoritative_record": "https://arxiv.org/abs/2606.10281",
+              "identifier": "arXiv:2606.10281",
+              "version": "v2",
+              "submitted_at": "2026-06-09T01:09:04Z",
+              "revised_at": "2026-09-26T18:04:03Z",
+              "title_matches": true,
+              "authors_match_complete_byline": true,
+              "publication_year_matches": true,
+              "doi": null,
+              "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+              "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+            },
+            "rebound_from_content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+            "rebound_at": "2026-10-28T10:45:50.754667+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "duplicates": {
+            "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+              "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+              "public_corpus_records": 3644,
               "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
               "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
               "weekly_inventory_records": 4041,
@@ -27615,14 +27917,17 @@
                 "virusbulletin",
                 "apwg"
               ],
-              "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+              "scope": "Recomputed exact DOI, canonical source/resource URLs and normalized title against the current public corpus, every prepared manifest, and all 4,041 retained upstream identities; the candidate's own identity was excluded.",
               "matches": []
-            }
+            },
+            "rebound_from_content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+            "rebound_at": "2026-10-28T10:45:50.754667+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "quality": {
             "status": "passed",
             "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+            "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
             "evidence": {
               "quality_score": 32.82,
               "quality_venue_score": 40.0,
@@ -27640,55 +27945,232 @@
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-          },
-          "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "metadata": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:38:03.665747+00:00",
-            "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
-            "source_url": null,
-            "evidence": {
-              "DOI": null,
-              "title": null,
-              "author": null,
-              "published": null,
-              "type": null,
-              "publisher": null,
-              "container-title": null,
-              "is-referenced-by-count": null
-            },
-            "comparison": {
-              "title_matches": false,
-              "year_matches": false,
-              "author_families_match": false
-            },
-            "limitations": "No supplied DOI; title-based identifier search remains pending"
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+            "rebound_at": "2026-10-28T10:45:50.754667+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-28T10:45:50.754667+00:00",
+            "content_sha256": "0c4ad9512b0281ef300435aa8ad3f8f01907750e560480df2429b0029ff0c4cf",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "verified_document_type": "research_paper",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+          "superseded_at": "2026-10-28T10:45:50.754667+00:00",
+          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
+          "record": {
+            "candidate_id": "weekly-cc03c13fc15e6a2896786ad3",
+            "upstream_candidate_id": "39909",
+            "upstream_stable_identity": "https://arxiv.org/abs/2606.10281",
+            "source_row": 1849,
+            "review_number": 21,
+            "review_batch": 2,
+            "batch": 2,
+            "title": "Benchmarking and Exploring the Capabilities of LLMs for Attack Investigations",
+            "authors": "Aniket Anand; Yiwei Hou; Daniel Fields; Alex Kantchelian; David Tao; Kurt Thomas; Grant Ho",
+            "year": 2026,
+            "doi": "",
+            "source_url": "https://arxiv.org/abs/2606.10281",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "This paper presents AuditBench, a new benchmark dataset for evaluating the capabilities of LLMs at investigating security-related system audit logs. We design and use this benchmark to explore the performance of LLMs on four log-investigation tasks that incident response teams commonly perform, ranging from triaging alerts generated by detectors to identifying persistence mechanisms on compromised systems. AuditBench consists of system audit logs collected from Linux and Windows machines, and spans over 50 different security investigation scenarios, including both malicious and benign activity. Using our benchmark, we evaluate and analyze the performance of five frontier LLMs at analyzing audit logs for attack investigations. Our analysis illuminates how LLM performance and error profiles vary according to different design choices, such as differences in model size, data representation, prompt construction, and specific investigation tasks. Additionally, we characterize the quality of the explanations produced by LLMs and the types of errors that models make across our benchmark. Collectively, our work provides a foundation for assessing the capabilities of LLMs for investigating security logs, novel insights for practitioners using LLMs in security operations, and important directions for future research.",
+            "abstract_source": "https://arxiv.org/abs/2606.10281",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              {
+                "kind": "primary_pdf_and_authoritative_metadata",
+                "resource_url": "https://arxiv.org/pdf/2606.10281v2",
+                "metadata_url": "https://arxiv.org/abs/2606.10281",
+                "resource_sha256": "b079fc600ecd62f7666f5460ace0c722640a765c2d5c80ae4a206c3c43d44069",
+                "verified_at": "2026-10-28T10:45:00Z",
+                "assessment_depth": "front matter, complete abstract, and opening substantive prose"
+              }
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "include",
+            "relevance": "direct",
+            "review_reason": "Introduces AuditBench to evaluate LLM investigation of system logs across triage, persistence and other incident-response tasks.",
+            "metadata_issue": "Benchmark scenarios and model choices constrain conclusions; test scores do not certify reliable autonomous investigations. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 32.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 32.82,
+            "quality_score": 32.82,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 35.29,
+            "is_preprint": false,
+            "venue": "arXiv (Cornell University)",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "lookup_pending",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "open source investigation",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "765a3c67e1db3812eb8c33c36a6727e4a6943b265b5e7c189b18a0d6f6c8b6bf",
+            "assessed_text_sha256": "1adf4967d7bc34b8659dfcefae82b351208e27185ca1cdbbda7ac1ffc78cf41e",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 80,
+            "institution_bonus": 10,
+            "title_anchor_bonus": 0,
+            "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "format",
+              "access",
+              "metadata",
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+              "checks": {
+                "duplicates": {
+                  "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+                    "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+                    "public_corpus_records": 3644,
+                    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                    "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                    "weekly_inventory_records": 4041,
+                    "all_prepared_collections": [
+                      "soups",
+                      "weekly",
+                      "virusbulletin",
+                      "apwg"
+                    ],
+                    "scope": "Recomputed exact DOI, canonical source/resource URLs and normalized title against the current public corpus, every prepared manifest, and all 4,041 retained upstream identities; the candidate's own identity was excluded.",
+                    "matches": []
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+                  "evidence": {
+                    "quality_score": 32.82,
+                    "quality_venue_score": 40.0,
+                    "quality_citation_score": 0.0,
+                    "quality_relevance_score": 35.29,
+                    "quality_institution_score": 80.0,
+                    "quality_institution_bonus": 10.0,
+                    "quality_title_bonus": 0.0,
+                    "quality_auto_threshold": 35.0,
+                    "quality_review_threshold": 20.0,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "verified_document_type": "research_paper",
+                    "resource_url": "https://arxiv.org/pdf/2606.10281v2",
+                    "resource_sha256": "b079fc600ecd62f7666f5460ace0c722640a765c2d5c80ae4a206c3c43d44069",
+                    "resource_bytes": 643965,
+                    "pdf_pages": 17,
+                    "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+                    "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+                    "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+                  }
+                },
+                "access": {
+                  "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "resource_url": "https://arxiv.org/pdf/2606.10281v2",
+                    "http_method": "GET",
+                    "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+                    "resource_sha256": "b079fc600ecd62f7666f5460ace0c722640a765c2d5c80ae4a206c3c43d44069",
+                    "resource_bytes": 643965,
+                    "pdf_pages": 17,
+                    "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+                    "serial_provider_pacing_seconds": 0.5
+                  }
+                },
+                "metadata": {
+                  "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "authoritative_record": "https://arxiv.org/abs/2606.10281",
+                    "identifier": "arXiv:2606.10281",
+                    "version": "v2",
+                    "submitted_at": "2026-06-09T01:09:04Z",
+                    "revised_at": "2026-09-26T18:04:03Z",
+                    "title_matches": true,
+                    "authors_match_complete_byline": true,
+                    "publication_year_matches": true,
+                    "doi": null,
+                    "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+                    "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "verified_document_type": "research_paper"
+          }
+        }
+      ],
+      "recommendation_content_sha256": "10d3589eed120fa0f6cfef7cc995b4fe1419ddf2ae5432d2fe8b250478408c61",
+      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
     },
     {
       "candidate_id": "weekly-c93b221f1bbf39ef09fa7d61",
@@ -39664,15 +40146,22 @@
       "year": 2026,
       "doi": "",
       "source_url": "https://arxiv.org/abs/2605.26791",
-      "document_type": "research_paper_candidate",
-      "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-      "format_verification_status": "hold_original_document_type_unverified",
+      "document_type": "research_paper",
+      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
+      "format_verification_status": "verified_written_research_paper",
       "abstract": "YARA rules are widely shared across threat intelligence communities to enable collective defence against malware. This practice implicitly assumes that removing metadata (e.g., author fields) sufficiently protects the identity of contributing organisations. To assess the validity of this assumption, we systematically evaluate how much can be inferred from YARA rule text alone. Specifically, using a corpus of 23,305 rules from three major public repositories, we train independent classifiers along four stylometric fingerprint dimensions: individual author, source repository, malware family, and temporal drift, using three complementary methods: lexical n-grams (Burrows' Delta), syntactic AST features (Caliskan-Islam), and fine-tuned CodeBERT. Our results demonstrate that repository origin is almost perfectly recoverable (up to 99% accuracy), individual authors can be re-identified well above chance (76%), and malware family classification reaches 95%. Comparing the same repository attribution task across full-history and time-restricted subsets reveals a 9-18% accuracy gap, providing preliminary evidence of temporal drift in repository fingerprints.To further disentangle content from style, we conduct per-malware family author attribution experiments. Even when the malware family is the same for all samples considered, authors can still be re-identified for five of seven tested families (mean accuracy 74.6%). These findings constitute the first systematic demonstration that YARA rule sharing is a measurable OPSEC attack surface, and that metadata removal alone does not mitigate it.",
       "abstract_source": "https://arxiv.org/abs/2605.26791",
       "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
       "review_evidence": [
-        "https://arxiv.org/abs/2605.26791",
-        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+        {
+          "kind": "primary_pdf_and_authoritative_metadata",
+          "resource_url": "https://arxiv.org/pdf/2605.26791v1",
+          "metadata_url": "https://arxiv.org/abs/2605.26791",
+          "resource_sha256": "4079ea03ef3fc461aa1277d7dbb3c057ab6ceaabca1ea6f650e1a3db6d52fbe9",
+          "verified_at": "2026-10-28T10:45:00Z",
+          "assessment_depth": "front matter, complete abstract, and opening substantive prose",
+          "resource_bytes": 1073373
+        }
       ],
       "collection_id": "weekly",
       "collection_source": "ALEX regular weekly discovery review queue",
@@ -39685,8 +40174,8 @@
       "assessment_depth": "cached_abstract",
       "assessment_date": "2026-10-27",
       "full_paper_reviewed": false,
-      "paper_format_verified": false,
-      "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+      "paper_format_verified": true,
+      "source_verification_status": "publisher_resource_and_written_paper_verified",
       "quality_status": "existing_human_quality_review_required",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
       "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
@@ -39720,26 +40209,81 @@
       "institution_score": 20,
       "institution_bonus": 0,
       "title_anchor_bonus": 0,
-      "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+      "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
       ],
       "preflight": {
         "status": "held",
-        "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+        "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
         "checks": {
-          "duplicates": {
+          "format": {
+            "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+            "checked_at": "2026-10-28T10:45:00Z",
             "status": "passed",
-            "checked_at": "2026-10-28T03:50:34.934054+00:00",
-            "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
             "evidence": {
-              "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-              "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+              "verified_document_type": "research_paper",
+              "resource_url": "https://arxiv.org/pdf/2605.26791v1",
+              "resource_sha256": "4079ea03ef3fc461aa1277d7dbb3c057ab6ceaabca1ea6f650e1a3db6d52fbe9",
+              "resource_bytes": 1073373,
+              "pdf_pages": 14,
+              "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+              "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+              "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+            },
+            "rebound_from_content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+            "rebound_at": "2026-10-28T10:45:50.754893+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "access": {
+            "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "resource_url": "https://arxiv.org/pdf/2605.26791v1",
+              "http_method": "GET",
+              "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+              "resource_sha256": "4079ea03ef3fc461aa1277d7dbb3c057ab6ceaabca1ea6f650e1a3db6d52fbe9",
+              "resource_bytes": 1073373,
+              "pdf_pages": 14,
+              "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+              "serial_provider_pacing_seconds": 0.5
+            },
+            "rebound_from_content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+            "rebound_at": "2026-10-28T10:45:50.754893+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "metadata": {
+            "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "authoritative_record": "https://arxiv.org/abs/2605.26791",
+              "identifier": "arXiv:2605.26791",
+              "version": "v1",
+              "submitted_at": "2026-05-26T10:01:50Z",
+              "revised_at": null,
+              "title_matches": true,
+              "authors_match_complete_byline": true,
+              "publication_year_matches": true,
+              "doi": null,
+              "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+              "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+            },
+            "rebound_from_content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+            "rebound_at": "2026-10-28T10:45:50.754893+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "duplicates": {
+            "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+              "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+              "public_corpus_records": 3644,
               "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
               "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
               "weekly_inventory_records": 4041,
@@ -39749,14 +40293,17 @@
                 "virusbulletin",
                 "apwg"
               ],
-              "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+              "scope": "Recomputed exact DOI, canonical source/resource URLs and normalized title against the current public corpus, every prepared manifest, and all 4,041 retained upstream identities; the candidate's own identity was excluded.",
               "matches": []
-            }
+            },
+            "rebound_from_content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+            "rebound_at": "2026-10-28T10:45:50.754893+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "quality": {
             "status": "passed",
             "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+            "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
             "evidence": {
               "quality_score": 27.24,
               "quality_venue_score": 40.0,
@@ -39774,40 +40321,232 @@
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-          },
-          "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "metadata": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+            "rebound_at": "2026-10-28T10:45:50.754893+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-28T10:45:50.754893+00:00",
+            "content_sha256": "4216117ab89763dc72e913c869d9d3366b60f392efd05abffcd7b2b97b2b4bd9",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "verified_document_type": "research_paper",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+          "superseded_at": "2026-10-28T10:45:50.754893+00:00",
+          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
+          "record": {
+            "candidate_id": "weekly-215139a72d69c0a2e1c2029e",
+            "upstream_candidate_id": "33581",
+            "upstream_stable_identity": "https://arxiv.org/abs/2605.26791",
+            "source_row": 1535,
+            "review_number": 123,
+            "review_batch": 7,
+            "batch": 7,
+            "title": "Anonymous YARA Rules Are Not Anonymous",
+            "authors": "Usman Rabiu Isah; Laurent Bobelin; Pascal Berthomé",
+            "year": 2026,
+            "doi": "",
+            "source_url": "https://arxiv.org/abs/2605.26791",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "YARA rules are widely shared across threat intelligence communities to enable collective defence against malware. This practice implicitly assumes that removing metadata (e.g., author fields) sufficiently protects the identity of contributing organisations. To assess the validity of this assumption, we systematically evaluate how much can be inferred from YARA rule text alone. Specifically, using a corpus of 23,305 rules from three major public repositories, we train independent classifiers along four stylometric fingerprint dimensions: individual author, source repository, malware family, and temporal drift, using three complementary methods: lexical n-grams (Burrows' Delta), syntactic AST features (Caliskan-Islam), and fine-tuned CodeBERT. Our results demonstrate that repository origin is almost perfectly recoverable (up to 99% accuracy), individual authors can be re-identified well above chance (76%), and malware family classification reaches 95%. Comparing the same repository attribution task across full-history and time-restricted subsets reveals a 9-18% accuracy gap, providing preliminary evidence of temporal drift in repository fingerprints.To further disentangle content from style, we conduct per-malware family author attribution experiments. Even when the malware family is the same for all samples considered, authors can still be re-identified for five of seven tested families (mean accuracy 74.6%). These findings constitute the first systematic demonstration that YARA rule sharing is a measurable OPSEC attack surface, and that metadata removal alone does not mitigate it.",
+            "abstract_source": "https://arxiv.org/abs/2605.26791",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              {
+                "kind": "primary_pdf_and_authoritative_metadata",
+                "resource_url": "https://arxiv.org/pdf/2605.26791v1",
+                "metadata_url": "https://arxiv.org/abs/2605.26791",
+                "resource_sha256": "4079ea03ef3fc461aa1277d7dbb3c057ab6ceaabca1ea6f650e1a3db6d52fbe9",
+                "verified_at": "2026-10-28T10:45:00Z",
+                "assessment_depth": "front matter, complete abstract, and opening substantive prose"
+              }
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "include",
+            "relevance": "direct",
+            "review_reason": "Tests stylometric identification of YARA rule authors and repositories using 23,305 rules and multiple lexical, syntax and CodeBERT models.",
+            "metadata_issue": "Open repositories and constrained attribution tasks limit external generalisation; temporal drift is preliminary and family controls do not remove all shared-content confounds. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 27.24; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 27.24,
+            "quality_score": 27.24,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 52.94,
+            "is_preprint": false,
+            "venue": "ArXiv.org",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "lookup_pending",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "advanced persistent threats",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "321a803c5dcf58e3e3f3a84201422fb0a0fe7e9ea847143f9ce9707b2af0e1f3",
+            "assessed_text_sha256": "7dab405e3f3040b0c181386c713e5fac810a1ad3c5ffa06e625e4ee6e0dcc406",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 20,
+            "institution_bonus": 0,
+            "title_anchor_bonus": 0,
+            "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "format",
+              "access",
+              "metadata",
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+              "checks": {
+                "duplicates": {
+                  "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+                    "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+                    "public_corpus_records": 3644,
+                    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                    "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                    "weekly_inventory_records": 4041,
+                    "all_prepared_collections": [
+                      "soups",
+                      "weekly",
+                      "virusbulletin",
+                      "apwg"
+                    ],
+                    "scope": "Recomputed exact DOI, canonical source/resource URLs and normalized title against the current public corpus, every prepared manifest, and all 4,041 retained upstream identities; the candidate's own identity was excluded.",
+                    "matches": []
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+                  "evidence": {
+                    "quality_score": 27.24,
+                    "quality_venue_score": 40.0,
+                    "quality_citation_score": 0.0,
+                    "quality_relevance_score": 52.94,
+                    "quality_institution_score": 40.0,
+                    "quality_institution_bonus": 0.0,
+                    "quality_title_bonus": 0.0,
+                    "quality_auto_threshold": 35.0,
+                    "quality_review_threshold": 20.0,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "verified_document_type": "research_paper",
+                    "resource_url": "https://arxiv.org/pdf/2605.26791v1",
+                    "resource_sha256": "4079ea03ef3fc461aa1277d7dbb3c057ab6ceaabca1ea6f650e1a3db6d52fbe9",
+                    "resource_bytes": 1073587,
+                    "pdf_pages": 14,
+                    "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+                    "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+                    "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+                  }
+                },
+                "access": {
+                  "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "resource_url": "https://arxiv.org/pdf/2605.26791v1",
+                    "http_method": "GET",
+                    "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+                    "resource_sha256": "4079ea03ef3fc461aa1277d7dbb3c057ab6ceaabca1ea6f650e1a3db6d52fbe9",
+                    "resource_bytes": 1073587,
+                    "pdf_pages": 14,
+                    "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+                    "serial_provider_pacing_seconds": 0.5
+                  }
+                },
+                "metadata": {
+                  "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "authoritative_record": "https://arxiv.org/abs/2605.26791",
+                    "identifier": "arXiv:2605.26791",
+                    "version": "v1",
+                    "submitted_at": "2026-05-26T10:01:50Z",
+                    "revised_at": null,
+                    "title_matches": true,
+                    "authors_match_complete_byline": true,
+                    "publication_year_matches": true,
+                    "doi": null,
+                    "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+                    "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "verified_document_type": "research_paper"
+          }
+        }
+      ],
+      "recommendation_content_sha256": "e6fbff9af471aa3c61c24ff68565e7843e9387991d92040bbe06bb2fc8c1c846",
+      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
     },
     {
       "candidate_id": "weekly-8cebb99673c34d6a0b9e6a02",
@@ -42508,15 +43247,21 @@
       "year": 2026,
       "doi": "10.48550/arxiv.2604.20378",
       "source_url": "https://doi.org/10.48550/arxiv.2604.20378",
-      "document_type": "research_paper_candidate",
-      "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-      "format_verification_status": "hold_original_document_type_unverified",
+      "document_type": "research_paper",
+      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
+      "format_verification_status": "verified_written_research_paper",
       "abstract": "Memory analysis is a crucial technique in digital forensics that enables investigators to examine the runtime state of a system through physical memory dumps. While significant advances have been made in memory forensics, the detection and analysis of Thread Local Storage (TLS) callbacks remain challenging due to their dual nature as both legitimate Windows constructs and potential vectors for malware execution. An early version of the TlsCheck plugin received recognition in the Volatility Plugin Contest 2024. In this paper, we present an enhanced version of TlsCheck for Volatility 3, designed to detect and analyze TLS callbacks in process memory. It implements precise detection of TLS callback tables through analysis of PE headers and memory structures, combined with disassembly of identified callback routines. The plugin supports both 32-bit and 64-bit architectures, offering investigators insights into callback locations, assembly behavior, and potential signs of suspicious activity. To enhance detection, we incorporate pattern matching using custom regular expressions and YARA rules, helping analysts identify specific code patterns or suspicious constructs within TLS callbacks. The framework also includes instruction-level analysis to highlight behavior often linked to malware, such as anti-debugging, code injection, and process manipulation. This implementation significantly improves defenders' ability to detect and investigate TLS-based threats during memory forensics, supporting more effective malware analysis and incident response operations.",
       "abstract_source": "https://doi.org/10.48550/arxiv.2604.20378",
       "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
       "review_evidence": [
-        "https://doi.org/10.48550/arxiv.2604.20378",
-        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+        {
+          "kind": "primary_pdf_and_authoritative_metadata",
+          "resource_url": "https://arxiv.org/pdf/2604.20378v1",
+          "metadata_url": "https://arxiv.org/abs/2604.20378",
+          "resource_sha256": "0bc5b99310d77f80cacbace6bee663c6e1e75febc05818ccef3f134c720ee88b",
+          "verified_at": "2026-10-28T10:45:00Z",
+          "assessment_depth": "front matter, complete abstract, and opening substantive prose"
+        }
       ],
       "collection_id": "weekly",
       "collection_source": "ALEX regular weekly discovery review queue",
@@ -42529,8 +43274,8 @@
       "assessment_depth": "cached_abstract",
       "assessment_date": "2026-10-27",
       "full_paper_reviewed": false,
-      "paper_format_verified": false,
-      "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+      "paper_format_verified": true,
+      "source_verification_status": "publisher_resource_and_written_paper_verified",
       "quality_status": "existing_human_quality_review_required",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
       "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
@@ -42564,26 +43309,81 @@
       "institution_score": 20,
       "institution_bonus": 0,
       "title_anchor_bonus": 0,
-      "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+      "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
       ],
       "preflight": {
         "status": "held",
-        "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+        "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
         "checks": {
-          "duplicates": {
+          "format": {
+            "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+            "checked_at": "2026-10-28T10:45:00Z",
             "status": "passed",
-            "checked_at": "2026-10-28T03:50:34.934054+00:00",
-            "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
             "evidence": {
-              "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-              "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+              "verified_document_type": "research_paper",
+              "resource_url": "https://arxiv.org/pdf/2604.20378v1",
+              "resource_sha256": "0bc5b99310d77f80cacbace6bee663c6e1e75febc05818ccef3f134c720ee88b",
+              "resource_bytes": 1152747,
+              "pdf_pages": 8,
+              "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+              "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+              "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+            },
+            "rebound_from_content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+            "rebound_at": "2026-10-28T10:45:50.755214+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "access": {
+            "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "resource_url": "https://arxiv.org/pdf/2604.20378v1",
+              "http_method": "GET",
+              "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+              "resource_sha256": "0bc5b99310d77f80cacbace6bee663c6e1e75febc05818ccef3f134c720ee88b",
+              "resource_bytes": 1152747,
+              "pdf_pages": 8,
+              "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+              "serial_provider_pacing_seconds": 0.5
+            },
+            "rebound_from_content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+            "rebound_at": "2026-10-28T10:45:50.755214+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "metadata": {
+            "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "authoritative_record": "https://arxiv.org/abs/2604.20378",
+              "identifier": "arXiv:2604.20378",
+              "version": "v1",
+              "submitted_at": "2026-04-22T09:26:45Z",
+              "revised_at": null,
+              "title_matches": true,
+              "authors_match_complete_byline": true,
+              "publication_year_matches": true,
+              "doi": "10.48550/arxiv.2604.20378",
+              "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+              "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+            },
+            "rebound_from_content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+            "rebound_at": "2026-10-28T10:45:50.755214+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "duplicates": {
+            "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+              "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+              "public_corpus_records": 3644,
               "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
               "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
               "weekly_inventory_records": 4041,
@@ -42593,14 +43393,17 @@
                 "virusbulletin",
                 "apwg"
               ],
-              "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+              "scope": "Recomputed exact DOI, canonical source/resource URLs and normalized title against the current public corpus, every prepared manifest, and all 4,041 retained upstream identities; the candidate's own identity was excluded.",
               "matches": []
-            }
+            },
+            "rebound_from_content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+            "rebound_at": "2026-10-28T10:45:50.755214+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "quality": {
             "status": "passed",
             "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+            "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
             "evidence": {
               "quality_score": 22.82,
               "quality_venue_score": 40.0,
@@ -42618,40 +43421,232 @@
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-          },
-          "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "metadata": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+            "rebound_at": "2026-10-28T10:45:50.755214+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-28T10:45:50.755214+00:00",
+            "content_sha256": "de0fec8b8140933dad77a34a8ca1ba68453712df89cb15943ed8cbf0ef4254cd",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "verified_document_type": "research_paper",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+          "superseded_at": "2026-10-28T10:45:50.755214+00:00",
+          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
+          "record": {
+            "candidate_id": "weekly-24e99891c7a0a2479f0e8d9a",
+            "upstream_candidate_id": "2912",
+            "upstream_stable_identity": "10.48550/arxiv.2604.20378",
+            "source_row": 100,
+            "review_number": 141,
+            "review_batch": 8,
+            "batch": 8,
+            "title": "TLSCheck 2.0: An Enhanced Memory Forensics Approach to Efficiently Detect TLS Callbacks",
+            "authors": "Kartik N. Iyer; Parag H. Rughani",
+            "year": 2026,
+            "doi": "10.48550/arxiv.2604.20378",
+            "source_url": "https://doi.org/10.48550/arxiv.2604.20378",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "Memory analysis is a crucial technique in digital forensics that enables investigators to examine the runtime state of a system through physical memory dumps. While significant advances have been made in memory forensics, the detection and analysis of Thread Local Storage (TLS) callbacks remain challenging due to their dual nature as both legitimate Windows constructs and potential vectors for malware execution. An early version of the TlsCheck plugin received recognition in the Volatility Plugin Contest 2024. In this paper, we present an enhanced version of TlsCheck for Volatility 3, designed to detect and analyze TLS callbacks in process memory. It implements precise detection of TLS callback tables through analysis of PE headers and memory structures, combined with disassembly of identified callback routines. The plugin supports both 32-bit and 64-bit architectures, offering investigators insights into callback locations, assembly behavior, and potential signs of suspicious activity. To enhance detection, we incorporate pattern matching using custom regular expressions and YARA rules, helping analysts identify specific code patterns or suspicious constructs within TLS callbacks. The framework also includes instruction-level analysis to highlight behavior often linked to malware, such as anti-debugging, code injection, and process manipulation. This implementation significantly improves defenders' ability to detect and investigate TLS-based threats during memory forensics, supporting more effective malware analysis and incident response operations.",
+            "abstract_source": "https://doi.org/10.48550/arxiv.2604.20378",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              {
+                "kind": "primary_pdf_and_authoritative_metadata",
+                "resource_url": "https://arxiv.org/pdf/2604.20378v1",
+                "metadata_url": "https://arxiv.org/abs/2604.20378",
+                "resource_sha256": "0bc5b99310d77f80cacbace6bee663c6e1e75febc05818ccef3f134c720ee88b",
+                "verified_at": "2026-10-28T10:45:00Z",
+                "assessment_depth": "front matter, complete abstract, and opening substantive prose"
+              }
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "include",
+            "relevance": "direct",
+            "review_reason": "Extends a Volatility 3 plugin to locate and disassemble 32-bit and 64-bit TLS callbacks, combining PE analysis, YARA and suspicious-instruction patterns.",
+            "metadata_issue": "A legitimate TLS callback is not inherently malicious; the abstract lacks quantified detection coverage, false positives and adversarial testing. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 22.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 22.82,
+            "quality_score": 22.82,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 35.29,
+            "is_preprint": false,
+            "venue": "arXiv (Cornell University)",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "upstream_identifier_not_independently_verified",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "digital investigation techniques",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "d275220cc1c2844e98b3aee8397b44d55ec0332bf2cb447627ac64e184eaca18",
+            "assessed_text_sha256": "15f0d2503aee452548369b934ff2e72a4c1c6f80144b01db757ec9a32f1b6ae5",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 20,
+            "institution_bonus": 0,
+            "title_anchor_bonus": 0,
+            "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "format",
+              "access",
+              "metadata",
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+              "checks": {
+                "duplicates": {
+                  "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+                    "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+                    "public_corpus_records": 3644,
+                    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                    "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                    "weekly_inventory_records": 4041,
+                    "all_prepared_collections": [
+                      "soups",
+                      "weekly",
+                      "virusbulletin",
+                      "apwg"
+                    ],
+                    "scope": "Recomputed exact DOI, canonical source/resource URLs and normalized title against the current public corpus, every prepared manifest, and all 4,041 retained upstream identities; the candidate's own identity was excluded.",
+                    "matches": []
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+                  "evidence": {
+                    "quality_score": 22.82,
+                    "quality_venue_score": 40.0,
+                    "quality_citation_score": 0.0,
+                    "quality_relevance_score": 35.29,
+                    "quality_institution_score": 40.0,
+                    "quality_institution_bonus": 0.0,
+                    "quality_title_bonus": 0.0,
+                    "quality_auto_threshold": 35.0,
+                    "quality_review_threshold": 20.0,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "verified_document_type": "research_paper",
+                    "resource_url": "https://arxiv.org/pdf/2604.20378v1",
+                    "resource_sha256": "0bc5b99310d77f80cacbace6bee663c6e1e75febc05818ccef3f134c720ee88b",
+                    "resource_bytes": 1152747,
+                    "pdf_pages": 8,
+                    "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+                    "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+                    "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+                  }
+                },
+                "access": {
+                  "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "resource_url": "https://arxiv.org/pdf/2604.20378v1",
+                    "http_method": "GET",
+                    "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+                    "resource_sha256": "0bc5b99310d77f80cacbace6bee663c6e1e75febc05818ccef3f134c720ee88b",
+                    "resource_bytes": 1152747,
+                    "pdf_pages": 8,
+                    "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+                    "serial_provider_pacing_seconds": 0.5
+                  }
+                },
+                "metadata": {
+                  "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "authoritative_record": "https://arxiv.org/abs/2604.20378",
+                    "identifier": "arXiv:2604.20378",
+                    "version": "v1",
+                    "submitted_at": "2026-04-22T09:26:45Z",
+                    "revised_at": null,
+                    "title_matches": true,
+                    "authors_match_complete_byline": true,
+                    "publication_year_matches": true,
+                    "doi": "10.48550/arxiv.2604.20378",
+                    "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+                    "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "verified_document_type": "research_paper"
+          }
+        }
+      ],
+      "recommendation_content_sha256": "8453f93793e962fce4b018e5440be3d6239fd9bc2234f6c835e6ff6650d250df",
+      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
     },
     {
       "candidate_id": "weekly-72ababd0255779edafb991cb",
@@ -42982,15 +43977,21 @@
       "year": 2026,
       "doi": "",
       "source_url": "https://arxiv.org/abs/2605.11619",
-      "document_type": "research_paper_candidate",
-      "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-      "format_verification_status": "hold_original_document_type_unverified",
+      "document_type": "research_paper",
+      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
+      "format_verification_status": "verified_written_research_paper",
       "abstract": "Here is a further shortened version (pure text, no extra formatting, academic style preserved, no content change): Abstract. With the rise of AI-generated content (AIGC), phishing actors now possess richer linguistic capabilities and evasion techniques. Most existing detectors over-rely on mutable textual features, achieving high accuracy on clean data but degrading severely under text-focused adversarial manipulation. This mirrors the lab-to-real performance gap. We investigate invariant signals in phishing emails: even when attackers modify surface text, functional intent constrains relations among typed entities. Threat-actor tradecraft is described via high-level TTPs, but rule-based systems like Sigma express invariants only through manually curated, field-specific patterns, limiting flexibility. We introduce PhishSigma++, an entity-relation-based malicious email detector for RFC822 messages that generalizes Sigma's design. It extracts 40 typed entity classes, computes 5 cross-type relations to build a typed email graph, and uses particle swarm optimization (PSO) to select a sparse discriminative mask, supporting classification and type-level evidence summary. On 29,142 messages, PhishSigma++ achieves 0.9675 F1 on clean data and outperforms text-centric baselines under non-adaptive Good Word padding at \\r{ho}=0.8. It maintains 0.9579 F1, while a token-based Bayesian filter collapses to 0.0243 and a DistilBERT phishing checkpoint falls to 0.7284. Compared with traditional Sigma rules, PhishSigma++ offers higher detection, broader relational invariance coverage, and data-driven feature selection. We also show that thresholded typed relation scores encode a useful fragment of Sigma-style field conditions, unifying hand-crafted rule logic and learned relation masks in a single-email framework.",
       "abstract_source": "https://arxiv.org/abs/2605.11619",
       "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
       "review_evidence": [
-        "https://arxiv.org/abs/2605.11619",
-        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+        {
+          "kind": "primary_pdf_and_authoritative_metadata",
+          "resource_url": "https://arxiv.org/pdf/2605.11619v1",
+          "metadata_url": "https://arxiv.org/abs/2605.11619",
+          "resource_sha256": "1b9a44bd786cfc9f471b7fd0cc49ba13cea64821af85fa12cf7e11aa5d2cc406",
+          "verified_at": "2026-10-28T10:45:00Z",
+          "assessment_depth": "front matter, complete abstract, and opening substantive prose"
+        }
       ],
       "collection_id": "weekly",
       "collection_source": "ALEX regular weekly discovery review queue",
@@ -43003,8 +44004,8 @@
       "assessment_depth": "cached_abstract",
       "assessment_date": "2026-10-27",
       "full_paper_reviewed": false,
-      "paper_format_verified": false,
-      "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+      "paper_format_verified": true,
+      "source_verification_status": "publisher_resource_and_written_paper_verified",
       "quality_status": "existing_human_quality_review_required",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
       "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
@@ -43038,26 +44039,81 @@
       "institution_score": 20,
       "institution_bonus": 0,
       "title_anchor_bonus": 0,
-      "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+      "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
       ],
       "preflight": {
         "status": "held",
-        "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+        "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
         "checks": {
-          "duplicates": {
+          "format": {
+            "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+            "checked_at": "2026-10-28T10:45:00Z",
             "status": "passed",
-            "checked_at": "2026-10-28T03:50:34.934054+00:00",
-            "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
             "evidence": {
-              "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-              "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+              "verified_document_type": "research_paper",
+              "resource_url": "https://arxiv.org/pdf/2605.11619v1",
+              "resource_sha256": "1b9a44bd786cfc9f471b7fd0cc49ba13cea64821af85fa12cf7e11aa5d2cc406",
+              "resource_bytes": 1055236,
+              "pdf_pages": 19,
+              "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+              "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+              "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+            },
+            "rebound_from_content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+            "rebound_at": "2026-10-28T10:45:50.755453+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "access": {
+            "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "resource_url": "https://arxiv.org/pdf/2605.11619v1",
+              "http_method": "GET",
+              "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+              "resource_sha256": "1b9a44bd786cfc9f471b7fd0cc49ba13cea64821af85fa12cf7e11aa5d2cc406",
+              "resource_bytes": 1055236,
+              "pdf_pages": 19,
+              "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+              "serial_provider_pacing_seconds": 0.5
+            },
+            "rebound_from_content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+            "rebound_at": "2026-10-28T10:45:50.755453+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "metadata": {
+            "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "authoritative_record": "https://arxiv.org/abs/2605.11619",
+              "identifier": "arXiv:2605.11619",
+              "version": "v1",
+              "submitted_at": "2026-05-12T06:46:40Z",
+              "revised_at": null,
+              "title_matches": true,
+              "authors_match_complete_byline": true,
+              "publication_year_matches": true,
+              "doi": null,
+              "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+              "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+            },
+            "rebound_from_content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+            "rebound_at": "2026-10-28T10:45:50.755453+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "duplicates": {
+            "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+            "checked_at": "2026-10-28T10:45:00Z",
+            "status": "passed",
+            "evidence": {
+              "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+              "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+              "public_corpus_records": 3644,
               "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
               "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
               "weekly_inventory_records": 4041,
@@ -43067,14 +44123,17 @@
                 "virusbulletin",
                 "apwg"
               ],
-              "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+              "scope": "Recomputed exact DOI, canonical source/resource URLs and normalized title against the current public corpus, every prepared manifest, and all 4,041 retained upstream identities; the candidate's own identity was excluded.",
               "matches": []
-            }
+            },
+            "rebound_from_content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+            "rebound_at": "2026-10-28T10:45:50.755453+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "quality": {
             "status": "passed",
             "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+            "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
             "evidence": {
               "quality_score": 22.82,
               "quality_venue_score": 40.0,
@@ -43092,40 +44151,232 @@
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-          },
-          "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "metadata": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+            "rebound_at": "2026-10-28T10:45:50.755453+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-28T10:45:50.755453+00:00",
+            "content_sha256": "33395f2c02847b2e67545533541c39a2799692f179968594a9360a16d5ab61e7",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "verified_document_type": "research_paper",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+          "superseded_at": "2026-10-28T10:45:50.755453+00:00",
+          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
+          "record": {
+            "candidate_id": "weekly-0ee24fb49a0062004577ab3c",
+            "upstream_candidate_id": "23517",
+            "upstream_stable_identity": "https://arxiv.org/abs/2605.11619",
+            "source_row": 959,
+            "review_number": 144,
+            "review_batch": 8,
+            "batch": 8,
+            "title": "PhishSigma++: Malicious Email Detection with Typed Entity Relations",
+            "authors": "Shang Shang; Ruiqi Wang; Ruijie Qi; Hao Li; Yingxiao Xiang; Yepeng Yao; Zhengwei Jiang",
+            "year": 2026,
+            "doi": "",
+            "source_url": "https://arxiv.org/abs/2605.11619",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "Here is a further shortened version (pure text, no extra formatting, academic style preserved, no content change): Abstract. With the rise of AI-generated content (AIGC), phishing actors now possess richer linguistic capabilities and evasion techniques. Most existing detectors over-rely on mutable textual features, achieving high accuracy on clean data but degrading severely under text-focused adversarial manipulation. This mirrors the lab-to-real performance gap. We investigate invariant signals in phishing emails: even when attackers modify surface text, functional intent constrains relations among typed entities. Threat-actor tradecraft is described via high-level TTPs, but rule-based systems like Sigma express invariants only through manually curated, field-specific patterns, limiting flexibility. We introduce PhishSigma++, an entity-relation-based malicious email detector for RFC822 messages that generalizes Sigma's design. It extracts 40 typed entity classes, computes 5 cross-type relations to build a typed email graph, and uses particle swarm optimization (PSO) to select a sparse discriminative mask, supporting classification and type-level evidence summary. On 29,142 messages, PhishSigma++ achieves 0.9675 F1 on clean data and outperforms text-centric baselines under non-adaptive Good Word padding at \\r{ho}=0.8. It maintains 0.9579 F1, while a token-based Bayesian filter collapses to 0.0243 and a DistilBERT phishing checkpoint falls to 0.7284. Compared with traditional Sigma rules, PhishSigma++ offers higher detection, broader relational invariance coverage, and data-driven feature selection. We also show that thresholded typed relation scores encode a useful fragment of Sigma-style field conditions, unifying hand-crafted rule logic and learned relation masks in a single-email framework.",
+            "abstract_source": "https://arxiv.org/abs/2605.11619",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              {
+                "kind": "primary_pdf_and_authoritative_metadata",
+                "resource_url": "https://arxiv.org/pdf/2605.11619v1",
+                "metadata_url": "https://arxiv.org/abs/2605.11619",
+                "resource_sha256": "1b9a44bd786cfc9f471b7fd0cc49ba13cea64821af85fa12cf7e11aa5d2cc406",
+                "verified_at": "2026-10-28T10:45:00Z",
+                "assessment_depth": "front matter, complete abstract, and opening substantive prose"
+              }
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "discuss",
+            "relevance": "direct",
+            "review_reason": "PhishSigma++ classifies RFC822 email through typed entity relations and sparse feature selection, testing clean and non-adaptive padding attacks on 29,142 messages.",
+            "metadata_issue": "The cached text begins with an apparent editorial instruction, requiring original-source verification; padding robustness is not adaptive adversarial robustness and dataset separation needs checking. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 22.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 22.82,
+            "quality_score": 22.82,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 35.29,
+            "is_preprint": false,
+            "venue": "ArXiv.org",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "lookup_pending",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "threat intelligence collection",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "67f08cbd9afd5494b34ce99d02043c4611c9bca939163ab23834b7f0e3aea366",
+            "assessed_text_sha256": "5003494ea76838f9e52ff014847ffa75b6da4a7fd33a5f3c9b50f17fc940edbb",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 20,
+            "institution_bonus": 0,
+            "title_anchor_bonus": 0,
+            "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "format",
+              "access",
+              "metadata",
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+              "checks": {
+                "duplicates": {
+                  "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "public_corpus_blob": "30714efc33f95459eaf3c8e5547bd3e769f8f404",
+                    "public_corpus_sha256": "85cd787786a249b934f96c6a8e0efc61ae4df135327d16dd9fa9bb1e793301b9",
+                    "public_corpus_records": 3644,
+                    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                    "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                    "weekly_inventory_records": 4041,
+                    "all_prepared_collections": [
+                      "soups",
+                      "weekly",
+                      "virusbulletin",
+                      "apwg"
+                    ],
+                    "scope": "Recomputed exact DOI, canonical source/resource URLs and normalized title against the current public corpus, every prepared manifest, and all 4,041 retained upstream identities; the candidate's own identity was excluded.",
+                    "matches": []
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+                  "evidence": {
+                    "quality_score": 22.82,
+                    "quality_venue_score": 40.0,
+                    "quality_citation_score": 0.0,
+                    "quality_relevance_score": 35.29,
+                    "quality_institution_score": 40.0,
+                    "quality_institution_bonus": 0.0,
+                    "quality_title_bonus": 0.0,
+                    "quality_auto_threshold": 35.0,
+                    "quality_review_threshold": 20.0,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "verified_document_type": "research_paper",
+                    "resource_url": "https://arxiv.org/pdf/2605.11619v1",
+                    "resource_sha256": "1b9a44bd786cfc9f471b7fd0cc49ba13cea64821af85fa12cf7e11aa5d2cc406",
+                    "resource_bytes": 1055236,
+                    "pdf_pages": 19,
+                    "inspection": "Actual PDF signature, page count, title, complete byline, abstract and opening substantive prose inspected from the primary arXiv resource.",
+                    "paper_presentation_distinction": "Written research paper verified; not a slide deck, poster, transcript, or presentation recording.",
+                    "limitations": "Document type evidence does not establish peer review or waive the existing quality gate."
+                  }
+                },
+                "access": {
+                  "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "resource_url": "https://arxiv.org/pdf/2605.11619v1",
+                    "http_method": "GET",
+                    "result": "Primary PDF fetched successfully within the 20-second request limit and parsed locally.",
+                    "resource_sha256": "1b9a44bd786cfc9f471b7fd0cc49ba13cea64821af85fa12cf7e11aa5d2cc406",
+                    "resource_bytes": 1055236,
+                    "pdf_pages": 19,
+                    "sufficient_content_inspected": "Front matter, abstract, and opening substantive content; enough to verify access and written-paper format.",
+                    "serial_provider_pacing_seconds": 0.5
+                  }
+                },
+                "metadata": {
+                  "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+                  "checked_at": "2026-10-28T10:45:00Z",
+                  "status": "passed",
+                  "evidence": {
+                    "authoritative_record": "https://arxiv.org/abs/2605.11619",
+                    "identifier": "arXiv:2605.11619",
+                    "version": "v1",
+                    "submitted_at": "2026-05-12T06:46:40Z",
+                    "revised_at": null,
+                    "title_matches": true,
+                    "authors_match_complete_byline": true,
+                    "publication_year_matches": true,
+                    "doi": null,
+                    "comparison": "Manifest title, complete ordered author list and 2026 year match the authoritative arXiv record and inspected PDF front matter.",
+                    "limitations": "No publisher or peer-review status inferred. Missing DOI remains null; the arXiv identifier is independently verified."
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "verified_document_type": "research_paper"
+          }
+        }
+      ],
+      "recommendation_content_sha256": "b20ba2683284e061525eb3fac0c9af864e7a50ee7753bff0ecd13e9fcec95469",
+      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
     },
     {
       "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
