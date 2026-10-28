@@ -7,12 +7,8 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
-  "last_error": "Paid taxonomy execution unavailable in this worker; full target-import/schema validation remains held. Independent structural checks and source evidence continue; no false paid-stage or import-readiness pass.",
-  "lease": {
-    "owner": "preflight-2026-10-28T03:39:48.436Z",
-    "acquired_at": "2026-10-28T03:39:48.436Z",
-    "expires_at": "2026-10-28T04:09:48.436Z"
-  },
+  "last_error": "Paid taxonomy execution unavailable in this worker; full target-import/schema validation remains held. Six SOUPS identifier lookups held separately (one HTTP400 query error, five OpenAlex HTTP429 rate limits); retry only after source backoff. Existing quality, media and access holds remain.",
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -33,8 +29,8 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-28T02:54:42Z",
-  "last_action": "Checkpointed another 20 SOUPS source/PDF pairs and citation lookups: format/access/metadata 66/100, quality 8 passed/92 held, full schema still held. Ten legacy VB presentation abstracts verified, one poster verified, one linked paper 404 retained as retryable access failure. Continuing remaining SOUPS source checks.",
+  "last_completed_at": "2026-10-28T03:53:13.849Z",
+  "last_action": "Completed bounded source checks for the remaining54 staged SOUPS candidates. All100 actual written PDFs/access and complete author lists verified;94 metadata gates passed and6 identifier lookups held after one HTTP400 and five HTTP429 failures.12 quality passes/88 holds under unchanged rules; full schema100held. Verified10 legacy VB presentation abstracts and1 poster, retained1 unavailable paper link as retryable failure;12 additional citation/identifier searches completed with unknown counts null. Fresh cross-source duplicates recomputed for250 staged and251 accepted;132 D1 decisions valid, all4041 weekly identities preserved, no arrivals. Immutable-commit readbacks confirm0ready; no admission or public import/merge/deploy.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -45,11 +41,13 @@
     "quality_held": 246,
     "openai_requests": 0,
     "openai_tokens": 0,
-    "citation_registry_lookups_completed": 12,
+    "citation_registry_lookups_completed": 24,
     "verified_citation_counts_from_this_run": 0,
     "legacy_abstracts_reachability_and_material_verified": 10,
     "verified_posters": 1,
-    "retryable_link_failures": 1
+    "retryable_link_failures": 1,
+    "fresh_cross_source_duplicates_passed": 248,
+    "fresh_cross_source_duplicates_held": 3
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
   "last_started_at": "2026-10-28T03:39:48.436Z",
@@ -60,25 +58,26 @@
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
     "refresh_result": "Unchanged original source blob; no identities deleted or rewritten.",
-    "refreshed_at": "2026-10-28T02:54:42Z"
+    "refreshed_at": "2026-10-28T03:53:13.849Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
     "soups": {
       "duplicates_passed": 100,
-      "quality_passed": 8,
-      "quality_held": 92,
-      "core_gate_held": 87,
+      "quality_held": 88,
+      "core_gate_held": 82,
       "below_threshold_held": 4,
-      "relevance_floor_held": 1,
-      "format_passed": 66,
-      "access_passed": 66,
-      "metadata_passed": 66,
-      "format_held": 34,
-      "access_held": 34,
-      "metadata_held": 34,
+      "relevance_floor_held": 2,
+      "format_held": 0,
+      "access_held": 0,
+      "metadata_held": 6,
       "schema_held": 100,
-      "review_record_structural_subchecks_passed": 8
+      "format_passed": 100,
+      "access_passed": 100,
+      "metadata_passed": 94,
+      "quality_passed": 12,
+      "full_author_lists_reconciled": 100,
+      "review_record_structural_subchecks_passed": 12
     },
     "weekly": {
       "duplicates_passed": 149,
@@ -98,43 +97,70 @@
     "latest_decisions_validated": 132,
     "content_hash_mismatches": 0,
     "immutable_jobs": 13,
-    "verified_at": "2026-10-28T02:54:42Z"
+    "verified_at": "2026-10-28T03:53:13.849Z"
   },
   "blocked_sources": [
     {
       "source": "soups",
-      "reason": "46 written papers/bibliographies verified. Reconciliation of 34 exact PDF-printed venue aliases clears 6 quality holds under unchanged policy. 94 quality holds remain (89 core-term, 4 threshold, 1 relevance floor). All full schema gates still held; structural subchecks passed for 6. Source not exhausted.",
+      "reason": "All100 staged written PDFs, access and full bylines verified.94 metadata passes;6 identifier registry failures held separately until backoff.12 quality passes,88quality holds (82core-term,4threshold,2relevance-floor).Full schema remains held for100. Additional source inventory not exhausted.",
       "exhausted": false
     },
     {
       "source": "weekly",
-      "reason": "60 candidates examined; 54 actual DOI registry requests (6 missing-DOI searches pending), 49 primary-resource requests. 34 format/access passes, 42 metadata passes and one duplicate hold; other holds remain. One author list corrected with original version archived; no admission to review.",
+      "reason": "All4041 initial identities retained, no new arrivals.150staged candidates remain held:34format/access passes,42metadata passes,149duplicate passes/1hold,150quality passes,150schema holds. Completed source evidence reused.",
+      "exhausted": false
+    },
+    {
+      "source": "OpenAlex",
+      "reason": "Five HTTP429 rate limits and one malformed-filter HTTP400 in final SOUPS registry batch; failures recorded independently, no counts inferred and no further requests this pass.",
+      "retry_not_before": "2026-10-28T05:50:34.386627+00:00",
       "exhausted": false
     }
   ],
   "held_stage": {
     "stage": "paid_taxonomy_and_full_target_import_validation",
-    "reason": "Supported local paid-classification credential unavailable; no paid stage invoked. The existing standalone Classify workflow pulls/writes pipeline/corpus state and has no isolated review-request input; it was not dispatched. Currently exposed native GitHub tools do not provide general workflow dispatch. Full target-import validation remains unperformed; independent normalized review-record structure was checked separately for six candidates.",
+    "reason": "Supported local paid-classification credential unavailable; no paid stage invoked. Existing standalone Classify workflow pulls/writes pipeline/corpus state and has no isolated review-request input; it was not dispatched. Native GitHub tools expose no general workflow dispatch. Full target-import validation remains held;12 independent normalized review-record structural subchecks passed.",
     "retry": "Resume paid stage only through a supported isolated credential/execution route. Continue independent evidence checks; do not run general corpus classification, import, merge or deploy.",
     "workflow_inspected": ".github/workflows/classify.yml",
     "workflow_blob_sha": "582815b22fa1cc654b2afd20fc509be177a60b76",
-    "independent_structural_subchecks_passed": 6
+    "independent_structural_subchecks_passed": 12
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-28T02:54:42Z",
-    "exact_printed_venue_aliases_reconciled": 34,
-    "quality_holds_cleared": 6,
+    "verified_at": "2026-10-28T03:53:13.849Z",
+    "additional_soups_source_and_pdf_pairs": 54,
+    "additional_soups_registry_requests": 54,
+    "verified_additional_index_counts": 10,
+    "identifier_registry_failures": 6,
+    "new_exact_printed_venue_aliases": 52,
+    "additional_quality_holds_cleared": 6,
+    "full_author_lists_reconciled": 100,
+    "legacy_accepted_source_checks": 12,
+    "legacy_abstracts_verified": 10,
+    "legacy_posters_verified": 1,
+    "legacy_unavailable_linked_papers": 1,
+    "legacy_citation_registry_requests": 12,
     "scoring_policy_changes": 0,
-    "review_record_structural_subchecks": 6,
     "full_schema_passes": 0,
-    "source_refetches": 0,
     "openai_requests": 0,
     "openai_tokens": 0,
     "new_arrivals": 0,
-    "readback_commit": "92dcb385a66893e7b47dcfdb5fa72dc9e9ee6dce",
+    "readback_commit": "402f487c25a7fbf064474bade30da575ceabd45b",
     "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
     "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
     "ready_counts_after_readback_and_D1_recheck": 0
   },
-  "checkpointed_at": "2026-10-28T03:44:25.529Z"
+  "checkpointed_at": "2026-10-28T03:44:25.529Z",
+  "source_backoff": {
+    "OpenAlex": {
+      "retry_not_before": "2026-10-28T05:50:34.386627+00:00",
+      "affected_candidates": 6,
+      "retry_policy": "Do not issue OpenAlex requests before this time. Retry the HTTP400 query with alphanumeric title tokens; honor Retry-After and stop the source after any new429. Preserve completed source/PDF/bibliographic evidence."
+    }
+  },
+  "next_actions": [
+    "Respect OpenAlex retry_not_before; retry six failed identifier lookups with backoff and corrected HTTP400 filter.",
+    "Continue independent weekly source/metadata/access checks and missing legacy accepted material checks, reusing hash-bound valid evidence.",
+    "Resume taxonomy/full schema only through a supported isolated paid execution route; no general corpus Classify dispatch, import, merge or public deploy.",
+    "Refresh weekly arrivals additively and reconcile immutable D1 requests each pass; release only candidates with every evidenced gate passed."
+  ]
 }
