@@ -333,3 +333,7 @@ gh api repos/RISEInfoSec/Alex/deployments/<id>/statuses -X POST -f state=inactiv
 - Quality gate, Rescore, Publish, Pages deploy: each well under 1 min
 
 See `docs/gap_analysis.md` for remaining operational constraints and how to address them.
+
+### Temporary OpenAlex recovery policy (28 October2026)
+OpenAlex DOI resolution is temporarily one identifier per request. The shared HTTP client serializes OpenAlex calls across threads and clients, and uses a checkout-local locked checkpoint to keep at least60seconds between uncached requests across CLI stages. OpenAlex receives no automatic retries;429,5xx or timeout/network failures pause the provider, honoring the full Retry-After window with a minimum one-hour cooldown. Cached evidence remains usable and other hosts retain their existing retry behavior. The existing no-traffic deadline remains2026-10-29T00:00:36.339996+00:00. The review worker is more conservative: at most one OpenAlex lookup per hourly run. Independent runners must also honor that durable worker checkpoint.
+No live OpenAlex test requests were issued while its backoff was active. This change controls traffic; it does not establish the cause of the rate limit or imply that changing batch size alone resolves it.
