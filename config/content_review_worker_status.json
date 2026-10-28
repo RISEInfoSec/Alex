@@ -8,10 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": "Paid taxonomy classification credential unavailable in this execution environment; stage held. Source-specific access/metadata failures are recorded in hash-bound checkpoints.",
-  "lease": {
-    "owner": "preflight-2026-10-28T00:43:52.886Z",
-    "expires_at": "2026-10-28T01:13:52.886Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -32,8 +29,8 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-27T23:45:46Z",
-  "last_action": "Reused unchanged SHA-verified corpus/inventories and all 132 valid latest decisions. Verified format/access/metadata of six SOUPS papers, completed six index lookups (one exact citation match), and refreshed their still-held quality scores using verified metadata. Added 20 weekly registry lookups and 18 primary resource checks: 13 additional format/access passes and 15 metadata passes. Completed 12 legacy-accepted citation registry searches; no verified match, counts remain null. All targets remain unmet: 0 cleared-ready; no publication action.",
+  "last_completed_at": "2026-10-28T00:50:50Z",
+  "last_action": "Completed another 20 held SOUPS official-source/PDF inspections and 20 index lookups. All 20 verified as written papers with reconciled title/authors/year; 6 verified exact-match index citation counts used. Refreshed duplicate checks and unchanged-policy scores; all 100 SOUPS remain quality-held. Reused unchanged weekly and legacy evidence, validated all 132 latest decisions, and confirmed no new jobs/arrivals. Read back manifests: 0 cleared-ready; no publication action.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -56,7 +53,7 @@
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
     "refresh_result": "Unchanged original source blob; no identities deleted or rewritten.",
-    "refreshed_at": "2026-10-27T23:45:46Z"
+    "refreshed_at": "2026-10-28T00:50:50Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
@@ -66,13 +63,13 @@
       "core_gate_held": 93,
       "below_threshold_held": 6,
       "relevance_floor_held": 1,
-      "format_held": 94,
-      "access_held": 94,
-      "metadata_held": 94,
+      "format_held": 74,
+      "access_held": 74,
+      "metadata_held": 74,
       "schema_held": 100,
-      "format_passed": 6,
-      "access_passed": 6,
-      "metadata_passed": 6
+      "format_passed": 26,
+      "access_passed": 26,
+      "metadata_passed": 26
     },
     "weekly": {
       "duplicates_passed": 149,
@@ -92,12 +89,12 @@
     "latest_decisions_validated": 132,
     "content_hash_mismatches": 0,
     "immutable_jobs": 13,
-    "verified_at": "2026-10-27T23:45:46Z"
+    "verified_at": "2026-10-28T00:50:50Z"
   },
   "blocked_sources": [
     {
       "source": "soups",
-      "reason": "6 of 100 have fresh paper format/access/metadata evidence. All 100 remain quality-held under unchanged existing policy. Other metadata/citation checks remain; not source exhaustion.",
+      "reason": "26 of 100 have actual written-paper format/access and reconciled bibliography evidence; remaining 74 source stages held. All 100 still held by unchanged quality policy (93 core-term gate, 6 score threshold, 1 relevance floor). Six additional verified index counts did not clear these holds. Source not exhausted.",
       "exhausted": false
     },
     {
@@ -112,12 +109,13 @@
     "retry": "Resume when supported credential becomes available; continue independent preflight checks meanwhile."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-27T23:45:46Z",
-    "soups_primary_source_pairs": 6,
-    "soups_index_lookups": 6,
-    "weekly_registry_lookups": 20,
-    "weekly_primary_resource_requests": 18,
-    "accepted_registry_lookups": 12,
+    "verified_at": "2026-10-28T00:50:50Z",
+    "soups_primary_source_pairs": 20,
+    "soups_index_lookups": 20,
+    "soups_verified_index_counts": 6,
+    "weekly_registry_lookups": 0,
+    "weekly_primary_resource_requests": 0,
+    "accepted_registry_lookups": 0,
     "request_timeout_seconds": 20,
     "serial_source_pacing_seconds": 0.5,
     "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
