@@ -2,6 +2,12 @@
 
 Alex is a production-oriented discovery, evaluation, enrichment, and publishing pipeline for building a **high-quality OSINT + cybersecurity research corpus**.
 
+## ALEX research data reuse and licensing
+
+RISE-created editorial annotations, classifications and original corpus curation are licensed under **Creative Commons Attribution 4.0 International (CC BY 4.0)** to the extent RISE holds the relevant rights. Third-party research papers, abstracts, source-provided text, imagery and other materials **are not covered** by RISE's licence. ALEX does not claim exclusive rights over bibliographic facts.
+
+Read the [ALEX Research Data Usage and Licensing policy (version 1.0)](https://alex.riseinfosec.org/data-license-v1.html) for the exact scope, excluded material and attribution guidance.
+
 ## What this package does
 
 It implements a practical end-to-end system for:
