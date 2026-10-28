@@ -124,7 +124,7 @@ def check(root: Path = ROOT, source_root: Path | None = None) -> None:
                        ("data/osint_cyber_papers.csv", "text/csv")):
         assert any(d.get("contentUrl") == BASE + path and d.get("encodingFormat") == mime
                    for d in downloads), f"Dataset download missing: {path}"
-        assert ('href="' + path + '"') in page, f"Download link missing: {path}"
+        assert ('href="' + path + '"') in page or ('href="/' + path + '"') in page, f"Download link missing: {path}"
 
     # Verify the public snapshot against the accepted corpus, without changing
     # either file or calling any upstream service.

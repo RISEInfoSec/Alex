@@ -92,6 +92,25 @@ def verify(site: Path, report_dir: Path) -> None:
             page.goto(origin + '/', wait_until='load')
             page.wait_for_function('document.querySelectorAll("#results > .section").length === 5')
             assert len(papers) >= 5
+            # Verify the approved hierarchy at desktop and narrow widths.
+            for width in (320, 390, 1440):
+                page.set_viewport_size({'width': width, 'height': 1000})
+                assert page.locator('body').evaluate('(e) => document.documentElement.scrollWidth <= innerWidth'), f'Homepage overflow: {width}px'
+                filters = page.locator('#searchForm').bounding_box()
+                collections = page.locator('.named-collections').bounding_box()
+                result_heading = page.locator('.results-heading').bounding_box()
+                assert filters and collections and result_heading
+                assert collections['y'] >= filters['y'] + filters['height']
+                assert result_heading['y'] >= collections['y'] + collections['height']
+                if width == 1440:
+                    boxes = page.locator('.collection-link').all()
+                    assert sum(box.bounding_box()['width'] for box in boxes) < filters['width'] / 2
+                page.screenshot(path=str(report_dir / f'homepage-{width}.png'))
+            page.locator('#search').fill(papers[0]['title'])
+            page.locator('#search').press('Enter')
+            assert page.locator('#results h3').filter(has_text=papers[0]['title']).count() >= 1
+            page.locator('#clearBtn').click()
+            assert page.locator('#results > .section').count() == 5
             page.locator('#categoryFilter').select_option(label='OSINT Methodology')
             assert page.locator('#results > .section').count() == expected['category']['OSINT Methodology']
             page.locator('#clearBtn').click()
