@@ -8,7 +8,11 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
   "last_error": "Paid taxonomy execution unavailable in this worker; full target-import/schema validation remains held. Six SOUPS identifier lookups held separately (one HTTP400 query error, five OpenAlex HTTP429 rate limits); retry only after source backoff. Existing quality, media and access holds remain.",
-  "lease": null,
+  "lease": {
+    "owner": "classification-repair-2026-10-28T04:22:48.457Z",
+    "acquired_at": "2026-10-28T04:22:48.457Z",
+    "expires_at": "2026-10-28T04:52:48.457Z"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -30,7 +34,7 @@
   "global_deficit": 250,
   "soups_batch_deficit": 5,
   "last_completed_at": "2026-10-28T03:53:13.849Z",
-  "last_action": "Completed bounded source checks for the remaining54 staged SOUPS candidates. All100 actual written PDFs/access and complete author lists verified;94 metadata gates passed and6 identifier lookups held after one HTTP400 and five HTTP429 failures.12 quality passes/88 holds under unchanged rules; full schema100held. Verified10 legacy VB presentation abstracts and1 poster, retained1 unavailable paper link as retryable failure;12 additional citation/identifier searches completed with unknown counts null. Fresh cross-source duplicates recomputed for250 staged and251 accepted;132 D1 decisions valid, all4041 weekly identities preserved, no arrivals. Immutable-commit readbacks confirm0ready; no admission or public import/merge/deploy.",
+  "last_action": "Implementing isolated paid review classifier and secure immutable request/artifact handoff; ready counts unchanged.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -50,7 +54,7 @@
     "fresh_cross_source_duplicates_held": 3
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-10-28T03:39:48.436Z",
+  "last_started_at": "2026-10-28T04:22:48.457Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
