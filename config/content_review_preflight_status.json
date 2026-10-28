@@ -20871,89 +20871,50 @@
       "collection": "weekly",
       "candidate_id": "weekly-d3bd8a9de831af91bc7ffd57",
       "review_number": 1,
-      "content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+      "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
       "status": "held",
       "review_ready": false,
       "checks": {
-        "duplicates": {
-          "status": "passed",
-          "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
-          "evidence": {
-            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
-            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-            "weekly_inventory_records": 4041,
-            "all_prepared_collections": [
-              "soups",
-              "weekly",
-              "virusbulletin",
-              "apwg"
-            ],
-            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-            "matches": []
-          }
-        },
-        "quality": {
-          "status": "passed",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
-          "evidence": {
-            "quality_score": 57.11,
-            "quality_venue_score": 40.0,
-            "quality_citation_score": 96.74,
-            "quality_relevance_score": 17.65,
-            "quality_institution_score": 40.0,
-            "quality_institution_bonus": 0.0,
-            "quality_title_bonus": 0.0,
-            "quality_auto_threshold": 60.0,
-            "quality_review_threshold": 45.0,
-            "quality_core_term_gate": "pass",
-            "quality_relevance_gate": "pass",
-            "citation_count_known": true,
-            "quality_review_status": "human_quality_review",
-            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-            "quality_requires_review": true
-          },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-        },
         "format": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:02:27.292566+00:00",
-          "content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+          "status": "passed",
+          "checked_at": "2026-10-28T13:48:33.788967+00:00",
+          "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
           "evidence": {
-            "checked_at": "2026-10-27T23:02:27.292566+00:00",
-            "url": "https://doi.org/10.1016/j.eswa.2018.09.029",
-            "http_status": 200,
-            "content_type": "text/html",
-            "resolved_url": "https://linkinghub.elsevier.com/retrieve/pii/S0957417418306067",
-            "resource_sha256": "5b131ca14aa96311d3432b0062c7443d3b0e6346ec279bd376a75f0a76bcd5d7",
-            "bytes": 195,
-            "observed_format": "HTML_requires_publisher_resource_inspection"
+            "resource_url": "https://www.researchgate.net/publication/344952543_Machine_learning_based_phishing_detection_from_URLs",
+            "retrieved_text_evidence_sha256": "98c414b7cd1bc527896c3a792b48d6ee8c88366bccb11d3aab08c05e54262bf8",
+            "retrieval_kind": "Indexed author-uploaded full-text page",
+            "inspection": "Title, full byline, affiliations, article history, abstract, introduction, section structure and substantive opening prose",
+            "observed_publication": "Expert Systems with Applications 117 (2019) 345-357",
+            "observed_doi": "10.1016/j.eswa.2018.09.029",
+            "observed_document_type": "written journal research article",
+            "limitations": "The direct ScienceDirect endpoint returned its 195-byte Site Unavailable page. The indexed author-uploaded full-text page exposed the article front matter and substantive text; no claim of unrestricted publisher PDF access is made."
           },
-          "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+          "rebound_from_content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+          "rebound_at": "2026-10-28T13:48:33.788967+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "access": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:02:27.292566+00:00",
-          "content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+          "status": "passed",
+          "checked_at": "2026-10-28T13:48:33.788967+00:00",
+          "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
           "evidence": {
-            "checked_at": "2026-10-27T23:02:27.292566+00:00",
-            "url": "https://doi.org/10.1016/j.eswa.2018.09.029",
-            "http_status": 200,
-            "content_type": "text/html",
-            "resolved_url": "https://linkinghub.elsevier.com/retrieve/pii/S0957417418306067",
-            "resource_sha256": "5b131ca14aa96311d3432b0062c7443d3b0e6346ec279bd376a75f0a76bcd5d7",
-            "bytes": 195,
-            "observed_format": "HTML_requires_publisher_resource_inspection"
+            "resource_url": "https://www.researchgate.net/publication/344952543_Machine_learning_based_phishing_detection_from_URLs",
+            "retrieved_text_evidence_sha256": "98c414b7cd1bc527896c3a792b48d6ee8c88366bccb11d3aab08c05e54262bf8",
+            "retrieval_kind": "Indexed author-uploaded full-text page",
+            "inspection": "Title, full byline, affiliations, article history, abstract, introduction, section structure and substantive opening prose",
+            "observed_publication": "Expert Systems with Applications 117 (2019) 345-357",
+            "observed_doi": "10.1016/j.eswa.2018.09.029",
+            "observed_document_type": "written journal research article",
+            "limitations": "The direct ScienceDirect endpoint returned its 195-byte Site Unavailable page. The indexed author-uploaded full-text page exposed the article front matter and substantive text; no claim of unrestricted publisher PDF access is made."
           },
-          "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+          "rebound_from_content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+          "rebound_at": "2026-10-28T13:48:33.788967+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "metadata": {
           "status": "passed",
           "checked_at": "2026-10-27T23:00:58.597590+00:00",
-          "content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+          "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
           "evidence": {
             "DOI": "10.1016/j.eswa.2018.09.029",
             "title": [
@@ -21032,22 +20993,82 @@
             "publication_year_matches": true,
             "author_families_match": true
           },
-          "limitations": "Publisher-deposited Crossref metadata; citations are Crossref references, not universal counts; online/print year and transliteration differences remain holds until reconciled."
+          "limitations": "Publisher-deposited Crossref metadata; citations are Crossref references, not universal counts; online/print year and transliteration differences remain holds until reconciled.",
+          "rebound_from_content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+          "rebound_at": "2026-10-28T13:48:33.788967+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "duplicates": {
+          "status": "passed",
+          "checked_at": "2026-10-28T13:48:33.788967+00:00",
+          "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
+          "evidence": {
+            "matches": [],
+            "exclusion_matches": [],
+            "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+            "public_corpus_sha256": "9d515b9ae0e7b357eb04b15b5de956f054d11ce1e587d9ba5d264898dede52c3",
+            "public_corpus_records": 3162,
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "weekly_inventory_records": 4041,
+            "corpus_exclusions_blob": "653063601c2750fc75a89f397f001089319859b8",
+            "corpus_exclusion_records": 501,
+            "all_prepared_collections": [
+              "soups",
+              "weekly",
+              "virusbulletin",
+              "apwg"
+            ],
+            "scope": "Fresh exact DOI, canonical URL and normalized-title comparison against the current3162-record public corpus and all prepared intake collections; unchanged immutable4041 upstream inventory reused. Explicit human exclusions were checked by DOI, URL and year-scoped normalized title."
+          },
+          "rebound_from_content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+          "rebound_at": "2026-10-28T13:48:33.788967+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "quality": {
+          "status": "passed",
+          "checked_at": "2026-10-27T23:05:42.201570+00:00",
+          "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
+          "evidence": {
+            "quality_score": 57.11,
+            "quality_venue_score": 40.0,
+            "quality_citation_score": 96.74,
+            "quality_relevance_score": 17.65,
+            "quality_institution_score": 40.0,
+            "quality_institution_bonus": 0.0,
+            "quality_title_bonus": 0.0,
+            "quality_auto_threshold": 60.0,
+            "quality_review_threshold": 45.0,
+            "quality_core_term_gate": "pass",
+            "quality_relevance_gate": "pass",
+            "citation_count_known": true,
+            "quality_review_status": "human_quality_review",
+            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+            "quality_requires_review": true
+          },
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+          "rebound_at": "2026-10-28T13:48:33.788967+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-10-28T13:48:33.788967+00:00",
+          "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
+          "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "aeaccc02d8282e812d834d18e913dd9b8ec91126317bb34a5cb9fd7ac4955aa6",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "format",
-        "access",
         "schema"
-      ]
+      ],
+      "verified_document_type": "research_paper"
     },
     {
       "collection": "weekly",
@@ -42528,7 +42549,7 @@
       }
     }
   },
-  "updated_at": "2026-10-28T11:49:05.049619+00:00",
+  "updated_at": "2026-10-28T13:48:33.788967+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
