@@ -7,12 +7,8 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 5,
-  "last_error": "Isolated paid classification pilot awaiting execution/result verification. No paid success or schema pass claimed; existing quality, source, media and identifier holds remain.",
-  "lease": {
-    "owner": "classification-repair-2026-10-28T04:22:48.457Z",
-    "acquired_at": "2026-10-28T04:22:48.457Z",
-    "expires_at": "2026-10-28T05:05:56.784Z"
-  },
+  "last_error": "Paid classification is operational and verified. No complete cleared review batch is ready yet:12papers passed mechanical preflight and await batch admission; remaining source, identifier, quality, media and schema holds are preserved.",
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -26,15 +22,15 @@
   "pending_mechanical_jobs": 12,
   "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
   "workflow": "preflight_first",
-  "preflight_pending": 250,
+  "preflight_pending": 238,
   "preflight_source_counts": {
     "soups": 100,
     "weekly": 150
   },
   "global_deficit": 250,
   "soups_batch_deficit": 5,
-  "last_completed_at": "2026-10-28T03:53:13.849Z",
-  "last_action": "Installed isolated review classification runner, hash-bound request/artifact handoff and corrected credential smoketest on the review branch.460 local tests passed. A single SOUPS pilot request was saved/read back; awaiting the actual GitHub Actions result before clearing any gate.",
+  "last_completed_at": "2026-10-28T04:47:30.165Z",
+  "last_action": "Restored isolated paid Content Review classification using existing repository OPEN_API_KEY; corrected stale smoketest.460 local tests passed. Live pilot and11-paper follow-up succeeded; downloaded artifacts matched GitHub digests and were verified against current hashes/contracts.11SOUPS+1weekly candidates now pass all mechanical gates, awaiting current recommendation/complete stable batch admission;0manual-ready and0SOUPS batches.12actual API calls,7693reported tokens.132decisions valid;4041weekly identities retained, no arrivals. No public import, merge or deploy.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -43,15 +39,18 @@
     "fresh_pdf_access_and_front_matter_passed": 12,
     "quality_passed": 5,
     "quality_held": 246,
-    "openai_requests": 0,
-    "openai_tokens": 0,
+    "openai_requests": 12,
+    "openai_tokens": 7693,
     "citation_registry_lookups_completed": 24,
     "verified_citation_counts_from_this_run": 0,
     "legacy_abstracts_reachability_and_material_verified": 10,
     "verified_posters": 1,
     "retryable_link_failures": 1,
     "fresh_cross_source_duplicates_passed": 248,
-    "fresh_cross_source_duplicates_held": 3
+    "fresh_cross_source_duplicates_held": 3,
+    "preflight_openai_requests": 12,
+    "legacy_accepted_openai_requests": 0,
+    "pre_review_taxonomy_and_target_schema_passed": 12
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
   "last_started_at": "2026-10-28T04:22:48.457Z",
@@ -62,7 +61,7 @@
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
     "refresh_result": "Unchanged original source blob; no identities deleted or rewritten.",
-    "refreshed_at": "2026-10-28T03:53:13.849Z"
+    "refreshed_at": "2026-10-28T04:47:30.165Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
@@ -75,13 +74,14 @@
       "format_held": 0,
       "access_held": 0,
       "metadata_held": 6,
-      "schema_held": 100,
+      "schema_held": 89,
       "format_passed": 100,
       "access_passed": 100,
       "metadata_passed": 94,
       "quality_passed": 12,
       "full_author_lists_reconciled": 100,
-      "review_record_structural_subchecks_passed": 12
+      "review_record_structural_subchecks_passed": 12,
+      "schema_passed": 11
     },
     "weekly": {
       "duplicates_passed": 149,
@@ -93,7 +93,8 @@
       "format_held": 116,
       "access_held": 116,
       "metadata_held": 108,
-      "schema_held": 150
+      "schema_held": 149,
+      "schema_passed": 1
     }
   },
   "reconciliation": {
@@ -101,57 +102,60 @@
     "latest_decisions_validated": 132,
     "content_hash_mismatches": 0,
     "immutable_jobs": 13,
-    "verified_at": "2026-10-28T03:53:13.849Z"
+    "verified_at": "2026-10-28T04:47:30.165Z"
   },
   "blocked_sources": [
     {
       "source": "soups",
-      "reason": "All100 staged written PDFs, access and full bylines verified.94 metadata passes;6 identifier registry failures held separately until backoff.12 quality passes,88quality holds (82core-term,4threshold,2relevance-floor).Full schema remains held for100. Additional source inventory not exhausted.",
+      "reason": "100staged written papers/access verified;94metadata passes,6identifier retries deferred until source backoff.12quality passes/88holds;11fullschema passes/89held or unperformed.11mechanical passes await complete stable batch admission. Source not exhausted.",
       "exhausted": false
     },
     {
       "source": "weekly",
-      "reason": "All4041 initial identities retained, no new arrivals.150staged candidates remain held:34format/access passes,42metadata passes,149duplicate passes/1hold,150quality passes,150schema holds. Completed source evidence reused.",
+      "reason": "4041identities preserved;150staged candidates include34format/access passes,42metadata passes,1duplicate hold and1fullschema pass awaiting refreshed recommendation/batch admission. Other verified candidate types need hash-preserving archival normalization before paid requests. Source not exhausted.",
       "exhausted": false
     },
     {
       "source": "OpenAlex",
-      "reason": "Five HTTP429 rate limits and one malformed-filter HTTP400 in final SOUPS registry batch; failures recorded independently, no counts inferred and no further requests this pass.",
+      "reason": "Six prior identifier lookups remain retry-held:one malformed query andfive rate limits. Existing recorded source backoff remains in effect.",
       "retry_not_before": "2026-10-28T05:50:34.386627+00:00",
       "exhausted": false
     }
   ],
   "held_stage": {
-    "stage": "paid_taxonomy_and_full_target_import_validation",
-    "reason": "Supported local paid-classification credential unavailable; no paid stage invoked. Existing standalone Classify workflow pulls/writes pipeline/corpus state and has no isolated review-request input; it was not dispatched. Native GitHub tools expose no general workflow dispatch. Full target-import validation remains held;12 independent normalized review-record structural subchecks passed.",
-    "retry": "Resume paid stage only through a supported isolated credential/execution route. Continue independent evidence checks; do not run general corpus classification, import, merge or deploy.",
-    "workflow_inspected": ".github/workflows/classify.yml",
-    "workflow_blob_sha": "582815b22fa1cc654b2afd20fc509be177a60b76",
-    "independent_structural_subchecks_passed": 12
+    "stage": "remaining_candidate_preflight_and_batch_admission",
+    "reason": "The paid execution connection is fixed.12papers have passed every mechanical gate; no complete stable manual batch admitted. Other candidates retain individual quality/source/identifier/media/type/schema holds. Legacy accepted candidates still need their missing type-appropriate checks; acceptance does not override holds."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-28T03:53:13.849Z",
-    "additional_soups_source_and_pdf_pairs": 54,
-    "additional_soups_registry_requests": 54,
-    "verified_additional_index_counts": 10,
-    "identifier_registry_failures": 6,
-    "new_exact_printed_venue_aliases": 52,
-    "additional_quality_holds_cleared": 6,
-    "full_author_lists_reconciled": 100,
-    "legacy_accepted_source_checks": 12,
-    "legacy_abstracts_verified": 10,
-    "legacy_posters_verified": 1,
-    "legacy_unavailable_linked_papers": 1,
-    "legacy_citation_registry_requests": 12,
+    "verified_at": "2026-10-28T04:47:30.165Z",
+    "scope": "isolated_paid_classification_repair_and_preflight",
+    "local_tests_passed": 460,
+    "successful_workflow_runs": [
+      40633160529,
+      40633500505
+    ],
+    "mechanical_passed": {
+      "soups": 11,
+      "weekly": 1
+    },
+    "ready_total": 0,
+    "soups_ready_batches": 0,
+    "global_deficit": 250,
+    "soups_batch_deficit": 5,
+    "openai_usage": {
+      "requests": 12,
+      "input_tokens": 7351,
+      "output_tokens": 342,
+      "total_tokens": 7693
+    },
+    "legacy_accepted_classified": 0,
+    "content_decisions_changed": 0,
     "scoring_policy_changes": 0,
-    "full_schema_passes": 0,
-    "openai_requests": 0,
-    "openai_tokens": 0,
-    "new_arrivals": 0,
-    "readback_commit": "402f487c25a7fbf064474bade30da575ceabd45b",
+    "new_weekly_arrivals": 0,
+    "readback_commit": "48a860fc6303bafc9f0dd6f15d6ff9e792f3267f",
     "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
     "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-    "ready_counts_after_readback_and_D1_recheck": 0
+    "public_corpus_modified": false
   },
   "checkpointed_at": "2026-10-28T04:35:56.784Z",
   "source_backoff": {
@@ -162,19 +166,44 @@
     }
   },
   "next_actions": [
-    "Respect OpenAlex retry_not_before; retry six failed identifier lookups with backoff and corrected HTTP400 filter.",
-    "Continue independent weekly source/metadata/access checks and missing legacy accepted material checks, reusing hash-bound valid evidence.",
-    "Resume taxonomy/full schema only through a supported isolated paid execution route; no general corpus Classify dispatch, import, merge or public deploy.",
-    "Refresh weekly arrivals additively and reconcile immutable D1 requests each pass; release only candidates with every evidenced gate passed."
+    "Reuse the two immutable paid receipts and current hash-bound taxonomy/schema evidence; do not spend again for unchanged valid results.",
+    "Prepare current substantive recommendations and complete stable batches only after all gates pass, preserving existing numbers, batch membership and submitted histories.",
+    "Normalize only actually verified weekly paper types with archived previous content/hash and evidence rebinding; retain all4041source identities and require recommendation reassessment for changed content.",
+    "Continue independent preflight through remaining SOUPS/weekly inventory and missing legacy accepted material/bibliographic/quality checks; do not waive holds.",
+    "Honor OpenAlex retry_not_before; retry failed identifier work with bounded requests/backoff and corrected HTTP400 query.",
+    "Refresh D1 immutable requests and weekly arrivals each pass; ingest additively. Use the documented isolated GitHub transport for eligible paid checks, never general corpus classification/import/merge/deploy."
   ],
   "paid_execution": {
-    "status": "pilot_requested",
+    "status": "operational_verified",
     "workflow": ".github/workflows/content_review_paid.yml",
-    "request_id": "0a6451404a02ab0772d27ce9dba13d605af10bdc85cefb82dafea031a7ee2f65",
-    "request_commit": "e083f29e0ab177e4303af721fe5f973e7989d155",
-    "local_tests_passed": 460,
-    "corpus_write_permission": false,
-    "requested_candidates": 1,
-    "verified_result": null
+    "documentation": "docs/content_review_paid_worker.md",
+    "verified_at": "2026-10-28T04:47:30.165Z",
+    "successful_runs": [
+      40633160529,
+      40633500505
+    ],
+    "completed_request_ids": [
+      "0a6451404a02ab0772d27ce9dba13d605af10bdc85cefb82dafea031a7ee2f65",
+      "81db6e8998c1f4b67f73469255c42d3c631d55e3614bd5ec7f1edf84560dc42c"
+    ],
+    "completed_candidates": 12,
+    "corpus_modified": false,
+    "publication_approved": false,
+    "reported_usage": {
+      "requests": 12,
+      "input_tokens": 7351,
+      "output_tokens": 342,
+      "total_tokens": 7693
+    },
+    "legacy_accepted_paid_requests": 0,
+    "local_tests_passed": 460
+  },
+  "mechanical_passed_awaiting_batch_admission": {
+    "soups": 11,
+    "weekly": 1
+  },
+  "preflight_hold_counts": {
+    "soups": 89,
+    "weekly": 149
   }
 }
