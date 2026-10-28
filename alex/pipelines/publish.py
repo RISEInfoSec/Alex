@@ -1,5 +1,6 @@
 from __future__ import annotations
 import pandas as pd
+from alex.editorial_exclusions import filter_frame
 import json
 import os
 from datetime import datetime, timezone
@@ -54,6 +55,8 @@ def run(record_collection: bool = False) -> None:
             save_json(papers_json, [])
         generate(root_file(), previous)
         return
+
+    df = filter_frame(df, root_file("config", "corpus_exclusions.json"))
 
     # Pandas reads empty CSV cells as NaN, which json.dumps would emit as
     # literal `NaN` (invalid JSON). Coerce to empty strings before export.

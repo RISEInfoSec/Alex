@@ -39,3 +39,8 @@ Each stage has a `<stage>.yml` workflow with `workflow_dispatch` only. None auto
 ## Required secrets
 - `HARVEST_MAILTO` — User-Agent contact for academic APIs
 - `OPEN_API_KEY` — OpenAI key (note: secret name is `OPEN_API_KEY`, mapped onto `OPENAI_API_KEY` env var by workflows)
+
+## Human editorial decisions
+- Respect config/corpus_exclusions.json during intake, classification and publication. It contains content-bound human rejections/removals; do not restore these entries through a fresh discovery or rescore. DOI and source identities are strong; title fallback is scoped by recorded year to preserve distinct, valid versions.
+- config/editorial_relevance_feedback.json preserves both keep and remove labels. Consult those examples during substantive relevance assessment; audit recommendations are not user-supplied reasons. Do not infer provider bans or change global score thresholds from this release.
+- Corpus-audit keeps retain existing publications and never authorize duplicate imports. A reversal of an exclusion requires a new explicit human decision and receipt.
