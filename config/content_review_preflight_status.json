@@ -1011,7 +1011,7 @@
       "candidate_id": "soups-1dbdb297b163f6f5dcb8",
       "review_number": 191,
       "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
-      "status": "held",
+      "status": "passed_awaiting_batch_admission",
       "review_ready": false,
       "checks": {
         "duplicates": {
@@ -1191,35 +1191,93 @@
           }
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-28T04:35:46.791177+00:00",
           "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
-          "evidence": "Normalized review-record structure verified independently. Full target-import dry run and taxonomy remain unperformed/held; no successful paid stage claimed.",
-          "structural_subcheck": {
-            "status": "passed",
-            "checked_at": "2026-10-28T03:50:02.373608+00:00",
-            "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
-            "scope": "Normalized review-record structural projection described by docs/review_console.md, existing/reserved number contract, HTTPS source, current hash reproduction and JSON serialization. No placeholder public taxonomy or paid classification was assigned.",
-            "projection": {
-              "candidate_id": "soups-1dbdb297b163f6f5dcb8",
-              "title": "Navigating Autonomy: Unveiling Security Experts' Perspectives on Augmented Intelligence in Cybersecurity",
-              "authors": "Neele Roch; Hannah Sievers; Lorin Schöni; Verena Zimmermann",
-              "year": 2024,
-              "source_url": "https://www.usenix.org/conference/soups2024/presentation/roch",
-              "document_type": "research_paper",
-              "recommendation": "include",
-              "review_reason": "Builds a framework for allocating cybersecurity tasks to humans, AI or combined teams, considering trust and autonomy. Supports design and supervision of AI-assisted analytical workflows.",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "0a3ececacfaaf81fbd8243fedf20733e61d516455c63c0a8940b69c6e6d13efe",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-28T04:35:46.786027+00:00",
               "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
-              "review_number": 191,
-              "review_batch": 10
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Other",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_037549316453f87b016ae17ba10d9487d0994ee9dcad1c4ad2",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 635,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 32,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 667
+                },
+                "uncertainty_flags": [
+                  "Investigation_Type_other"
+                ]
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "40633160529",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "e083f29e0ab177e4303af721fe5f973e7989d155",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "0a6451404a02ab0772d27ce9dba13d605af10bdc85cefb82dafea031a7ee2f65"
             },
-            "limitations": "This is a structural subcheck, not completed target-import dry-run or publication readiness. Full schema gate stays held; no candidate moved to records and no partial submitted batch constructed."
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 40633160529
+          },
+          "revalidated_at": "2026-10-28T04:36:38.671121+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
+            "evidence": "Normalized review-record structure verified independently. Full target-import dry run and taxonomy remain unperformed/held; no successful paid stage claimed.",
+            "structural_subcheck": {
+              "status": "passed",
+              "checked_at": "2026-10-28T03:50:02.373608+00:00",
+              "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
+              "scope": "Normalized review-record structural projection described by docs/review_console.md, existing/reserved number contract, HTTPS source, current hash reproduction and JSON serialization. No placeholder public taxonomy or paid classification was assigned.",
+              "projection": {
+                "candidate_id": "soups-1dbdb297b163f6f5dcb8",
+                "title": "Navigating Autonomy: Unveiling Security Experts' Perspectives on Augmented Intelligence in Cybersecurity",
+                "authors": "Neele Roch; Hannah Sievers; Lorin Schöni; Verena Zimmermann",
+                "year": 2024,
+                "source_url": "https://www.usenix.org/conference/soups2024/presentation/roch",
+                "document_type": "research_paper",
+                "recommendation": "include",
+                "review_reason": "Builds a framework for allocating cybersecurity tasks to humans, AI or combined teams, considering trust and autonomy. Supports design and supervision of AI-assisted analytical workflows.",
+                "content_sha256": "41305a4d53d36f5d6a3fbb19a08128739deb1e63b9705264cde6fd869b3adcc5",
+                "review_number": 191,
+                "review_batch": 10
+              },
+              "limitations": "This is a structural subcheck, not completed target-import dry-run or publication readiness. Full schema gate stays held; no candidate moved to records and no partial submitted batch constructed."
+            }
           }
         }
       },
-      "blockers": [
-        "schema"
-      ],
+      "blockers": [],
       "verified_document_type": "research_paper"
     },
     {
@@ -37072,8 +37130,8 @@
         "passed": 100
       },
       "metadata": {
-        "passed": 94,
-        "held": 6
+        "held": 6,
+        "passed": 94
       },
       "duplicates": {
         "passed": 100
@@ -37083,7 +37141,8 @@
         "passed": 12
       },
       "schema": {
-        "held": 100
+        "held": 99,
+        "passed": 1
       }
     },
     "weekly": {
@@ -37096,12 +37155,12 @@
         "passed": 34
       },
       "metadata": {
-        "passed": 42,
-        "held": 108
+        "held": 108,
+        "passed": 42
       },
       "duplicates": {
-        "passed": 149,
-        "held": 1
+        "held": 1,
+        "passed": 149
       },
       "quality": {
         "passed": 150
@@ -37111,7 +37170,7 @@
       }
     }
   },
-  "updated_at": "2026-10-28T03:50:34.934054+00:00",
+  "updated_at": "2026-10-28T04:36:38.671281+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
