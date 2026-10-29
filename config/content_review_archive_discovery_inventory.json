@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-29T01:47:34.323130+00:00",
+  "updated_at": "2026-10-29T02:26:39.588697+00:00",
   "scope": "Canonical resource URL inventory from checkpointed historical programme pages; supplement to existing source inventories, not complete archive coverage. Counts overlap existing manifests and the prior1398-entry VB aggregate.",
   "publication_approved": false,
   "coverage_complete": false,
   "summary": {
     "soups": {
-      "unique_observed_urls": 811,
+      "unique_observed_urls": 812,
       "review_ready": 0,
       "excluded_by_exact_canonical_url": 7
     },
     "virusbulletin": {
-      "unique_observed_urls": 1398,
+      "unique_observed_urls": 1399,
       "review_ready": 0,
       "excluded_by_exact_canonical_url": 3
     }
@@ -6276,6 +6276,32 @@
         {
           "discovery_url": "https://cups.cs.cmu.edu/soups/2009/program.html",
           "checked_at": "2026-10-28T19:40:55.320112+00:00"
+        }
+      ],
+      "preflight_blockers": [
+        "format",
+        "access",
+        "metadata",
+        "duplicates",
+        "quality",
+        "schema"
+      ]
+    },
+    {
+      "discovery_identity": "soups-url-27c6975077a7ba3e917a6dde",
+      "collection": "soups",
+      "source_url": "https://cups.cs.cmu.edu/soups/2009/slides/a5-goecks-post.ppt",
+      "observed_title": "slides",
+      "document_type": "format_unverified",
+      "observed_resource_type_hint": "presentation_slides",
+      "review_ready": false,
+      "recommendation": null,
+      "disposition": "unprocessed_discovery",
+      "first_seen_at": "2026-10-29T02:26:39.588697+00:00",
+      "provenance": [
+        {
+          "discovery_url": "https://cups.cs.cmu.edu/soups/2009/program.html",
+          "checked_at": "2026-10-29T02:26:39.588697+00:00"
         }
       ],
       "preflight_blockers": [
@@ -54975,6 +55001,32 @@
       ]
     },
     {
+      "discovery_identity": "virusbulletin-url-8799b481421b0e67903c56b9",
+      "collection": "virusbulletin",
+      "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb97/VB97report.pdf",
+      "observed_title": "here",
+      "document_type": "format_unverified",
+      "observed_resource_type_hint": "conference_report",
+      "review_ready": false,
+      "recommendation": null,
+      "disposition": "unprocessed_discovery",
+      "first_seen_at": "2026-10-29T02:26:39.588697+00:00",
+      "provenance": [
+        {
+          "discovery_url": "https://virusbulletin.com/conference/vb97/",
+          "checked_at": "2026-10-29T02:26:39.588697+00:00"
+        }
+      ],
+      "preflight_blockers": [
+        "format",
+        "access",
+        "metadata",
+        "duplicates",
+        "quality",
+        "schema"
+      ]
+    },
+    {
       "discovery_identity": "virusbulletin-url-f0af30e2d2a0f03e5dda2781",
       "collection": "virusbulletin",
       "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb98/VB98report.pdf",
@@ -55305,14 +55357,14 @@
   ],
   "resume_queue": {
     "soups": [
-      "https://cups.cs.cmu.edu/soups/2009/"
+      "https://cups.cs.cmu.edu/soups/2010/"
     ],
     "virusbulletin": [
-      "https://virusbulletin.com/conference/vb97/"
+      "https://virusbulletin.com/conference/vb96/"
     ]
   },
   "vblocalhost_limitation": "Conference page retrieved; alternative item-link structure not extracted by abstract-path parser. Requires dedicated link parser; no claim of complete2021 coverage.",
-  "coverage_note": "SOUPS2008 programme and both USM/SOAPS ancillary workshop pages plus VB98 root reconciled. Annual/programme indexes have prior coverage; file and ancillary gaps remain. Raw resources are fully unverified and never count as cleared papers.",
+  "coverage_note": "SOUPS2009 annual root/programme and VB97 root reconciled. Resource links only, provisional types; ancillary/file coverage remains incomplete. Resume SOUPS2010 root and VB96.",
   "execution_diagnostics": {
     "source_request_overlap_detected": true,
     "remediation": "Discovery and accepted-paper scripts were started concurrently. Subsequent work is sequential; a process-shared per-origin requests lock now enforces one in-flight request and at least2seconds after completion. Full-run serial-pacing compliance is not claimed.",
