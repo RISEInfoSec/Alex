@@ -36827,51 +36827,15 @@
       },
       "readiness_status": "passed",
       "admitted_at": "2026-10-29T03:05:30.444880+00:00"
-    }
-  ],
-  "prepared_count": 6,
-  "assessment_count": 151,
-  "duplicate_holds": [
-    {
-      "screen_number": 41,
-      "reason": "abstract_not_substantive"
     },
-    {
-      "screen_number": 44,
-      "reason": "truncated_abstract"
-    },
-    {
-      "screen_number": 78,
-      "reason": "duplicate_of_screen_77_html_entity_variant"
-    },
-    {
-      "screen_number": 84,
-      "reason": "software_release_requires_resource_adapter"
-    },
-    {
-      "screen_number": 117,
-      "reason": "truncated_abstract"
-    },
-    {
-      "screen_number": 119,
-      "reason": "podcast_requires_audio_resource_adapter"
-    },
-    {
-      "screen_number": 143,
-      "reason": "book_description_requires_substantive_text_review"
-    }
-  ],
-  "automatic_acceptance_policy": "Preserve existing source-appropriate automatic acceptance. These are explicit existing human-review-tier records; no quality exceptions granted.",
-  "backlog_is_not_review_ready": true,
-  "preflight_records": [
     {
       "candidate_id": "weekly-04d1aec124745c3f359da27f",
       "upstream_candidate_id": "21473",
       "upstream_stable_identity": "10.5281/zenodo.20091744",
       "source_row": 907,
       "review_number": 6,
-      "review_batch": 1,
-      "batch": 1,
+      "review_batch": 22,
+      "batch": 22,
       "title": "Forensic Accounting Adaptation in Professional Courses Benefits, Challenges, Tools, and Framework — A Bangladesh Perspective",
       "authors": "Ripon Chandra Das",
       "year": 2026,
@@ -36882,7 +36846,7 @@
       "format_verification_status": "verified_written_research_paper",
       "abstract": "Forensic accounting has emerged as an essential discipline for combating financial fraud, corruption,money laundering, cybercrime, and corporate misconduct. In Bangladesh, rising concerns over bankingfraud, tax evasion and weak corporate governance have heightened the demand for forensic accountingprofessionals. This paper examines the adaptation of forensic accounting into professional accounting andbusiness education and evaluates its benefits for professional sectors and industries. The study exploreschallenges, technological tools, implementation frameworks, and strategic recommendations. A mixedconceptual–empirical method is adopted, combining secondary literature with an illustrative survey (n =220) and an OLS regression linking awareness, curriculum adequacy, and analytics skill to perceivedfraud-detection capability. Findings indicate that integrating forensic accounting into CA, CMA, ACCA,MBA and university programs can significantly strengthen fraud detection, audit quality, transparency andstakeholder confidence in Bangladesh.Keywords: Forensic Accounting, Bangladesh, Fraud Detection, Professional Education, CorporateGovernance, Audit, Financial Crime, ACCA, ICAB, ICMAB",
       "abstract_source": "https://doi.org/10.5281/zenodo.20091744",
-      "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+      "assessment_basis": "Substantive reread of the complete current abstract after exact-hash mechanical preflight; actual source access and written-paper type were independently verified. Full paper not assessed.",
       "review_evidence": [
         "https://doi.org/10.5281/zenodo.20091744",
         "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv",
@@ -36906,12 +36870,12 @@
       "collection_source": "ALEX regular weekly discovery review queue",
       "collection_url": "https://github.com/RISEInfoSec/Alex",
       "recommendation": "discuss",
-      "relevance": "uncertain",
-      "review_reason": "Proposes integrating forensic accounting into professional education and relates survey measures to perceived fraud-detection capability.",
-      "metadata_issue": "Verified source resource and year reconciled; no user-facing relevance recommendation until six gates pass. Repository publishedMay9,2026; PDF coverNovember2026. Month/date discrepancy retained; both sources establish2026.",
-      "screening_status": "cached_abstract_review_complete",
-      "assessment_depth": "cached_abstract",
-      "assessment_date": "2026-10-27",
+      "relevance": "contextual",
+      "review_reason": "A Bangladesh-focused forensic-accounting education framework that may inform financial-crime training. It offers curriculum, institutional and tool-adoption proposals rather than a validated cyber-investigation technique. The survey is described as constructed/illustrative and some charts as synthetic; regression statistics should not be treated as field evidence.",
+      "metadata_issue": "Zenodo identifies a2026 preprint and sole creator; PDF cover saysNovember2026 while the repository deposit isMay2026. The year agrees, but month and manuscript provenance should remain visible. No peer-review claim. Illustrative data limit empirical conclusions.",
+      "screening_status": "current_abstract_recommendation_complete_after_preflight",
+      "assessment_depth": "complete_current_abstract_after_preflight",
+      "assessment_date": "2026-10-29",
       "full_paper_reviewed": false,
       "paper_format_verified": true,
       "source_verification_status": "official_repository_and_actual_written_document_verified",
@@ -36949,13 +36913,11 @@
       "institution_bonus": 10,
       "title_anchor_bonus": 0,
       "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
-      "review_ready": false,
-      "preflight_status": "held",
-      "preflight_blockers": [
-        "schema"
-      ],
+      "review_ready": true,
+      "preflight_status": "passed",
+      "preflight_blockers": [],
       "preflight": {
-        "status": "held",
+        "status": "passed",
         "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
         "checks": {
           "format": {
@@ -37148,22 +37110,91 @@
             }
           },
           "schema": {
-            "status": "held",
-            "checked_at": "2026-10-29T05:19:36.390739+00:00",
+            "status": "passed",
+            "checked_at": "2026-10-29T05:21:06.987383+00:00",
             "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
-            "evidence": "Await exact-current-hash paid taxonomy and disposable target serialization after the first-five gates pass; do not inherit another content version.",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "8b0a96b2924a143879f6a1382b5c23442f028429f7f81b955add54adec02cbcd",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-29T05:21:06.982589+00:00",
+                "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
+                "evidence": {
+                  "classification": {
+                    "Category": "Digital Forensics & Evidence",
+                    "Investigation_Type": "Forensic Investigation",
+                    "OSINT_Source_Types": []
+                  },
+                  "response_id": "resp_08bbaad052188024016ae2d7c164cc87d0864a3a5add6969ca",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 586,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 34,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 620
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "40822837811",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "a1e883acaae968bf4545abe11b06ca7b25b863e0",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "7ff7fd9eac17a9f07865c3c47e7517162cf33a25c711eb4fa0185407ea2a6eeb"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 40822837811,
+              "source_type_semantic_check": {
+                "status": "passed",
+                "checked_at": "2026-10-29T05:22:40.468711+00:00",
+                "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
+                "evidence": "Actual PDF sections3,7–8 and References inspected for source provenance. It is a conceptual education framework with an explicitly illustrative/constructed survey and synthetic illustration; it does not identify an operational OSINT collection or primary public-record source. Empty source-type array is retained rather than inventing a source.",
+                "classification": {
+                  "Category": "Digital Forensics & Evidence",
+                  "Investigation_Type": "Forensic Investigation",
+                  "OSINT_Source_Types": []
+                }
+              }
+            },
+            "revalidated_at": "2026-10-29T05:22:40.498541+00:00",
             "prior_evidence": {
               "status": "held",
-              "checked_at": "2026-10-27T23:05:43.163744+00:00",
-              "content_sha256": "2f33f134c0a7233392c42305c06f9d759d2e7d026d2a19273db7ec06eb4db2f4",
-              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              "checked_at": "2026-10-29T05:19:36.390739+00:00",
+              "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
+              "evidence": "Await exact-current-hash paid taxonomy and disposable target serialization after the first-five gates pass; do not inherit another content version.",
+              "prior_evidence": {
+                "status": "held",
+                "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                "content_sha256": "2f33f134c0a7233392c42305c06f9d759d2e7d026d2a19273db7ec06eb4db2f4",
+                "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              }
             }
           }
         }
       },
-      "editorial_queue_eligible": false,
+      "editorial_queue_eligible": true,
       "affiliations": "Institute of Management Accountants",
       "verified_document_type": "research_paper",
       "reviewed_content_versions": [
@@ -37346,9 +37377,143 @@
           }
         }
       ],
-      "recommendation_content_sha256": "2f33f134c0a7233392c42305c06f9d759d2e7d026d2a19273db7ec06eb4db2f4",
-      "recommendation_status": "awaiting_reassessment_after_current_preflight"
+      "recommendation_content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "taxonomy_verification": {
+        "status": "passed",
+        "checked_at": "2026-10-29T05:21:06.982589+00:00",
+        "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
+        "evidence": {
+          "classification": {
+            "Category": "Digital Forensics & Evidence",
+            "Investigation_Type": "Forensic Investigation",
+            "OSINT_Source_Types": []
+          },
+          "response_id": "resp_08bbaad052188024016ae2d7c164cc87d0864a3a5add6969ca",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 586,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 34,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 620
+          },
+          "uncertainty_flags": []
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "40822837811",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "a1e883acaae968bf4545abe11b06ca7b25b863e0",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "7ff7fd9eac17a9f07865c3c47e7517162cf33a25c711eb4fa0185407ea2a6eeb"
+      },
+      "admission_hold": null,
+      "current_usefulness": {
+        "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
+        "assessed_at": "2026-10-29T05:22:40.468711+00:00",
+        "label": "currently_useful",
+        "material_inspected": "Complete current abstract reread after all six gates passed; original PDF front matter and source/method sections separately inspected mechanically. Not a full scientific assessment.",
+        "present_day_application": "Context for developing financial-crime training curricula and institutional capacity in Bangladesh or comparable settings.",
+        "older_material_justification": null,
+        "limitations": "No validated operational investigative method. Illustrative/constructed survey and synthetic figures are not independent empirical evidence; legal/institutional transfer requires care."
+      },
+      "recommendation_versions": [
+        {
+          "content_sha256": "2f33f134c0a7233392c42305c06f9d759d2e7d026d2a19273db7ec06eb4db2f4",
+          "recommendation": "discuss",
+          "relevance": "contextual",
+          "review_reason": "A Bangladesh-focused forensic-accounting education framework that may inform financial-crime training. It offers curriculum, institutional and tool-adoption proposals rather than a validated cyber-investigation technique. The survey is described as constructed/illustrative and some charts as synthetic; regression statistics should not be treated as field evidence.",
+          "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+          "assessment_depth": "cached_abstract",
+          "assessment_date": "2026-10-27",
+          "status": "awaiting_reassessment_after_current_preflight",
+          "superseded_at": "2026-10-29T05:22:40.468711+00:00"
+        }
+      ],
+      "recommendation_assessed_at": "2026-10-29T05:22:40.468711+00:00",
+      "recommendation_evidence": {
+        "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
+        "abstract_sha256": "08677752eed6068dc786b0954f156160ddee65fa2fe64aeb0fecdd692db2f81b",
+        "assessment_depth": "complete_current_abstract",
+        "method": "Direct substantive reread of the complete current abstract after all six mechanical gates passed; recommendation and reason checked against the described methods/findings.",
+        "source_provenance": [
+          "https://doi.org/10.5281/zenodo.20091744",
+          "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv",
+          {
+            "checked_at": "2026-10-29T05:19:36.390739+00:00",
+            "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
+            "repository_url": "https://zenodo.org/records/20091744",
+            "repository_sha256": "1320c46deb64eac55aba37fa48a7045e2ef234bc9fae97d2e7fd39123f98f90d",
+            "document_url": "https://zenodo.org/records/20091744/files/Forensic_Accounting_Bangladesh.pdf",
+            "document_sha256": "8123105b9079467cf1e2af8980bc1a8f00adcd9a15e2bf54b23e182132f968b9",
+            "document_bytes": 524966,
+            "authors": "Ripon Chandra Das",
+            "verified_year": 2026,
+            "doi": "10.5281/zenodo.20091744",
+            "inspection": "Actual10-page PDF title, full abstract, numbered research sections and opening prose inspected. Official repository identifies Preprint and sole creator. Written conceptual research paper, not a deck/poster; no peer-review endorsement.",
+            "date_note": "Repository publishedMay9,2026; PDF coverNovember2026. Month/date discrepancy retained; both sources establish2026.",
+            "author_note": "PDF title page has no byline; creator attribution is from the authoritative deposit metadata, not an invented PDF byline."
+          }
+        ],
+        "format_checked_at": "2026-10-29T05:19:36.390739+00:00",
+        "access_checked_at": "2026-10-29T05:19:36.390739+00:00",
+        "limitations": "Full paper not assessed for this recommendation. Mechanical source/type evidence is separate; this assessment does not waive quality, batch, decision, or release controls.",
+        "recommendation": "discuss",
+        "relevance": "contextual",
+        "basis": "A Bangladesh-focused forensic-accounting education framework that may inform financial-crime training. It offers curriculum, institutional and tool-adoption proposals rather than a validated cyber-investigation technique. The survey is described as constructed/illustrative and some charts as synthetic; regression statistics should not be treated as field evidence.",
+        "assessed_at": "2026-10-29T05:22:40.468711+00:00"
+      },
+      "batch_admission_eligible": true,
+      "preflight_reservation": {
+        "review_number": 6,
+        "review_batch": 1
+      },
+      "readiness_status": "passed",
+      "admitted_at": "2026-10-29T05:22:40.468711+00:00"
+    }
+  ],
+  "prepared_count": 7,
+  "assessment_count": 151,
+  "duplicate_holds": [
+    {
+      "screen_number": 41,
+      "reason": "abstract_not_substantive"
     },
+    {
+      "screen_number": 44,
+      "reason": "truncated_abstract"
+    },
+    {
+      "screen_number": 78,
+      "reason": "duplicate_of_screen_77_html_entity_variant"
+    },
+    {
+      "screen_number": 84,
+      "reason": "software_release_requires_resource_adapter"
+    },
+    {
+      "screen_number": 117,
+      "reason": "truncated_abstract"
+    },
+    {
+      "screen_number": 119,
+      "reason": "podcast_requires_audio_resource_adapter"
+    },
+    {
+      "screen_number": 143,
+      "reason": "book_description_requires_substantive_text_review"
+    }
+  ],
+  "automatic_acceptance_policy": "Preserve existing source-appropriate automatic acceptance. These are explicit existing human-review-tier records; no quality exceptions granted.",
+  "backlog_is_not_review_ready": true,
+  "preflight_records": [
     {
       "candidate_id": "weekly-fedafa22d1659db395c02b49",
       "upstream_candidate_id": "53693",
@@ -52721,7 +52886,7 @@
       "quality_status": "provisional_auto_threshold",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
       "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
-      "manual_review_required": true,
+      "manual_review_required": false,
       "total_quality_score": 41.65,
       "quality_score": 41.65,
       "quality_auto_threshold": 35.0,
@@ -52753,12 +52918,10 @@
       "title_anchor_bonus": 0,
       "content_sha256": "a98663643d5cb49ee60e591fedcab16057e3ab00986040559cb777c3156c32eb",
       "review_ready": false,
-      "preflight_status": "held",
-      "preflight_blockers": [
-        "schema"
-      ],
+      "preflight_status": "passed",
+      "preflight_blockers": [],
       "preflight": {
-        "status": "held",
+        "status": "passed",
         "content_sha256": "a98663643d5cb49ee60e591fedcab16057e3ab00986040559cb777c3156c32eb",
         "checks": {
           "format": {
@@ -52951,17 +53114,90 @@
             }
           },
           "schema": {
-            "status": "held",
-            "checked_at": "2026-10-29T05:19:36.390739+00:00",
+            "status": "passed",
+            "checked_at": "2026-10-29T05:21:08.546923+00:00",
             "content_sha256": "a98663643d5cb49ee60e591fedcab16057e3ab00986040559cb777c3156c32eb",
-            "evidence": "Await exact-current-hash paid taxonomy and disposable target serialization after the first-five gates pass; do not inherit another content version.",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "e0a35cdf0ccc40b3f9444c698d8c6a57a8a35e2f438da907054d35e2c25c8db5",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-29T05:21:08.543232+00:00",
+                "content_sha256": "a98663643d5cb49ee60e591fedcab16057e3ab00986040559cb777c3156c32eb",
+                "evidence": {
+                  "classification": {
+                    "Category": "Malware & Exploits",
+                    "Investigation_Type": "Malware Analysis",
+                    "OSINT_Source_Types": [
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_0722393a7c5753a6016ae2d7c32c2087d086f59d23ed6ee45d",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 671,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 28,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 699
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "40822837811",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "a1e883acaae968bf4545abe11b06ca7b25b863e0",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "7ff7fd9eac17a9f07865c3c47e7517162cf33a25c711eb4fa0185407ea2a6eeb"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 40822837811,
+              "source_type_semantic_check": {
+                "status": "passed",
+                "checked_at": "2026-10-29T05:22:40.468711+00:00",
+                "content_sha256": "a98663643d5cb49ee60e591fedcab16057e3ab00986040559cb777c3156c32eb",
+                "evidence": "Actual PDF sectionII.A, Dataset Collection and Preprocessing, identifies the publicly available Ransomware Dataset2024 from Zenodo (reference10),21752 samples and72 behavioural features. Other is supported by this named public research dataset, which has no more specific dataset category in the fixed source-type enum; no inferred victim leaks, public records or code repository.",
+                "classification": {
+                  "Category": "Malware & Exploits",
+                  "Investigation_Type": "Malware Analysis",
+                  "OSINT_Source_Types": [
+                    "Other"
+                  ]
+                }
+              }
+            },
+            "revalidated_at": "2026-10-29T05:22:40.500709+00:00",
             "prior_evidence": {
               "status": "held",
-              "checked_at": "2026-10-27T23:05:43.163744+00:00",
-              "content_sha256": "daf17618352c7113d49dfa2a40c2947057df3f8206b8e6f3c95ac16a89a8ee7e",
-              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              "checked_at": "2026-10-29T05:19:36.390739+00:00",
+              "content_sha256": "a98663643d5cb49ee60e591fedcab16057e3ab00986040559cb777c3156c32eb",
+              "evidence": "Await exact-current-hash paid taxonomy and disposable target serialization after the first-five gates pass; do not inherit another content version.",
+              "prior_evidence": {
+                "status": "held",
+                "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                "content_sha256": "daf17618352c7113d49dfa2a40c2947057df3f8206b8e6f3c95ac16a89a8ee7e",
+                "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              }
             }
           }
         }
@@ -53155,7 +53391,75 @@
         }
       ],
       "recommendation_content_sha256": "daf17618352c7113d49dfa2a40c2947057df3f8206b8e6f3c95ac16a89a8ee7e",
-      "recommendation_status": "awaiting_reassessment_after_current_preflight"
+      "recommendation_status": "not_required_for_qualifying_regular_automatic_route",
+      "taxonomy_verification": {
+        "status": "passed",
+        "checked_at": "2026-10-29T05:21:08.543232+00:00",
+        "content_sha256": "a98663643d5cb49ee60e591fedcab16057e3ab00986040559cb777c3156c32eb",
+        "evidence": {
+          "classification": {
+            "Category": "Malware & Exploits",
+            "Investigation_Type": "Malware Analysis",
+            "OSINT_Source_Types": [
+              "Other"
+            ]
+          },
+          "response_id": "resp_0722393a7c5753a6016ae2d7c32c2087d086f59d23ed6ee45d",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 671,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 28,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 699
+          },
+          "uncertainty_flags": []
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "40822837811",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "a1e883acaae968bf4545abe11b06ca7b25b863e0",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "7ff7fd9eac17a9f07865c3c47e7517162cf33a25c711eb4fa0185407ea2a6eeb"
+      },
+      "admission_hold": "Outside manual buffer: qualifying regular automatic-route handoff pending.",
+      "automatic_acceptance_eligible": true,
+      "batch_admission_eligible": false,
+      "routing_status": "qualifying_regular_automatic_intake_handoff_pending",
+      "automatic_route": {
+        "eligible": true,
+        "checked_at": "2026-10-29T05:22:40.468711+00:00",
+        "content_sha256": "a98663643d5cb49ee60e591fedcab16057e3ab00986040559cb777c3156c32eb",
+        "basis": "Existing source-based arXiv/preprint scoring ladder, corrected original publication metadata and verified affiliations; score41.65 >= existing35 auto threshold, both text hard gates pass, six current mechanical gates pass. No threshold or scoring rule changed.",
+        "quality": {
+          "quality_score": 41.65,
+          "quality_venue_score": 40.0,
+          "quality_citation_score": 0.0,
+          "quality_relevance_score": 70.59,
+          "quality_institution_score": 80.0,
+          "quality_institution_bonus": 10.0,
+          "quality_title_bonus": 0.0,
+          "quality_auto_threshold": 35.0,
+          "quality_review_threshold": 20.0,
+          "quality_core_term_gate": "pass",
+          "quality_relevance_gate": "pass",
+          "citation_count_known": false,
+          "quality_review_status": "provisional_auto_threshold",
+          "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+          "quality_requires_review": true
+        },
+        "release_status": "automatic_handoff_pending",
+        "publication_status": "not_published",
+        "next_action": "Pass the exact current record to the configured regular automatic-acceptance/final-release path. Public import/merge/deployment remains outside this maintenance worker. Do not consume a human-review slot.",
+        "human_editorial_vote_required": false
+      }
     },
     {
       "candidate_id": "weekly-e922c25d5af5066aae59fa07",
@@ -54949,11 +55253,11 @@
       "editorial_queue_eligible": false
     }
   ],
-  "ready_count": 6,
+  "ready_count": 7,
   "abstract_assessed_count": 150,
   "preflight_policy": "Admit only six current hash-bound gate passes and current substantive recommendations. Seal batches of 1–20 cleared candidates independently of held peers; never append to sealed batches.",
   "mechanical_passed_awaiting_batch_admission": 0,
-  "preflight_held_count": 96,
+  "preflight_held_count": 94,
   "recommendation_current_count": 54,
   "batch_admission_eligible_count": 38,
   "sealed_review_batches": [
@@ -55330,7 +55634,21 @@
         }
       ],
       "policy": "Cleared candidates sealed independently of held inventory; never append."
+    },
+    {
+      "batch": 22,
+      "sealed_at": "2026-10-29T05:22:40.468711+00:00",
+      "count": 1,
+      "members": [
+        {
+          "candidate_id": "weekly-04d1aec124745c3f359da27f",
+          "review_number": 6,
+          "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4"
+        }
+      ],
+      "policy": "Cleared candidates sealed independently of held inventory; never append."
     }
   ],
-  "last_preflight_update": "2026-10-29T05:19:36.390739+00:00"
+  "last_preflight_update": "2026-10-29T05:22:40.468711+00:00",
+  "automatic_handoff_pending_count": 1
 }
