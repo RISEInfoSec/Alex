@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "request_id": "7ff7fd9eac17a9f07865c3c47e7517162cf33a25c711eb4fa0185407ea2a6eeb",
+  "run_id": 40822837811,
+  "run_attempt": 1,
+  "head_sha": "a1e883acaae968bf4545abe11b06ca7b25b863e0",
+  "verified_at": "2026-10-29T05:22:40.501446+00:00",
+  "result_sha256": "3ff3ce34ee001749b8ac259d5d00d14ac05c96ef13ef3174a3dc8cf49956b123",
+  "usage": {
+    "requests": 2,
+    "input_tokens": 1257,
+    "output_tokens": 62,
+    "total_tokens": 1319,
+    "usage_unavailable_responses": 0
+  },
+  "applied": [
+    {
+      "collection": "weekly",
+      "candidate_id": "weekly-04d1aec124745c3f359da27f",
+      "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
+      "preflight_passed": true,
+      "idempotency_key": "weekly/weekly-04d1aec124745c3f359da27f/e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4/0/1"
+    },
+    {
+      "collection": "weekly",
+      "candidate_id": "weekly-0ea84d001099ee3ab328c37d",
+      "content_sha256": "a98663643d5cb49ee60e591fedcab16057e3ab00986040559cb777c3156c32eb",
+      "preflight_passed": true,
+      "idempotency_key": "weekly/weekly-0ea84d001099ee3ab328c37d/a98663643d5cb49ee60e591fedcab16057e3ab00986040559cb777c3156c32eb/0/1"
+    }
+  ],
+  "held": [],
+  "publication_approved": false,
+  "corpus_modified": false,
+  "source_type_semantic_checks_verified": true,
+  "admission": {
+    "admitted": 1,
+    "ready": 7,
+    "batches": [
+      {
+        "batch": 22,
+        "sealed_at": "2026-10-29T05:22:40.468711+00:00",
+        "count": 1,
+        "members": [
+          {
+            "candidate_id": "weekly-04d1aec124745c3f359da27f",
+            "review_number": 6,
+            "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4"
+          }
+        ],
+        "policy": "Cleared candidates sealed independently of held inventory; never append."
+      }
+    ],
+    "full_pending_batches": 0
+  },
+  "automatic_handoff_count": 1,
+  "artifact_byte_sha256": "98cd1072798d746aaba5a831d589b6c6578439c5bc8f4d8eafbb296bc177c5a1"
+}
