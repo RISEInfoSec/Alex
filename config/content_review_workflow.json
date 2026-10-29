@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 11,
+  "version": 12,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -367,5 +367,18 @@
     "preserve": "No changes to scores, hard gates, automatic acceptance, prior decisions, source/version distinctions or publication restrictions. Already accepted records keep their human decision; independent mechanical holds remain.",
     "helper": "tools/content_review/enrichment_order.py",
     "candidate_ledger": "config/content_review_enrichment_plan.json"
+  },
+  "taxonomy_source_corrections": {
+    "status": "implemented_review_only",
+    "helper": "tools/content_review/taxonomy_corrections.py",
+    "instructions": "docs/content_review_taxonomy_corrections.md",
+    "scope": "Evidence-backed amendment of OSINT_Source_Types after verified actual paid classification and serialization; preserves original response, current content identity and all other gates.",
+    "required": "Undecided non-admitted research paper; first-five current gates passed; actual source document hash/URL matches format/access proof; every resulting tag and removal explicitly justified; immutable correction/receipt and both original/corrected disposable target exports.",
+    "category_and_investigation_type_changed": false,
+    "classifier_prompt_or_enums_changed": false,
+    "scoring_or_release_rules_changed": false,
+    "additional_paid_calls": 0,
+    "automatic_admission": false,
+    "tests_passed": 131
   }
 }
