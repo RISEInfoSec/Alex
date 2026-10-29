@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "correction_id": "c6af4ae492a11670b6050e96aa39834bf1ddfa45c52d4a0058eed0d444171ef5",
+  "candidate_id": "weekly-6c7717ff1c241014cd08e9eb",
+  "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+  "applied_at": "2026-10-29T02:26:39.588697+00:00",
+  "before": {
+    "Category": "Cyber Threat Intelligence",
+    "Investigation_Type": "Attribution",
+    "OSINT_Source_Types": [
+      "Public Records",
+      "News Media",
+      "Forums & Communities",
+      "Leaked Data"
+    ]
+  },
+  "after": {
+    "Category": "Cyber Threat Intelligence",
+    "Investigation_Type": "Attribution",
+    "OSINT_Source_Types": [
+      "Code Repositories"
+    ]
+  },
+  "schema": {
+    "status": "passed",
+    "checked_at": "2026-10-29T02:26:39.588697+00:00",
+    "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+    "evidence": {
+      "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+      "target_record_sha256": "3da4295d4c688905d2c082d1930fbc62170c41830f7d209c0c83f9e339e09fe8",
+      "document_type": "research_paper",
+      "corpus_modified": false,
+      "publication_approved": false,
+      "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-10-29T01:54:18.047339+00:00",
+        "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+        "evidence": {
+          "classification": {
+            "Category": "Cyber Threat Intelligence",
+            "Investigation_Type": "Attribution",
+            "OSINT_Source_Types": [
+              "Code Repositories"
+            ]
+          },
+          "response_id": "resp_0eec7f25f5270d38016ae2a748cc6c87d08d7c5e9f80b5c31b",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 583,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 36,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 619
+          },
+          "uncertainty_flags": [],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "Cyber Threat Intelligence",
+            "Investigation_Type": "Attribution",
+            "OSINT_Source_Types": [
+              "Public Records",
+              "News Media",
+              "Forums & Communities",
+              "Leaked Data"
+            ]
+          },
+          "correction_id": "c6af4ae492a11670b6050e96aa39834bf1ddfa45c52d4a0058eed0d444171ef5"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "40803141039",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "f2023a4c1a0586b84543b7d958f9c9cdf2bd79a3",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "4376ccbab8ea33fb1340d1b74441a441f270f5f59be1ca7f3b2e61f1895b64ca",
+        "source_correction_applied_at": "2026-10-29T02:26:39.588697+00:00"
+      },
+      "source_correction_id": "c6af4ae492a11670b6050e96aa39834bf1ddfa45c52d4a0058eed0d444171ef5",
+      "source_document_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
+      "original_paid_target_sha256": "87af409ef38cfdc729315c3723b3f695f1fe3ee7d30dcd8cef78bf6ced54ff9d",
+      "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+    }
+  },
+  "paid_request_id": "4376ccbab8ea33fb1340d1b74441a441f270f5f59be1ca7f3b2e61f1895b64ca",
+  "paid_response_id": "resp_0eec7f25f5270d38016ae2a748cc6c87d08d7c5e9f80b5c31b",
+  "additional_paid_requests": 0,
+  "corpus_modified": false,
+  "publication_approved": false
+}
