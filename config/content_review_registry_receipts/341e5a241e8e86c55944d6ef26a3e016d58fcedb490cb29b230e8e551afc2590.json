@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "request_id": "341e5a241e8e86c55944d6ef26a3e016d58fcedb490cb29b230e8e551afc2590",
+  "verified_at": "2026-10-29T02:42:11.597Z",
+  "run_id": 40807627132,
+  "job_id": 123230240650,
+  "head_sha": "ddc3d7d840ed99dd6d3abd765a69800d72b21127",
+  "conclusion": "failure",
+  "status": "transport_failed_before_provider_request",
+  "requests": 0,
+  "evidence": "Independently fetched job log fails request-file discovery before execute() can run: Exactly one immutable registry request per run required. Eight isolated tests and corpus/pipeline immutability check passed. No result artifact was produced; no provider request/credential outcome is inferred.",
+  "fix": "Use established native Git diff of exact before/after commits; nine tests pass, including a push event without file lists.",
+  "replacement_request_id": "a5345e4ed31c5299e7546de2e48901bdda8184b3e22f5cc75c696fd34e4fda10",
+  "corpus_modified": false,
+  "publication_approved": false
+}
