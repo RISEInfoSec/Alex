@@ -32841,17 +32841,112 @@
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-29T01:53:06.013125+00:00",
+            "checked_at": "2026-10-29T01:57:10.702080+00:00",
             "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
-            "evidence": "Await actual paid taxonomy and disposable target-schema validation on exact verified content hash.",
-            "prior_evidence": {
-              "status": "held",
-              "checked_at": "2026-10-27T23:05:43.163744+00:00",
-              "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
-              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
-            }
+            "evidence": {
+              "paid_taxonomy_and_serialization": {
+                "status": "passed",
+                "checked_at": "2026-10-29T01:54:18.052112+00:00",
+                "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+                "evidence": {
+                  "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+                  "target_record_sha256": "87af409ef38cfdc729315c3723b3f695f1fe3ee7d30dcd8cef78bf6ced54ff9d",
+                  "document_type": "research_paper",
+                  "corpus_modified": false,
+                  "publication_approved": false,
+                  "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+                  "taxonomy": {
+                    "status": "passed",
+                    "checked_at": "2026-10-29T01:54:18.047339+00:00",
+                    "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+                    "evidence": {
+                      "classification": {
+                        "Category": "Cyber Threat Intelligence",
+                        "Investigation_Type": "Attribution",
+                        "OSINT_Source_Types": [
+                          "Public Records",
+                          "News Media",
+                          "Forums & Communities",
+                          "Leaked Data"
+                        ]
+                      },
+                      "response_id": "resp_0eec7f25f5270d38016ae2a748cc6c87d08d7c5e9f80b5c31b",
+                      "model": "gpt-4o-mini-2024-07-18",
+                      "reported_usage": {
+                        "input_tokens": 583,
+                        "input_tokens_details": {
+                          "cache_write_tokens": 0,
+                          "cached_tokens": 0
+                        },
+                        "output_tokens": 36,
+                        "output_tokens_details": {
+                          "reasoning_tokens": 0
+                        },
+                        "total_tokens": 619
+                      },
+                      "uncertainty_flags": []
+                    },
+                    "provenance": {
+                      "GITHUB_RUN_ID": "40803141039",
+                      "GITHUB_RUN_ATTEMPT": "1",
+                      "GITHUB_SHA": "f2023a4c1a0586b84543b7d958f9c9cdf2bd79a3",
+                      "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                      "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                    },
+                    "request_id": "4376ccbab8ea33fb1340d1b74441a441f270f5f59be1ca7f3b2e61f1895b64ca"
+                  },
+                  "contract": {
+                    "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                    "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                    "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                    "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                    "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                    "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+                  },
+                  "workflow_run_id": 40803141039
+                },
+                "revalidated_at": "2026-10-29T01:57:10.747026+00:00",
+                "prior_evidence": {
+                  "status": "held",
+                  "checked_at": "2026-10-29T01:53:06.013125+00:00",
+                  "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+                  "evidence": "Await actual paid taxonomy and disposable target-schema validation on exact verified content hash.",
+                  "prior_evidence": {
+                    "status": "held",
+                    "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                    "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+                    "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                    "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                    "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                  }
+                }
+              },
+              "taxonomy": {
+                "Category": "Cyber Threat Intelligence",
+                "Investigation_Type": "Attribution",
+                "OSINT_Source_Types": [
+                  "Public Records",
+                  "News Media",
+                  "Forums & Communities",
+                  "Leaked Data"
+                ]
+              },
+              "semantic_subcheck": {
+                "status": "held",
+                "field": "OSINT_Source_Types",
+                "unsupported_values": [
+                  "News Media",
+                  "Forums & Communities",
+                  "Leaked Data"
+                ],
+                "source_pdf_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
+                "material_inspected": "Actual PDF Methodology section3, printed page7; Code and Data Availability section6, printed pages14–15. Inspected for taxonomy/source consistency, not substantive recommendation or full scientific critique.",
+                "source_findings": "Methods explicitly identify295 ransom notes from189 actors collected from ransomlook.io; code/data availability identifies a public GitHub repository containing scripts and ransom notes. These sections do not establish News Media, Forums & Communities or Leaked Data as the study source types. Ransom notes are not evidence that victim data was leaked or used.",
+                "reason": "Paid enum/target serialization passed, but several returned source tags lack verified content support. Category and attribution type are supported; preserve the actual response rather than silently replacing tags.",
+                "next_action": "Resolve unsupported OSINT-source tags through a supported evidence/correction path. Reuse the paid result and inspected source proof; do not blindly rerun the identical classification or burden the editorial reviewer with a mechanical tag issue."
+              }
+            },
+            "limitations": "Serialization success does not demonstrate semantic accuracy. Independent taxonomy-source hold; no numeric policy, decision or source-identity change."
           }
         }
       },
@@ -33040,7 +33135,47 @@
         }
       ],
       "recommendation_status": "awaiting_reassessment_after_verified_type_preflight",
-      "admission_hold": "Await schema, then current substantive recommendation/usefulness assessment."
+      "admission_hold": "Resolve unsupported taxonomy source tags before substantive recommendation/manual admission.",
+      "taxonomy_verification": {
+        "status": "passed",
+        "checked_at": "2026-10-29T01:54:18.047339+00:00",
+        "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+        "evidence": {
+          "classification": {
+            "Category": "Cyber Threat Intelligence",
+            "Investigation_Type": "Attribution",
+            "OSINT_Source_Types": [
+              "Public Records",
+              "News Media",
+              "Forums & Communities",
+              "Leaked Data"
+            ]
+          },
+          "response_id": "resp_0eec7f25f5270d38016ae2a748cc6c87d08d7c5e9f80b5c31b",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 583,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 36,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 619
+          },
+          "uncertainty_flags": []
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "40803141039",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "f2023a4c1a0586b84543b7d958f9c9cdf2bd79a3",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "4376ccbab8ea33fb1340d1b74441a441f270f5f59be1ca7f3b2e61f1895b64ca"
+      }
     },
     {
       "candidate_id": "weekly-b5e7a56103be9079eec7ab01",
@@ -51142,7 +51277,7 @@
   "preflight_policy": "Admit only six current hash-bound gate passes and current substantive recommendations. Seal batches of 1–20 cleared candidates independently of held peers; never append to sealed batches.",
   "mechanical_passed_awaiting_batch_admission": 0,
   "preflight_held_count": 101,
-  "recommendation_current_count": 38,
+  "recommendation_current_count": 49,
   "batch_admission_eligible_count": 38,
   "sealed_review_batches": [
     {
@@ -51471,19 +51606,5 @@
       "policy": "Cleared candidates sealed independently of held inventory; never append."
     }
   ],
-  "last_preflight_update": {
-    "checked_at": "2026-10-28T23:51:58.268020+00:00",
-    "candidate_id": "weekly-e3e3c8b6597c206183397530",
-    "old_content_sha256": "f66357ac0d7320ddb618f1e696eea618ac3409bdee60e5206ed1f24061f9dc6b",
-    "content_sha256": "717c5b036ae0d38523254fb73ce9048553a7e1b3fd3037c4d4ef16d92536f662",
-    "resolved": [
-      "metadata",
-      "citation_unknown_normalization",
-      "duplicates"
-    ],
-    "remaining": [
-      "schema",
-      "recommendation_reassessment"
-    ]
-  }
+  "last_preflight_update": "2026-10-29T01:57:10.702080+00:00"
 }
