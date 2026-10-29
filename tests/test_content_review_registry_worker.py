@@ -41,3 +41,13 @@ def test_timeout_never_retries_or_leaks_url(packet,monkeypatch):
 def test_changed_snapshot_fails_before_network(packet,monkeypatch):
  root,path=packet;(root/'config/weekly_review_manifest.json').write_text('{}')
  with pytest.raises(AssertionError):w.execute(root,path,get=lambda *a,**k:pytest.fail('network'))
+
+def test_event_without_file_lists_uses_verified_git_diff(tmp_path,monkeypatch):
+ import subprocess
+ def git(*args):return subprocess.check_output(['git',*args],cwd=tmp_path,text=True).strip()
+ git('init','-q');git('config','user.name','Test');git('config','user.email','test@example.invalid')
+ (tmp_path/'base').write_text('base');git('add','base');git('commit','-qm','base');before=git('rev-parse','HEAD')
+ directory=tmp_path/w.DIRECTORY;directory.mkdir(parents=True);path=directory/('a'*64+'.json');path.write_text('{}');git('add',w.DIRECTORY);git('commit','-qm','request');after=git('rev-parse','HEAD')
+ monkeypatch.setenv('GITHUB_REPOSITORY','RISEInfoSec/Alex');monkeypatch.setenv('GITHUB_REF','refs/heads/'+w.BRANCH);monkeypatch.setenv('GITHUB_SHA',after)
+ event={'before':before,'after':after,'ref':'refs/heads/'+w.BRANCH}
+ assert w.event_requests(tmp_path,event)==[path]
