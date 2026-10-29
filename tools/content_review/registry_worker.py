@@ -1,5 +1,5 @@
 """One credentialed, exact-DOI OpenAlex request; immutable review-only artifact."""
-import argparse,hashlib,json,os,re
+import argparse,hashlib,json,os,re,subprocess
 from datetime import datetime,timezone,timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
@@ -66,12 +66,22 @@ def execute(root,path,get=None):
  except (ValueError,TypeError,AttributeError,AssertionError):result['error']='OpenAlex response failed exact identity/count validation.'
  return result
 
-def main():
- p=argparse.ArgumentParser();p.add_argument('--event',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();root=Path.cwd();event=json.loads(a.event.read_text());paths=[]
- for commit in event.get('commits',[]):paths+=commit.get('added',[])
- paths=list(dict.fromkeys(x for x in paths if x.startswith(DIRECTORY+'/') and x.endswith('.json')))
+def event_requests(root,event):
+ if os.environ.get('GITHUB_REPOSITORY')!='RISEInfoSec/Alex' or os.environ.get('GITHUB_REF')!='refs/heads/'+BRANCH or event.get('ref')!='refs/heads/'+BRANCH or event.get('deleted'):raise ValueError('Review branch push required')
+ before,after=event['before'],event['after']
+ if after!=os.environ.get('GITHUB_SHA') or not all(re.fullmatch('[0-9a-f]{40}',x) for x in (before,after)):raise ValueError('Event commit mismatch')
+ lines=subprocess.check_output(['git','diff','--name-status',before,after,'--',DIRECTORY],cwd=root,text=True).splitlines();paths=[]
+ for line in lines:
+  change,path=line.split('\t',1)
+  if change!='A' or not re.fullmatch(DIRECTORY+r'/[0-9a-f]{64}\.json',path):raise ValueError('Registry requests are immutable additions only')
+  paths.append(root/path)
  if len(paths)!=1:raise ValueError('Exactly one immutable registry request per run required')
- result=execute(root,root/paths[0]);a.output.parent.mkdir(parents=True,exist_ok=True);content=json.dumps(result,ensure_ascii=False,indent=2)+'\n';a.output.write_text(content)
+ return paths
+
+def main():
+ p=argparse.ArgumentParser();p.add_argument('--event',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();root=Path.cwd();event=json.loads(a.event.read_text());paths=event_requests(root,event)
+ if a.output.resolve().is_relative_to(root/'data') or a.output.resolve().is_relative_to(root/'config'):raise ValueError('Output must remain an artifact outside corpus/config')
+ result=execute(root,paths[0]);a.output.parent.mkdir(parents=True,exist_ok=True);content=json.dumps(result,ensure_ascii=False,indent=2)+'\n';a.output.write_text(content)
  print('CONTENT_REVIEW_REGISTRY_RESULT_JSON='+json.dumps(result,ensure_ascii=False));print('CONTENT_REVIEW_REGISTRY_RESULT_SHA256='+hashlib.sha256(content.encode()).hexdigest())
 
 if __name__=='__main__':main()
