@@ -37559,18 +37559,15 @@
           },
           "duplicates": {
             "status": "passed",
-            "checked_at": "2026-10-29T01:47:34.323130+00:00",
+            "checked_at": "2026-10-29T02:38:20.332358+00:00",
             "content_sha256": "99ac3214a581bd3f2b7f4b2198814f914d155ab4593fd149e6436916398bb74e",
             "evidence": {
-              "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
-              "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-              "exclusions_blob": "653063601c2750fc75a89f397f001089319859b8",
               "source_counts": {
                 "soups": 797,
                 "virusbulletin": 92,
                 "soups-ancillary": 593,
                 "weekly": 150,
-                "archive-discovery": 2209,
+                "archive-discovery": 2211,
                 "public": 3162,
                 "weekly-upstream": 4041,
                 "apwg": 1
@@ -37583,7 +37580,9 @@
                   "identity": "65434"
                 }
               ],
-              "scope": "Fresh exact DOI, canonical source/resource URL and normalized-title checks across current public corpus, all prepared/ancillary collections,4041 weekly source rows and updated raw archive inventory."
+              "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+              "exclusions_blob": "653063601c2750fc75a89f397f001089319859b8",
+              "scope": "Fresh exact DOI/canonical URLs/normalized title across current corpus, all prepared/ancillary collections,2211 raw resources and4041 weekly source rows before scarce registry request."
             }
           },
           "schema": {
@@ -37978,14 +37977,46 @@
           },
           "access": {
             "status": "held",
-            "checked_at": "2026-10-27T23:40:48.220777+00:00",
+            "checked_at": "2026-10-29T02:38:20.332358+00:00",
             "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
             "evidence": {
+              "name": "cyber-guardian-page",
+              "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
+              "checked_at": "2026-10-29T02:33:29.203372+00:00",
+              "hops": [
+                {
+                  "url": "https://doi.org/10.55041/isjem07154",
+                  "http_status": 302,
+                  "resource_sha256": "faf1448a8552e8e912565f94b164edce81fefa4fa91b058804353e89d16d4a60",
+                  "bytes": 249,
+                  "content_type": "text/html;charset=utf-8"
+                },
+                {
+                  "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
+                  "http_status": 403,
+                  "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
+                  "bytes": 6284,
+                  "content_type": "text/html; charset=UTF-8"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 403,
+              "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
+              "bytes": 6284,
+              "content_type": "text/html; charset=UTF-8"
+            },
+            "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
+            "prior_evidence": {
+              "status": "held",
               "checked_at": "2026-10-27T23:40:48.220777+00:00",
-              "url": "https://doi.org/10.55041/isjem07154",
-              "error": "HTTPError: HTTP Error 403: Forbidden",
-              "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-              "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+              "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
+              "evidence": {
+                "checked_at": "2026-10-27T23:40:48.220777+00:00",
+                "url": "https://doi.org/10.55041/isjem07154",
+                "error": "HTTPError: HTTP Error 403: Forbidden",
+                "retry_after": "next pass; source backoff; access failure is not scientific rejection",
+                "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+              }
             }
           },
           "metadata": {
@@ -38093,7 +38124,53 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_access_followups": [
+        {
+          "status": "held",
+          "checked_at": "2026-10-29T02:38:20.332358+00:00",
+          "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
+          "evidence": {
+            "name": "cyber-guardian-page",
+            "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
+            "checked_at": "2026-10-29T02:33:29.203372+00:00",
+            "hops": [
+              {
+                "url": "https://doi.org/10.55041/isjem07154",
+                "http_status": 302,
+                "resource_sha256": "faf1448a8552e8e912565f94b164edce81fefa4fa91b058804353e89d16d4a60",
+                "bytes": 249,
+                "content_type": "text/html;charset=utf-8"
+              },
+              {
+                "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
+                "http_status": 403,
+                "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
+                "bytes": 6284,
+                "content_type": "text/html; charset=UTF-8"
+              }
+            ],
+            "robots_http_status": 200,
+            "http_status": 403,
+            "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
+            "bytes": 6284,
+            "content_type": "text/html; charset=UTF-8"
+          },
+          "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:40:48.220777+00:00",
+            "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
+            "evidence": {
+              "checked_at": "2026-10-27T23:40:48.220777+00:00",
+              "url": "https://doi.org/10.55041/isjem07154",
+              "error": "HTTPError: HTTP Error 403: Forbidden",
+              "retry_after": "next pass; source backoff; access failure is not scientific rejection",
+              "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+            }
+          }
+        }
+      ]
     },
     {
       "candidate_id": "weekly-f15d53b0bfa77e9300cf97d0",
@@ -38880,14 +38957,39 @@
           },
           "access": {
             "status": "held",
-            "checked_at": "2026-10-27T23:41:44.662155+00:00",
+            "checked_at": "2026-10-29T02:38:20.332358+00:00",
             "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
             "evidence": {
+              "name": "peerj-threat-page",
+              "url": "https://peerj.com/articles/cs-3803/",
+              "checked_at": "2026-10-29T02:33:22.996156+00:00",
+              "hops": [
+                {
+                  "url": "https://peerj.com/articles/cs-3803/",
+                  "http_status": 403,
+                  "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
+                  "bytes": 6122,
+                  "content_type": "text/html; charset=UTF-8"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 403,
+              "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
+              "bytes": 6122,
+              "content_type": "text/html; charset=UTF-8"
+            },
+            "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
+            "prior_evidence": {
+              "status": "held",
               "checked_at": "2026-10-27T23:41:44.662155+00:00",
-              "url": "https://peerj.com/articles/cs-3803.pdf",
-              "error": "HTTPError: HTTP Error 403: Forbidden",
-              "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-              "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+              "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
+              "evidence": {
+                "checked_at": "2026-10-27T23:41:44.662155+00:00",
+                "url": "https://peerj.com/articles/cs-3803.pdf",
+                "error": "HTTPError: HTTP Error 403: Forbidden",
+                "retry_after": "next pass; source backoff; access failure is not scientific rejection",
+                "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+              }
             }
           },
           "metadata": {
@@ -38983,7 +39085,46 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_access_followups": [
+        {
+          "status": "held",
+          "checked_at": "2026-10-29T02:38:20.332358+00:00",
+          "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
+          "evidence": {
+            "name": "peerj-threat-page",
+            "url": "https://peerj.com/articles/cs-3803/",
+            "checked_at": "2026-10-29T02:33:22.996156+00:00",
+            "hops": [
+              {
+                "url": "https://peerj.com/articles/cs-3803/",
+                "http_status": 403,
+                "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
+                "bytes": 6122,
+                "content_type": "text/html; charset=UTF-8"
+              }
+            ],
+            "robots_http_status": 200,
+            "http_status": 403,
+            "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
+            "bytes": 6122,
+            "content_type": "text/html; charset=UTF-8"
+          },
+          "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:41:44.662155+00:00",
+            "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
+            "evidence": {
+              "checked_at": "2026-10-27T23:41:44.662155+00:00",
+              "url": "https://peerj.com/articles/cs-3803.pdf",
+              "error": "HTTPError: HTTP Error 403: Forbidden",
+              "retry_after": "next pass; source backoff; access failure is not scientific rejection",
+              "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+            }
+          }
+        }
+      ]
     },
     {
       "candidate_id": "weekly-af2684450c2113e29752cac3",
