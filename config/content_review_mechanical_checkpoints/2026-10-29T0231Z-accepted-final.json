@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-29T02:31:06.982090+00:00",
+  "submission": {
+    "id": "35d61b9b-c3f1-4684-893e-bda6300d86b3",
+    "collection": "weekly",
+    "batch": 17,
+    "revision": 1,
+    "accepted": 1,
+    "rejected": 0,
+    "payload_hash": "88c0ae775e78e543d79a661ee6a779280c0013bca4b946ad9e7229e8edd8e9ce",
+    "created_at": "2026-10-29T02:26:55.159Z"
+  },
+  "candidate_id": "weekly-129ce5ffe83fd6339e377ef8",
+  "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
+  "decision": "approved",
+  "decision_id": "35d61b9b-c3f1-4684-893e-bda6300d86b3:weekly-129ce5ffe83fd6339e377ef8",
+  "assessment_job_id": "assessment:35d61b9b-c3f1-4684-893e-bda6300d86b3:weekly-129ce5ffe83fd6339e377ef8",
+  "buffer_job_id": "buffer:35d61b9b-c3f1-4684-893e-bda6300d86b3",
+  "final_validation_status": "ready_for_configured_release_path",
+  "final_source_access": {
+    "status": "passed",
+    "checked_at": "2026-10-29T02:28:05.838926+00:00",
+    "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
+    "evidence": {
+      "name": "accepted-forensic-image",
+      "url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/download/144/117",
+      "checked_at": "2026-10-29T02:28:05.838926+00:00",
+      "hops": [
+        {
+          "url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/download/144/117",
+          "http_status": 200,
+          "resource_sha256": "9cef7cc9be1bfd8efe04ba2ce7184bda8e010eea52bbabb3523a86538b4624d4",
+          "bytes": 1354314,
+          "content_type": "application/pdf"
+        }
+      ],
+      "robots_http_status": 200,
+      "http_status": 200,
+      "resource_sha256": "9cef7cc9be1bfd8efe04ba2ce7184bda8e010eea52bbabb3523a86538b4624d4",
+      "bytes": 1354314,
+      "content_type": "application/pdf",
+      "local_path": "/workspace/scratch/6422be16c397/run4-accepted-forensic-image.pdf"
+    },
+    "reuse_basis": "Actual publisher PDF bytes exactly match preflight. Reuse verified material type/front matter/authors/year/abstract; no repeated paid classification or full scientific critique."
+  },
+  "final_duplicates": {
+    "status": "passed",
+    "checked_at": "2026-10-29T02:31:06.982090+00:00",
+    "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
+    "evidence": {
+      "matches": [],
+      "exclusion_matches": [],
+      "self_provenance_overlaps": [
+        {
+          "source": "weekly-upstream",
+          "identity": "61179"
+        }
+      ],
+      "source_counts": {
+        "soups": 797,
+        "virusbulletin": 92,
+        "soups-ancillary": 593,
+        "weekly": 150,
+        "archive-discovery": 2211,
+        "public": 3162,
+        "weekly-upstream": 4041,
+        "apwg": 1
+      },
+      "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+      "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+      "exclusions_blob": "653063601c2750fc75a89f397f001089319859b8",
+      "scope": "Post-acceptance fresh exact DOI/canonical URLs/normalized title across current public/all prepared/ancillary inventories,2211 raw archive URLs and4041 weekly identities, with current explicit exclusions."
+    }
+  },
+  "schema_target_sha256": "c19653b83643f32ab3ebb4896324faed53c2e003418717b21fec949a30cfdf39",
+  "reused_gates": [
+    "format",
+    "metadata",
+    "quality",
+    "taxonomy"
+  ],
+  "raw_post_body_rehash_available": false,
+  "server_payload_hash_observed": true,
+  "editorial_approval_complete": true,
+  "publication_pending": true,
+  "published_count": 0,
+  "public_corpus_modified": false,
+  "ready_total": 4,
+  "global_deficit": 246,
+  "preflight_held": 186,
+  "admission": {
+    "admitted": 3,
+    "ready": 4,
+    "batches": [
+      {
+        "batch": 19,
+        "sealed_at": "2026-10-29T02:31:06.982090+00:00",
+        "count": 3,
+        "members": [
+          {
+            "candidate_id": "weekly-17dfd4d6d878d9383b5a6794",
+            "review_number": 8,
+            "content_sha256": "245c0c479f5d00e0752b3b77695dd56a2418017c40a1fe48e0557b08c419fb8c"
+          },
+          {
+            "candidate_id": "weekly-6c7717ff1c241014cd08e9eb",
+            "review_number": 14,
+            "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066"
+          },
+          {
+            "candidate_id": "weekly-613259936d5f6e81dd8c3b48",
+            "review_number": 28,
+            "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b"
+          }
+        ],
+        "policy": "Cleared candidates sealed independently of held inventory; never append."
+      }
+    ],
+    "full_pending_batches": 0
+  }
+}
