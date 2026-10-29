@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-10-28T22:24:21.100843+00:00",
+  "checked_at": "2026-10-29T00:54:34.785626+00:00",
   "policy_version": 11,
   "openalex_requests": 0,
   "records": [
@@ -347,10 +347,14 @@
       "fresh_duplicate_snapshot": true,
       "registry_plan": {
         "eligible": false,
-        "reason": "all_required_checks_completed_without_openalex",
+        "reason": "authenticated_human_rejection_preserved",
+        "terminal_rejection": true,
         "automatic_openalex_request": false
       },
-      "disposition": "manual_ready"
+      "disposition": "human_rejected",
+      "decision": "rejected",
+      "submission_id": "eb51c866-00a1-428e-80ad-dcaf0f0f42d1",
+      "updated_at": "2026-10-29T00:54:34.785626+00:00"
     },
     {
       "collection": "soups",
@@ -1138,13 +1142,19 @@
     {
       "collection": "weekly",
       "candidate_id": "weekly-129ce5ffe83fd6339e377ef8",
-      "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
+      "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
       "quality_status": "human_quality_review",
-      "fresh_duplicate_snapshot": false,
+      "fresh_duplicate_snapshot": true,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "all_required_checks_complete_await_human_decision",
+        "automatic_openalex_request": false
+      },
+      "prior_content_hashes": [
+        "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031"
+      ],
+      "disposition": "manual_ready",
+      "updated_at": "2026-10-29T00:54:34.785626+00:00"
     },
     {
       "collection": "weekly",
@@ -1215,13 +1225,19 @@
     {
       "collection": "weekly",
       "candidate_id": "weekly-613259936d5f6e81dd8c3b48",
-      "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
+      "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
       "quality_status": "human_quality_review",
-      "fresh_duplicate_snapshot": false,
+      "fresh_duplicate_snapshot": true,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "resolve_taxonomy_source_evidence_first",
+        "automatic_openalex_request": false
+      },
+      "prior_content_hashes": [
+        "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223"
+      ],
+      "disposition": "held_taxonomy_source_evidence",
+      "updated_at": "2026-10-29T00:54:34.785626+00:00"
     },
     {
       "collection": "weekly",
@@ -1248,13 +1264,19 @@
     {
       "collection": "weekly",
       "candidate_id": "weekly-e3e3c8b6597c206183397530",
-      "content_sha256": "f66357ac0d7320ddb618f1e696eea618ac3409bdee60e5206ed1f24061f9dc6b",
+      "content_sha256": "717c5b036ae0d38523254fb73ce9048553a7e1b3fd3037c4d4ef16d92536f662",
       "quality_status": "human_quality_review",
-      "fresh_duplicate_snapshot": false,
+      "fresh_duplicate_snapshot": true,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "all_required_checks_complete_await_human_decision",
+        "automatic_openalex_request": false
+      },
+      "prior_content_hashes": [
+        "f66357ac0d7320ddb618f1e696eea618ac3409bdee60e5206ed1f24061f9dc6b"
+      ],
+      "disposition": "manual_ready",
+      "updated_at": "2026-10-29T00:54:34.785626+00:00"
     },
     {
       "collection": "weekly",
@@ -2215,13 +2237,17 @@
     }
   ],
   "summary": {
-    "held_intake_tracked": 192,
-    "deferred_registry": 192,
+    "held_intake_tracked": 190,
+    "deferred_registry": 190,
     "alternative_enrichment_eligible": 0,
+    "manual_ready_current": 2,
+    "human_rejected": 1,
+    "manual_ready_added_this_run": 1,
+    "taxonomy_content_held_this_run": 1,
     "previous_openalex_six": {
       "independent_core_gate_deferred": 5,
-      "alternative_metadata_completed": 1
-    },
-    "manual_ready_added": 1
+      "alternative_metadata_completed": 1,
+      "subsequently_human_rejected": 1
+    }
   }
 }
