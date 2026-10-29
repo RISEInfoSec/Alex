@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "correction_id": "a0fa90b8b51022d3001a19c95ac5102e0cfb6869f220983a728eec947277023d",
+  "candidate_id": "weekly-17dfd4d6d878d9383b5a6794",
+  "content_sha256": "245c0c479f5d00e0752b3b77695dd56a2418017c40a1fe48e0557b08c419fb8c",
+  "applied_at": "2026-10-29T02:26:39.588697+00:00",
+  "before": {
+    "Category": "Privacy & Surveillance",
+    "Investigation_Type": "Forensic Investigation",
+    "OSINT_Source_Types": [
+      "Social Media",
+      "Public Records",
+      "Corporate Records"
+    ]
+  },
+  "after": {
+    "Category": "Privacy & Surveillance",
+    "Investigation_Type": "Forensic Investigation",
+    "OSINT_Source_Types": [
+      "Social Media",
+      "Corporate Records"
+    ]
+  },
+  "schema": {
+    "status": "passed",
+    "checked_at": "2026-10-29T02:26:39.588697+00:00",
+    "content_sha256": "245c0c479f5d00e0752b3b77695dd56a2418017c40a1fe48e0557b08c419fb8c",
+    "evidence": {
+      "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+      "target_record_sha256": "34eeaac7af8201631dd6d58f13892a2505b646f5c63d4fc046525a2297027ecb",
+      "document_type": "research_paper",
+      "corpus_modified": false,
+      "publication_approved": false,
+      "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-10-29T02:02:21.762631+00:00",
+        "content_sha256": "245c0c479f5d00e0752b3b77695dd56a2418017c40a1fe48e0557b08c419fb8c",
+        "evidence": {
+          "classification": {
+            "Category": "Privacy & Surveillance",
+            "Investigation_Type": "Forensic Investigation",
+            "OSINT_Source_Types": [
+              "Social Media",
+              "Corporate Records"
+            ]
+          },
+          "response_id": "resp_0f824617518c61d7016ae2a92c08a487d19f7d25b8e973814e",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 721,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 43,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 764
+          },
+          "uncertainty_flags": [],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "Privacy & Surveillance",
+            "Investigation_Type": "Forensic Investigation",
+            "OSINT_Source_Types": [
+              "Social Media",
+              "Public Records",
+              "Corporate Records"
+            ]
+          },
+          "correction_id": "a0fa90b8b51022d3001a19c95ac5102e0cfb6869f220983a728eec947277023d"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "40803914247",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "426cce37cdafc3a44054b3f04b8f9d87a5268d40",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "524fe39f9f86fada50ce9331692ba4fd39d02ca5b49db49e857d3e8701d94076",
+        "source_correction_applied_at": "2026-10-29T02:26:39.588697+00:00"
+      },
+      "source_correction_id": "a0fa90b8b51022d3001a19c95ac5102e0cfb6869f220983a728eec947277023d",
+      "source_document_sha256": "fd0e889a3fcce4ba2e5750d49106455d245a0226caf6117613dce7a03d7c3019",
+      "original_paid_target_sha256": "30a1b1c5d22f093ad46a6e3ffb8cc6841785283689f43c3f012c708a8052c531",
+      "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+    }
+  },
+  "paid_request_id": "524fe39f9f86fada50ce9331692ba4fd39d02ca5b49db49e857d3e8701d94076",
+  "paid_response_id": "resp_0f824617518c61d7016ae2a92c08a487d19f7d25b8e973814e",
+  "additional_paid_requests": 0,
+  "corpus_modified": false,
+  "publication_approved": false
+}
