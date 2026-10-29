@@ -106,6 +106,10 @@ def reconcile_result(root, request, result, run):
         row["review_ready"] = False
         row["editorial_queue_eligible"] = False
         row["admission_hold"] = "Publish only after current recommendation evidence and complete stable batch are verified"
+        # Cached paid replay must not erase a verified source-backed amendment.
+        if row.get("taxonomy_source_correction"):
+            from tools.content_review.taxonomy_corrections import apply_correction
+            apply_correction(row, z, row["taxonomy_source_correction"]["correction"])
         applied.append({"collection": col, "candidate_id": cid, "content_sha256": row["content_sha256"],
                         "preflight_passed": passed, "idempotency_key": item["idempotency_key"]})
     stage["updated_at"] = now()
