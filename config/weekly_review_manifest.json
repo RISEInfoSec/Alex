@@ -37196,8 +37196,8 @@
       "relevance_score": 35.29,
       "is_preprint": false,
       "venue": "INTERNATIONAL JOURNAL OF COMPUTER SCIENCE AND MATHEMATICAL THEORY E-ISSN",
-      "citation_count": null,
-      "citation_status": "unknown; unverified upstream zero retained in original source history",
+      "citation_count": 0,
+      "citation_status": "verified_OpenAlex_cited_by_count_zero_exact_DOI",
       "doi_status": "upstream_identifier_not_independently_verified",
       "source_recommended_action": "human review",
       "source_review_reason": "Quality uncertain or moderate",
@@ -37513,7 +37513,7 @@
           },
           "quality": {
             "status": "held",
-            "checked_at": "2026-10-29T01:47:34.323130+00:00",
+            "checked_at": "2026-10-29T02:45:10.075963+00:00",
             "content_sha256": "99ac3214a581bd3f2b7f4b2198814f914d155ab4593fd149e6436916398bb74e",
             "evidence": {
               "quality_score": 32.82,
@@ -37527,15 +37527,26 @@
               "quality_review_threshold": 45.0,
               "quality_core_term_gate": "pass",
               "quality_relevance_gate": "pass",
-              "citation_count_known": false,
+              "citation_count_known": true,
               "quality_review_status": "hold_below_review_threshold",
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "prior_evidence": {
+            "citation_verification": {
               "status": "passed",
-              "checked_at": "2026-10-27T23:05:42.201570+00:00",
-              "content_sha256": "57fa8a01738ca894a5073264c228495838e4d25c84a5625e0129449f5008740e",
+              "checked_at": "2026-10-29T02:42:39.371806+00:00",
+              "content_sha256": "99ac3214a581bd3f2b7f4b2198814f914d155ab4593fd149e6436916398bb74e",
+              "provider": "OpenAlex",
+              "work_id": "https://openalex.org/W7220394380",
+              "cited_by_count": 0,
+              "receipt": "config/content_review_registry_receipts/a5345e4ed31c5299e7546de2e48901bdda8184b3e22f5cc75c696fd34e4fda10.json",
+              "identity_basis": "Exact DOI and normalized title match; registry first author matches verified canonical first author. Full publisher/PDF three-author byline remains authoritative.",
+              "metadata_limitations": "Registry still lists only first author and publication_year2026. Keep verified printed issue year2025, publisher online2026 date and complete three-author byline; do not undo prior reconciliation. Citation counts are provider-specific, not reference counts."
+            },
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-29T01:47:34.323130+00:00",
+              "content_sha256": "99ac3214a581bd3f2b7f4b2198814f914d155ab4593fd149e6436916398bb74e",
               "evidence": {
                 "quality_score": 32.82,
                 "quality_venue_score": 40.0,
@@ -37544,18 +37555,41 @@
                 "quality_institution_score": 80.0,
                 "quality_institution_bonus": 10.0,
                 "quality_title_bonus": 0.0,
-                "quality_auto_threshold": 35.0,
-                "quality_review_threshold": 20.0,
+                "quality_auto_threshold": 60.0,
+                "quality_review_threshold": 45.0,
                 "quality_core_term_gate": "pass",
                 "quality_relevance_gate": "pass",
-                "citation_count_known": true,
-                "quality_review_status": "human_quality_review",
+                "citation_count_known": false,
+                "quality_review_status": "hold_below_review_threshold",
                 "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
                 "quality_requires_review": true
               },
-              "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+              "prior_evidence": {
+                "status": "passed",
+                "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                "content_sha256": "57fa8a01738ca894a5073264c228495838e4d25c84a5625e0129449f5008740e",
+                "evidence": {
+                  "quality_score": 32.82,
+                  "quality_venue_score": 40.0,
+                  "quality_citation_score": 0.0,
+                  "quality_relevance_score": 35.29,
+                  "quality_institution_score": 80.0,
+                  "quality_institution_bonus": 10.0,
+                  "quality_title_bonus": 0.0,
+                  "quality_auto_threshold": 35.0,
+                  "quality_review_threshold": 20.0,
+                  "quality_core_term_gate": "pass",
+                  "quality_relevance_gate": "pass",
+                  "citation_count_known": true,
+                  "quality_review_status": "human_quality_review",
+                  "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                  "quality_requires_review": true
+                },
+                "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+              },
+              "limitations": "Unchanged scoring rules and hard gates rerun with publisher/PDF-verified metadata and affiliations. Unknown citations remain null; no score override or automatic acceptance. A below-threshold score with unknown citations is provisional, not an immutable rejection."
             },
-            "limitations": "Unchanged scoring rules and hard gates rerun with publisher/PDF-verified metadata and affiliations. Unknown citations remain null; no score override or automatic acceptance. A below-threshold score with unknown citations is provisional, not an immutable rejection."
+            "reason": "Verified current OpenAlex citation count0 leaves existing score32.82 below the standard45 threshold for the printed2025 issue. No threshold override, no paid taxonomy, no new recommendation or manual admission. Reuse this result until evidence becomes stale or relevant inputs change."
           },
           "duplicates": {
             "status": "passed",
@@ -37837,7 +37871,18 @@
         }
       ],
       "recommendation_status": "awaiting_reassessment_for_verified_metadata_correction",
-      "admission_hold": "Verified issue-year correction activates existing standard45/60 scoring ladder. Provisional32.82 is below45 with unknown citations; no paid classification or substantive recommendation until quality resolves."
+      "admission_hold": "Verified current OpenAlex citation count0 leaves existing score32.82 below the standard45 threshold for the printed2025 issue. No threshold override, no paid taxonomy, no new recommendation or manual admission. Reuse this result until evidence becomes stale or relevant inputs change.",
+      "citation_verification": {
+        "status": "passed",
+        "checked_at": "2026-10-29T02:42:39.371806+00:00",
+        "content_sha256": "99ac3214a581bd3f2b7f4b2198814f914d155ab4593fd149e6436916398bb74e",
+        "provider": "OpenAlex",
+        "work_id": "https://openalex.org/W7220394380",
+        "cited_by_count": 0,
+        "receipt": "config/content_review_registry_receipts/a5345e4ed31c5299e7546de2e48901bdda8184b3e22f5cc75c696fd34e4fda10.json",
+        "identity_basis": "Exact DOI and normalized title match; registry first author matches verified canonical first author. Full publisher/PDF three-author byline remains authoritative.",
+        "metadata_limitations": "Registry still lists only first author and publication_year2026. Keep verified printed issue year2025, publisher online2026 date and complete three-author byline; do not undo prior reconciliation. Citation counts are provider-specific, not reference counts."
+      }
     },
     {
       "candidate_id": "weekly-4d1c71ea0e30c834726a8936",
@@ -53253,5 +53298,5 @@
       "policy": "Cleared candidates sealed independently of held inventory; never append."
     }
   ],
-  "last_preflight_update": "2026-10-29T02:31:06.982090+00:00"
+  "last_preflight_update": "2026-10-29T02:45:10.075963+00:00"
 }
