@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "request_id": "52ebfa6eb71352886435d34144c5675019b72dba702331fcfa9db255b3766208",
+  "run_id": 40809981380,
+  "run_attempt": 1,
+  "head_sha": "66ddce282d0b9c6679806e0a1aa8d6f2830b9b50",
+  "verified_at": "2026-10-29T03:05:30.490758+00:00",
+  "result_sha256": "d8d6af930eabfd4c21f7fb91013d0eb09ebec9475227c954bbe598b758c37244",
+  "usage": {
+    "requests": 1,
+    "input_tokens": 700,
+    "output_tokens": 49,
+    "total_tokens": 749,
+    "usage_unavailable_responses": 0
+  },
+  "applied": [
+    {
+      "collection": "weekly",
+      "candidate_id": "weekly-f3c935fb429460bef56d7840",
+      "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
+      "preflight_passed": true,
+      "idempotency_key": "weekly/weekly-f3c935fb429460bef56d7840/e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16/0/1"
+    }
+  ],
+  "held": [],
+  "publication_approved": false,
+  "corpus_modified": false,
+  "source_correction_id": "b3783465680284934f99775c8660d396d144a063d8e8448e60462aef3b43a2e4",
+  "recommendation_binding": {
+    "candidate_id": "weekly-f3c935fb429460bef56d7840",
+    "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
+    "recommendation": "include",
+    "relevance": "direct"
+  },
+  "admission": {
+    "admitted": 1,
+    "ready": 6,
+    "batches": [
+      {
+        "batch": 21,
+        "sealed_at": "2026-10-29T03:05:30.444880+00:00",
+        "count": 1,
+        "members": [
+          {
+            "candidate_id": "weekly-f3c935fb429460bef56d7840",
+            "review_number": 38,
+            "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16"
+          }
+        ],
+        "policy": "Cleared candidates sealed independently of held inventory; never append."
+      }
+    ],
+    "full_pending_batches": 0
+  }
+}
