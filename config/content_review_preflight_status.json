@@ -26117,8 +26117,8 @@
       "candidate_id": "weekly-91d2a387238ce370bc971152",
       "review_number": 20,
       "content_sha256": "a12a83df4934570080a8097e5ff6ee4c8cc8b5b547fa47bf8f5c46febc659021",
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "status": "passed",
@@ -26285,23 +26285,77 @@
           }
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-29T02:57:44.715535+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-29T03:01:31.247974+00:00",
           "content_sha256": "a12a83df4934570080a8097e5ff6ee4c8cc8b5b547fa47bf8f5c46febc659021",
-          "evidence": "Await exact-current-hash paid taxonomy/target-schema validation after all first-five passes.",
-          "prior_evidence": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "02a75734bc1c243906f20cfc308ffdcfe80e7270b1d66ffb5976a4047ff21bc2",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "e7d9c57d1b687d589c4faeef59276f116ef57c1aebe105c6ca93e479f383c463",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-29T02:59:39.435788+00:00",
+              "content_sha256": "a12a83df4934570080a8097e5ff6ee4c8cc8b5b547fa47bf8f5c46febc659021",
+              "evidence": {
+                "classification": {
+                  "Category": "Cybercrime & Fraud",
+                  "Investigation_Type": "Phishing Analysis",
+                  "OSINT_Source_Types": [
+                    "Academic Literature"
+                  ]
+                },
+                "response_id": "resp_0a14d924d5c54518016ae2b69a4c5c87d1b088cd0cbdd092ff",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 550,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 26,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 576
+                },
+                "uncertainty_flags": [],
+                "classification_origin": "source_evidence_correction",
+                "original_paid_classification": {
+                  "Category": "Cybercrime & Fraud",
+                  "Investigation_Type": "Phishing Analysis",
+                  "OSINT_Source_Types": [
+                    "Other"
+                  ]
+                },
+                "correction_id": "255fd75c8c93154d4b68138ecc6773acde5282c4044c4681808e9fb1d8c3c261"
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "40809527392",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5f7566340c0cc7d71898e26b1cd350637ddcc1ca",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "40bdbd47825befa25a80c6e38c718e8d7d0f2f55a6a887911a58d378d45c3626",
+              "source_correction_applied_at": "2026-10-29T03:01:31.247974+00:00"
+            },
+            "source_correction_id": "255fd75c8c93154d4b68138ecc6773acde5282c4044c4681808e9fb1d8c3c261",
+            "source_document_sha256": "23589eca5cf37d2e97557ac12973919db16c12eb27269859b71e32d07d8c2bec",
+            "original_paid_target_sha256": "3c5d1322285ebdc4cd82aaee6d72e6e99c0347f1ec0095ebd6383e9c8c2f26d8",
+            "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
           }
         }
       },
-      "blockers": [
-        "schema"
-      ]
+      "blockers": [],
+      "recommendation_content_sha256": "a12a83df4934570080a8097e5ff6ee4c8cc8b5b547fa47bf8f5c46febc659021",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-29T03:01:31.247974+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-10-29T03:01:31.247974+00:00",
+      "review_batch": 20
     },
     {
       "collection": "weekly",
@@ -45136,49 +45190,49 @@
         "passed": 100
       },
       "metadata": {
-        "passed": 95,
-        "held": 5
+        "held": 5,
+        "passed": 95
       },
       "duplicates": {
         "passed": 100
       },
       "quality": {
-        "passed": 12,
-        "held": 88
+        "held": 88,
+        "passed": 12
       },
       "schema": {
-        "passed": 12,
-        "held": 88
+        "held": 88,
+        "passed": 12
       }
     },
     "weekly": {
       "format": {
-        "passed": 58,
-        "held": 92
+        "held": 92,
+        "passed": 58
       },
       "access": {
-        "passed": 57,
-        "held": 93
+        "held": 93,
+        "passed": 57
       },
       "metadata": {
-        "passed": 66,
-        "held": 84
+        "held": 84,
+        "passed": 66
       },
       "duplicates": {
-        "passed": 149,
-        "held": 1
+        "held": 1,
+        "passed": 149
       },
       "quality": {
-        "passed": 147,
-        "held": 3
+        "held": 3,
+        "passed": 147
       },
       "schema": {
-        "passed": 52,
-        "held": 98
+        "held": 97,
+        "passed": 53
       }
     }
   },
-  "updated_at": "2026-10-29T02:57:44.715535+00:00",
+  "updated_at": "2026-10-29T03:01:31.247974+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
