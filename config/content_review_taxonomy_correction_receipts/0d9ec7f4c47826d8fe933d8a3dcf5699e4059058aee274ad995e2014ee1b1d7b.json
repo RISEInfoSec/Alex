@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "correction_id": "0d9ec7f4c47826d8fe933d8a3dcf5699e4059058aee274ad995e2014ee1b1d7b",
+  "candidate_id": "weekly-613259936d5f6e81dd8c3b48",
+  "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+  "applied_at": "2026-10-29T02:26:39.588697+00:00",
+  "before": {
+    "Category": "Malware & Exploits",
+    "Investigation_Type": "Incident Response",
+    "OSINT_Source_Types": [
+      "Other"
+    ]
+  },
+  "after": {
+    "Category": "Malware & Exploits",
+    "Investigation_Type": "Incident Response",
+    "OSINT_Source_Types": []
+  },
+  "schema": {
+    "status": "passed",
+    "checked_at": "2026-10-29T02:26:39.588697+00:00",
+    "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+    "evidence": {
+      "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+      "target_record_sha256": "3863f3ce5dbd0f605d393c37a717b955a9fbd5f3411205a6b06fcc4622b24599",
+      "document_type": "research_paper",
+      "corpus_modified": false,
+      "publication_approved": false,
+      "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-10-29T00:51:37.752577+00:00",
+        "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+        "evidence": {
+          "classification": {
+            "Category": "Malware & Exploits",
+            "Investigation_Type": "Incident Response",
+            "OSINT_Source_Types": []
+          },
+          "response_id": "resp_06cc688c5ec4ce32016ae298981a3087d28a79bba6819197b2",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 709,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 27,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 736
+          },
+          "uncertainty_flags": [],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "Malware & Exploits",
+            "Investigation_Type": "Incident Response",
+            "OSINT_Source_Types": [
+              "Other"
+            ]
+          },
+          "correction_id": "0d9ec7f4c47826d8fe933d8a3dcf5699e4059058aee274ad995e2014ee1b1d7b"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "40796698652",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "ff61d4ff4145f73ec40cbd3f0c32d23260ac7b92",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "f96ec92e705e5786ee9b679df8fd751bd7859a5422e68f058ab68c0e87d70c28",
+        "source_correction_applied_at": "2026-10-29T02:26:39.588697+00:00"
+      },
+      "source_correction_id": "0d9ec7f4c47826d8fe933d8a3dcf5699e4059058aee274ad995e2014ee1b1d7b",
+      "source_document_sha256": "246091c2248a23270e59223e01c05b9151fb70cdabaa523a64741f481198e555",
+      "original_paid_target_sha256": "a1ce6145977fa69561eea4170a9529f73f1b663983087643e2d420493f6d657e",
+      "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+    }
+  },
+  "paid_request_id": "f96ec92e705e5786ee9b679df8fd751bd7859a5422e68f058ab68c0e87d70c28",
+  "paid_response_id": "resp_06cc688c5ec4ce32016ae298981a3087d28a79bba6819197b2",
+  "additional_paid_requests": 0,
+  "corpus_modified": false,
+  "publication_approved": false
+}
