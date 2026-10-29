@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "request_id": "f96ec92e705e5786ee9b679df8fd751bd7859a5422e68f058ab68c0e87d70c28",
+  "run_id": 40796698652,
+  "run_attempt": 1,
+  "head_sha": "ff61d4ff4145f73ec40cbd3f0c32d23260ac7b92",
+  "verified_at": "2026-10-29T00:54:34.828393+00:00",
+  "result_sha256": "71962a30518b1b413320388a7d39e88cc07bdd44bec5ca4f1051efa60609140f",
+  "usage": {
+    "requests": 1,
+    "input_tokens": 709,
+    "output_tokens": 27,
+    "total_tokens": 736,
+    "usage_unavailable_responses": 0
+  },
+  "applied": [
+    {
+      "collection": "weekly",
+      "candidate_id": "weekly-613259936d5f6e81dd8c3b48",
+      "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+      "preflight_passed": false,
+      "idempotency_key": "weekly/weekly-613259936d5f6e81dd8c3b48/b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b/0/1"
+    }
+  ],
+  "held": [
+    {
+      "collection": "weekly",
+      "candidate_id": "weekly-613259936d5f6e81dd8c3b48",
+      "reason": "OSINT_Source_Types Other lacks verified source support; taxonomy semantic subcheck held."
+    }
+  ],
+  "publication_approved": false,
+  "corpus_modified": false,
+  "transport_schema_validation_passed": true,
+  "taxonomy_content_validation": {
+    "status": "held",
+    "checked_at": "2026-10-29T00:54:34.785626+00:00",
+    "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+    "evidence": {
+      "paid_taxonomy_and_serialization": {
+        "status": "passed",
+        "checked_at": "2026-10-29T00:51:37.759043+00:00",
+        "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+        "evidence": {
+          "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+          "target_record_sha256": "a1ce6145977fa69561eea4170a9529f73f1b663983087643e2d420493f6d657e",
+          "document_type": "research_paper",
+          "corpus_modified": false,
+          "publication_approved": false,
+          "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+          "taxonomy": {
+            "status": "passed",
+            "checked_at": "2026-10-29T00:51:37.752577+00:00",
+            "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+            "evidence": {
+              "classification": {
+                "Category": "Malware & Exploits",
+                "Investigation_Type": "Incident Response",
+                "OSINT_Source_Types": [
+                  "Other"
+                ]
+              },
+              "response_id": "resp_06cc688c5ec4ce32016ae298981a3087d28a79bba6819197b2",
+              "model": "gpt-4o-mini-2024-07-18",
+              "reported_usage": {
+                "input_tokens": 709,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 27,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 736
+              },
+              "uncertainty_flags": []
+            },
+            "provenance": {
+              "GITHUB_RUN_ID": "40796698652",
+              "GITHUB_RUN_ATTEMPT": "1",
+              "GITHUB_SHA": "ff61d4ff4145f73ec40cbd3f0c32d23260ac7b92",
+              "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+              "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+            },
+            "request_id": "f96ec92e705e5786ee9b679df8fd751bd7859a5422e68f058ab68c0e87d70c28"
+          },
+          "contract": {
+            "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+            "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+            "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+            "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+            "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+            "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+          },
+          "workflow_run_id": 40796698652
+        },
+        "revalidated_at": "2026-10-29T00:54:34.826715+00:00",
+        "prior_evidence": {
+          "status": "held",
+          "checked_at": "2026-10-29T00:50:01.286004+00:00",
+          "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+          "evidence": "Await taxonomy and disposable target schema on corrected current hash; no prior schema/recommendation inherited.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
+        }
+      },
+      "taxonomy": {
+        "Category": "Malware & Exploits",
+        "Investigation_Type": "Incident Response",
+        "OSINT_Source_Types": [
+          "Other"
+        ]
+      },
+      "semantic_subcheck": {
+        "status": "held",
+        "field": "OSINT_Source_Types",
+        "returned_value": [
+          "Other"
+        ],
+        "reason": "The verified abstract/front matter describes RF/LSTM behaviour detection, honeypots, Zero Trust and automated response. It does not establish an OSINT source supporting the returned Other tag. Paid enum/serialization compatibility passed; source-content support for this tag remains unverified.",
+        "material_inspected": "Current abstract plus actual PDF sections3.2/3.2.1 and4.4 (printed pages13–14 and23), inspected for taxonomy/data-source consistency; no full scientific critique.",
+        "next_action": "Resolve the unsupported OSINT-source classification through the supported evidence/correction path. Reuse the completed paid result and verified source evidence; do not blindly rerun the same request or ask the human relevance reviewer to repair this mechanical tag.",
+        "source_findings": "Methods describe endpoint telemetry, file/registry/process events and proposed use of network-traffic datasets. The qualitative benchmark explicitly reports that live simulations were not conducted. These inspected sections establish no OSINT source for the returned Other tag."
+      }
+    },
+    "limitations": "Serialization success alone does not establish that each taxonomy tag is supported by source content. This is an evidence hold; existing scores, thresholds, decisions and original paid result are preserved."
+  }
+}
