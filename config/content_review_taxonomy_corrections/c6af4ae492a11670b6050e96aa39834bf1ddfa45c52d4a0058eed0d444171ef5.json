@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-29T02:26:40.776726+00:00",
+  "collection": "weekly",
+  "candidate_id": "weekly-6c7717ff1c241014cd08e9eb",
+  "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+  "paid_request_id": "4376ccbab8ea33fb1340d1b74441a441f270f5f59be1ca7f3b2e61f1895b64ca",
+  "paid_response_id": "resp_0eec7f25f5270d38016ae2a748cc6c87d08d7c5e9f80b5c31b",
+  "original_classification": {
+    "Category": "Cyber Threat Intelligence",
+    "Investigation_Type": "Attribution",
+    "OSINT_Source_Types": [
+      "Public Records",
+      "News Media",
+      "Forums & Communities",
+      "Leaked Data"
+    ]
+  },
+  "source_document_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
+  "source_document_url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+  "proposed_source_types": [
+    "Code Repositories"
+  ],
+  "supported_tags": {
+    "Code Repositories": {
+      "section": "Code and Data Availability, printed pages14–15",
+      "evidence": "The paper identifies github.com/carter-yagemann/recon2026-semantic-shields as the public repository containing primary scripts and the ransom-note artifacts used in the experiment. Methods section3, printed page7, identifies295 notes from189 actors obtained through ransomlook.io."
+    }
+  },
+  "removed_tag_reasons": {
+    "Public Records": "Publicly downloadable ransom-note artifacts are not established as public records; the explicitly identified code/data repository is the supported source category.",
+    "News Media": "The methods/data-availability sections do not identify news reporting as a study source.",
+    "Forums & Communities": "The methods/data-availability sections identify a ransom-note collection and public code/data repository, not a forum/community dataset.",
+    "Leaked Data": "Ransom notes are not evidence that victim leaked data was used; no such dataset is established in the inspected methods."
+  },
+  "material_inspected": "Actual PDF methodology section3, printed page7, and code/data availability section6, printed pages14–15; inspected for source provenance and taxonomy consistency.",
+  "no_source_type_basis": null,
+  "evidence_status": "verified",
+  "scope": "OSINT_Source_Types only; source-content correction, not another paid response",
+  "correction_id": "c6af4ae492a11670b6050e96aa39834bf1ddfa45c52d4a0058eed0d444171ef5"
+}
