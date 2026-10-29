@@ -24208,40 +24208,355 @@
       "blockers": [
         "metadata",
         "schema"
+      ],
+      "source_access_followups": [
+        {
+          "checked_at": "2026-10-29T00:44:58.481085+00:00",
+          "content_sha256": "1842c903d51c6c0a95cb4006438266d10d06f48bfe566c02f2a9b7c9d6119faf",
+          "status": "retryable_hold",
+          "evidence": {
+            "robots_http_status": 503,
+            "origin": "https://baltijapublishing.lv",
+            "document_requested": false
+          },
+          "reason": "Publisher robots endpoint503; no document retrieval attempted. Resume next bounded pass when permitted; metadata hold remains."
+        }
       ]
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-129ce5ffe83fd6339e377ef8",
       "review_number": 16,
-      "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
+      "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
       "status": "held",
       "review_ready": false,
       "checks": {
-        "duplicates": {
+        "format": {
           "status": "passed",
-          "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
+          "checked_at": "2026-10-29T00:44:58.481085+00:00",
+          "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
           "evidence": {
-            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
-            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-            "weekly_inventory_records": 4041,
-            "all_prepared_collections": [
-              "soups",
-              "weekly",
-              "virusbulletin",
-              "apwg"
+            "publisher_url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/view/144",
+            "publisher_html_sha256": "3d48d1de176a2afe4c853f9482c2abe646dc0ff75f274f4369ddb5627835904a",
+            "document_url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/download/144/117",
+            "document_sha256": "9cef7cc9be1bfd8efe04ba2ce7184bda8e010eea52bbabb3523a86538b4624d4",
+            "document_bytes": 1354314,
+            "inspected": "Actual18-page written article front matter, title, complete two-author byline, DOI,2026 volume/pages421–438, abstract and opening prose. No scientific-quality or peer-review endorsement.",
+            "publisher_authors": [
+              "Abeer D. Salman",
+              "Hadeel M. Taher"
             ],
-            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-            "matches": []
+            "publisher_affiliations": [
+              "Electronic Computer Center, University of Anbar, Ramadi 31001 Iraq",
+              "Department of Quality Assurance and Academic Performance, University of Anbar, Ramadi, 31001 Iraq"
+            ],
+            "crossref_deposit": {
+              "DOI": "10.59746/m2wxfr43",
+              "title": [
+                "Improved security of the Forensic Images using Encryption and Integrity Verification"
+              ],
+              "author": [
+                {
+                  "family": "Abeer D. Salman",
+                  "sequence": "first",
+                  "affiliation": [
+                    {
+                      "name": "Electronic Computer Center, University of Anbar, Ramadi 31001 Iraq"
+                    }
+                  ],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Hadeel M. Taher",
+                  "sequence": "additional",
+                  "affiliation": [
+                    {
+                      "name": "Department of Quality Assurance and Academic Performance, University of Anbar, Ramadi, 31001 Iraq"
+                    }
+                  ],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                }
+              ],
+              "published": {
+                "date-parts": [
+                  [
+                    2026,
+                    9,
+                    27
+                  ]
+                ]
+              },
+              "type": "journal-article",
+              "publisher": "Al-Farabi University College",
+              "container-title": [
+                "Journal of Al-Farabi for Engineering Sciences"
+              ],
+              "is-referenced-by-count": 0
+            },
+            "abstract_sha256": "b1c3a952958910e4e27ac17cc219711b71e2af81d00bde63b76a59260e0ac3b3"
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-27T23:04:18.430396+00:00",
+            "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
+            "evidence": {
+              "checked_at": "2026-10-27T23:04:18.430396+00:00",
+              "url": "https://doi.org/10.59746/m2wxfr43",
+              "http_status": 200,
+              "content_type": "text/html; charset=utf-8",
+              "resolved_url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/view/144",
+              "resource_sha256": "0fb0b15116b561e8b27645476aa82fd7135c47954b321fe271e3591f75c0d3dd",
+              "bytes": 37143,
+              "observed_format": "HTML_requires_publisher_resource_inspection"
+            },
+            "inspection": "Publisher article page or PDF front matter/title/byline/abstract/opening prose inspected; written journal article; no peer-review or quality endorsement."
+          }
+        },
+        "access": {
+          "status": "passed",
+          "checked_at": "2026-10-29T00:44:58.481085+00:00",
+          "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
+          "evidence": {
+            "publisher_url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/view/144",
+            "publisher_html_sha256": "3d48d1de176a2afe4c853f9482c2abe646dc0ff75f274f4369ddb5627835904a",
+            "document_url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/download/144/117",
+            "document_sha256": "9cef7cc9be1bfd8efe04ba2ce7184bda8e010eea52bbabb3523a86538b4624d4",
+            "document_bytes": 1354314,
+            "inspected": "Actual18-page written article front matter, title, complete two-author byline, DOI,2026 volume/pages421–438, abstract and opening prose. No scientific-quality or peer-review endorsement.",
+            "publisher_authors": [
+              "Abeer D. Salman",
+              "Hadeel M. Taher"
+            ],
+            "publisher_affiliations": [
+              "Electronic Computer Center, University of Anbar, Ramadi 31001 Iraq",
+              "Department of Quality Assurance and Academic Performance, University of Anbar, Ramadi, 31001 Iraq"
+            ],
+            "crossref_deposit": {
+              "DOI": "10.59746/m2wxfr43",
+              "title": [
+                "Improved security of the Forensic Images using Encryption and Integrity Verification"
+              ],
+              "author": [
+                {
+                  "family": "Abeer D. Salman",
+                  "sequence": "first",
+                  "affiliation": [
+                    {
+                      "name": "Electronic Computer Center, University of Anbar, Ramadi 31001 Iraq"
+                    }
+                  ],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Hadeel M. Taher",
+                  "sequence": "additional",
+                  "affiliation": [
+                    {
+                      "name": "Department of Quality Assurance and Academic Performance, University of Anbar, Ramadi, 31001 Iraq"
+                    }
+                  ],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                }
+              ],
+              "published": {
+                "date-parts": [
+                  [
+                    2026,
+                    9,
+                    27
+                  ]
+                ]
+              },
+              "type": "journal-article",
+              "publisher": "Al-Farabi University College",
+              "container-title": [
+                "Journal of Al-Farabi for Engineering Sciences"
+              ],
+              "is-referenced-by-count": 0
+            },
+            "abstract_sha256": "b1c3a952958910e4e27ac17cc219711b71e2af81d00bde63b76a59260e0ac3b3"
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-27T23:04:18.430396+00:00",
+            "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
+            "evidence": {
+              "checked_at": "2026-10-27T23:04:18.430396+00:00",
+              "url": "https://doi.org/10.59746/m2wxfr43",
+              "http_status": 200,
+              "content_type": "text/html; charset=utf-8",
+              "resolved_url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/view/144",
+              "resource_sha256": "0fb0b15116b561e8b27645476aa82fd7135c47954b321fe271e3591f75c0d3dd",
+              "bytes": 37143,
+              "observed_format": "HTML_requires_publisher_resource_inspection"
+            },
+            "inspection": "Publisher article page or PDF front matter/title/byline/abstract/opening prose inspected; written journal article; no peer-review or quality endorsement."
+          }
+        },
+        "metadata": {
+          "status": "passed",
+          "checked_at": "2026-10-29T00:44:58.481085+00:00",
+          "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
+          "evidence": {
+            "publisher_url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/view/144",
+            "publisher_html_sha256": "3d48d1de176a2afe4c853f9482c2abe646dc0ff75f274f4369ddb5627835904a",
+            "document_url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/download/144/117",
+            "document_sha256": "9cef7cc9be1bfd8efe04ba2ce7184bda8e010eea52bbabb3523a86538b4624d4",
+            "document_bytes": 1354314,
+            "inspected": "Actual18-page written article front matter, title, complete two-author byline, DOI,2026 volume/pages421–438, abstract and opening prose. No scientific-quality or peer-review endorsement.",
+            "publisher_authors": [
+              "Abeer D. Salman",
+              "Hadeel M. Taher"
+            ],
+            "publisher_affiliations": [
+              "Electronic Computer Center, University of Anbar, Ramadi 31001 Iraq",
+              "Department of Quality Assurance and Academic Performance, University of Anbar, Ramadi, 31001 Iraq"
+            ],
+            "crossref_deposit": {
+              "DOI": "10.59746/m2wxfr43",
+              "title": [
+                "Improved security of the Forensic Images using Encryption and Integrity Verification"
+              ],
+              "author": [
+                {
+                  "family": "Abeer D. Salman",
+                  "sequence": "first",
+                  "affiliation": [
+                    {
+                      "name": "Electronic Computer Center, University of Anbar, Ramadi 31001 Iraq"
+                    }
+                  ],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Hadeel M. Taher",
+                  "sequence": "additional",
+                  "affiliation": [
+                    {
+                      "name": "Department of Quality Assurance and Academic Performance, University of Anbar, Ramadi, 31001 Iraq"
+                    }
+                  ],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                }
+              ],
+              "published": {
+                "date-parts": [
+                  [
+                    2026,
+                    9,
+                    27
+                  ]
+                ]
+              },
+              "type": "journal-article",
+              "publisher": "Al-Farabi University College",
+              "container-title": [
+                "Journal of Al-Farabi for Engineering Sciences"
+              ],
+              "is-referenced-by-count": 0
+            },
+            "abstract_sha256": "b1c3a952958910e4e27ac17cc219711b71e2af81d00bde63b76a59260e0ac3b3"
+          },
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:01:57.442958+00:00",
+            "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
+            "evidence": {
+              "DOI": "10.59746/m2wxfr43",
+              "title": [
+                "Improved security of the Forensic Images using Encryption and Integrity Verification"
+              ],
+              "author": [
+                {
+                  "family": "Abeer D. Salman",
+                  "sequence": "first",
+                  "affiliation": [
+                    {
+                      "name": "Electronic Computer Center, University of Anbar, Ramadi 31001 Iraq"
+                    }
+                  ],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Hadeel M. Taher",
+                  "sequence": "additional",
+                  "affiliation": [
+                    {
+                      "name": "Department of Quality Assurance and Academic Performance, University of Anbar, Ramadi, 31001 Iraq"
+                    }
+                  ],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                }
+              ],
+              "published": {
+                "date-parts": [
+                  [
+                    2026,
+                    9,
+                    27
+                  ]
+                ]
+              },
+              "type": "journal-article",
+              "publisher": "Al-Farabi University College",
+              "container-title": [
+                "Journal of Al-Farabi for Engineering Sciences"
+              ],
+              "is-referenced-by-count": 0
+            },
+            "source_url": "https://api.crossref.org/works/10.59746%2Fm2wxfr43",
+            "comparison": {
+              "title_matches": true,
+              "publication_year_matches": true,
+              "author_families_match": false
+            },
+            "limitations": "Publisher-deposited Crossref metadata; citations are Crossref references, not universal counts; online/print year and transliteration differences remain holds until reconciled."
           }
         },
         "quality": {
           "status": "passed",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
+          "checked_at": "2026-10-29T00:44:58.481085+00:00",
+          "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
           "evidence": {
             "quality_score": 32.82,
             "quality_venue_score": 40.0,
@@ -24254,122 +24569,82 @@
             "quality_review_threshold": 20.0,
             "quality_core_term_gate": "pass",
             "quality_relevance_gate": "pass",
-            "citation_count_known": true,
+            "citation_count_known": false,
             "quality_review_status": "human_quality_review",
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-        },
-        "format": {
-          "status": "passed",
-          "checked_at": "2026-10-27T23:04:18.430396+00:00",
-          "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
-          "evidence": {
-            "checked_at": "2026-10-27T23:04:18.430396+00:00",
-            "url": "https://doi.org/10.59746/m2wxfr43",
-            "http_status": 200,
-            "content_type": "text/html; charset=utf-8",
-            "resolved_url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/view/144",
-            "resource_sha256": "0fb0b15116b561e8b27645476aa82fd7135c47954b321fe271e3591f75c0d3dd",
-            "bytes": 37143,
-            "observed_format": "HTML_requires_publisher_resource_inspection"
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
+            "evidence": {
+              "quality_score": 32.82,
+              "quality_venue_score": 40.0,
+              "quality_citation_score": 0.0,
+              "quality_relevance_score": 35.29,
+              "quality_institution_score": 80.0,
+              "quality_institution_bonus": 10.0,
+              "quality_title_bonus": 0.0,
+              "quality_auto_threshold": 35.0,
+              "quality_review_threshold": 20.0,
+              "quality_core_term_gate": "pass",
+              "quality_relevance_gate": "pass",
+              "citation_count_known": true,
+              "quality_review_status": "human_quality_review",
+              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+              "quality_requires_review": true
+            },
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
           },
-          "inspection": "Publisher article page or PDF front matter/title/byline/abstract/opening prose inspected; written journal article; no peer-review or quality endorsement."
+          "limitations": "Existing scoring/thresholds; publisher-verified University of Anbar affiliations support institution component. Unknown citations remain null; no metric or threshold override."
         },
-        "access": {
+        "duplicates": {
           "status": "passed",
-          "checked_at": "2026-10-27T23:04:18.430396+00:00",
-          "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
+          "checked_at": "2026-10-29T00:44:58.481085+00:00",
+          "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
           "evidence": {
-            "checked_at": "2026-10-27T23:04:18.430396+00:00",
-            "url": "https://doi.org/10.59746/m2wxfr43",
-            "http_status": 200,
-            "content_type": "text/html; charset=utf-8",
-            "resolved_url": "https://alfarabiuc.edu.iq/Journal/index.php/Farabi-Eng/en/article/view/144",
-            "resource_sha256": "0fb0b15116b561e8b27645476aa82fd7135c47954b321fe271e3591f75c0d3dd",
-            "bytes": 37143,
-            "observed_format": "HTML_requires_publisher_resource_inspection"
-          },
-          "inspection": "Publisher article page or PDF front matter/title/byline/abstract/opening prose inspected; written journal article; no peer-review or quality endorsement."
-        },
-        "metadata": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:01:57.442958+00:00",
-          "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
-          "evidence": {
-            "DOI": "10.59746/m2wxfr43",
-            "title": [
-              "Improved security of the Forensic Images using Encryption and Integrity Verification"
-            ],
-            "author": [
+            "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "exclusions_blob": "653063601c2750fc75a89f397f001089319859b8",
+            "source_counts": {
+              "soups": 797,
+              "weekly": 150,
+              "virusbulletin": 92,
+              "soups-ancillary": 593,
+              "archive-discovery": 2176,
+              "public": 3162,
+              "weekly-upstream": 4041,
+              "apwg": 1
+            },
+            "matches": [],
+            "explicit_exclusion_matches": [],
+            "self_provenance_overlaps": [
               {
-                "family": "Abeer D. Salman",
-                "sequence": "first",
-                "affiliation": [
-                  {
-                    "name": "Electronic Computer Center, University of Anbar, Ramadi 31001 Iraq"
-                  }
-                ],
-                "role": [
-                  {
-                    "vocabulary": "crossref",
-                    "role": "author"
-                  }
-                ]
-              },
-              {
-                "family": "Hadeel M. Taher",
-                "sequence": "additional",
-                "affiliation": [
-                  {
-                    "name": "Department of Quality Assurance and Academic Performance, University of Anbar, Ramadi, 31001 Iraq"
-                  }
-                ],
-                "role": [
-                  {
-                    "vocabulary": "crossref",
-                    "role": "author"
-                  }
-                ]
+                "source": "weekly-upstream",
+                "identity": "61179"
               }
             ],
-            "published": {
-              "date-parts": [
-                [
-                  2026,
-                  9,
-                  27
-                ]
-              ]
-            },
-            "type": "journal-article",
-            "publisher": "Al-Farabi University College",
-            "container-title": [
-              "Journal of Al-Farabi for Engineering Sciences"
-            ],
-            "is-referenced-by-count": 0
-          },
-          "source_url": "https://api.crossref.org/works/10.59746%2Fm2wxfr43",
-          "comparison": {
-            "title_matches": true,
-            "publication_year_matches": true,
-            "author_families_match": false
-          },
-          "limitations": "Publisher-deposited Crossref metadata; citations are Crossref references, not universal counts; online/print year and transliteration differences remain holds until reconciled."
+            "scope": "Fresh exact DOI, canonical source/resource URL and normalized-title checks across public corpus, every prepared and ancillary collection, all4041 weekly upstream rows and current raw archive inventory. Same current/upstream identity excluded."
+          }
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-10-29T00:44:58.481085+00:00",
+          "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
+          "evidence": "Await exact-current-hash paid taxonomy and disposable target-schema validation. Author/type corrections invalidate prior schema/recommendation.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "verified_document_type": "research_paper",
       "blockers": [
-        "metadata",
         "schema"
       ]
     },
@@ -43043,7 +43318,7 @@
       }
     }
   },
-  "updated_at": "2026-10-28T23:55:37.122547+00:00",
+  "updated_at": "2026-10-29T00:44:58.481085+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
