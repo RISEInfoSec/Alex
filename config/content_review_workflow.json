@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 12,
+  "version": 13,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -380,5 +380,17 @@
     "additional_paid_calls": 0,
     "automatic_admission": false,
     "tests_passed": 131
+  },
+  "registry_enrichment_transport": {
+    "status": "implemented_review_only",
+    "instructions": "docs/content_review_registry_worker.md",
+    "runner": "tools/content_review/registry_worker.py",
+    "workflow": ".github/workflows/content_review_registry.yml",
+    "credential": "Existing repository OPENALEX_API_KEY mapping; never anonymous fallback.",
+    "maximum_openalex_requests_per_worker_run": 1,
+    "automatic_retries": false,
+    "independent_holds_first": true,
+    "changes_to_existing_scores_thresholds_or_release_rules": false,
+    "tests_passed": 8
   }
 }
