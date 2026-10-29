@@ -30932,13 +30932,13 @@
           }
         },
         "quality": {
-          "status": "held",
-          "checked_at": "2026-10-29T02:57:44.715535+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-29T03:02:42.924Z",
           "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
           "evidence": {
-            "quality_score": 42.24,
+            "quality_score": 45.75,
             "quality_venue_score": 40.0,
-            "quality_citation_score": 0.0,
+            "quality_citation_score": 8.79,
             "quality_relevance_score": 52.94,
             "quality_institution_score": 80.0,
             "quality_institution_bonus": 10.0,
@@ -30947,33 +30947,64 @@
             "quality_review_threshold": 45.0,
             "quality_core_term_gate": "pass",
             "quality_relevance_gate": "pass",
-            "citation_count_known": false,
-            "quality_review_status": "hold_below_review_threshold",
+            "citation_count_known": true,
+            "quality_review_status": "human_quality_review",
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "prior_evidence": {
+          "citation_verification": {
             "status": "passed",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "cc9f159ca55dbe524b69b8ccf9de0b798b9c90055d0a0c9e6763957b205ceec9",
+            "checked_at": "2026-10-29T03:00:58.152439+00:00",
+            "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
+            "provider": "OpenAlex",
+            "work_id": "https://openalex.org/W7155090409",
+            "cited_by_count": 1,
+            "receipt": "config/content_review_registry_receipts/fdb6468a2c250655087e321e64c30b89f8f371ae9bda51398dc83a86b3bfa8f6.json"
+          },
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-29T02:57:44.715535+00:00",
+            "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
             "evidence": {
-              "quality_score": 32.24,
+              "quality_score": 42.24,
               "quality_venue_score": 40.0,
               "quality_citation_score": 0.0,
               "quality_relevance_score": 52.94,
-              "quality_institution_score": 40.0,
-              "quality_institution_bonus": 0.0,
+              "quality_institution_score": 80.0,
+              "quality_institution_bonus": 10.0,
               "quality_title_bonus": 5.0,
-              "quality_auto_threshold": 35.0,
-              "quality_review_threshold": 20.0,
+              "quality_auto_threshold": 60.0,
+              "quality_review_threshold": 45.0,
               "quality_core_term_gate": "pass",
               "quality_relevance_gate": "pass",
-              "citation_count_known": true,
-              "quality_review_status": "human_quality_review",
+              "citation_count_known": false,
+              "quality_review_status": "hold_below_review_threshold",
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+            "prior_evidence": {
+              "status": "passed",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "cc9f159ca55dbe524b69b8ccf9de0b798b9c90055d0a0c9e6763957b205ceec9",
+              "evidence": {
+                "quality_score": 32.24,
+                "quality_venue_score": 40.0,
+                "quality_citation_score": 0.0,
+                "quality_relevance_score": 52.94,
+                "quality_institution_score": 40.0,
+                "quality_institution_bonus": 0.0,
+                "quality_title_bonus": 5.0,
+                "quality_auto_threshold": 35.0,
+                "quality_review_threshold": 20.0,
+                "quality_core_term_gate": "pass",
+                "quality_relevance_gate": "pass",
+                "citation_count_known": true,
+                "quality_review_status": "human_quality_review",
+                "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                "quality_requires_review": true
+              },
+              "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+            }
           }
         },
         "duplicates": {
@@ -31021,7 +31052,6 @@
         }
       },
       "blockers": [
-        "quality",
         "schema"
       ]
     },
