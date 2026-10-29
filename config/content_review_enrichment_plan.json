@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-10-29T01:57:10.702080+00:00",
+  "checked_at": "2026-10-29T02:03:53.607221+00:00",
   "policy_version": 11,
   "openalex_requests": 0,
   "records": [
@@ -1087,20 +1087,21 @@
     {
       "collection": "weekly",
       "candidate_id": "weekly-17dfd4d6d878d9383b5a6794",
-      "content_sha256": "8aa5df3d4b39e3fbd2fe680199134f8be7771d9c33a49fb22fd3857f7614c3a3",
+      "content_sha256": "245c0c479f5d00e0752b3b77695dd56a2418017c40a1fe48e0557b08c419fb8c",
       "quality_status": "human_quality_review",
       "fresh_duplicate_snapshot": true,
       "registry_plan": {
         "eligible": false,
-        "reason": "resolve_independent_access_or_material_evidence_first",
+        "reason": "resolve_taxonomy_source_evidence_first; legitimate repository resolved publisher access hold",
         "automatic_openalex_request": false
       },
-      "updated_at": "2026-10-29T01:57:10.702080+00:00",
-      "disposition": "held_source_access",
+      "updated_at": "2026-10-29T02:03:53.607221+00:00",
+      "disposition": "held_taxonomy_source_evidence",
       "remaining_blockers": [
-        "format",
-        "access",
         "schema"
+      ],
+      "prior_content_hashes": [
+        "8aa5df3d4b39e3fbd2fe680199134f8be7771d9c33a49fb22fd3857f7614c3a3"
       ]
     },
     {
@@ -2296,7 +2297,7 @@
     "manual_ready_current": 2,
     "human_rejected": 1,
     "manual_ready_added_this_run": 1,
-    "taxonomy_content_held_this_run": 1,
+    "taxonomy_content_held_this_run": 2,
     "previous_openalex_six": {
       "independent_core_gate_deferred": 5,
       "alternative_metadata_completed": 1,
