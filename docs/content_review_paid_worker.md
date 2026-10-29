@@ -105,3 +105,6 @@ The workflow runs the isolated tests before exposing the credential to the
 paid step, verifies no tracked/untracked public or pipeline data changed,
 and always uploads the partial/final checkpoint. Other mechanical, source,
 quality, media and schema holds remain independent.
+
+## Source-tag semantic corrections
+Successful enum/serialization validation is distinct from source support. See docs/content_review_taxonomy_corrections.md for the review-only evidence-backed amendment path. It preserves the raw paid result and actual usage, changes only the effective OSINT_Source_Types field, and replays original/corrected disposable exports. Cached handoff replay preserves an existing verified correction; no extra model call or silent fallback is allowed. All other gate, recommendation, admission, decision and release controls remain in force.
