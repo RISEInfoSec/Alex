@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "correction_id": "b3783465680284934f99775c8660d396d144a063d8e8448e60462aef3b43a2e4",
+  "candidate_id": "weekly-f3c935fb429460bef56d7840",
+  "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
+  "applied_at": "2026-10-29T03:05:30.444880+00:00",
+  "before": {
+    "Category": "Cybercrime & Fraud",
+    "Investigation_Type": "Forensic Investigation",
+    "OSINT_Source_Types": [
+      "Public Records",
+      "Government Data",
+      "Other"
+    ]
+  },
+  "after": {
+    "Category": "Cybercrime & Fraud",
+    "Investigation_Type": "Forensic Investigation",
+    "OSINT_Source_Types": [
+      "Public Records",
+      "Government Data"
+    ]
+  },
+  "schema": {
+    "status": "passed",
+    "checked_at": "2026-10-29T03:05:30.444880+00:00",
+    "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
+    "evidence": {
+      "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+      "target_record_sha256": "6cef1bd7614f43cfa083eb015e887e322e362c805df2c3afc24d4fe4fa7c34b2",
+      "document_type": "research_paper",
+      "corpus_modified": false,
+      "publication_approved": false,
+      "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-10-29T03:04:27.062644+00:00",
+        "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
+        "evidence": {
+          "classification": {
+            "Category": "Cybercrime & Fraud",
+            "Investigation_Type": "Forensic Investigation",
+            "OSINT_Source_Types": [
+              "Public Records",
+              "Government Data"
+            ]
+          },
+          "response_id": "resp_04ea2cdffc92002a016ae2b7b8be1c87d29614cc6befae68c3",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 700,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 49,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 749
+          },
+          "uncertainty_flags": [],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "Cybercrime & Fraud",
+            "Investigation_Type": "Forensic Investigation",
+            "OSINT_Source_Types": [
+              "Public Records",
+              "Government Data",
+              "Other"
+            ]
+          },
+          "correction_id": "b3783465680284934f99775c8660d396d144a063d8e8448e60462aef3b43a2e4"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "40809981380",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "66ddce282d0b9c6679806e0a1aa8d6f2830b9b50",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "52ebfa6eb71352886435d34144c5675019b72dba702331fcfa9db255b3766208",
+        "source_correction_applied_at": "2026-10-29T03:05:30.444880+00:00"
+      },
+      "source_correction_id": "b3783465680284934f99775c8660d396d144a063d8e8448e60462aef3b43a2e4",
+      "source_document_sha256": "86ae187577a2720935e57db77c8cf1b04c9b15c6ae88d7ebbf2ee1ce3f63c808",
+      "original_paid_target_sha256": "f14aa4f98b283b00aed012ad2ba31885beab10449c6f27a18e85b3ec7e2db998",
+      "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+    }
+  },
+  "paid_request_id": "52ebfa6eb71352886435d34144c5675019b72dba702331fcfa9db255b3766208",
+  "paid_response_id": "resp_04ea2cdffc92002a016ae2b7b8be1c87d29614cc6befae68c3",
+  "additional_paid_requests": 0,
+  "corpus_modified": false,
+  "publication_approved": false
+}
