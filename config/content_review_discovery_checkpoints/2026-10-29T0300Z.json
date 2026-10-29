@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-29T02:57:44.715535+00:00",
+  "publication_approved": false,
+  "source_fetches": [
+    {
+      "name": "soups-2010-root",
+      "url": "https://cups.cs.cmu.edu/soups/2010/",
+      "checked_at": "2026-10-29T02:55:19.282848+00:00",
+      "hops": [
+        {
+          "url": "https://cups.cs.cmu.edu/soups/2010/",
+          "http_status": 200,
+          "resource_sha256": "f393b4c869db0369f34f7f0c99dead82cf0e2012712aefbf82ce41952c14fee8",
+          "bytes": 7536,
+          "content_type": "text/html"
+        }
+      ],
+      "robots_http_status": 200,
+      "http_status": 200,
+      "resource_sha256": "f393b4c869db0369f34f7f0c99dead82cf0e2012712aefbf82ce41952c14fee8",
+      "bytes": 7536,
+      "content_type": "text/html",
+      "local_path": "/workspace/scratch/6422be16c397/run4-soups-2010-root.html"
+    },
+    {
+      "name": "vb96-root",
+      "url": "https://virusbulletin.com/conference/vb96/",
+      "checked_at": "2026-10-29T02:55:27.552944+00:00",
+      "hops": [
+        {
+          "url": "https://virusbulletin.com/conference/vb96/",
+          "http_status": 200,
+          "resource_sha256": "4f1c56562ac9daddbdf3f7fe48c82c90b838d17e7d2617f28e5f0b2c137846e0",
+          "bytes": 14085,
+          "content_type": "text/html; charset=UTF-8"
+        }
+      ],
+      "robots_http_status": 200,
+      "http_status": 200,
+      "resource_sha256": "4f1c56562ac9daddbdf3f7fe48c82c90b838d17e7d2617f28e5f0b2c137846e0",
+      "bytes": 14085,
+      "content_type": "text/html; charset=UTF-8",
+      "local_path": "/workspace/scratch/6422be16c397/run4-vb96-root.html"
+    },
+    {
+      "name": "soups-2010-program",
+      "url": "https://cups.cs.cmu.edu/soups/2010/program.html",
+      "checked_at": "2026-10-29T02:56:06.417695+00:00",
+      "hops": [
+        {
+          "url": "https://cups.cs.cmu.edu/soups/2010/program.html",
+          "http_status": 200,
+          "resource_sha256": "858cd77adbf11858631ef667b4274d63118f30f2cf2489c84da82146fdae4891",
+          "bytes": 30332,
+          "content_type": "text/html"
+        }
+      ],
+      "robots_http_status": 200,
+      "http_status": 200,
+      "resource_sha256": "858cd77adbf11858631ef667b4274d63118f30f2cf2489c84da82146fdae4891",
+      "bytes": 30332,
+      "content_type": "text/html",
+      "local_path": "/workspace/scratch/6422be16c397/run4-soups-2010-program.html"
+    }
+  ],
+  "added_raw_records": [
+    {
+      "discovery_identity": "soups-url-55a751a811579caa91c3bf44",
+      "collection": "soups",
+      "source_url": "https://cups.cs.cmu.edu/soups/2010/EngineersarePeopleTooSOUPS2010Shostack.pptx",
+      "observed_title": "slides",
+      "document_type": "format_unverified",
+      "review_ready": false,
+      "recommendation": null,
+      "disposition": "unprocessed_discovery",
+      "first_seen_at": "2026-10-29T02:57:44.715535+00:00",
+      "provenance": [
+        {
+          "discovery_url": "https://cups.cs.cmu.edu/soups/2010/program.html",
+          "checked_at": "2026-10-29T02:57:44.715535+00:00"
+        }
+      ],
+      "preflight_blockers": [
+        "format",
+        "access",
+        "metadata",
+        "duplicates",
+        "quality",
+        "schema"
+      ]
+    },
+    {
+      "discovery_identity": "virusbulletin-url-8a3273d07344aa4fa899d3b6",
+      "collection": "virusbulletin",
+      "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb96/VB96report.pdf",
+      "observed_title": "here",
+      "document_type": "format_unverified",
+      "review_ready": false,
+      "recommendation": null,
+      "disposition": "unprocessed_discovery",
+      "first_seen_at": "2026-10-29T02:57:44.715535+00:00",
+      "provenance": [
+        {
+          "discovery_url": "https://virusbulletin.com/conference/vb96/",
+          "checked_at": "2026-10-29T02:57:44.715535+00:00"
+        }
+      ],
+      "preflight_blockers": [
+        "format",
+        "access",
+        "metadata",
+        "duplicates",
+        "quality",
+        "schema"
+      ]
+    }
+  ],
+  "summary": {
+    "pages_checked": 3,
+    "resource_links_reconciled": 38,
+    "raw_resource_urls_added": 2,
+    "canonical_resource_urls": 2213,
+    "canonical_source_counts": {
+      "soups": 813,
+      "virusbulletin": 1400
+    },
+    "coverage_complete": false
+  },
+  "resume_queue": {
+    "soups": [
+      "https://cups.cs.cmu.edu/soups/2011/"
+    ],
+    "virusbulletin": [
+      "https://virusbulletin.com/conference/vb95/"
+    ]
+  }
+}
