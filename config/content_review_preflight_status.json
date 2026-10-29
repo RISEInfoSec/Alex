@@ -23173,8 +23173,8 @@
       "candidate_id": "weekly-8e84e2f2e22569f8d655fc7f",
       "review_number": 10,
       "content_sha256": "9c9c2738bc2c7d0210363529413282951b47e75143f553d4afe6667f03c41a94",
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "status": "passed",
@@ -23566,24 +23566,89 @@
           }
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-29T01:47:34.323130+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-29T01:49:21.793327+00:00",
           "content_sha256": "9c9c2738bc2c7d0210363529413282951b47e75143f553d4afe6667f03c41a94",
-          "evidence": "Await exact-current-hash paid taxonomy and disposable target-schema validation after metadata corrections.",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "7415eac5f10f2baac162d7eb4e4069983f31c4e5d1b8059b5f038e13c0d355a8",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-29T01:49:21.787329+00:00",
+              "content_sha256": "9c9c2738bc2c7d0210363529413282951b47e75143f553d4afe6667f03c41a94",
+              "evidence": {
+                "classification": {
+                  "Category": "Digital Forensics & Evidence",
+                  "Investigation_Type": "Forensic Investigation",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "Academic Literature"
+                  ]
+                },
+                "response_id": "resp_0d1266d6f464489d016ae2a6205ae087d1bc19f0bb6d0a347f",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 640,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 31,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 671
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "40802649397",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "76b13a79c4c3840b346fa0c774930a2ecc63c034",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "fd09f3a37dbc2b395bd4b315aa7adc26b94b63a1c9e7b9640fb0dd0489813e3b"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 40802649397
+          },
+          "revalidated_at": "2026-10-29T01:51:03.287927+00:00",
           "prior_evidence": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "c4d2b55ca346198ab2de6a3aafc099874ad0448a6f922d8fd12a8a241014450e",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-29T01:47:34.323130+00:00",
+            "content_sha256": "9c9c2738bc2c7d0210363529413282951b47e75143f553d4afe6667f03c41a94",
+            "evidence": "Await exact-current-hash paid taxonomy and disposable target-schema validation after metadata corrections.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "c4d2b55ca346198ab2de6a3aafc099874ad0448a6f922d8fd12a8a241014450e",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
       "verified_document_type": "research_paper",
-      "blockers": [
-        "schema"
-      ]
+      "blockers": [],
+      "recommendation_content_sha256": "9c9c2738bc2c7d0210363529413282951b47e75143f553d4afe6667f03c41a94",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-29T01:51:03.289277+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-10-29T01:51:03.289277+00:00",
+      "review_batch": 18
     },
     {
       "collection": "weekly",
@@ -44292,49 +44357,49 @@
         "passed": 100
       },
       "metadata": {
-        "passed": 95,
-        "held": 5
+        "held": 5,
+        "passed": 95
       },
       "duplicates": {
         "passed": 100
       },
       "quality": {
-        "passed": 12,
-        "held": 88
+        "held": 88,
+        "passed": 12
       },
       "schema": {
-        "passed": 12,
-        "held": 88
+        "held": 88,
+        "passed": 12
       }
     },
     "weekly": {
       "format": {
-        "passed": 54,
-        "held": 96
+        "held": 96,
+        "passed": 54
       },
       "access": {
-        "passed": 53,
-        "held": 97
+        "held": 97,
+        "passed": 53
       },
       "metadata": {
-        "passed": 63,
-        "held": 87
+        "held": 87,
+        "passed": 63
       },
       "duplicates": {
-        "passed": 149,
-        "held": 1
+        "held": 1,
+        "passed": 149
       },
       "quality": {
-        "passed": 148,
-        "held": 2
+        "held": 2,
+        "passed": 148
       },
       "schema": {
-        "passed": 48,
-        "held": 102
+        "held": 101,
+        "passed": 49
       }
     }
   },
-  "updated_at": "2026-10-29T01:47:34.323130+00:00",
+  "updated_at": "2026-10-29T01:51:03.289277+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
