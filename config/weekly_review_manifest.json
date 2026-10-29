@@ -32016,15 +32016,40 @@
           },
           "access": {
             "status": "held",
-            "checked_at": "2026-10-27T23:03:24.042589+00:00",
+            "checked_at": "2026-10-29T01:53:06.013125+00:00",
             "content_sha256": "8aa5df3d4b39e3fbd2fe680199134f8be7771d9c33a49fb22fd3857f7614c3a3",
             "evidence": {
-              "checked_at": "2026-10-27T23:03:24.042589+00:00",
-              "url": "https://journals.sagepub.com/doi/pdf/10.1177/14613557261447773",
-              "error": "HTTPError: HTTP Error 403: Forbidden",
-              "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+              "name": "icac-page",
+              "url": "https://journals.sagepub.com/doi/10.1177/14613557261447773",
+              "checked_at": "2026-10-29T01:50:18.067497+00:00",
+              "hops": [
+                {
+                  "url": "https://journals.sagepub.com/doi/10.1177/14613557261447773",
+                  "http_status": 403,
+                  "resource_sha256": "1c2c2e3357b20fbf2c4fadf026086bb0e3aa5570e2ab90c3a6ff130dd77571c3",
+                  "bytes": 6169,
+                  "content_type": "text/html; charset=UTF-8"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 403,
+              "resource_sha256": "1c2c2e3357b20fbf2c4fadf026086bb0e3aa5570e2ab90c3a6ff130dd77571c3",
+              "bytes": 6169,
+              "content_type": "text/html; charset=UTF-8"
             },
-            "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:03:24.042589+00:00",
+              "content_sha256": "8aa5df3d4b39e3fbd2fe680199134f8be7771d9c33a49fb22fd3857f7614c3a3",
+              "evidence": {
+                "checked_at": "2026-10-27T23:03:24.042589+00:00",
+                "url": "https://journals.sagepub.com/doi/pdf/10.1177/14613557261447773",
+                "error": "HTTPError: HTTP Error 403: Forbidden",
+                "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+              },
+              "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+            },
+            "reason": "Publisher HTTP403 access denial; no bypass attempted. Seek a legitimately accessible repository copy in a later bounded pass."
           },
           "metadata": {
             "status": "passed",
@@ -32137,7 +32162,46 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_access_followups": [
+        {
+          "status": "held",
+          "checked_at": "2026-10-29T01:53:06.013125+00:00",
+          "content_sha256": "8aa5df3d4b39e3fbd2fe680199134f8be7771d9c33a49fb22fd3857f7614c3a3",
+          "evidence": {
+            "name": "icac-page",
+            "url": "https://journals.sagepub.com/doi/10.1177/14613557261447773",
+            "checked_at": "2026-10-29T01:50:18.067497+00:00",
+            "hops": [
+              {
+                "url": "https://journals.sagepub.com/doi/10.1177/14613557261447773",
+                "http_status": 403,
+                "resource_sha256": "1c2c2e3357b20fbf2c4fadf026086bb0e3aa5570e2ab90c3a6ff130dd77571c3",
+                "bytes": 6169,
+                "content_type": "text/html; charset=UTF-8"
+              }
+            ],
+            "robots_http_status": 200,
+            "http_status": 403,
+            "resource_sha256": "1c2c2e3357b20fbf2c4fadf026086bb0e3aa5570e2ab90c3a6ff130dd77571c3",
+            "bytes": 6169,
+            "content_type": "text/html; charset=UTF-8"
+          },
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:03:24.042589+00:00",
+            "content_sha256": "8aa5df3d4b39e3fbd2fe680199134f8be7771d9c33a49fb22fd3857f7614c3a3",
+            "evidence": {
+              "checked_at": "2026-10-27T23:03:24.042589+00:00",
+              "url": "https://journals.sagepub.com/doi/pdf/10.1177/14613557261447773",
+              "error": "HTTPError: HTTP Error 403: Forbidden",
+              "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+            },
+            "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+          },
+          "reason": "Publisher HTTP403 access denial; no bypass attempted. Seek a legitimately accessible repository copy in a later bounded pass."
+        }
+      ]
     },
     {
       "candidate_id": "weekly-fedafa22d1659db395c02b49",
@@ -32277,15 +32341,40 @@
           },
           "access": {
             "status": "held",
-            "checked_at": "2026-10-27T23:04:06.268070+00:00",
+            "checked_at": "2026-10-29T01:53:06.013125+00:00",
             "content_sha256": "d66e4e3de249d1cf5bb829d1d930900eefcab011d4215316db27873d9d8347a3",
             "evidence": {
-              "checked_at": "2026-10-27T23:04:06.268070+00:00",
-              "url": "https://doi.org/10.1145/3829369",
-              "error": "HTTPError: HTTP Error 403: Forbidden",
-              "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+              "name": "telegram-page",
+              "url": "https://dl.acm.org/doi/10.1145/3829369",
+              "checked_at": "2026-10-29T01:50:23.121164+00:00",
+              "hops": [
+                {
+                  "url": "https://dl.acm.org/doi/10.1145/3829369",
+                  "http_status": 403,
+                  "resource_sha256": "b0fb103c0c79fcdd90dd01cafcb27e1c9b460f2b8fce0ba813dfb5f414da2bb0",
+                  "bytes": 6086,
+                  "content_type": "text/html; charset=UTF-8"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 403,
+              "resource_sha256": "b0fb103c0c79fcdd90dd01cafcb27e1c9b460f2b8fce0ba813dfb5f414da2bb0",
+              "bytes": 6086,
+              "content_type": "text/html; charset=UTF-8"
             },
-            "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:04:06.268070+00:00",
+              "content_sha256": "d66e4e3de249d1cf5bb829d1d930900eefcab011d4215316db27873d9d8347a3",
+              "evidence": {
+                "checked_at": "2026-10-27T23:04:06.268070+00:00",
+                "url": "https://doi.org/10.1145/3829369",
+                "error": "HTTPError: HTTP Error 403: Forbidden",
+                "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+              },
+              "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+            },
+            "reason": "Publisher HTTP403 access denial; no bypass attempted. Seek a legitimately accessible repository copy in a later bounded pass."
           },
           "metadata": {
             "status": "passed",
@@ -32386,7 +32475,46 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_access_followups": [
+        {
+          "status": "held",
+          "checked_at": "2026-10-29T01:53:06.013125+00:00",
+          "content_sha256": "d66e4e3de249d1cf5bb829d1d930900eefcab011d4215316db27873d9d8347a3",
+          "evidence": {
+            "name": "telegram-page",
+            "url": "https://dl.acm.org/doi/10.1145/3829369",
+            "checked_at": "2026-10-29T01:50:23.121164+00:00",
+            "hops": [
+              {
+                "url": "https://dl.acm.org/doi/10.1145/3829369",
+                "http_status": 403,
+                "resource_sha256": "b0fb103c0c79fcdd90dd01cafcb27e1c9b460f2b8fce0ba813dfb5f414da2bb0",
+                "bytes": 6086,
+                "content_type": "text/html; charset=UTF-8"
+              }
+            ],
+            "robots_http_status": 200,
+            "http_status": 403,
+            "resource_sha256": "b0fb103c0c79fcdd90dd01cafcb27e1c9b460f2b8fce0ba813dfb5f414da2bb0",
+            "bytes": 6086,
+            "content_type": "text/html; charset=UTF-8"
+          },
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:04:06.268070+00:00",
+            "content_sha256": "d66e4e3de249d1cf5bb829d1d930900eefcab011d4215316db27873d9d8347a3",
+            "evidence": {
+              "checked_at": "2026-10-27T23:04:06.268070+00:00",
+              "url": "https://doi.org/10.1145/3829369",
+              "error": "HTTPError: HTTP Error 403: Forbidden",
+              "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+            },
+            "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+          },
+          "reason": "Publisher HTTP403 access denial; no bypass attempted. Seek a legitimately accessible repository copy in a later bounded pass."
+        }
+      ]
     },
     {
       "candidate_id": "weekly-6c7717ff1c241014cd08e9eb",
@@ -32401,15 +32529,46 @@
       "year": 2026,
       "doi": "10.5038/2378-0789.9.1.1154",
       "source_url": "https://digitalcommons.usf.edu/mca/vol9/iss1/5",
-      "document_type": "research_paper_candidate",
-      "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-      "format_verification_status": "hold_original_document_type_unverified",
+      "document_type": "research_paper",
+      "document_type_basis": "Actual written journal article, repository cover/citation, complete seven-author list, article front matter and abstract/opening prose verified; not slides or poster.",
+      "format_verification_status": "verified_written_research_paper",
       "abstract": "Ransomware poses a growing threat to critical infrastructure, where successful attacks can disrupt operational technology (OT) and industrial control systems (ICS) with significant public safety consequences. However, attributing ransomware incidents to specific threat actors remains challenging due to ransomware-as-a-service ecosystems, actor rebranding, and the obfuscation of traditional indicators of compromise. This paper presents Semantic Shields, an NLP-driven attribution framework that leverages BERT-generated semantic embeddings and DBSCAN clustering to profile ransomware actors through the linguistic characteristics of ransom notes. Using a dataset of 295 ransom notes from 189 distinct threat groups, the framework achieved an 87.2% true positive clustering rate and identified multiple previously undocumented relationships between ostensibly distinct ransomware groups. These findings demonstrate that natural language artifacts provide valuable attribution signals and highlight the potential of NLP-based profiling as a force multiplier for critical infrastructure defense and cyber threat intelligence.",
       "abstract_source": "https://digitalcommons.usf.edu/mca/vol9/iss1/5",
       "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
       "review_evidence": [
         "https://digitalcommons.usf.edu/mca/vol9/iss1/5",
-        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv",
+        {
+          "checked_at": "2026-10-29T01:53:06.013125+00:00",
+          "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+          "publisher_url": "https://digitalcommons.usf.edu/mca/vol9/iss1/5/",
+          "publisher_html_sha256": "455e0ca635cec4acfce51b0608f05531a3bff4adc15a8ee4e50e3c93e17efc34",
+          "document_url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+          "document_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
+          "document_bytes": 1444742,
+          "abstract_sha256": "60880551a9a4c492a455e08b6321f832d9e328b84670d699c704515f495fedb8",
+          "metadata": {
+            "title": "Semantic Shields: Automating Critical Infrastructure Defense via NLP-Driven Ransomware Profiling",
+            "authors": [
+              "Henry Trowbridge",
+              "Ian Zalcberg",
+              "Ryan Schley",
+              "Carter Yagemann",
+              "Natasha Phan",
+              "Srikar Maduposu",
+              "Vimal Buck"
+            ],
+            "year": 2026,
+            "volume": 9,
+            "issue": 1,
+            "article": 5,
+            "online_date": "2026/9/21",
+            "doi": "10.5038/2378-0789.9.1.1154",
+            "byline_order": "Canonical repository recommended citation and separate full Authors list. Article typographic byline spans rows/columns with differing visual reading order; same seven persons verified."
+          },
+          "inspection": "Actual PDF repository cover, complete Authors list, title/byline/DOI/year, complete current abstract and opening prose; format and identity verification, not full scientific critique.",
+          "registry_replacement": "Prior Crossref404 preserved. Complete official publisher/repository metadata and matching actual PDF satisfy the metadata subcheck without OpenAlex; DOI is corroborated in both."
+        }
       ],
       "collection_id": "weekly",
       "collection_source": "ALEX regular weekly discovery review queue",
@@ -32422,11 +32581,11 @@
       "assessment_depth": "cached_abstract",
       "assessment_date": "2026-10-27",
       "full_paper_reviewed": false,
-      "paper_format_verified": false,
-      "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+      "paper_format_verified": true,
+      "source_verification_status": "official_repository_and_actual_pdf_verified",
       "quality_status": "existing_human_quality_review_required",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
-      "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+      "resource_usefulness_status": "verified_written_research_paper; presentation_audio_rule_not_applicable",
       "manual_review_required": true,
       "total_quality_score": 32.82,
       "quality_score": 32.82,
@@ -32435,9 +32594,9 @@
       "relevance_score": 35.29,
       "is_preprint": false,
       "venue": "Digital Commons - University of South Florida (University of South Florida)",
-      "citation_count": 0,
-      "citation_status": "upstream_value_not_independently_verified",
-      "doi_status": "upstream_identifier_not_independently_verified",
+      "citation_count": null,
+      "citation_status": "unknown; upstream unverified zero preserved in original source history",
+      "doi_status": "official_repository_and_actual_pdf_verified",
       "source_recommended_action": "human review",
       "source_review_reason": "Quality uncertain or moderate",
       "discovery_source": "OpenAlex",
@@ -32457,43 +32616,158 @@
       "institution_score": 80,
       "institution_bonus": 10,
       "title_anchor_bonus": 0,
-      "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+      "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
       ],
       "preflight": {
         "status": "held",
-        "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+        "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
         "checks": {
-          "duplicates": {
+          "format": {
             "status": "passed",
-            "checked_at": "2026-10-28T03:50:34.934054+00:00",
-            "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+            "checked_at": "2026-10-29T01:53:06.013125+00:00",
+            "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
             "evidence": {
-              "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-              "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
-              "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-              "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-              "weekly_inventory_records": 4041,
-              "all_prepared_collections": [
-                "soups",
-                "weekly",
-                "virusbulletin",
-                "apwg"
-              ],
-              "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-              "matches": []
+              "publisher_url": "https://digitalcommons.usf.edu/mca/vol9/iss1/5/",
+              "publisher_html_sha256": "455e0ca635cec4acfce51b0608f05531a3bff4adc15a8ee4e50e3c93e17efc34",
+              "document_url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+              "document_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
+              "document_bytes": 1444742,
+              "abstract_sha256": "60880551a9a4c492a455e08b6321f832d9e328b84670d699c704515f495fedb8",
+              "metadata": {
+                "title": "Semantic Shields: Automating Critical Infrastructure Defense via NLP-Driven Ransomware Profiling",
+                "authors": [
+                  "Henry Trowbridge",
+                  "Ian Zalcberg",
+                  "Ryan Schley",
+                  "Carter Yagemann",
+                  "Natasha Phan",
+                  "Srikar Maduposu",
+                  "Vimal Buck"
+                ],
+                "year": 2026,
+                "volume": 9,
+                "issue": 1,
+                "article": 5,
+                "online_date": "2026/9/21",
+                "doi": "10.5038/2378-0789.9.1.1154",
+                "byline_order": "Canonical repository recommended citation and separate full Authors list. Article typographic byline spans rows/columns with differing visual reading order; same seven persons verified."
+              },
+              "inspection": "Actual PDF repository cover, complete Authors list, title/byline/DOI/year, complete current abstract and opening prose; format and identity verification, not full scientific critique.",
+              "registry_replacement": "Prior Crossref404 preserved. Complete official publisher/repository metadata and matching actual PDF satisfy the metadata subcheck without OpenAlex; DOI is corroborated in both."
+            },
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+              "evidence": "Not yet completed; not a pass.",
+              "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            }
+          },
+          "access": {
+            "status": "passed",
+            "checked_at": "2026-10-29T01:53:06.013125+00:00",
+            "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+            "evidence": {
+              "publisher_url": "https://digitalcommons.usf.edu/mca/vol9/iss1/5/",
+              "publisher_html_sha256": "455e0ca635cec4acfce51b0608f05531a3bff4adc15a8ee4e50e3c93e17efc34",
+              "document_url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+              "document_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
+              "document_bytes": 1444742,
+              "abstract_sha256": "60880551a9a4c492a455e08b6321f832d9e328b84670d699c704515f495fedb8",
+              "metadata": {
+                "title": "Semantic Shields: Automating Critical Infrastructure Defense via NLP-Driven Ransomware Profiling",
+                "authors": [
+                  "Henry Trowbridge",
+                  "Ian Zalcberg",
+                  "Ryan Schley",
+                  "Carter Yagemann",
+                  "Natasha Phan",
+                  "Srikar Maduposu",
+                  "Vimal Buck"
+                ],
+                "year": 2026,
+                "volume": 9,
+                "issue": 1,
+                "article": 5,
+                "online_date": "2026/9/21",
+                "doi": "10.5038/2378-0789.9.1.1154",
+                "byline_order": "Canonical repository recommended citation and separate full Authors list. Article typographic byline spans rows/columns with differing visual reading order; same seven persons verified."
+              },
+              "inspection": "Actual PDF repository cover, complete Authors list, title/byline/DOI/year, complete current abstract and opening prose; format and identity verification, not full scientific critique.",
+              "registry_replacement": "Prior Crossref404 preserved. Complete official publisher/repository metadata and matching actual PDF satisfy the metadata subcheck without OpenAlex; DOI is corroborated in both."
+            },
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+              "evidence": "Not yet completed; not a pass.",
+              "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            }
+          },
+          "metadata": {
+            "status": "passed",
+            "checked_at": "2026-10-29T01:53:06.013125+00:00",
+            "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+            "evidence": {
+              "publisher_url": "https://digitalcommons.usf.edu/mca/vol9/iss1/5/",
+              "publisher_html_sha256": "455e0ca635cec4acfce51b0608f05531a3bff4adc15a8ee4e50e3c93e17efc34",
+              "document_url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+              "document_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
+              "document_bytes": 1444742,
+              "abstract_sha256": "60880551a9a4c492a455e08b6321f832d9e328b84670d699c704515f495fedb8",
+              "metadata": {
+                "title": "Semantic Shields: Automating Critical Infrastructure Defense via NLP-Driven Ransomware Profiling",
+                "authors": [
+                  "Henry Trowbridge",
+                  "Ian Zalcberg",
+                  "Ryan Schley",
+                  "Carter Yagemann",
+                  "Natasha Phan",
+                  "Srikar Maduposu",
+                  "Vimal Buck"
+                ],
+                "year": 2026,
+                "volume": 9,
+                "issue": 1,
+                "article": 5,
+                "online_date": "2026/9/21",
+                "doi": "10.5038/2378-0789.9.1.1154",
+                "byline_order": "Canonical repository recommended citation and separate full Authors list. Article typographic byline spans rows/columns with differing visual reading order; same seven persons verified."
+              },
+              "inspection": "Actual PDF repository cover, complete Authors list, title/byline/DOI/year, complete current abstract and opening prose; format and identity verification, not full scientific critique.",
+              "registry_replacement": "Prior Crossref404 preserved. Complete official publisher/repository metadata and matching actual PDF satisfy the metadata subcheck without OpenAlex; DOI is corroborated in both."
+            },
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:01:49.987446+00:00",
+              "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+              "evidence": {
+                "DOI": null,
+                "title": null,
+                "author": null,
+                "published": null,
+                "type": null,
+                "publisher": null,
+                "container-title": null,
+                "is-referenced-by-count": null
+              },
+              "source_url": null,
+              "comparison": {
+                "title_matches": false,
+                "publication_year_matches": false,
+                "author_families_match": false
+              },
+              "limitations": "HTTPError: HTTP Error 404: Not Found"
             }
           },
           "quality": {
             "status": "passed",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+            "checked_at": "2026-10-29T01:53:06.013125+00:00",
+            "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
             "evidence": {
               "quality_score": 32.82,
               "quality_venue_score": 40.0,
@@ -32506,60 +32780,267 @@
               "quality_review_threshold": 20.0,
               "quality_core_term_gate": "pass",
               "quality_relevance_gate": "pass",
-              "citation_count_known": true,
+              "citation_count_known": false,
               "quality_review_status": "human_quality_review",
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+            "prior_evidence": {
+              "status": "passed",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+              "evidence": {
+                "quality_score": 32.82,
+                "quality_venue_score": 40.0,
+                "quality_citation_score": 0.0,
+                "quality_relevance_score": 35.29,
+                "quality_institution_score": 80.0,
+                "quality_institution_bonus": 10.0,
+                "quality_title_bonus": 0.0,
+                "quality_auto_threshold": 35.0,
+                "quality_review_threshold": 20.0,
+                "quality_core_term_gate": "pass",
+                "quality_relevance_gate": "pass",
+                "citation_count_known": true,
+                "quality_review_status": "human_quality_review",
+                "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                "quality_requires_review": true
+              },
+              "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+            },
+            "limitations": "Unchanged scorer/gates with actual PDF university affiliations; unknown citations remain null. No automatic acceptance change."
           },
-          "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "metadata": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:01:49.987446+00:00",
-            "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+          "duplicates": {
+            "status": "passed",
+            "checked_at": "2026-10-29T01:53:06.013125+00:00",
+            "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
             "evidence": {
-              "DOI": null,
-              "title": null,
-              "author": null,
-              "published": null,
-              "type": null,
-              "publisher": null,
-              "container-title": null,
-              "is-referenced-by-count": null
-            },
-            "source_url": null,
-            "comparison": {
-              "title_matches": false,
-              "publication_year_matches": false,
-              "author_families_match": false
-            },
-            "limitations": "HTTPError: HTTP Error 404: Not Found"
+              "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+              "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+              "exclusions_blob": "653063601c2750fc75a89f397f001089319859b8",
+              "source_counts": {
+                "soups": 797,
+                "virusbulletin": 92,
+                "soups-ancillary": 593,
+                "weekly": 150,
+                "archive-discovery": 2209,
+                "public": 3162,
+                "weekly-upstream": 4041,
+                "apwg": 1
+              },
+              "matches": [],
+              "explicit_exclusion_matches": [],
+              "self_provenance_overlaps": [
+                {
+                  "source": "weekly-upstream",
+                  "identity": "56392"
+                }
+              ],
+              "scope": "Fresh exact DOI, canonical source/resource URL and normalized-title comparison of current public corpus, all prepared/ancillary inventories,4041 weekly upstream rows and2209 raw archive URLs."
+            }
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-29T01:53:06.013125+00:00",
+            "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+            "evidence": "Await actual paid taxonomy and disposable target-schema validation on exact verified content hash.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "verified_document_type": "research_paper",
+      "paper_url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+      "affiliations": "The Ohio State University; US Air Force",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+          "superseded_at": "2026-10-29T01:53:06.013125+00:00",
+          "reason": "Verified actual written-paper material type. Full original metadata/record and recommendations retained.",
+          "record": {
+            "candidate_id": "weekly-6c7717ff1c241014cd08e9eb",
+            "upstream_candidate_id": "56392",
+            "upstream_stable_identity": "10.5038/2378-0789.9.1.1154",
+            "source_row": 2796,
+            "review_number": 14,
+            "review_batch": 1,
+            "batch": 1,
+            "title": "Semantic Shields: Automating Critical Infrastructure Defense via NLP-Driven Ransomware Profiling",
+            "authors": "Henry Trowbridge; Ian Zalcberg; Ryan Schley; Carter Yagemann; Natasha Phan; Srikar Maduposu; Vimal Buck",
+            "year": 2026,
+            "doi": "10.5038/2378-0789.9.1.1154",
+            "source_url": "https://digitalcommons.usf.edu/mca/vol9/iss1/5",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "Ransomware poses a growing threat to critical infrastructure, where successful attacks can disrupt operational technology (OT) and industrial control systems (ICS) with significant public safety consequences. However, attributing ransomware incidents to specific threat actors remains challenging due to ransomware-as-a-service ecosystems, actor rebranding, and the obfuscation of traditional indicators of compromise. This paper presents Semantic Shields, an NLP-driven attribution framework that leverages BERT-generated semantic embeddings and DBSCAN clustering to profile ransomware actors through the linguistic characteristics of ransom notes. Using a dataset of 295 ransom notes from 189 distinct threat groups, the framework achieved an 87.2% true positive clustering rate and identified multiple previously undocumented relationships between ostensibly distinct ransomware groups. These findings demonstrate that natural language artifacts provide valuable attribution signals and highlight the potential of NLP-based profiling as a force multiplier for critical infrastructure defense and cyber threat intelligence.",
+            "abstract_source": "https://digitalcommons.usf.edu/mca/vol9/iss1/5",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              "https://digitalcommons.usf.edu/mca/vol9/iss1/5",
+              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "include",
+            "relevance": "direct",
+            "review_reason": "Uses ransom-note embeddings and clustering to explore relationships among ransomware groups. Supports analysis of linguistic attribution signals.",
+            "metadata_issue": "Shared language or templates do not establish common human operators; clustering and claimed new links require underlying evidence. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 32.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 32.82,
+            "quality_score": 32.82,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 35.29,
+            "is_preprint": false,
+            "venue": "Digital Commons - University of South Florida (University of South Florida)",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "upstream_identifier_not_independently_verified",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "threat intelligence collection",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "2c1f55e4d04697aa6c543ec1b09b17b0ec3ffaf440a74dd67f9c45cff676fb7d",
+            "assessed_text_sha256": "60880551a9a4c492a455e08b6321f832d9e328b84670d699c704515f495fedb8",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 80,
+            "institution_bonus": 10,
+            "title_anchor_bonus": 0,
+            "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "format",
+              "access",
+              "metadata",
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+              "checks": {
+                "duplicates": {
+                  "status": "passed",
+                  "checked_at": "2026-10-28T03:50:34.934054+00:00",
+                  "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+                  "evidence": {
+                    "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+                    "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+                    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                    "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                    "weekly_inventory_records": 4041,
+                    "all_prepared_collections": [
+                      "soups",
+                      "weekly",
+                      "virusbulletin",
+                      "apwg"
+                    ],
+                    "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+                    "matches": []
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+                  "evidence": {
+                    "quality_score": 32.82,
+                    "quality_venue_score": 40.0,
+                    "quality_citation_score": 0.0,
+                    "quality_relevance_score": 35.29,
+                    "quality_institution_score": 80.0,
+                    "quality_institution_bonus": 10.0,
+                    "quality_title_bonus": 0.0,
+                    "quality_auto_threshold": 35.0,
+                    "quality_review_threshold": 20.0,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+                  "evidence": "Not yet completed; not a pass.",
+                  "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+                },
+                "access": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+                  "evidence": "Not yet completed; not a pass.",
+                  "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+                },
+                "metadata": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:01:49.987446+00:00",
+                  "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+                  "evidence": {
+                    "DOI": null,
+                    "title": null,
+                    "author": null,
+                    "published": null,
+                    "type": null,
+                    "publisher": null,
+                    "container-title": null,
+                    "is-referenced-by-count": null
+                  },
+                  "source_url": null,
+                  "comparison": {
+                    "title_matches": false,
+                    "publication_year_matches": false,
+                    "author_families_match": false
+                  },
+                  "limitations": "HTTPError: HTTP Error 404: Not Found"
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false
+          }
+        }
+      ],
+      "recommendation_status": "awaiting_reassessment_after_verified_type_preflight",
+      "admission_hold": "Await schema, then current substantive recommendation/usefulness assessment."
     },
     {
       "candidate_id": "weekly-b5e7a56103be9079eec7ab01",
@@ -48998,10 +49479,32 @@
           },
           "access": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "checked_at": "2026-10-29T01:53:06.013125+00:00",
             "content_sha256": "f8d41e3ae22f72514cd8e2b988bf665cf6c209c2089435ac3b03a39f1acf176b",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "name": "australia-resolve",
+              "url": "https://doi.org/10.52922/sr78359",
+              "checked_at": "2026-10-29T01:50:28.145178+00:00",
+              "hops": [
+                {
+                  "url": "https://doi.org/10.52922/sr78359",
+                  "http_status": 302,
+                  "resource_sha256": "e486e55b1f38f3cc8061da5c49dbd280594b0f44216c7deade5bc91360bd7087",
+                  "bytes": 171,
+                  "content_type": "text/html;charset=utf-8"
+                }
+              ],
+              "robots_http_status": 503,
+              "status": "robots_access_hold"
+            },
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "f8d41e3ae22f72514cd8e2b988bf665cf6c209c2089435ac3b03a39f1acf176b",
+              "evidence": "Not yet completed; not a pass.",
+              "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            },
+            "reason": "DOI redirected toward publisher, whose robots endpoint returned503. Document not requested; preserve format/access/metadata/schema holds. Redirect target origin was not retained by this fetch helper; no claim about the precise failing host."
           },
           "metadata": {
             "status": "held",
@@ -49020,7 +49523,38 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_access_followups": [
+        {
+          "status": "held",
+          "checked_at": "2026-10-29T01:53:06.013125+00:00",
+          "content_sha256": "f8d41e3ae22f72514cd8e2b988bf665cf6c209c2089435ac3b03a39f1acf176b",
+          "evidence": {
+            "name": "australia-resolve",
+            "url": "https://doi.org/10.52922/sr78359",
+            "checked_at": "2026-10-29T01:50:28.145178+00:00",
+            "hops": [
+              {
+                "url": "https://doi.org/10.52922/sr78359",
+                "http_status": 302,
+                "resource_sha256": "e486e55b1f38f3cc8061da5c49dbd280594b0f44216c7deade5bc91360bd7087",
+                "bytes": 171,
+                "content_type": "text/html;charset=utf-8"
+              }
+            ],
+            "robots_http_status": 503,
+            "status": "robots_access_hold"
+          },
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "content_sha256": "f8d41e3ae22f72514cd8e2b988bf665cf6c209c2089435ac3b03a39f1acf176b",
+            "evidence": "Not yet completed; not a pass.",
+            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          },
+          "reason": "DOI redirected toward publisher, whose robots endpoint returned503. Document not requested; preserve format/access/metadata/schema holds. Redirect target origin was not retained by this fetch helper; no claim about the precise failing host."
+        }
+      ]
     },
     {
       "candidate_id": "weekly-7cbc06bc3c9d58ec46f28a55",
