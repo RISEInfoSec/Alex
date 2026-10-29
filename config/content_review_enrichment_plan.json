@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-10-29T01:01:34.507193+00:00",
+  "checked_at": "2026-10-29T01:57:10.702080+00:00",
   "policy_version": 11,
   "openalex_requests": 0,
   "records": [
@@ -1089,44 +1089,76 @@
       "candidate_id": "weekly-17dfd4d6d878d9383b5a6794",
       "content_sha256": "8aa5df3d4b39e3fbd2fe680199134f8be7771d9c33a49fb22fd3857f7614c3a3",
       "quality_status": "human_quality_review",
-      "fresh_duplicate_snapshot": false,
+      "fresh_duplicate_snapshot": true,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "resolve_independent_access_or_material_evidence_first",
+        "automatic_openalex_request": false
+      },
+      "updated_at": "2026-10-29T01:57:10.702080+00:00",
+      "disposition": "held_source_access",
+      "remaining_blockers": [
+        "format",
+        "access",
+        "schema"
+      ]
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-8e84e2f2e22569f8d655fc7f",
-      "content_sha256": "c4d2b55ca346198ab2de6a3aafc099874ad0448a6f922d8fd12a8a241014450e",
+      "content_sha256": "9c9c2738bc2c7d0210363529413282951b47e75143f553d4afe6667f03c41a94",
       "quality_status": "human_quality_review",
-      "fresh_duplicate_snapshot": false,
+      "fresh_duplicate_snapshot": true,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "all_required_checks_complete_await_human_decision",
+        "automatic_openalex_request": false
+      },
+      "prior_content_hashes": [
+        "c4d2b55ca346198ab2de6a3aafc099874ad0448a6f922d8fd12a8a241014450e"
+      ],
+      "updated_at": "2026-10-29T01:57:10.702080+00:00",
+      "disposition": "manual_ready",
+      "remaining_blockers": []
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-fedafa22d1659db395c02b49",
       "content_sha256": "d66e4e3de249d1cf5bb829d1d930900eefcab011d4215316db27873d9d8347a3",
       "quality_status": "human_quality_review",
-      "fresh_duplicate_snapshot": false,
+      "fresh_duplicate_snapshot": true,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "resolve_independent_access_or_material_evidence_first",
+        "automatic_openalex_request": false
+      },
+      "updated_at": "2026-10-29T01:57:10.702080+00:00",
+      "disposition": "held_source_access",
+      "remaining_blockers": [
+        "format",
+        "access",
+        "schema"
+      ]
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-6c7717ff1c241014cd08e9eb",
-      "content_sha256": "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8",
+      "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
       "quality_status": "human_quality_review",
-      "fresh_duplicate_snapshot": false,
+      "fresh_duplicate_snapshot": true,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "resolve_taxonomy_source_evidence_first",
+        "automatic_openalex_request": false
+      },
+      "prior_content_hashes": [
+        "c49d3d160e620e79fe7ca68c895378b50c4b949d420b34302df8e2838365eac8"
+      ],
+      "updated_at": "2026-10-29T01:57:10.702080+00:00",
+      "disposition": "held_taxonomy_source_evidence",
+      "remaining_blockers": [
+        "schema"
+      ]
     },
     {
       "collection": "weekly",
@@ -1214,13 +1246,23 @@
     {
       "collection": "weekly",
       "candidate_id": "weekly-5c4701abae45c61d64d2a4e2",
-      "content_sha256": "57fa8a01738ca894a5073264c228495838e4d25c84a5625e0129449f5008740e",
-      "quality_status": "human_quality_review",
-      "fresh_duplicate_snapshot": false,
+      "content_sha256": "99ac3214a581bd3f2b7f4b2198814f914d155ab4593fd149e6436916398bb74e",
+      "quality_status": "hold_below_review_threshold",
+      "fresh_duplicate_snapshot": true,
       "registry_plan": {
-        "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "eligible": true,
+        "reason": "Targeted verified bibliometrics may affect provisional score32.82 versus existing45 review threshold; first resolve supported credential execution and retain one-lookup policy.",
+        "automatic_openalex_request": false
+      },
+      "prior_content_hashes": [
+        "57fa8a01738ca894a5073264c228495838e4d25c84a5625e0129449f5008740e"
+      ],
+      "updated_at": "2026-10-29T01:57:10.702080+00:00",
+      "disposition": "held_provisional_quality_after_issue_year_reconciliation",
+      "remaining_blockers": [
+        "quality",
+        "schema"
+      ]
     },
     {
       "collection": "weekly",
@@ -2121,11 +2163,20 @@
       "candidate_id": "weekly-e922c25d5af5066aae59fa07",
       "content_sha256": "f8d41e3ae22f72514cd8e2b988bf665cf6c209c2089435ac3b03a39f1acf176b",
       "quality_status": "human_quality_review",
-      "fresh_duplicate_snapshot": false,
+      "fresh_duplicate_snapshot": true,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "resolve_independent_access_or_material_evidence_first",
+        "automatic_openalex_request": false
+      },
+      "updated_at": "2026-10-29T01:57:10.702080+00:00",
+      "disposition": "held_source_access",
+      "remaining_blockers": [
+        "format",
+        "access",
+        "metadata",
+        "schema"
+      ]
     },
     {
       "collection": "weekly",
@@ -2239,10 +2290,10 @@
     }
   ],
   "summary": {
-    "held_intake_tracked": 190,
-    "deferred_registry": 190,
+    "held_intake_tracked": 189,
+    "deferred_registry": 188,
     "alternative_enrichment_eligible": 0,
-    "manual_ready_current": 1,
+    "manual_ready_current": 2,
     "human_rejected": 1,
     "manual_ready_added_this_run": 1,
     "taxonomy_content_held_this_run": 1,
@@ -2251,6 +2302,7 @@
       "alternative_metadata_completed": 1,
       "subsequently_human_rejected": 1
     },
-    "approved_validated_publication_pending": 1
+    "approved_validated_publication_pending": 1,
+    "targeted_registry_eligible": 1
   }
 }
