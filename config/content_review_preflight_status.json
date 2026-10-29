@@ -24228,8 +24228,8 @@
       "candidate_id": "weekly-129ce5ffe83fd6339e377ef8",
       "review_number": 16,
       "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "status": "passed",
@@ -24629,24 +24629,86 @@
           }
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-29T00:44:58.481085+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-29T00:46:46.068961+00:00",
           "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
-          "evidence": "Await exact-current-hash paid taxonomy and disposable target-schema validation. Author/type corrections invalidate prior schema/recommendation.",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "c19653b83643f32ab3ebb4896324faed53c2e003418717b21fec949a30cfdf39",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-29T00:46:46.063339+00:00",
+              "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
+              "evidence": {
+                "classification": {
+                  "Category": "Digital Forensics & Evidence",
+                  "Investigation_Type": "Forensic Investigation",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_068d6df3b17e55e3016ae29774c56087d0ab280304a94b1ef4",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 687,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 25,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 712
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "40796205410",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "c382e8a887edb2e9ba0c9480c125505aceebc831",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "b2e1ade33ab631a18bf6106777fd16e3bbd847a72d00a3d2ebf0c115a78f1b4c"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 40796205410
+          },
+          "revalidated_at": "2026-10-29T00:48:52.621885+00:00",
           "prior_evidence": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-29T00:44:58.481085+00:00",
+            "content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
+            "evidence": "Await exact-current-hash paid taxonomy and disposable target-schema validation. Author/type corrections invalidate prior schema/recommendation.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "f5770ae2a02ad7b44dbcb93ba61dae4ab23104282fe0a16511e4fbabc2bd9031",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
       "verified_document_type": "research_paper",
-      "blockers": [
-        "schema"
-      ]
+      "blockers": [],
+      "recommendation_content_sha256": "0d3a69e9060cdbae9a1189b850d4a9b79c16e71ba0f6393d11c1281a56faa08b",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-29T00:48:52.623723+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-10-29T00:48:52.623723+00:00",
+      "review_batch": 17
     },
     {
       "collection": "weekly",
@@ -26864,34 +26926,431 @@
       "collection": "weekly",
       "candidate_id": "weekly-613259936d5f6e81dd8c3b48",
       "review_number": 28,
-      "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
+      "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
       "status": "held",
       "review_ready": false,
       "checks": {
-        "duplicates": {
+        "format": {
           "status": "passed",
-          "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
+          "checked_at": "2026-10-29T00:50:01.286004+00:00",
+          "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
           "evidence": {
-            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
-            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-            "weekly_inventory_records": 4041,
-            "all_prepared_collections": [
-              "soups",
-              "weekly",
-              "virusbulletin",
-              "apwg"
+            "actual_pdf": {
+              "checked_at": "2026-10-29T00:48:04.935183+00:00",
+              "source_url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
+              "robots_http_status": 200,
+              "http_status": 200,
+              "content_type": "application/pdf",
+              "location": null,
+              "bytes": 788335,
+              "resource_sha256": "246091c2248a23270e59223e01c05b9151fb70cdabaa523a64741f481198e555",
+              "local_path": "/workspace/scratch/6422be16c397/run3-ransomware.pdf"
+            },
+            "prior_pdf_hash_matches": true,
+            "verified_document_type": "research_paper",
+            "printed_complete_author_order": [
+              "Cheah Zhen Yang",
+              "Joshua Angelo Kana",
+              "Arvind Skanda Dharmendran",
+              "Muhamad Haziq Bin Jasni",
+              "Dinesh A/L S Rajandran",
+              "Ung Qi Hang",
+              "Wan Efdlin Eirfan",
+              "Siva Raja Sindiramutty"
             ],
-            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-            "matches": []
+            "printed_affiliation": "School of Computer Science, Taylor’s University, Subang Jaya, 47500, Selangor Malaysia",
+            "printed_year": 2026,
+            "crossref_original_deposit": {
+              "DOI": "10.54938/ijemdcsai.2026.04.2.659",
+              "title": [
+                "Ransomware Defence Systems"
+              ],
+              "author": [
+                {
+                  "family": "Cheah Zhen Yang, Joshua Angelo Kana",
+                  "sequence": "first",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Arvind Skanda Dharmendran, Muhamad Haziq Bin Jasni",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Dinesh A/L S Rajandran, Ung Qi Hang",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Wan Efdlin Eirfan, Siva Raja Sindiramutty",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                }
+              ],
+              "published": {
+                "date-parts": [
+                  [
+                    2026,
+                    7,
+                    14
+                  ]
+                ]
+              },
+              "type": "journal-article",
+              "publisher": "Publishing House International Enterprise",
+              "container-title": [
+                "International Journal of Emerging Multidisciplinaries: Computer Science &amp; Artificial Intelligence"
+              ],
+              "is-referenced-by-count": 0
+            },
+            "registry_author_defect": "Four family fields each contained two comma-separated complete names; actual printed byline identifies eight distinct authors in matching order.",
+            "title_doi_year_and_current_abstract_match": true,
+            "inspection_depth": "Actual paper front matter, title, byline, DOI/year, complete abstract and opening prose. No full scientific critique."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-27T23:40:36.676176+00:00",
+            "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
+            "evidence": {
+              "checked_at": "2026-10-27T23:40:36.676176+00:00",
+              "url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
+              "http_status": 200,
+              "content_type": "application/pdf",
+              "resolved_url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
+              "resource_sha256": "246091c2248a23270e59223e01c05b9151fb70cdabaa523a64741f481198e555",
+              "bytes": 788335,
+              "observed_format": "PDF_requires_front_matter_inspection",
+              "inspection": "Publisher resource/front matter/title/byline/abstract and opening prose inspected; written scholarly resource, not slides. No scientific-quality or peer-review endorsement."
+            }
+          }
+        },
+        "access": {
+          "status": "passed",
+          "checked_at": "2026-10-29T00:50:01.286004+00:00",
+          "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+          "evidence": {
+            "actual_pdf": {
+              "checked_at": "2026-10-29T00:48:04.935183+00:00",
+              "source_url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
+              "robots_http_status": 200,
+              "http_status": 200,
+              "content_type": "application/pdf",
+              "location": null,
+              "bytes": 788335,
+              "resource_sha256": "246091c2248a23270e59223e01c05b9151fb70cdabaa523a64741f481198e555",
+              "local_path": "/workspace/scratch/6422be16c397/run3-ransomware.pdf"
+            },
+            "prior_pdf_hash_matches": true,
+            "verified_document_type": "research_paper",
+            "printed_complete_author_order": [
+              "Cheah Zhen Yang",
+              "Joshua Angelo Kana",
+              "Arvind Skanda Dharmendran",
+              "Muhamad Haziq Bin Jasni",
+              "Dinesh A/L S Rajandran",
+              "Ung Qi Hang",
+              "Wan Efdlin Eirfan",
+              "Siva Raja Sindiramutty"
+            ],
+            "printed_affiliation": "School of Computer Science, Taylor’s University, Subang Jaya, 47500, Selangor Malaysia",
+            "printed_year": 2026,
+            "crossref_original_deposit": {
+              "DOI": "10.54938/ijemdcsai.2026.04.2.659",
+              "title": [
+                "Ransomware Defence Systems"
+              ],
+              "author": [
+                {
+                  "family": "Cheah Zhen Yang, Joshua Angelo Kana",
+                  "sequence": "first",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Arvind Skanda Dharmendran, Muhamad Haziq Bin Jasni",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Dinesh A/L S Rajandran, Ung Qi Hang",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Wan Efdlin Eirfan, Siva Raja Sindiramutty",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                }
+              ],
+              "published": {
+                "date-parts": [
+                  [
+                    2026,
+                    7,
+                    14
+                  ]
+                ]
+              },
+              "type": "journal-article",
+              "publisher": "Publishing House International Enterprise",
+              "container-title": [
+                "International Journal of Emerging Multidisciplinaries: Computer Science &amp; Artificial Intelligence"
+              ],
+              "is-referenced-by-count": 0
+            },
+            "registry_author_defect": "Four family fields each contained two comma-separated complete names; actual printed byline identifies eight distinct authors in matching order.",
+            "title_doi_year_and_current_abstract_match": true,
+            "inspection_depth": "Actual paper front matter, title, byline, DOI/year, complete abstract and opening prose. No full scientific critique."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-27T23:40:36.676176+00:00",
+            "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
+            "evidence": {
+              "checked_at": "2026-10-27T23:40:36.676176+00:00",
+              "url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
+              "http_status": 200,
+              "content_type": "application/pdf",
+              "resolved_url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
+              "resource_sha256": "246091c2248a23270e59223e01c05b9151fb70cdabaa523a64741f481198e555",
+              "bytes": 788335,
+              "observed_format": "PDF_requires_front_matter_inspection",
+              "inspection": "Publisher resource/front matter/title/byline/abstract and opening prose inspected; written scholarly resource, not slides. No scientific-quality or peer-review endorsement."
+            }
+          }
+        },
+        "metadata": {
+          "status": "passed",
+          "checked_at": "2026-10-29T00:50:01.286004+00:00",
+          "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+          "evidence": {
+            "actual_pdf": {
+              "checked_at": "2026-10-29T00:48:04.935183+00:00",
+              "source_url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
+              "robots_http_status": 200,
+              "http_status": 200,
+              "content_type": "application/pdf",
+              "location": null,
+              "bytes": 788335,
+              "resource_sha256": "246091c2248a23270e59223e01c05b9151fb70cdabaa523a64741f481198e555",
+              "local_path": "/workspace/scratch/6422be16c397/run3-ransomware.pdf"
+            },
+            "prior_pdf_hash_matches": true,
+            "verified_document_type": "research_paper",
+            "printed_complete_author_order": [
+              "Cheah Zhen Yang",
+              "Joshua Angelo Kana",
+              "Arvind Skanda Dharmendran",
+              "Muhamad Haziq Bin Jasni",
+              "Dinesh A/L S Rajandran",
+              "Ung Qi Hang",
+              "Wan Efdlin Eirfan",
+              "Siva Raja Sindiramutty"
+            ],
+            "printed_affiliation": "School of Computer Science, Taylor’s University, Subang Jaya, 47500, Selangor Malaysia",
+            "printed_year": 2026,
+            "crossref_original_deposit": {
+              "DOI": "10.54938/ijemdcsai.2026.04.2.659",
+              "title": [
+                "Ransomware Defence Systems"
+              ],
+              "author": [
+                {
+                  "family": "Cheah Zhen Yang, Joshua Angelo Kana",
+                  "sequence": "first",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Arvind Skanda Dharmendran, Muhamad Haziq Bin Jasni",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Dinesh A/L S Rajandran, Ung Qi Hang",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Wan Efdlin Eirfan, Siva Raja Sindiramutty",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                }
+              ],
+              "published": {
+                "date-parts": [
+                  [
+                    2026,
+                    7,
+                    14
+                  ]
+                ]
+              },
+              "type": "journal-article",
+              "publisher": "Publishing House International Enterprise",
+              "container-title": [
+                "International Journal of Emerging Multidisciplinaries: Computer Science &amp; Artificial Intelligence"
+              ],
+              "is-referenced-by-count": 0
+            },
+            "registry_author_defect": "Four family fields each contained two comma-separated complete names; actual printed byline identifies eight distinct authors in matching order.",
+            "title_doi_year_and_current_abstract_match": true,
+            "inspection_depth": "Actual paper front matter, title, byline, DOI/year, complete abstract and opening prose. No full scientific critique."
+          },
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:38:28.338430+00:00",
+            "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
+            "source_url": "https://api.crossref.org/works/10.54938%2Fijemdcsai.2026.04.2.659",
+            "evidence": {
+              "DOI": "10.54938/ijemdcsai.2026.04.2.659",
+              "title": [
+                "Ransomware Defence Systems"
+              ],
+              "author": [
+                {
+                  "family": "Cheah Zhen Yang, Joshua Angelo Kana",
+                  "sequence": "first",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Arvind Skanda Dharmendran, Muhamad Haziq Bin Jasni",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Dinesh A/L S Rajandran, Ung Qi Hang",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                },
+                {
+                  "family": "Wan Efdlin Eirfan, Siva Raja Sindiramutty",
+                  "sequence": "additional",
+                  "affiliation": [],
+                  "role": [
+                    {
+                      "vocabulary": "crossref",
+                      "role": "author"
+                    }
+                  ]
+                }
+              ],
+              "published": {
+                "date-parts": [
+                  [
+                    2026,
+                    7,
+                    14
+                  ]
+                ]
+              },
+              "type": "journal-article",
+              "publisher": "Publishing House International Enterprise",
+              "container-title": [
+                "International Journal of Emerging Multidisciplinaries: Computer Science &amp; Artificial Intelligence"
+              ],
+              "is-referenced-by-count": 0
+            },
+            "comparison": {
+              "title_matches": true,
+              "year_matches": true,
+              "author_families_match": false
+            },
+            "limitations": "Crossref publisher-deposited metadata; version/year/author mismatches remain holds. Crossref reference counts not substituted into upstream quality scores."
           }
         },
         "quality": {
           "status": "passed",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
+          "checked_at": "2026-10-29T00:50:01.286004+00:00",
+          "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
           "evidence": {
             "quality_score": 32.82,
             "quality_venue_score": 40.0,
@@ -26904,135 +27363,81 @@
             "quality_review_threshold": 20.0,
             "quality_core_term_gate": "pass",
             "quality_relevance_gate": "pass",
-            "citation_count_known": true,
+            "citation_count_known": false,
             "quality_review_status": "human_quality_review",
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
+            "evidence": {
+              "quality_score": 32.82,
+              "quality_venue_score": 40.0,
+              "quality_citation_score": 0.0,
+              "quality_relevance_score": 35.29,
+              "quality_institution_score": 80.0,
+              "quality_institution_bonus": 10.0,
+              "quality_title_bonus": 0.0,
+              "quality_auto_threshold": 35.0,
+              "quality_review_threshold": 20.0,
+              "quality_core_term_gate": "pass",
+              "quality_relevance_gate": "pass",
+              "citation_count_known": true,
+              "quality_review_status": "human_quality_review",
+              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+              "quality_requires_review": true
+            },
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+          },
+          "limitations": "Existing thresholds and hard gates, now with printed full author list and verified affiliation; citations remain unknown. No unverified zero or scoring waiver."
         },
-        "format": {
+        "duplicates": {
           "status": "passed",
-          "checked_at": "2026-10-27T23:40:36.676176+00:00",
-          "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
+          "checked_at": "2026-10-29T00:50:01.286004+00:00",
+          "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
           "evidence": {
-            "checked_at": "2026-10-27T23:40:36.676176+00:00",
-            "url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
-            "http_status": 200,
-            "content_type": "application/pdf",
-            "resolved_url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
-            "resource_sha256": "246091c2248a23270e59223e01c05b9151fb70cdabaa523a64741f481198e555",
-            "bytes": 788335,
-            "observed_format": "PDF_requires_front_matter_inspection",
-            "inspection": "Publisher resource/front matter/title/byline/abstract and opening prose inspected; written scholarly resource, not slides. No scientific-quality or peer-review endorsement."
-          }
-        },
-        "access": {
-          "status": "passed",
-          "checked_at": "2026-10-27T23:40:36.676176+00:00",
-          "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
-          "evidence": {
-            "checked_at": "2026-10-27T23:40:36.676176+00:00",
-            "url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
-            "http_status": 200,
-            "content_type": "application/pdf",
-            "resolved_url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
-            "resource_sha256": "246091c2248a23270e59223e01c05b9151fb70cdabaa523a64741f481198e555",
-            "bytes": 788335,
-            "observed_format": "PDF_requires_front_matter_inspection",
-            "inspection": "Publisher resource/front matter/title/byline/abstract and opening prose inspected; written scholarly resource, not slides. No scientific-quality or peer-review endorsement."
-          }
-        },
-        "metadata": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:38:28.338430+00:00",
-          "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
-          "source_url": "https://api.crossref.org/works/10.54938%2Fijemdcsai.2026.04.2.659",
-          "evidence": {
-            "DOI": "10.54938/ijemdcsai.2026.04.2.659",
-            "title": [
-              "Ransomware Defence Systems"
-            ],
-            "author": [
+            "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "exclusions_blob": "653063601c2750fc75a89f397f001089319859b8",
+            "source_counts": {
+              "soups": 797,
+              "virusbulletin": 92,
+              "soups-ancillary": 593,
+              "weekly": 150,
+              "public": 3162,
+              "weekly-upstream": 4041,
+              "apwg": 1,
+              "archive-discovery": 2176
+            },
+            "matches": [],
+            "explicit_exclusion_matches": [],
+            "self_provenance_overlaps": [
               {
-                "family": "Cheah Zhen Yang, Joshua Angelo Kana",
-                "sequence": "first",
-                "affiliation": [],
-                "role": [
-                  {
-                    "vocabulary": "crossref",
-                    "role": "author"
-                  }
-                ]
-              },
-              {
-                "family": "Arvind Skanda Dharmendran, Muhamad Haziq Bin Jasni",
-                "sequence": "additional",
-                "affiliation": [],
-                "role": [
-                  {
-                    "vocabulary": "crossref",
-                    "role": "author"
-                  }
-                ]
-              },
-              {
-                "family": "Dinesh A/L S Rajandran, Ung Qi Hang",
-                "sequence": "additional",
-                "affiliation": [],
-                "role": [
-                  {
-                    "vocabulary": "crossref",
-                    "role": "author"
-                  }
-                ]
-              },
-              {
-                "family": "Wan Efdlin Eirfan, Siva Raja Sindiramutty",
-                "sequence": "additional",
-                "affiliation": [],
-                "role": [
-                  {
-                    "vocabulary": "crossref",
-                    "role": "author"
-                  }
-                ]
+                "source": "weekly-upstream",
+                "identity": "52436"
               }
             ],
-            "published": {
-              "date-parts": [
-                [
-                  2026,
-                  7,
-                  14
-                ]
-              ]
-            },
-            "type": "journal-article",
-            "publisher": "Publishing House International Enterprise",
-            "container-title": [
-              "International Journal of Emerging Multidisciplinaries: Computer Science &amp; Artificial Intelligence"
-            ],
-            "is-referenced-by-count": 0
-          },
-          "comparison": {
-            "title_matches": true,
-            "year_matches": true,
-            "author_families_match": false
-          },
-          "limitations": "Crossref publisher-deposited metadata; version/year/author mismatches remain holds. Crossref reference counts not substituted into upstream quality scores."
+            "scope": "Fresh exact DOI/canonical URLs/normalized title across corpus, prepared/ancillary sources,2176 raw archive identities and4041 retained weekly rows; explicit exclusions respected. Same current/upstream identity excluded."
+          }
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-10-29T00:50:01.286004+00:00",
+          "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+          "evidence": "Await taxonomy and disposable target schema on corrected current hash; no prior schema/recommendation inherited.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "b8d90785d2b2f4af1b39ab88caa74938aea23fef0a2f1fa47d4bddcb6b2cf223",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "metadata",
         "schema"
       ],
       "verified_document_type": "research_paper"
@@ -43301,8 +43706,8 @@
         "held": 96
       },
       "metadata": {
-        "passed": 59,
-        "held": 91
+        "passed": 60,
+        "held": 90
       },
       "duplicates": {
         "passed": 149,
@@ -43313,12 +43718,12 @@
         "held": 1
       },
       "schema": {
-        "passed": 47,
-        "held": 103
+        "passed": 48,
+        "held": 102
       }
     }
   },
-  "updated_at": "2026-10-29T00:44:58.481085+00:00",
+  "updated_at": "2026-10-29T00:50:01.286004+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
