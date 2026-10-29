@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-10-29T02:31:06.982090+00:00",
-  "policy_version": 12,
-  "openalex_requests": 0,
+  "checked_at": "2026-10-29T02:45:10.075963+00:00",
+  "policy_version": 13,
+  "openalex_requests": 1,
   "records": [
     {
       "collection": "soups",
@@ -1251,19 +1251,30 @@
       "quality_status": "hold_below_review_threshold",
       "fresh_duplicate_snapshot": true,
       "registry_plan": {
-        "eligible": true,
-        "reason": "Targeted verified bibliometrics may affect provisional score32.82 versus existing45 review threshold; first resolve supported credential execution and retain one-lookup policy.",
+        "eligible": false,
+        "reason": "Current exact-DOI OpenAlex count0 verified and cached; do not repeat unchanged lookup or pay for taxonomy while quality remains held. Retry only for stale evidence or relevant input change.",
         "automatic_openalex_request": false
       },
       "prior_content_hashes": [
         "57fa8a01738ca894a5073264c228495838e4d25c84a5625e0129449f5008740e"
       ],
-      "updated_at": "2026-10-29T01:57:10.702080+00:00",
-      "disposition": "held_provisional_quality_after_issue_year_reconciliation",
+      "updated_at": "2026-10-29T02:45:10.075963+00:00",
+      "disposition": "held_below_review_threshold_verified_zero_citations",
       "remaining_blockers": [
         "quality",
         "schema"
-      ]
+      ],
+      "citation_verification": {
+        "status": "passed",
+        "checked_at": "2026-10-29T02:42:39.371806+00:00",
+        "content_sha256": "99ac3214a581bd3f2b7f4b2198814f914d155ab4593fd149e6436916398bb74e",
+        "provider": "OpenAlex",
+        "work_id": "https://openalex.org/W7220394380",
+        "cited_by_count": 0,
+        "receipt": "config/content_review_registry_receipts/a5345e4ed31c5299e7546de2e48901bdda8184b3e22f5cc75c696fd34e4fda10.json",
+        "identity_basis": "Exact DOI and normalized title match; registry first author matches verified canonical first author. Full publisher/PDF three-author byline remains authoritative.",
+        "metadata_limitations": "Registry still lists only first author and publication_year2026. Keep verified printed issue year2025, publisher online2026 date and complete three-author byline; do not undo prior reconciliation. Citation counts are provider-specific, not reference counts."
+      }
     },
     {
       "collection": "weekly",
@@ -2294,7 +2305,7 @@
   ],
   "summary": {
     "held_intake_tracked": 186,
-    "deferred_registry": 185,
+    "deferred_registry": 186,
     "alternative_enrichment_eligible": 0,
     "manual_ready_current": 4,
     "human_rejected": 1,
@@ -2306,9 +2317,10 @@
       "subsequently_human_rejected": 1
     },
     "approved_validated_publication_pending": 1,
-    "targeted_registry_eligible": 1,
+    "targeted_registry_eligible": 0,
     "taxonomy_source_corrections_this_run": 3,
     "approved_validated_this_run": 1,
-    "known_approved_validated_publication_pending": 2
+    "known_approved_validated_publication_pending": 2,
+    "credentialed_registry_lookup_completed": 1
   }
 }
