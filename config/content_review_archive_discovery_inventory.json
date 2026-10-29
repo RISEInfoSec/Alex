@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-29T02:26:39.588697+00:00",
+  "updated_at": "2026-10-29T02:57:44.715535+00:00",
   "scope": "Canonical resource URL inventory from checkpointed historical programme pages; supplement to existing source inventories, not complete archive coverage. Counts overlap existing manifests and the prior1398-entry VB aggregate.",
   "publication_approved": false,
   "coverage_complete": false,
   "summary": {
     "soups": {
-      "unique_observed_urls": 812,
+      "unique_observed_urls": 813,
       "review_ready": 0,
       "excluded_by_exact_canonical_url": 7
     },
     "virusbulletin": {
-      "unique_observed_urls": 1399,
+      "unique_observed_urls": 1400,
       "review_ready": 0,
       "excluded_by_exact_canonical_url": 3
     }
@@ -55353,14 +55353,64 @@
         "quality",
         "schema"
       ]
+    },
+    {
+      "discovery_identity": "soups-url-55a751a811579caa91c3bf44",
+      "collection": "soups",
+      "source_url": "https://cups.cs.cmu.edu/soups/2010/EngineersarePeopleTooSOUPS2010Shostack.pptx",
+      "observed_title": "slides",
+      "document_type": "format_unverified",
+      "review_ready": false,
+      "recommendation": null,
+      "disposition": "unprocessed_discovery",
+      "first_seen_at": "2026-10-29T02:57:44.715535+00:00",
+      "provenance": [
+        {
+          "discovery_url": "https://cups.cs.cmu.edu/soups/2010/program.html",
+          "checked_at": "2026-10-29T02:57:44.715535+00:00"
+        }
+      ],
+      "preflight_blockers": [
+        "format",
+        "access",
+        "metadata",
+        "duplicates",
+        "quality",
+        "schema"
+      ]
+    },
+    {
+      "discovery_identity": "virusbulletin-url-8a3273d07344aa4fa899d3b6",
+      "collection": "virusbulletin",
+      "source_url": "https://virusbulletin.com/uploads/pdf/conference/vb96/VB96report.pdf",
+      "observed_title": "here",
+      "document_type": "format_unverified",
+      "review_ready": false,
+      "recommendation": null,
+      "disposition": "unprocessed_discovery",
+      "first_seen_at": "2026-10-29T02:57:44.715535+00:00",
+      "provenance": [
+        {
+          "discovery_url": "https://virusbulletin.com/conference/vb96/",
+          "checked_at": "2026-10-29T02:57:44.715535+00:00"
+        }
+      ],
+      "preflight_blockers": [
+        "format",
+        "access",
+        "metadata",
+        "duplicates",
+        "quality",
+        "schema"
+      ]
     }
   ],
   "resume_queue": {
     "soups": [
-      "https://cups.cs.cmu.edu/soups/2010/"
+      "https://cups.cs.cmu.edu/soups/2011/"
     ],
     "virusbulletin": [
-      "https://virusbulletin.com/conference/vb96/"
+      "https://virusbulletin.com/conference/vb95/"
     ]
   },
   "vblocalhost_limitation": "Conference page retrieved; alternative item-link structure not extracted by abstract-path parser. Requires dedicated link parser; no claim of complete2021 coverage.",
