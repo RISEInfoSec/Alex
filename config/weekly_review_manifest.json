@@ -31840,6 +31840,7 @@
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
+        "access",
         "metadata",
         "schema"
       ],
@@ -31907,20 +31908,31 @@
             "inspection": "Publisher article page or PDF front matter/title/byline/abstract/opening prose inspected; written journal article; no peer-review or quality endorsement."
           },
           "access": {
-            "status": "passed",
-            "checked_at": "2026-10-27T23:04:13.427081+00:00",
+            "status": "held",
+            "checked_at": "2026-10-29T00:56:55.068703+00:00",
             "content_sha256": "1842c903d51c6c0a95cb4006438266d10d06f48bfe566c02f2a9b7c9d6119faf",
             "evidence": {
-              "checked_at": "2026-10-27T23:04:13.427081+00:00",
-              "url": "http://baltijapublishing.lv/index.php/issue/article/download/4889/4772",
-              "http_status": 200,
-              "content_type": "application/pdf",
-              "resolved_url": "http://baltijapublishing.lv/index.php/issue/article/download/4889/4772",
-              "resource_sha256": "6ac8caf819143adc0b1bc2b9b234806cb66bdb6e9a903cdcad8609bff9dbabf6",
-              "bytes": 327050,
-              "observed_format": "PDF_requires_front_matter_inspection"
+              "robots_http_status": 503,
+              "origin": "https://baltijapublishing.lv",
+              "document_requested": false
             },
-            "inspection": "Publisher article page or PDF front matter/title/byline/abstract/opening prose inspected; written journal article; no peer-review or quality endorsement."
+            "prior_evidence": {
+              "status": "passed",
+              "checked_at": "2026-10-27T23:04:13.427081+00:00",
+              "content_sha256": "1842c903d51c6c0a95cb4006438266d10d06f48bfe566c02f2a9b7c9d6119faf",
+              "evidence": {
+                "checked_at": "2026-10-27T23:04:13.427081+00:00",
+                "url": "http://baltijapublishing.lv/index.php/issue/article/download/4889/4772",
+                "http_status": 200,
+                "content_type": "application/pdf",
+                "resolved_url": "http://baltijapublishing.lv/index.php/issue/article/download/4889/4772",
+                "resource_sha256": "6ac8caf819143adc0b1bc2b9b234806cb66bdb6e9a903cdcad8609bff9dbabf6",
+                "bytes": 327050,
+                "observed_format": "PDF_requires_front_matter_inspection"
+              },
+              "inspection": "Publisher article page or PDF front matter/title/byline/abstract/opening prose inspected; written journal article; no peer-review or quality endorsement."
+            },
+            "reason": "Current publisher robots endpoint503 prevents permitted fresh source verification; document not requested. Preserve earlier passed evidence separately and retry access on a later bounded pass."
           },
           "metadata": {
             "status": "held",
@@ -33989,7 +34001,7 @@
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-29T00:54:34.785626+00:00",
+            "checked_at": "2026-10-29T00:56:55.068703+00:00",
             "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
             "evidence": {
               "paid_taxonomy_and_serialization": {
@@ -34050,7 +34062,7 @@
                   },
                   "workflow_run_id": 40796698652
                 },
-                "revalidated_at": "2026-10-29T00:54:34.826715+00:00",
+                "revalidated_at": "2026-10-29T00:56:55.107184+00:00",
                 "prior_evidence": {
                   "status": "held",
                   "checked_at": "2026-10-29T00:50:01.286004+00:00",
