@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-10-30T16:47:08.357326+00:00",
+  "checked_at": "2026-10-30T16:56:49.146148+00:00",
   "policy_version": 13,
   "openalex_requests": 1,
   "records": [
@@ -1208,8 +1208,11 @@
       "fresh_duplicate_snapshot": false,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "independent_access_hold_resolve_before_scarce_registry_requests",
+        "automatic_openalex_request": false
+      },
+      "disposition": "publisher_access_hold",
+      "updated_at": "2026-10-30T16:56:49.146148+00:00"
     },
     {
       "collection": "weekly",
@@ -1230,8 +1233,11 @@
       "fresh_duplicate_snapshot": false,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "independent_access_hold_resolve_before_scarce_registry_requests",
+        "automatic_openalex_request": false
+      },
+      "disposition": "publisher_access_hold",
+      "updated_at": "2026-10-30T16:56:49.146148+00:00"
     },
     {
       "collection": "weekly",
@@ -1337,8 +1343,11 @@
       "fresh_duplicate_snapshot": false,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "independent_access_hold_resolve_before_scarce_registry_requests",
+        "automatic_openalex_request": false
+      },
+      "disposition": "publisher_access_hold",
+      "updated_at": "2026-10-30T16:56:49.146148+00:00"
     },
     {
       "collection": "weekly",
@@ -2241,11 +2250,15 @@
       "candidate_id": "weekly-30ccc34f37ae0f7955691eff",
       "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
       "quality_status": "human_quality_review",
-      "fresh_duplicate_snapshot": false,
+      "fresh_duplicate_snapshot": true,
       "registry_plan": {
         "eligible": false,
-        "reason": "fresh_duplicate_snapshot_first"
-      }
+        "reason": "all_six_gates_complete_sealed_batch23_awaits_human_decision",
+        "automatic_openalex_request": false
+      },
+      "disposition": "manual_ready",
+      "remaining_blockers": [],
+      "updated_at": "2026-10-30T16:56:49.146148+00:00"
     },
     {
       "collection": "weekly",
@@ -2337,12 +2350,12 @@
     }
   ],
   "summary": {
-    "held_intake_tracked": 184,
-    "deferred_registry": 184,
+    "held_intake_tracked": 181,
+    "deferred_registry": 181,
     "alternative_enrichment_eligible": 0,
-    "manual_ready_current": 0,
+    "manual_ready_current": 1,
     "human_rejected": 1,
-    "manual_ready_added_this_run": 2,
+    "manual_ready_added_this_run": 1,
     "taxonomy_content_held_this_run": 0,
     "previous_openalex_six": {
       "independent_core_gate_deferred": 5,
