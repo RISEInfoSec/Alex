@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "correction_id": "2972bc3301e3f5773dc8dcdbc65b92af4fcc16e4c12e794de2f470f73caca203",
+  "candidate_id": "weekly-482ccf6c579121893c36c2b4",
+  "content_sha256": "5fce8f81d9b5d8115a8e279b753ba583ab77cc50368d1ba58959aaf019bdadff",
+  "applied_at": "2026-10-30T19:50:51.778497+00:00",
+  "before": {
+    "Category": "AI/ML for Security",
+    "Investigation_Type": "Vulnerability Assessment",
+    "OSINT_Source_Types": [
+      "Other"
+    ]
+  },
+  "after": {
+    "Category": "AI/ML for Security",
+    "Investigation_Type": "Vulnerability Assessment",
+    "OSINT_Source_Types": [
+      "Code Repositories"
+    ]
+  },
+  "schema": {
+    "status": "passed",
+    "checked_at": "2026-10-30T19:50:51.778497+00:00",
+    "content_sha256": "5fce8f81d9b5d8115a8e279b753ba583ab77cc50368d1ba58959aaf019bdadff",
+    "evidence": {
+      "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+      "target_record_sha256": "e8deb07d59439e960d3e190907b65678727c0ecc3f72866489eabcf6175f8358",
+      "document_type": "research_paper",
+      "corpus_modified": false,
+      "publication_approved": false,
+      "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-10-30T19:01:22.983149+00:00",
+        "content_sha256": "5fce8f81d9b5d8115a8e279b753ba583ab77cc50368d1ba58959aaf019bdadff",
+        "evidence": {
+          "classification": {
+            "Category": "AI/ML for Security",
+            "Investigation_Type": "Vulnerability Assessment",
+            "OSINT_Source_Types": [
+              "Code Repositories"
+            ]
+          },
+          "response_id": "resp_0ec2d1fa13ed4df4016ae4e981cf0c87d08f3686b33f753847",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 639,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 27,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 666
+          },
+          "uncertainty_flags": [],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "AI/ML for Security",
+            "Investigation_Type": "Vulnerability Assessment",
+            "OSINT_Source_Types": [
+              "Other"
+            ]
+          },
+          "correction_id": "2972bc3301e3f5773dc8dcdbc65b92af4fcc16e4c12e794de2f470f73caca203"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "41111655930",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+        "source_correction_applied_at": "2026-10-30T19:50:51.778497+00:00"
+      },
+      "source_correction_id": "2972bc3301e3f5773dc8dcdbc65b92af4fcc16e4c12e794de2f470f73caca203",
+      "source_document_sha256": "a22b448f0071018b4837405b05945e545ba88037167534cb0c69ba5d160d8228",
+      "original_paid_target_sha256": "5711e1f8bb2372fe9b52c6a1127eb41c2342fe6503e051bb31f285afb5794584",
+      "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+    }
+  },
+  "paid_request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+  "paid_response_id": "resp_0ec2d1fa13ed4df4016ae4e981cf0c87d08f3686b33f753847",
+  "additional_paid_requests": 0,
+  "corpus_modified": false,
+  "publication_approved": false
+}
