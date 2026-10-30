@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "owner": "codex-content-review-worker",
-    "run_id": "content-review-20261030T194727Z-dc4bb6c9",
-    "acquired_at": "2026-10-30T19:47:27.971Z",
-    "expires_at": "2026-10-30T20:17:27.971Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -27,15 +22,15 @@
   "pending_mechanical_jobs": 31,
   "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
   "workflow": "preflight_first",
-  "preflight_pending": 195,
+  "preflight_pending": 190,
   "preflight_source_counts": {
     "soups": 88,
-    "weekly": 107
+    "weekly": 102
   },
   "global_deficit": 250,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-10-30T19:11:29.609Z",
-  "last_action": "Reconciled latest weekly batch23 approval and completed its final source/duplicate/serialization checks with no repeat paid call. Accounted for every4041 preserved weekly identity in a fresh row ledger; no additive arrivals. Recovered21 unchanged source documents from the saved30-check checkpoint and checked20 new documents,41 current requests/50 unique cumulative sources. Added26 source-verified preflight candidates and independently consumed both paid artifacts:26 real calls17204tokens. Twelve now pass all gates:7 manual candidates with substantive include/exclude recommendations await13 more for an exact20 batch;5 qualifying regular automatic handoffs staged separately.13 positive source-tag support checks and1 truncated-abstract case remain held;15 other source/version/abstract mismatches remain in the raw row ledger. Actual new full batches0/10 and ready0/200; shared ready0/250. Prior four published records and remaining approvals preserved; no public import/merge/deploy or repeated OpenAlex failures.",
+  "last_completed_at": "2026-10-30T19:53:56.871Z",
+  "last_action": "Resolved five manual-route weekly taxonomy source-provenance holds from unchanged verified documents with immutable source-only corrections and no paid/source/OpenAlex calls. All five now pass six gates and have substantive include recommendations with limitations. The cleared manual remainder is12 and needs8 more for the next exact20 batch; no batch was sealed, ready remains0/250, and the daily result remains0/200. Preserved all4041 identities, all prior batches/decisions, six automatic handoffs, five validated publication-pending approvals and the IllinoisState release hold. No public import, merge or deployment.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -55,9 +50,9 @@
     "fresh_cross_source_duplicates_held": 3,
     "preflight_openai_requests": 95,
     "legacy_accepted_openai_requests": 0,
-    "pre_review_taxonomy_and_target_schema_passed": 81,
-    "current_hash_substantive_recommendations": 80,
-    "recommendations_changed_this_run": 12,
+    "pre_review_taxonomy_and_target_schema_passed": 86,
+    "current_hash_substantive_recommendations": 85,
+    "recommendations_changed_this_run": 5,
     "openalex_retry_requests_this_run": 0,
     "openalex_rate_limits_this_run": 0,
     "tracked_accepted_total": 316,
@@ -69,26 +64,27 @@
     "legacy_quality_inputs_reconciled_this_run": 0,
     "fresh_duplicate_rechecks_this_run": 7,
     "legacy_abstract_boundary_holds_this_run": 0,
-    "original_pdf_hashes_revalidated_this_run": 22,
+    "original_pdf_hashes_revalidated_this_run": 5,
     "newly_rejected_this_run": 0,
     "paid_schema_serialization_passed": 95,
     "publisher_metadata_repairs_this_run": 26,
-    "paid_requests_this_run": 26,
-    "paid_tokens_this_run": 17204,
-    "taxonomy_content_holds_this_run": 13,
+    "paid_requests_this_run": 0,
+    "paid_tokens_this_run": 0,
+    "taxonomy_content_holds_this_run": 8,
     "publisher_robots_access_holds_this_run": 0,
-    "taxonomy_content_holds_total": 13,
+    "taxonomy_content_holds_total": 8,
     "publisher_access_denials_this_run": 0,
     "publisher_access_holds_resolved_by_legitimate_alternative_this_run": 0,
     "actual_source_pdfs_verified_this_run": 26,
-    "taxonomy_source_corrections_this_run": 1,
-    "tests_passed": 43,
+    "taxonomy_source_corrections_this_run": 5,
+    "tests_passed": 60,
     "poster_bot_wall_holds_this_run": 0,
     "legacy_optional_identifier_subchecks_completed_this_run": 0,
     "new_truncated_abstract_holds_this_run": 1,
-    "source_documents_checked_this_run": 41,
-    "new_source_documents_this_run": 20,
-    "first_five_gates_current_passed_new": 25
+    "source_documents_checked_this_run": 0,
+    "new_source_documents_this_run": 0,
+    "first_five_gates_current_passed_new": 0,
+    "source_documents_reused_this_run": 5
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
   "last_started_at": "2026-10-30T19:47:27.971Z",
@@ -98,8 +94,8 @@
     "source_blob_sha": "32a7992a37b15d3d5f698354a0209157660a9d66",
     "source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
     "new_arrivals": 0,
-    "refresh_result": "Current main CSV bytes/blob unchanged; original4041 identities and their preserved fingerprints retained. New row ledger separately records complete raw-row digests. No original identity was rewritten.",
-    "refreshed_at": "2026-10-30T19:11:29.609Z"
+    "refresh_result": "Current main CSV blob remains32a7992a37b15d3d5f698354a0209157660a9d66; all4041 original identities/fingerprints preserved. No additive arrivals.",
+    "refreshed_at": "2026-10-30T19:53:56.871Z"
   },
   "preflight_checkpoint": "config/content_review_preflight_status.json",
   "preflight_stage_totals": {
@@ -125,8 +121,8 @@
       "duplicates_passed": 175,
       "quality_held": 3,
       "quality_passed": 173,
-      "schema_held": 107,
-      "schema_passed": 69
+      "schema_held": 102,
+      "schema_passed": 74
     }
   },
   "reconciliation": {
@@ -138,15 +134,15 @@
     "completed_assessment_jobs": 64,
     "completed_corpus_removal_jobs": 490,
     "remaining_immutable_jobs": 31,
-    "verified_at": "2026-10-30T19:09:58.985Z",
-    "reuse_basis": "All60 complete submissions read twice; all59 prior immutable submission identities/revisions/payload hashes matched the retained complete snapshot. The one new batch23 approval/decision and two immutable jobs were read live and matched exact candidate/hash/recommendation. Previous913 decisions/583 jobs reused, yielding914/585. Raw POST bodies are not retained, so new server payload hashes were observed rather than independently rehashed.",
+    "verified_at": "2026-10-30T19:53:56.871Z",
+    "reuse_basis": "All60 submissions were read live; trailing decision/job pages confirm unchanged totals914/585. No new console decision or immutable job appeared. Prior exact snapshots and hashes were reused.",
     "server_payload_hashes_observed": 60,
     "new_submission_raw_payload_rehash_available": false
   },
   "blocked_sources": [
     {
       "source": "weekly_taxonomy_source_support",
-      "reason": "13 candidates have actual successful paid enum/serialization results, but positive OSINT source tags still require original source-section evidence. Preserve artifacts; inspect/correct without paying again for unchanged content.",
+      "reason": "8 candidates retain actual successful paid enum/serialization results but positive OSINT source tags still require original source-section evidence. Five manual-route holds were resolved this pass without another paid call.",
       "exhausted": false
     },
     {
@@ -172,46 +168,40 @@
   ],
   "held_stage": {
     "stage": "full_batch_remainder_and_source_evidence",
-    "reason": "Seven manually cleared candidates await13 more for a full20 batch;5 new automatic handoffs are separate.13 new taxonomy-source holds,1 truncated abstract and15 raw source mismatches retained. Actual ready0/250 and0/200 daily target. Total manifest holds195; raw row flags overlap and are not additional disjoint inventory."
+    "reason": "Twelve manually cleared candidates await8 more for an exact20 batch. Eight taxonomy-source holds,1 truncated abstract and15 raw source/version mismatches remain. Actual ready0/250 and0/200 daily target."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-30T19:11:29.609Z",
-    "scope": "weekly_backlog_full_batch_campaign",
+    "verified_at": "2026-10-30T19:53:56.871Z",
+    "scope": "weekly_backlog_manual_source_tag_resolution",
     "workflow_version": 14,
     "d1_completed_submissions": 60,
     "d1_decisions": 914,
     "d1_jobs": 585,
-    "new_console_acceptances": 1,
+    "new_console_acceptances": 0,
     "new_console_rejections": 0,
-    "final_validated_acceptances": 1,
     "ready_total": 0,
     "global_deficit": 250,
     "new_full_batches": 0,
     "daily_ready_target": 200,
     "daily_new_ready": 0,
     "daily_shortfall": 200,
-    "cleared_awaiting_full_batch": 7,
-    "new_automatic_handoffs": 5,
+    "cleared_awaiting_full_batch": 12,
+    "new_automatic_handoffs": 0,
     "initial_preflight_holds": 181,
-    "total_manifest_holds": 195,
+    "total_manifest_holds": 190,
     "source_reserve_enabled": false,
-    "paid_requests": 26,
-    "paid_tokens": 17204,
-    "paid_runs": [
-      41111205240,
-      41111655930
-    ],
-    "source_corrections": 1,
+    "paid_requests": 0,
+    "paid_tokens": 0,
+    "source_corrections": 5,
     "openalex_requests": 0,
-    "source_documents_checked": 41,
-    "new_source_documents": 20,
+    "source_documents_checked": 0,
+    "source_documents_reused": 5,
     "identity_abstract_triage_rows": 4041,
-    "preflight_checkpoint": "config/content_review_mechanical_checkpoints/2026-10-30T1909Z-weekly-campaign.json",
-    "accepted_final_checkpoint": "config/content_review_mechanical_checkpoints/2026-10-30T1852Z-batch23-final.json",
+    "preflight_checkpoint": "config/content_review_mechanical_checkpoints/2026-10-30T1950Z-manual-source-tags-5.json",
     "public_corpus_modified": false,
     "published_count": 0
   },
-  "checkpointed_at": "2026-10-30T19:11:29.609Z",
+  "checkpointed_at": "2026-10-30T19:53:56.871Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
@@ -231,12 +221,10 @@
     }
   },
   "next_actions": [
-    "Resume the4041-row ledger. Seven six-gate-cleared manual candidates with include/exclude reasons need13 additional eligible candidates before sealing a new exactly20-paper batch. Preserve all prior sealed memberships/numbers and votes.",
-    "Inspect source/method sections for13 positive OSINT source-tag support holds. Reuse the two completed paid artifacts; apply the tested immutable source-only amendment path where justified, without another call for unchanged content.",
-    "Recover the complete original abstract for source_row531, preserve its truncated version and actual paid usage, rebind the new hash and rerun only dependent checks. Reconcile15 other original-document abstract/version/identity differences using saved PDFs and hashes.",
-    "Continue promising complete-abstract weekly records across all sources under current scoring/automatic rules. Actual daily full batches0/10 and ready0/200; do not fill targets with raw rows or automatic-route candidates.",
-    "Consume six pending regular automatic handoffs only through the configured specifically authorized release executor and final freshness checks; no manual vote is required. Five approved human records are final-validated/publication-pending; preserve the IllinoisState release hold and prior authorization without repeating an unchanged failure.",
-    "Refresh live complete decisions and main corpus/weekly arrivals before any batch admission. All4041 original identities/fingerprints retained; add new arrivals/version evidence without replacement. Archive expansion remains secondary."
+    "Continue the4041-row ledger:12 six-gate-cleared manual candidates with include/exclude reasons need8 additional eligible candidates before sealing the next exact20 batch.",
+    "Inspect source/method sections for the8 remaining positive OSINT source-tag holds, reusing completed paid artifacts and unchanged PDFs without another call.",
+    "Recover the complete original abstract for source_row531 and reconcile15 saved source/version/abstract differences before any new paid classification.",
+    "Keep six regular automatic handoffs separate from the manual target; refresh their final checks only through the established authorized executor. Preserve five final-validated human approvals and the IllinoisState403 release hold without repeating it."
   ],
   "paid_execution": {
     "status": "operational_verified",
@@ -314,17 +302,17 @@
   },
   "mechanical_passed_awaiting_batch_admission": {
     "soups": 0,
-    "weekly": 7
+    "weekly": 12
   },
   "preflight_hold_counts": {
     "soups": 88,
-    "weekly": 107
+    "weekly": 102
   },
   "recommendation_result_totals": {
-    "current_hash_substantive_recommendations": 80,
-    "weekly": 68,
+    "current_hash_substantive_recommendations": 85,
+    "weekly": 73,
     "soups": 12,
-    "include": 57,
+    "include": 62,
     "discuss": 21,
     "exclude": 2,
     "full_papers_claimed_reviewed": 0,
@@ -332,8 +320,8 @@
     "complete_stable_batches": 0,
     "full_pending_batches": 0,
     "full_soups_pending_batches": 0,
-    "assessed_at": "2026-10-30T19:11:29.609Z",
-    "cleared_manual_awaiting_full_batch": 7
+    "assessed_at": "2026-10-30T19:53:56.871Z",
+    "cleared_manual_awaiting_full_batch": 12
   },
   "pending_mechanical_jobs_basis": "585 immutable jobs;64 accepted assessments and490 applied removal jobs complete. Remaining31 are13 held assessments and18 partial buffer reconciliations; no existing job or decision replayed.",
   "publication_status": {
@@ -490,9 +478,9 @@
     "targeted_registry_eligible": 0,
     "local_supported_credential_parameter_available": false,
     "repository_credential_execution_verified": true,
-    "source_corrections_completed": 6,
-    "first_five_new_passes": 25,
-    "source_tag_support_holds": 13,
+    "source_corrections_completed": 11,
+    "first_five_new_passes": 0,
+    "source_tag_support_holds": 8,
     "truncated_abstract_hold": 1
   },
   "registry_execution": {
@@ -530,7 +518,7 @@
   "scheduling_status": {
     "automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
     "is_enabled": true,
-    "observed_at": "2026-10-30T19:11:29.609Z",
+    "observed_at": "2026-10-30T19:53:56.871Z",
     "source": "Native Sites get_site returned existing enabled hourly schedule",
     "changed_this_pass": false
   },
@@ -541,23 +529,26 @@
     "full_batches_only": true,
     "processing_inventory": "config/weekly_backlog_processing_inventory.json",
     "source_checkpoint": "config/content_review_backlog_source_checkpoints/2026-10-30-campaign-documents.json",
-    "source_documents_checked": 41,
+    "source_documents_checked": 0,
     "cumulative_unique_source_document_checks": 50,
     "identity_abstract_triage_rows": 4041,
     "triage_is_not_substantive_screening": true,
-    "new_source_preflight_candidates": 26,
-    "all_six_gates_passed_this_run": 12,
-    "manual_cleared_awaiting_full20_batch": 7,
-    "next_batch_additional_passes_needed": 13,
-    "new_automatic_handoffs": 5,
+    "new_source_preflight_candidates": 0,
+    "all_six_gates_passed_this_run": 5,
+    "manual_cleared_awaiting_full20_batch": 12,
+    "next_batch_additional_passes_needed": 8,
+    "new_automatic_handoffs": 0,
     "new_fully_validated_review_ready": 0,
     "completed_full_batches_today": 0,
     "daily_ready_shortfall": 200,
-    "source_tag_support_holds": 13,
+    "source_tag_support_holds": 8,
     "truncated_abstract_holds": 1,
     "other_source_identity_or_abstract_reconciliation_holds": 15,
-    "stage": "seven_manual_cleared_awaiting_full_batch_and_source_support_work",
+    "stage": "twelve_manual_cleared_awaiting_eight_more_for_full20",
     "review_contract": "Only fully validated publication-review candidates; substantive include/exclude reason after gates; new batches exactly20. Automatic-route survivors are separate and do not fill a manual target.",
-    "checked_at": "2026-10-30T19:11:29.609Z"
+    "checked_at": "2026-10-30T19:53:56.871Z",
+    "source_documents_reused": 5,
+    "processing_inventory_sha": "9224eb9fb291204088087b6e35a141365f9efb0c",
+    "checkpoint": "config/content_review_mechanical_checkpoints/2026-10-30T1950Z-manual-source-tags-5.json"
   }
 }
