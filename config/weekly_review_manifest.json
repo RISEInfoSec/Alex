@@ -38324,15 +38324,47 @@
           },
           "access": {
             "status": "held",
-            "checked_at": "2026-10-27T23:04:30.294970+00:00",
+            "checked_at": "2026-10-30T16:50:58.355752+00:00",
             "content_sha256": "079a26e9f1d73c12fc656d8e4a2232c6297605170a3014f4944f92292ee5edba",
             "evidence": {
-              "checked_at": "2026-10-27T23:04:30.294970+00:00",
-              "url": "https://www.emerald.com/iimtjm/article-pdf/3/2/296/11897484/iimtjm-01-2026-0001en.pdf",
-              "error": "HTTPError: HTTP Error 403: Forbidden",
-              "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+              "name": "weekly-16a1bf792936ad74716079fe",
+              "url": "https://www.emerald.com/iimtjm/article/3/2/296/1400964/Trends-and-developments-in-individual-financial",
+              "checked_at": "2026-10-30T16:45:38.743951+00:00",
+              "hops": [
+                {
+                  "url": "https://doi.org/10.1108/iimtjm-01-2026-0001",
+                  "http_status": 302,
+                  "resource_sha256": "bc9fd49b2b772fd5cb1d8df470e625b7b9aae98ec0959f82d50e4f12fd7af2f6",
+                  "bytes": 289,
+                  "content_type": "text/html;charset=utf-8"
+                },
+                {
+                  "url": "https://www.emerald.com/iimtjm/article/3/2/296/1400964/Trends-and-developments-in-individual-financial",
+                  "http_status": 403,
+                  "resource_sha256": "1766c5b24355ff6970d984fff3b7e2b980bb18092decda35d2bd6c0112b98bd7",
+                  "bytes": 6354,
+                  "content_type": "text/html; charset=UTF-8"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 403,
+              "resource_sha256": "1766c5b24355ff6970d984fff3b7e2b980bb18092decda35d2bd6c0112b98bd7",
+              "bytes": 6354,
+              "content_type": "text/html; charset=UTF-8"
             },
-            "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+            "reason": "Publisher HTTP403 access denial; no bypass attempted. Format/metadata/schema retain their own evidence holds. Seek a legitimate accessible repository copy.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:04:30.294970+00:00",
+              "content_sha256": "079a26e9f1d73c12fc656d8e4a2232c6297605170a3014f4944f92292ee5edba",
+              "evidence": {
+                "checked_at": "2026-10-27T23:04:30.294970+00:00",
+                "url": "https://www.emerald.com/iimtjm/article-pdf/3/2/296/11897484/iimtjm-01-2026-0001en.pdf",
+                "error": "HTTPError: HTTP Error 403: Forbidden",
+                "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+              },
+              "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+            }
           },
           "metadata": {
             "status": "passed",
@@ -38419,7 +38451,53 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_access_followups": [
+        {
+          "status": "held",
+          "checked_at": "2026-10-30T16:50:58.355752+00:00",
+          "content_sha256": "079a26e9f1d73c12fc656d8e4a2232c6297605170a3014f4944f92292ee5edba",
+          "evidence": {
+            "name": "weekly-16a1bf792936ad74716079fe",
+            "url": "https://www.emerald.com/iimtjm/article/3/2/296/1400964/Trends-and-developments-in-individual-financial",
+            "checked_at": "2026-10-30T16:45:38.743951+00:00",
+            "hops": [
+              {
+                "url": "https://doi.org/10.1108/iimtjm-01-2026-0001",
+                "http_status": 302,
+                "resource_sha256": "bc9fd49b2b772fd5cb1d8df470e625b7b9aae98ec0959f82d50e4f12fd7af2f6",
+                "bytes": 289,
+                "content_type": "text/html;charset=utf-8"
+              },
+              {
+                "url": "https://www.emerald.com/iimtjm/article/3/2/296/1400964/Trends-and-developments-in-individual-financial",
+                "http_status": 403,
+                "resource_sha256": "1766c5b24355ff6970d984fff3b7e2b980bb18092decda35d2bd6c0112b98bd7",
+                "bytes": 6354,
+                "content_type": "text/html; charset=UTF-8"
+              }
+            ],
+            "robots_http_status": 200,
+            "http_status": 403,
+            "resource_sha256": "1766c5b24355ff6970d984fff3b7e2b980bb18092decda35d2bd6c0112b98bd7",
+            "bytes": 6354,
+            "content_type": "text/html; charset=UTF-8"
+          },
+          "reason": "Publisher HTTP403 access denial; no bypass attempted. Format/metadata/schema retain their own evidence holds. Seek a legitimate accessible repository copy.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:04:30.294970+00:00",
+            "content_sha256": "079a26e9f1d73c12fc656d8e4a2232c6297605170a3014f4944f92292ee5edba",
+            "evidence": {
+              "checked_at": "2026-10-27T23:04:30.294970+00:00",
+              "url": "https://www.emerald.com/iimtjm/article-pdf/3/2/296/11897484/iimtjm-01-2026-0001en.pdf",
+              "error": "HTTPError: HTTP Error 403: Forbidden",
+              "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+            },
+            "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+          }
+        }
+      ]
     },
     {
       "candidate_id": "weekly-bc92a562caf705ef01924918",
@@ -38844,15 +38922,47 @@
           },
           "access": {
             "status": "held",
-            "checked_at": "2026-10-27T23:04:43.476874+00:00",
+            "checked_at": "2026-10-30T16:50:58.355752+00:00",
             "content_sha256": "9b4d4d823c4a766616b1f717172895fa5cf49b6d5420cb950728a5ce955c6302",
             "evidence": {
-              "checked_at": "2026-10-27T23:04:43.476874+00:00",
-              "url": "https://journals.sagepub.com/doi/pdf/10.1177/15248380261487139",
-              "error": "HTTPError: HTTP Error 403: Forbidden",
-              "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+              "name": "weekly-df1beabce75f4832f0c4d757",
+              "url": "https://journals.sagepub.com/doi/10.1177/15248380261487139",
+              "checked_at": "2026-10-30T16:46:00.258343+00:00",
+              "hops": [
+                {
+                  "url": "https://doi.org/10.1177/15248380261487139",
+                  "http_status": 302,
+                  "resource_sha256": "acb4bd49657a3edbaec77fa98ebb4f255ff891ff970a21aba074c700f106d021",
+                  "bytes": 201,
+                  "content_type": "text/html;charset=utf-8"
+                },
+                {
+                  "url": "https://journals.sagepub.com/doi/10.1177/15248380261487139",
+                  "http_status": 403,
+                  "resource_sha256": "4d1ef4a8096f44b4af694a7c1e9b88a9c43351c4330bbd5af83ac0637d66a8f1",
+                  "bytes": 6191,
+                  "content_type": "text/html; charset=UTF-8"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 403,
+              "resource_sha256": "4d1ef4a8096f44b4af694a7c1e9b88a9c43351c4330bbd5af83ac0637d66a8f1",
+              "bytes": 6191,
+              "content_type": "text/html; charset=UTF-8"
             },
-            "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+            "reason": "Publisher HTTP403 access denial; no bypass attempted. Format/metadata/schema retain their own evidence holds. Seek a legitimate accessible repository copy.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:04:43.476874+00:00",
+              "content_sha256": "9b4d4d823c4a766616b1f717172895fa5cf49b6d5420cb950728a5ce955c6302",
+              "evidence": {
+                "checked_at": "2026-10-27T23:04:43.476874+00:00",
+                "url": "https://journals.sagepub.com/doi/pdf/10.1177/15248380261487139",
+                "error": "HTTPError: HTTP Error 403: Forbidden",
+                "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+              },
+              "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+            }
           },
           "metadata": {
             "status": "passed",
@@ -38953,7 +39063,53 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_access_followups": [
+        {
+          "status": "held",
+          "checked_at": "2026-10-30T16:50:58.355752+00:00",
+          "content_sha256": "9b4d4d823c4a766616b1f717172895fa5cf49b6d5420cb950728a5ce955c6302",
+          "evidence": {
+            "name": "weekly-df1beabce75f4832f0c4d757",
+            "url": "https://journals.sagepub.com/doi/10.1177/15248380261487139",
+            "checked_at": "2026-10-30T16:46:00.258343+00:00",
+            "hops": [
+              {
+                "url": "https://doi.org/10.1177/15248380261487139",
+                "http_status": 302,
+                "resource_sha256": "acb4bd49657a3edbaec77fa98ebb4f255ff891ff970a21aba074c700f106d021",
+                "bytes": 201,
+                "content_type": "text/html;charset=utf-8"
+              },
+              {
+                "url": "https://journals.sagepub.com/doi/10.1177/15248380261487139",
+                "http_status": 403,
+                "resource_sha256": "4d1ef4a8096f44b4af694a7c1e9b88a9c43351c4330bbd5af83ac0637d66a8f1",
+                "bytes": 6191,
+                "content_type": "text/html; charset=UTF-8"
+              }
+            ],
+            "robots_http_status": 200,
+            "http_status": 403,
+            "resource_sha256": "4d1ef4a8096f44b4af694a7c1e9b88a9c43351c4330bbd5af83ac0637d66a8f1",
+            "bytes": 6191,
+            "content_type": "text/html; charset=UTF-8"
+          },
+          "reason": "Publisher HTTP403 access denial; no bypass attempted. Format/metadata/schema retain their own evidence holds. Seek a legitimate accessible repository copy.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:04:43.476874+00:00",
+            "content_sha256": "9b4d4d823c4a766616b1f717172895fa5cf49b6d5420cb950728a5ce955c6302",
+            "evidence": {
+              "checked_at": "2026-10-27T23:04:43.476874+00:00",
+              "url": "https://journals.sagepub.com/doi/pdf/10.1177/15248380261487139",
+              "error": "HTTPError: HTTP Error 403: Forbidden",
+              "retry_after": "next pass; source backoff; access failure is not scientific rejection"
+            },
+            "inspection": "HTTP response alone is insufficient; unavailable/challenge or uninspected resource remains held."
+          }
+        }
+      ]
     },
     {
       "candidate_id": "weekly-c93b221f1bbf39ef09fa7d61",
@@ -40453,14 +40609,46 @@
           },
           "access": {
             "status": "held",
-            "checked_at": "2026-10-27T23:40:56.710612+00:00",
+            "checked_at": "2026-10-30T16:50:58.355752+00:00",
             "content_sha256": "f9188109e92282c2267e5387744065e45efc57002e156bb960dc89ec92bf6ea9",
             "evidence": {
+              "name": "weekly-f15d53b0bfa77e9300cf97d0",
+              "url": "https://journal-center.litpam.com/index.php/jar/article/view/5117",
+              "checked_at": "2026-10-30T16:46:10.484060+00:00",
+              "hops": [
+                {
+                  "url": "https://doi.org/10.36312/ts51ta05",
+                  "http_status": 302,
+                  "resource_sha256": "8b5b0ce9fca80e11d40c9f696154285c8a8cc26a92058813b8031bca7ba8a436",
+                  "bytes": 215,
+                  "content_type": "text/html;charset=utf-8"
+                },
+                {
+                  "url": "https://journal-center.litpam.com/index.php/jar/article/view/5117",
+                  "http_status": 403,
+                  "resource_sha256": "cb7728a59d00b4ad343a8265953bf4948f653bcea3bbde565d9cbf06bc8a74b1",
+                  "bytes": 141,
+                  "content_type": "text/html;charset=utf8"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 403,
+              "resource_sha256": "cb7728a59d00b4ad343a8265953bf4948f653bcea3bbde565d9cbf06bc8a74b1",
+              "bytes": 141,
+              "content_type": "text/html;charset=utf8"
+            },
+            "reason": "Publisher HTTP403 access denial; no bypass attempted. Format/metadata/schema retain their own evidence holds. Seek a legitimate accessible repository copy.",
+            "prior_evidence": {
+              "status": "held",
               "checked_at": "2026-10-27T23:40:56.710612+00:00",
-              "url": "https://journal-center.litpam.com/index.php/jar/article/download/5117/3581",
-              "error": "HTTPError: HTTP Error 403: Forbidden",
-              "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-              "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+              "content_sha256": "f9188109e92282c2267e5387744065e45efc57002e156bb960dc89ec92bf6ea9",
+              "evidence": {
+                "checked_at": "2026-10-27T23:40:56.710612+00:00",
+                "url": "https://journal-center.litpam.com/index.php/jar/article/download/5117/3581",
+                "error": "HTTPError: HTTP Error 403: Forbidden",
+                "retry_after": "next pass; source backoff; access failure is not scientific rejection",
+                "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+              }
             }
           },
           "metadata": {
@@ -40544,7 +40732,53 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_access_followups": [
+        {
+          "status": "held",
+          "checked_at": "2026-10-30T16:50:58.355752+00:00",
+          "content_sha256": "f9188109e92282c2267e5387744065e45efc57002e156bb960dc89ec92bf6ea9",
+          "evidence": {
+            "name": "weekly-f15d53b0bfa77e9300cf97d0",
+            "url": "https://journal-center.litpam.com/index.php/jar/article/view/5117",
+            "checked_at": "2026-10-30T16:46:10.484060+00:00",
+            "hops": [
+              {
+                "url": "https://doi.org/10.36312/ts51ta05",
+                "http_status": 302,
+                "resource_sha256": "8b5b0ce9fca80e11d40c9f696154285c8a8cc26a92058813b8031bca7ba8a436",
+                "bytes": 215,
+                "content_type": "text/html;charset=utf-8"
+              },
+              {
+                "url": "https://journal-center.litpam.com/index.php/jar/article/view/5117",
+                "http_status": 403,
+                "resource_sha256": "cb7728a59d00b4ad343a8265953bf4948f653bcea3bbde565d9cbf06bc8a74b1",
+                "bytes": 141,
+                "content_type": "text/html;charset=utf8"
+              }
+            ],
+            "robots_http_status": 200,
+            "http_status": 403,
+            "resource_sha256": "cb7728a59d00b4ad343a8265953bf4948f653bcea3bbde565d9cbf06bc8a74b1",
+            "bytes": 141,
+            "content_type": "text/html;charset=utf8"
+          },
+          "reason": "Publisher HTTP403 access denial; no bypass attempted. Format/metadata/schema retain their own evidence holds. Seek a legitimate accessible repository copy.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:40:56.710612+00:00",
+            "content_sha256": "f9188109e92282c2267e5387744065e45efc57002e156bb960dc89ec92bf6ea9",
+            "evidence": {
+              "checked_at": "2026-10-27T23:40:56.710612+00:00",
+              "url": "https://journal-center.litpam.com/index.php/jar/article/download/5117/3581",
+              "error": "HTTPError: HTTP Error 403: Forbidden",
+              "retry_after": "next pass; source backoff; access failure is not scientific rejection",
+              "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+            }
+          }
+        }
+      ]
     },
     {
       "candidate_id": "weekly-dde1173a07bda8e28203d261",
@@ -44658,10 +44892,29 @@
           },
           "access": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "checked_at": "2026-10-30T16:50:58.355752+00:00",
             "content_sha256": "992e3aebac3a166c8bf63e9892ac99096ce19302654c723c1419fb8f2e98318a",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "checked_at": "2026-10-30T16:50:58.355752+00:00",
+              "content_sha256": "992e3aebac3a166c8bf63e9892ac99096ce19302654c723c1419fb8f2e98318a",
+              "official_repository_sha256": "410f1f75446242ea41f8b4fd654ca0ca190224e741534c7cd01fcb45cb6fa15e",
+              "official_observed_type": "Poster",
+              "creator": "Puja Baral",
+              "year": 2026,
+              "actual_resource_label": "FinalPhishProof_Puja Baral.png",
+              "actual_resource_mime_type": "image/png",
+              "attempted_resource_url": "https://scholarsphere.psu.edu/resources/d0559086-b9a8-46c2-bce4-f88085a1b010/downloads/51987",
+              "resource_response_sha256": "ce6c0d0c7fb003fa84336c6954d60815090633f284b39fb0799c0ac338ef152c",
+              "resource_response_type": "text/html traffic-control/bot-detection wall rather than the image",
+              "limitation": "Official repository identifies a poster; actual image remains inaccessible. Do not convert to a paper or count HTTP200 HTML as document access; no bypass, paid classification or recommendation."
+            },
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "992e3aebac3a166c8bf63e9892ac99096ce19302654c723c1419fb8f2e98318a",
+              "evidence": "Not yet completed; not a pass.",
+              "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            }
           },
           "metadata": {
             "status": "held",
@@ -44680,7 +44933,23 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_access_followups": [
+        {
+          "checked_at": "2026-10-30T16:50:58.355752+00:00",
+          "content_sha256": "992e3aebac3a166c8bf63e9892ac99096ce19302654c723c1419fb8f2e98318a",
+          "official_repository_sha256": "410f1f75446242ea41f8b4fd654ca0ca190224e741534c7cd01fcb45cb6fa15e",
+          "official_observed_type": "Poster",
+          "creator": "Puja Baral",
+          "year": 2026,
+          "actual_resource_label": "FinalPhishProof_Puja Baral.png",
+          "actual_resource_mime_type": "image/png",
+          "attempted_resource_url": "https://scholarsphere.psu.edu/resources/d0559086-b9a8-46c2-bce4-f88085a1b010/downloads/51987",
+          "resource_response_sha256": "ce6c0d0c7fb003fa84336c6954d60815090633f284b39fb0799c0ac338ef152c",
+          "resource_response_type": "text/html traffic-control/bot-detection wall rather than the image",
+          "limitation": "Official repository identifies a poster; actual image remains inaccessible. Do not convert to a paper or count HTTP200 HTML as document access; no bypass, paid classification or recommendation."
+        }
+      ]
     },
     {
       "candidate_id": "weekly-be460fcb85bf8743df12f760",
@@ -53914,19 +54183,43 @@
       "review_batch": 7,
       "batch": 7,
       "title": "Machine Learning–Driven Classification of Text-Based Cybercrime under the Indian IT ACT",
-      "authors": "Sukrati Agrawal; Hare Ram Sah; Rajesh Nagar",
+      "authors": "Sukrati Agrawal; Hare Ram Sah; Rajesh Kumar Nagar",
       "year": 2026,
       "doi": "10.14313/jamris-2026-020",
       "source_url": "https://doi.org/10.14313/jamris-2026-020",
-      "document_type": "research_paper_candidate",
+      "document_type": "research_paper",
       "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-      "format_verification_status": "hold_original_document_type_unverified",
-      "abstract": "Cybercrimes especially encompasses crime against children, data breaches, and privacy violations, are increasing in frequency due to the quick development of technology, which emphasizes the necessity of complex systems to analyse and categorize these offenses. There are many opportunities to analyze cybercrime data using Machine Learning (ML) techniques because of its enormous accumulation. This study proposes a model that has the potential to automatically analyze text-based reported cybercrime complaints based on the features by use of Random Forest (RF) and Gradient Boosting (GB) algorithms. This model includes a Bag of Words (BoW) approach for feature engineering to analyze reported cyber crime and suggest relevant Indian IT Act sections, such as Section 66E deals with privacy protection, Section 43A for reported data breach, and Section 72A for disclosure of information, using Natural Language Processing (NLP) for feature extraction and classification. This strategy enhanced the law and enforcement process by timely and accurately categorizing crime. By automating cyber law and providing timely legal answers to various reported cybercrimes, especially those concerning privacy and data protection, the model improves the capabilities of cybercrime units and achieves high accuracy and precision in anticipating pertinent legal sections.",
+      "format_verification_status": "verified_written_research_paper",
+      "abstract": "Cybercrimes encompass crime against children, data breaches, and privacy violations. The increased frequency of cybercrimes due to the quick development of technology emphasizes the necessity of complex systems to analyze and categorize these offenses. There are many opportunities to analyze cybercrime data using Machine Learning (ML) techniques because of its enormous accumulation. This study proposes a model that has the potential to automatically analyze text-based reported cybercrime complaints based on the features by use of Random Forest (RF) and Gradient Boosting (GB) algorithms. This model includes a Bag of Words (BoW) approach for feature engineering to analyze reported cybercrime and suggest relevant Indian IT Act sections, such as Section 66E for privacy protection, Section 43A for reported data breach, and Section 72A for disclosure of information, using Natural Language Processing (NLP) for feature extraction and classification. This strategy enhanced the law and enforcement process by timely and accurately categorizing crime. By automating cyber law and providing timely legal answers to various reported cybercrimes, especially those concerning privacy and data protection, the model improves the capabilities of cybercrime units and achieves high accuracy and precision in anticipating pertinent legal sections.",
       "abstract_source": "https://doi.org/10.14313/jamris-2026-020",
       "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
       "review_evidence": [
         "https://doi.org/10.14313/jamris-2026-020",
-        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv",
+        {
+          "checked_at": "2026-10-30T16:50:58.355752+00:00",
+          "content_sha256": "c17f6e3ab2ec8b97bfb0d2e4f92b9aa8d5fd028cf5320e178f33ff91ec5225ea",
+          "publisher_url": "https://www.jamris.org/index.php/JAMRIS/article/view/1997",
+          "publisher_html_sha256": "2f503207f9503d136ba4c2ffd800077bc048f4db28c2bc3b61e0a9abecc2b996",
+          "document_url": "https://www.jamris.org/index.php/JAMRIS/article/download/1997/859",
+          "document_sha256": "2dd6dc7cef1ea0a176b4015c83b779e7e76bd1cf8f8f7d4720e335377ffacac9",
+          "document_bytes": 1968494,
+          "authors": [
+            "Sukrati Agrawal",
+            "Hare Ram Sah",
+            "Rajesh Kumar Nagar"
+          ],
+          "year": 2026,
+          "doi": "10.14313/jamris-2026-020",
+          "issue": "20(2),63–70",
+          "publication_date": "2026-06-10",
+          "submitted": "2025-09-25",
+          "accepted": "2025-10-23",
+          "metadata_note": "Official separate author tags and actual printed byline agree on Rajesh Kumar Nagar; upstream Rajesh Nagar was incomplete. Submission/acceptance2025 are distinct from issue2026. Publisher abstract differs in wording; current printed abstract is retained.",
+          "inspection": "Actual PDF title/byline/year/DOI, complete abstract, article prose and references inspected mechanically to verify written-paper type and identity; no substantive recommendation at this stage.",
+          "abstract_sha256": "2acedf0cb409a6bdf6167b2d5be3109b10a5a930f464e19f8e719fe136f05620",
+          "identifier_basis": "DOI corroborated on actual PDF and official publisher; no new registry lookup required."
+        }
       ],
       "collection_id": "weekly",
       "collection_source": "ALEX regular weekly discovery review queue",
@@ -53939,8 +54232,8 @@
       "assessment_depth": "cached_abstract",
       "assessment_date": "2026-10-27",
       "full_paper_reviewed": false,
-      "paper_format_verified": false,
-      "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+      "paper_format_verified": true,
+      "source_verification_status": "official_publisher_and_actual_pdf_verified",
       "quality_status": "existing_human_quality_review_required",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
       "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
@@ -53951,9 +54244,9 @@
       "quality_review_threshold": 20,
       "relevance_score": 17.65,
       "is_preprint": false,
-      "venue": "Journal of Automation Mobile Robotics & Intelligent Systems",
-      "citation_count": 0,
-      "citation_status": "upstream_value_not_independently_verified",
+      "venue": "Journal of Automation, Mobile Robotics and Intelligent Systems",
+      "citation_count": null,
+      "citation_status": "unknown; discovery zero not independently verified",
       "doi_status": "upstream_identifier_not_independently_verified",
       "source_recommended_action": "human review",
       "source_review_reason": "Quality uncertain or moderate",
@@ -53974,94 +54267,380 @@
       "institution_score": 40,
       "institution_bonus": 0,
       "title_anchor_bonus": 5,
-      "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+      "content_sha256": "c17f6e3ab2ec8b97bfb0d2e4f92b9aa8d5fd028cf5320e178f33ff91ec5225ea",
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
-        "format",
-        "access",
-        "metadata",
         "schema"
       ],
       "preflight": {
         "status": "held",
-        "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+        "content_sha256": "c17f6e3ab2ec8b97bfb0d2e4f92b9aa8d5fd028cf5320e178f33ff91ec5225ea",
         "checks": {
-          "duplicates": {
+          "format": {
             "status": "passed",
-            "checked_at": "2026-10-28T03:50:34.934054+00:00",
-            "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+            "checked_at": "2026-10-30T16:50:58.355752+00:00",
+            "content_sha256": "c17f6e3ab2ec8b97bfb0d2e4f92b9aa8d5fd028cf5320e178f33ff91ec5225ea",
             "evidence": {
-              "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-              "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
-              "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-              "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-              "weekly_inventory_records": 4041,
-              "all_prepared_collections": [
-                "soups",
-                "weekly",
-                "virusbulletin",
-                "apwg"
+              "publisher_url": "https://www.jamris.org/index.php/JAMRIS/article/view/1997",
+              "publisher_html_sha256": "2f503207f9503d136ba4c2ffd800077bc048f4db28c2bc3b61e0a9abecc2b996",
+              "document_url": "https://www.jamris.org/index.php/JAMRIS/article/download/1997/859",
+              "document_sha256": "2dd6dc7cef1ea0a176b4015c83b779e7e76bd1cf8f8f7d4720e335377ffacac9",
+              "document_bytes": 1968494,
+              "authors": [
+                "Sukrati Agrawal",
+                "Hare Ram Sah",
+                "Rajesh Kumar Nagar"
               ],
-              "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-              "matches": []
+              "year": 2026,
+              "doi": "10.14313/jamris-2026-020",
+              "issue": "20(2),63–70",
+              "publication_date": "2026-06-10",
+              "submitted": "2025-09-25",
+              "accepted": "2025-10-23",
+              "metadata_note": "Official separate author tags and actual printed byline agree on Rajesh Kumar Nagar; upstream Rajesh Nagar was incomplete. Submission/acceptance2025 are distinct from issue2026. Publisher abstract differs in wording; current printed abstract is retained.",
+              "inspection": "Actual PDF title/byline/year/DOI, complete abstract, article prose and references inspected mechanically to verify written-paper type and identity; no substantive recommendation at this stage.",
+              "abstract_sha256": "2acedf0cb409a6bdf6167b2d5be3109b10a5a930f464e19f8e719fe136f05620",
+              "identifier_basis": "DOI corroborated on actual PDF and official publisher; no new registry lookup required."
+            },
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+              "evidence": "Not yet completed; not a pass.",
+              "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            }
+          },
+          "access": {
+            "status": "passed",
+            "checked_at": "2026-10-30T16:50:58.355752+00:00",
+            "content_sha256": "c17f6e3ab2ec8b97bfb0d2e4f92b9aa8d5fd028cf5320e178f33ff91ec5225ea",
+            "evidence": {
+              "publisher_url": "https://www.jamris.org/index.php/JAMRIS/article/view/1997",
+              "publisher_html_sha256": "2f503207f9503d136ba4c2ffd800077bc048f4db28c2bc3b61e0a9abecc2b996",
+              "document_url": "https://www.jamris.org/index.php/JAMRIS/article/download/1997/859",
+              "document_sha256": "2dd6dc7cef1ea0a176b4015c83b779e7e76bd1cf8f8f7d4720e335377ffacac9",
+              "document_bytes": 1968494,
+              "authors": [
+                "Sukrati Agrawal",
+                "Hare Ram Sah",
+                "Rajesh Kumar Nagar"
+              ],
+              "year": 2026,
+              "doi": "10.14313/jamris-2026-020",
+              "issue": "20(2),63–70",
+              "publication_date": "2026-06-10",
+              "submitted": "2025-09-25",
+              "accepted": "2025-10-23",
+              "metadata_note": "Official separate author tags and actual printed byline agree on Rajesh Kumar Nagar; upstream Rajesh Nagar was incomplete. Submission/acceptance2025 are distinct from issue2026. Publisher abstract differs in wording; current printed abstract is retained.",
+              "inspection": "Actual PDF title/byline/year/DOI, complete abstract, article prose and references inspected mechanically to verify written-paper type and identity; no substantive recommendation at this stage.",
+              "abstract_sha256": "2acedf0cb409a6bdf6167b2d5be3109b10a5a930f464e19f8e719fe136f05620",
+              "identifier_basis": "DOI corroborated on actual PDF and official publisher; no new registry lookup required."
+            },
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+              "evidence": "Not yet completed; not a pass.",
+              "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            }
+          },
+          "metadata": {
+            "status": "passed",
+            "checked_at": "2026-10-30T16:50:58.355752+00:00",
+            "content_sha256": "c17f6e3ab2ec8b97bfb0d2e4f92b9aa8d5fd028cf5320e178f33ff91ec5225ea",
+            "evidence": {
+              "publisher_url": "https://www.jamris.org/index.php/JAMRIS/article/view/1997",
+              "publisher_html_sha256": "2f503207f9503d136ba4c2ffd800077bc048f4db28c2bc3b61e0a9abecc2b996",
+              "document_url": "https://www.jamris.org/index.php/JAMRIS/article/download/1997/859",
+              "document_sha256": "2dd6dc7cef1ea0a176b4015c83b779e7e76bd1cf8f8f7d4720e335377ffacac9",
+              "document_bytes": 1968494,
+              "authors": [
+                "Sukrati Agrawal",
+                "Hare Ram Sah",
+                "Rajesh Kumar Nagar"
+              ],
+              "year": 2026,
+              "doi": "10.14313/jamris-2026-020",
+              "issue": "20(2),63–70",
+              "publication_date": "2026-06-10",
+              "submitted": "2025-09-25",
+              "accepted": "2025-10-23",
+              "metadata_note": "Official separate author tags and actual printed byline agree on Rajesh Kumar Nagar; upstream Rajesh Nagar was incomplete. Submission/acceptance2025 are distinct from issue2026. Publisher abstract differs in wording; current printed abstract is retained.",
+              "inspection": "Actual PDF title/byline/year/DOI, complete abstract, article prose and references inspected mechanically to verify written-paper type and identity; no substantive recommendation at this stage.",
+              "abstract_sha256": "2acedf0cb409a6bdf6167b2d5be3109b10a5a930f464e19f8e719fe136f05620",
+              "identifier_basis": "DOI corroborated on actual PDF and official publisher; no new registry lookup required."
+            },
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+              "evidence": "Not yet completed; not a pass.",
+              "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
             }
           },
           "quality": {
             "status": "passed",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+            "checked_at": "2026-10-30T16:50:58.355752+00:00",
+            "content_sha256": "c17f6e3ab2ec8b97bfb0d2e4f92b9aa8d5fd028cf5320e178f33ff91ec5225ea",
             "evidence": {
-              "quality_score": 23.41,
+              "quality_score": 33.41,
               "quality_venue_score": 40.0,
               "quality_citation_score": 0.0,
               "quality_relevance_score": 17.65,
-              "quality_institution_score": 40.0,
-              "quality_institution_bonus": 0.0,
+              "quality_institution_score": 80.0,
+              "quality_institution_bonus": 10.0,
               "quality_title_bonus": 5.0,
               "quality_auto_threshold": 35.0,
               "quality_review_threshold": 20.0,
               "quality_core_term_gate": "pass",
               "quality_relevance_gate": "pass",
-              "citation_count_known": true,
+              "citation_count_known": false,
               "quality_review_status": "human_quality_review",
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+            "prior_evidence": {
+              "status": "passed",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+              "evidence": {
+                "quality_score": 23.41,
+                "quality_venue_score": 40.0,
+                "quality_citation_score": 0.0,
+                "quality_relevance_score": 17.65,
+                "quality_institution_score": 40.0,
+                "quality_institution_bonus": 0.0,
+                "quality_title_bonus": 5.0,
+                "quality_auto_threshold": 35.0,
+                "quality_review_threshold": 20.0,
+                "quality_core_term_gate": "pass",
+                "quality_relevance_gate": "pass",
+                "citation_count_known": true,
+                "quality_review_status": "human_quality_review",
+                "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                "quality_requires_review": true
+              },
+              "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+            },
+            "limitations": "Unchanged current scorer/thresholds. Unknown citations remain null; current written source and printed affiliation used."
           },
-          "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-          },
-          "metadata": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "duplicates": {
+            "status": "passed",
+            "checked_at": "2026-10-30T16:50:58.355752+00:00",
+            "content_sha256": "c17f6e3ab2ec8b97bfb0d2e4f92b9aa8d5fd028cf5320e178f33ff91ec5225ea",
+            "evidence": {
+              "matches": [],
+              "exclusion_matches": [],
+              "self_provenance_overlaps": [
+                {
+                  "source": "weekly-upstream",
+                  "identity": "40425"
+                }
+              ],
+              "source_counts": {
+                "soups": 797,
+                "virusbulletin": 92,
+                "soups-ancillary": 593,
+                "weekly": 150,
+                "archive-discovery": 2216,
+                "public": 3162,
+                "weekly-upstream": 4041,
+                "apwg": 1
+              },
+              "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+              "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+              "exclusions_blob": "a868f36d805439cab5dd91d18e95c9e085728fbb",
+              "scope": "Fresh DOI/canonical URLs/normalized titles including latest human rejection."
+            }
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-10-30T16:50:58.355752+00:00",
+            "content_sha256": "c17f6e3ab2ec8b97bfb0d2e4f92b9aa8d5fd028cf5320e178f33ff91ec5225ea",
+            "evidence": "Await exact current-hash paid classification and disposable target-schema validation. No substantive recommendation before all six gates pass.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "verified_document_type": "research_paper",
+      "paper_url": "https://www.jamris.org/index.php/JAMRIS/article/download/1997/859",
+      "affiliations": "SAGE University Indore",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+          "superseded_at": "2026-10-30T16:50:58.355752+00:00",
+          "reason": "Actual written paper inspected; missing author middle name corrected and current published abstract transcribed. Original complete discovery record preserved.",
+          "record": {
+            "candidate_id": "weekly-30ccc34f37ae0f7955691eff",
+            "upstream_candidate_id": "40425",
+            "upstream_stable_identity": "10.14313/jamris-2026-020",
+            "source_row": 1932,
+            "review_number": 140,
+            "review_batch": 7,
+            "batch": 7,
+            "title": "Machine Learning–Driven Classification of Text-Based Cybercrime under the Indian IT ACT",
+            "authors": "Sukrati Agrawal; Hare Ram Sah; Rajesh Nagar",
+            "year": 2026,
+            "doi": "10.14313/jamris-2026-020",
+            "source_url": "https://doi.org/10.14313/jamris-2026-020",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "Cybercrimes especially encompasses crime against children, data breaches, and privacy violations, are increasing in frequency due to the quick development of technology, which emphasizes the necessity of complex systems to analyse and categorize these offenses. There are many opportunities to analyze cybercrime data using Machine Learning (ML) techniques because of its enormous accumulation. This study proposes a model that has the potential to automatically analyze text-based reported cybercrime complaints based on the features by use of Random Forest (RF) and Gradient Boosting (GB) algorithms. This model includes a Bag of Words (BoW) approach for feature engineering to analyze reported cyber crime and suggest relevant Indian IT Act sections, such as Section 66E deals with privacy protection, Section 43A for reported data breach, and Section 72A for disclosure of information, using Natural Language Processing (NLP) for feature extraction and classification. This strategy enhanced the law and enforcement process by timely and accurately categorizing crime. By automating cyber law and providing timely legal answers to various reported cybercrimes, especially those concerning privacy and data protection, the model improves the capabilities of cybercrime units and achieves high accuracy and precision in anticipating pertinent legal sections.",
+            "abstract_source": "https://doi.org/10.14313/jamris-2026-020",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              "https://doi.org/10.14313/jamris-2026-020",
+              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "discuss",
+            "relevance": "direct",
+            "review_reason": "Proposes bag-of-words and tree classifiers to triage text-based cybercrime complaints to relevant Indian statutory sections.",
+            "metadata_issue": "No numerical evaluation or labelled-corpus detail; model suggestions cannot determine legal charges and current statutory applicability requires review. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 23.41; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 23.41,
+            "quality_score": 23.41,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 17.65,
+            "is_preprint": false,
+            "venue": "Journal of Automation Mobile Robotics & Intelligent Systems",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "upstream_identifier_not_independently_verified",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "cybercrime research",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "ed9e1642beaf434b0049119342c0e2d84528f7fa8427375054eb690f4d42064c",
+            "assessed_text_sha256": "36e34d2507ad766de722213851d76d3a7675fc148cab278053978eefed07704d",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 40,
+            "institution_bonus": 0,
+            "title_anchor_bonus": 5,
+            "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "format",
+              "access",
+              "metadata",
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+              "checks": {
+                "duplicates": {
+                  "status": "passed",
+                  "checked_at": "2026-10-28T03:50:34.934054+00:00",
+                  "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+                  "evidence": {
+                    "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+                    "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+                    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                    "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                    "weekly_inventory_records": 4041,
+                    "all_prepared_collections": [
+                      "soups",
+                      "weekly",
+                      "virusbulletin",
+                      "apwg"
+                    ],
+                    "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+                    "matches": []
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+                  "evidence": {
+                    "quality_score": 23.41,
+                    "quality_venue_score": 40.0,
+                    "quality_citation_score": 0.0,
+                    "quality_relevance_score": 17.65,
+                    "quality_institution_score": 40.0,
+                    "quality_institution_bonus": 0.0,
+                    "quality_title_bonus": 5.0,
+                    "quality_auto_threshold": 35.0,
+                    "quality_review_threshold": 20.0,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+                  "evidence": "Not yet completed; not a pass.",
+                  "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+                },
+                "access": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+                  "evidence": "Not yet completed; not a pass.",
+                  "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+                },
+                "metadata": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+                  "evidence": "Not yet completed; not a pass.",
+                  "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "3e74484fff749102b7b338c32ad0839a6a40932a2f4e895645515818e5a98e68",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false
+          }
+        }
+      ],
+      "recommendation_status": "awaiting_current_hash_assessment_after_all_gates",
+      "admission_hold": "Await schema and then substantive recommendation/current-usefulness assessment."
     },
     {
       "candidate_id": "weekly-72ababd0255779edafb991cb",
