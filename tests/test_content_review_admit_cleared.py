@@ -16,7 +16,7 @@ def inputs(count=21):
         bind_record(row, stage)
         rows.append(row)
         stages.append(stage)
-    return {'records': [], 'preflight_records': rows}, {'records': stages}
+    return {'records': [], 'preflight_records': rows, 'new_batches_must_be_full': False}, {'records': stages}
 
 
 def test_seals_ready_candidates_without_waiting_for_held_reservations():
@@ -55,3 +55,27 @@ def test_live_decision_excludes_candidate_from_admission():
     manifest, stage = inputs(1)
     result, _, receipt = admit(manifest, stage, 'weekly', decided_ids=['weekly-0'])
     assert receipt['admitted'] == 0 and result['records'] == []
+
+
+def test_full_batch_policy_keeps_cleared_remainder_without_reopening_sealed_batch():
+    manifest, stage = inputs(21)
+    manifest['new_batches_must_be_full'] = True
+    result, checkpoint, receipt = admit(manifest, stage, 'weekly', submitted_batches=[23])
+    assert [(b['batch'], b['count']) for b in receipt['batches']] == [(24, 20)]
+    assert receipt['cleared_awaiting_full_batch'] == 1
+    assert len(result['preflight_records']) == 1
+    assert result['preflight_records'][0]['candidate_id'] == 'weekly-20'
+    assert result['mechanical_passed_awaiting_batch_admission'] == 1
+    replay, _, again = admit(result, checkpoint, 'weekly', submitted_batches=[24])
+    assert replay == result
+    assert again['admitted'] == 0
+    assert again['cleared_awaiting_full_batch'] == 1
+
+
+def test_new_manifests_default_to_full_batches():
+    manifest, stage = inputs(1)
+    del manifest['new_batches_must_be_full']
+    result, _, receipt = admit(manifest, stage, 'weekly')
+    assert receipt['admitted'] == 0
+    assert result['mechanical_passed_awaiting_batch_admission'] == 1
+    assert result['records'] == []
