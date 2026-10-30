@@ -1,21 +1,17 @@
 {
   "schema_version": 1,
   "phase": "active",
-  "ready_total": 1,
+  "ready_total": 0,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "owner": "backlog-release-and-20-paper-batches-20261030",
-    "acquired_at": "2026-10-30T18:26:27.834Z",
-    "expires_at": "2026-10-30T18:56:27.834Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
-    "weekly": 1,
+    "weekly": 0,
     "soups": 0,
     "virusbulletin": 0,
     "apwg": 0
@@ -31,10 +27,10 @@
     "soups": 88,
     "weekly": 93
   },
-  "global_deficit": 249,
+  "global_deficit": 250,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-10-30T16:59:57.654Z",
-  "last_action": "Reconciled five new complete submissions: six approvals final-validated using unchanged PDFs, fresh duplicates/exclusions and matching disposable exports; one rejection durably excluded. Added one six-gate-cleared journal paper in sealed weekly batch23 after substantive content/usefulness assessment. Actual ready1/250, deficit249;181 initial intake holds. Two accepted legacy optional identifier searches completed_unknown using current official sources and valid prior registry evidence; separate quality/schema holds retained. SOUPS2012 coverage reconciled39 existing resource links, no new raw URLs, total2216. Three new publisher403 holds and one HTTP200 bot-wall resource hold retained separately. One verified paid call649tokens; zero OpenAlex/public writes.",
+  "last_completed_at": "2026-10-30T18:43:18.247Z",
+  "last_action": "Published four explicitly approved, freshly source-verified papers through PR85 and successful release/Pages runs; live corpus3166. PR86 adds a supported-runner source check for the other four approvals; first source returnedHTTP403 and release stopped before corpus writes, preserving all approvals. Saved workflowv14, all4041-row processing ledger, full20-paper admission policy (13 tests passed), and30 source-document checks. No new paper admitted to manual review before all gates; batch23 has a newer live approval awaiting final validation. Existing hourly prompt updated to the confirmed weekly200/day target, no SOUPS reserve.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -227,12 +223,11 @@
     }
   },
   "next_actions": [
-    "Refresh complete D1 submissions; process new decisions immediately and run changed/time-sensitive final checks. One cleared paper awaits review in sealed weekly batch23.",
-    "Continue bounded source/type/access/metadata/quality/schema checks for181 initial intake holds and252 accepted legacy partial assessments; reuse valid paid/source/citation evidence and completed optional-unknown identifier searches.",
-    "Restore the shared cleared manual buffer from actual1 to250, deficit249, without source quotas or unchecked admission. Preserve all4041 weekly identities and ingest additive arrivals.",
-    "Resume SOUPS2013 and remaining ancillary archive gaps; preserve VB95 access hold and use permitted alternatives when available. Raw2216 URLs are discovery inventory only.",
-    "Eight human approvals are final-validated/publication-pending; the separate automatic handoff remains unconsumed. Public import/merge/deploy requires the configured release path outside this maintenance task. No second editorial vote is required.",
-    "Keep three publisher403 holds and the poster bot-wall resource hold separate; seek legitimate accessible resources without bypass or spending OpenAlex against independent access failures."
+    "Prioritize all untouched weekly identities using the processing ledger, reuse the30 source checks and complete missing format/identity/abstract/quality/taxonomy/schema checks. Only exact full20-paper batches may enter human review; target200 actually ready per day, report shortfalls.",
+    "Refresh current D1 decisions, including batch23 approval, and current main corpus/exclusions before changing candidates. Preserve completed votes and sealed batches.",
+    "Finish the four still-approved release candidates through the explicitly authorized release executor when source access is verified; do not seek another editorial vote. The last attempt stopped at an IllinoisState HTTP403; do not treat that as a scientific rejection.",
+    "Remove stale source-specific SOUPS quotas. Archive expansion is secondary while the weekly preparation target is unmet. Preserve regular automatic acceptance and all existing hard gates.",
+    "Do not repeat unchanged provider failures or paid requests. Record concrete identity/version/abstract mismatches and seek legitimate source alternatives."
   ],
   "paid_execution": {
     "status": "operational_verified",
@@ -347,23 +342,29 @@
     "live_url": "https://alex.riseinfosec.org/",
     "checked_at": "2026-10-28T12:44:13.664Z",
     "current_run": {
-      "accepted": 6,
-      "final_validation_complete": 6,
-      "rejected": 1,
-      "published": 0,
-      "status": "approved_validated_publication_pending",
-      "known_validated_pending_candidates": [
+      "status": "partially_published_approvals_preserved",
+      "published": 4,
+      "public_total": 3166,
+      "remaining_previously_validated_approvals": 4,
+      "new_batch23_approval_needs_final_validation": true,
+      "published_candidate_ids": [
         "weekly-e3e3c8b6597c206183397530",
         "weekly-129ce5ffe83fd6339e377ef8",
         "weekly-8e84e2f2e22569f8d655fc7f",
+        "weekly-613259936d5f6e81dd8c3b48"
+      ],
+      "remaining_candidate_ids": [
         "weekly-17dfd4d6d878d9383b5a6794",
-        "weekly-613259936d5f6e81dd8c3b48",
         "weekly-6c7717ff1c241014cd08e9eb",
         "weekly-91d2a387238ce370bc971152",
         "weekly-f3c935fb429460bef56d7840"
       ],
-      "reason": "Eight human-approved papers are final-validated and await the configured release executor. No second editorial vote is required. Public import, merge and deployment remain prohibited in this maintenance task.",
-      "checked_at": "2026-10-30T16:59:57.654Z"
+      "receipt": "config/content_review_publication_receipts/2026-10-30-approved-4.json",
+      "release_workflow_run": 41106900530,
+      "pages_workflow_run": 41106988139,
+      "remaining_release_attempt": 41108871647,
+      "remaining_release_blocker": "Supported runner returnedHTTP403 for the IllinoisState PDF and stopped before corpus application; other three sources were not attempted in that run. Approvals remain approved.",
+      "checked_at": "2026-10-30T18:43:18.247Z"
     }
   },
   "corpus_audit_checkpoint": {
@@ -494,5 +495,18 @@
     "observed_at": "2026-10-29T05:24:43.756Z",
     "source": "Native Sites get_site automations response",
     "changed_this_pass": false
+  },
+  "weekly_backlog_campaign": {
+    "workflow_version": 14,
+    "daily_ready_target": 200,
+    "new_batch_size": 20,
+    "full_batches_only": true,
+    "processing_inventory": "config/weekly_backlog_processing_inventory.json",
+    "source_checkpoint": "config/content_review_backlog_source_checkpoints/2026-10-30.json",
+    "source_documents_checked": 30,
+    "new_fully_validated_review_ready": 0,
+    "stage": "inventory_accounted_source_enrichment_in_progress",
+    "review_contract": "Only fully validated papers for publication review; accept/reject recommendation and substantive reason. No accept-for-enrichment batches.",
+    "checked_at": "2026-10-30T18:43:18.247Z"
   }
 }
