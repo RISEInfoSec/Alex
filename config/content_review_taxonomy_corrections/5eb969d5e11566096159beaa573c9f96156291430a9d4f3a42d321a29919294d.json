@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-30T19:50:51.830727+00:00",
+  "collection": "weekly",
+  "candidate_id": "weekly-1e63989c6bf1f4053c1bb3b8",
+  "content_sha256": "638b68425514c20b1d79205975c35197e9cb8cc2cf81cd5404293c26bdfaae35",
+  "paid_request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+  "paid_response_id": "resp_091ed5ee331d3411016ae4e9868d1c87d080539a745b02348a",
+  "original_classification": {
+    "Category": "Vulnerability Research",
+    "Investigation_Type": "Vulnerability Assessment",
+    "OSINT_Source_Types": [
+      "Public Records",
+      "Other"
+    ]
+  },
+  "source_document_sha256": "ed5a3cf3fcc2a42efe37e5110d5a21a9de7f85e93f3fc0128be824ef27c80ef9",
+  "source_document_url": "https://arxiv.org/pdf/2605.03770",
+  "proposed_source_types": [
+    "Corporate Records",
+    "Code Repositories"
+  ],
+  "supported_tags": {
+    "Corporate Records": {
+      "section": "Methodology IV.A-IV.B",
+      "evidence": "Firmware images, tooling and documentation are collected from official manufacturer portals, download APIs, catalog endpoints and vendor distribution infrastructure."
+    },
+    "Code Repositories": {
+      "section": "Methodology IV.B Automated collection",
+      "evidence": "Where vendors distribute firmware or tooling through public version-control repositories, the study clones the repositories with history, metadata, scripts and configuration templates."
+    }
+  },
+  "removed_tag_reasons": {
+    "Public Records": "Commercial vendor portals and mining-ecosystem listings are not official public-record datasets merely because they are publicly reachable.",
+    "Other": "The relevant sources are specifically evidenced as vendor distribution records and public version-control repositories."
+  },
+  "material_inspected": "Actual verified PDF abstract and Methodology IV.A-IV.B collection sections covering vendor portals, APIs, HTTP indexes and version-control repositories; no full scientific critique.",
+  "no_source_type_basis": null,
+  "evidence_status": "verified",
+  "scope": "OSINT_Source_Types only; source-content correction, not another paid response",
+  "correction_id": "5eb969d5e11566096159beaa573c9f96156291430a9d4f3a42d321a29919294d"
+}
