@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "correction_id": "372390edcb7ddd44b6b862a26b5b134b435973dd4b4a79739a5f1e523e6dbbc0",
+  "candidate_id": "weekly-2b2be6229bf51e7d43b7669c",
+  "content_sha256": "1f2322aa2b9f717320ed5f8f1eee2357092b09ebb3003cf10dfc076450c3c0bb",
+  "applied_at": "2026-10-30T19:50:51.778497+00:00",
+  "before": {
+    "Category": "Vulnerability Research",
+    "Investigation_Type": "Vulnerability Assessment",
+    "OSINT_Source_Types": [
+      "Code Repositories",
+      "Public Records"
+    ]
+  },
+  "after": {
+    "Category": "Vulnerability Research",
+    "Investigation_Type": "Vulnerability Assessment",
+    "OSINT_Source_Types": [
+      "Code Repositories"
+    ]
+  },
+  "schema": {
+    "status": "passed",
+    "checked_at": "2026-10-30T19:50:51.778497+00:00",
+    "content_sha256": "1f2322aa2b9f717320ed5f8f1eee2357092b09ebb3003cf10dfc076450c3c0bb",
+    "evidence": {
+      "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+      "target_record_sha256": "0a2ecdc8ef61bcd07861414ac03148591e714d4ec247aac7424137aa3cbd9f9d",
+      "document_type": "research_paper",
+      "corpus_modified": false,
+      "publication_approved": false,
+      "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-10-30T19:01:32.179985+00:00",
+        "content_sha256": "1f2322aa2b9f717320ed5f8f1eee2357092b09ebb3003cf10dfc076450c3c0bb",
+        "evidence": {
+          "classification": {
+            "Category": "Vulnerability Research",
+            "Investigation_Type": "Vulnerability Assessment",
+            "OSINT_Source_Types": [
+              "Code Repositories"
+            ]
+          },
+          "response_id": "resp_02caa08d3025bed4016ae4e98ad64087d080c9deb16c095864",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 658,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 45,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 703
+          },
+          "uncertainty_flags": [],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "Vulnerability Research",
+            "Investigation_Type": "Vulnerability Assessment",
+            "OSINT_Source_Types": [
+              "Code Repositories",
+              "Public Records"
+            ]
+          },
+          "correction_id": "372390edcb7ddd44b6b862a26b5b134b435973dd4b4a79739a5f1e523e6dbbc0"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "41111655930",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+        "source_correction_applied_at": "2026-10-30T19:50:51.778497+00:00"
+      },
+      "source_correction_id": "372390edcb7ddd44b6b862a26b5b134b435973dd4b4a79739a5f1e523e6dbbc0",
+      "source_document_sha256": "a734c8885032a4727a2c3c55c87780a8dd6651d838ef8e2149428a86c9c4adfa",
+      "original_paid_target_sha256": "2989d7c4f456e1039eb7eb712653a9c398096cc8875efda20a2b54e914b2bd19",
+      "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+    }
+  },
+  "paid_request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+  "paid_response_id": "resp_02caa08d3025bed4016ae4e98ad64087d080c9deb16c095864",
+  "additional_paid_requests": 0,
+  "corpus_modified": false,
+  "publication_approved": false
+}
