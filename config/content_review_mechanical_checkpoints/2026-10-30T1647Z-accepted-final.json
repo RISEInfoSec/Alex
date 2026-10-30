@@ -1,0 +1,514 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-30T16:47:08.357326+00:00",
+  "scope": "Latest completed review reconciliation and final time-sensitive validation",
+  "submissions_observed": 59,
+  "decisions_observed": 913,
+  "jobs_observed": 583,
+  "new_submissions": 5,
+  "new_approvals": 6,
+  "new_rejections": 1,
+  "records": [
+    {
+      "candidate_id": "weekly-04d1aec124745c3f359da27f",
+      "content_sha256": "e272505a5433d5bae31ff485f85a77e4961066931e367005254370b7b3ffcfa4",
+      "decision": "rejected",
+      "decision_id": "14b631a8-88c3-4d2b-bab0-d1a253ab3708:weekly-04d1aec124745c3f359da27f",
+      "submission_id": "14b631a8-88c3-4d2b-bab0-d1a253ab3708",
+      "batch": 22,
+      "revision": 1,
+      "server_payload_hash": "454b8b8ba2b8bd98c5ee1fbb8de9b1b15c6a4d26bfd9ffb4f7da1e91b5dc98d2",
+      "recommendation_snapshot_matches": true,
+      "raw_post_body_rehash_available": false,
+      "buffer_job_id": "buffer:14b631a8-88c3-4d2b-bab0-d1a253ab3708",
+      "published": false,
+      "status": "human_rejection_preserved"
+    },
+    {
+      "candidate_id": "weekly-8e84e2f2e22569f8d655fc7f",
+      "content_sha256": "9c9c2738bc2c7d0210363529413282951b47e75143f553d4afe6667f03c41a94",
+      "decision": "approved",
+      "decision_id": "20bde6ab-6668-46d7-b460-1a8c9a777c0a:weekly-8e84e2f2e22569f8d655fc7f",
+      "submission_id": "20bde6ab-6668-46d7-b460-1a8c9a777c0a",
+      "batch": 18,
+      "revision": 1,
+      "server_payload_hash": "0e7c17e1dbb4e5b117e98fdb51a9ced09fadd6dd492439ab5cf4d35bee037a7c",
+      "recommendation_snapshot_matches": true,
+      "raw_post_body_rehash_available": false,
+      "buffer_job_id": "buffer:20bde6ab-6668-46d7-b460-1a8c9a777c0a",
+      "published": false,
+      "status": "ready_for_configured_release_path",
+      "assessment_job_id": "assessment:20bde6ab-6668-46d7-b460-1a8c9a777c0a:weekly-8e84e2f2e22569f8d655fc7f",
+      "final_source_access": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:44:44.103549+00:00",
+        "content_sha256": "9c9c2738bc2c7d0210363529413282951b47e75143f553d4afe6667f03c41a94",
+        "evidence": {
+          "name": "final-weekly-8e84e2f2e22569f8d655fc7f",
+          "url": "https://abjournals.org/ajafr/9/2/digital-forensics-in-auditing-a-review-of-ghanas-public-sector.pdf",
+          "checked_at": "2026-10-30T16:44:44.103549+00:00",
+          "hops": [
+            {
+              "url": "https://abjournals.org/ajafr/9/2/digital-forensics-in-auditing-a-review-of-ghanas-public-sector.pdf",
+              "http_status": 200,
+              "resource_sha256": "8958bb6ccb84691285d2340ea5fd6d877e7b0f8d74e4d1db05b2e50ca7974096",
+              "bytes": 528456,
+              "content_type": "application/pdf"
+            }
+          ],
+          "robots_http_status": 200,
+          "http_status": 200,
+          "resource_sha256": "8958bb6ccb84691285d2340ea5fd6d877e7b0f8d74e4d1db05b2e50ca7974096",
+          "bytes": 528456,
+          "content_type": "application/pdf"
+        },
+        "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+      },
+      "final_duplicates": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:47:08.357326+00:00",
+        "content_sha256": "9c9c2738bc2c7d0210363529413282951b47e75143f553d4afe6667f03c41a94",
+        "evidence": {
+          "matches": [],
+          "exclusion_matches": [],
+          "self_provenance_overlaps": [
+            {
+              "source": "weekly-upstream",
+              "identity": "36824"
+            }
+          ],
+          "source_counts": {
+            "soups": 797,
+            "virusbulletin": 92,
+            "soups-ancillary": 593,
+            "weekly": 150,
+            "archive-discovery": 2216,
+            "public": 3162,
+            "weekly-upstream": 4041,
+            "apwg": 1
+          },
+          "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+          "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+          "exclusions_base_blob": "653063601c2750fc75a89f397f001089319859b8",
+          "latest_authenticated_rejection_included": true,
+          "scope": "Fresh exact DOI/canonical URLs/normalized titles across current public, prepared, ancillary and raw-discovery inventories; all4041 weekly identities and explicit rejections."
+        }
+      },
+      "schema_target_sha256": "7415eac5f10f2baac162d7eb4e4069983f31c4e5d1b8059b5f038e13c0d355a8",
+      "reused_gates": [
+        "format",
+        "metadata",
+        "quality",
+        "effective_taxonomy"
+      ],
+      "publication_pending": true
+    },
+    {
+      "candidate_id": "weekly-17dfd4d6d878d9383b5a6794",
+      "content_sha256": "245c0c479f5d00e0752b3b77695dd56a2418017c40a1fe48e0557b08c419fb8c",
+      "decision": "approved",
+      "decision_id": "242a18d2-af60-46df-973b-83df30f9fb79:weekly-17dfd4d6d878d9383b5a6794",
+      "submission_id": "242a18d2-af60-46df-973b-83df30f9fb79",
+      "batch": 19,
+      "revision": 1,
+      "server_payload_hash": "0d177acd69756254cfffc97ecddccf7d2f659177d8af922a2cdeaf93b6610826",
+      "recommendation_snapshot_matches": true,
+      "raw_post_body_rehash_available": false,
+      "buffer_job_id": "buffer:242a18d2-af60-46df-973b-83df30f9fb79",
+      "published": false,
+      "status": "ready_for_configured_release_path",
+      "assessment_job_id": "assessment:242a18d2-af60-46df-973b-83df30f9fb79:weekly-17dfd4d6d878d9383b5a6794",
+      "final_source_access": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:44:51.245106+00:00",
+        "content_sha256": "245c0c479f5d00e0752b3b77695dd56a2418017c40a1fe48e0557b08c419fb8c",
+        "evidence": {
+          "name": "final-weekly-17dfd4d6d878d9383b5a6794",
+          "url": "https://ir.library.illinoisstate.edu/cgi/viewcontent.cgi?article=1020&context=fpcjs",
+          "checked_at": "2026-10-30T16:44:51.245106+00:00",
+          "hops": [
+            {
+              "url": "https://ir.library.illinoisstate.edu/cgi/viewcontent.cgi?article=1020&context=fpcjs",
+              "http_status": 200,
+              "resource_sha256": "fd0e889a3fcce4ba2e5750d49106455d245a0226caf6117613dce7a03d7c3019",
+              "bytes": 415856,
+              "content_type": "application/pdf"
+            }
+          ],
+          "robots_http_status": 200,
+          "http_status": 200,
+          "resource_sha256": "fd0e889a3fcce4ba2e5750d49106455d245a0226caf6117613dce7a03d7c3019",
+          "bytes": 415856,
+          "content_type": "application/pdf"
+        },
+        "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+      },
+      "final_duplicates": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:47:08.357326+00:00",
+        "content_sha256": "245c0c479f5d00e0752b3b77695dd56a2418017c40a1fe48e0557b08c419fb8c",
+        "evidence": {
+          "matches": [],
+          "exclusion_matches": [],
+          "self_provenance_overlaps": [
+            {
+              "source": "weekly-upstream",
+              "identity": "33334"
+            }
+          ],
+          "source_counts": {
+            "soups": 797,
+            "virusbulletin": 92,
+            "soups-ancillary": 593,
+            "weekly": 150,
+            "archive-discovery": 2216,
+            "public": 3162,
+            "weekly-upstream": 4041,
+            "apwg": 1
+          },
+          "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+          "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+          "exclusions_base_blob": "653063601c2750fc75a89f397f001089319859b8",
+          "latest_authenticated_rejection_included": true,
+          "scope": "Fresh exact DOI/canonical URLs/normalized titles across current public, prepared, ancillary and raw-discovery inventories; all4041 weekly identities and explicit rejections."
+        }
+      },
+      "schema_target_sha256": "34eeaac7af8201631dd6d58f13892a2505b646f5c63d4fc046525a2297027ecb",
+      "reused_gates": [
+        "format",
+        "metadata",
+        "quality",
+        "effective_taxonomy"
+      ],
+      "publication_pending": true
+    },
+    {
+      "candidate_id": "weekly-613259936d5f6e81dd8c3b48",
+      "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+      "decision": "approved",
+      "decision_id": "242a18d2-af60-46df-973b-83df30f9fb79:weekly-613259936d5f6e81dd8c3b48",
+      "submission_id": "242a18d2-af60-46df-973b-83df30f9fb79",
+      "batch": 19,
+      "revision": 1,
+      "server_payload_hash": "0d177acd69756254cfffc97ecddccf7d2f659177d8af922a2cdeaf93b6610826",
+      "recommendation_snapshot_matches": true,
+      "raw_post_body_rehash_available": false,
+      "buffer_job_id": "buffer:242a18d2-af60-46df-973b-83df30f9fb79",
+      "published": false,
+      "status": "ready_for_configured_release_path",
+      "assessment_job_id": "assessment:242a18d2-af60-46df-973b-83df30f9fb79:weekly-613259936d5f6e81dd8c3b48",
+      "final_source_access": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:45:08.664883+00:00",
+        "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+        "evidence": {
+          "name": "final-weekly-613259936d5f6e81dd8c3b48",
+          "url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
+          "checked_at": "2026-10-30T16:45:08.664883+00:00",
+          "hops": [
+            {
+              "url": "https://ojs.ijemd.com/index.php/ComputerScienceAI/article/download/659/353",
+              "http_status": 200,
+              "resource_sha256": "246091c2248a23270e59223e01c05b9151fb70cdabaa523a64741f481198e555",
+              "bytes": 788335,
+              "content_type": "application/pdf"
+            }
+          ],
+          "robots_http_status": 200,
+          "http_status": 200,
+          "resource_sha256": "246091c2248a23270e59223e01c05b9151fb70cdabaa523a64741f481198e555",
+          "bytes": 788335,
+          "content_type": "application/pdf"
+        },
+        "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+      },
+      "final_duplicates": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:47:08.357326+00:00",
+        "content_sha256": "b07af67b505b76375808536f64a759b147304702f3ffe535294ae53d1e1ad08b",
+        "evidence": {
+          "matches": [],
+          "exclusion_matches": [],
+          "self_provenance_overlaps": [
+            {
+              "source": "weekly-upstream",
+              "identity": "52436"
+            }
+          ],
+          "source_counts": {
+            "soups": 797,
+            "virusbulletin": 92,
+            "soups-ancillary": 593,
+            "weekly": 150,
+            "archive-discovery": 2216,
+            "public": 3162,
+            "weekly-upstream": 4041,
+            "apwg": 1
+          },
+          "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+          "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+          "exclusions_base_blob": "653063601c2750fc75a89f397f001089319859b8",
+          "latest_authenticated_rejection_included": true,
+          "scope": "Fresh exact DOI/canonical URLs/normalized titles across current public, prepared, ancillary and raw-discovery inventories; all4041 weekly identities and explicit rejections."
+        }
+      },
+      "schema_target_sha256": "3863f3ce5dbd0f605d393c37a717b955a9fbd5f3411205a6b06fcc4622b24599",
+      "reused_gates": [
+        "format",
+        "metadata",
+        "quality",
+        "effective_taxonomy"
+      ],
+      "publication_pending": true
+    },
+    {
+      "candidate_id": "weekly-6c7717ff1c241014cd08e9eb",
+      "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+      "decision": "approved",
+      "decision_id": "242a18d2-af60-46df-973b-83df30f9fb79:weekly-6c7717ff1c241014cd08e9eb",
+      "submission_id": "242a18d2-af60-46df-973b-83df30f9fb79",
+      "batch": 19,
+      "revision": 1,
+      "server_payload_hash": "0d177acd69756254cfffc97ecddccf7d2f659177d8af922a2cdeaf93b6610826",
+      "recommendation_snapshot_matches": true,
+      "raw_post_body_rehash_available": false,
+      "buffer_job_id": "buffer:242a18d2-af60-46df-973b-83df30f9fb79",
+      "published": false,
+      "status": "ready_for_configured_release_path",
+      "assessment_job_id": "assessment:242a18d2-af60-46df-973b-83df30f9fb79:weekly-6c7717ff1c241014cd08e9eb",
+      "final_source_access": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:45:00.057652+00:00",
+        "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+        "evidence": {
+          "name": "final-weekly-6c7717ff1c241014cd08e9eb",
+          "url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+          "checked_at": "2026-10-30T16:45:00.057652+00:00",
+          "hops": [
+            {
+              "url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+              "http_status": 200,
+              "resource_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
+              "bytes": 1444742,
+              "content_type": "application/pdf"
+            }
+          ],
+          "robots_http_status": 200,
+          "http_status": 200,
+          "resource_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
+          "bytes": 1444742,
+          "content_type": "application/pdf"
+        },
+        "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+      },
+      "final_duplicates": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:47:08.357326+00:00",
+        "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+        "evidence": {
+          "matches": [],
+          "exclusion_matches": [],
+          "self_provenance_overlaps": [
+            {
+              "source": "weekly-upstream",
+              "identity": "56392"
+            }
+          ],
+          "source_counts": {
+            "soups": 797,
+            "virusbulletin": 92,
+            "soups-ancillary": 593,
+            "weekly": 150,
+            "archive-discovery": 2216,
+            "public": 3162,
+            "weekly-upstream": 4041,
+            "apwg": 1
+          },
+          "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+          "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+          "exclusions_base_blob": "653063601c2750fc75a89f397f001089319859b8",
+          "latest_authenticated_rejection_included": true,
+          "scope": "Fresh exact DOI/canonical URLs/normalized titles across current public, prepared, ancillary and raw-discovery inventories; all4041 weekly identities and explicit rejections."
+        }
+      },
+      "schema_target_sha256": "3da4295d4c688905d2c082d1930fbc62170c41830f7d209c0c83f9e339e09fe8",
+      "reused_gates": [
+        "format",
+        "metadata",
+        "quality",
+        "effective_taxonomy"
+      ],
+      "publication_pending": true
+    },
+    {
+      "candidate_id": "weekly-91d2a387238ce370bc971152",
+      "content_sha256": "a12a83df4934570080a8097e5ff6ee4c8cc8b5b547fa47bf8f5c46febc659021",
+      "decision": "approved",
+      "decision_id": "3bc03e5a-a5e8-47a4-8010-5726d8097d27:weekly-91d2a387238ce370bc971152",
+      "submission_id": "3bc03e5a-a5e8-47a4-8010-5726d8097d27",
+      "batch": 20,
+      "revision": 1,
+      "server_payload_hash": "f0e5f73ee87ae810f6091782423e3a6417114eb4a02c095ebb0da7e19ee1b4d3",
+      "recommendation_snapshot_matches": true,
+      "raw_post_body_rehash_available": false,
+      "buffer_job_id": "buffer:3bc03e5a-a5e8-47a4-8010-5726d8097d27",
+      "published": false,
+      "status": "ready_for_configured_release_path",
+      "assessment_job_id": "assessment:3bc03e5a-a5e8-47a4-8010-5726d8097d27:weekly-91d2a387238ce370bc971152",
+      "final_source_access": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:45:17.702358+00:00",
+        "content_sha256": "a12a83df4934570080a8097e5ff6ee4c8cc8b5b547fa47bf8f5c46febc659021",
+        "evidence": {
+          "name": "final-weekly-91d2a387238ce370bc971152",
+          "url": "https://digitalcommons.odu.edu/cgi/viewcontent.cgi?article=1159&context=covacci-undergraduateresearch",
+          "checked_at": "2026-10-30T16:45:17.702358+00:00",
+          "hops": [
+            {
+              "url": "https://digitalcommons.odu.edu/cgi/viewcontent.cgi?article=1159&context=covacci-undergraduateresearch",
+              "http_status": 200,
+              "resource_sha256": "23589eca5cf37d2e97557ac12973919db16c12eb27269859b71e32d07d8c2bec",
+              "bytes": 176192,
+              "content_type": "application/pdf"
+            }
+          ],
+          "robots_http_status": 200,
+          "http_status": 200,
+          "resource_sha256": "23589eca5cf37d2e97557ac12973919db16c12eb27269859b71e32d07d8c2bec",
+          "bytes": 176192,
+          "content_type": "application/pdf"
+        },
+        "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+      },
+      "final_duplicates": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:47:08.357326+00:00",
+        "content_sha256": "a12a83df4934570080a8097e5ff6ee4c8cc8b5b547fa47bf8f5c46febc659021",
+        "evidence": {
+          "matches": [],
+          "exclusion_matches": [],
+          "self_provenance_overlaps": [
+            {
+              "source": "weekly-upstream",
+              "identity": "9413"
+            }
+          ],
+          "source_counts": {
+            "soups": 797,
+            "virusbulletin": 92,
+            "soups-ancillary": 593,
+            "weekly": 150,
+            "archive-discovery": 2216,
+            "public": 3162,
+            "weekly-upstream": 4041,
+            "apwg": 1
+          },
+          "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+          "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+          "exclusions_base_blob": "653063601c2750fc75a89f397f001089319859b8",
+          "latest_authenticated_rejection_included": true,
+          "scope": "Fresh exact DOI/canonical URLs/normalized titles across current public, prepared, ancillary and raw-discovery inventories; all4041 weekly identities and explicit rejections."
+        }
+      },
+      "schema_target_sha256": "e7d9c57d1b687d589c4faeef59276f116ef57c1aebe105c6ca93e479f383c463",
+      "reused_gates": [
+        "format",
+        "metadata",
+        "quality",
+        "effective_taxonomy"
+      ],
+      "publication_pending": true
+    },
+    {
+      "candidate_id": "weekly-f3c935fb429460bef56d7840",
+      "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
+      "decision": "approved",
+      "decision_id": "812e47bc-a622-41f6-91d2-f1dcc1ab9d43:weekly-f3c935fb429460bef56d7840",
+      "submission_id": "812e47bc-a622-41f6-91d2-f1dcc1ab9d43",
+      "batch": 21,
+      "revision": 1,
+      "server_payload_hash": "90971283fc822665de3ecf97097b2c553c39343493de5e6b56c66eae2bb3da3a",
+      "recommendation_snapshot_matches": true,
+      "raw_post_body_rehash_available": false,
+      "buffer_job_id": "buffer:812e47bc-a622-41f6-91d2-f1dcc1ab9d43",
+      "published": false,
+      "status": "ready_for_configured_release_path",
+      "assessment_job_id": "assessment:812e47bc-a622-41f6-91d2-f1dcc1ab9d43:weekly-f3c935fb429460bef56d7840",
+      "final_source_access": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:45:26.252071+00:00",
+        "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
+        "evidence": {
+          "name": "final-weekly-f3c935fb429460bef56d7840",
+          "url": "https://repository.nls.ac.in/cgi/viewcontent.cgi?article=1176&context=jlpp",
+          "checked_at": "2026-10-30T16:45:26.252071+00:00",
+          "hops": [
+            {
+              "url": "https://repository.nls.ac.in/cgi/viewcontent.cgi?article=1176&context=jlpp",
+              "http_status": 200,
+              "resource_sha256": "86ae187577a2720935e57db77c8cf1b04c9b15c6ae88d7ebbf2ee1ce3f63c808",
+              "bytes": 327244,
+              "content_type": "application/pdf"
+            }
+          ],
+          "robots_http_status": 200,
+          "http_status": 200,
+          "resource_sha256": "86ae187577a2720935e57db77c8cf1b04c9b15c6ae88d7ebbf2ee1ce3f63c808",
+          "bytes": 327244,
+          "content_type": "application/pdf"
+        },
+        "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+      },
+      "final_duplicates": {
+        "status": "passed",
+        "checked_at": "2026-10-30T16:47:08.357326+00:00",
+        "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
+        "evidence": {
+          "matches": [],
+          "exclusion_matches": [],
+          "self_provenance_overlaps": [
+            {
+              "source": "weekly-upstream",
+              "identity": "5877"
+            }
+          ],
+          "source_counts": {
+            "soups": 797,
+            "virusbulletin": 92,
+            "soups-ancillary": 593,
+            "weekly": 150,
+            "archive-discovery": 2216,
+            "public": 3162,
+            "weekly-upstream": 4041,
+            "apwg": 1
+          },
+          "public_corpus_blob": "c539498bfb4e2509f112d31a576a625b231963fb",
+          "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+          "exclusions_base_blob": "653063601c2750fc75a89f397f001089319859b8",
+          "latest_authenticated_rejection_included": true,
+          "scope": "Fresh exact DOI/canonical URLs/normalized titles across current public, prepared, ancillary and raw-discovery inventories; all4041 weekly identities and explicit rejections."
+        }
+      },
+      "schema_target_sha256": "6cef1bd7614f43cfa083eb015e887e322e362c805df2c3afc24d4fe4fa7c34b2",
+      "reused_gates": [
+        "format",
+        "metadata",
+        "quality",
+        "effective_taxonomy"
+      ],
+      "publication_pending": true
+    }
+  ],
+  "editorial_decisions_final": true,
+  "no_second_editorial_vote_required": true,
+  "ready_total": 0,
+  "global_deficit": 250,
+  "public_corpus_modified": false,
+  "published_count": 0,
+  "openai_requests": 0,
+  "openalex_requests": 0,
+  "weekly_identities_preserved": 4041,
+  "new_weekly_arrivals": 0,
+  "raw_post_body_rehash_available": false,
+  "server_payload_hashes_observed": 59
+}
