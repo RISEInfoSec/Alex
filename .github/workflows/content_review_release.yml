@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'config/content_review_releases/2026-10-28-accepted-46.json'
+      - 'config/content_review_releases/2026-10-30-approved-4.json'
 permissions:
   contents: write
 concurrency:
@@ -26,8 +26,8 @@ jobs:
       - name: Apply only explicitly authorized papers
         run: |
           python -m alex.pipelines.content_review_release \
-            --manifest config/content_review_releases/2026-10-28-accepted-46.json \
-            --receipt data/content_review_release_receipts/2026-10-28-accepted-46.json --write
+            --manifest config/content_review_releases/2026-10-30-approved-4.json \
+            --receipt data/content_review_release_receipts/2026-10-30-approved-4.json --write
       - name: Publish updated corpus
         run: python -m alex.cli publish --record-collection
       - run: python scripts/stage_site.py
@@ -36,6 +36,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A research sitemap.xml
-          git add data/accepted_classified.csv data/osint_cyber_papers.csv data/papers.json data/collection_status.json data/content_review_release_receipts/2026-10-28-accepted-46.json
-          git diff --cached --quiet || git commit -m "Publish 46 validated and explicitly approved Content Review papers"
+          git add data/accepted_classified.csv data/osint_cyber_papers.csv data/papers.json data/collection_status.json data/content_review_release_receipts/2026-10-30-approved-4.json
+          git diff --cached --quiet || git commit -m "Publish four validated and explicitly approved Content Review papers"
           git push
