@@ -46107,9 +46107,87 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "b13863f82ac516856a4f243e3b78e52005ddaecf60105317a28f748fdd217d5f",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Public Records",
+              "News Media",
+              "Other"
+            ],
+            "document_sha256": "d8c714c775e7770cb35004e9aabef00be5c2e48e90731e70645ffa2bf162224e",
+            "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T18:57:31.542755+00:00",
+            "content_sha256": "b13863f82ac516856a4f243e3b78e52005ddaecf60105317a28f748fdd217d5f",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "c0c12e7c54831b63b60062561f816eb89b656b2e6f4617466844d8b9414029e3",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T18:57:31.538255+00:00",
+                "content_sha256": "b13863f82ac516856a4f243e3b78e52005ddaecf60105317a28f748fdd217d5f",
+                "evidence": {
+                  "classification": {
+                    "Category": "AI/ML for Security",
+                    "Investigation_Type": "Incident Response",
+                    "OSINT_Source_Types": [
+                      "Public Records",
+                      "News Media",
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_0ba0bde6771db244016ae4e89a5a3c87d092a16bbd494ad30a",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 616,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 32,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 648
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111205240",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111205240
+            },
+            "revalidated_at": "2026-10-30T19:04:08.065204+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:56:11.400870+00:00",
+              "content_sha256": "b13863f82ac516856a4f243e3b78e52005ddaecf60105317a28f748fdd217d5f",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -46224,9 +46302,85 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "45f9769560ec2feb9ca823f8e9455bd30052fe92a2f8092fe5e3d6d68e658af3",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Other"
+            ],
+            "document_sha256": "40513557c4a62e67ff6acb73e412aca8630001be95f3ad0cd0c64f5351330cf5",
+            "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T18:57:32.362737+00:00",
+            "content_sha256": "45f9769560ec2feb9ca823f8e9455bd30052fe92a2f8092fe5e3d6d68e658af3",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "27e736d9baeeea9384c13aa5bd0890609addb2fea95fd8ae40d4a1fd6c47432f",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T18:57:32.359649+00:00",
+                "content_sha256": "45f9769560ec2feb9ca823f8e9455bd30052fe92a2f8092fe5e3d6d68e658af3",
+                "evidence": {
+                  "classification": {
+                    "Category": "AI/ML for Security",
+                    "Investigation_Type": "Other",
+                    "OSINT_Source_Types": [
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_0071eba0e028148a016ae4e89bb17887d08853bcf87126050d",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 629,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 25,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 654
+                  },
+                  "uncertainty_flags": [
+                    "Investigation_Type_other"
+                  ]
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111205240",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111205240
+            },
+            "revalidated_at": "2026-10-30T19:04:08.068444+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:56:11.400870+00:00",
+              "content_sha256": "45f9769560ec2feb9ca823f8e9455bd30052fe92a2f8092fe5e3d6d68e658af3",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -46341,9 +46495,87 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "86a90cc8f6057895d5ed9e977ef316839590aa7a1ce3637e3f9adf8942553ede",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Public Records",
+              "Government Data",
+              "News Media"
+            ],
+            "document_sha256": "e7261cbd5a9c1301965697cf585701775b495878ab598a018d977c60fe29cbbe",
+            "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T18:57:33.810216+00:00",
+            "content_sha256": "86a90cc8f6057895d5ed9e977ef316839590aa7a1ce3637e3f9adf8942553ede",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "07c750ea5246bb278c5f3aab0ac211c43b66c0628d104e53b2c9ef34d25765e0",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T18:57:33.806904+00:00",
+                "content_sha256": "86a90cc8f6057895d5ed9e977ef316839590aa7a1ce3637e3f9adf8942553ede",
+                "evidence": {
+                  "classification": {
+                    "Category": "Privacy & Surveillance",
+                    "Investigation_Type": "Vulnerability Assessment",
+                    "OSINT_Source_Types": [
+                      "Public Records",
+                      "Government Data",
+                      "News Media"
+                    ]
+                  },
+                  "response_id": "resp_008efd05d5b8f8fe016ae4e89c872087d08b420469dbbe7ebf",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 666,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 32,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 698
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111205240",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111205240
+            },
+            "revalidated_at": "2026-10-30T19:04:08.071304+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:56:11.400870+00:00",
+              "content_sha256": "86a90cc8f6057895d5ed9e977ef316839590aa7a1ce3637e3f9adf8942553ede",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -46401,24 +46633,35 @@
           }
         },
         "metadata": {
-          "status": "passed",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "status": "held",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "f8840a4192de4456995fb1e99dd98dc0737235e198345836f6dc93ddd0eb25ea",
           "evidence": {
-            "document_url": "https://arxiv.org/pdf/2604.23332v1",
+            "reason": "Cached abstract is an incomplete prefix ending in cybersecur, despite matching text in the actual PDF. Recover and verify the complete original abstract, preserve this version/paid evidence, rebind changed content and reassess dependent checks before any recommendation or handoff.",
+            "original_abstract_sha256": "5b083e4274239d21b9ae355016c5bd419817f2d0e902fad52972143f8c57b0cc",
             "document_sha256": "e04311c5aa0debab28bb1f700714db9d9d166a78066bad7d0b93edc4ad46eaf0",
-            "document_bytes": 165711,
-            "source_checked_at": "2026-10-30T18:49:30.466596+00:00",
-            "original_source_record_sha256": "02009eeece41c0dcc67f84d4a577384265ae4edd8bfda5dc91686e45ab526896",
-            "verified_title": "Advanced Anomaly Detection and Threat Intelligence in Zero Trust IoT Environments Using Machine Learning",
-            "verified_authors": "Muhammad Umair Basharat; Jawad Hussain; Waqas Khalid; Chiew Foong Kwong",
-            "verified_year": 2026,
-            "complete_abstract_matches_normalized_original_document": true,
-            "abstract_sha256": "5b083e4274239d21b9ae355016c5bd419817f2d0e902fad52972143f8c57b0cc",
-            "material_inspected": "Six-page written research manuscript, original byline/affiliations/full abstract and2026 arXiv identifier verified.",
-            "affiliations": "Whitecliffe, Auckland; University of Nottingham Ningbo China",
-            "identifier_basis": "Exact arXiv source/version/title/byline and dated2026 original manuscript verified; optional journal DOI used only when printed and reconciled. Citations remain unknown.",
-            "limitations": "Front matter, full current abstract and written article structure verified mechanically. No full scientific critique or substantive recommendation before all six gates."
+            "raw_paid_evidence_retained": true
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T18:56:11.400870+00:00",
+            "content_sha256": "f8840a4192de4456995fb1e99dd98dc0737235e198345836f6dc93ddd0eb25ea",
+            "evidence": {
+              "document_url": "https://arxiv.org/pdf/2604.23332v1",
+              "document_sha256": "e04311c5aa0debab28bb1f700714db9d9d166a78066bad7d0b93edc4ad46eaf0",
+              "document_bytes": 165711,
+              "source_checked_at": "2026-10-30T18:49:30.466596+00:00",
+              "original_source_record_sha256": "02009eeece41c0dcc67f84d4a577384265ae4edd8bfda5dc91686e45ab526896",
+              "verified_title": "Advanced Anomaly Detection and Threat Intelligence in Zero Trust IoT Environments Using Machine Learning",
+              "verified_authors": "Muhammad Umair Basharat; Jawad Hussain; Waqas Khalid; Chiew Foong Kwong",
+              "verified_year": 2026,
+              "complete_abstract_matches_normalized_original_document": true,
+              "abstract_sha256": "5b083e4274239d21b9ae355016c5bd419817f2d0e902fad52972143f8c57b0cc",
+              "material_inspected": "Six-page written research manuscript, original byline/affiliations/full abstract and2026 arXiv identifier verified.",
+              "affiliations": "Whitecliffe, Auckland; University of Nottingham Ningbo China",
+              "identifier_basis": "Exact arXiv source/version/title/byline and dated2026 original manuscript verified; optional journal DOI used only when printed and reconciled. Citations remain unknown.",
+              "limitations": "Front matter, full current abstract and written article structure verified mechanically. No full scientific critique or substantive recommendation before all six gates."
+            }
           }
         },
         "duplicates": {
@@ -46434,36 +46677,118 @@
           }
         },
         "quality": {
-          "status": "passed",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "status": "held",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "f8840a4192de4456995fb1e99dd98dc0737235e198345836f6dc93ddd0eb25ea",
           "evidence": {
-            "quality_score": 49.0,
-            "quality_venue_score": 40.0,
-            "quality_citation_score": 0.0,
-            "quality_relevance_score": 100.0,
-            "quality_institution_score": 80.0,
-            "quality_institution_bonus": 10.0,
-            "quality_title_bonus": 0.0,
-            "quality_auto_threshold": 35.0,
-            "quality_review_threshold": 20.0,
-            "quality_core_term_gate": "pass",
-            "quality_relevance_gate": "pass",
-            "citation_count_known": false,
-            "quality_review_status": "provisional_auto_threshold",
-            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-            "quality_requires_review": true
+            "reason": "Cached abstract is an incomplete prefix ending in cybersecur, despite matching text in the actual PDF. Recover and verify the complete original abstract, preserve this version/paid evidence, rebind changed content and reassess dependent checks before any recommendation or handoff.",
+            "original_abstract_sha256": "5b083e4274239d21b9ae355016c5bd419817f2d0e902fad52972143f8c57b0cc",
+            "document_sha256": "e04311c5aa0debab28bb1f700714db9d9d166a78066bad7d0b93edc4ad46eaf0",
+            "raw_paid_evidence_retained": true
           },
-          "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T18:56:11.400870+00:00",
+            "content_sha256": "f8840a4192de4456995fb1e99dd98dc0737235e198345836f6dc93ddd0eb25ea",
+            "evidence": {
+              "quality_score": 49.0,
+              "quality_venue_score": 40.0,
+              "quality_citation_score": 0.0,
+              "quality_relevance_score": 100.0,
+              "quality_institution_score": 80.0,
+              "quality_institution_bonus": 10.0,
+              "quality_title_bonus": 0.0,
+              "quality_auto_threshold": 35.0,
+              "quality_review_threshold": 20.0,
+              "quality_core_term_gate": "pass",
+              "quality_relevance_gate": "pass",
+              "citation_count_known": false,
+              "quality_review_status": "provisional_auto_threshold",
+              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+              "quality_requires_review": true
+            },
+            "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
+          }
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "f8840a4192de4456995fb1e99dd98dc0737235e198345836f6dc93ddd0eb25ea",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Cached abstract is an incomplete prefix ending in cybersecur, despite matching text in the actual PDF. Recover and verify the complete original abstract, preserve this version/paid evidence, rebind changed content and reassess dependent checks before any recommendation or handoff.",
+            "original_abstract_sha256": "5b083e4274239d21b9ae355016c5bd419817f2d0e902fad52972143f8c57b0cc",
+            "document_sha256": "e04311c5aa0debab28bb1f700714db9d9d166a78066bad7d0b93edc4ad46eaf0",
+            "raw_paid_evidence_retained": true
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T18:57:34.785343+00:00",
+            "content_sha256": "f8840a4192de4456995fb1e99dd98dc0737235e198345836f6dc93ddd0eb25ea",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "8f2069dcfb15f5ab7fa9a3f406df16206736b47288a34ffe6b72ef4b146e3531",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T18:57:34.782187+00:00",
+                "content_sha256": "f8840a4192de4456995fb1e99dd98dc0737235e198345836f6dc93ddd0eb25ea",
+                "evidence": {
+                  "classification": {
+                    "Category": "AI/ML for Security",
+                    "Investigation_Type": "Threat Hunting",
+                    "OSINT_Source_Types": []
+                  },
+                  "response_id": "resp_0b5894f0ff346f30016ae4e89dfbdc87d086090d7622056839",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 675,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 33,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 708
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111205240",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111205240
+            },
+            "revalidated_at": "2026-10-30T19:04:08.074130+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:56:11.400870+00:00",
+              "content_sha256": "f8840a4192de4456995fb1e99dd98dc0737235e198345836f6dc93ddd0eb25ea",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
+        "metadata",
+        "quality",
         "schema"
       ],
       "review_ready": false
@@ -46473,7 +46798,7 @@
       "candidate_id": "weekly-e11ec718fb2edd5a2ef621f8",
       "content_sha256": "64ba38f2250c4cc4801362a4dc0c4cfb940d935fcb85b1b1247efdb2dd09d8fe",
       "source_row": 532,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -46574,23 +46899,85 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T18:57:36.388050+00:00",
           "content_sha256": "64ba38f2250c4cc4801362a4dc0c4cfb940d935fcb85b1b1247efdb2dd09d8fe",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "78334330e21ab23e59e6e592f3e7a69b0725896b5515711a05bc7560fcd5dc42",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:36.384833+00:00",
+              "content_sha256": "64ba38f2250c4cc4801362a4dc0c4cfb940d935fcb85b1b1247efdb2dd09d8fe",
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Other",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_04b91cbe4e59872e016ae4e89eedec87d086686170c3b2e2b2",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 572,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 32,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 604
+                },
+                "uncertainty_flags": [
+                  "Investigation_Type_other"
+                ]
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111205240
+          },
+          "revalidated_at": "2026-10-30T19:04:08.076700+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:56:11.400870+00:00",
+            "content_sha256": "64ba38f2250c4cc4801362a4dc0c4cfb940d935fcb85b1b1247efdb2dd09d8fe",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "64ba38f2250c4cc4801362a4dc0c4cfb940d935fcb85b1b1247efdb2dd09d8fe",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-afc22805bc5bc5a2e81179fc",
       "content_sha256": "e4fe3f2e33c6f11b617011ac5a11d4805a8ecb33e07eefaec3ff643ef0b7794a",
       "source_row": 750,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -46691,23 +47078,83 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T18:57:37.434804+00:00",
           "content_sha256": "e4fe3f2e33c6f11b617011ac5a11d4805a8ecb33e07eefaec3ff643ef0b7794a",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "87f348d5f3bfc5c0285b322de0e471c37ac664c1207f7599b13a60273c9ee1f6",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:37.431612+00:00",
+              "content_sha256": "e4fe3f2e33c6f11b617011ac5a11d4805a8ecb33e07eefaec3ff643ef0b7794a",
+              "evidence": {
+                "classification": {
+                  "Category": "IoT & CPS Security",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_085525f57d3a7aae016ae4e8a08b9887d09c6f66e837478660",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 627,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 34,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 661
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111205240
+          },
+          "revalidated_at": "2026-10-30T19:04:08.079393+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:56:11.400870+00:00",
+            "content_sha256": "e4fe3f2e33c6f11b617011ac5a11d4805a8ecb33e07eefaec3ff643ef0b7794a",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "e4fe3f2e33c6f11b617011ac5a11d4805a8ecb33e07eefaec3ff643ef0b7794a",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-40317d1f4df39c7c1024715d",
       "content_sha256": "1c098d0113e3ea82dd491ff5efa3dc51d9ec3bd25969a8ad8a31766a9fdfb7fa",
       "source_row": 926,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -46808,23 +47255,85 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T18:57:39.020866+00:00",
           "content_sha256": "1c098d0113e3ea82dd491ff5efa3dc51d9ec3bd25969a8ad8a31766a9fdfb7fa",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "3557440f1e7043f674ab1d9304ee19f596ee4547c7e237bb2d1004bfdbf53a21",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:39.017777+00:00",
+              "content_sha256": "1c098d0113e3ea82dd491ff5efa3dc51d9ec3bd25969a8ad8a31766a9fdfb7fa",
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Other",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_02648f2bc1a09cf0016ae4e8a19bc087d09c32f98a8eb22ddb",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 623,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 32,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 655
+                },
+                "uncertainty_flags": [
+                  "Investigation_Type_other"
+                ]
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111205240
+          },
+          "revalidated_at": "2026-10-30T19:04:08.081831+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:56:11.400870+00:00",
+            "content_sha256": "1c098d0113e3ea82dd491ff5efa3dc51d9ec3bd25969a8ad8a31766a9fdfb7fa",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "1c098d0113e3ea82dd491ff5efa3dc51d9ec3bd25969a8ad8a31766a9fdfb7fa",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-90514a9c2caeb2eec1999ea3",
       "content_sha256": "e15c5fecba39af3b16d784075ecb95c26e825cf951825ea5564a0154a39f89ad",
       "source_row": 927,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -46925,16 +47434,76 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T18:57:40.571056+00:00",
           "content_sha256": "e15c5fecba39af3b16d784075ecb95c26e825cf951825ea5564a0154a39f89ad",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "e454d1c5a0149a9848f80442692828a3aae98c7de2add2e45d83cebfd5e938b3",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:40.567849+00:00",
+              "content_sha256": "e15c5fecba39af3b16d784075ecb95c26e825cf951825ea5564a0154a39f89ad",
+              "evidence": {
+                "classification": {
+                  "Category": "Network & Infrastructure Security",
+                  "Investigation_Type": "Threat Hunting",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_0fba8e067b443dd6016ae4e8a3300c87d08c95429ccbeca86f",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 636,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 32,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 668
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111205240
+          },
+          "revalidated_at": "2026-10-30T19:04:08.084247+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:56:11.400870+00:00",
+            "content_sha256": "e15c5fecba39af3b16d784075ecb95c26e825cf951825ea5564a0154a39f89ad",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "e15c5fecba39af3b16d784075ecb95c26e825cf951825ea5564a0154a39f89ad",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": true
     },
     {
       "collection": "weekly",
@@ -47043,9 +47612,87 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "b6440069c5bb070dab822b6526364c92be133589dee1d37e83f4560fc3ae1f0b",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Public Records",
+              "Corporate Records",
+              "Other"
+            ],
+            "document_sha256": "7f488a709ad1eb74e9099078cf7cd3f030517161f3cd5cb7d0cd7f4a56010c21",
+            "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T18:57:42.165600+00:00",
+            "content_sha256": "b6440069c5bb070dab822b6526364c92be133589dee1d37e83f4560fc3ae1f0b",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "9c7dd39ddd18027e830255417903385215aee3f676197b892428095af075173f",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T18:57:42.162462+00:00",
+                "content_sha256": "b6440069c5bb070dab822b6526364c92be133589dee1d37e83f4560fc3ae1f0b",
+                "evidence": {
+                  "classification": {
+                    "Category": "Cyber Threat Intelligence",
+                    "Investigation_Type": "Vulnerability Assessment",
+                    "OSINT_Source_Types": [
+                      "Public Records",
+                      "Corporate Records",
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_0eef2817fb5752a3016ae4e8a4c87087d08823ebb81bfc109d",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 595,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 31,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 626
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111205240",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111205240
+            },
+            "revalidated_at": "2026-10-30T19:04:08.086720+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:56:11.400870+00:00",
+              "content_sha256": "b6440069c5bb070dab822b6526364c92be133589dee1d37e83f4560fc3ae1f0b",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -47058,7 +47705,7 @@
       "candidate_id": "weekly-eb922d4c4c8d9102c9aeb714",
       "content_sha256": "56280c50fd4a1b1235725c8b5c07545171cf90e3ac93a699dfbe6a745f01fc9e",
       "source_row": 929,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -47159,16 +47806,76 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T18:57:43.235965+00:00",
           "content_sha256": "56280c50fd4a1b1235725c8b5c07545171cf90e3ac93a699dfbe6a745f01fc9e",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "e966704cc90b0b57843c75e0860505417bed22df3800006d607011d5ef96d4fa",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:43.233071+00:00",
+              "content_sha256": "56280c50fd4a1b1235725c8b5c07545171cf90e3ac93a699dfbe6a745f01fc9e",
+              "evidence": {
+                "classification": {
+                  "Category": "IoT & CPS Security",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_0eb2a89e54064bd3016ae4e8a65b0887d0be1b774f73ae24f2",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 654,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 25,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 679
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111205240
+          },
+          "revalidated_at": "2026-10-30T19:04:08.089413+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:56:11.400870+00:00",
+            "content_sha256": "56280c50fd4a1b1235725c8b5c07545171cf90e3ac93a699dfbe6a745f01fc9e",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "56280c50fd4a1b1235725c8b5c07545171cf90e3ac93a699dfbe6a745f01fc9e",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
@@ -47277,9 +47984,85 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "ef17240642870a1921518c5a79bafbd9c95fc59b1d39071ff6ef9a21a48fb65b",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Public Records",
+              "Other"
+            ],
+            "document_sha256": "fce08c7658e0393e9453fef2fc5a8a5a87c214e90e90b28c77f85f34e0b380da",
+            "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T18:57:44.157199+00:00",
+            "content_sha256": "ef17240642870a1921518c5a79bafbd9c95fc59b1d39071ff6ef9a21a48fb65b",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "68dccca1b8411ed0a10298ef72406bf8a9e35b4062decd93c1403c1a3e84a238",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T18:57:44.154253+00:00",
+                "content_sha256": "ef17240642870a1921518c5a79bafbd9c95fc59b1d39071ff6ef9a21a48fb65b",
+                "evidence": {
+                  "classification": {
+                    "Category": "Network & Infrastructure Security",
+                    "Investigation_Type": "Vulnerability Assessment",
+                    "OSINT_Source_Types": [
+                      "Public Records",
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_0d98183247d8db53016ae4e8a7637887d0818fb56648168936",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 584,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 29,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 613
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111205240",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111205240
+            },
+            "revalidated_at": "2026-10-30T19:04:08.092123+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:56:11.400870+00:00",
+              "content_sha256": "ef17240642870a1921518c5a79bafbd9c95fc59b1d39071ff6ef9a21a48fb65b",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -47394,9 +48177,85 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "4523ac130590c5d28fc236fbff99a4020c0d46cfe1deb74f9b3db81d1e289528",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Public Records",
+              "Other"
+            ],
+            "document_sha256": "d07123177a6415f7107ec762dc1a2762083c7d744676a167ccf9aa7c5af1a660",
+            "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T18:57:45.214572+00:00",
+            "content_sha256": "4523ac130590c5d28fc236fbff99a4020c0d46cfe1deb74f9b3db81d1e289528",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "0a980f5e54a7a551f89c3d9b3d0193ef0af69d38b39861c85d4d52ae7fffdda5",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T18:57:45.211609+00:00",
+                "content_sha256": "4523ac130590c5d28fc236fbff99a4020c0d46cfe1deb74f9b3db81d1e289528",
+                "evidence": {
+                  "classification": {
+                    "Category": "Privacy & Surveillance",
+                    "Investigation_Type": "Threat Hunting",
+                    "OSINT_Source_Types": [
+                      "Public Records",
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_0f54cafa23d551e1016ae4e8a84fd487d0ba8f750bc99543af",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 622,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 27,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 649
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111205240",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111205240
+            },
+            "revalidated_at": "2026-10-30T19:04:08.094483+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:56:11.400870+00:00",
+              "content_sha256": "4523ac130590c5d28fc236fbff99a4020c0d46cfe1deb74f9b3db81d1e289528",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -47511,9 +48370,83 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "74d012360502c69011abe1d434b8c260a72a1041140ca766f11b073d1577b470",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Other"
+            ],
+            "document_sha256": "82e2a4a00213feaf3dc564ba62221c4b5d051f9727e8ca6675f81ee804562cb1",
+            "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T18:57:46.340604+00:00",
+            "content_sha256": "74d012360502c69011abe1d434b8c260a72a1041140ca766f11b073d1577b470",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "ff21cb078873bf9962fdddc2e09a66c2b23f1a69a6bbdf0858675c2260f17bf0",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T18:57:46.337791+00:00",
+                "content_sha256": "74d012360502c69011abe1d434b8c260a72a1041140ca766f11b073d1577b470",
+                "evidence": {
+                  "classification": {
+                    "Category": "AI/ML for Security",
+                    "Investigation_Type": "Vulnerability Assessment",
+                    "OSINT_Source_Types": [
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_012fecd6b4ad2f3d016ae4e8a9842887d0862b0789b19b18bb",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 741,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 27,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 768
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111205240",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111205240
+            },
+            "revalidated_at": "2026-10-30T19:04:08.097000+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:56:11.400870+00:00",
+              "content_sha256": "74d012360502c69011abe1d434b8c260a72a1041140ca766f11b073d1577b470",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -47526,7 +48459,7 @@
       "candidate_id": "weekly-113e06097f36138ed0898db9",
       "content_sha256": "ffc744d3139069413673c894a868532e00c51bd76b3bbc81d19c7d60fc0970bd",
       "source_row": 1337,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -47627,23 +48560,86 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "ffc744d3139069413673c894a868532e00c51bd76b3bbc81d19c7d60fc0970bd",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "f384231aea296160fdf1dbb8cf1f45acf4e5c5ba8ac197eda639d55128e13f70",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:47.272147+00:00",
+              "content_sha256": "ffc744d3139069413673c894a868532e00c51bd76b3bbc81d19c7d60fc0970bd",
+              "evidence": {
+                "classification": {
+                  "Category": "Privacy & Surveillance",
+                  "Investigation_Type": "Other",
+                  "OSINT_Source_Types": [
+                    "Forums & Communities"
+                  ]
+                },
+                "response_id": "resp_0ac78c524966a615016ae4e8aa8ddc87d09c05f2128402d962",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 666,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 28,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 694
+                },
+                "uncertainty_flags": [
+                  "Investigation_Type_other"
+                ],
+                "classification_origin": "source_evidence_correction",
+                "original_paid_classification": {
+                  "Category": "Privacy & Surveillance",
+                  "Investigation_Type": "Other",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "Forums & Communities"
+                  ]
+                },
+                "correction_id": "35099c028358b65e19e4de05eb20cc4f14c269adc9f87c32bc96234b37970584"
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+              "source_correction_applied_at": "2026-10-30T19:07:34.824521+00:00"
+            },
+            "source_correction_id": "35099c028358b65e19e4de05eb20cc4f14c269adc9f87c32bc96234b37970584",
+            "source_document_sha256": "fa4ff5b22407cba9ec0f46e1c31ab06f939924484736f1626a8fa2352aad65e2",
+            "original_paid_target_sha256": "4c15e78a9e58f2b78b964dd74f7bd5ca3f2a0e8c87e15c37084b90ba47ccb333",
+            "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "ffc744d3139069413673c894a868532e00c51bd76b3bbc81d19c7d60fc0970bd",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": true
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-15e5c1eadad1a5d001447563",
       "content_sha256": "e56c60425cc5e9e733aef3582f6c2a059a952f219d10a53238b27dd400e6dcbc",
       "source_row": 1801,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -47744,16 +48740,78 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T18:57:48.106376+00:00",
           "content_sha256": "e56c60425cc5e9e733aef3582f6c2a059a952f219d10a53238b27dd400e6dcbc",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "97167bdebcd8332a6d980a974cef0860e3f4ff61f177abd92e18b6b94b372f77",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:48.103477+00:00",
+              "content_sha256": "e56c60425cc5e9e733aef3582f6c2a059a952f219d10a53238b27dd400e6dcbc",
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Other",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_0c2da601e3bde87d016ae4e8ab68c487d0886951e78f47e6eb",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 530,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 23,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 553
+                },
+                "uncertainty_flags": [
+                  "Investigation_Type_other"
+                ]
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111205240
+          },
+          "revalidated_at": "2026-10-30T19:04:08.101792+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:56:11.400870+00:00",
+            "content_sha256": "e56c60425cc5e9e733aef3582f6c2a059a952f219d10a53238b27dd400e6dcbc",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "e56c60425cc5e9e733aef3582f6c2a059a952f219d10a53238b27dd400e6dcbc",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": false
     },
     {
       "collection": "weekly",
@@ -47862,9 +48920,83 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:56:11.400870+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Other"
+            ],
+            "document_sha256": "e00c2ee4a49e6ece51a1d90d082c23114099c668f7821c4d3734a4cb2ad93163",
+            "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T18:57:49.977499+00:00",
+            "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "0118096182b74f5fef5d9389b25fb75e57a891e7e967d3913db9f1891d71e13b",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T18:57:49.974368+00:00",
+                "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
+                "evidence": {
+                  "classification": {
+                    "Category": "AI/ML for Security",
+                    "Investigation_Type": "Vulnerability Assessment",
+                    "OSINT_Source_Types": [
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_04363b35d6805be2016ae4e8ac3de087d0aaf65b79fc5c0da2",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 661,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 27,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 688
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111205240",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111205240
+            },
+            "revalidated_at": "2026-10-30T19:04:08.104244+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:56:11.400870+00:00",
+              "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -47979,9 +49111,87 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:59:51.938446+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "8eed8eac4246bbee3d15c0835676985c2bac9b08420a9a2fa6a829a1a96f6217",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Public Records",
+              "Academic Literature",
+              "Other"
+            ],
+            "document_sha256": "a4a1a6d3726a5ed3e25de9a41fa65b6e73a96859766ac4554f0831b90ca12ca4",
+            "paid_request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T19:01:21.637609+00:00",
+            "content_sha256": "8eed8eac4246bbee3d15c0835676985c2bac9b08420a9a2fa6a829a1a96f6217",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "6b2b6ce19e2ad6d701405a3eeec37dccd3c4a3d82d3c6f1c56019e630268b024",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T19:01:21.631685+00:00",
+                "content_sha256": "8eed8eac4246bbee3d15c0835676985c2bac9b08420a9a2fa6a829a1a96f6217",
+                "evidence": {
+                  "classification": {
+                    "Category": "Vulnerability Research",
+                    "Investigation_Type": "Vulnerability Assessment",
+                    "OSINT_Source_Types": [
+                      "Public Records",
+                      "Academic Literature",
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_0bccf99daacc0489016ae4e980731487d0a7eae009d4452638",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 701,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 31,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 732
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111655930",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111655930
+            },
+            "revalidated_at": "2026-10-30T19:05:11.820955+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:59:51.938446+00:00",
+              "content_sha256": "8eed8eac4246bbee3d15c0835676985c2bac9b08420a9a2fa6a829a1a96f6217",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -48096,9 +49306,83 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:59:51.938446+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "5fce8f81d9b5d8115a8e279b753ba583ab77cc50368d1ba58959aaf019bdadff",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Other"
+            ],
+            "document_sha256": "a22b448f0071018b4837405b05945e545ba88037167534cb0c69ba5d160d8228",
+            "paid_request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T19:01:22.987497+00:00",
+            "content_sha256": "5fce8f81d9b5d8115a8e279b753ba583ab77cc50368d1ba58959aaf019bdadff",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "5711e1f8bb2372fe9b52c6a1127eb41c2342fe6503e051bb31f285afb5794584",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T19:01:22.983149+00:00",
+                "content_sha256": "5fce8f81d9b5d8115a8e279b753ba583ab77cc50368d1ba58959aaf019bdadff",
+                "evidence": {
+                  "classification": {
+                    "Category": "AI/ML for Security",
+                    "Investigation_Type": "Vulnerability Assessment",
+                    "OSINT_Source_Types": [
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_0ec2d1fa13ed4df4016ae4e981cf0c87d08f3686b33f753847",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 639,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 27,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 666
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111655930",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111655930
+            },
+            "revalidated_at": "2026-10-30T19:05:11.825235+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:59:51.938446+00:00",
+              "content_sha256": "5fce8f81d9b5d8115a8e279b753ba583ab77cc50368d1ba58959aaf019bdadff",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -48111,7 +49395,7 @@
       "candidate_id": "weekly-6fef91ba3ea7fd9f37c732e7",
       "content_sha256": "6125f33371e4d9b84f8328ff058d2500e59854de7afdf35e385df0c9f8abbb63",
       "source_row": 305,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -48212,23 +49496,83 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:59:51.938446+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T19:01:24.379798+00:00",
           "content_sha256": "6125f33371e4d9b84f8328ff058d2500e59854de7afdf35e385df0c9f8abbb63",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "a7603839193188b31dd7b4fd3fe81d0cb036ed6cfc0a2568d6bb8db897fb6a51",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T19:01:24.374942+00:00",
+              "content_sha256": "6125f33371e4d9b84f8328ff058d2500e59854de7afdf35e385df0c9f8abbb63",
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_0218badd45d1eb5b016ae4e9832ed887d089db81cbbdc58b2e",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 614,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 34,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 648
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111655930",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111655930
+          },
+          "revalidated_at": "2026-10-30T19:05:11.828231+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:59:51.938446+00:00",
+            "content_sha256": "6125f33371e4d9b84f8328ff058d2500e59854de7afdf35e385df0c9f8abbb63",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "6125f33371e4d9b84f8328ff058d2500e59854de7afdf35e385df0c9f8abbb63",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": true
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-990c7dc8c3ec3b40b43216ad",
       "content_sha256": "e88e1ca1045389e4be2b0f214e3fd05c1e10a6e24620bfe49112d58b00f934ff",
       "source_row": 307,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -48329,16 +49673,76 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:59:51.938446+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T19:01:25.464659+00:00",
           "content_sha256": "e88e1ca1045389e4be2b0f214e3fd05c1e10a6e24620bfe49112d58b00f934ff",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "c630a64db9fce0be9c52b4216d35d6614c7e022a6a28e87ea79457609c47059e",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T19:01:25.460313+00:00",
+              "content_sha256": "e88e1ca1045389e4be2b0f214e3fd05c1e10a6e24620bfe49112d58b00f934ff",
+              "evidence": {
+                "classification": {
+                  "Category": "Vulnerability Research",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_04e24591e7db8bc3016ae4e984897087d099ff57aae2be3ecb",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 603,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 32,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 635
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111655930",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111655930
+          },
+          "revalidated_at": "2026-10-30T19:05:11.831429+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:59:51.938446+00:00",
+            "content_sha256": "e88e1ca1045389e4be2b0f214e3fd05c1e10a6e24620bfe49112d58b00f934ff",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "e88e1ca1045389e4be2b0f214e3fd05c1e10a6e24620bfe49112d58b00f934ff",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": true
     },
     {
       "collection": "weekly",
@@ -48447,9 +49851,85 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:59:51.938446+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "1120051386f552dfa4b67c1ea4f86d5e6bb105fd193e9019fe3129239e5c4855",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Social Media",
+              "Other"
+            ],
+            "document_sha256": "baf8acfa80dd3048e84633f25eed51500d8f5d99ff2da762d3d8e1fc32fb90c2",
+            "paid_request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T19:01:26.378557+00:00",
+            "content_sha256": "1120051386f552dfa4b67c1ea4f86d5e6bb105fd193e9019fe3129239e5c4855",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "0a8924bdfd371784d63a55b7ce5aa1a519ed0f77cc3d550e4ac73d8a5bc6393a",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T19:01:26.373828+00:00",
+                "content_sha256": "1120051386f552dfa4b67c1ea4f86d5e6bb105fd193e9019fe3129239e5c4855",
+                "evidence": {
+                  "classification": {
+                    "Category": "Disinformation & Influence",
+                    "Investigation_Type": "Social Media Analysis",
+                    "OSINT_Source_Types": [
+                      "Social Media",
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_0fd69a29a252df55016ae4e985a31c87d0812eff3b2a41604b",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 608,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 29,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 637
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111655930",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111655930
+            },
+            "revalidated_at": "2026-10-30T19:05:11.835168+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:59:51.938446+00:00",
+              "content_sha256": "1120051386f552dfa4b67c1ea4f86d5e6bb105fd193e9019fe3129239e5c4855",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -48564,9 +50044,85 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:59:51.938446+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "638b68425514c20b1d79205975c35197e9cb8cc2cf81cd5404293c26bdfaae35",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Public Records",
+              "Other"
+            ],
+            "document_sha256": "ed5a3cf3fcc2a42efe37e5110d5a21a9de7f85e93f3fc0128be824ef27c80ef9",
+            "paid_request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T19:01:27.483743+00:00",
+            "content_sha256": "638b68425514c20b1d79205975c35197e9cb8cc2cf81cd5404293c26bdfaae35",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "21a8fd4e59e865ccafd86883e95e7e6787f13c8496b20af208011ff4a4cb3a36",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T19:01:27.479316+00:00",
+                "content_sha256": "638b68425514c20b1d79205975c35197e9cb8cc2cf81cd5404293c26bdfaae35",
+                "evidence": {
+                  "classification": {
+                    "Category": "Vulnerability Research",
+                    "Investigation_Type": "Vulnerability Assessment",
+                    "OSINT_Source_Types": [
+                      "Public Records",
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_091ed5ee331d3411016ae4e9868d1c87d080539a745b02348a",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 620,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 28,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 648
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111655930",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111655930
+            },
+            "revalidated_at": "2026-10-30T19:05:11.838190+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:59:51.938446+00:00",
+              "content_sha256": "638b68425514c20b1d79205975c35197e9cb8cc2cf81cd5404293c26bdfaae35",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -48579,7 +50135,7 @@
       "candidate_id": "weekly-90f9f16d7af57472d5ed0587",
       "content_sha256": "b22ee7fb93b248911777a73eded7430cb54ebc1858c63fda7c5c61bc5b19bcf5",
       "source_row": 1593,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -48680,23 +50236,83 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:59:51.938446+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T19:01:28.615823+00:00",
           "content_sha256": "b22ee7fb93b248911777a73eded7430cb54ebc1858c63fda7c5c61bc5b19bcf5",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "58a3957a7e4c358b79e88fc05bb876fad40a9a23e029a01f83b8cd824c110016",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T19:01:28.611286+00:00",
+              "content_sha256": "b22ee7fb93b248911777a73eded7430cb54ebc1858c63fda7c5c61bc5b19bcf5",
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_0f63f7d140a6537a016ae4e987a76087d0b682167d1127c913",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 641,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 34,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 675
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111655930",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111655930
+          },
+          "revalidated_at": "2026-10-30T19:05:11.841763+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:59:51.938446+00:00",
+            "content_sha256": "b22ee7fb93b248911777a73eded7430cb54ebc1858c63fda7c5c61bc5b19bcf5",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "b22ee7fb93b248911777a73eded7430cb54ebc1858c63fda7c5c61bc5b19bcf5",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": true
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-7701d5738d1893a76cd624b8",
       "content_sha256": "cbee12a729ce189173d30c8b5115ba3b51dac4e20fcb09b71f377976e51c6890",
       "source_row": 1600,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -48797,23 +50413,85 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:59:51.938446+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T19:01:29.697976+00:00",
           "content_sha256": "cbee12a729ce189173d30c8b5115ba3b51dac4e20fcb09b71f377976e51c6890",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "09f0190f56057826342c8c3cb2b40d882588361ae2bdd4f9b57abb0f628a00c9",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T19:01:29.692975+00:00",
+              "content_sha256": "cbee12a729ce189173d30c8b5115ba3b51dac4e20fcb09b71f377976e51c6890",
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Other",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_0b337ade2a167c74016ae4e988c71487d09108b1eb274fb732",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 594,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 23,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 617
+                },
+                "uncertainty_flags": [
+                  "Investigation_Type_other"
+                ]
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111655930",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111655930
+          },
+          "revalidated_at": "2026-10-30T19:05:11.845013+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:59:51.938446+00:00",
+            "content_sha256": "cbee12a729ce189173d30c8b5115ba3b51dac4e20fcb09b71f377976e51c6890",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "cbee12a729ce189173d30c8b5115ba3b51dac4e20fcb09b71f377976e51c6890",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": true
     },
     {
       "collection": "weekly",
       "candidate_id": "weekly-b7d56224650b4fee5c96c6eb",
       "content_sha256": "561f7a3778c4d29ddd896de50235820d0266d20926fa886fd5887ccc0b62f9e0",
       "source_row": 1857,
-      "status": "held",
+      "status": "passed_awaiting_recommendation",
       "checks": {
         "format": {
           "status": "passed",
@@ -48914,16 +50592,79 @@
           "limitations": "Existing source-aware weights/hard gates/thresholds unchanged. Original manuscript affiliations used; citation_count remains null."
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-10-30T18:59:51.938446+00:00",
+          "status": "passed",
+          "checked_at": "2026-10-30T19:01:30.678040+00:00",
           "content_sha256": "561f7a3778c4d29ddd896de50235820d0266d20926fa886fd5887ccc0b62f9e0",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "0040cafc3b559e8b4014e6f8b308e32c96090b61762859c4b698932ec95fff1a",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T19:01:30.673172+00:00",
+              "content_sha256": "561f7a3778c4d29ddd896de50235820d0266d20926fa886fd5887ccc0b62f9e0",
+              "evidence": {
+                "classification": {
+                  "Category": "Other",
+                  "Investigation_Type": "Other",
+                  "OSINT_Source_Types": []
+                },
+                "response_id": "resp_0b4e918b1fdd89ee016ae4e989db3c87d0a0b4fead7ae96828",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 649,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 28,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 677
+                },
+                "uncertainty_flags": [
+                  "Category_other",
+                  "Investigation_Type_other"
+                ]
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111655930",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111655930
+          },
+          "revalidated_at": "2026-10-30T19:05:11.848389+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:59:51.938446+00:00",
+            "content_sha256": "561f7a3778c4d29ddd896de50235820d0266d20926fa886fd5887ccc0b62f9e0",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "review_ready": false
+      "blockers": [],
+      "review_ready": false,
+      "recommendation_content_sha256": "561f7a3778c4d29ddd896de50235820d0266d20926fa886fd5887ccc0b62f9e0",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-10-30T19:07:34.824521+00:00",
+      "batch_admission_eligible": true
     },
     {
       "collection": "weekly",
@@ -49032,9 +50773,85 @@
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-30T18:59:51.938446+00:00",
+          "checked_at": "2026-10-30T19:07:34.824521+00:00",
           "content_sha256": "1f2322aa2b9f717320ed5f8f1eee2357092b09ebb3003cf10dfc076450c3c0bb",
-          "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          "evidence": {
+            "reason": "Actual paid enum validation and disposable serialization succeeded; positive OSINT source tags still require source-section support review. Do not equate valid serialization with verified source provenance. No second model call is needed for unchanged evidence.",
+            "source_tags_awaiting_support": [
+              "Code Repositories",
+              "Public Records"
+            ],
+            "document_sha256": "a734c8885032a4727a2c3c55c87780a8dd6651d838ef8e2149428a86c9c4adfa",
+            "paid_request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+            "next_action": "Inspect original methods/data-source sections; use the tested immutable source-only correction path if a tag is unsupported. Preserve the raw paid response and all independent gates."
+          },
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T19:01:32.184370+00:00",
+            "content_sha256": "1f2322aa2b9f717320ed5f8f1eee2357092b09ebb3003cf10dfc076450c3c0bb",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "2989d7c4f456e1039eb7eb712653a9c398096cc8875efda20a2b54e914b2bd19",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-10-30T19:01:32.179985+00:00",
+                "content_sha256": "1f2322aa2b9f717320ed5f8f1eee2357092b09ebb3003cf10dfc076450c3c0bb",
+                "evidence": {
+                  "classification": {
+                    "Category": "Vulnerability Research",
+                    "Investigation_Type": "Vulnerability Assessment",
+                    "OSINT_Source_Types": [
+                      "Code Repositories",
+                      "Public Records"
+                    ]
+                  },
+                  "response_id": "resp_02caa08d3025bed4016ae4e98ad64087d080c9deb16c095864",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 658,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 45,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 703
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41111655930",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+                "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+                "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41111655930
+            },
+            "revalidated_at": "2026-10-30T19:05:11.851851+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-30T18:59:51.938446+00:00",
+              "content_sha256": "1f2322aa2b9f717320ed5f8f1eee2357092b09ebb3003cf10dfc076450c3c0bb",
+              "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+            }
+          }
         }
       },
       "blockers": [
@@ -49070,31 +50887,31 @@
     "weekly": {
       "format": {
         "held": 90,
-        "passed": 60
+        "passed": 86
       },
       "access": {
         "held": 91,
-        "passed": 59
+        "passed": 85
       },
       "metadata": {
-        "held": 81,
-        "passed": 69
+        "held": 82,
+        "passed": 94
       },
       "duplicates": {
         "held": 1,
-        "passed": 149
+        "passed": 175
       },
       "quality": {
-        "held": 2,
-        "passed": 148
+        "held": 3,
+        "passed": 173
       },
       "schema": {
-        "held": 93,
-        "passed": 57
+        "held": 107,
+        "passed": 69
       }
     }
   },
-  "updated_at": "2026-10-30T18:59:51.938446+00:00",
+  "updated_at": "2026-10-30T19:07:34.824521+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
