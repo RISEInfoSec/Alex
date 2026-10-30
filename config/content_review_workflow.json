@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 13,
+  "version": 14,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -30,7 +30,10 @@
     "global_review_ready_target_applies_to": "Candidates actually requiring human review; automatically accepted candidates do not consume the manual-review buffer.",
     "buffer_thresholds_status": "User-confirmed: strictly below 100 triggers replenishment to 250.",
     "only_preflight_passed_candidates_count_as_review_ready": true,
-    "soups_min_ready_batches": 0
+    "soups_min_ready_batches": 0,
+    "human_review_daily_target": 200,
+    "new_batches_must_be_full": true,
+    "daily_target_basis": "Ten fully validated 20-paper batches available for human publication review; report actual throughput and unmet target rather than padding with held records."
   },
   "preparation": {
     "stages": [
@@ -392,5 +395,20 @@
     "independent_holds_first": true,
     "changes_to_existing_scores_thresholds_or_release_rules": false,
     "tests_passed": 8
+  },
+  "weekly_backlog_campaign": {
+    "confirmed_at": "2026-10-30T18:29:52.958453+00:00",
+    "source_inventory": "config/weekly_source_inventory.json",
+    "processing_inventory": "config/weekly_backlog_processing_inventory.json",
+    "daily_review_target": 200,
+    "batch_size": 20,
+    "priority": "First finish authorized validated releases. Then systematically process the entire untouched weekly inventory; prioritize usable complete abstracts and promising relevant scholarly material for source verification/enrichment. Archive expansion is secondary until the weekly preparation target is met; retain all coverage checkpoints.",
+    "review_contract": "Only fully validated candidates are offered for publication review. Every new record has a content-bound accept/reject recommendation, substantive reason, assessment depth, source links and known limitations. User acceptance is not accept-for-enrichment. Do not introduce an avoidable initial enrichment or quality blocker after acceptance.",
+    "mechanical_gates": "Retain all current format, access, identity/metadata, duplicate, quality, taxonomy and serialization checks before manual review. No threshold waiver, fabricated evidence, provider ban, or title/keyword-only substantive recommendation.",
+    "decisions": "Preserve completed decisions and sealed batch membership. New batches contain exactly 20 eligible candidates; do not alter existing short batches, pad with held items, or append to sealed batches. Final remainder may be reported explicitly.",
+    "recommendations": "For new batches recommend include (accept) or exclude (reject), based on substantive methods/findings and present-day usefulness. Explain borderline uncertainty in the reason, without inventing a third decision or treating the recommendation as the human decision.",
+    "accepted_release": "Reuse unchanged current content-bound preflight/taxonomy evidence. Run only changed/time-sensitive final checks; retain approval if a real new problem arises, recording the new evidence and release blocker. Do not ask for a duplicate editorial vote.",
+    "accounting": "Separate screened records, duplicate/exclusion flags, evidence holds, fully validated review-ready records, completed decisions and published records. Inventory triage is not substantive screening or dismissal.",
+    "scheduling": "Use the existing Content Review worker; do not create a duplicate schedule. Verify its actual enabled state separately."
   }
 }
