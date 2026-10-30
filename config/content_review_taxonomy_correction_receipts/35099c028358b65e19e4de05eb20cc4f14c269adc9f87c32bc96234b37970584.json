@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "correction_id": "35099c028358b65e19e4de05eb20cc4f14c269adc9f87c32bc96234b37970584",
+  "candidate_id": "weekly-113e06097f36138ed0898db9",
+  "content_sha256": "ffc744d3139069413673c894a868532e00c51bd76b3bbc81d19c7d60fc0970bd",
+  "applied_at": "2026-10-30T19:07:34.824521+00:00",
+  "before": {
+    "Category": "Privacy & Surveillance",
+    "Investigation_Type": "Other",
+    "OSINT_Source_Types": [
+      "Public Records",
+      "Forums & Communities"
+    ]
+  },
+  "after": {
+    "Category": "Privacy & Surveillance",
+    "Investigation_Type": "Other",
+    "OSINT_Source_Types": [
+      "Forums & Communities"
+    ]
+  },
+  "schema": {
+    "status": "passed",
+    "checked_at": "2026-10-30T19:07:34.824521+00:00",
+    "content_sha256": "ffc744d3139069413673c894a868532e00c51bd76b3bbc81d19c7d60fc0970bd",
+    "evidence": {
+      "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+      "target_record_sha256": "f384231aea296160fdf1dbb8cf1f45acf4e5c5ba8ac197eda639d55128e13f70",
+      "document_type": "research_paper",
+      "corpus_modified": false,
+      "publication_approved": false,
+      "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-10-30T18:57:47.272147+00:00",
+        "content_sha256": "ffc744d3139069413673c894a868532e00c51bd76b3bbc81d19c7d60fc0970bd",
+        "evidence": {
+          "classification": {
+            "Category": "Privacy & Surveillance",
+            "Investigation_Type": "Other",
+            "OSINT_Source_Types": [
+              "Forums & Communities"
+            ]
+          },
+          "response_id": "resp_0ac78c524966a615016ae4e8aa8ddc87d09c05f2128402d962",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 666,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 28,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 694
+          },
+          "uncertainty_flags": [
+            "Investigation_Type_other"
+          ],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "Privacy & Surveillance",
+            "Investigation_Type": "Other",
+            "OSINT_Source_Types": [
+              "Public Records",
+              "Forums & Communities"
+            ]
+          },
+          "correction_id": "35099c028358b65e19e4de05eb20cc4f14c269adc9f87c32bc96234b37970584"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "41111205240",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+        "source_correction_applied_at": "2026-10-30T19:07:34.824521+00:00"
+      },
+      "source_correction_id": "35099c028358b65e19e4de05eb20cc4f14c269adc9f87c32bc96234b37970584",
+      "source_document_sha256": "fa4ff5b22407cba9ec0f46e1c31ab06f939924484736f1626a8fa2352aad65e2",
+      "original_paid_target_sha256": "4c15e78a9e58f2b78b964dd74f7bd5ca3f2a0e8c87e15c37084b90ba47ccb333",
+      "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+    }
+  },
+  "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+  "paid_response_id": "resp_0ac78c524966a615016ae4e8aa8ddc87d09c05f2128402d962",
+  "additional_paid_requests": 0,
+  "corpus_modified": false,
+  "publication_approved": false
+}
