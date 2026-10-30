@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-30T19:50:51.779872+00:00",
+  "collection": "weekly",
+  "candidate_id": "weekly-1c7b527d1d312717499f6f50",
+  "content_sha256": "8eed8eac4246bbee3d15c0835676985c2bac9b08420a9a2fa6a829a1a96f6217",
+  "paid_request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+  "paid_response_id": "resp_0bccf99daacc0489016ae4e980731487d0a7eae009d4452638",
+  "original_classification": {
+    "Category": "Vulnerability Research",
+    "Investigation_Type": "Vulnerability Assessment",
+    "OSINT_Source_Types": [
+      "Public Records",
+      "Academic Literature",
+      "Other"
+    ]
+  },
+  "source_document_sha256": "a4a1a6d3726a5ed3e25de9a41fa65b6e73a96859766ac4554f0831b90ca12ca4",
+  "source_document_url": "https://arxiv.org/pdf/2604.17948",
+  "proposed_source_types": [
+    "Public Records",
+    "Government Data"
+  ],
+  "supported_tags": {
+    "Public Records": {
+      "section": "Methodology III.A Data Collection Pipeline; abstract",
+      "evidence": "The RAG corpus is built from 70 publicly available Google Project Zero vulnerability reports and MITRE CWE entries."
+    },
+    "Government Data": {
+      "section": "Abstract; Methodology; evaluation dataset",
+      "evidence": "The evaluation uses 105 vulnerable code samples across 15 CWE types from the NIST SARD government dataset."
+    }
+  },
+  "removed_tag_reasons": {
+    "Academic Literature": "Academic papers are background citations, not the reported RAG or evaluation data source.",
+    "Other": "The actual RAG and evaluation sources are specifically identified as public vulnerability reports/registries and NIST SARD; an unspecified residual source is not established."
+  },
+  "material_inspected": "Actual verified PDF abstract and Methodology III.A data-collection section, including Google Project Zero, MITRE CWE and NIST SARD provenance; no full scientific critique.",
+  "no_source_type_basis": null,
+  "evidence_status": "verified",
+  "scope": "OSINT_Source_Types only; source-content correction, not another paid response",
+  "correction_id": "4f6f770ad3f1ea4dc2099e0208109ff412131bed8e29e80e8b726892004db491"
+}
