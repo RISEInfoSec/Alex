@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "correction_id": "5eb969d5e11566096159beaa573c9f96156291430a9d4f3a42d321a29919294d",
+  "candidate_id": "weekly-1e63989c6bf1f4053c1bb3b8",
+  "content_sha256": "638b68425514c20b1d79205975c35197e9cb8cc2cf81cd5404293c26bdfaae35",
+  "applied_at": "2026-10-30T19:50:51.778497+00:00",
+  "before": {
+    "Category": "Vulnerability Research",
+    "Investigation_Type": "Vulnerability Assessment",
+    "OSINT_Source_Types": [
+      "Public Records",
+      "Other"
+    ]
+  },
+  "after": {
+    "Category": "Vulnerability Research",
+    "Investigation_Type": "Vulnerability Assessment",
+    "OSINT_Source_Types": [
+      "Corporate Records",
+      "Code Repositories"
+    ]
+  },
+  "schema": {
+    "status": "passed",
+    "checked_at": "2026-10-30T19:50:51.778497+00:00",
+    "content_sha256": "638b68425514c20b1d79205975c35197e9cb8cc2cf81cd5404293c26bdfaae35",
+    "evidence": {
+      "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+      "target_record_sha256": "7817ed79404300d5f290cd25b180319d5acb8131d28b9cdce63bd8db5c562c44",
+      "document_type": "research_paper",
+      "corpus_modified": false,
+      "publication_approved": false,
+      "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-10-30T19:01:27.479316+00:00",
+        "content_sha256": "638b68425514c20b1d79205975c35197e9cb8cc2cf81cd5404293c26bdfaae35",
+        "evidence": {
+          "classification": {
+            "Category": "Vulnerability Research",
+            "Investigation_Type": "Vulnerability Assessment",
+            "OSINT_Source_Types": [
+              "Corporate Records",
+              "Code Repositories"
+            ]
+          },
+          "response_id": "resp_091ed5ee331d3411016ae4e9868d1c87d080539a745b02348a",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 620,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 28,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 648
+          },
+          "uncertainty_flags": [],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "Vulnerability Research",
+            "Investigation_Type": "Vulnerability Assessment",
+            "OSINT_Source_Types": [
+              "Public Records",
+              "Other"
+            ]
+          },
+          "correction_id": "5eb969d5e11566096159beaa573c9f96156291430a9d4f3a42d321a29919294d"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "41111655930",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+        "source_correction_applied_at": "2026-10-30T19:50:51.778497+00:00"
+      },
+      "source_correction_id": "5eb969d5e11566096159beaa573c9f96156291430a9d4f3a42d321a29919294d",
+      "source_document_sha256": "ed5a3cf3fcc2a42efe37e5110d5a21a9de7f85e93f3fc0128be824ef27c80ef9",
+      "original_paid_target_sha256": "21a8fd4e59e865ccafd86883e95e7e6787f13c8496b20af208011ff4a4cb3a36",
+      "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+    }
+  },
+  "paid_request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+  "paid_response_id": "resp_091ed5ee331d3411016ae4e9868d1c87d080539a745b02348a",
+  "additional_paid_requests": 0,
+  "corpus_modified": false,
+  "publication_approved": false
+}
