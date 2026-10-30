@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "correction_id": "fc805b39d63ef61014d92c3d050fd6bf7d8eef83347faa36a812a85c4b83c29b",
+  "candidate_id": "weekly-a9125f2ef141d7922ecad61c",
+  "content_sha256": "1120051386f552dfa4b67c1ea4f86d5e6bb105fd193e9019fe3129239e5c4855",
+  "applied_at": "2026-10-30T19:50:51.778497+00:00",
+  "before": {
+    "Category": "Disinformation & Influence",
+    "Investigation_Type": "Social Media Analysis",
+    "OSINT_Source_Types": [
+      "Social Media",
+      "Other"
+    ]
+  },
+  "after": {
+    "Category": "Disinformation & Influence",
+    "Investigation_Type": "Social Media Analysis",
+    "OSINT_Source_Types": [
+      "Other"
+    ]
+  },
+  "schema": {
+    "status": "passed",
+    "checked_at": "2026-10-30T19:50:51.778497+00:00",
+    "content_sha256": "1120051386f552dfa4b67c1ea4f86d5e6bb105fd193e9019fe3129239e5c4855",
+    "evidence": {
+      "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+      "target_record_sha256": "9b202d3ec814b8bddc48e640feaa279ff027549b4894ff96e97ca0c40c7039f2",
+      "document_type": "research_paper",
+      "corpus_modified": false,
+      "publication_approved": false,
+      "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-10-30T19:01:26.373828+00:00",
+        "content_sha256": "1120051386f552dfa4b67c1ea4f86d5e6bb105fd193e9019fe3129239e5c4855",
+        "evidence": {
+          "classification": {
+            "Category": "Disinformation & Influence",
+            "Investigation_Type": "Social Media Analysis",
+            "OSINT_Source_Types": [
+              "Other"
+            ]
+          },
+          "response_id": "resp_0fd69a29a252df55016ae4e985a31c87d0812eff3b2a41604b",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 608,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 29,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 637
+          },
+          "uncertainty_flags": [],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "Disinformation & Influence",
+            "Investigation_Type": "Social Media Analysis",
+            "OSINT_Source_Types": [
+              "Social Media",
+              "Other"
+            ]
+          },
+          "correction_id": "fc805b39d63ef61014d92c3d050fd6bf7d8eef83347faa36a812a85c4b83c29b"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "41111655930",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "2c5e4c00e75015417a31f7a296661afda2996cfa",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+        "source_correction_applied_at": "2026-10-30T19:50:51.778497+00:00"
+      },
+      "source_correction_id": "fc805b39d63ef61014d92c3d050fd6bf7d8eef83347faa36a812a85c4b83c29b",
+      "source_document_sha256": "baf8acfa80dd3048e84633f25eed51500d8f5d99ff2da762d3d8e1fc32fb90c2",
+      "original_paid_target_sha256": "0a8924bdfd371784d63a55b7ce5aa1a519ed0f77cc3d550e4ac73d8a5bc6393a",
+      "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+    }
+  },
+  "paid_request_id": "c1b954f7d4f1e8a25fa32c8acadf4166d4d90d6428e7da873fcf9a6e035d9aad",
+  "paid_response_id": "resp_0fd69a29a252df55016ae4e985a31c87d0812eff3b2a41604b",
+  "additional_paid_requests": 0,
+  "corpus_modified": false,
+  "publication_approved": false
+}
