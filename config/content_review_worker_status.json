@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "run_id": "alex-discovery-audit-20261101203101698",
-    "owner": "alex-discovery-audit-20261101203101698",
-    "acquired_at": "2026-11-01T20:31:01.698Z",
-    "expires_at": "2026-11-01T21:19:50.784Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -34,13 +29,13 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-10-30T19:53:56.871Z",
-  "last_action": "Resolved five manual-route weekly taxonomy source-provenance holds from unchanged verified documents with immutable source-only corrections and no paid/source/OpenAlex calls. All five now pass six gates and have substantive include recommendations with limitations. The cleared manual remainder is12 and needs8 more for the next exact20 batch; no batch was sealed, ready remains0/250, and the daily result remains0/200. Preserved all4041 identities, all prior batches/decisions, six automatic handoffs, five validated publication-pending approvals and the IllinoisState release hold. No public import, merge or deployment.",
+  "last_completed_at": "2026-11-01T20:59:49.835Z",
+  "last_action": "Authorized Discovery audit published7 independently validated papers (1 existing human approval and6 qualifying automatic handoffs), verified every title in the live3173-record collection and preserved5 new source403 holds plus the existing Guardians access hold. Reconciled all persisted pipeline and archive identities:76392 unpublished at start =7 published +6608 still requiring action +69777 terminal rejections/exclusions. Existing hourly automation remains paused. No threshold waiver, repeat editorial vote or new schedule.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
-    "complete": 64,
-    "held_or_partial": 252,
+    "complete": 59,
+    "held_or_partial": 257,
     "fresh_pdf_access_and_front_matter_passed": 17,
     "quality_passed": 5,
     "quality_held": 246,
@@ -89,7 +84,8 @@
     "source_documents_checked_this_run": 0,
     "new_source_documents_this_run": 0,
     "first_five_gates_current_passed_new": 0,
-    "source_documents_reused_this_run": 5
+    "source_documents_reused_this_run": 5,
+    "source_release_holds": 6
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
   "last_started_at": "2026-11-01T20:31:01.698Z",
@@ -176,8 +172,8 @@
     "reason": "Twelve manually cleared candidates await8 more for an exact20 batch. Eight taxonomy-source holds,1 truncated abstract and15 raw source/version mismatches remain. Actual ready0/250 and0/200 daily target."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-10-30T19:53:56.871Z",
-    "scope": "weekly_backlog_manual_source_tag_resolution",
+    "verified_at": "2026-11-01T20:59:49.835Z",
+    "scope": "authorized_discovery_backlog_audit_and_publication",
     "workflow_version": 14,
     "d1_completed_submissions": 60,
     "d1_decisions": 914,
@@ -203,10 +199,13 @@
     "source_documents_reused": 5,
     "identity_abstract_triage_rows": 4041,
     "preflight_checkpoint": "config/content_review_mechanical_checkpoints/2026-10-30T1950Z-manual-source-tags-5.json",
-    "public_corpus_modified": false,
-    "published_count": 0
+    "public_corpus_modified": true,
+    "published_count": 7,
+    "public_total": 3173,
+    "remaining_immutable_jobs": 31,
+    "pending_automatic_handoffs": 0
   },
-  "checkpointed_at": "2026-10-30T19:53:56.871Z",
+  "checkpointed_at": "2026-11-01T20:59:49.835Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
@@ -226,10 +225,11 @@
     }
   },
   "next_actions": [
-    "Continue the4041-row ledger:12 six-gate-cleared manual candidates with include/exclude reasons need8 additional eligible candidates before sealing the next exact20 batch.",
-    "Inspect source/method sections for the8 remaining positive OSINT source-tag holds, reusing completed paid artifacts and unchanged PDFs without another call.",
-    "Recover the complete original abstract for source_row531 and reconcile15 saved source/version/abstract differences before any new paid classification.",
-    "Keep six regular automatic handoffs separate from the manual target; refresh their final checks only through the established authorized executor. Preserve five final-validated human approvals and the IllinoisState403 release hold without repeating it."
+    "Existing Content Review hourly automation is paused. Preserve that state until the user requests resumption; do not create a duplicate schedule.",
+    "Complete allowed source-access work for the six approved access-held weekly papers. Preserve their prior approvals and avoid unchanged repeated403 requests.",
+    "Continue mechanical/metadata/quality/taxonomy preparation for legacy approved items and the full preserved weekly inventory. The full audit lists every recorded hold and missing proof.",
+    "Twelve validated manual candidates need eight more eligible peers for the next exact20 batch. Do not ask the user to investigate mechanical failures or repeat prior votes.",
+    "All six regular automatic handoffs were consumed and verified public in the2026-11-01 receipt. Do not reimport them or process completed jobs again."
   ],
   "paid_execution": {
     "status": "operational_verified",
@@ -349,41 +349,46 @@
     "live_url": "https://alex.riseinfosec.org/",
     "checked_at": "2026-10-28T12:44:13.664Z",
     "current_run": {
-      "status": "partially_published_approvals_preserved",
-      "published": 4,
-      "public_total": 3166,
-      "remaining_previously_validated_approvals": 4,
-      "new_batch23_approval_needs_final_validation": false,
+      "status": "partially_published_source_holds_preserved",
+      "published": 7,
+      "published_this_audit": 7,
+      "public_total": 3173,
       "published_candidate_ids": [
-        "weekly-e3e3c8b6597c206183397530",
-        "weekly-129ce5ffe83fd6339e377ef8",
-        "weekly-8e84e2f2e22569f8d655fc7f",
-        "weekly-613259936d5f6e81dd8c3b48"
+        "weekly-30ccc34f37ae0f7955691eff",
+        "weekly-eb922d4c4c8d9102c9aeb714",
+        "weekly-afc22805bc5bc5a2e81179fc",
+        "weekly-e11ec718fb2edd5a2ef621f8",
+        "weekly-40317d1f4df39c7c1024715d",
+        "weekly-15e5c1eadad1a5d001447563",
+        "weekly-0ea84d001099ee3ab328c37d"
       ],
       "remaining_candidate_ids": [
         "weekly-17dfd4d6d878d9383b5a6794",
         "weekly-6c7717ff1c241014cd08e9eb",
         "weekly-91d2a387238ce370bc971152",
-        "weekly-f3c935fb429460bef56d7840"
+        "weekly-f3c935fb429460bef56d7840",
+        "weekly-d3bd8a9de831af91bc7ffd57",
+        "weekly-4eab976a4e932d7c008c8a26"
       ],
-      "receipt": "config/content_review_publication_receipts/2026-10-30-approved-4.json",
-      "release_workflow_run": 41106900530,
-      "pages_workflow_run": 41106988139,
-      "remaining_release_attempt": 41108871647,
-      "remaining_release_blocker": "Supported runner returnedHTTP403 for the IllinoisState PDF and stopped before corpus application; other three sources were not attempted in that run. Approvals remain approved.",
-      "checked_at": "2026-10-30T19:11:29.609Z",
-      "known_validated_pending_candidates": [
+      "known_validated_pending_candidates": [],
+      "remaining_all_validated_pending": 0,
+      "remaining_source_held_approved_candidates": [
         "weekly-17dfd4d6d878d9383b5a6794",
         "weekly-6c7717ff1c241014cd08e9eb",
         "weekly-91d2a387238ce370bc971152",
         "weekly-f3c935fb429460bef56d7840",
-        "weekly-30ccc34f37ae0f7955691eff"
+        "weekly-d3bd8a9de831af91bc7ffd57",
+        "weekly-4eab976a4e932d7c008c8a26"
       ],
-      "new_batch23_final_validation_complete": true,
-      "new_approval_this_maintenance_pass": 1,
-      "new_published_this_maintenance_pass": 0,
-      "remaining_all_validated_pending": 5,
-      "release_scope_note": "Four earlier published records verified from the existing receipt/current main corpus. The previously authorized remaining four preserve approval after the IllinoisState source403; no unchanged release failure was repeated. Batch23 is final-validated and staged for the established specifically authorized executor. No second editorial vote is requested."
+      "automatic_handoffs_consumed": 6,
+      "pending_automatic_handoffs": 0,
+      "receipt": "config/content_review_publication_receipts/2026-11-01-discovery-backlog.json",
+      "public_receipt": "data/content_review_release_receipts/2026-11-01-discovery-backlog.json",
+      "release_workflow_run": 41347935401,
+      "pages_workflow_run": 41348089323,
+      "public_commit": "f2aa7cc315e824a0556054d4bf84630d40bb06c3",
+      "checked_at": "2026-11-01T20:59:49.835Z",
+      "release_scope_note": "Seven new items verified live; five attempted sources returnedHTTP403 and one prior access hold remains. All approvals retained. Prior releases remain recorded in their immutable receipts."
     }
   },
   "corpus_audit_checkpoint": {
@@ -555,5 +560,15 @@
     "source_documents_reused": 5,
     "processing_inventory_sha": "9224eb9fb291204088087b6e35a141365f9efb0c",
     "checkpoint": "config/content_review_mechanical_checkpoints/2026-10-30T1950Z-manual-source-tags-5.json"
+  },
+  "discovery_backlog_audit": {
+    "receipt": "config/discovery_backlog_audits/2026-11-01.json",
+    "completed_at": "2026-11-01T20:59:49.835Z",
+    "unique_unpublished_at_start": 76392,
+    "published": 7,
+    "remaining_action_required": 6608,
+    "resolved_or_excluded_without_publication": 69777,
+    "paused_worker_verified": true,
+    "source_coverage_complete": false
   }
 }
