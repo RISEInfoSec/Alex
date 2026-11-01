@@ -189,6 +189,7 @@
     }
   </style>
   <link rel="stylesheet" href="/assets/research-context.css">
+  <link rel="stylesheet" href="/assets/record-actions.css">
 </head>
 <body>
 <header>
@@ -275,6 +276,7 @@
 </footer>
 
 <script src="/assets/research-context.js"></script>
+<script src="/assets/record-actions.js"></script>
 <script>
 let papers = [];
 let browseAll = false;
@@ -326,7 +328,7 @@ fetch('data/papers.json', {cache: 'no-cache'})
     }));
     document.getElementById('paperCount').textContent = `${papers.length.toLocaleString('en-CA')} papers`;
     populateFilters(papers);
-    applyFilters();
+    if (!showRequestedRecord()) applyFilters();
   })
   .catch(() => { summaryEl.textContent = 'The library could not be loaded. Please refresh to try again.'; });
 
@@ -405,6 +407,7 @@ function displayPapers(list) {
         <p>${links}</p>
       </details>
     `;
+    AlexRecords.attach(div, p);
     resultsEl.appendChild(div);
   });
 
@@ -413,7 +416,41 @@ function displayPapers(list) {
   }
 }
 
+const libraryTitle = document.title;
+function showRequestedRecord() {
+  const requested = new URL(location.href).searchParams.get('record');
+  if (requested === null) return false;
+  const paper = AlexRecords.resolve(papers, requested);
+  latestNote.hidden = true;
+  browseBtn.hidden = true;
+  historicalEl.parentElement.hidden = true;
+  if (paper) {
+    displayPapers([paper]);
+    resultsEl.querySelector('details').open = true;
+    summaryEl.textContent = 'Shared ALEX record';
+    document.title = paper.title + ' | ALEX by RISE';
+  } else {
+    resultsEl.innerHTML = '<div class="section"><h3>Record unavailable</h3><p>This link does not identify a unique published record. It may have been removed or its bibliographic identity may have changed.</p></div>';
+    summaryEl.textContent = 'Record unavailable';
+  }
+  const back = document.createElement('a');
+  back.href = '/';
+  back.textContent = 'Back to the library';
+  resultsEl.prepend(back);
+  resultsEl.scrollIntoView({block: 'start'});
+  return true;
+}
+window.addEventListener('popstate', () => {
+  if (!showRequestedRecord()) applyFilters();
+});
 function applyFilters() {
+  const url = new URL(location.href);
+  if (url.searchParams.has('record')) {
+    url.searchParams.delete('record');
+    history.replaceState(null, '', url);
+  }
+  document.title = libraryTitle;
+  historicalEl.parentElement.hidden = false;
   const filtered = [searchEl, sourceEl, categoryEl, yearEl, investigationEl].some(el => el.value.trim());
   const latest = !browseAll && !filtered;
   const list = latest
@@ -457,3 +494,4 @@ document.getElementById('clearBtn').addEventListener('click', () => {
 </script>
 </body>
 </html>
+
