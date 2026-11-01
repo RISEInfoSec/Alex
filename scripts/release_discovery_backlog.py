@@ -1,6 +1,6 @@
 """Release an explicitly authorized, evidence-bound backlog, holding failures per item."""
 from __future__ import annotations
-import contextlib,csv,hashlib,io,json,os,re,signal,sys,tempfile,time,unicodedata
+import argparse,contextlib,csv,hashlib,io,json,os,re,signal,sys,tempfile,time,unicodedata
 from datetime import datetime,timezone
 from pathlib import Path
 from unittest.mock import patch
@@ -120,6 +120,26 @@ def release(manifest,corpus,receipt,exclusions,weights,get=requests.get,write=Fa
         temp.replace(corpus);receipt.parent.mkdir(parents=True,exist_ok=True);receipt.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     return result
 
+def release_pending(root=Path('.'),write=False):
+    """Consume immutable approved-* requests; retain one receipt per request."""
+    root=Path(root);weights=json.loads((root/'config/quality_weights.json').read_text())
+    results=[]
+    for manifest in sorted((root/'config/content_review_releases').glob('approved-*.json')):
+        request=json.loads(manifest.read_text())
+        require(request['release_id']==manifest.stem,'Release identity/path mismatch')
+        result=release(manifest,root/'data/accepted_classified.csv',
+            root/'data/content_review_release_receipts'/manifest.name,
+            root/'config/corpus_exclusions.json',weights,write=write)
+        results.append(result)
+    return results
+
 if __name__=='__main__':
-    result=release('config/content_review_releases/2026-11-01-discovery-backlog.json','data/accepted_classified.csv','data/content_review_release_receipts/2026-11-01-discovery-backlog.json','config/corpus_exclusions.json',json.loads(Path('config/quality_weights.json').read_text()),write=True)
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--pending-approved',action='store_true')
+    args=parser.parse_args()
+    if args.pending_approved:
+        result=release_pending(write=True)
+    else:
+        result=release('config/content_review_releases/2026-11-01-discovery-backlog.json','data/accepted_classified.csv','data/content_review_release_receipts/2026-11-01-discovery-backlog.json','config/corpus_exclusions.json',json.loads(Path('config/quality_weights.json').read_text()),write=True)
     print(json.dumps(result,ensure_ascii=False,indent=2))
+
