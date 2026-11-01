@@ -57,25 +57,32 @@ def test_live_decision_excludes_candidate_from_admission():
     assert receipt['admitted'] == 0 and result['records'] == []
 
 
-def test_full_batch_policy_keeps_cleared_remainder_without_reopening_sealed_batch():
+def test_legacy_full_batch_flag_never_blocks_cleared_remainder():
     manifest, stage = inputs(21)
     manifest['new_batches_must_be_full'] = True
     result, checkpoint, receipt = admit(manifest, stage, 'weekly', submitted_batches=[23])
-    assert [(b['batch'], b['count']) for b in receipt['batches']] == [(24, 20)]
-    assert receipt['cleared_awaiting_full_batch'] == 1
-    assert len(result['preflight_records']) == 1
-    assert result['preflight_records'][0]['candidate_id'] == 'weekly-20'
-    assert result['mechanical_passed_awaiting_batch_admission'] == 1
+    assert [(b['batch'], b['count']) for b in receipt['batches']] == [(24, 20), (25, 1)]
+    assert receipt['cleared_awaiting_full_batch'] == 0
+    assert result['preflight_records'] == []
+    assert result['mechanical_passed_awaiting_batch_admission'] == 0
     replay, _, again = admit(result, checkpoint, 'weekly', submitted_batches=[24])
     assert replay == result
     assert again['admitted'] == 0
-    assert again['cleared_awaiting_full_batch'] == 1
+    assert again['cleared_awaiting_full_batch'] == 0
 
 
-def test_new_manifests_default_to_full_batches():
+def test_new_manifests_admit_a_single_cleared_candidate_immediately():
     manifest, stage = inputs(1)
     del manifest['new_batches_must_be_full']
     result, _, receipt = admit(manifest, stage, 'weekly')
-    assert receipt['admitted'] == 0
-    assert result['mechanical_passed_awaiting_batch_admission'] == 1
-    assert result['records'] == []
+    assert receipt['admitted'] == 1
+    assert result['mechanical_passed_awaiting_batch_admission'] == 0
+    assert len(result['records']) == 1
+
+def test_twelve_cleared_candidates_are_offered_without_waiting_for_twenty():
+    manifest, stage = inputs(12)
+    manifest['new_batches_must_be_full'] = True
+    result, _, receipt = admit(manifest, stage, 'weekly', submitted_batches=[23])
+    assert [(b['batch'], b['count']) for b in receipt['batches']] == [(24, 12)]
+    assert result['ready_count'] == 12
+    assert result['preflight_records'] == []
