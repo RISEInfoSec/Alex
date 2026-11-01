@@ -248,7 +248,8 @@ def bibliography_item(paper: dict, taxonomy_routes: dict | None = None, source_r
     author = escape(str(paper.get("author") or "Author metadata incomplete"))
     year = escape(year_label(paper.get("year")) or "Publication year not recorded")
     venue = f' · {escape(str(paper["venue"]))}' if paper.get("venue") else ""
-    links = []
+    from alex.record_links import public_record_url
+    links = [f'<a href="{escape(public_record_url(paper), quote=True)}">Open ALEX record</a>']
     source = safe_url(paper.get("source_url"))
     if source and source != url:
         links.append(f'<a href="{escape(source, quote=True)}">Source page</a>')
@@ -448,3 +449,4 @@ if __name__ == "__main__":
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     generate(args.root, check=args.check)
+

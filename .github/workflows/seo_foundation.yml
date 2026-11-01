@@ -7,6 +7,11 @@ on:
       - 'alex/research_context.py'
       - 'tests/test_research_context.py'
       - 'tests/test_research_context.cjs'
+      - 'tests/test_record_actions.cjs'
+      - 'tests/test_record_links.py'
+      - 'alex/record_links.py'
+      - 'scripts/check_record_actions.py'
+      - '.github/ISSUE_TEMPLATE/record-removal.yml'
       - 'alex/taxonomy.py'
       - 'alex/pipelines/classify.py'
       - 'alex/pipelines/publish.py'
@@ -46,9 +51,11 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - name: Test collections and publishing
-        run: python -m pytest tests/test_collections.py tests/test_pipelines.py tests/test_apwg_import.py tests/test_research_context.py -q
+        run: python -m pytest tests/test_collections.py tests/test_pipelines.py tests/test_apwg_import.py tests/test_research_context.py tests/test_record_links.py -q
       - name: Test research context in JavaScript
-        run: node tests/test_research_context.cjs
+        run: |
+          node tests/test_research_context.cjs
+          node tests/test_record_actions.cjs
       - name: Check committed generation
         run: python -m alex.collections --check
       - name: Generate and validate the actual Pages artifact (no deployment)
@@ -59,6 +66,8 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Verify every collection layout and existing search
         run: python scripts/check_collection_layouts.py
+      - name: Verify record sharing and deletion request controls
+        run: python scripts/check_record_actions.py
       - uses: actions/upload-artifact@v7.0.2
         if: always()
         with:
@@ -71,3 +80,4 @@ jobs:
           name: alex-collections-preview
           path: _site
           retention-days: 14
+

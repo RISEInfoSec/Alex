@@ -143,6 +143,8 @@ def check(root: Path = ROOT, source_root: Path | None = None) -> None:
             left, right = (year_label(left), year_label(right)) if output == "year" else (str(left), str(right))
             assert left == right, f"Public metadata differs from accepted: {output} / {public.get('title')}"
 
+    from alex.record_links import public_record_url
+    record_urls = {public_record_url(paper) for paper in papers}
     expected = build(source_root, papers)
     managed_paths = {p for p in expected if p.startswith("research/")}
     collection_paths = {p for p in managed_paths if p.endswith(".html")}
@@ -175,7 +177,7 @@ def check(root: Path = ROOT, source_root: Path | None = None) -> None:
             url = urlsplit(urljoin(canonical, href))
             if url.netloc and url.netloc != "alex.riseinfosec.org":
                 continue
-            assert not url.query, "Do not create crawlable filter combinations"
+            assert not url.query or (urljoin(canonical, href) in record_urls and url.path == "/"), "Only exact public record links may have a query"
             target = root / url.path.lstrip("/")
             if not url.path or url.path.endswith("/"):
                 target /= "index.html"
@@ -208,3 +210,4 @@ if __name__ == "__main__":
     except (AssertionError, ValueError, OSError, ET.ParseError) as exc:
         print(f"SEO check failed: {exc}", file=sys.stderr)
         sys.exit(1)
+
