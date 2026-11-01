@@ -11,10 +11,9 @@ from tools.content_review.paid_worker import reviewed_digest
 def admit(manifest, stage, collection, submitted_batches=(), decided_ids=(), stamp=None):
     """Keep identities/content fixed; allocate new batches beyond every reservation.
 
-    Legacy batches may have 1–20 papers. New manifests can require full batches of20.
-    Later passes always allocate new batches,
-    never append to an admitted/submitted batch. The SOUPS full-batch floor is
-    counted separately. This function spends nothing and never changes decisions.
+    Every batch contains 1–20 papers;20 is a maximum, never a minimum.
+    Later passes always allocate new batches and never append to an
+    admitted/submitted batch. This function spends nothing and never changes decisions.
     """
     from tools.content_review.paid_worker import now
     stamp = stamp or now()
@@ -53,9 +52,7 @@ def admit(manifest, stage, collection, submitted_batches=(), decided_ids=(), sta
         eligible.append(row)
     eligible.sort(key=lambda r: r.get('review_number') or r.get('reserved_review_number'))
     awaiting_full_batch = 0
-    if result.get('new_batches_must_be_full', True):
-        awaiting_full_batch = len(eligible) % 20
-        eligible = eligible[:len(eligible) - awaiting_full_batch]
+    result['new_batches_must_be_full'] = False
     sealed = []
     for offset in range(0, len(eligible), 20):
         batch = next_batch + offset // 20
@@ -94,10 +91,9 @@ def admit(manifest, stage, collection, submitted_batches=(), decided_ids=(), sta
     result['preflight_held_count'] = sum(r.get('preflight', {}).get('status') != 'passed'
                                        for r in all_rows if (collection, r['candidate_id']) in stages)
     result['preflight_policy'] = (
-        'Admit only six current hash-bound gate passes and current substantive recommendations. ' +
-        ('Seal new full batches of 20; keep the cleared remainder awaiting admission; never append to sealed batches.'
-         if result.get('new_batches_must_be_full', True) else
-         'Seal batches of 1–20 cleared candidates independently of held peers; never append to sealed batches.')
+        'Admit only six current hash-bound gate passes and current substantive recommendations. '
+        'Seal batches of1–20 cleared candidates immediately;20 is the maximum, never a minimum. '
+        'Never wait for20 or append to sealed batches.'
     )
     checkpoint['updated_at'] = stamp
     counts = Counter(r['review_batch'] for r in ready)
