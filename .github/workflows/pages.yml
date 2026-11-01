@@ -32,12 +32,12 @@ jobs:
     # that publish actually succeeded. Otherwise we'd redeploy on every
     # publish failure too, masking the problem.
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     environment:
       name: github-pages
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
         with:
           # workflow_run runs check out the SHA of the workflow that
           # triggered them by default — for us that's the SHA at the
@@ -46,8 +46,8 @@ jobs:
           ref: main
       - name: Generate and validate Pages artifact
         run: python3 scripts/stage_site.py
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6.0.0
+      - uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: _site
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5.0.1
