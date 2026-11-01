@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 16,
+  "version": 17,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -144,13 +144,23 @@
     "post_acceptance_scope": "Final/time-sensitive revalidation and changed-content checks; initial format/access/metadata/duplicate/quality/schema gates run before human review."
   },
   "release": {
-    "publication_approved_by_relevance_selection": false,
+    "publication_approved_by_relevance_selection": true,
     "universal_manual_release_gate": false,
     "preserve_existing_publication_policy": true,
     "regular_automatic_intake": "Continue through the existing automatic publication path only after required checks pass; do not add a universal human approval step.",
-    "explicitly_curated_collections": "Preserve their existing controlled import, merge and deployment authorization requirements.",
+    "explicitly_curated_collections": "Keep controlled evidence-bound import and existing tests; completed authenticated Include plus passed checks satisfies publication authorization. Use the supported executor for each material/collection.",
     "ready_records_may_be_released_without_waiting_for_held_records": true,
-    "existing_regular_pipeline": "Integrate status reporting and automatic assessments while preserving current automatic-acceptance and publication rules. Saving this proposal does not alter the live pipeline."
+    "existing_regular_pipeline": "Integrate status reporting and automatic assessments while preserving current automatic-acceptance and publication rules. Saving this proposal does not alter the live pipeline.",
+    "authorization_confirmed_at": "2026-11-01",
+    "authorization_scope": "A completed authenticated Include decision for the exact reviewed content is standing authorization to publish once all existing gates pass, including the necessary controlled import, release PR merge and Pages deployment. No second approval is required. This does not authorize changed/rejected/held content.",
+    "publication_executor": "scripts/release_discovery_backlog.py --pending-approved on main; immutable config/content_review_releases/approved-*.json; .github/workflows/approved_publication.yml; Pages follows successful completion.",
+    "publication_priority": "Process completed eligible approvals before intake/refill work on every worker pass; release peers independently.",
+    "timing": {
+      "cadence": "existing hourly worker",
+      "normal_target_minutes": 90,
+      "measured_from": "completed Include decision",
+      "overdue_action": "If eligible approvals are still not live after 90 minutes, report the actual failed stage and age, preserve approval, and continue supported recovery. Never claim staged or merged means live."
+    }
   },
   "implementation_work_remaining": [
     "Run and record source-specific preflight checks; release only evidenced passes into manual review.",
@@ -412,7 +422,7 @@
     "mechanical_gates": "Retain all current format, access, identity/metadata, duplicate, quality, taxonomy and serialization checks before manual review. No threshold waiver, fabricated evidence, provider ban, or title/keyword-only substantive recommendation.",
     "decisions": "Preserve completed decisions and sealed batch membership. Twenty is the maximum, never a minimum. Seal and offer any1–20 fully validated candidates immediately; never wait for20, pad with held items, reopen a sealed batch, or append to it.",
     "recommendations": "For new batches recommend include (accept) or exclude (reject), based on substantive methods/findings and present-day usefulness. Explain borderline uncertainty in the reason, without inventing a third decision or treating the recommendation as the human decision.",
-    "accepted_release": "Reuse unchanged current content-bound preflight/taxonomy evidence. Run only changed/time-sensitive final checks; retain approval if a real new problem arises, recording the new evidence and release blocker. Do not ask for a duplicate editorial vote.",
+    "accepted_release": "Reuse unchanged current content-bound preflight/taxonomy evidence. Run only changed/time-sensitive final checks; retain approval if a real new problem arises, recording the new evidence and release blocker. Do not ask for a duplicate editorial vote. Completed Include is standing publication authorization; invoke the controlled release path on the next worker pass without seeking another vote.",
     "accounting": "Separate screened records, duplicate/exclusion flags, evidence holds, fully validated review-ready records, completed decisions and published records. Inventory triage is not substantive screening or dismissal.",
     "scheduling": "Use the existing Content Review worker; do not create a duplicate schedule. Verify its actual enabled state separately.",
     "minimum_batch_size": 1,
