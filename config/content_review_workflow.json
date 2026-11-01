@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 14,
+  "version": 15,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -32,8 +32,10 @@
     "only_preflight_passed_candidates_count_as_review_ready": true,
     "soups_min_ready_batches": 0,
     "human_review_daily_target": 200,
-    "new_batches_must_be_full": true,
-    "daily_target_basis": "Ten fully validated 20-paper batches available for human publication review; report actual throughput and unmet target rather than padding with held records."
+    "new_batches_must_be_full": false,
+    "daily_target_basis": "200 actually ready papers per day in batches of1–20. Offer cleared partial batches immediately; never wait for20 or pad with held items.",
+    "human_review_batch_minimum": 1,
+    "human_review_batch_maximum": 20
   },
   "preparation": {
     "stages": [
@@ -67,13 +69,15 @@
       "hold_location": "Source manifest preflight_records or non-ready records; never part of the human buffer."
     },
     "batch_admission": {
-      "policy": "Seal cleared candidates immediately in batches of 1–20; held peers do not delay admission.",
-      "confirmed_at": "2026-10-28",
+      "policy": "Seal any1–20 cleared candidates immediately;20 is the maximum, never a minimum. Held peers do not delay admission.",
+      "confirmed_at": "2026-11-01T21:06:51.300452+00:00",
       "preserve_candidate_ids_paper_numbers_and_hashes": true,
       "explicit_new_batch_ids": true,
       "never_append_to_sealed_batches": true,
-      "soups_full_batch_floor_size": 20,
-      "helper": "tools/content_review/admit_cleared.py"
+      "soups_full_batch_floor_size": 0,
+      "helper": "tools/content_review/admit_cleared.py",
+      "minimum_candidates": 1,
+      "maximum_candidates": 20
     }
   },
   "submission_handoff": {
@@ -405,10 +409,14 @@
     "priority": "First finish authorized validated releases. Then systematically process the entire untouched weekly inventory; prioritize usable complete abstracts and promising relevant scholarly material for source verification/enrichment. Archive expansion is secondary until the weekly preparation target is met; retain all coverage checkpoints.",
     "review_contract": "Only fully validated candidates are offered for publication review. Every new record has a content-bound accept/reject recommendation, substantive reason, assessment depth, source links and known limitations. User acceptance is not accept-for-enrichment. Do not introduce an avoidable initial enrichment or quality blocker after acceptance.",
     "mechanical_gates": "Retain all current format, access, identity/metadata, duplicate, quality, taxonomy and serialization checks before manual review. No threshold waiver, fabricated evidence, provider ban, or title/keyword-only substantive recommendation.",
-    "decisions": "Preserve completed decisions and sealed batch membership. New batches contain exactly 20 eligible candidates; do not alter existing short batches, pad with held items, or append to sealed batches. Final remainder may be reported explicitly.",
+    "decisions": "Preserve completed decisions and sealed batch membership. Twenty is the maximum, never a minimum. Seal and offer any1–20 fully validated candidates immediately; never wait for20, pad with held items, reopen a sealed batch, or append to it.",
     "recommendations": "For new batches recommend include (accept) or exclude (reject), based on substantive methods/findings and present-day usefulness. Explain borderline uncertainty in the reason, without inventing a third decision or treating the recommendation as the human decision.",
     "accepted_release": "Reuse unchanged current content-bound preflight/taxonomy evidence. Run only changed/time-sensitive final checks; retain approval if a real new problem arises, recording the new evidence and release blocker. Do not ask for a duplicate editorial vote.",
     "accounting": "Separate screened records, duplicate/exclusion flags, evidence holds, fully validated review-ready records, completed decisions and published records. Inventory triage is not substantive screening or dismissal.",
-    "scheduling": "Use the existing Content Review worker; do not create a duplicate schedule. Verify its actual enabled state separately."
+    "scheduling": "Use the existing Content Review worker; do not create a duplicate schedule. Verify its actual enabled state separately.",
+    "minimum_batch_size": 1,
+    "maximum_batch_size": 20,
+    "new_batches_must_be_full": false,
+    "batch_policy_confirmed_at": "2026-11-01T21:06:51.300452+00:00"
   }
 }
