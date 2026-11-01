@@ -1,0 +1,62 @@
+name: Approved Content Review publication
+on:
+  pull_request:
+    paths:
+      - 'config/content_review_releases/approved-*.json'
+      - 'scripts/release_discovery_backlog.py'
+      - 'tests/test_approved_publication.py'
+      - '.github/workflows/approved_publication.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'config/content_review_releases/approved-*.json'
+      - '.github/workflows/approved_publication.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: pipeline
+  cancel-in-progress: false
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q tests/test_content_review_release.py tests/test_discovery_backlog_release.py tests/test_approved_publication.py
+  release:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: main
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q tests/test_content_review_release.py tests/test_discovery_backlog_release.py tests/test_approved_publication.py
+      - name: Apply approved requests with independent source holds
+        env:
+          PYTHONPATH: .
+        run: python scripts/release_discovery_backlog.py --pending-approved
+      - name: Publish and stage the updated corpus
+        run: |
+          python -m alex.cli publish --record-collection
+          python scripts/stage_site.py
+      - name: Save the additive corpus and durable publication receipts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A research sitemap.xml
+          git add data/accepted_classified.csv data/osint_cyber_papers.csv data/papers.json data/collection_status.json data/content_review_release_receipts
+          git diff --cached --quiet || git commit -m "Publish completed Content Review approvals"
+          git push
