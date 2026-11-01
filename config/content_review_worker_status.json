@@ -8,7 +8,12 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": null,
+  "lease": {
+    "owner": "approved-publication-fix-20261101",
+    "run_id": "approved-publication-fix-20261101",
+    "acquired_at": "2026-11-01T22:25:53.871Z",
+    "expires_at": "2026-11-01T22:55:53.871Z"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -30,7 +35,7 @@
   "global_deficit": 250,
   "soups_batch_deficit": 0,
   "last_completed_at": "2026-11-01T21:41:30.000Z",
-  "last_action": "Reconciled completed weekly Batch24:11 exact-hash publication approvals and1 rejection. All11 approvals completed final source-identity, fresh duplicate/exclusion and unchanged target-serialization validation and are staged for the established authorized release path; the rejection was added to corpus exclusions. No public import, merge or deployment was authorized. Ready queue is now0/250; daily ready throughput is12/200.",
+  "last_action": "Corrected standing publication authorization and resumed hourly worker. PR90 merged after all checks passed. Batch24 publication is running; awaiting receipt and live verification.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -354,7 +359,7 @@
     "live_url": "https://alex.riseinfosec.org/",
     "checked_at": "2026-10-28T12:44:13.664Z",
     "current_run": {
-      "status": "batch24_validated_approvals_staged_no_release_authorization",
+      "status": "batch24_release_workflow_in_progress",
       "published": 7,
       "published_this_audit": 7,
       "public_total": 3173,
@@ -389,11 +394,11 @@
       "pending_automatic_handoffs": 0,
       "receipt": "config/content_review_publication_receipts/2026-11-01-discovery-backlog.json",
       "public_receipt": "data/content_review_release_receipts/2026-11-01-discovery-backlog.json",
-      "release_workflow_run": 41347935401,
+      "release_workflow_run": 41357060574,
       "pages_workflow_run": 41348089323,
       "public_commit": "f2aa7cc315e824a0556054d4bf84630d40bb06c3",
       "checked_at": "2026-11-01T21:41:30.000Z",
-      "release_scope_note": "Eleven new exact-hash human approvals are fully validated and staged. The current maintenance instruction did not authorize a public import, merge or deployment. Six prior source-access holds remain preserved; no unchanged403 was retried."
+      "release_scope_note": "Standing owner authorization removes the second approval gate. PR90 passed all checks and merged; release workflow41357060574 applies the11 validated approvals, followed by Pages. No live-publication claim until receipts and deployed corpus are verified."
     }
   },
   "corpus_audit_checkpoint": {
@@ -527,8 +532,8 @@
   "scheduling_status": {
     "automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
     "is_enabled": true,
-    "observed_at": "2026-11-01T21:41:30.000Z",
-    "source": "Native Sites get_site returned existing enabled hourly schedule",
+    "observed_at": "2026-11-01T22:25:53.871Z",
+    "source": "Native Sites get_site and automation peek read-back confirm enabled hourly schedule; prompt now permits release after completed Include.",
     "changed_this_pass": false
   },
   "weekly_backlog_campaign": {
