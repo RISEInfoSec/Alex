@@ -1,11 +1,12 @@
 """Release an explicitly authorized, evidence-bound backlog, holding failures per item."""
 from __future__ import annotations
-import contextlib,csv,hashlib,io,json,os,signal,sys,tempfile,time
+import contextlib,csv,hashlib,io,json,os,re,signal,sys,tempfile,time,unicodedata
 from datetime import datetime,timezone
 from pathlib import Path
 from unittest.mock import patch
 from urllib.parse import urlsplit
 import requests
+from bs4 import BeautifulSoup
 from jsonschema import Draft202012Validator
 from alex.editorial_exclusions import record_keys,load_keys
 from alex.pipelines import classify,publish
@@ -74,8 +75,19 @@ def source_check(row,get,origins):
         with deadline():r=get(url,timeout=20,allow_redirects=False,headers={'User-Agent':'ALEX-ContentReview/1.0 (+https://github.com/RISEInfoSec/Alex)'})
     finally:origins[u.netloc]=time.monotonic()
     r.raise_for_status();body=r.content
-    require(r.status_code==200 and body.startswith(b'%PDF') and hashlib.sha256(body).hexdigest()==src['expected_sha256'],'Approved PDF unavailable or changed')
-    return {'source_url':url,'http_status':r.status_code,'pdf_sha256':src['expected_sha256'],'bytes':len(body),'checked_at':datetime.now(timezone.utc).isoformat()}
+    require(r.status_code==200,'Source unavailable')
+    actual=hashlib.sha256(body).hexdigest()
+    if src.get('kind','exact_pdf')=='exact_pdf':
+        require(body.startswith(b'%PDF') and actual==src['expected_sha256'],'Approved PDF unavailable or changed')
+    elif src['kind']=='verified_fulltext_html':
+        text=BeautifulSoup(body,'html.parser').get_text(' ',strip=True)
+        def normal(s):return re.sub(r'[^a-z0-9]+','',unicodedata.normalize('NFKC',s).casefold())
+        normalized=normal(text)
+        require(all(normal(s) in normalized for s in src['required_markers']),'Verified full-text identity markers missing')
+        require(normal(row['target']['abstract']) in normalized,'Complete reviewed abstract missing or changed')
+        require(len(text)>10000,'Full article text unavailable')
+    else:raise ValueError('Unknown source validation kind')
+    return {'source_url':url,'http_status':r.status_code,'resource_sha256':actual,'kind':src.get('kind','exact_pdf'),'bytes':len(body),'checked_at':datetime.now(timezone.utc).isoformat()}
 
 def release(manifest,corpus,receipt,exclusions,weights,get=requests.get,write=False):
     data=json.loads(Path(manifest).read_text());rows=data['records'];receipt=Path(receipt);corpus=Path(corpus)
