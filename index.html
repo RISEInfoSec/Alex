@@ -188,6 +188,7 @@
       footer { width: calc(100% - 32px); }
     }
   </style>
+  <link rel="stylesheet" href="/assets/research-context.css">
 </head>
 <body>
 <header>
@@ -246,6 +247,11 @@
     <h2 id="paperCount">Research papers</h2>
     <div id="summary" class="summary-line" role="status" aria-live="polite">Loading papers…</div>
   </div>
+  <div class="context-legend" aria-label="Research context legend">
+    <span><span class="context-marker context-earlier" aria-hidden="true">5+</span> Earlier research · five years or older</span>
+    <span><span class="context-marker context-historical" aria-hidden="true">H</span> Historical reference</span>
+  </div>
+  <label class="history-option"><input type="checkbox" id="includeHistorical"> Include historical references</label>
   <div id="results"></div>
   <div class="actions" style="margin-bottom: 24px;">
     <span id="latestNote">A selection of our latest additions to the library.</span>
@@ -268,6 +274,7 @@
   <div id="collectionStatus" role="status">Last collection: not yet recorded · New papers added: not yet recorded</div>
 </footer>
 
+<script src="/assets/research-context.js"></script>
 <script>
 let papers = [];
 let browseAll = false;
@@ -280,6 +287,7 @@ const yearEl = document.getElementById('yearFilter');
 const investigationEl = document.getElementById('investigationFilter');
 const resultsEl = document.getElementById('results');
 const summaryEl = document.getElementById('summary');
+const historicalEl = document.getElementById('includeHistorical');
 
 // Defensively split any tag/keyword/source element that contains a comma
 // or semicolon — guards against legacy or manually-authored data where
@@ -354,6 +362,7 @@ function populateFilters(list) {
 }
 
 function paperMatches(p) {
+  if (!historicalEl.checked && ResearchContext.historical(p)) return false;
   const term = searchEl.value.toLowerCase().trim();
   const haystack = [
     p.title, p.author, p.summary, (p.tags || []).join(' '), (p.keywords || []).join(' '),
@@ -386,12 +395,15 @@ function displayPapers(list) {
     ].filter(Boolean).join(' | ');
 
     div.innerHTML = `
-      <h3>${escapeHtml(p.title || '')}</h3>
+      <div class="paper-heading"><h3>${escapeHtml(p.title || '')}</h3>${ResearchContext.marker(p)}</div>
       <p class="meta"><strong>${escapeHtml(p.author || 'Author metadata incomplete')}</strong> (${escapeHtml(p.year || '')})${p.venue ? ' · ' + escapeHtml(p.venue) : ''}${p.retrieved ? ' · Retrieved ' + escapeHtml(p.retrieved) : ''}</p>
       <p><strong>Research category:</strong> ${escapeHtml(p.category || 'Not specified')}</p>
       ${p.collection_source ? `<p class="meta"><strong>Collection:</strong> ${safeHref(p.collection_url) ? `<a href="${safeHref(p.collection_url)}" target="_blank" rel="noopener">${escapeHtml(p.collection_source)}</a>` : escapeHtml(p.collection_source)}</p>` : ''}
-      <p>${escapeHtml(p.summary || '')}</p>
-      <p>${links}</p>
+      <details class="paper-details"><summary>Abstract &amp; details</summary>
+        ${ResearchContext.detail(p)}
+        <p>${escapeHtml(p.summary || 'Abstract not recorded.')}</p>
+        <p>${links}</p>
+      </details>
     `;
     resultsEl.appendChild(div);
   });
@@ -405,7 +417,7 @@ function applyFilters() {
   const filtered = [searchEl, sourceEl, categoryEl, yearEl, investigationEl].some(el => el.value.trim());
   const latest = !browseAll && !filtered;
   const list = latest
-    ? papers.map((paper, index) => ({paper, index}))
+    ? papers.filter(paperMatches).map((paper, index) => ({paper, index}))
         .sort((a, b) => String(b.paper.retrieved || '').localeCompare(String(a.paper.retrieved || '')) || b.index - a.index)
         .slice(0, 5).map(item => item.paper)
     : papers.filter(paperMatches);
@@ -421,6 +433,8 @@ document.getElementById('searchForm').addEventListener('submit', event => {
   applyFilters();
 });
 
+historicalEl.addEventListener('change', applyFilters);
+
 browseBtn.addEventListener('click', () => {
   browseAll = !browseAll;
   applyFilters();
@@ -432,6 +446,7 @@ browseBtn.addEventListener('click', () => {
 
 document.getElementById('clearBtn').addEventListener('click', () => {
   browseAll = false;
+  historicalEl.checked = false;
   searchEl.value = '';
   sourceEl.value = '';
   categoryEl.value = '';

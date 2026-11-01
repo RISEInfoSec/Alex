@@ -5,6 +5,9 @@ The allowlist is editorial policy; taxonomy membership is never inferred here.
 """
 from __future__ import annotations
 
+from datetime import date
+from alex.research_context import LEGEND, historical_only, marker, notice
+
 import argparse
 import json
 import math
@@ -221,6 +224,7 @@ def layout(root: Path, title: str, description: str, path: str, body: str, struc
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="{BASE}assets/alex-social-preview-1200x630.png">
   <link rel="stylesheet" href="/assets/collections.css">
+  <link rel="stylesheet" href="/assets/research-context.css">
   <script type="application/ld+json">{json_ld}</script>
 </head>
 <body>
@@ -236,7 +240,8 @@ def layout(root: Path, title: str, description: str, path: str, body: str, struc
 '''
 
 
-def bibliography_item(paper: dict, taxonomy_routes: dict | None = None, source_routes: dict | None = None) -> str:
+def bibliography_item(paper: dict, taxonomy_routes: dict | None = None, source_routes: dict | None = None, as_of: date | None = None) -> str:
+    as_of = as_of or date.today()
     title = escape(str(paper.get("title") or "Title metadata incomplete"))
     url = paper_url(paper)
     title = f'<a href="{escape(url, quote=True)}">{title}</a>' if url else title
@@ -268,7 +273,10 @@ def bibliography_item(paper: dict, taxonomy_routes: dict | None = None, source_r
             target = taxonomy_routes.get((dimension, value))
             labels.append(f'{label}: {anchor(target, value) if target else escape(value)}')
         assignments = '<p class="meta">' + ' · '.join(labels) + '</p>'
-    return f'<li class="paper"><h3>{title}</h3><p>{author} ({year}){venue}</p>{assignments}{attribution}{availability}{"<p>" + " · ".join(links) + "</p>" if links else ""}</li>'
+    if url:
+        links.insert(0, f'<a href="{escape(url, quote=True)}">View paper</a>')
+    details = f'<details class="paper-details"><summary>Paper details</summary>{notice(paper, as_of)}{availability}{"<p>" + " · ".join(links) + "</p>" if links else ""}</details>'
+    return f'<li class="paper"><div class="paper-heading"><h3>{title}</h3>{marker(paper, as_of)}</div><p>{author} ({year}){venue}</p>{assignments}{attribution}{details}</li>'
 
 
 def pagination(collection: dict, current: int, total: int) -> str:
@@ -321,6 +329,16 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
     """Return the complete managed output, with no filesystem mutations."""
     if papers is None:
         papers = json.loads((root / "data/papers.json").read_text(encoding="utf-8"))
+    # Snapshot date keeps committed generation reproducible and advances on
+    # publication. Live search calculates age on each visit.
+    snapshot_dates = [str(p.get("retrieved", ""))[:10] for p in papers]
+    valid_dates = []
+    for value in snapshot_dates:
+        try:
+            valid_dates.append(date.fromisoformat(value))
+        except ValueError:
+            pass
+    as_of = max(valid_dates, default=date(1970, 1, 1))
     editorial = load_editorial(root)
     active, notes = select_collections(papers, editorial)
     sources = source_collections(root, papers)
@@ -384,9 +402,15 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
                 body += f'<p>Continuation of the {anchor(route(collection), collection["value"] + " collection")}. See the first page for its scope and research guidance.</p>'
             body += '<p>References reproduce the metadata held by ALEX. Missing author, year or source details are identified in the listing. Publication years are shown as recorded; collection and retrieval dates are not substituted. Follow the original source to verify a citation.</p></section>'
             pager = pagination(collection, page, total)
-            body += f'<section class="section" id="bibliography"><h2>Bibliography</h2><p>Showing {start + 1}–{start + len(chunk)} of {len(members):,} papers, ordered by publication year (newest first), then title.</p>{pager}<ol class="bibliography" start="{start + 1}">'
-            body += '\n'.join(bibliography_item(p, taxonomy_routes if is_complete or is_source else None, source_routes) for p in chunk)
-            body += '</ol>' + pager + '</section>'
+            body += f'<section class="section" id="bibliography"><h2>Bibliography</h2><p>Showing {start + 1}–{start + len(chunk)} of {len(members):,} papers, ordered by publication year (newest first), then title.</p>{LEGEND}<p class="meta">Age markers as of {as_of.isoformat()}.</p>{pager}<ol class="bibliography" start="{start + 1}">'
+            body += '\n'.join(bibliography_item(p, taxonomy_routes if is_complete or is_source else None, source_routes, as_of) for p in chunk if not historical_only(p))
+            body += '</ol>'
+            historical = [p for p in chunk if historical_only(p)]
+            if historical:
+                body += f'<details class="historical-view"><summary>Historical references on this page ({len(historical)})</summary><ol class="bibliography">'
+                body += '\n'.join(bibliography_item(p, taxonomy_routes if is_complete or is_source else None, source_routes, as_of) for p in historical)
+                body += '</ol></details>'
+            body += pager + '</section>'
             related = [active_routes[key + "/"] for key in collection.get("related", []) if key + "/" in active_routes]
             if related:
                 body += '<section class="section"><h2>Explore another perspective</h2><p>These collections offer a different way into the library; their bibliographies need not contain the same papers.</p><ul>' + ''.join(f'<li>{anchor(route(c), c["value"])} · {DIMENSIONS[c["dimension"]][1]}</li>' for c in related) + '</ul></section>'

@@ -4,6 +4,9 @@ on:
     paths:
       - 'index.html'
       - 'alex/collections.py'
+      - 'alex/research_context.py'
+      - 'tests/test_research_context.py'
+      - 'tests/test_research_context.cjs'
       - 'alex/taxonomy.py'
       - 'alex/pipelines/classify.py'
       - 'alex/pipelines/publish.py'
@@ -43,7 +46,9 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - name: Test collections and publishing
-        run: python -m pytest tests/test_collections.py tests/test_pipelines.py tests/test_apwg_import.py -q
+        run: python -m pytest tests/test_collections.py tests/test_pipelines.py tests/test_apwg_import.py tests/test_research_context.py -q
+      - name: Test research context in JavaScript
+        run: node tests/test_research_context.cjs
       - name: Check committed generation
         run: python -m alex.collections --check
       - name: Generate and validate the actual Pages artifact (no deployment)
