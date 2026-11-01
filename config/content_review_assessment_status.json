@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-30T18:51:20.510788+00:00",
+  "updated_at": "2026-11-01T20:55:27.723602+00:00",
   "records": [
     {
       "key": "virusbulletin/vb-2025-16decf5155fa227b39/40ceecce50b4d61343be36240e62894d9af34920e7bf0edcbfe66d0b8abf961c/1/1",
@@ -38656,7 +38656,7 @@
       "submission_revision": 1,
       "assessment_version": 1,
       "job_id": "assessment:3051bf6b-5e6a-496b-9ce6-5519d7268ac9:weekly-d3bd8a9de831af91bc7ffd57",
-      "status": "ready_for_configured_release_path",
+      "status": "held_with_reason",
       "checks": {
         "format": {
           "status": "passed",
@@ -38849,32 +38849,49 @@
           }
         },
         "final_source_access": {
-          "status": "passed",
-          "checked_at": "2026-10-28T15:47:58.550609+00:00",
+          "status": "held",
+          "checked_at": "2026-11-01T20:39:41.997680+00:00",
           "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
           "evidence": {
-            "url": "https://www.researchgate.net/publication/344952543_Machine_learning_based_phishing_detection_from_URLs",
-            "status": 200,
-            "bytes": 1631175,
-            "resource_sha256": "272a5ab879c953a99aeb9ea1ef383016109961766b0059189e8ff61af63edeb0",
-            "matched_front_matter_and_content": {
-              "345": true,
-              "2019": true,
-              "Machine learning based phishing detection from URLs": true,
-              "Sahingoz": true,
-              "Buber": true,
-              "Demir": true,
-              "Diri": true,
-              "97.98": true
-            },
-            "inspection": "Actual HTML text contains matching title, all author family names, journal publication year/page range and reported abstract result; fresh access confirms the same verified written journal article."
+            "candidate_id": "weekly-d3bd8a9de831af91bc7ffd57",
+            "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
+            "title": "Machine learning based phishing detection from URLs",
+            "source_url": "https://www.researchgate.net/publication/344952543_Machine_learning_based_phishing_detection_from_URLs",
+            "reason": "403 Client Error: Forbidden for url: https://www.researchgate.net/publication/344952543_Machine_learning_based_phishing_detection_from_URLs",
+            "http_status": 403,
+            "approval_preserved": true
+          },
+          "reason": "Supported release runner returned HTTP403; approval preserved. Seek permitted alternative content or a later changed-source check; do not bypass or repeat unchanged failures.",
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-28T15:47:58.550609+00:00",
+            "content_sha256": "832dc346b201fcbc0be82a9e1345ad8e3937490ca0778cfa9a2c8c34009149c8",
+            "evidence": {
+              "url": "https://www.researchgate.net/publication/344952543_Machine_learning_based_phishing_detection_from_URLs",
+              "status": 200,
+              "bytes": 1631175,
+              "resource_sha256": "272a5ab879c953a99aeb9ea1ef383016109961766b0059189e8ff61af63edeb0",
+              "matched_front_matter_and_content": {
+                "345": true,
+                "2019": true,
+                "Machine learning based phishing detection from URLs": true,
+                "Sahingoz": true,
+                "Buber": true,
+                "Demir": true,
+                "Diri": true,
+                "97.98": true
+              },
+              "inspection": "Actual HTML text contains matching title, all author family names, journal publication year/page range and reported abstract result; fresh access confirms the same verified written journal article."
+            }
           }
         }
       },
       "publication_approved": false,
-      "remaining_checks": [],
+      "remaining_checks": [
+        "final_source_access"
+      ],
       "release_status": "not_imported",
-      "updated_at": "2026-10-28T15:47:11.072672+00:00"
+      "updated_at": "2026-11-01T20:55:27.723602+00:00"
     },
     {
       "key": "weekly/weekly-4eab976a4e932d7c008c8a26/51b8da3e5a568d6222a5c5526973483be1b6bb603d6c01bcd8d40af229eed973/1/1",
@@ -40538,7 +40555,7 @@
       "submission_revision": 1,
       "assessment_version": 1,
       "job_id": "assessment:242a18d2-af60-46df-973b-83df30f9fb79:weekly-17dfd4d6d878d9383b5a6794",
-      "status": "ready_for_configured_release_path",
+      "status": "held_with_reason",
       "checks": {
         "format": {
           "status": "passed",
@@ -40920,29 +40937,44 @@
           }
         },
         "final_source_access": {
-          "status": "passed",
-          "checked_at": "2026-10-30T16:44:51.245106+00:00",
+          "status": "held",
+          "checked_at": "2026-11-01T20:39:41.997680+00:00",
           "content_sha256": "245c0c479f5d00e0752b3b77695dd56a2418017c40a1fe48e0557b08c419fb8c",
           "evidence": {
-            "name": "final-weekly-17dfd4d6d878d9383b5a6794",
-            "url": "https://ir.library.illinoisstate.edu/cgi/viewcontent.cgi?article=1020&context=fpcjs",
-            "checked_at": "2026-10-30T16:44:51.245106+00:00",
-            "hops": [
-              {
-                "url": "https://ir.library.illinoisstate.edu/cgi/viewcontent.cgi?article=1020&context=fpcjs",
-                "http_status": 200,
-                "resource_sha256": "fd0e889a3fcce4ba2e5750d49106455d245a0226caf6117613dce7a03d7c3019",
-                "bytes": 415856,
-                "content_type": "application/pdf"
-              }
-            ],
-            "robots_http_status": 200,
-            "http_status": 200,
-            "resource_sha256": "fd0e889a3fcce4ba2e5750d49106455d245a0226caf6117613dce7a03d7c3019",
-            "bytes": 415856,
-            "content_type": "application/pdf"
+            "candidate_id": "weekly-17dfd4d6d878d9383b5a6794",
+            "content_sha256": "245c0c479f5d00e0752b3b77695dd56a2418017c40a1fe48e0557b08c419fb8c",
+            "title": "“… it's Google that's big brother”: The symbiosis between ICAC investigators and the private sector regarding encryption and privacy",
+            "source_url": "https://ir.library.illinoisstate.edu/cgi/viewcontent.cgi?article=1020&context=fpcjs",
+            "reason": "403 Client Error: Forbidden for url: https://ir.library.illinoisstate.edu/cgi/viewcontent.cgi?article=1020&context=fpcjs",
+            "http_status": 403,
+            "approval_preserved": true
           },
-          "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+          "reason": "Supported release runner returned HTTP403; approval preserved. Seek permitted alternative content or a later changed-source check; do not bypass or repeat unchanged failures.",
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T16:44:51.245106+00:00",
+            "content_sha256": "245c0c479f5d00e0752b3b77695dd56a2418017c40a1fe48e0557b08c419fb8c",
+            "evidence": {
+              "name": "final-weekly-17dfd4d6d878d9383b5a6794",
+              "url": "https://ir.library.illinoisstate.edu/cgi/viewcontent.cgi?article=1020&context=fpcjs",
+              "checked_at": "2026-10-30T16:44:51.245106+00:00",
+              "hops": [
+                {
+                  "url": "https://ir.library.illinoisstate.edu/cgi/viewcontent.cgi?article=1020&context=fpcjs",
+                  "http_status": 200,
+                  "resource_sha256": "fd0e889a3fcce4ba2e5750d49106455d245a0226caf6117613dce7a03d7c3019",
+                  "bytes": 415856,
+                  "content_type": "application/pdf"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 200,
+              "resource_sha256": "fd0e889a3fcce4ba2e5750d49106455d245a0226caf6117613dce7a03d7c3019",
+              "bytes": 415856,
+              "content_type": "application/pdf"
+            },
+            "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+          }
         },
         "completed_submission_integrity": {
           "status": "passed",
@@ -40960,8 +40992,10 @@
           }
         }
       },
-      "remaining_checks": [],
-      "updated_at": "2026-10-30T16:47:08.357326+00:00",
+      "remaining_checks": [
+        "final_source_access"
+      ],
+      "updated_at": "2026-11-01T20:55:27.723602+00:00",
       "editorial_approval_complete": true,
       "publication_approved": false,
       "release_status": "approved_and_validated_publication_pending",
@@ -41608,7 +41642,7 @@
       "submission_revision": 1,
       "assessment_version": 1,
       "job_id": "assessment:242a18d2-af60-46df-973b-83df30f9fb79:weekly-6c7717ff1c241014cd08e9eb",
-      "status": "ready_for_configured_release_path",
+      "status": "held_with_reason",
       "checks": {
         "format": {
           "status": "passed",
@@ -41906,29 +41940,44 @@
           }
         },
         "final_source_access": {
-          "status": "passed",
-          "checked_at": "2026-10-30T16:45:00.057652+00:00",
+          "status": "held",
+          "checked_at": "2026-11-01T20:39:41.997680+00:00",
           "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
           "evidence": {
-            "name": "final-weekly-6c7717ff1c241014cd08e9eb",
-            "url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
-            "checked_at": "2026-10-30T16:45:00.057652+00:00",
-            "hops": [
-              {
-                "url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
-                "http_status": 200,
-                "resource_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
-                "bytes": 1444742,
-                "content_type": "application/pdf"
-              }
-            ],
-            "robots_http_status": 200,
-            "http_status": 200,
-            "resource_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
-            "bytes": 1444742,
-            "content_type": "application/pdf"
+            "candidate_id": "weekly-6c7717ff1c241014cd08e9eb",
+            "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+            "title": "Semantic Shields: Automating Critical Infrastructure Defense via NLP-Driven Ransomware Profiling",
+            "source_url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+            "reason": "403 Client Error: Forbidden for url: https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+            "http_status": 403,
+            "approval_preserved": true
           },
-          "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+          "reason": "Supported release runner returned HTTP403; approval preserved. Seek permitted alternative content or a later changed-source check; do not bypass or repeat unchanged failures.",
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T16:45:00.057652+00:00",
+            "content_sha256": "66dea183cda05a6fcb429777f045833b0c55d69c52566fe8622f17d2949bd066",
+            "evidence": {
+              "name": "final-weekly-6c7717ff1c241014cd08e9eb",
+              "url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+              "checked_at": "2026-10-30T16:45:00.057652+00:00",
+              "hops": [
+                {
+                  "url": "https://digitalcommons.usf.edu/cgi/viewcontent.cgi?article=1154&context=mca",
+                  "http_status": 200,
+                  "resource_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
+                  "bytes": 1444742,
+                  "content_type": "application/pdf"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 200,
+              "resource_sha256": "3e8cc1978c6b54d6e59a7c12688c55247197edbb3b3abc82e7e6047699554e72",
+              "bytes": 1444742,
+              "content_type": "application/pdf"
+            },
+            "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+          }
         },
         "completed_submission_integrity": {
           "status": "passed",
@@ -41946,8 +41995,10 @@
           }
         }
       },
-      "remaining_checks": [],
-      "updated_at": "2026-10-30T16:47:08.357326+00:00",
+      "remaining_checks": [
+        "final_source_access"
+      ],
+      "updated_at": "2026-11-01T20:55:27.723602+00:00",
       "editorial_approval_complete": true,
       "publication_approved": false,
       "release_status": "approved_and_validated_publication_pending",
@@ -41964,7 +42015,7 @@
       "submission_revision": 1,
       "assessment_version": 1,
       "job_id": "assessment:3bc03e5a-a5e8-47a4-8010-5726d8097d27:weekly-91d2a387238ce370bc971152",
-      "status": "ready_for_configured_release_path",
+      "status": "held_with_reason",
       "checks": {
         "format": {
           "status": "passed",
@@ -42210,29 +42261,44 @@
           }
         },
         "final_source_access": {
-          "status": "passed",
-          "checked_at": "2026-10-30T16:45:17.702358+00:00",
+          "status": "held",
+          "checked_at": "2026-11-01T20:39:41.997680+00:00",
           "content_sha256": "a12a83df4934570080a8097e5ff6ee4c8cc8b5b547fa47bf8f5c46febc659021",
           "evidence": {
-            "name": "final-weekly-91d2a387238ce370bc971152",
-            "url": "https://digitalcommons.odu.edu/cgi/viewcontent.cgi?article=1159&context=covacci-undergraduateresearch",
-            "checked_at": "2026-10-30T16:45:17.702358+00:00",
-            "hops": [
-              {
-                "url": "https://digitalcommons.odu.edu/cgi/viewcontent.cgi?article=1159&context=covacci-undergraduateresearch",
-                "http_status": 200,
-                "resource_sha256": "23589eca5cf37d2e97557ac12973919db16c12eb27269859b71e32d07d8c2bec",
-                "bytes": 176192,
-                "content_type": "application/pdf"
-              }
-            ],
-            "robots_http_status": 200,
-            "http_status": 200,
-            "resource_sha256": "23589eca5cf37d2e97557ac12973919db16c12eb27269859b71e32d07d8c2bec",
-            "bytes": 176192,
-            "content_type": "application/pdf"
+            "candidate_id": "weekly-91d2a387238ce370bc971152",
+            "content_sha256": "a12a83df4934570080a8097e5ff6ee4c8cc8b5b547fa47bf8f5c46febc659021",
+            "title": "Phishing Restraint: University Simulated Phishing Campaigns",
+            "source_url": "https://digitalcommons.odu.edu/cgi/viewcontent.cgi?article=1159&context=covacci-undergraduateresearch",
+            "reason": "403 Client Error: Forbidden for url: https://digitalcommons.odu.edu/cgi/viewcontent.cgi?article=1159&context=covacci-undergraduateresearch",
+            "http_status": 403,
+            "approval_preserved": true
           },
-          "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+          "reason": "Supported release runner returned HTTP403; approval preserved. Seek permitted alternative content or a later changed-source check; do not bypass or repeat unchanged failures.",
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T16:45:17.702358+00:00",
+            "content_sha256": "a12a83df4934570080a8097e5ff6ee4c8cc8b5b547fa47bf8f5c46febc659021",
+            "evidence": {
+              "name": "final-weekly-91d2a387238ce370bc971152",
+              "url": "https://digitalcommons.odu.edu/cgi/viewcontent.cgi?article=1159&context=covacci-undergraduateresearch",
+              "checked_at": "2026-10-30T16:45:17.702358+00:00",
+              "hops": [
+                {
+                  "url": "https://digitalcommons.odu.edu/cgi/viewcontent.cgi?article=1159&context=covacci-undergraduateresearch",
+                  "http_status": 200,
+                  "resource_sha256": "23589eca5cf37d2e97557ac12973919db16c12eb27269859b71e32d07d8c2bec",
+                  "bytes": 176192,
+                  "content_type": "application/pdf"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 200,
+              "resource_sha256": "23589eca5cf37d2e97557ac12973919db16c12eb27269859b71e32d07d8c2bec",
+              "bytes": 176192,
+              "content_type": "application/pdf"
+            },
+            "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+          }
         },
         "completed_submission_integrity": {
           "status": "passed",
@@ -42250,8 +42316,10 @@
           }
         }
       },
-      "remaining_checks": [],
-      "updated_at": "2026-10-30T16:47:08.357326+00:00",
+      "remaining_checks": [
+        "final_source_access"
+      ],
+      "updated_at": "2026-11-01T20:55:27.723602+00:00",
       "editorial_approval_complete": true,
       "publication_approved": false,
       "release_status": "approved_and_validated_publication_pending",
@@ -42268,7 +42336,7 @@
       "submission_revision": 1,
       "assessment_version": 1,
       "job_id": "assessment:812e47bc-a622-41f6-91d2-f1dcc1ab9d43:weekly-f3c935fb429460bef56d7840",
-      "status": "ready_for_configured_release_path",
+      "status": "held_with_reason",
       "checks": {
         "format": {
           "status": "passed",
@@ -42548,29 +42616,44 @@
           }
         },
         "final_source_access": {
-          "status": "passed",
-          "checked_at": "2026-10-30T16:45:26.252071+00:00",
+          "status": "held",
+          "checked_at": "2026-11-01T20:39:41.997680+00:00",
           "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
           "evidence": {
-            "name": "final-weekly-f3c935fb429460bef56d7840",
-            "url": "https://repository.nls.ac.in/cgi/viewcontent.cgi?article=1176&context=jlpp",
-            "checked_at": "2026-10-30T16:45:26.252071+00:00",
-            "hops": [
-              {
-                "url": "https://repository.nls.ac.in/cgi/viewcontent.cgi?article=1176&context=jlpp",
-                "http_status": 200,
-                "resource_sha256": "86ae187577a2720935e57db77c8cf1b04c9b15c6ae88d7ebbf2ee1ce3f63c808",
-                "bytes": 327244,
-                "content_type": "application/pdf"
-              }
-            ],
-            "robots_http_status": 200,
-            "http_status": 200,
-            "resource_sha256": "86ae187577a2720935e57db77c8cf1b04c9b15c6ae88d7ebbf2ee1ce3f63c808",
-            "bytes": 327244,
-            "content_type": "application/pdf"
+            "candidate_id": "weekly-f3c935fb429460bef56d7840",
+            "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
+            "title": "Mind the Gap: An Empirical Analysis of India's National Cybercrime Framework and Its State-Level Implementation in Kerala",
+            "source_url": "https://repository.nls.ac.in/cgi/viewcontent.cgi?article=1176&context=jlpp",
+            "reason": "403 Client Error: Forbidden for url: https://repository.nls.ac.in/cgi/viewcontent.cgi?article=1176&context=jlpp",
+            "http_status": 403,
+            "approval_preserved": true
           },
-          "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+          "reason": "Supported release runner returned HTTP403; approval preserved. Seek permitted alternative content or a later changed-source check; do not bypass or repeat unchanged failures.",
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-30T16:45:26.252071+00:00",
+            "content_sha256": "e1e2d28a572e0ec791e2f305689c9a9102e6a000a8085cf014fb194743d3ce16",
+            "evidence": {
+              "name": "final-weekly-f3c935fb429460bef56d7840",
+              "url": "https://repository.nls.ac.in/cgi/viewcontent.cgi?article=1176&context=jlpp",
+              "checked_at": "2026-10-30T16:45:26.252071+00:00",
+              "hops": [
+                {
+                  "url": "https://repository.nls.ac.in/cgi/viewcontent.cgi?article=1176&context=jlpp",
+                  "http_status": 200,
+                  "resource_sha256": "86ae187577a2720935e57db77c8cf1b04c9b15c6ae88d7ebbf2ee1ce3f63c808",
+                  "bytes": 327244,
+                  "content_type": "application/pdf"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 200,
+              "resource_sha256": "86ae187577a2720935e57db77c8cf1b04c9b15c6ae88d7ebbf2ee1ce3f63c808",
+              "bytes": 327244,
+              "content_type": "application/pdf"
+            },
+            "reuse_basis": "Actual PDF bytes exactly match verified preflight source; unchanged format/front matter/metadata/abstract proof reused."
+          }
         },
         "completed_submission_integrity": {
           "status": "passed",
@@ -42588,8 +42671,10 @@
           }
         }
       },
-      "remaining_checks": [],
-      "updated_at": "2026-10-30T16:47:08.357326+00:00",
+      "remaining_checks": [
+        "final_source_access"
+      ],
+      "updated_at": "2026-11-01T20:55:27.723602+00:00",
       "editorial_approval_complete": true,
       "publication_approved": false,
       "release_status": "approved_and_validated_publication_pending",
@@ -42913,7 +42998,10 @@
       "publication_approved": false,
       "release_status": "approved_and_validated_publication_pending",
       "publication_pending_reason": "Prepared for established specifically authorized release executor. This maintenance pass does not import, merge or deploy public ALEX. No second editorial vote is required.",
-      "public_corpus_modified": false
+      "public_corpus_modified": false,
+      "publication_status": "published_live_verified",
+      "publication_receipt": "config/content_review_publication_receipts/2026-11-01-discovery-backlog.json",
+      "published_at": "2026-11-01T20:39:41.997680+00:00"
     }
   ],
   "completed_job_ids": [
@@ -43157,5 +43245,6 @@
       "daily_ready_target": 200,
       "new_batch_size": 20
     }
-  ]
+  ],
+  "last_publication_receipt": "config/content_review_publication_receipts/2026-11-01-discovery-backlog.json"
 }
