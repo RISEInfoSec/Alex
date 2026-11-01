@@ -2215,3 +2215,17 @@ def test_human_exclusion_cannot_be_republished_from_restored_csv(tmp_path,monkey
     monkeypatch.setattr('alex.utils.io.ROOT',tmp_path)
     publish.run()
     assert [r['title'] for r in json.loads((tmp_path/'data/papers.json').read_text())]==['Retained cyber paper']
+
+
+def test_publish_preserves_optional_metadata_without_age_classification(tmp_path, monkeypatch):
+    (tmp_path / 'data').mkdir()
+    rows = [{'title': 'Continuing value', 'year': 1990, 'publication_date': '1990-11-02'},
+            {'title': 'Historical', 'year': 2010, 'historical_only': 'true'}]
+    pd.DataFrame(rows).to_csv(tmp_path / 'data/accepted_classified.csv', index=False)
+    monkeypatch.setattr(publish, 'root_file', lambda *parts: tmp_path.joinpath(*parts))
+    monkeypatch.setattr(publish, 'generate', lambda *args: None)
+    publish.run()
+    papers = json.loads((tmp_path / 'data/papers.json').read_text())
+    assert papers[0]['publication_date'] == '1990-11-02'
+    assert 'historical_only' not in papers[0]
+    assert papers[1]['historical_only'] is True

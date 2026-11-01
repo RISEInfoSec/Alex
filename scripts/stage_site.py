@@ -28,7 +28,7 @@ def stage(root: Path, destination: Path) -> None:
         shutil.copy2(root / name, destination / name)
     shutil.copytree(root / "research", destination / "research")
     (destination / "assets").mkdir()
-    for name in ("alex-social-preview-1200x630.png", "collections.css"):
+    for name in ("alex-social-preview-1200x630.png", "collections.css", "research-context.css", "research-context.js"):
         shutil.copy2(root / "assets" / name, destination / "assets" / name)
     (destination / "data").mkdir()
     for name in ("papers.json", "osint_cyber_papers.csv", "collection_status.json"):

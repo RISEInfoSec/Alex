@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from alex.utils.io import load_df, save_df, save_json, root_file
 from alex.utils.text import split_multi
 from alex.collections import generate
+from alex.research_context import historical_only
 
 
 def _quality_tier(score: object) -> str:
@@ -94,6 +95,11 @@ def run(record_collection: bool = False) -> None:
             "quality_tier": _quality_tier(row.get("total_quality_score", 0)),
             "retrieved": row.get("retrieved_at", ""),
         })
+        # Preserve explicit optional editorial metadata without classifying by age.
+        if row.get("publication_date", ""):
+            papers[-1]["publication_date"] = str(row["publication_date"])
+        if str(row.get("historical_only", "")).strip():
+            papers[-1]["historical_only"] = historical_only(dict(row))
     save_json(papers_json, papers)
     generate(root_file(), papers)
     if record_collection:

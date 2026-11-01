@@ -124,6 +124,39 @@ def verify(site: Path, report_dir: Path) -> None:
             assert not errors, errors
             assert not any('/research/' in url or '/collections.css' in url for url in requests)
             results['search'] = {'total_papers': len(papers), 'initial_papers': 5, 'errors': errors, 'collection_requests': 0}
+            # Explicit historical metadata is opt-in; earlier research stays searchable.
+            fixture = [
+                {'title': 'Continuing value example', 'year': 2010, 'summary': 'Earlier methods'},
+                {'title': 'Recent example', 'year': 2026, 'summary': 'Recent methods'},
+                {'title': 'Historical example', 'year': 2010, 'historical_only': True, 'summary': 'Historical context'},
+            ]
+            page.route('**/data/papers.json', lambda route: route.fulfill(json=fixture))
+            page.reload(wait_until='load')
+            page.wait_for_function('document.querySelectorAll("#results > .section").length === 2')
+            assert not page.locator('#includeHistorical').is_checked()
+            assert page.locator('#results .context-earlier').count() == 1
+            assert page.locator('#results .context-historical').count() == 0
+            earlier = page.locator('#results > .section').filter(has_text='Continuing value example')
+            assert not earlier.locator('.research-context').is_visible()
+            earlier.locator('summary').click()
+            assert earlier.locator('.research-context').is_visible()
+            assert 'may have been refined or superseded' in earlier.locator('.research-context').inner_text()
+            for width in (390, 1440):
+                page.set_viewport_size({'width': width, 'height': 1000})
+                assert page.locator('body').evaluate('(e) => document.documentElement.scrollWidth <= innerWidth')
+                page.screenshot(path=str(report_dir / f'research-context-{width}.png'))
+            page.locator('#includeHistorical').check()
+            assert page.locator('#results > .section').count() == 3
+            assert page.locator('#results .context-historical').count() == 1
+            page.locator('#search').fill('Historical example')
+            assert page.locator('#results > .section').count() == 1
+            page.locator('#includeHistorical').uncheck()
+            assert page.get_by_role('heading', name='No matching papers', exact=True).is_visible()
+            page.locator('#clearBtn').click()
+            assert page.locator('#results > .section').count() == 2
+            assert not errors, errors
+            results['research_context'] = {'default_historical': False, 'explicit_opt_in': True, 'detail_only_notice': True}
+
             browser.close()
     finally:
         server.shutdown()
