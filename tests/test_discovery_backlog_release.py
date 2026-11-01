@@ -9,8 +9,8 @@ runner=importlib.util.module_from_spec(spec);spec.loader.exec_module(runner)
 DATA=json.loads((ROOT/'config/content_review_releases/2026-11-01-discovery-backlog.json').read_text())
 WEIGHTS=json.loads((ROOT/'config/quality_weights.json').read_text())
 
-def test_all_eleven_pass_current_schema_and_serialization():
-    assert len(DATA['records'])==11
+def test_all_candidates_pass_current_schema_and_serialization():
+    assert len(DATA['records'])==12
     for r in DATA['records']:runner.check_record(r,WEIGHTS);runner.check_target(r)
 
 @pytest.mark.parametrize('defect',['content','gate','automatic_threshold','taxonomy','approval'])
