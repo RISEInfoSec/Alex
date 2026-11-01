@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "owner": "approved-publication-fix-20261101",
-    "run_id": "approved-publication-fix-20261101",
-    "acquired_at": "2026-11-01T22:25:53.871Z",
-    "expires_at": "2026-11-01T22:55:53.871Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -34,8 +29,8 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-01T21:41:30.000Z",
-  "last_action": "Corrected standing publication authorization and resumed hourly worker. PR90 merged after all checks passed. Batch24 publication is running; awaiting receipt and live verification.",
+  "last_completed_at": "2026-11-01T22:32:12.780Z",
+  "last_action": "Fixed approval-to-publication handoff and re-enabled hourly worker. All11 completed Batch24 approvals passed final source checks, published through PR90/workflow41357060574, deployed by Pages41357172375 and matched live3184-record public JSON. The rejected record remains excluded. No second approval or batch minimum is required. Existing six source-access holds remain preserved.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -177,8 +172,8 @@
     "reason": "Batch24 exposes12 cleared candidates now; no batch-size hold remains. Other recorded source, identity, abstract and taxonomy holds remain."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-11-01T21:41:30.000Z",
-    "scope": "batch24_completed_decisions_final_validation_and_staging",
+    "verified_at": "2026-11-01T22:32:12.780Z",
+    "scope": "approval_publication_fix_and_batch24_live_release",
     "workflow_version": 14,
     "d1_completed_submissions": 61,
     "d1_decisions": 926,
@@ -204,19 +199,20 @@
     "source_documents_reused": 11,
     "identity_abstract_triage_rows": 4041,
     "preflight_checkpoint": "config/weekly_backlog_processing_inventory.json",
-    "public_corpus_modified": false,
-    "published_count": 0,
-    "public_total": 3173,
+    "public_corpus_modified": true,
+    "published_count": 11,
+    "public_total": 3184,
     "remaining_immutable_jobs": 31,
     "pending_automatic_handoffs": 0,
     "new_batches": 0,
     "new_ready": 0,
     "latest_review_batch": 24,
     "latest_review_batch_size": 12,
-    "approvals_staged_for_authorized_release": 11,
-    "rejection_exclusion_recorded": 1
+    "approvals_staged_for_authorized_release": 0,
+    "rejection_exclusion_recorded": 1,
+    "publication_receipt": "config/content_review_publication_receipts/approved-2026-11-01-batch24.json"
   },
-  "checkpointed_at": "2026-11-01T21:41:30.000Z",
+  "checkpointed_at": "2026-11-01T22:32:12.780Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
@@ -236,10 +232,9 @@
     }
   },
   "next_actions": [
-    "Offer Batch24 (12 fully validated candidates) for approval now; never wait to fill20.",
-    "Seal each later set of1–20 fully validated candidates immediately;20 is the maximum and held peers must not delay cleared records.",
-    "Continue existing source/metadata/quality/taxonomy work and preserve approvals and source-backoff rules. No repeat editorial votes.",
-    "Existing hourly Content Review automation is enabled; preserve its schedule and updated maximum20 prompt."
+    "On each hourly pass reconcile completed Include decisions and publish eligible approvals before new preparation. No second authorization or minimum batch size.",
+    "Use current main/docs/content_review_publication.md and immutable approved-* release requests; verify actual Pages deployment and deployed content before marking published.",
+    "Continue the shared ready-buffer work and preserve existing source/content/quality holds. Report any eligible approval still unpublished after90 minutes with its exact blocked stage."
   ],
   "paid_execution": {
     "status": "operational_verified",
@@ -359,10 +354,10 @@
     "live_url": "https://alex.riseinfosec.org/",
     "checked_at": "2026-10-28T12:44:13.664Z",
     "current_run": {
-      "status": "batch24_release_workflow_in_progress",
-      "published": 7,
+      "status": "batch24_published_live_verified",
+      "published": 18,
       "published_this_audit": 7,
-      "public_total": 3173,
+      "public_total": 3184,
       "published_candidate_ids": [
         "weekly-30ccc34f37ae0f7955691eff",
         "weekly-eb922d4c4c8d9102c9aeb714",
@@ -370,7 +365,18 @@
         "weekly-e11ec718fb2edd5a2ef621f8",
         "weekly-40317d1f4df39c7c1024715d",
         "weekly-15e5c1eadad1a5d001447563",
-        "weekly-0ea84d001099ee3ab328c37d"
+        "weekly-0ea84d001099ee3ab328c37d",
+        "weekly-1c7b527d1d312717499f6f50",
+        "weekly-1e63989c6bf1f4053c1bb3b8",
+        "weekly-2b2be6229bf51e7d43b7669c",
+        "weekly-482ccf6c579121893c36c2b4",
+        "weekly-6fef91ba3ea7fd9f37c732e7",
+        "weekly-7701d5738d1893a76cd624b8",
+        "weekly-90514a9c2caeb2eec1999ea3",
+        "weekly-90f9f16d7af57472d5ed0587",
+        "weekly-990c7dc8c3ec3b40b43216ad",
+        "weekly-a9125f2ef141d7922ecad61c",
+        "weekly-b7d56224650b4fee5c96c6eb"
       ],
       "remaining_candidate_ids": [
         "weekly-17dfd4d6d878d9383b5a6794",
@@ -381,7 +387,7 @@
         "weekly-4eab976a4e932d7c008c8a26"
       ],
       "known_validated_pending_candidates": [],
-      "remaining_all_validated_pending": 11,
+      "remaining_all_validated_pending": 0,
       "remaining_source_held_approved_candidates": [
         "weekly-17dfd4d6d878d9383b5a6794",
         "weekly-6c7717ff1c241014cd08e9eb",
@@ -392,13 +398,14 @@
       ],
       "automatic_handoffs_consumed": 6,
       "pending_automatic_handoffs": 0,
-      "receipt": "config/content_review_publication_receipts/2026-11-01-discovery-backlog.json",
-      "public_receipt": "data/content_review_release_receipts/2026-11-01-discovery-backlog.json",
+      "receipt": "config/content_review_publication_receipts/approved-2026-11-01-batch24.json",
+      "public_receipt": "data/content_review_release_receipts/approved-2026-11-01-batch24.json",
       "release_workflow_run": 41357060574,
-      "pages_workflow_run": 41348089323,
-      "public_commit": "f2aa7cc315e824a0556054d4bf84630d40bb06c3",
-      "checked_at": "2026-11-01T21:41:30.000Z",
-      "release_scope_note": "Standing owner authorization removes the second approval gate. PR90 passed all checks and merged; release workflow41357060574 applies the11 validated approvals, followed by Pages. No live-publication claim until receipts and deployed corpus are verified."
+      "pages_workflow_run": 41357172375,
+      "public_commit": "8f5bb54b931662c26c5f7187b301671a6916b4de",
+      "checked_at": "2026-11-01T22:32:12.780Z",
+      "release_scope_note": "Eleven exact-hash human approvals published and live verified under standing owner authorization. Six previous genuine source-access holds remain; no duplicate editorial vote or unchanged403 retry.",
+      "published_this_release": 11
     }
   },
   "corpus_audit_checkpoint": {
@@ -413,20 +420,20 @@
     "handling": "All36 complete audit batches applied. Completion of490 removal jobs is recorded in config/review_application_status.json. Never reimport these jobs."
   },
   "review_application": {
-    "status": "batch24_decisions_reconciled_release_staged",
+    "status": "batch24_published_live_verified",
     "audit_removals": 490,
     "audit_keeps": 224,
     "new_weekly_approvals": 11,
     "new_weekly_rejections": 1,
     "exclusions": 503,
-    "public_records": 3173,
+    "public_records": 3184,
     "receipt": "config/content_review_publication_receipts/2026-10-28-completed-reviews.json",
     "status_file": "config/review_application_status.json",
-    "public_commit": "29cbc0509df846b697b351cb77a0896fc3f69bf2",
-    "release_workflow_run": 40689524006,
-    "pages_workflow_run": 40689611287,
-    "verified_at": "2026-11-01T21:41:30.000Z",
-    "latest_publication_receipt": "config/content_review_publication_receipts/2026-11-01-discovery-backlog.json"
+    "public_commit": "8f5bb54b931662c26c5f7187b301671a6916b4de",
+    "release_workflow_run": 41357060574,
+    "pages_workflow_run": 41357172375,
+    "verified_at": "2026-11-01T22:32:12.780Z",
+    "latest_publication_receipt": "config/content_review_publication_receipts/approved-2026-11-01-batch24.json"
   },
   "workflow_policy_update": {
     "confirmed_at": "2026-10-28",
@@ -594,5 +601,27 @@
     "never_wait_for_full_batch": true,
     "confirmed_at": "2026-11-01T21:08:26.263Z",
     "receipt": "config/content_review_batch_admission_receipts/2026-11-01-maximum20.json"
+  },
+  "approval_publication_fix": {
+    "confirmed_at": "2026-11-01T22:32:12.780Z",
+    "pr": 90,
+    "tests_passed": 16,
+    "all_repository_checks_passed": true,
+    "standing_authorization": true,
+    "hourly_worker_enabled_verified": true,
+    "normal_target_minutes": 90,
+    "publication_proof": {
+      "status": "passed",
+      "checked_at": "2026-11-01T22:31:37.633Z",
+      "public_url": "https://alex.riseinfosec.org/data/papers.json",
+      "public_records": 3184,
+      "records_verified": 11,
+      "method": "HTTP200 deployed JSON; exactly one record per approved title/year/source URL; author, full abstract, category, investigation type and OSINT source tags equal the immutable content-bound targets. Public JSON omits review provenance columns, so hashes were reconciled through the target rather than claimed as public fields.",
+      "public_blob_sha": "1a8693238eb5b7f1bab0f935d5a882d0ed67d0d7",
+      "public_commit": "8f5bb54b931662c26c5f7187b301671a6916b4de",
+      "release_workflow_run": 41357060574,
+      "pages_workflow_run": 41357172375,
+      "pr": 90
+    }
   }
 }
