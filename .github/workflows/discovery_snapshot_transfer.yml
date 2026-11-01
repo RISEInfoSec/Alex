@@ -1,0 +1,43 @@
+name: Discovery audit snapshot transfer
+on:
+  push:
+    branches: [codex/discovery-release-20261101]
+    paths: ['.github/workflows/discovery_snapshot_transfer.yml']
+permissions:
+  contents: write
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Encode complete immutable audit snapshots for bounded transfer
+        run: |
+          python3 - <<'PY'
+          import base64,gzip,hashlib,json
+          from pathlib import Path
+          root=Path('audit/discovery-20261101')
+          summary=json.loads((root/'summary.json').read_text())
+          out=root/'transfer';out.mkdir(exist_ok=True)
+          result={}
+          for name,spec in summary['files'].items():
+              rows=[]
+              for filename in spec['chunks']:
+                  rows.extend(json.loads((root/filename).read_text()))
+              assert len(rows)==spec['rows']
+              raw=json.dumps(rows,ensure_ascii=False,separators=(',',':')).encode()
+              encoded=base64.b64encode(gzip.compress(raw,compresslevel=9,mtime=0)).decode()
+              chunks=[]
+              for offset in range(0,len(encoded),5000000):
+                  filename=name+'-'+str(len(chunks))+'.b64'
+                  (out/filename).write_text(encoded[offset:offset+5000000]+'\n')
+                  chunks.append(filename)
+              result[name]={'rows':len(rows),'sha256':hashlib.sha256(raw).hexdigest(),'chunks':chunks,'compressed_base64_bytes':len(encoded)}
+              print(name,len(rows),len(encoded))
+          (out/'manifest.json').write_text(json.dumps(result,indent=2)+'\n')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add audit/discovery-20261101/transfer
+          git commit -m 'Preserve compressed complete Discovery audit snapshots'
+          git push
