@@ -60,7 +60,7 @@ def run(record_collection: bool = False) -> None:
 
     # Pandas reads empty CSV cells as NaN, which json.dumps would emit as
     # literal `NaN` (invalid JSON). Coerce to empty strings before export.
-    df = df.fillna("")
+    df = df.astype(object).where(df.notna(), "")
 
     public = df.copy()
     save_df(public_csv, public)
