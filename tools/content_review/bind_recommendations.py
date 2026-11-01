@@ -99,7 +99,7 @@ def bind_record(row: dict, stage_row: dict, assessed_at: str | None = None) -> d
     row["batch_admission_eligible"] = True
     row["review_ready"] = False
     row["editorial_queue_eligible"] = False
-    row["admission_hold"] = "Await complete stable batch; recommendation and all mechanical gates are current"
+    row["admission_hold"] = "Await immediate admission to a stable batch of1–20; never wait for20"
 
     stage_row["recommendation_content_sha256"] = content_hash
     stage_row["recommendation_status"] = row["recommendation_status"]
