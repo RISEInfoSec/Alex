@@ -11,15 +11,15 @@ concurrency:
 jobs:
   review-classification:
     if: github.repository == 'RISEInfoSec/Alex' && github.ref == 'refs/heads/codex/soups-corpus-review'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
         with:
           ref: ${{ github.sha }}
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7.1.0
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
@@ -37,7 +37,18 @@ jobs:
         run: |
           git diff --exit-code -- data alex config .github
           test -z "$(git ls-files --others --exclude-standard -- data alex config .github)"
-      - uses: actions/upload-artifact@v4
+      - name: Preserve a diagnostic when execution failed before a result was written
+        if: failure()
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path('.cache/content-review-paid/result.json')
+          if not path.exists():
+              path.parent.mkdir(parents=True, exist_ok=True)
+              path.write_text(json.dumps({'status': 'failed_before_result', 'provider_attempt_status': 'unknown', 'run_id': os.environ['GITHUB_RUN_ID'], 'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'], 'commit': os.environ['GITHUB_SHA'], 'reason': 'Execution failed before a result artifact was written; consult the failed step logs. No successful provider/check outcome is inferred.'}, indent=2) + '\n')
+          PY
+      - uses: actions/upload-artifact@v7.0.2
         if: always()
         with:
           name: content-review-paid-${{ github.run_id }}-${{ github.run_attempt }}
