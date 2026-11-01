@@ -8,7 +8,12 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": null,
+  "lease": {
+    "owner": "codex-content-review-worker",
+    "run_id": "content-review-20261101T223542Z-7c4e12a9",
+    "acquired_at": "2026-11-01T22:35:42.000Z",
+    "expires_at": "2026-11-01T23:05:42.000Z"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -88,7 +93,7 @@
     "source_release_holds": 6
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-11-01T21:36:09.185Z",
+  "last_started_at": "2026-11-01T22:35:42.000Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
