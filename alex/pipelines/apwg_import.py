@@ -722,7 +722,7 @@ def _possible_title_duplicate(
 
 def merge_corpus(corpus: pd.DataFrame, discovered: list[dict]) -> tuple[pd.DataFrame, dict]:
     """Idempotent, additive merge using normalized titles and DOI identities."""
-    corpus = corpus.copy().fillna("") if not corpus.empty else pd.DataFrame()
+    corpus = corpus.astype(object).where(corpus.notna(), "") if not corpus.empty else pd.DataFrame()
     attrs = ("collection_source", "collection_url", "apwg_year", "apwg_source_url")
     for field in attrs:
         if field not in corpus.columns:
