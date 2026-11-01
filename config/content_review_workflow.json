@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 15,
+  "version": 16,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -244,7 +244,7 @@
       "SOUPS / USENIX",
       "Virus Bulletin"
     ],
-    "goal": "Capture the complete accessible archive into a durable discovery inventory without waiting for manual review or completion of earlier mechanical checks.",
+    "goal": "Capture routine-window source coverage and selectively nominated older work under docs/retrospective_inclusion_sop.md; preserve historical inventory and checkpoints without exhaustive older crawling.",
     "discovery_contents": [
       "stable source and candidate identities",
       "title, authors and year as observed",
@@ -281,8 +281,8 @@
           "scope": "Accessible conference annual archives, programmes, individual contributions, papers, posters, workshops, slides and matching recordings; follow official archive links and record missing coverage."
         }
       ],
-      "goal": "Gather as much accessible source material and metadata as can be obtained courteously, into deduplicated durable discovery inventories for mechanical processing.",
-      "run_obligation": "Each active worker pass resumes a bounded discovery checkpoint for these sources as well as applicable reconciliation/preflight work, unless a source is complete, blocked by access/backoff or another writer holds the lease. Do not spend every run solely on weekly preflight while these archive inventories remain incomplete. Record attempted pages, new unique identities and remaining coverage honestly.",
+      "goal": "Capture routine-window source coverage and selectively nominated older work under docs/retrospective_inclusion_sop.md; preserve historical inventory and checkpoints without exhaustive older crawling.",
+      "run_obligation": "Each active worker pass resumes bounded routine-window discovery alongside applicable preflight unless complete, blocked or leased by another writer. Older acquisition is selective under the approved retrospective SOP. Record deferred older scope and preserve resume checkpoints; do not treat it as unexplained failed coverage.",
       "deferred_sources": [
         {
           "name": "SANS",
@@ -338,13 +338,14 @@
       "obsolete assumptions, dependencies or superseding evidence when applicable",
       "uncertainty and limitations"
     ],
-    "older_material": "Require a stronger explicit explanation of continuing usefulness for older material; distinguish obsolete platform-specific techniques from transferable methods, behavioural findings and investigative principles.",
+    "older_material": "Apply the approved five-year routine window and continuing-value exception process. All material older than five years carries a neutral age caveat, including continuing-value exceptions. Historical-only material is visibly marked and belongs in an optional public view outside default professional-development results.",
     "unknown": "If usefulness or supersession cannot be established, record uncertainty and discuss or hold as appropriate; do not infer obsolescence from publication year.",
     "no_automatic_age_cutoff": true,
     "numeric_scoring_changed": false,
     "citation_counts_do_not_establish_current_usefulness": true,
     "preserve": "Existing scores, hard gates, automatic acceptance, prior decisions and reviewed-content hashes remain in force. No retroactive removal or decision reversal without the existing authenticated decision process.",
-    "implementation_scope": "Recorded worker/editorial instructions. No new numerical age penalty, score weight or public UI badge is claimed as implemented."
+    "implementation_scope": "Recorded worker/editorial instructions. No new numerical age penalty, score weight or public UI badge is claimed as implemented.",
+    "retrospective_policy_path": "docs/retrospective_inclusion_sop.md"
   },
   "uniform_source_processing": {
     "confirmed_at": "2026-10-28",
@@ -418,5 +419,45 @@
     "maximum_batch_size": 20,
     "new_batches_must_be_full": false,
     "batch_policy_confirmed_at": "2026-11-01T21:06:51.300452+00:00"
+  },
+  "retrospective_inclusion_sop": {
+    "status": "approved_operating_policy",
+    "effective_date": "2026-11-01",
+    "path": "docs/retrospective_inclusion_sop.md",
+    "scope": "All current and future ALEX sources and collections",
+    "routine_publication_years": 5,
+    "calendar": "Current publication year and four preceding years; advance each January in America/Toronto",
+    "current_year_example": {
+      "routine": "2022–2026",
+      "selective_continuing_value": "2017–2021",
+      "named_exception": "2016 and earlier"
+    },
+    "older_exception_required": true,
+    "historical_only_public_view": "optional; visibly marked Historical reference; excluded from default professional-development results",
+    "age_caveat": {
+      "required": true,
+      "older_than_years": 5,
+      "date_precision": "Exact publication date: fifth-anniversary boundary. Year-only: apply conservatively at publication_year <= current_year - 5; do not invent exact age.",
+      "continuing_value_exempt": false,
+      "wording_status": "draft_for_editorial_review",
+      "wording": "This work reflects the evidence and technical environment at the time of publication. Its methods and insights may remain valuable, while some findings or practical guidance may have been refined or superseded by subsequent research and developments. Please consult more recent sources before applying it to current research or investigations.",
+      "placement": "Full notice in paper drill-down/detail view only; compact age marker in list view."
+    },
+    "no_automatic_age_rejection": true,
+    "numeric_scoring_changed": false,
+    "preserve": "Original dates, identities, decisions, exclusions and existing six gates; no deletion or automatic retrospective removal.",
+    "apwg": "Existing annual December full-paper check retained; owner-confirmed end-November release. APWG2026 awaits scheduled publication, not overdue discovery.",
+    "implementation": {
+      "worker_instructions": "effective",
+      "public_badges_and_history_filter": "required_not_yet_implemented_or_verified",
+      "existing_corpus_migration": "requires documented applicability classification and verified presentation"
+    },
+    "list_indicators": {
+      "historical": "H; historical-only designation, not age alone",
+      "earlier_research": "5+ or equivalent separate age marker",
+      "key": "Visible above list; text labels and accessible names; never color alone",
+      "style": "Existing ALEX navy/slate with restrained amber historical accent and muted blue earlier-research accent",
+      "status": "design_preview_pending_public_implementation"
+    }
   }
 }
