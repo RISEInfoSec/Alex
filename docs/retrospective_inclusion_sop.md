@@ -35,15 +35,15 @@ Use the exact fifth-anniversary boundary when a full publication date is availab
 
 Known supersession at any age receives a specific, evidence-backed explanation and a newer reference when verified. An age caveat is not a substitute for identifying known errors, obsolete versions or superseding evidence.
 
-## Proposed public wording
+## Approved public wording
 
-The requirement for an age caveat is approved. The following wording is a draft for editorial review, not an assertion that public UI implementation is complete.
+The following neutral notice and compact list indicators were approved for deployment on 1 November 2026.
 
-Badge: Earlier research · [publication year]
+List badge: 5+ (muted blue), with a legend above results. Paper detail heading: Research context.
 
 This work reflects the evidence and technical environment at the time of publication. Its methods and insights may remain valuable, while some findings or practical guidance may have been refined or superseded by subsequent research and developments. Please consult more recent sources before applying it to current research or investigations.
 
-Historical-only badge: Historical reference · [publication year]
+Historical-only list badge: H (muted amber), with a Historical reference legend and explicit detail label.
 
 Additional historical-view context: Included for its historical contribution. Technical details and recommendations should be read in the context of the period in which the work was published.
 
@@ -55,6 +55,6 @@ Preserve the existing annual December check for that year's APWG eCrime papers. 
 
 Preserve published records, original identities, content hashes, prior approvals, exclusions and all quality/material/access gates. Defer lower-priority historical recovery explicitly; do not delete discoveries, reverse editorial decisions or introduce numerical age penalties.
 
-Existing-publication visibility changes require a documented classification of continuing-value versus historical-only material, with a preview and verification of labels, default search, explicit historical search and direct links. This SOP authorizes the policy and its historical-view requirement; do not claim badges, filtering or a corpus migration are live until implemented and verified. The requested notice wording remains a draft pending editorial acceptance.
+Existing-publication visibility changes require a documented classification of continuing-value versus historical-only material, with a preview and verification of labels, default search, explicit historical search and direct links. This SOP authorizes the policy and its historical-view requirement; do not claim badges, filtering or a corpus migration are live until implemented and verified. The notice wording and GUI treatment are approved. Implementation supports explicit historical_only metadata; no existing record is reclassified by age. Static bibliography markers state their snapshot date; live search recalculates age on each visit.
 
 Every worker pass must read this SOP with the workflow and material policies. It supersedes earlier instructions to exhaust the complete historical archive where those instructions conflict with the five-year routine window. Preserve archive checkpoints and mark deferred older scope honestly. Discoveries, mechanically held candidates, editorial approvals, releases and public verification remain separate states. Ready manual batches may contain 1–20 items; do not wait to fill 20.
