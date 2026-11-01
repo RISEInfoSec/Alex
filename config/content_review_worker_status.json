@@ -1,29 +1,24 @@
 {
   "schema_version": 1,
   "phase": "active",
-  "ready_total": 0,
+  "ready_total": 12,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "run_id": "batch-max20-1793567100047",
-    "owner": "batch-max20-1793567100047",
-    "acquired_at": "2026-11-01T21:05:00.047Z",
-    "expires_at": "2026-11-01T21:35:00.047Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
-    "weekly": 0,
+    "weekly": 12,
     "virusbulletin": 0,
     "apwg": 0
   },
   "unattended_access_verified_at": "2026-10-27T22:40:36Z",
   "verification_result": "Unattended access verified: production D1 binding DB exposes review_decisions, review_drafts, review_jobs and review_submissions; review_jobs read succeeded (empty). Branch source registry config/review_console.json read successfully (SOUPS, APWG, Virus Bulletin; weekly not yet registered). Initial-fill lease and all counts preserved; no candidate or assessment mutation.",
-  "weekly_prepared_batches": 0,
+  "weekly_prepared_batches": 1,
   "pending_mechanical_jobs": 31,
   "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
   "workflow": "preflight_first",
@@ -32,10 +27,10 @@
     "soups": 88,
     "weekly": 102
   },
-  "global_deficit": 250,
+  "global_deficit": 238,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-01T20:59:49.835Z",
-  "last_action": "Authorized Discovery audit published7 independently validated papers (1 existing human approval and6 qualifying automatic handoffs), verified every title in the live3173-record collection and preserved5 new source403 holds plus the existing Guardians access hold. Reconciled all persisted pipeline and archive identities:76392 unpublished at start =7 published +6608 still requiring action +69777 terminal rejections/exclusions. Existing hourly automation remains paused. No threshold waiver, repeat editorial vote or new schedule.",
+  "last_completed_at": "2026-11-01T21:08:26.263Z",
+  "last_action": "Applied user correction:20 is a maximum, never a minimum. Sealed12 fully cleared candidates as weekly Batch24, with all prior sealed batches/decisions/content hashes preserved. Updated helper, tests, workflow, worker instructions and existing automation prompt. All14 admission/recommendation tests passed; no public publication or paid/source requests.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -173,25 +168,25 @@
     }
   ],
   "held_stage": {
-    "stage": "full_batch_remainder_and_source_evidence",
-    "reason": "Twelve manually cleared candidates await8 more for an exact20 batch. Eight taxonomy-source holds,1 truncated abstract and15 raw source/version mismatches remain. Actual ready0/250 and0/200 daily target."
+    "stage": "remaining_source_and_taxonomy_evidence",
+    "reason": "Batch24 exposes12 cleared candidates now; no batch-size hold remains. Other recorded source, identity, abstract and taxonomy holds remain."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-11-01T20:59:49.835Z",
-    "scope": "authorized_discovery_backlog_audit_and_publication",
+    "verified_at": "2026-11-01T21:08:26.263Z",
+    "scope": "maximum20_policy_correction_and_batch24_admission",
     "workflow_version": 14,
     "d1_completed_submissions": 60,
     "d1_decisions": 914,
     "d1_jobs": 585,
     "new_console_acceptances": 0,
     "new_console_rejections": 0,
-    "ready_total": 0,
-    "global_deficit": 250,
+    "ready_total": 12,
+    "global_deficit": 238,
     "new_full_batches": 0,
     "daily_ready_target": 200,
     "daily_new_ready": 0,
     "daily_shortfall": 200,
-    "cleared_awaiting_full_batch": 12,
+    "cleared_awaiting_full_batch": 0,
     "new_automatic_handoffs": 0,
     "initial_preflight_holds": 181,
     "total_manifest_holds": 190,
@@ -204,11 +199,15 @@
     "source_documents_reused": 5,
     "identity_abstract_triage_rows": 4041,
     "preflight_checkpoint": "config/content_review_mechanical_checkpoints/2026-10-30T1950Z-manual-source-tags-5.json",
-    "public_corpus_modified": true,
-    "published_count": 7,
+    "public_corpus_modified": false,
+    "published_count": 0,
     "public_total": 3173,
     "remaining_immutable_jobs": 31,
-    "pending_automatic_handoffs": 0
+    "pending_automatic_handoffs": 0,
+    "new_batches": 1,
+    "new_ready": 12,
+    "latest_review_batch": 24,
+    "latest_review_batch_size": 12
   },
   "checkpointed_at": "2026-11-01T20:59:49.835Z",
   "source_backoff": {
@@ -230,11 +229,10 @@
     }
   },
   "next_actions": [
-    "Existing Content Review hourly automation is paused. Preserve that state until the user requests resumption; do not create a duplicate schedule.",
-    "Complete allowed source-access work for the six approved access-held weekly papers. Preserve their prior approvals and avoid unchanged repeated403 requests.",
-    "Continue mechanical/metadata/quality/taxonomy preparation for legacy approved items and the full preserved weekly inventory. The full audit lists every recorded hold and missing proof.",
-    "Twelve validated manual candidates need eight more eligible peers for the next exact20 batch. Do not ask the user to investigate mechanical failures or repeat prior votes.",
-    "All six regular automatic handoffs were consumed and verified public in the2026-11-01 receipt. Do not reimport them or process completed jobs again."
+    "Offer Batch24 (12 fully validated candidates) for approval now; never wait to fill20.",
+    "Seal each later set of1–20 fully validated candidates immediately;20 is the maximum and held peers must not delay cleared records.",
+    "Continue existing source/metadata/quality/taxonomy work and preserve approvals and source-backoff rules. No repeat editorial votes.",
+    "Existing hourly Content Review automation is enabled; preserve its schedule and updated maximum20 prompt."
   ],
   "paid_execution": {
     "status": "operational_verified",
@@ -312,7 +310,7 @@
   },
   "mechanical_passed_awaiting_batch_admission": {
     "soups": 0,
-    "weekly": 12
+    "weekly": 0
   },
   "preflight_hold_counts": {
     "soups": 88,
@@ -326,12 +324,12 @@
     "discuss": 21,
     "exclude": 2,
     "full_papers_claimed_reviewed": 0,
-    "manual_ready": 0,
-    "complete_stable_batches": 0,
+    "manual_ready": 12,
+    "complete_stable_batches": 1,
     "full_pending_batches": 0,
     "full_soups_pending_batches": 0,
     "assessed_at": "2026-10-30T19:53:56.871Z",
-    "cleared_manual_awaiting_full_batch": 12
+    "cleared_manual_awaiting_full_batch": 0
   },
   "pending_mechanical_jobs_basis": "585 immutable jobs;64 accepted assessments and490 applied removal jobs complete. Remaining31 are13 held assessments and18 partial buffer reconciliations; no existing job or decision replayed.",
   "publication_status": {
@@ -541,7 +539,7 @@
     "workflow_version": 14,
     "daily_ready_target": 200,
     "new_batch_size": 20,
-    "full_batches_only": true,
+    "full_batches_only": false,
     "processing_inventory": "config/weekly_backlog_processing_inventory.json",
     "source_checkpoint": "config/content_review_backlog_source_checkpoints/2026-10-30-campaign-documents.json",
     "source_documents_checked": 0,
@@ -564,7 +562,14 @@
     "checked_at": "2026-10-30T19:53:56.871Z",
     "source_documents_reused": 5,
     "processing_inventory_sha": "9224eb9fb291204088087b6e35a141365f9efb0c",
-    "checkpoint": "config/content_review_mechanical_checkpoints/2026-10-30T1950Z-manual-source-tags-5.json"
+    "checkpoint": "config/content_review_mechanical_checkpoints/2026-10-30T1950Z-manual-source-tags-5.json",
+    "minimum_batch_size": 1,
+    "maximum_batch_size": 20,
+    "cleared_awaiting_full_batch": 0,
+    "ready_total": 12,
+    "batch_size_policy": "20 maximum, never a minimum",
+    "latest_review_batch": 24,
+    "latest_review_batch_size": 12
   },
   "discovery_backlog_audit": {
     "receipt": "config/discovery_backlog_audits/2026-11-01.json",
@@ -575,5 +580,12 @@
     "resolved_or_excluded_without_publication": 69777,
     "paused_worker_verified": true,
     "source_coverage_complete": false
+  },
+  "batch_size_policy": {
+    "minimum": 1,
+    "maximum": 20,
+    "never_wait_for_full_batch": true,
+    "confirmed_at": "2026-11-01T21:08:26.263Z",
+    "receipt": "config/content_review_batch_admission_receipts/2026-11-01-maximum20.json"
   }
 }
