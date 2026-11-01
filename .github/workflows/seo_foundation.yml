@@ -33,11 +33,11 @@ permissions:
   contents: read
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.1.0
         with:
           python-version: '3.11'
           cache: pip
@@ -54,14 +54,14 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Verify every collection layout and existing search
         run: python scripts/check_collection_layouts.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7.0.2
         if: always()
         with:
           name: alex-layout-review
           path: _layout_review
           if-no-files-found: warn
           retention-days: 14
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7.0.2
         with:
           name: alex-collections-preview
           path: _site

@@ -612,7 +612,8 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.pipelines.classify.call_openai", return_value=response):
             classify.run()
-        result = pd.read_csv(tmp_path / "data/accepted_classified.csv").fillna("")
+        result = pd.read_csv(tmp_path / "data/accepted_classified.csv")
+        result = result.astype(object).where(result.notna(), "")
         assert len(result) == 2
         old = result[result["title"] == original["title"]].iloc[0]
         new = result[result["title"] == "New OSINT paper"].iloc[0]

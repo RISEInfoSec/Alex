@@ -1,0 +1,48 @@
+name: Action runtime and artifact checks
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'requirements.txt'
+permissions:
+  contents: read
+jobs:
+  artifact-round-trip:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Prepare artifact compatibility fixture
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          path = Path('.cache/ci-runtime/payload.json')
+          path.parent.mkdir(parents=True, exist_ok=True)
+          path.write_text(json.dumps({'purpose': 'Node24 action and artifact compatibility', 'fixture': [1, 2, 3]}, sort_keys=True) + '\n')
+          print('Fixture SHA256:', hashlib.sha256(path.read_bytes()).hexdigest())
+          PY
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: action-runtime-compatibility-${{ github.run_id }}
+          path: .cache/ci-runtime/payload.json
+          if-no-files-found: error
+          retention-days: 1
+      - uses: actions/download-artifact@v8.0.2
+        with:
+          name: action-runtime-compatibility-${{ github.run_id }}
+          path: .cache/ci-runtime/downloaded
+      - name: Verify artifact bytes survive the supported upload/download path
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          original = Path('.cache/ci-runtime/payload.json').read_bytes()
+          downloaded = Path('.cache/ci-runtime/downloaded/payload.json').read_bytes()
+          assert downloaded == original, 'Artifact contents changed'
+          print('Artifact round trip verified byte for byte.')
+          PY
