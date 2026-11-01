@@ -315,7 +315,7 @@ function safeHref(u) {
   return '';
 }
 
-fetch('data/papers.json')
+fetch('data/papers.json', {cache: 'no-cache'})
   .then(res => res.json())
   .then(data => {
     papers = data.map(p => ({
@@ -330,7 +330,7 @@ fetch('data/papers.json')
   })
   .catch(() => { summaryEl.textContent = 'The library could not be loaded. Please refresh to try again.'; });
 
-fetch('data/collection_status.json')
+fetch('data/collection_status.json', {cache: 'no-cache'})
   .then(res => { if (!res.ok) throw new Error('No recorded run'); return res.json(); })
   .then(status => {
     if (!status.last_collection || !Number.isInteger(status.new_papers_added)) return;
