@@ -1,23 +1,18 @@
 {
   "schema_version": 1,
   "phase": "active",
-  "ready_total": 12,
+  "ready_total": 0,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "owner": "codex-content-review-worker",
-    "run_id": "content-review-20261101T213609Z-12da8178",
-    "acquired_at": "2026-11-01T21:36:09.185Z",
-    "expires_at": "2026-11-01T22:06:09.185Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
-    "weekly": 12,
+    "weekly": 0,
     "virusbulletin": 0,
     "apwg": 0
   },
@@ -32,10 +27,10 @@
     "soups": 88,
     "weekly": 102
   },
-  "global_deficit": 238,
+  "global_deficit": 250,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-01T21:08:26.263Z",
-  "last_action": "Applied user correction:20 is a maximum, never a minimum. Sealed12 fully cleared candidates as weekly Batch24, with all prior sealed batches/decisions/content hashes preserved. Updated helper, tests, workflow, worker instructions and existing automation prompt. All14 admission/recommendation tests passed; no public publication or paid/source requests.",
+  "last_completed_at": "2026-11-01T21:41:30.000Z",
+  "last_action": "Reconciled completed weekly Batch24:11 exact-hash publication approvals and1 rejection. All11 approvals completed final source-identity, fresh duplicate/exclusion and unchanged target-serialization validation and are staged for the established authorized release path; the rejection was added to corpus exclusions. No public import, merge or deployment was authorized. Ready queue is now0/250; daily ready throughput is12/200.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -132,17 +127,17 @@
     }
   },
   "reconciliation": {
-    "completed_submissions": 60,
-    "latest_decisions_validated": 914,
+    "completed_submissions": 61,
+    "latest_decisions_validated": 926,
     "content_hash_mismatches": 0,
-    "submission_payload_hashes_validated": 52,
-    "immutable_jobs": 585,
-    "completed_assessment_jobs": 64,
-    "completed_corpus_removal_jobs": 490,
+    "submission_payload_hashes_validated": 53,
+    "immutable_jobs": 597,
+    "completed_assessment_jobs": 75,
+    "completed_corpus_removal_jobs": 491,
     "remaining_immutable_jobs": 31,
-    "verified_at": "2026-10-30T19:53:56.871Z",
-    "reuse_basis": "All60 submissions were read live; trailing decision/job pages confirm unchanged totals914/585. No new console decision or immutable job appeared. Prior exact snapshots and hashes were reused.",
-    "server_payload_hashes_observed": 60,
+    "verified_at": "2026-11-01T21:41:30.000Z",
+    "reuse_basis": "All Batch24 decisions were read live and matched the immutable submission, sealed candidate hashes and recommendation snapshots. Eleven assessment jobs and the buffer checkpoint were consumed; the rejected record was recorded as an exclusion. Unchanged valid gate evidence was reused.",
+    "server_payload_hashes_observed": 61,
     "new_submission_raw_payload_rehash_available": false
   },
   "blocked_sources": [
@@ -177,20 +172,20 @@
     "reason": "Batch24 exposes12 cleared candidates now; no batch-size hold remains. Other recorded source, identity, abstract and taxonomy holds remain."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-11-01T21:08:26.263Z",
-    "scope": "maximum20_policy_correction_and_batch24_admission",
+    "verified_at": "2026-11-01T21:41:30.000Z",
+    "scope": "batch24_completed_decisions_final_validation_and_staging",
     "workflow_version": 14,
-    "d1_completed_submissions": 60,
-    "d1_decisions": 914,
-    "d1_jobs": 585,
-    "new_console_acceptances": 0,
-    "new_console_rejections": 0,
-    "ready_total": 12,
-    "global_deficit": 238,
+    "d1_completed_submissions": 61,
+    "d1_decisions": 926,
+    "d1_jobs": 597,
+    "new_console_acceptances": 11,
+    "new_console_rejections": 1,
+    "ready_total": 0,
+    "global_deficit": 250,
     "new_full_batches": 0,
     "daily_ready_target": 200,
-    "daily_new_ready": 0,
-    "daily_shortfall": 200,
+    "daily_new_ready": 12,
+    "daily_shortfall": 188,
     "cleared_awaiting_full_batch": 0,
     "new_automatic_handoffs": 0,
     "initial_preflight_holds": 181,
@@ -198,23 +193,25 @@
     "source_reserve_enabled": false,
     "paid_requests": 0,
     "paid_tokens": 0,
-    "source_corrections": 5,
+    "source_corrections": 0,
     "openalex_requests": 0,
     "source_documents_checked": 0,
-    "source_documents_reused": 5,
+    "source_documents_reused": 11,
     "identity_abstract_triage_rows": 4041,
-    "preflight_checkpoint": "config/content_review_mechanical_checkpoints/2026-10-30T1950Z-manual-source-tags-5.json",
+    "preflight_checkpoint": "config/weekly_backlog_processing_inventory.json",
     "public_corpus_modified": false,
     "published_count": 0,
     "public_total": 3173,
     "remaining_immutable_jobs": 31,
     "pending_automatic_handoffs": 0,
-    "new_batches": 1,
-    "new_ready": 12,
+    "new_batches": 0,
+    "new_ready": 0,
     "latest_review_batch": 24,
-    "latest_review_batch_size": 12
+    "latest_review_batch_size": 12,
+    "approvals_staged_for_authorized_release": 11,
+    "rejection_exclusion_recorded": 1
   },
-  "checkpointed_at": "2026-11-01T20:59:49.835Z",
+  "checkpointed_at": "2026-11-01T21:41:30.000Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
@@ -336,7 +333,7 @@
     "assessed_at": "2026-10-30T19:53:56.871Z",
     "cleared_manual_awaiting_full_batch": 0
   },
-  "pending_mechanical_jobs_basis": "585 immutable jobs;64 accepted assessments and490 applied removal jobs complete. Remaining31 are13 held assessments and18 partial buffer reconciliations; no existing job or decision replayed.",
+  "pending_mechanical_jobs_basis": "597 immutable jobs;75 accepted assessments and491 applied rejection/removal jobs are complete. Remaining31 are pre-existing held assessments/partial buffer reconciliations; Batch24 jobs were not replayed.",
   "publication_status": {
     "accepted_this_run": 8,
     "final_validation_complete": 8,
@@ -357,7 +354,7 @@
     "live_url": "https://alex.riseinfosec.org/",
     "checked_at": "2026-10-28T12:44:13.664Z",
     "current_run": {
-      "status": "partially_published_source_holds_preserved",
+      "status": "batch24_validated_approvals_staged_no_release_authorization",
       "published": 7,
       "published_this_audit": 7,
       "public_total": 3173,
@@ -379,7 +376,7 @@
         "weekly-4eab976a4e932d7c008c8a26"
       ],
       "known_validated_pending_candidates": [],
-      "remaining_all_validated_pending": 0,
+      "remaining_all_validated_pending": 11,
       "remaining_source_held_approved_candidates": [
         "weekly-17dfd4d6d878d9383b5a6794",
         "weekly-6c7717ff1c241014cd08e9eb",
@@ -395,8 +392,8 @@
       "release_workflow_run": 41347935401,
       "pages_workflow_run": 41348089323,
       "public_commit": "f2aa7cc315e824a0556054d4bf84630d40bb06c3",
-      "checked_at": "2026-11-01T20:59:49.835Z",
-      "release_scope_note": "Seven new items verified live; five attempted sources returnedHTTP403 and one prior access hold remains. All approvals retained. Prior releases remain recorded in their immutable receipts."
+      "checked_at": "2026-11-01T21:41:30.000Z",
+      "release_scope_note": "Eleven new exact-hash human approvals are fully validated and staged. The current maintenance instruction did not authorize a public import, merge or deployment. Six prior source-access holds remain preserved; no unchanged403 was retried."
     }
   },
   "corpus_audit_checkpoint": {
@@ -411,20 +408,20 @@
     "handling": "All36 complete audit batches applied. Completion of490 removal jobs is recorded in config/review_application_status.json. Never reimport these jobs."
   },
   "review_application": {
-    "status": "published_live_verified",
+    "status": "batch24_decisions_reconciled_release_staged",
     "audit_removals": 490,
     "audit_keeps": 224,
-    "new_weekly_approvals": 8,
+    "new_weekly_approvals": 11,
     "new_weekly_rejections": 1,
-    "exclusions": 501,
-    "public_records": 3166,
+    "exclusions": 503,
+    "public_records": 3173,
     "receipt": "config/content_review_publication_receipts/2026-10-28-completed-reviews.json",
     "status_file": "config/review_application_status.json",
     "public_commit": "29cbc0509df846b697b351cb77a0896fc3f69bf2",
     "release_workflow_run": 40689524006,
     "pages_workflow_run": 40689611287,
-    "verified_at": "2026-10-30T19:11:29.609Z",
-    "latest_publication_receipt": "config/content_review_publication_receipts/2026-10-30-approved-4.json"
+    "verified_at": "2026-11-01T21:41:30.000Z",
+    "latest_publication_receipt": "config/content_review_publication_receipts/2026-11-01-discovery-backlog.json"
   },
   "workflow_policy_update": {
     "confirmed_at": "2026-10-28",
@@ -518,25 +515,19 @@
     "receipt": "config/content_review_registry_receipts/fdb6468a2c250655087e321e64c30b89f8f371ae9bda51398dc83a86b3bfa8f6.json"
   },
   "automatic_route_handoffs": {
-    "pending": 6,
+    "pending": 0,
     "manually_reviewable": false,
     "request": "config/content_review_automatic_requests/b61823265cb812372602b1516a3357c1b996f703fe557d0c1c4be7df04588bf9.json",
     "candidate_id": "weekly-0ea84d001099ee3ab328c37d",
-    "status": "qualified_automatic_handoffs_pending",
-    "public_release_executed": false,
-    "new_pending_this_run": 5,
-    "new_requests": [
-      "config/content_review_automatic_requests/08ed3fece87397282e2195ef32f602c1d8d847d903d30bf4e8a2ec2729e45648.json",
-      "config/content_review_automatic_requests/58e3e65096416900138b28be10ebf37b1a4e4430270059f65e9420d7cd4ecc76.json",
-      "config/content_review_automatic_requests/7f19d9cf78751d510df0f6cda685a59061b0bda1cd275898602f3fe959c23615.json",
-      "config/content_review_automatic_requests/b5fd43dbe98bd89b9f8509623e33cc36b62cf02bef922685f5e005fb0bd5740e.json",
-      "config/content_review_automatic_requests/49fc3d720cea8780f4eb4a36ce5ad4759c5945c50cbd4622c4e6275219ca8b43.json"
-    ]
+    "status": "all_recorded_handoffs_consumed_by_latest_authorized_release",
+    "public_release_executed": true,
+    "new_pending_this_run": 0,
+    "new_requests": []
   },
   "scheduling_status": {
     "automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
     "is_enabled": true,
-    "observed_at": "2026-10-30T19:53:56.871Z",
+    "observed_at": "2026-11-01T21:41:30.000Z",
     "source": "Native Sites get_site returned existing enabled hourly schedule",
     "changed_this_pass": false
   },
@@ -552,29 +543,35 @@
     "identity_abstract_triage_rows": 4041,
     "triage_is_not_substantive_screening": true,
     "new_source_preflight_candidates": 0,
-    "all_six_gates_passed_this_run": 5,
-    "manual_cleared_awaiting_full20_batch": 12,
-    "next_batch_additional_passes_needed": 8,
+    "all_six_gates_passed_this_run": 0,
+    "manual_cleared_awaiting_full20_batch": 0,
+    "next_batch_additional_passes_needed": 0,
     "new_automatic_handoffs": 0,
     "new_fully_validated_review_ready": 0,
     "completed_full_batches_today": 0,
-    "daily_ready_shortfall": 200,
+    "daily_ready_shortfall": 188,
     "source_tag_support_holds": 8,
     "truncated_abstract_holds": 1,
     "other_source_identity_or_abstract_reconciliation_holds": 15,
-    "stage": "twelve_manual_cleared_awaiting_eight_more_for_full20",
-    "review_contract": "Only fully validated publication-review candidates; substantive include/exclude reason after gates; new batches exactly20. Automatic-route survivors are separate and do not fill a manual target.",
-    "checked_at": "2026-10-30T19:53:56.871Z",
-    "source_documents_reused": 5,
-    "processing_inventory_sha": "9224eb9fb291204088087b6e35a141365f9efb0c",
+    "stage": "batch24_review_complete_approvals_staged_continue_weekly_preparation",
+    "review_contract": "Only fully validated publication-review candidates; substantive include/exclude reason after gates; seal and offer any1–20 immediately. Twenty is a maximum, never a minimum. Automatic-route survivors remain separate.",
+    "checked_at": "2026-11-01T21:41:30.000Z",
+    "source_documents_reused": 11,
+    "processing_inventory_sha": "bc6f886efcc257922101366bb3f017f65397af86",
     "checkpoint": "config/content_review_mechanical_checkpoints/2026-10-30T1950Z-manual-source-tags-5.json",
     "minimum_batch_size": 1,
     "maximum_batch_size": 20,
     "cleared_awaiting_full_batch": 0,
-    "ready_total": 12,
+    "ready_total": 0,
     "batch_size_policy": "20 maximum, never a minimum",
     "latest_review_batch": 24,
-    "latest_review_batch_size": 12
+    "latest_review_batch_size": 12,
+    "daily_ready_produced": 12,
+    "latest_batch24_decisions": {
+      "approved": 11,
+      "rejected": 1,
+      "validated_and_staged": 11
+    }
   },
   "discovery_backlog_audit": {
     "receipt": "config/discovery_backlog_audits/2026-11-01.json",
