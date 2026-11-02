@@ -22,12 +22,33 @@ def target_value(target,name,default=''):
     """Read either the classified-row shape or the supported public-paper shape."""
     aliases={'authors':'author','abstract':'summary','Category':'category',
         'Investigation_Type':'investigation_type','OSINT_Source_Types':'osint_source',
-        'retrieved_at':'retrieved','Seminal_Flag':'seminal'}
+        'retrieved_at':'retrieved','Seminal_Flag':'seminal','Keywords':'keywords','Tags':'tags'}
     if name in target:return target[name]
     value=target.get(aliases.get(name,''),default)
-    if name=='OSINT_Source_Types' and isinstance(value,list):return '; '.join(value)
+    if name in ('OSINT_Source_Types','Keywords','Tags') and isinstance(value,list):return '; '.join(value)
     if name=='Seminal_Flag' and isinstance(value,bool):return 'TRUE' if value else 'FALSE'
     return value
+
+def classified_target(row):
+    """Convert a reviewed public record to the CSV schema consumed by publish."""
+    target=dict(row['target'])
+    if 'author' not in target and 'summary' not in target:return target
+    aliases=('authors','abstract','Category','Investigation_Type','OSINT_Source_Types',
+        'retrieved_at','Seminal_Flag','Keywords','Tags')
+    public_only={'id','author','summary','category','investigation_type','osint_source',
+        'retrieved','seminal','keywords','tags','link','quality_tier'}
+    value={k:v for k,v in target.items() if k not in public_only}
+    value.update({name:target_value(target,name) for name in aliases})
+    value['total_quality_score']=row['preflight']['checks']['quality']['evidence']['quality_score']
+    return value
+
+def write_corpus(corpus,fields,rows):
+    fields=list(dict.fromkeys(fields+[k for row in rows for k in row]))
+    temp=corpus.with_suffix('.release.tmp')
+    with temp.open('w',newline='') as stream:
+        writer=csv.DictWriter(stream,fieldnames=fields)
+        writer.writeheader();writer.writerows(rows)
+    temp.replace(corpus)
 
 def check_record(row,weights):
     h=row['content_sha256'];t=row['target']
@@ -52,20 +73,17 @@ def check_record(row,weights):
         require(float(q['quality_auto_threshold'])==threshold and float(q['quality_score'])>=threshold,'Below existing automatic threshold')
         require('arxiv.org/' in t['source_url'],'Unsupported automatic route')
     else:raise ValueError('Unknown authorization route')
-    if t.get('total_quality_score') not in (None,''):
+    if ('author' not in t and 'summary' not in t) or t.get('total_quality_score') not in (None,''):
         require(float(t['total_quality_score'])==float(q['quality_score']),'Target score changed')
     require(row['target_schema']['status']=='passed' and row['target_schema']['content_sha256']==h,'Missing target proof')
 
 def check_target(row):
-    t=dict(row['target']);h=row['content_sha256'];tags=row['taxonomy']['evidence']['classification']
+    t=dict(row['target'])
     # Rebuild the current publisher input from either the classified-row shape
     # used by earlier requests or the publisher's supported public-paper shape.
-    value={k:target_value(t,k) for k in ('title','authors','year','doi','source_url','abstract','venue','collection_source','collection_url')}
-    value['retrieved_at']=row['schema_retrieved_at'];value.update(tags)
-    value['OSINT_Source_Types']='; '.join(tags['OSINT_Source_Types']);value['citation_count']=t.get('citation_count')
-    q=row['preflight']['checks']['quality']['evidence']
-    value['total_quality_score']=t.get('total_quality_score',q['quality_score'])
-    value['Seminal_Flag']=target_value(t,'Seminal_Flag')
+    value=classified_target(row)
+    # A release collection date may differ from the immutable schema proof.
+    value['retrieved_at']=row['schema_retrieved_at']
     with tempfile.TemporaryDirectory() as temp:
         root=Path(temp);(root/'data').mkdir()
         with (root/'data/accepted_classified.csv').open('w',newline='') as f:
@@ -102,7 +120,7 @@ def source_check(row,get,origins):
         def normal(s):return re.sub(r'[^a-z0-9]+','',unicodedata.normalize('NFKC',s).casefold())
         normalized=normal(text)
         require(all(normal(s) in normalized for s in src['required_markers']),'Verified full-text identity markers missing')
-        require(normal(row['target']['abstract']) in normalized,'Complete reviewed abstract missing or changed')
+        require(normal(target_value(row['target'],'abstract')) in normalized,'Complete reviewed abstract missing or changed')
         require(len(text)>10000,'Full article text unavailable')
     else:raise ValueError('Unknown source validation kind')
     return {'source_url':url,'http_status':r.status_code,'resource_sha256':actual,'kind':src.get('kind','exact_pdf'),'bytes':len(body),'checked_at':datetime.now(timezone.utc).isoformat()}
@@ -118,15 +136,35 @@ def release(manifest,corpus,receipt,exclusions,weights,get=requests.get,write=Fa
         prior=json.loads(receipt.read_text());require(prior['records_sha256']==data['records_sha256'],'Receipt changed')
         present={r.get('review_candidate_id'):r for r in existing}
         deleted=load_keys(Path(exclusions))
-        requested={r['candidate_id']:r for r in rows}
+        requested={r['candidate_id']:r for r in rows};repairs=[]
         for released in prior['released']:
             current=present.get(released['candidate_id'])
             if current is not None:
                 require(current.get('review_content_sha256')==released['content_sha256'],'Released row changed')
+                request=requested[released['candidate_id']];target=request['target']
+                if 'author' in target or 'summary' in target:
+                    expected=classified_target(request)
+                    def cell(value):return '' if value is None else str(value)
+                    changed=[k for k,v in expected.items() if current.get(k,'')!=cell(v)]
+                    if changed:
+                        # Repair only the exact legacy public-shaped CSV write.
+                        # Never replace a differing editorial or bibliographic value.
+                        require(all(current.get(k,'')==cell(v) for k,v in target.items()),'Released public row changed')
+                        require(all(current.get(k,'') in ('',cell(v)) for k,v in expected.items()),'Released classified row changed')
+                        before=digest(current);current.update({k:cell(v) for k,v in expected.items()})
+                        repairs.append({'candidate_id':released['candidate_id'],
+                            'content_sha256':released['content_sha256'],'fields':sorted(changed),
+                            'previous_row_sha256':before,'repaired_row_sha256':digest(current),
+                            'checked_at':datetime.now(timezone.utc).isoformat()})
                 continue
             target=requested[released['candidate_id']]['target']
             require(bool(record_keys(target)&deleted),'Released row missing without a published deletion receipt')
-        return {**prior,'already_applied':True}
+        if repairs:
+            prior['metadata_repairs']=prior.get('metadata_repairs',[])+repairs
+            if write:
+                write_corpus(corpus,fields,existing)
+                receipt.write_text(json.dumps(prior,ensure_ascii=False,indent=2)+'\n')
+        return {**prior,'already_applied':True,'records_repaired':len(repairs)}
     keys=set().union(*(record_keys(r) for r in existing));excluded=load_keys(Path(exclusions));origins={};added=[];held=[]
     for r in rows:
         try:
@@ -139,11 +177,9 @@ def release(manifest,corpus,receipt,exclusions,weights,get=requests.get,write=Fa
         keys.update(k);added.append({**r,'fresh_source_proof':proof});print('VALIDATED',r['candidate_id'],flush=True)
     result={'release_id':data['release_id'],'records_sha256':data['records_sha256'],'approval_basis':data['approval_basis'],'source_review_commit':data['source_review_commit'],'records_before':len(existing),'records_added':len(added),'records_after':len(existing)+len(added),'existing_records_modified':0,'checked_at':datetime.now(timezone.utc).isoformat(),'released':[{k:r[k] for k in ('candidate_id','content_sha256','authorization','fresh_source_proof')} for r in added],'held':held}
     if write:
-        fields=list(dict.fromkeys(fields+[k for r in added for k in r['target']]))
-        temp=corpus.with_suffix('.release.tmp')
-        with temp.open('w',newline='') as f:
-            w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(existing+[r['target'] for r in added])
-        temp.replace(corpus);receipt.parent.mkdir(parents=True,exist_ok=True);receipt.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+        targets=[classified_target(r) for r in added]
+        write_corpus(corpus,fields,existing+targets)
+        receipt.parent.mkdir(parents=True,exist_ok=True);receipt.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     return result
 
 def release_pending(root=Path('.'),write=False):
