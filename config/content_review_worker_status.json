@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "owner": "codex-content-review-worker",
-    "run_id": "content-review-native-6f9ea16b-6774-8324-8df1-7474462a0c38",
-    "acquired_at": "2026-11-02T22:04:11.000Z",
-    "expires_at": "2026-11-02T22:34:11.000Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -34,8 +29,8 @@
   },
   "global_deficit": 249,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-02T20:50:30.000Z",
-  "last_action": "Resolved all8 remaining weekly taxonomy/source-tag holds without new paid calls. Seven unchanged automatic-threshold records passed exact final PDF revalidation and were published through immutable release approved-2026-11-02-automatic-7. Live verification exposed and then repaired a public-to-classified row serialization defect through PR107; release workflow41522322483, publication commit2ba7dd66592d39477b92dd7f0b38a3b9801ac77c, Pages41522453361 and the deployed3190-record JSON now contain all seven titles with the reviewed authors, abstracts and taxonomy. Prior UAV deletion remains excluded. Batch25 is sealed immediately with one fully validated weekly exclude recommendation; no minimum-size wait.",
+  "last_completed_at": "2026-11-02T22:07:19.405Z",
+  "last_action": "Reconciled live approvals first (62 submissions, 927 decisions, 598 immutable jobs); no new eligible Include decision was found. Synced the 385-record lifecycle ledger, then completed exact-source format, access, and metadata checks for weekly-250dd6cfa359991d1db168d1. The candidate remains outside review on separate duplicate and schema holds. Lease released in the run checkpoint.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -86,8 +81,8 @@
     "poster_bot_wall_holds_this_run": 0,
     "legacy_optional_identifier_subchecks_completed_this_run": 0,
     "new_truncated_abstract_holds_this_run": 1,
-    "source_documents_checked_this_run": 0,
-    "new_source_documents_this_run": 0,
+    "source_documents_checked_this_run": 1,
+    "new_source_documents_this_run": 1,
     "first_five_gates_current_passed_new": 0,
     "source_documents_reused_this_run": 5,
     "source_release_holds": 6
@@ -132,17 +127,17 @@
     }
   },
   "reconciliation": {
-    "completed_submissions": 61,
-    "latest_decisions_validated": 926,
+    "completed_submissions": 62,
+    "latest_decisions_validated": 927,
     "content_hash_mismatches": 0,
     "submission_payload_hashes_validated": 53,
-    "immutable_jobs": 597,
+    "immutable_jobs": 598,
     "completed_assessment_jobs": 75,
     "completed_corpus_removal_jobs": 491,
     "remaining_immutable_jobs": 31,
-    "verified_at": "2026-11-01T21:41:30.000Z",
-    "reuse_basis": "All Batch24 decisions were read live and matched the immutable submission, sealed candidate hashes and recommendation snapshots. Eleven assessment jobs and the buffer checkpoint were consumed; the rejected record was recorded as an exclusion. Unchanged valid gate evidence was reused.",
-    "server_payload_hashes_observed": 61,
+    "verified_at": "2026-11-02T22:05:00.000Z",
+    "reuse_basis": "Live D1 totals and tail rows reconciled before preparation. No newly completed eligible Include decision was present; no publication action was due.",
+    "server_payload_hashes_observed": 62,
     "new_submission_raw_payload_rehash_available": false
   },
   "blocked_sources": [
@@ -168,43 +163,40 @@
     }
   ],
   "held_stage": {
-    "stage": "weekly_backlog_reconciliation",
-    "reason": "One fully validated candidate is sealed in Batch25 and ready for human publication review. Remaining weekly records retain their individual source, identity, abstract, duplicate, quality or schema holds; no nominal-buffer credit."
+    "stage": "weekly_candidate_preflight",
+    "reason": "The checked HVE candidate passed exact-source format, access, and metadata checks but remains held by an unresolved fresh duplicate match and incomplete taxonomy/target serialization. No nominal buffer credit."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-11-02T20:50:30.000Z",
-    "scope": "weekly_source_tag_resolution_batch25_and_automatic_publication",
-    "workflow_version": 17,
-    "d1_completed_submissions": 61,
-    "d1_decisions": 926,
-    "d1_jobs": 597,
-    "ready_total": 1,
-    "global_deficit": 249,
-    "daily_ready_target": 200,
-    "daily_new_ready": 1,
-    "daily_shortfall": 199,
-    "new_batches": 1,
-    "new_ready": 1,
-    "latest_review_batch": 25,
-    "latest_review_batch_size": 1,
-    "new_automatic_handoffs": 7,
-    "pending_automatic_handoffs": 0,
-    "source_tag_holds_resolved": 8,
-    "source_tag_holds_remaining": 0,
+    "verified_at": "2026-11-02T22:07:19.405Z",
+    "scope": "native_scheduler_reconciliation_lifecycle_sync_and_one_due_source_check",
+    "native_run_id": "6f9ea16b-6774-8324-8df1-7474462a0c38",
+    "scheduled_for": "2026-11-02T22:00:00Z",
+    "native_status_observed": "in_progress",
+    "native_terminal_completion_claimed": false,
+    "d1_completed_submissions": 62,
+    "d1_decisions": 927,
+    "d1_jobs": 598,
+    "lifecycle_records": 385,
+    "lifecycle_ready": 8,
+    "due_candidate_checked": "weekly-250dd6cfa359991d1db168d1",
+    "completed_checks": [
+      "format",
+      "access",
+      "metadata"
+    ],
+    "remaining_holds": [
+      "duplicates",
+      "schema"
+    ],
+    "new_ready": 0,
+    "new_batches": 0,
+    "source_requests": 1,
     "paid_requests": 0,
-    "paid_tokens": 0,
     "openalex_requests": 0,
-    "public_corpus_modified": true,
-    "published_count": 7,
-    "public_total": 3190,
-    "publication_receipt": "data/content_review_release_receipts/approved-2026-11-02-automatic-7.json",
-    "release_workflow_run": 41522322483,
-    "pages_workflow_run": 41522453361,
-    "public_commit": "2ba7dd66592d39477b92dd7f0b38a3b9801ac77c",
-    "live_content_verified": true,
-    "prior_published_deletion_preserved": true
+    "public_corpus_modified": false,
+    "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json"
   },
-  "checkpointed_at": "2026-11-02T20:50:30.000Z",
+  "checkpointed_at": "2026-11-02T22:07:19.405Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
