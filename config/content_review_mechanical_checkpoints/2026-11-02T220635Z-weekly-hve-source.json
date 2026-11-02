@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "run_id": "content-review-native-6f9ea16b-6774-8324-8df1-7474462a0c38",
+  "native_run_id": "6f9ea16b-6774-8324-8df1-7474462a0c38",
+  "scheduled_for": "2026-11-02T22:00:00Z",
+  "checked_at": "2026-11-02T22:06:35.597Z",
+  "candidate": {
+    "collection": "weekly",
+    "candidate_id": "weekly-250dd6cfa359991d1db168d1",
+    "title": "The Human Vulnerabilities & Exploits (HVE) Framework",
+    "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a"
+  },
+  "request": {
+    "url": "https://arxiv.org/pdf/2606.10083",
+    "method": "GET",
+    "timeout_seconds": 20,
+    "user_agent": "ALEX-ContentReview/1.0 (+https://github.com/RISEInfoSec/Alex)",
+    "result": "success",
+    "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+    "document_bytes": 2552773
+  },
+  "completed_checks": [
+    "format",
+    "access",
+    "metadata"
+  ],
+  "verified_facts": {
+    "resource_type": "research_paper",
+    "title": "The Human Vulnerabilities & Exploits (HVE) Framework",
+    "authors": "Avichai Ben; Tom Rahav; Daniel Illaev; Aviv Nahon; Avi Grushka",
+    "affiliation": "Charm Security",
+    "version": "arXiv v1, 8 June 2026",
+    "abstract": "Complete abstract in the PDF matches the cached abstract bound to the current candidate content hash."
+  },
+  "remaining_holds": {
+    "duplicates": "Fresh duplicate evidence records an upstream normalized-title match to weekly identity 40289; it remains unresolved.",
+    "schema": "Taxonomy and target serialization have not completed for this candidate."
+  },
+  "review_ready": false
+}
