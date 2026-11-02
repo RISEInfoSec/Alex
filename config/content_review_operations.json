@@ -1,16 +1,22 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-02T22:22:52.610Z",
+  "observed_at": "2026-11-02T22:38:25.374Z",
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-02T22:22:52.610Z",
+    "observed_at": "2026-11-02T22:38:25.374Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T173000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
-    "last_run": null,
+    "expected_next_run_at": "2026-11-02T23:30:00.000Z",
+    "last_run": {
+      "id": "2a5fb02c-39a0-832b-bc95-837e747f4f44",
+      "recorded_status": "completed",
+      "scheduled_for": "2026-11-02T22:30:00Z",
+      "started_at": "2026-11-02T22:33:26.024961Z",
+      "completed_at": "2026-11-02T22:34:01.186178Z"
+    },
     "requires_user_action": false,
-    "last_verified_scheduled_success": null,
-    "expected_next_run_at": "2026-11-02T22:30:00Z"
+    "last_verified_scheduled_success": null
   },
   "source_discovery": {
     "observed_at": "2026-11-02T11:08:00.962752+00:00",
@@ -43,18 +49,24 @@
   "diagnostics": {
     "scheduler_pause_cause": "Native history contains a failed attempt with requires_user_action and no diagnostic text; pause actor/cause unavailable.",
     "stale_repository_claim_corrected_at": "2026-11-02T21:47:27.772Z",
-    "current_observation": "The original task record failed two scheduled attempts after persisted application work. A replacement is registered and enabled; only a real scheduled native terminal success with matching work receipt can verify recovery.",
+    "current_observation": "The replacement task's 17:30 Toronto scheduled run is natively recorded completed, but its canonical work receipt is absent and no result is available. Candidate processing and full recovery remain unverified. A requested manual retry reached this conversation; no execution environment was available. Connector reads and lifecycle-count validation succeeded; Python checks and source processing could not run.",
     "application_receipt": "config/content_review_run_receipts/2026-11-02T220000Z-6f9ea16b.json",
     "native_terminal_failure_at": "2026-11-02T22:08:46.772201Z",
     "recovery_proven": false,
     "replacement_registered_at": "2026-11-02T22:22:52.610Z",
-    "replacement_automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3"
+    "replacement_automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+    "latest_native_completed_run_id": "2a5fb02c-39a0-832b-bc95-837e747f4f44",
+    "latest_native_completed_receipt_missing": true,
+    "manual_retry_at": "2026-11-02T22:38:25.374Z",
+    "manual_retry_status": "blocked_execution_environment_unavailable",
+    "manual_retry_receipt": "config/content_review_run_receipts/manual-status-2026-11-02T22-37-49-503Z.json",
+    "observation_method": "Direct native connector observation; operations.py could not execute because no usable execution environment is available."
   },
   "site": {
     "project_id": "appgprj_6ae0e13117b48191b3b024311ee18342",
-    "observed_at": "2026-11-02T22:22:52.610Z",
+    "observed_at": "2026-11-02T22:38:25.374Z",
     "status": "active",
-    "latest_version_number": 18,
+    "latest_version_number": 20,
     "current_live_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site",
     "linked_automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
     "linked_automation_enabled": true
