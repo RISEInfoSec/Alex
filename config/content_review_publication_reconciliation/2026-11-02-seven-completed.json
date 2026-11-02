@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "run_id": "maintenance-publication-reconcile-2026-11-02T2343",
+  "checked_at": "2026-11-02T23:41:39Z",
+  "cause": "Public release wrote durable receipts on main; hourly reconciliation consumed D1 decisions but did not reconcile the successful automatic release into review-branch manifests. Console counted six-gate automatic handoffs as manual batch admission.",
+  "release_id": "approved-2026-11-02-automatic-7",
+  "release_receipt": "https://github.com/RISEInfoSec/Alex/blob/main/data/content_review_release_receipts/approved-2026-11-02-automatic-7.json",
+  "public_url": "https://alex.riseinfosec.org/data/papers.json",
+  "public_sha256": "296d5c0d1ad96c4dde2e3c7f7f64ff802a3cdc8df3fa1e68ab4cc7b54ad995a9",
+  "changed_candidates": [
+    "weekly-6453882b45c03832307a3619",
+    "weekly-470970e7b01ad6576a8c2e74",
+    "weekly-046901143dafd1530a38b025",
+    "weekly-1ebb909dbfa6a77d51ef8911",
+    "weekly-11d5c162e2498f7ab097e44c",
+    "weekly-fcf6c86ebbdd6bf61faa6304",
+    "weekly-08ab5ddb7219c6ff3d913664"
+  ],
+  "verified_fields": "Every public target field excluding numeric id and intentionally omitted internal provenance; request and receipt reviewed hashes match current manifest.",
+  "audit": {
+    "source_manifests": 8,
+    "total_candidate_records": 1260,
+    "other_published_but_pending": 0,
+    "additional_correction": {
+      "candidate_id": "weekly-990c7dc8c3ec3b40b43216ad",
+      "status": "removed_after_publication",
+      "removal_submission": "5a2595c8-4728-4860-bc8c-46282b217401",
+      "decision_preserved": true
+    }
+  },
+  "source_calls": 0,
+  "paid_calls": 0,
+  "publication_repeated": false
+}

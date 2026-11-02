@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "run_id": "maintenance-publication-reconcile-2026-11-02T2343",
-    "acquired_at": "2026-11-02T23:43:00Z",
-    "expires_at": "2026-11-03T00:03:00Z",
-    "purpose": "Maintenance: reconcile seven already-published records; no candidate processing"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -682,10 +677,9 @@
     "policy": "config/content_review_lifecycle_policy.json",
     "initial_migration_is_not_a_resolution_attempt": true,
     "counts": {
-      "completed": 1,
+      "completed": 8,
       "awaiting_initial_checks": 298,
       "awaiting_software_support": 2,
-      "ready": 7,
       "access_restricted": 10,
       "stable_quality_failure": 67
     }
@@ -704,5 +698,14 @@
     "native_terminal_status": "unverified_until_later_observation",
     "source_checks": 0,
     "reconciled_rejections": 1
+  },
+  "publication_status_reconciliation": {
+    "receipt": "config/content_review_publication_reconciliation/2026-11-02-seven-completed.json",
+    "completed_at": "2026-11-02T23:52:00Z",
+    "verified_published": 7,
+    "automatic_handoff_pending": 0,
+    "awaiting_manual_admission": 0,
+    "other_source_manifests_audited": 7,
+    "additional_removed_record_corrected": 1
   }
 }
