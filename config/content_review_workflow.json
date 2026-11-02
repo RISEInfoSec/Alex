@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 18,
+  "version": 19,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -239,10 +239,10 @@
     "site_project_id": "appgprj_6ae0e13117b48191b3b024311ee18342",
     "schedule": "hourly",
     "timezone": "America/Toronto",
-    "enabled": true,
+    "enabled": false,
     "unattended_read_write_test": "completed; persisted heartbeat read back 2026-10-27T22:40:36Z",
     "instructions": "docs/content_review_background_worker.md",
-    "status": "config/content_review_worker_status.json",
+    "status": "Native scheduler disabled at audit; verify actual native state, not this historical flag.",
     "submission_requests": "Production D1 review_jobs atomically queued with completed review submissions; drafts enqueue nothing.",
     "execution_latency": "Requests persist immediately; scheduled processing checks at most hourly. No claim of instant execution."
   },
@@ -485,5 +485,12 @@
       "bellingcat": "config/bellingcat_review_manifest.json",
       "consensus": "config/consensus_review_manifest.json"
     }
+  },
+  "candidate_lifecycle": {
+    "policy": "config/content_review_lifecycle_policy.json",
+    "ledger": "config/content_review_candidate_lifecycle.json",
+    "instructions": "docs/content_review_operations.md",
+    "approved_at": "2026-11-02",
+    "historical_attempts_not_invented": true
   }
 }

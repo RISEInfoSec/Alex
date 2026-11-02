@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-11-02T21:47:27.772Z",
+  "scheduler": {
+    "id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
+    "observed_at": "2026-11-02T21:47:27.772Z",
+    "is_enabled": false,
+    "schedule": "BEGIN:VEVENT\nDTSTART:20261027T223919Z\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+    "next_run_time": null,
+    "last_run": {
+      "id": "9fdec386-1ccc-8321-9d09-2849e509ced5",
+      "recorded_status": "failed",
+      "scheduled_for": "2026-11-02T11:39:19Z",
+      "started_at": "2026-11-02T11:34:48.432665Z",
+      "completed_at": "2026-11-02T11:34:59.998153Z",
+      "chat_ref": null
+    },
+    "requires_user_action": true,
+    "last_verified_scheduled_success": null
+  },
+  "source_discovery": {
+    "observed_at": "2026-11-02T11:08:00.962752+00:00",
+    "last_attempt_at": "2026-11-02T11:08:00.962716+00:00",
+    "last_success_at": "2026-11-02T11:08:00.962752+00:00",
+    "note": "Last verified discovery pass retrieved metadata; newly ingested source candidates have not completed formal preflight."
+  },
+  "providers": [
+    {
+      "id": "openalex",
+      "name": "OpenAlex",
+      "first_failure_at": "2026-10-28T03:49:08.271259+00:00",
+      "last_failure_at": "2026-10-28T06:47:06.339996+00:00",
+      "last_success_at": "2026-10-29T03:00:58.152439+00:00",
+      "last_result_at": "2026-10-29T03:00:58.152439+00:00",
+      "last_http_status": 200,
+      "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
+      "impact": "Targeted citation enrichment. Five SOUPS metadata holds also have independent quality failures; no repeat requests are justified solely by their elapsed cooldown.",
+      "operator_action": "No API call is required merely to refresh this indicator. Continue alternative-first, one targeted lookup per run and full provider backoff.",
+      "evidence_ref": "https://github.com/RISEInfoSec/Alex/actions/runs/40809670371"
+    },
+    {
+      "id": "consensus",
+      "name": "Consensus",
+      "enabled": false,
+      "reason": "Intentionally disabled pending secure credentials and verified free-account access.",
+      "impact": "Consensus discovery only."
+    }
+  ],
+  "diagnostics": {
+    "scheduler_pause_cause": "Native history contains a failed attempt with requires_user_action and no diagnostic text; pause actor/cause unavailable.",
+    "stale_repository_claim_corrected_at": "2026-11-02T21:47:27.772Z"
+  }
+}

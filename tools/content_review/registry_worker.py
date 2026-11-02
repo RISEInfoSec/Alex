@@ -20,6 +20,8 @@ def validate(root,path):
  if cooldown:assert datetime.fromisoformat(cooldown.replace('Z','+00:00'))<=now()
  manifest=root/'config/weekly_review_manifest.json';assert hashlib.sha256(manifest.read_bytes()).hexdigest()==req['manifest_sha256']
  m=json.loads(manifest.read_text());row=next(r for r in m.get('records',[])+m.get('preflight_records',[]) if r['candidate_id']==req['candidate_id'])
+ from tools.content_review.lifecycle import ensure_eligible
+ ensure_eligible(root,'weekly',row['candidate_id'])
  fields=('title','authors','year','doi','source_url','abstract','document_type')
  assert digest({k:row.get(k,'') for k in fields})==row['content_sha256']==req['content_sha256']
  assert row.get('decision','pending') in ('pending','unreviewed') and row.get('citation_count') is None

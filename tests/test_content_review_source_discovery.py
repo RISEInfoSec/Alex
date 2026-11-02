@@ -103,6 +103,21 @@ def test_bounded_intake_never_fabricates_pass(tmp_path):
         assert all(x['status']=='not_checked' for x in r['preflight']['checks'].values())
         assert r['content_sha256']==d.digest({k:r.get(k,'') for k in d.HASH_FIELDS})
 
+def test_retired_or_parked_identity_cannot_be_reintroduced_after_manifest_removal(tmp_path):
+    root=base(tmp_path);row=observation()
+    inv,w,c=d.reconcile(root,[row],d.stamp());r=w['preflight_records'][0]
+    persist(root,inv,{'records':[],'preflight_records':[]})
+    for state in ('retired_unresolved','stable_quality_failure','awaiting_software_support','access_restricted','operator_action_required'):
+        ledger={'records':{'first:'+r['candidate_id']:{'candidate_id':r['candidate_id'],'state':state,'identities':{'source_url':r['source_url']}}}}
+        (root/'config/content_review_candidate_lifecycle.json').write_text(json.dumps(ledger))
+        inv2,w2,c2=d.reconcile(root,[row],d.stamp())
+        assert not w2['preflight_records']
+    # Reconsideration is explicit; removing suppression makes the retained identity eligible.
+    ledger['records']['first:'+r['candidate_id']]['state']='awaiting_initial_checks'
+    (root/'config/content_review_candidate_lifecycle.json').write_text(json.dumps(ledger))
+    _,w3,_=d.reconcile(root,[row],d.stamp())
+    assert w3['preflight_records'][0]['candidate_id']==r['candidate_id']
+
 def test_source_failure_isolation_and_retry():
     cfg={'sources':{s:dict(enabled=True,seed_urls=['https://'+s+'.org/a'],allowed_hosts=[s+'.org'],interval_days=7,max_pages_per_pass=1) for s in ('first','m3aawg')}}
     def get(url):

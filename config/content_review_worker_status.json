@@ -499,10 +499,10 @@
   },
   "scheduling_status": {
     "automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
-    "is_enabled": true,
-    "observed_at": "2026-11-01T22:25:53.871Z",
-    "source": "Native Sites get_site and automation peek read-back confirm enabled hourly schedule; prompt now permits release after completed Include.",
-    "changed_this_pass": false
+    "is_enabled": false,
+    "observed_at": "2026-11-02T21:30:00Z",
+    "source": "Native automations.peek and Sites get_site agree that the scheduler is disabled; earlier enabled assertions are stale.",
+    "health_snapshot": "config/content_review_operations.json"
   },
   "weekly_backlog_campaign": {
     "workflow_version": 14,
@@ -671,5 +671,10 @@
       "bellingcat": 13,
       "identity_hashes_decisions_preserved": true
     }
+  },
+  "candidate_lifecycle": {
+    "ledger": "config/content_review_candidate_lifecycle.json",
+    "policy": "config/content_review_lifecycle_policy.json",
+    "initial_migration_is_not_a_resolution_attempt": true
   }
 }

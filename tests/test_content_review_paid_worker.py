@@ -78,6 +78,7 @@ def test_success_real_disposable_publisher_and_verified_handoff(setup, monkeypat
     assert result["usage"]["total_tokens"] == 50
     assert result["records"][0]["schema"]["status"] == "passed"
     assert not (root / "data").exists()
+
     assert all(p.read_bytes() == b for p, b in original.items())
     manifests, stage, receipt = handoff.reconcile_result(root, req, result, run)
     updated = manifests["soups"]["preflight_records"][0]
@@ -85,6 +86,15 @@ def test_success_real_disposable_publisher_and_verified_handoff(setup, monkeypat
     assert updated["review_ready"] is False  # Mechanical completion alone never admits a batch.
     assert updated["decision"] == "pending" and updated["content_sha256"] == row["content_sha256"]
     assert receipt["corpus_modified"] is False
+
+
+def test_retired_lifecycle_prevents_paid_request_and_replay(setup):
+    root,row,request,path=setup
+    (root/'config/content_review_candidate_lifecycle.json').write_text(json.dumps({'records':{'soups:soups-test':{'state':'retired_unresolved'}}}))
+    with pytest.raises(ValueError,match='Lifecycle prevents work'):
+        worker.make_request(root,[('soups','soups-test')])
+    with pytest.raises(ValueError,match='Lifecycle prevents work'):
+        worker.checked_row(root,request['records'][0])
 
 
 def test_missing_key_never_calls_or_falls_back(setup, monkeypatch):

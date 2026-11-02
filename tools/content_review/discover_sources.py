@@ -186,6 +186,11 @@ def merge_observations(rows):
 
 def reconcile(root,observations,checked_at,max_intake=250,public_root=None):
     root=Path(root);cfg=root/'config';public_root=Path(public_root) if public_root else root
+    from tools.content_review.lifecycle import load as load_lifecycle, LEDGER, INACTIVE
+    lifecycle=load_lifecycle(root,LEDGER,{'records':{}})
+    inactive=[e for e in lifecycle['records'].values() if e.get('state') in INACTIVE]
+    suppressed_ids={e['candidate_id'] for e in inactive}
+    suppressed_keys=set().union(*(strong_keys(e.get('identities',{})) for e in inactive)) if inactive else set()
     inv=json.loads((cfg/'content_review_archive_discovery_inventory.json').read_text())
     weekly=json.loads((cfg/'weekly_review_manifest.json').read_text())
     for sid in SOURCE_LABELS:
@@ -244,7 +249,9 @@ def reconcile(root,observations,checked_at,max_intake=250,public_root=None):
             if k.startswith('title:'):titles.setdefault(k,[]).append(raw)
     present={r['candidate_id'] for r in weekly.get('records',[])+weekly.get('preflight_records',[])}
     eligible=[r for r in inv['records'] if r.get('discovery_source') in counts and r.get('disposition') not in
-        ('duplicate_identity','editorial_exclusion','intake_rejected') and r.get('candidate_id') not in present and str(r.get('title') or '').strip()]
+        ('duplicate_identity','editorial_exclusion','intake_rejected','retired_unresolved','stable_quality_failure','awaiting_software_support','access_restricted','operator_action_required')
+        and r.get('candidate_id') not in present and r.get('candidate_id') not in suppressed_ids
+        and not strong_keys(r)&suppressed_keys and str(r.get('title') or '').strip()]
     groups={s:sorted([r for r in eligible if r['discovery_source']==s],key=lambda r:(-(r.get('year') or 0),r['first_seen_at'])) for s in counts}
     n=max([r.get('review_number') or r.get('reserved_review_number') or 0 for r in weekly.get('records',[])+weekly.get('preflight_records',[])],default=0)+1
     intake=[]

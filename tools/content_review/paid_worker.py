@@ -89,6 +89,9 @@ def checked_row(root, item):
     if len(found) != 1:
         raise ValueError("Candidate identity is not unique")
     row = found[0]
+    if item.get('purpose') == 'preflight':
+        from tools.content_review.lifecycle import ensure_eligible
+        ensure_eligible(root, col, row['candidate_id'])
     h = row["content_sha256"]
     if h != item["content_sha256"] or reviewed_digest(row) != h:
         raise ValueError("Reviewed content hash mismatch")

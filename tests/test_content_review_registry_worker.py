@@ -42,6 +42,12 @@ def test_changed_snapshot_fails_before_network(packet,monkeypatch):
  root,path=packet;(root/'config/weekly_review_manifest.json').write_text('{}')
  with pytest.raises(AssertionError):w.execute(root,path,get=lambda *a,**k:pytest.fail('network'))
 
+def test_retired_lifecycle_stops_registry_before_any_request(packet):
+ root,path=packet
+ (root/'config/content_review_candidate_lifecycle.json').write_text(json.dumps({'records':{'weekly:weekly-test':{'state':'retired_unresolved'}}}))
+ with pytest.raises(ValueError,match='Lifecycle prevents work'):
+  w.execute(root,path,get=lambda *a,**k:pytest.fail('retired network request'))
+
 def test_event_without_file_lists_uses_verified_git_diff(tmp_path,monkeypatch):
  import subprocess
  def git(*args):return subprocess.check_output(['git',*args],cwd=tmp_path,text=True).strip()
