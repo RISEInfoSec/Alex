@@ -1,0 +1,84 @@
+name: Content Review source expansion validation
+on:
+  push:
+    branches: [codex/discovery-sources-20261102, codex/soups-corpus-review]
+    paths:
+      - tools/content_review/discover_sources.py
+      - tests/test_content_review_source_discovery.py
+      - config/discovery_sources.json
+      - .github/workflows/content_review_source_discovery.yml
+permissions:
+  contents: write
+concurrency:
+  group: content-review-source-expansion-validation
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: '${{ github.ref }}'
+          fetch-depth: 1
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Validate source and existing review contracts
+        run: |
+          mkdir -p .cache/source-expansion
+          python -m pytest -q tests/test_pipelines.py tests/test_content_review*.py --junitxml=.cache/source-expansion/tests.xml
+      - name: Initial bounded historical pass into existing preflight
+        if: github.ref == 'refs/heads/codex/discovery-sources-20261102'
+        env:
+          GH_TOKEN: '${{ github.token }}'
+        run: |
+          if test -f config/content_review_source_discovery_state.json; then exit 0; fi
+          gh api 'repos/RISEInfoSec/Alex/contents/config/content_review_worker_status.json?ref=codex/soups-corpus-review' --jq .content | base64 --decode > .cache/source-expansion/remote-status.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from tools.content_review.discover_sources import require_lease, ROOT
+          remote=json.loads(Path('.cache/source-expansion/remote-status.json').read_text())
+          local=json.loads(Path('config/content_review_worker_status.json').read_text())
+          assert remote['lease']==local['lease'], 'Remote lease changed'
+          require_lease(ROOT,'alex-source-expansion-20261102')
+          PY
+          git fetch --depth=1 origin main
+          mkdir -p /tmp/alex-current-main/data /tmp/alex-current-main/config
+          git show FETCH_HEAD:data/papers.json > /tmp/alex-current-main/data/papers.json
+          git show FETCH_HEAD:data/review_queue.csv > /tmp/alex-current-main/data/review_queue.csv
+          git show FETCH_HEAD:config/corpus_exclusions.json > /tmp/alex-current-main/config/corpus_exclusions.json
+          cp config/discovery_sources.json .cache/source-expansion/config.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('config/discovery_sources.json');d=json.loads(p.read_text())
+          for s in d['sources'].values():
+              if s['enabled']: s['max_pages_per_pass']=16
+          p.write_text(json.dumps(d))
+          PY
+          python -m tools.content_review.discover_sources --public-root /tmp/alex-current-main --run-id alex-source-expansion-20261102 --write | tee .cache/source-expansion/discovery.json
+          cp .cache/source-expansion/config.json config/discovery_sources.json
+          python - <<'PY'
+          import json,os,xml.etree.ElementTree as ET
+          from pathlib import Path
+          root=ET.parse('.cache/source-expansion/tests.xml').getroot()
+          suites=list(root) if root.tag=='testsuites' else [root]
+          result=dict(workflow_run_id=os.environ['GITHUB_RUN_ID'],commit=os.environ['GITHUB_SHA'],tests=sum(int(s.attrib.get('tests',0)) for s in suites),failures=sum(int(s.attrib.get('failures',0)) for s in suites),errors=sum(int(s.attrib.get('errors',0)) for s in suites),public_corpus_modified=False,publication_approved=False)
+          Path('config/content_review_source_discovery_validation.json').write_text(json.dumps(result,indent=2)+'\n')
+          assert Path('config/weekly_review_manifest.json').stat().st_size < 7000000, 'Console size limit'
+          PY
+          git diff --exit-code -- data alex
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add config/content_review_archive_discovery_inventory.json config/weekly_review_manifest.json config/content_review_preflight_status.json config/content_review_source_discovery_state.json config/content_review_discovery_checkpoints/source-expansion-*.json config/content_review_source_discovery_validation.json
+          git diff --cached --quiet || git commit -m 'Checkpoint initial source discovery in existing Content Review preflight'
+          git push origin HEAD:codex/discovery-sources-20261102
+      - uses: actions/upload-artifact@v7.0.2
+        if: always()
+        with:
+          name: source-expansion-validation
+          path: .cache/source-expansion/
+          retention-days: 7

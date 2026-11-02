@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "authorized_at": "2026-11-02",
+  "scheduler": "Existing hourly Content Review worker Automation_0ff7fb9b800481919b48ddb2593b8f88",
+  "inventory": "config/content_review_archive_discovery_inventory.json",
+  "preflight_manifest": "config/weekly_review_manifest.json",
+  "maximum_preflight_intake_per_pass": 250,
+  "preserve_all_quality_and_approval_rules": true,
+  "sources": {
+    "first": {
+      "enabled": true,
+      "interval_days": 7,
+      "max_pages_per_pass": 10,
+      "allowed_hosts": [
+        "www.first.org"
+      ],
+      "seed_urls": [
+        "https://www.first.org/library/",
+        "https://www.first.org/resources/presentation-access",
+        "https://www.first.org/resources/papers/",
+        "https://www.first.org/resources/papers/2025",
+        "https://www.first.org/resources/papers/2024",
+        "https://www.first.org/resources/papers/2023",
+        "https://www.first.org/resources/papers/2022",
+        "https://www.first.org/resources/guides/",
+        "https://www.first.org/standards/"
+      ],
+      "access_policy": "Event presentation metadata only until file permission is verified. Non-CLEAR/WHITE TLP held. Public guides/standards verified independently."
+    },
+    "m3aawg": {
+      "enabled": true,
+      "interval_days": 7,
+      "max_pages_per_pass": 8,
+      "allowed_hosts": [
+        "www.m3aawg.org"
+      ],
+      "seed_urls": [
+        "https://www.m3aawg.org/published-documents",
+        "https://www.m3aawg.org/supporting-documents",
+        "https://www.m3aawg.org/for-the-industry/published-comments"
+      ],
+      "version_policy": "Reconcile editions, translations, aliases and original front-matter attribution."
+    },
+    "bellingcat": {
+      "enabled": true,
+      "interval_days": 7,
+      "max_pages_per_pass": 8,
+      "allowed_hosts": [
+        "www.bellingcat.com"
+      ],
+      "seed_urls": [
+        "https://www.bellingcat.com/resources/",
+        "https://www.bellingcat.com/category/resources/feed/",
+        "https://www.bellingcat.com/feed/",
+        "https://www.bellingcat.com/sitemap_index.xml"
+      ],
+      "material_policy": "Methodology, tutorials and investigative journalism; no peer-review assumption. Exclude routine news/promotions; demonstrate transferable methods."
+    },
+    "consensus": {
+      "enabled": false,
+      "interval_days": 7,
+      "monthly_call_cap": 24,
+      "allowed_hosts": [
+        "api.consensus.app"
+      ],
+      "seed_urls": [],
+      "queries": [
+        "open source intelligence investigation methods",
+        "phishing cybercrime investigation",
+        "threat intelligence malware analysis",
+        "digital evidence social media verification"
+      ],
+      "endpoint": "https://api.consensus.app/v1/search",
+      "credential_environment_variable": "CONSENSUS_API_KEY",
+      "activation_requirements": "Secure key plus verified Free account (CONSENSUS_FREE_PLAN_CONFIRMED=true), durable call ledger and operator enablement. Paid accounts require explicit authorization and account-wide cost control.",
+      "attribution": "Consensus is intermediary; keep actual authors, institutions, journal, publisher, DOI, abstract and source URL; unknown citations null."
+    }
+  }
+}
