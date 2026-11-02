@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 from tools.content_review.lifecycle import instant, stamp
 
 PATH='config/content_review_operations.json'
-AUTOMATION='Automation_0ff7fb9b800481919b48ddb2593b8f88'
+AUTOMATION='Automation_4eb2dd829aa88191b542d57f7008ebe3'
 
 def find_automation(value):
     if isinstance(value,dict):

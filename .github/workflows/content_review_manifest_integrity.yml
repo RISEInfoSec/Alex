@@ -1,0 +1,26 @@
+name: Content Review manifest integrity
+on:
+  push:
+    branches: [codex/soups-corpus-review]
+    paths:
+      - 'config/*_review_manifest.json'
+      - 'tools/content_review/manifest_integrity.py'
+      - '.github/workflows/content_review_manifest_integrity.yml'
+permissions:
+  contents: read
+jobs:
+  validate-complete-manifests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: '3.11'
+      - name: Validate JSON, identities, reviewed hashes and prior decisions
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: python -m tools.content_review.manifest_integrity --before "$BEFORE_SHA"

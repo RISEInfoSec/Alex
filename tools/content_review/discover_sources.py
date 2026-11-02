@@ -374,6 +374,9 @@ def require_lease(root,run_id):
     if lease.get('run_id')!=run_id or not lease.get('expires_at') or datetime.fromisoformat(lease['expires_at'].replace('Z','+00:00'))<=datetime.now(timezone.utc):
         raise ValueError('Current verified Content Review single-writer lease required')
 def save(path,value):
+    if path.name.endswith('_review_manifest.json'):
+        from tools.content_review.manifest_integrity import write_manifest
+        return write_manifest(path,value)
     tmp=path.with_suffix(path.suffix+'.tmp');tmp.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n');tmp.replace(path)
 def route_source_manifests(root,combined):
     """Use source collections in the existing console, with one shared workflow."""

@@ -235,16 +235,20 @@
     }
   },
   "background_worker": {
-    "automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
+    "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
     "site_project_id": "appgprj_6ae0e13117b48191b3b024311ee18342",
     "schedule": "hourly",
     "timezone": "America/Toronto",
     "enabled": true,
     "unattended_read_write_test": "completed; persisted heartbeat read back 2026-10-27T22:40:36Z",
     "instructions": "docs/content_review_background_worker.md",
-    "status": "Schedule enabled 2 November; current native state and scheduled completion must be checked in operations snapshot.",
+    "status": "Replacement task registered; scheduled completion remains unverified.",
     "submission_requests": "Production D1 review_jobs atomically queued with completed review submissions; drafts enqueue nothing.",
-    "execution_latency": "Requests persist immediately; scheduled processing checks at most hourly. No claim of instant execution."
+    "execution_latency": "Requests persist immediately; scheduled processing checks at most hourly. No claim of instant execution.",
+    "retired_automation_ids": [
+      "Automation_0ff7fb9b800481919b48ddb2593b8f88"
+    ],
+    "replacement_reason": "Two native terminal failures followed persisted application work and disabled the original task record."
   },
   "human_effort_policy": {
     "priority": "Human review time is the most valuable resource.",

@@ -5,7 +5,7 @@ candidate identity, content version and prior source/paid result. No score thres
 
 ## Single existing hourly worker
 
-Use Automation_0ff7fb9b800481919b48ddb2593b8f88 linked to Site
+Use Automation_4eb2dd829aa88191b542d57f7008ebe3 linked to Site
 appgprj_6ae0e13117b48191b3b024311ee18342. Do not create a replacement schedule.
 Read native automations.peek and sites.get_site on every run; recorded enabled flags in
 repository prose are not authoritative. Persist only sanitized scheduler fields in
@@ -81,3 +81,11 @@ successes are historical observations, not a fresh API availability probe. Do no
 paid or rate-limited call only to make a dashboard green.
 
 When native next_run_time is unavailable, operations.expected_next() preserves the expected due time from the saved hourly schedule and the latest matching native scheduled_for. Label it as expected, not native. Never roll an unexecuted due time forward merely because the page refreshed; a missed run must become Overdue.
+
+## Scheduler-record replacement and complete manifest writes
+
+The original task Automation_0ff7fb9b800481919b48ddb2593b8f88 is RETIRED and disabled after native failures for the 17:00 and 17:15 Toronto scheduled attempts, despite persisted application work and normal final reports. Do not re-enable it. Its receipts/history remain unchanged. The sole active task is Automation_4eb2dd829aa88191b542d57f7008ebe3, registered through the Site and awaiting scheduled verification. Read the current ID from workflow configuration rather than historical receipts.
+
+Use operations.observe() or its CLI to build the scheduler observation and expected due time; do not hand-build a rolling next-run timestamp. Save canonical receipts at config/content_review_run_receipts/<actual_native_run_id>.json with run_id, trigger, scheduled_for, completed_at, status, completed_actions and receipt_path. An application receipt never overrides native failure.
+
+The second recovery pass repaired invalid weekly JSON introduced by a literal connector truncation marker. Before any manifest update, obtain complete immutable bytes or a verified checkout, validate them with tools/content_review/manifest_integrity.py, and preserve every prior candidate identity, reviewed hash and human decision. Do not write model-context excerpts or reconstructed partial manifests. Use validate_update() before and after write; explicitly reconcile authorized content/decision changes. The discovery writer now enforces this guard. A push-triggered integrity workflow independently validates complete source manifests and reports any violation. Never bypass a failing integrity check or reclassify it as success.

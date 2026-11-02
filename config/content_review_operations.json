@@ -1,22 +1,16 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-02T22:14:35.719297+00:00",
+  "observed_at": "2026-11-02T22:22:52.610Z",
   "scheduler": {
-    "id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
-    "observed_at": "2026-11-02T22:14:35.719297+00:00",
+    "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+    "observed_at": "2026-11-02T22:22:52.610Z",
     "is_enabled": true,
-    "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T171500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+    "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T173000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
-    "expected_next_run_at": "2026-11-02T23:15:00+00:00",
-    "last_run": {
-      "id": "1eec0b63-209c-8327-838c-69a03ba2f447",
-      "recorded_status": "in_progress",
-      "scheduled_for": "2026-11-02T22:15:00Z",
-      "started_at": "2026-11-02T22:12:58.642757Z",
-      "completed_at": null
-    },
+    "last_run": null,
     "requires_user_action": false,
-    "last_verified_scheduled_success": null
+    "last_verified_scheduled_success": null,
+    "expected_next_run_at": "2026-11-02T22:30:00Z"
   },
   "source_discovery": {
     "observed_at": "2026-11-02T11:08:00.962752+00:00",
@@ -49,18 +43,20 @@
   "diagnostics": {
     "scheduler_pause_cause": "Native history contains a failed attempt with requires_user_action and no diagnostic text; pause actor/cause unavailable.",
     "stale_repository_claim_corrected_at": "2026-11-02T21:47:27.772Z",
-    "current_observation": "The prior scheduled attempt persisted application work but ended in native failure. The current 17:15 Toronto recovery run was independently observed enabled and in progress; terminal success remains unverified until a later native observation.",
+    "current_observation": "The original task record failed two scheduled attempts after persisted application work. A replacement is registered and enabled; only a real scheduled native terminal success with matching work receipt can verify recovery.",
     "application_receipt": "config/content_review_run_receipts/2026-11-02T220000Z-6f9ea16b.json",
     "native_terminal_failure_at": "2026-11-02T22:08:46.772201Z",
-    "recovery_proven": false
+    "recovery_proven": false,
+    "replacement_registered_at": "2026-11-02T22:22:52.610Z",
+    "replacement_automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3"
   },
   "site": {
     "project_id": "appgprj_6ae0e13117b48191b3b024311ee18342",
-    "observed_at": "2026-11-02T22:12:59.000Z",
+    "observed_at": "2026-11-02T22:22:52.610Z",
     "status": "active",
     "latest_version_number": 18,
     "current_live_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site",
-    "linked_automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
+    "linked_automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
     "linked_automation_enabled": true
   },
   "scheduler_history": [
@@ -72,6 +68,26 @@
       "application_receipt": "config/content_review_run_receipts/2026-11-02T220000Z-6f9ea16b.json",
       "disabled_observed_at": "2026-11-02T22:09:46Z",
       "pause_actor": "not available"
+    }
+  ],
+  "retired_scheduler_records": [
+    {
+      "id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
+      "is_enabled": false,
+      "retired_at": "2026-11-02T22:22:52.610Z",
+      "reason": "Two native scheduled attempts ended failed after application work completed; failure cause/actor unavailable.",
+      "last_run": {
+        "id": "1eec0b63-209c-8327-838c-69a03ba2f447",
+        "recorded_status": "failed",
+        "scheduled_for": "2026-11-02T22:15:00Z",
+        "started_at": "2026-11-02T22:12:58.642757Z",
+        "completed_at": "2026-11-02T22:17:49.571284Z",
+        "chat_ref": null
+      },
+      "receipts": [
+        "config/content_review_run_receipts/2026-11-02T220000Z-6f9ea16b.json",
+        "config/content_review_run_receipts/1eec0b63-209c-8327-838c-69a03ba2f447.json"
+      ]
     }
   ]
 }

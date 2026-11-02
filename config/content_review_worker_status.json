@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "owner": "scheduler-record-migration",
-    "run_id": "scheduler-migration-20261102T2221Z",
-    "acquired_at": "2026-11-02T22:21:54.207Z",
-    "expires_at": "2026-11-02T22:26:54.207Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -493,14 +488,15 @@
     "new_requests": []
   },
   "scheduling_status": {
-    "automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
+    "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
     "is_enabled": true,
-    "observed_at": "2026-11-02T22:14:35.719297+00:00",
-    "source": "Native 17:15 Toronto recovery run independently observed in progress; application receipt persisted, terminal result pending later verification.",
-    "expected_next_run_at": "2026-11-02T23:15:00+00:00",
-    "last_native_run_id": "1eec0b63-209c-8327-838c-69a03ba2f447",
-    "last_native_result": "in_progress",
+    "observed_at": "2026-11-02T22:22:52.610Z",
+    "source": "Fresh Site-linked replacement registered after the original task failed two scheduled executions. Original remains disabled.",
+    "expected_next_run_at": "2026-11-02T22:30:00Z",
     "unattended_recovery_verified": false,
+    "retired_automation_ids": [
+      "Automation_0ff7fb9b800481919b48ddb2593b8f88"
+    ],
     "health_snapshot": "config/content_review_operations.json"
   },
   "weekly_backlog_campaign": {
