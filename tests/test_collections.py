@@ -106,7 +106,7 @@ def test_empty_small_and_identical_memberships_are_omitted(collection_site):
     active, notes = select_collections(source, editorial)
     assert len(active) == 2 and any("90%" in note for note in notes)
     output = build(collection_site, [])
-    assert set(output) == {"research/index.html", "research/coverage.json", "sitemap.xml"}
+    assert set(output) == {"research/index.html", "research/coverage.json", "research/new-publications/index.html", "sitemap.xml"}
     assert "No topic bibliographies" in output["research/index.html"]
     assert '/research/bibliography/' not in output["research/index.html"]
 
@@ -265,7 +265,7 @@ def test_miscellaneous_only_corpus_keeps_every_record_without_topic_stubs(collec
     for paper in records:
         paper["category"] = paper["investigation_type"] = "Other"
     output = build(collection_site, records)
-    assert set(output) == {'research/index.html', 'research/bibliography/index.html', 'research/coverage.json', 'sitemap.xml'}
+    assert set(output) == {'research/index.html', 'research/bibliography/index.html', 'research/coverage.json', 'research/new-publications/index.html', 'sitemap.xml'}
     report = json.loads(output['research/coverage.json'])
     assert report['complete_bibliography_only_records'] == 4
     assert len(soup(output, 'research/bibliography/').select('li.paper')) == 4
@@ -408,3 +408,25 @@ def test_actual_artifact_includes_all_pages_and_preserves_downloads(tmp_path):
     (artifact / "research/categories/osint-methodology/index.html").unlink()
     with pytest.raises(AssertionError, match="Missing or stale"):
         check(artifact, source_root=tmp_path)
+
+
+def test_named_source_navigation_is_alphabetical_and_publication_bound():
+    from alex.collections import named_collection_navigation
+    names=['Virus Bulletin','SOUPS','SANS','M3AAWG','FIRST','Consensus','Bellingcat','APWG.org eCrimes Research']
+    config=json.loads((ROOT/'config/research_collections.json').read_text())
+    rows=[dict(title='Synthetic '+name,year=2026,collection_source=name,source_url='https://example.org/'+str(i)) for i,name in enumerate(names)]
+    groups=source_collections(ROOT,rows)
+    nav=BeautifulSoup(named_collection_navigation(groups),'html.parser')
+    labels=[a.get_text(' ',strip=True).removesuffix(' →') for a in nav.select('a')]
+    assert labels==['APWG eCrime','Bellingcat','Consensus','FIRST','M3AAWG','SANS','SOUPS / USENIX','Virus Bulletin']
+    assert not BeautifulSoup(named_collection_navigation(source_collections(ROOT,[])),'html.parser').select('a')
+    assert all('/research/collections/' in a['href'] for a in nav.select('a'))
+    assert all(r['title'].startswith('Synthetic ') for r in rows)
+
+
+def test_new_source_profiles_preserve_original_publisher_attribution():
+    rows=[dict(title='Verified source',year=2026,collection_source='Consensus',venue='Original Journal',author='Original Author',source_url='https://publisher.example/paper')]
+    original=json.loads(json.dumps(rows))
+    groups=source_collections(ROOT,rows)
+    assert next(g for g in groups if g['label']=='Consensus')['papers']==rows
+    assert rows==original

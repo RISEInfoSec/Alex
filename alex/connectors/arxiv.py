@@ -3,7 +3,7 @@ import logging
 import re
 import time
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 from alex.utils.http import HttpClient
 from alex.utils.text import strip_html_tags
@@ -156,7 +156,19 @@ def _parse_entry(entry: ET.Element) -> dict | None:
     if not year:
         year = str(datetime.now(timezone.utc).year)
 
+    publication = {}
+    if published_el is not None and published_el.text:
+        raw_date = published_el.text[:10]
+        try:
+            date.fromisoformat(raw_date)
+            publication = dict(publication_date=raw_date,
+                publication_date_source=f"https://arxiv.org/abs/{arxiv_id}",
+                publication_date_status="verified",
+                publication_date_basis="arXiv first public preprint date; not a revision date")
+        except ValueError:
+            pass
     return {
+        **publication,
         "arxiv_id": arxiv_id,
         "title": title,
         "abstract": abstract,

@@ -5,7 +5,7 @@ The allowlist is editorial policy; taxonomy membership is never inferred here.
 """
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, timedelta
 from alex.research_context import LEGEND, historical_only, marker, notice
 
 import argparse
@@ -18,6 +18,7 @@ from urllib.parse import urlsplit
 from xml.sax.saxutils import escape as xml_escape
 
 from alex.taxonomy import CATEGORIES, INVESTIGATION_TYPES
+from alex.publication_dates import apply_verified_dates, recent_publications, today as publication_today
 
 BASE = "https://alex.riseinfosec.org/"
 PAGE_SIZE = 50
@@ -143,8 +144,20 @@ def source_collections(root: Path, papers: list[dict]) -> list[dict]:
     return groups
 
 
+def named_collection_navigation(groups: list[dict]) -> str:
+    """Only accepted collections; stable alphabetical links and original provenance."""
+    visible = sorted((g for g in groups if g["papers"] and g["profiled"]),
+                     key=lambda g: g.get("display_label", g["label"]).casefold())
+    links = ''.join('<a class="collection-link" href="/' + route(g) + '">' +
+                    escape(g.get('display_label', g['label'])) +
+                    ' <span aria-hidden="true">→</span></a>' for g in visible)
+    return ('<nav class="named-collections" aria-labelledby="namedCollectionsLabel">'
+            '<p id="namedCollectionsLabel">Explore named collections</p>'
+            '<div class="collection-links">' + links + '</div></nav>')
+
+
 def source_collection_hub(groups: list[dict]) -> str:
-    visible = [g for g in groups if g["papers"] or g.get("show_when_empty")]
+    visible = sorted((g for g in groups if g["papers"] or g.get("show_when_empty")), key=lambda g: g.get("display_label", g["label"]).casefold())
     if not visible:
         return '<section class="section" id="source-collections"><h2>Browse by collection</h2><p>Collection links will appear here as attributed papers are accepted into ALEX.</p></section>'
     body = '<section class="section" id="source-collections"><h2>Browse by collection</h2><p>Explore papers by their recorded source collection, alongside the subject and investigation bibliographies.</p><ul>'
@@ -330,6 +343,7 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
     """Return the complete managed output, with no filesystem mutations."""
     if papers is None:
         papers = json.loads((root / "data/papers.json").read_text(encoding="utf-8"))
+    papers = apply_verified_dates(root, papers)
     # Snapshot date keeps committed generation reproducible and advances on
     # publication. Live search calculates age on each visit.
     snapshot_dates = [str(p.get("retrieved", ""))[:10] for p in papers]
@@ -358,6 +372,7 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
 <p>These collections provide publication references and original source links without requiring JavaScript. For full abstracts, keyword searches and all available classifications, <a href="/#search">search the complete library</a>.</p></section>'''
     if papers:
         hub += f'<section class="section"><h2>Browse the complete library</h2><p>{len(papers):,} accepted papers across all sources. {anchor(route(complete), "Open the complete research bibliography")} for a publication-year listing, including papers classified as Other.</p><p><a href="#categories">Research categories</a> · <a href="#investigations">Investigation types</a></p></section>'
+    hub += '<section class="section"><h2>New publications</h2><p>Browse approved research actually published within the last 90 days, using verified publication dates. '+anchor('research/new-publications/','Open new publications')+'</p></section>'
     hub += source_collection_hub(sources)
     for dimension, (prefix, label, _) in DIMENSIONS.items():
         collections = [c for c in active if c["dimension"] == dimension]
@@ -421,6 +436,37 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
                               {"@type": "ListItem", "position": start + i + 1, "name": str(p.get("title") or "Title metadata incomplete"),
                                **({"url": paper_url(p)} if paper_url(p) else {})} for i, p in enumerate(chunk)]}}
             outputs[path + "index.html"] = layout(root, title, description, path, body, structured)
+    # Stable committed snapshot clock; live enhancement ages items out daily.
+    # Retrieval timestamps set the build clock only, never paper membership.
+    date_registry = root / 'config/publication_dates.json'
+    registry = json.loads(date_registry.read_text()) if date_registry.exists() else {}
+    snapshot_date = registry.get('snapshot_as_of', '')
+    try: publication_snapshot = date.fromisoformat(snapshot_date)
+    except (TypeError, ValueError): publication_snapshot = date(1970, 1, 1)
+    current = max(as_of, publication_snapshot)
+    recent = recent_publications(papers, current)
+    path = 'research/new-publications/'
+    body = ('<section class="section"><h1>New publications</h1>'
+            '<p class="lead">Research actually published in the last 90 days.</p>'
+            '<p>Membership uses a verified full publication date from the publisher or an authoritative publication record. '
+            'ALEX discovery, retrieval, indexing and listing dates are never substituted. A publication year alone does not qualify.</p>'
+            '<p>Where online and print dates differ, the earlier verified publication date is used. '
+            'Revisions and metadata updates do not make older work new again.</p>'
+            '<p>Some accepted references do not yet have a verified day-level publication date and are omitted here until that evidence is available. '
+            'They remain available in the complete library and their subject/source collections.</p>'
+            '<p id="publication-window">Window as of ' + current.isoformat() + ': ' + (current-timedelta(days=90)).isoformat() + ' to ' + current.isoformat() + '.</p></section>')
+    body += '<section class="section" id="bibliography"><h2><span id="new-publication-count">' + str(len(recent)) + '</span> publications</h2><ol class="bibliography">'
+    for paper in recent:
+        item = bibliography_item(paper, taxonomy_routes, source_routes, current)
+        item = item.replace('<li ', '<li data-publication-date="' + paper['publication_date'] + '" ', 1)
+        item = item.replace('</li>', '<p class="meta"><strong>Published:</strong> ' + paper['publication_date'] + '</p></li>')
+        body += item
+    body += '</ol><p id="new-publications-empty"' + (' hidden' if recent else '') + '>No accepted records currently have a verified publication date within this window.</p></section>'
+    body += '<script src="/assets/publication-window.js" defer></script>'
+    outputs[path+'index.html'] = layout(root, 'New Publications — Last 90 Days | ALEX by RISE',
+        'Browse approved ALEX research actually published within the last 90 days, using verified publication dates rather than discovery or listing dates.',
+        path, body, {'@type':'CollectionPage','name':'New publications','url':BASE+path,
+        'mainEntity':{'@type':'ItemList','numberOfItems':len(recent),'itemListElement':[{'@type':'ListItem','position':i+1,'name':p['title'],**({'url':paper_url(p)} if paper_url(p) else {})} for i,p in enumerate(recent)]}})
     urls = [BASE] + [BASE + path.removesuffix("index.html") for path in sorted(outputs) if path.endswith(".html")]
     outputs["sitemap.xml"] = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{xml_escape(url)}</loc></url>\n' for url in urls) + '</urlset>\n'
     return outputs

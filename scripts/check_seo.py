@@ -166,7 +166,12 @@ def check(root: Path = ROOT, source_root: Path | None = None) -> None:
         titles.add(parsed.titles[0]); descriptions.add(parsed.descriptions[0])
         assert parsed.canonicals == [canonical] and parsed.meta.get("og:url") == canonical, path
         assert "noindex" not in parsed.meta.get("robots", ""), path
-        assert '<script' not in raw.replace('<script type="application/ld+json">', ''), "Collections must not require JavaScript"
+        script_check = raw.replace('<script type="application/ld+json">', '')
+        if path == 'research/new-publications/index.html':
+            # Complete static bibliography plus one date-window enhancement.
+            script_check = script_check.replace('<script src="/assets/publication-window.js" defer></script>', '')
+            assert 'id="new-publication-count"' in raw and 'id="bibliography"' in raw
+        assert '<script' not in script_check, "Collections must not require JavaScript"
         structured = json.loads(parsed.json_ld[0])
         assert structured["@type"] == "CollectionPage" and structured["url"] == canonical, path
         if "mainEntity" in structured:
