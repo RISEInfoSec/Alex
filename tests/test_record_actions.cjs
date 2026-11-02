@@ -23,11 +23,11 @@ for (const [i, paper] of corpus.entries()) {
   assert.equal(identities.get(url.searchParams.get('record')).filter(p => api.keys(p)[0] === url.searchParams.get('record')).length, 1, 'Shared identity must resolve uniquely');
   if (i % 1000 === 0) assert.equal(api.resolve(reversed, url.searchParams.get('record')).title, paper.title);
   const flag = new URL(api.flagUrl(paper));
-  assert.equal(flag.origin, 'https://github.com');
-  assert.equal(flag.pathname, '/RISEInfoSec/Alex/issues/new');
-  assert.equal(flag.searchParams.get('template'), 'record-removal.yml');
-  assert.equal(flag.searchParams.get('record-url'), urls[i]);
-  assert.equal(flag.searchParams.get('record-title'), paper.title.trim());
+  assert.equal(flag.origin, 'https://alex-research-review.neil-schwartzm917549.chatgpt.site');
+  assert.equal(flag.pathname, '/records');
+  assert.deepEqual([...flag.searchParams.keys()], ['identity']);
+  assert.equal(flag.searchParams.get('identity'), url.searchParams.get('record'));
+  assert.ok(!flag.href.includes('github.com'));
 }
 const example = {title: 'Example', year: 2026, author: 'A', source_url: 'https://example.org/paper#part'};
 const oldKey = new URL(api.publicUrl(example)).searchParams.get('record');
@@ -54,6 +54,7 @@ function element(tag, doc) {
   sandbox.navigator = {clipboard: {async writeText(value) {sandbox.copied = value;}}};
   api.attach(container, example);
   const [actions] = container.children;
+  assert.equal(container.children.length, 1, 'No public removal-request disclaimer or form');
   const [direct, copy, flag, status, fallback] = actions.children;
   await copy.listeners.click();
   assert.equal(sandbox.copied, api.publicUrl(example));

@@ -43,11 +43,8 @@
     return matches.length === 1 ? matches[0] : null;
   }
   function flagUrl(paper) {
-    const url = new URL('https://github.com/RISEInfoSec/Alex/issues/new');
-    url.searchParams.set('template', 'record-removal.yml');
-    url.searchParams.set('title', '[Removal review] ' + text(paper.title).slice(0, 150));
-    url.searchParams.set('record-url', publicUrl(paper));
-    url.searchParams.set('record-title', text(paper.title));
+    const url = new URL('https://alex-research-review.neil-schwartzm917549.chatgpt.site/records');
+    url.searchParams.set('identity', keys(paper)[0]);
     return url.href;
   }
   function attach(container, paper) {
@@ -86,13 +83,9 @@
         status.textContent = 'Copy the selected link.';
       }
     });
-    const note = doc.createElement('p');
-    note.className = 'meta record-flag-note';
-    note.textContent = 'Deletion flags open a public GitHub request for editorial review. GitHub sign-in is required; submit the request there to save it. The record stays published pending review.';
     actions.append(direct, copy, flag, status, fallback);
     const details = container.querySelector('details');
     container.insertBefore(actions, details);
-    container.insertBefore(note, details);
   }
   const api = {keys, publicUrl, resolve, flagUrl, attach};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
