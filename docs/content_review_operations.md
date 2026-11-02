@@ -89,3 +89,20 @@ The original task Automation_0ff7fb9b800481919b48ddb2593b8f88 is RETIRED and dis
 Use operations.observe() or its CLI to build the scheduler observation and expected due time; do not hand-build a rolling next-run timestamp. Save canonical receipts at config/content_review_run_receipts/<actual_native_run_id>.json with run_id, trigger, scheduled_for, completed_at, status, completed_actions and receipt_path. An application receipt never overrides native failure.
 
 The second recovery pass repaired invalid weekly JSON introduced by a literal connector truncation marker. Before any manifest update, obtain complete immutable bytes or a verified checkout, validate them with tools/content_review/manifest_integrity.py, and preserve every prior candidate identity, reviewed hash and human decision. Do not write model-context excerpts or reconstructed partial manifests. Use validate_update() before and after write; explicitly reconcile authorized content/decision changes. The discovery writer now enforces this guard. A push-triggered integrity workflow independently validates complete source manifests and reports any violation. Never bypass a failing integrity check or reclassify it as success.
+
+
+## Immediate start, heartbeat and operator Refresh
+
+The status panel reads current GitHub contents and workflow runs on every operator Refresh, with no shared response cache and no raw-CDN fallback. Browser auto-refresh is every 30 seconds. Read time, worker activity time and native scheduler observation time are separate. The hosted Site has no direct native Automations read integration; never describe a new GitHub read as a new native scheduler observation.
+
+After native automations.peek and acquiring/readback of the shared lease, BEFORE D1 reconciliation, candidate processing, slow source reads or tests, execute:
+
+```text
+python -m tools.content_review.operations --native-observation <actual-native-observation.json> --run-id <actual-native-run-id> --phase start
+```
+
+Publish and read back BOTH config/content_review_worker_status.json and config/content_review_operations.json immediately, using the existing SHA guards. The helper records current_run with the actual native started_at, scheduled_for, run ID, observed_at and application state. Do not postpone this first publication until the end of a pass. No candidate attempt is consumed.
+
+During processing, at least once every 60 seconds, fetch the current native observation and repeat with --phase running; publish/read back both files. If execution or publishing is unavailable, preserve the last observation and report the actual blocker. A stopped heartbeat must become visibly degraded; do not keep a stale Running claim. Refresh may display a newly acquired, unexpired scheduled-run lease before its start heartbeat arrives, explicitly labelling that timestamp as lease acquisition rather than native start. Maintenance leases never establish scheduled worker activity.
+
+After writing the actual canonical receipt, execute with --phase complete (or --phase failed for a real application failure), publish/read back both files, and release the lease in finally. Application completion remains separate from native terminal completion; only independently fetched terminal evidence with the exact receipt proves scheduled success. Do not replay processing to update a status label. Preserve current_run when releasing the lease so the console can show the latest completed application state while waiting for independent native confirmation.

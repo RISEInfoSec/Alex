@@ -1,5 +1,7 @@
-import unittest
+import unittest,json,tempfile
+from pathlib import Path
 from tools.content_review.operations import verified_completion,find_automation,AUTOMATION,expected_next
+from tools.content_review.operations import runtime_checkpoint,save_runtime
 
 class OperationsTests(unittest.TestCase):
     def test_completion_requires_native_terminal_schedule_and_matching_real_receipt(self):
@@ -17,5 +19,26 @@ class OperationsTests(unittest.TestCase):
         self.assertIsNone(verified_completion(a,None))
         run['recorded_status']='in_progress';self.assertIsNone(verified_completion(a,receipt))
         self.assertEqual(find_automation({'structuredContent':{'automations':[a]}})['id'],AUTOMATION)
+
+    def test_start_heartbeat_and_completion_preserve_real_native_state(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);(root/'config').mkdir()
+            original={'lease':{'run_id':'run','expires_at':'2026-11-02T23:20:00Z'},'ready_total':7}
+            (root/'config/content_review_worker_status.json').write_text(json.dumps(original))
+            native={'id':AUTOMATION,'is_enabled':True,'schedule':'BEGIN:VEVENT\nDTSTART:20261102T224500Z\nRRULE:FREQ=HOURLY\nEND:VEVENT',
+                'run_details':{'last_run':{'id':'run','recorded_status':'in_progress','started_at':'2026-11-02T22:49:00Z','scheduled_for':'2026-11-02T22:45:00Z'}}}
+            state,data=runtime_checkpoint(root,native,'run','start','2026-11-02T22:50:00Z')
+            self.assertEqual(state['last_started_at'],'2026-11-02T22:49:00Z')
+            self.assertEqual(state['current_run']['application_status'],'running')
+            self.assertEqual(state['ready_total'],7);self.assertEqual(state['lease'],original['lease'])
+            save_runtime(root,state,data)
+            state,data=runtime_checkpoint(root,native,'run','complete','2026-11-02T22:56:00Z')
+            self.assertEqual(state['current_run']['application_status'],'complete')
+            self.assertEqual(data['scheduler']['last_run']['recorded_status'],'in_progress')
+            self.assertIsNone(data['scheduler']['last_verified_scheduled_success'])
+            save_runtime(root,state,data)
+            with self.assertRaises(ValueError):runtime_checkpoint(root,native,'run','running','2026-11-02T22:57:00Z')
+            for owner,at in [('other','2026-11-02T22:57:00Z'),('run','2026-11-02T23:21:00Z')]:
+                with self.assertRaises(ValueError):runtime_checkpoint(root,native,owner,'start',at)
 
 if __name__=='__main__':unittest.main()

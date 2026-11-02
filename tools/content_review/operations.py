@@ -84,13 +84,53 @@ def observe(root,native,at=None):
 def save(root,data):
     p=Path(root)/PATH;tmp=p.with_suffix('.tmp');tmp.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n');tmp.replace(p)
 
+def require_worker_lease(root,run_id,at=None):
+    state=json.loads((Path(root)/'config/content_review_worker_status.json').read_text())
+    lease=state.get('lease') or {};expiry=instant(lease.get('expires_at'))
+    current=instant(at) if isinstance(at,str) else at or datetime.now(timezone.utc)
+    if lease.get('run_id')!=run_id or not expiry or expiry<=current:
+        raise ValueError('A current matching single-writer lease is required')
+    return state
+
+def runtime_checkpoint(root,native,run_id,phase,at=None):
+    """Publish a real native start/heartbeat before slow candidate work. No native success inference."""
+    if phase not in ('start','running','complete','failed'):
+        raise ValueError('Unknown worker phase')
+    at=stamp(at);state=require_worker_lease(root,run_id,at)
+    data=observe(root,native,at);run=data['scheduler']['last_run']
+    started=instant(run.get('started_at'))
+    if run.get('id')!=run_id or not started or started>instant(at):
+        raise ValueError('Current native run identity and actual start time are required')
+    if run.get('recorded_status') not in ('in_progress','failed'):
+        raise ValueError('A terminal native run cannot be impersonated as a current worker')
+    previous=state.get('current_run') or {}
+    if previous.get('run_id')==run_id and previous.get('application_status') in ('complete','failed') and phase in ('start','running'):
+        raise ValueError('A completed application pass cannot resume without a new native run')
+    activity=dict(run_id=run_id,observed_at=at,started_at=run['started_at'],
+        scheduled_for=run.get('scheduled_for'),application_status='running' if phase in ('start','running') else phase,
+        scheduler=copy.deepcopy(data['scheduler']))
+    if phase in ('complete','failed'):activity['application_completed_at']=at
+    state.update(current_run=activity,last_started_at=run['started_at'],last_heartbeat_at=at)
+    return state,data
+
+def save_runtime(root,state,data):
+    # Publish this worker activity first; readers can use it even before the summary write.
+    p=Path(root)/'config/content_review_worker_status.json';tmp=p.with_suffix('.tmp')
+    tmp.write_text(json.dumps(state,ensure_ascii=False,indent=2)+'\n');tmp.replace(p)
+    save(root,data)
+
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--root',type=Path,default=Path.cwd())
     p.add_argument('--native-observation',type=Path,required=True);p.add_argument('--run-id',required=True)
-    a=p.parse_args()
-    from tools.content_review.discover_sources import require_lease
-    require_lease(a.root,a.run_id)
-    data=observe(a.root,json.loads(a.native_observation.read_text()));save(a.root,data)
+    p.add_argument('--phase',choices=('start','running','complete','failed'))
+    a=p.parse_args();native=json.loads(a.native_observation.read_text())
+    if a.phase:
+        state,data=runtime_checkpoint(a.root,native,a.run_id,a.phase)
+        require_worker_lease(a.root,a.run_id)
+        save_runtime(a.root,state,data)
+    else:
+        require_worker_lease(a.root,a.run_id)
+        data=observe(a.root,native);save(a.root,data)
     print(json.dumps({'observed_at':data['observed_at'],'scheduler':data['scheduler']}))
 
 if __name__=='__main__':main()
