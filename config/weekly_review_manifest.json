@@ -44470,10 +44470,10 @@
       "collection_id": "weekly",
       "collection_source": "ALEX regular weekly discovery review queue",
       "collection_url": "https://github.com/RISEInfoSec/Alex",
-      "decision": "pending",
+      "decision": "rejected",
       "publication_approved": false,
-      "review_ready": true,
-      "editorial_queue_eligible": true,
+      "review_ready": false,
+      "editorial_queue_eligible": false,
       "full_paper_reviewed": false,
       "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
       "preflight": {
@@ -44774,7 +44774,7 @@
       "assessment_depth": "complete_current_abstract_after_preflight",
       "assessment_date": "2026-11-02",
       "screening_status": "current_abstract_recommendation_complete_after_preflight",
-      "batch_admission_eligible": true,
+      "batch_admission_eligible": false,
       "preflight_reservation": {
         "review_number": 166,
         "review_batch": 9
@@ -44782,7 +44782,15 @@
       "batch": 25,
       "review_batch": 25,
       "readiness_status": "passed",
-      "admitted_at": "2026-11-02T20:12:00.000Z"
+      "admitted_at": "2026-11-02T20:12:00.000Z",
+      "publication_status": "rejected_not_for_publication",
+      "decision_provenance": {
+        "submission_id": "570dc28c-154e-4e95-a5be-d725047bec9e",
+        "revision": 1,
+        "decision_at": "2026-11-02T21:08:51.650Z",
+        "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
+        "reconciled_at": "2026-11-02T22:54:33.116Z"
+      }
     }
   ],
   "prepared_count": 1,
@@ -68587,7 +68595,7 @@
       "manual_review_required": false
     }
   ],
-  "ready_count": 1,
+  "ready_count": 0,
   "abstract_assessed_count": 150,
   "preflight_policy": "Admit only six current hash-bound gate passes and current substantive recommendations. Seal batches of1–20 cleared candidates immediately;20 is the maximum, never a minimum. Never wait for20 or append to sealed batches.",
   "mechanical_passed_awaiting_batch_admission": 0,
@@ -69084,13 +69092,11 @@
   "batch_size_minimum": 1,
   "batch_size_maximum": 20,
   "last_decision_reconciliation": {
-    "checked_at": "2026-11-01T21:40:00.000Z",
-    "batch": 24,
-    "submission_id": "b518fa1f-b535-430c-a521-e819202f5197",
-    "approved": 11,
-    "rejected": 1,
-    "ready_remaining": 0,
-    "approvals_staged_for_configured_release_path": 11,
-    "public_corpus_modified": false
+    "checked_at": "2026-11-02T22:54:33.116Z",
+    "receipt": "config/content_review_run_receipts/cc470fe3-8124-832e-8148-d69e9b6008bb.json",
+    "changed_candidates": [
+      "weekly-17d081f115063ba904133a75"
+    ],
+    "source": "Latest completed native D1 submission; exact candidate/content identity verified."
   }
 }
