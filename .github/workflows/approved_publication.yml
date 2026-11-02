@@ -10,6 +10,7 @@ on:
     branches: [main]
     paths:
       - 'config/content_review_releases/approved-*.json'
+      - 'scripts/release_discovery_backlog.py'
       - '.github/workflows/approved_publication.yml'
   workflow_dispatch:
 permissions:
