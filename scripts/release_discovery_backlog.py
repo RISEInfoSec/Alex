@@ -18,17 +18,29 @@ HASH_FIELDS=('title','authors','year','doi','source_url','abstract','document_ty
 def require(ok,message):
     if not ok:raise ValueError(message)
 
+def target_value(target,name,default=''):
+    """Read either the classified-row shape or the supported public-paper shape."""
+    aliases={'authors':'author','abstract':'summary','Category':'category',
+        'Investigation_Type':'investigation_type','OSINT_Source_Types':'osint_source',
+        'retrieved_at':'retrieved','Seminal_Flag':'seminal'}
+    if name in target:return target[name]
+    value=target.get(aliases.get(name,''),default)
+    if name=='OSINT_Source_Types' and isinstance(value,list):return '; '.join(value)
+    if name=='Seminal_Flag' and isinstance(value,bool):return 'TRUE' if value else 'FALSE'
+    return value
+
 def check_record(row,weights):
     h=row['content_sha256'];t=row['target']
     require(row['document_type']=='research_paper','Unsupported resource type')
-    require(digest({k:row['document_type'] if k=='document_type' else t.get(k,'') for k in HASH_FIELDS})==h,'Reviewed content changed')
+    reviewed={k:row['document_type'] if k=='document_type' else target_value(t,k) for k in HASH_FIELDS}
+    require(digest(reviewed)==h,'Reviewed content changed')
     pf=row['preflight'];require(pf['status']=='passed' and pf['content_sha256']==h,'Preflight held or stale')
     for name in GATES:
         c=pf['checks'][name]
         require(c['status']=='passed' and c['content_sha256']==h and c.get('checked_at') and c.get('evidence'),'Missing/stale gate '+name)
     tax=row['taxonomy'];require(tax['status']=='passed' and tax['content_sha256']==h,'Taxonomy held')
     tags=tax['evidence']['classification'];Draft202012Validator(classify.CLASSIFICATION_SCHEMA).validate(tags)
-    require(t['Category']==tags['Category'] and t['Investigation_Type']==tags['Investigation_Type'] and t['OSINT_Source_Types']=='; '.join(tags['OSINT_Source_Types']),'Target taxonomy changed')
+    require(target_value(t,'Category')==tags['Category'] and target_value(t,'Investigation_Type')==tags['Investigation_Type'] and target_value(t,'OSINT_Source_Types')=='; '.join(tags['OSINT_Source_Types']),'Target taxonomy changed')
     a=row['authorization'];q=pf['checks']['quality']['evidence']
     require(q['quality_core_term_gate']=='pass' and q['quality_relevance_gate']=='pass','Quality hard gate')
     if a['route']=='human_approved':
@@ -40,17 +52,20 @@ def check_record(row,weights):
         require(float(q['quality_auto_threshold'])==threshold and float(q['quality_score'])>=threshold,'Below existing automatic threshold')
         require('arxiv.org/' in t['source_url'],'Unsupported automatic route')
     else:raise ValueError('Unknown authorization route')
-    require(float(t['total_quality_score'])==float(q['quality_score']),'Target score changed')
+    if t.get('total_quality_score') not in (None,''):
+        require(float(t['total_quality_score'])==float(q['quality_score']),'Target score changed')
     require(row['target_schema']['status']=='passed' and row['target_schema']['content_sha256']==h,'Missing target proof')
 
 def check_target(row):
     t=dict(row['target']);h=row['content_sha256'];tags=row['taxonomy']['evidence']['classification']
-    # Match the previously verified one-row export. Release-only provenance and
-    # collection date do not belong to that historical target digest.
-    value={k:t.get(k,'') for k in ('title','authors','year','doi','source_url','abstract','venue','collection_source','collection_url')}
+    # Rebuild the current publisher input from either the classified-row shape
+    # used by earlier requests or the publisher's supported public-paper shape.
+    value={k:target_value(t,k) for k in ('title','authors','year','doi','source_url','abstract','venue','collection_source','collection_url')}
     value['retrieved_at']=row['schema_retrieved_at'];value.update(tags)
     value['OSINT_Source_Types']='; '.join(tags['OSINT_Source_Types']);value['citation_count']=t.get('citation_count')
-    value['total_quality_score']=t['total_quality_score'];value['Seminal_Flag']=t['Seminal_Flag']
+    q=row['preflight']['checks']['quality']['evidence']
+    value['total_quality_score']=t.get('total_quality_score',q['quality_score'])
+    value['Seminal_Flag']=target_value(t,'Seminal_Flag')
     with tempfile.TemporaryDirectory() as temp:
         root=Path(temp);(root/'data').mkdir()
         with (root/'data/accepted_classified.csv').open('w',newline='') as f:
@@ -58,6 +73,9 @@ def check_target(row):
         with patch.object(publish,'root_file',lambda *parts:root.joinpath(*parts)),patch.object(publish,'generate',lambda *args:None),contextlib.redirect_stdout(io.StringIO()):publish.run()
         result=json.loads((root/'data/papers.json').read_text())
     require(len(result)==1 and digest(result[0])==row['target_schema']['evidence']['target_record_sha256'],'Current publisher target differs')
+    if 'author' in t or 'summary' in t:
+        provenance={'inclusion_path','review_candidate_id','review_content_sha256'}
+        require(result[0]=={k:v for k,v in t.items() if k not in provenance},'Public target payload changed')
     json.dumps(result,allow_nan=False)
 
 @contextlib.contextmanager

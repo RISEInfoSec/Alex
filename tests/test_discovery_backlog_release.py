@@ -7,11 +7,16 @@ ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('release_discovery_backlog',ROOT/'scripts/release_discovery_backlog.py')
 runner=importlib.util.module_from_spec(spec);spec.loader.exec_module(runner)
 DATA=json.loads((ROOT/'config/content_review_releases/2026-11-01-discovery-backlog.json').read_text())
+AUTO_DATA=json.loads((ROOT/'config/content_review_releases/approved-2026-11-02-automatic-7.json').read_text())
 WEIGHTS=json.loads((ROOT/'config/quality_weights.json').read_text())
 
 def test_all_candidates_pass_current_schema_and_serialization():
     assert len(DATA['records'])==12
     for r in DATA['records']:runner.check_record(r,WEIGHTS);runner.check_target(r)
+
+def test_supported_public_targets_preserve_reviewed_hash_and_serialization():
+    assert len(AUTO_DATA['records'])==7
+    for r in AUTO_DATA['records']:runner.check_record(r,WEIGHTS);runner.check_target(r)
 
 @pytest.mark.parametrize('defect',['content','gate','automatic_threshold','taxonomy','approval'])
 def test_blocks_changed_held_or_unauthorized_records(defect):
