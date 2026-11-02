@@ -99,7 +99,17 @@ def release(manifest,corpus,receipt,exclusions,weights,get=requests.get,write=Fa
     if receipt.exists():
         prior=json.loads(receipt.read_text());require(prior['records_sha256']==data['records_sha256'],'Receipt changed')
         present={r.get('review_candidate_id'):r for r in existing}
-        for r in prior['released']:require(r['candidate_id'] in present and present[r['candidate_id']].get('review_content_sha256')==r['content_sha256'],'Released row missing or changed')
+        deletion_path=corpus.parent/'deletion_receipts.json'
+        deletion_data=json.loads(deletion_path.read_text()) if deletion_path.exists() else {'records':{}}
+        deleted={v.get('identity') for v in deletion_data.get('records',{}).values() if v.get('status')=='published'}
+        requested={r['candidate_id']:r for r in rows}
+        for released in prior['released']:
+            current=present.get(released['candidate_id'])
+            if current is not None:
+                require(current.get('review_content_sha256')==released['content_sha256'],'Released row changed')
+                continue
+            target=requested[released['candidate_id']]['target']
+            require(bool(record_keys(target)&deleted),'Released row missing without a published deletion receipt')
         return {**prior,'already_applied':True}
     keys=set().union(*(record_keys(r) for r in existing));excluded=load_keys(Path(exclusions));origins={};added=[];held=[]
     for r in rows:
