@@ -1,15 +1,13 @@
-# Public record links and deletion requests
+# Public record links and private deletion review
 
-The searchable public library offers **Open record**, **Copy link**, and **Flag for deletion**. Static bibliographies link to the corresponding ALEX record through **Open ALEX record**.
+The public library offers **Open record**, **Copy link**, and **Flag for deletion**. Static bibliographies link to the same public record view.
 
-Record URLs use the public homepage with one `record` query parameter. Identity uses normalized DOI first, then public source URL, then title/year/author. Numeric display IDs, row order, search filters, private console URLs, and review metadata are never included. Source and bibliographic aliases continue to resolve if a DOI is subsequently added. Duplicate identities fail closed rather than choosing an arbitrary record.
+Public record URLs use normalized DOI, source URL, or title/year/author identity rather than sequential export IDs. Direct links open the exact record, including historical references. Ambiguous or missing records show an unavailable message. Copy link retains its clipboard-denial fallback.
 
-Opening a link loads the public corpus and expands the exact record, including explicit historical references. Missing, removed, or ambiguous records show an unavailable message. Links require JavaScript and retain ALEX's generic social preview. Corrections to all identifying metadata can invalidate an old link; there is no persistent identifier/redirect registry yet.
+Flag for deletion navigates to the owner-private ALEX Research Review site at `/records?identity=...`. The URL contains only the public bibliographic identity. Opening it does not create a flag. The private site requires sign-in and separately authorizes administrator IDs before displaying or changing deletion flags.
 
-Copy link uses the Clipboard API and provides a selected, read-only URL when clipboard access fails.
+The private sidebar labels the existing controls **Review** with an H2, and places a separate **Deletion** H2 beneath them. Administrators can find a record, save a flag with an optional reason, update the reason, view flagged records, and remove a flag. Flags, reasons, and change history remain in the private site's database. No public GitHub removal issue is created.
 
-Flag for deletion opens a prefilled GitHub issue form. The visitor must sign in to GitHub, supply a reason, confirm the review request, and submit it there. Opening the form alone does not save a flag. Requests are public, as stated beside the action and on the form. They contain only the public record URL/title and the visitor's explanation.
+A flag preserves the record and its publication state. Actual removal remains a separate explicit editorial decision using the existing corpus-exclusion and release process. Shared public record links and clipboard behavior are independent of deletion management.
 
-GitHub persists the request and governs who can edit/close it. A flag has no authority to change the corpus. Maintainers assess the request using the existing editorial removal process, record approved removals in `config/corpus_exclusions.json`, and publish through the established release workflow. Do not treat a submitted flag or a closed issue as automatic deletion authorization.
-
-Validation: `node tests/test_record_actions.cjs`, `python -m pytest tests/test_record_links.py tests/test_collections.py tests/test_research_context.py -q`, `python scripts/stage_site.py`, and `python scripts/check_record_actions.py`.
+Validation: `node tests/test_record_actions.cjs`, `python -m pytest tests/test_record_links.py tests/test_collections.py tests/test_research_context.py -q`, `python scripts/stage_site.py`, and `python scripts/check_record_actions.py`. Private-site authorization, persistence, concurrency, and rollback tests are maintained with that site's source.

@@ -46,9 +46,10 @@ def main():
                     assert page.evaluate('navigator.clipboard.readText()') == public_record_url(paper)
                     flag = page.get_by_role('link', name='Flag for deletion').get_attribute('href')
                     query = parse_qs(urlsplit(flag).query)
-                    assert query['record-url'] == [public_record_url(paper)]
-                    assert query['record-title'] == [paper['title'].strip()]
-                    assert query['template'] == ['record-removal.yml']
+                    assert urlsplit(flag).netloc == 'alex-research-review.neil-schwartzm917549.chatgpt.site'
+                    assert urlsplit(flag).path == '/records'
+                    assert query == {'identity': parse_qs(urlsplit(public_record_url(paper)).query)['record']}
+                    assert 'github.com' not in flag
                 page.locator('.record-actions').scroll_into_view_if_needed()
                 page.screenshot(path=str(output / f'record-sharing-{width}.png'))
                 page.get_by_role('button', name='Clear filters', exact=True).click()
@@ -68,8 +69,8 @@ def main():
             assert fallback.input_value() == public_record_url(papers[0])
             assert fallback.is_visible()
             page.get_by_text('Copy the selected link.', exact=True).wait_for()
-            # The request generator is independent of clipboard access.
-            assert page.get_by_role('link', name='Flag for deletion').get_attribute('href').startswith('https://github.com/RISEInfoSec/Alex/issues/new?')
+            # Private deletion navigation is independent of clipboard access.
+            assert page.get_by_role('link', name='Flag for deletion').get_attribute('href').startswith('https://alex-research-review.neil-schwartzm917549.chatgpt.site/records?identity=')
             context.close()
             # Explicit historical records must open from a direct link even
             # though the normal library hides them until the visitor opts in.
