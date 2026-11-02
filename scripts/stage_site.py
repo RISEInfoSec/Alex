@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from alex.collections import generate, source_collections, named_collection_navigation
 from scripts.check_seo import check
+from alex.publication_status import write_index
 
 
 def stage(root: Path, destination: Path) -> None:
@@ -39,6 +40,9 @@ def stage(root: Path, destination: Path) -> None:
             continue
         shutil.copy2(source, destination / "data" / name)
     # Rebuild the homepage links from the same accepted snapshot as the pages.
+    # This status travels with the actual deployed corpus, independently of
+    # review-branch completion flags or worker-written scheduler snapshots.
+    write_index(root, destination / 'data/review-publications.json')
     index = destination / "index.html"
     html = index.read_text(encoding="utf-8")
     pattern = r'<nav class="named-collections"[^>]*>.*?</nav>'

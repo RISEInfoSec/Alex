@@ -411,6 +411,10 @@ def test_actual_artifact_includes_all_pages_and_preserves_downloads(tmp_path):
         assert (artifact / path).read_bytes() == (tmp_path / path).read_bytes()
     for name in ("papers.json", "osint_cyber_papers.csv", "collection_status.json"):
         assert (artifact / "data" / name).read_bytes() == (ROOT / "data" / name).read_bytes()
+    publication = json.loads((artifact / "data/review-publications.json").read_text())
+    import hashlib
+    assert publication['papers_sha256'] == hashlib.sha256((artifact/'data/papers.json').read_bytes()).hexdigest()
+    assert publication['records']
     assert not (artifact / "data/accepted_classified.csv").exists()
     assert not (artifact / "config").exists()
     # Stale artifacts are cleared and absent output pages are caught.
