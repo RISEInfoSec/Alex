@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-02T22:38:25.374Z",
+  "observed_at": "2026-11-02T22:41:46.976288+00:00",
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-02T22:38:25.374Z",
+    "observed_at": "2026-11-02T22:41:46.976288+00:00",
     "is_enabled": true,
-    "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T173000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+    "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
-    "expected_next_run_at": "2026-11-02T23:30:00.000Z",
+    "expected_next_run_at": "2026-11-02T22:45:00+00:00",
     "last_run": {
       "id": "2a5fb02c-39a0-832b-bc95-837e747f4f44",
       "recorded_status": "completed",
@@ -60,7 +60,14 @@
     "manual_retry_at": "2026-11-02T22:38:25.374Z",
     "manual_retry_status": "blocked_execution_environment_unavailable",
     "manual_retry_receipt": "config/content_review_run_receipts/manual-status-2026-11-02T22-37-49-503Z.json",
-    "observation_method": "Direct native connector observation; operations.py could not execute because no usable execution environment is available."
+    "observation_method": "Direct native connector observation; operations.py could not execute because no usable execution environment is available.",
+    "schedule_changed_at": "2026-11-02T22:41:46.976288+00:00",
+    "schedule_change": "Owner requested first execution 17:45 America/Toronto on November 2; hourly thereafter.",
+    "local_python_checks": {
+      "passed": 12,
+      "checked_at": "2026-11-02T22:41:46.976288+00:00",
+      "scope": "Lifecycle, canonical run verification and manifest integrity"
+    }
   },
   "site": {
     "project_id": "appgprj_6ae0e13117b48191b3b024311ee18342",
