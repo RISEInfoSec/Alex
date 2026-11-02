@@ -15,7 +15,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: pipeline
+  group: private-deletion-publication
   cancel-in-progress: false
 jobs:
   remove:
