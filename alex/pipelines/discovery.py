@@ -7,6 +7,7 @@ from typing import Any, Callable
 import pandas as pd
 from alex.utils.io import load_json, load_df, save_df, root_file
 from alex.utils.http import HttpClient
+from alex.publication_dates import row_publication_fields, crossref_publication_fields
 from alex.utils.text import clean, normalize_title
 from alex.utils import connector_config
 from alex.connectors import openalex, crossref, semantic_scholar, core, arxiv, zenodo, github_search
@@ -110,6 +111,7 @@ def run() -> None:
             "citation_count": kwargs.get("citation_count", ""),
             "reference_count": kwargs.get("reference_count", "")
         }
+        row.update(row_publication_fields(kwargs))
         rows.append(row)
 
     mailto = os.getenv("HARVEST_MAILTO", "")
@@ -222,6 +224,7 @@ def run() -> None:
                 year=((item.get("published-print") or item.get("published-online") or item.get("created") or {}).get("date-parts", [[None]])[0][0] or ""),
                 venue=crossref.venue(item),
                 doi=item.get("DOI", ""),
+                **crossref_publication_fields(item),
                 abstract=crossref.abstract(item),
                 source_url=item.get("URL", ""),
                 discovery_query=query,
@@ -310,6 +313,7 @@ def run() -> None:
                 abstract=item.get("abstract", ""),
                 source_url=item.get("source_url", ""),
                 discovery_query="; ".join(item.get("matched_queries", [])),
+                **row_publication_fields(item),
             )
 
     # Enrich abstracts at discovery time so quality_gate's relevance scoring

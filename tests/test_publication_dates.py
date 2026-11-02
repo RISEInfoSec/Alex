@@ -50,3 +50,12 @@ def test_date_enrichment_is_additive_and_preserves_attribution(tmp_path):
 def test_coarse_earlier_online_date_never_becomes_new_print_publication():
     item={'DOI':'10.1/a','published-online':{'date-parts':[[2020]]},'published-print':{'date-parts':[[2026,10,1]]}}
     assert not crossref_publication_fields(item,date(2026,11,2))
+
+
+def test_arxiv_published_is_preserved_without_using_revision_date():
+    import xml.etree.ElementTree as ET
+    from alex.connectors.arxiv import _parse_entry
+    entry=ET.fromstring('<entry xmlns="http://www.w3.org/2005/Atom"><id>http://arxiv.org/abs/2604.12345v2</id><title>Original paper</title><summary>Original abstract with sufficient text.</summary><published>2026-04-22T18:00:00Z</published><updated>2026-10-22T18:00:00Z</updated></entry>')
+    result=_parse_entry(entry)
+    assert result['publication_date']=='2026-04-22'
+    assert result['publication_date_status']=='verified'

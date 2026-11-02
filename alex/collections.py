@@ -436,7 +436,14 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
                               {"@type": "ListItem", "position": start + i + 1, "name": str(p.get("title") or "Title metadata incomplete"),
                                **({"url": paper_url(p)} if paper_url(p) else {})} for i, p in enumerate(chunk)]}}
             outputs[path + "index.html"] = layout(root, title, description, path, body, structured)
-    current = publication_today()
+    # Stable committed snapshot clock; live enhancement ages items out daily.
+    # Retrieval timestamps set the build clock only, never paper membership.
+    date_registry = root / 'config/publication_dates.json'
+    registry = json.loads(date_registry.read_text()) if date_registry.exists() else {}
+    snapshot_date = registry.get('snapshot_as_of', '')
+    try: publication_snapshot = date.fromisoformat(snapshot_date)
+    except (TypeError, ValueError): publication_snapshot = date(1970, 1, 1)
+    current = max(as_of, publication_snapshot)
     recent = recent_publications(papers, current)
     path = 'research/new-publications/'
     body = ('<section class="section"><h1>New publications</h1>'
