@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-11-02T23:34:55.863Z",
+  "observer": {
+    "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
+    "run_id": "a1a8c35c-1d98-832f-a440-2530584a44c7",
+    "scheduled_for": "2026-11-02T23:32:00Z",
+    "started_at": "2026-11-02T23:34:07.117119Z",
+    "trigger": "schedule",
+    "is_enabled": true,
+    "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+    "native_status": "in_progress",
+    "next_run_time": null
+  },
+  "scheduler": {
+    "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+    "observed_at": "2026-11-02T23:34:30.256Z",
+    "is_enabled": true,
+    "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+    "next_run_time": null,
+    "last_run": {
+      "id": "cc470fe3-8124-832e-8148-d69e9b6008bb",
+      "recorded_status": "completed",
+      "scheduled_for": "2026-11-02T22:45:00Z",
+      "started_at": "2026-11-02T22:49:16.857212Z",
+      "completed_at": "2026-11-02T22:56:35.275076Z"
+    }
+  },
+  "receipt_check": {
+    "run_id": "cc470fe3-8124-832e-8148-d69e9b6008bb",
+    "path": "config/content_review_run_receipts/cc470fe3-8124-832e-8148-d69e9b6008bb.json",
+    "verified": true,
+    "reason": "Native completed scheduled run matches canonical receipt automation/run identity, scheduled_for, trigger=schedule, status=complete, nonempty completed_actions and receipt_path; receipt completed_at falls within native started_at/completed_at."
+  },
+  "checkpoint_observed_at": null,
+  "findings": [
+    {
+      "code": "scheduled_completion_verified",
+      "message": "Native run cc470fe3-8124-832e-8148-d69e9b6008bb, scheduled 2026-11-02T22:45:00Z, started 22:49:16.857212Z within the 15-minute grace and completed 22:56:35.275076Z; canonical receipt independently verified. This confirms recovery for this run only."
+    },
+    {
+      "code": "no_missed_start",
+      "message": "Saved hourly DTSTART anchor gives the next expected worker start as 2026-11-02T23:45:00Z (expected, not native-confirmed); it is not yet due. No unserved expected start was rolled forward."
+    },
+    {
+      "code": "worker_heartbeat_unavailable",
+      "message": "Worker current_run is absent, so current_run.observed_at is null. Checkpoint native_run_id matches the completed native run and last_completed_at is 2026-11-02T22:56:13.897Z; no active native worker or processing lease is present. Live heartbeat publication cannot be verified; five-minute silence alone does not establish a stalled completed run."
+    },
+    {
+      "code": "observer_scheduled_start_verified",
+      "message": "Own actual native run a1a8c35c-1d98-832f-a440-2530584a44c7 was scheduled 2026-11-02T23:32:00Z and started 23:34:07.117119Z, within dispatch grace. It remains in_progress. This is the first snapshot (previous path returned 404); prior observer freshness cannot be assessed."
+    },
+    {
+      "code": "native_next_run_time_unavailable",
+      "message": "Both authorized native reads succeeded, but both next_run_time fields are null. Published observations are dated scheduler evidence, not a live website scheduler query."
+    }
+  ],
+  "access_error": null
+}
