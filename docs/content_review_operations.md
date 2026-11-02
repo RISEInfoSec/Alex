@@ -79,3 +79,5 @@ OpenAlex and other incidents retain onset, impact, latest verified result, retry
 recovery evidence and operator action. An elapsed cooldown alone is not recovery. Old
 successes are historical observations, not a fresh API availability probe. Do not spend a
 paid or rate-limited call only to make a dashboard green.
+
+When native next_run_time is unavailable, operations.expected_next() preserves the expected due time from the saved hourly schedule and the latest matching native scheduled_for. Label it as expected, not native. Never roll an unexecuted due time forward merely because the page refreshed; a missed run must become Overdue.

@@ -6,7 +6,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 from tools.content_review.lifecycle import instant, stamp
@@ -26,6 +26,25 @@ def find_automation(value):
             if result:return result
     return None
 
+def hourly_anchor(schedule):
+    line=next((x for x in schedule.splitlines() if x.startswith('DTSTART')),None)
+    if not line or 'FREQ=HOURLY' not in schedule:return None
+    try:
+        header,value=line.split(':',1)
+        if value.endswith('Z'):return datetime.strptime(value,'%Y%m%dT%H%M%SZ').replace(tzinfo=timezone.utc)
+        return datetime.strptime(value,'%Y%m%dT%H%M%S').replace(tzinfo=ZoneInfo(header.split('TZID=',1)[1])).astimezone(timezone.utc)
+    except (ValueError,IndexError,KeyError):return None
+
+def expected_next(automation):
+    """Keep a missed due time visible; never roll the clock forward on a read."""
+    if not automation.get('is_enabled'):return None
+    anchor=hourly_anchor(automation.get('schedule',''))
+    if not anchor:return None
+    previous=instant(((automation.get('run_details') or {}).get('last_run') or {}).get('scheduled_for'))
+    if previous and previous>=anchor and int((previous-anchor).total_seconds())%3600==0:
+        return stamp(previous+timedelta(hours=1))
+    return stamp(anchor)
+
 def verified_completion(automation,receipt):
     run=automation.get('run_details',{}).get('last_run') or {}
     if (run.get('recorded_status') not in ('completed','no_update') or not receipt
@@ -35,13 +54,8 @@ def verified_completion(automation,receipt):
     scheduled=instant(run.get('scheduled_for'));start=instant(run.get('started_at'));end=instant(run.get('completed_at'))
     if not all((scheduled,start,end)) or end<start:return None
     # Native scheduled_for must agree with the saved hourly schedule's anchor.
-    line=next((x for x in automation.get('schedule','').splitlines() if x.startswith('DTSTART')),None)
-    if not line or 'FREQ=HOURLY' not in automation.get('schedule',''):return None
-    header,anchor=line.split(':',1)
-    try:
-        if anchor.endswith('Z'):anchor=datetime.strptime(anchor,'%Y%m%dT%H%M%SZ').replace(tzinfo=timezone.utc)
-        else:anchor=datetime.strptime(anchor,'%Y%m%dT%H%M%S').replace(tzinfo=ZoneInfo(header.split('TZID=',1)[1])).astimezone(timezone.utc)
-    except ValueError:return None
+    anchor=hourly_anchor(automation.get('schedule',''))
+    if not anchor:return None
     if scheduled<anchor or int((scheduled-anchor).total_seconds())%3600!=0:return None
     if instant(receipt.get('scheduled_for'))!=scheduled:return None
     if not instant(receipt.get('completed_at')) or instant(receipt['completed_at'])<start or instant(receipt['completed_at'])>end:return None
@@ -55,7 +69,7 @@ def observe(root,native,at=None):
     last=(a.get('run_details') or {}).get('last_run') or {}
     latest=(a.get('run_details') or {}).get('latest_result') or {}
     s=dict(id=AUTOMATION,observed_at=at,is_enabled=a['is_enabled'],schedule=a.get('schedule'),
-        next_run_time=a.get('next_run_time'),last_run={k:last.get(k) for k in
+        next_run_time=a.get('next_run_time'),expected_next_run_at=expected_next(a),last_run={k:last.get(k) for k in
             ('id','recorded_status','scheduled_for','started_at','completed_at')},
         requires_user_action=bool(latest.get('requires_user_action')) if latest.get('run_id')==last.get('id') else False,
         last_verified_scheduled_success=data.get('scheduler',{}).get('last_verified_scheduled_success'))

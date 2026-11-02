@@ -1,5 +1,5 @@
 import unittest
-from tools.content_review.operations import verified_completion,find_automation,AUTOMATION
+from tools.content_review.operations import verified_completion,find_automation,AUTOMATION,expected_next
 
 class OperationsTests(unittest.TestCase):
     def test_completion_requires_native_terminal_schedule_and_matching_real_receipt(self):
@@ -9,6 +9,9 @@ class OperationsTests(unittest.TestCase):
         self.assertTrue(verified_completion(a,receipt)['evidence_verified'])
         local={**a,'schedule':'BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T170500\nRRULE:FREQ=HOURLY\nEND:VEVENT'}
         self.assertTrue(verified_completion(local,receipt)['evidence_verified'])
+        self.assertEqual(expected_next(local),'2026-11-02T23:05:00+00:00')
+        self.assertEqual(expected_next({**local,'run_details':{}}),'2026-11-02T22:05:00+00:00')
+        self.assertIsNone(expected_next({**local,'is_enabled':False}))
         for change in ({'trigger':'manual'},{'run_id':'other'},{'completed_actions':[]},{'scheduled_for':'2026-11-02T22:06:00Z'},{'completed_at':'2026-11-02T22:20:00Z'}):
             self.assertIsNone(verified_completion(a,{**receipt,**change}))
         self.assertIsNone(verified_completion(a,None))
