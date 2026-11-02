@@ -37,3 +37,35 @@ def test_source_failure_does_not_block_peer_and_release_is_idempotent(tmp_path,m
     assert result['records_added']==1 and len(result['held'])==1 and result['existing_records_modified']==0
     assert list(csv.DictReader(corpus.open()))[0]['title']=='Original'
     before=corpus.read_bytes();assert runner.release(manifest,corpus,receipt,exclusions,WEIGHTS,write=True)['already_applied'];assert corpus.read_bytes()==before
+
+
+def test_idempotency_accepts_a_later_published_deletion(tmp_path,monkeypatch):
+    data=copy.deepcopy(DATA);data['records']=data['records'][:1];data['records_sha256']=runner.digest(data['records'])
+    manifest=tmp_path/'manifest.json';manifest.write_text(json.dumps(data))
+    corpus=tmp_path/'corpus.csv';corpus.write_text('title,authors,doi,source_url\nOriginal,Author,,https://example.org/\n')
+    receipt=tmp_path/'receipt.json'
+    exclusions=tmp_path/'exclusions.json';exclusions.write_text('{"schema_version":1,"records":[]}')
+    monkeypatch.setattr(runner,'source_check',lambda row,get,origins:{'status':'passed','resource_sha256':row['source_revalidation']['expected_sha256']})
+    first=runner.release(manifest,corpus,receipt,exclusions,WEIGHTS,write=True)
+    assert first['records_added']==1
+    rows=list(csv.DictReader(corpus.open()))
+    with corpus.open('w',newline='') as stream:
+        writer=csv.DictWriter(stream,fieldnames=rows[0].keys());writer.writeheader();writer.writerow(rows[0])
+    identity=next(iter(runner.record_keys(data['records'][0]['target'])))
+    (tmp_path/'deletion_receipts.json').write_text(json.dumps({'schema_version':1,'records':{'deletion':{'identity':identity,'status':'published'}}}))
+    assert runner.release(manifest,corpus,receipt,exclusions,WEIGHTS,write=True)['already_applied']
+
+
+def test_idempotency_rejects_an_unexplained_disappearance(tmp_path,monkeypatch):
+    data=copy.deepcopy(DATA);data['records']=data['records'][:1];data['records_sha256']=runner.digest(data['records'])
+    manifest=tmp_path/'manifest.json';manifest.write_text(json.dumps(data))
+    corpus=tmp_path/'corpus.csv';corpus.write_text('title,authors,doi,source_url\nOriginal,Author,,https://example.org/\n')
+    receipt=tmp_path/'receipt.json'
+    exclusions=tmp_path/'exclusions.json';exclusions.write_text('{"schema_version":1,"records":[]}')
+    monkeypatch.setattr(runner,'source_check',lambda row,get,origins:{'status':'passed','resource_sha256':row['source_revalidation']['expected_sha256']})
+    runner.release(manifest,corpus,receipt,exclusions,WEIGHTS,write=True)
+    rows=list(csv.DictReader(corpus.open()))
+    with corpus.open('w',newline='') as stream:
+        writer=csv.DictWriter(stream,fieldnames=rows[0].keys());writer.writeheader();writer.writerow(rows[0])
+    with pytest.raises(ValueError,match='missing without a published deletion receipt'):
+        runner.release(manifest,corpus,receipt,exclusions,WEIGHTS,write=True)
