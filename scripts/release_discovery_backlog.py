@@ -163,6 +163,7 @@ def release(manifest,corpus,receipt,exclusions,weights,get=requests.get,write=Fa
             target=requested[released['candidate_id']]['target']
             require(bool(record_keys(target)&deleted),'Released row missing without a published deletion receipt')
         if write and repaired:
+            fields=list(dict.fromkeys(fields+[k for current in existing for k in current]))
             temp=corpus.with_suffix('.release.tmp')
             with temp.open('w',newline='') as f:
                 w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(existing)
