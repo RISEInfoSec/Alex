@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "owner": "lifecycle-health-implementation",
-    "run_id": "health-recovery-20261102T2212Z",
-    "acquired_at": "2026-11-02T22:12:14.503Z",
-    "expires_at": "2026-11-02T22:17:14.503Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -502,8 +497,12 @@
   "scheduling_status": {
     "automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
     "is_enabled": true,
-    "observed_at": "2026-11-02T21:53:19.582269+00:00",
-    "source": "Native automations.update enabled the existing task. Unattended completion and native next_run_time remain unverified; see operations snapshot.",
+    "observed_at": "2026-11-02T22:12:48.203Z",
+    "source": "Native scheduler re-enabled for bounded 17:15 recovery verification; prior scheduled attempt failed after successful application work.",
+    "expected_next_run_at": "2026-11-02T22:15:00Z",
+    "last_native_run_id": "6f9ea16b-6774-8324-8df1-7474462a0c38",
+    "last_native_result": "failed",
+    "unattended_recovery_verified": false,
     "health_snapshot": "config/content_review_operations.json"
   },
   "weekly_backlog_campaign": {
