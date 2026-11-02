@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 17,
+  "version": 18,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -10,7 +10,11 @@
       "Virus Bulletin",
       "APWG",
       "regular discovery backlogs",
-      "additional sources explicitly requested by the user"
+      "additional sources explicitly requested by the user",
+      "FIRST",
+      "M3AAWG",
+      "Bellingcat",
+      "Consensus (credential/usage held)"
     ],
     "existing_content": [
       "Other classification backlog",
@@ -300,16 +304,11 @@
           "status": "deferred"
         },
         {
-          "name": "FIRST.org",
-          "url": "https://www.first.org/",
-          "status": "deferred"
-        },
-        {
           "name": "Other new source collections",
           "status": "deferred"
         }
       ],
-      "expansion_gate": "Do not activate or crawl deferred/new source collections during this campaign. First reconcile current archive coverage and give gathered SOUPS/Virus Bulletin items a documented disposition: duplicate/exclusion, mechanical rejection, explicit evidence/access hold with retry/follow-up, completed editorial decision and final validation as applicable. Unchecked raw inventory is not dispositioned. Report the disposition summary before proposing the next source.",
+      "expansion_gate": "2 November 2026 owner explicitly authorizes FIRST, M3AAWG, Bellingcat and evaluation of Consensus, superseding earlier deferrals. All access, quality, review, publication and fairness safeguards remain.",
       "preserve_existing_intake": "Existing regular weekly ingestion, qualifying automatic acceptance, APWG obligations, completed decisions and accepted-candidate checks continue. Deferral applies to expanding source collections."
     },
     "neighbourly_access": {
@@ -469,5 +468,16 @@
       "style": "Existing ALEX navy/slate with restrained amber historical accent and muted blue earlier-research accent",
       "status": "design_preview_pending_public_implementation"
     }
+  },
+  "source_expansion": {
+    "authorized_at": "2026-11-02",
+    "config": "config/discovery_sources.json",
+    "state": "config/content_review_source_discovery_state.json",
+    "helper": "tools/content_review/discover_sources.py",
+    "instructions": "docs/discovery_source_expansion.md",
+    "scheduler": "existing hourly Content Review worker",
+    "intake": "existing weekly preflight and archive inventory",
+    "paid_usage_authorized": false,
+    "nonpaper_publication": "held until existing executor supports actual resource type; never mislabel as research_paper"
   }
 }
