@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "run_id": "1eec0b63-209c-8327-838c-69a03ba2f447",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-02T22:15:00Z",
+  "started_at": "2026-11-02T22:12:58.642757Z",
+  "completed_at": "2026-11-02T22:16:56.666Z",
+  "status": "complete",
+  "native_terminal_completion_verified": false,
+  "native_state_observed": "in_progress",
+  "site": {
+    "project_id": "appgprj_6ae0e13117b48191b3b024311ee18342",
+    "status": "active",
+    "latest_version_number": 18
+  },
+  "approval_reconciliation": {
+    "completed_submissions": 62,
+    "decisions": 927,
+    "immutable_jobs": 598,
+    "new_eligible_include_decisions": 0,
+    "publication_actions": 0
+  },
+  "lifecycle_sync": {
+    "records": 385,
+    "ready": 8,
+    "awaiting_initial_checks": 298,
+    "awaiting_software_support": 2,
+    "access_restricted": 10,
+    "stable_quality_failure": 67,
+    "ledger_blob_sha": "2c977273440beb180e170fa28d3dfbc00271764f"
+  },
+  "candidate_checks": [],
+  "candidate_check_note": "No candidate source request was made. The pass did not repeat weekly-250dd6cfa359991d1db168d1; recovery of the registered weekly manifest was required before lifecycle reconciliation could complete.",
+  "recovered_error": {
+    "stage": "lifecycle_sync",
+    "error": "weekly_review_manifest.json contained a literal connector truncation marker and was invalid JSON",
+    "resolution": "Restored the complete intended 4,488,585-byte manifest and verified its Git blob before rerunning lifecycle sync.",
+    "manifest_blob_sha": "a0b1d87a26ea41a38625cf20d9cb40cc68f94f95"
+  },
+  "completed_actions": [
+    "config/weekly_review_manifest.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_operations.json"
+  ],
+  "request_totals": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "new_ready": 0,
+  "new_review_batches": 0,
+  "public_corpus_modified": false,
+  "errors": [],
+  "receipt_path": "config/content_review_run_receipts/1eec0b63-209c-8327-838c-69a03ba2f447.json"
+}
