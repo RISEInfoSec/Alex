@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "run_id": "manual-status-2026-11-02T22-37-49-503Z",
+  "trigger": "manual",
+  "scheduled_for": null,
+  "started_at": "2026-11-02T22:37:49.503Z",
+  "completed_at": "2026-11-02T22:38:44.634Z",
+  "status": "blocked",
+  "native_terminal_completion_verified": false,
+  "receipt_path": "config/content_review_run_receipts/manual-status-2026-11-02T22-37-49-503Z.json",
+  "completed_actions": [
+    "Verified Site version 20 deployment succeeded",
+    "Read current native automation record",
+    "Verified absence of canonical receipt for the 17:30 Toronto scheduled run",
+    "Parsed complete lifecycle ledger and independently matched all 385 state counts",
+    "Read bounded D1 review_jobs and review_submissions pages; full approval reconciliation not performed",
+    "Updated current operations snapshot with accurate native state, expected schedule and execution limitation"
+  ],
+  "lifecycle_counts": {
+    "ready": 8,
+    "awaiting_initial_checks": 298,
+    "awaiting_software_support": 2,
+    "access_restricted": 10,
+    "stable_quality_failure": 67
+  },
+  "candidate_checks": [],
+  "request_totals": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "public_corpus_modified": false,
+  "latest_native_run": {
+    "id": "2a5fb02c-39a0-832b-bc95-837e747f4f44",
+    "recorded_status": "completed",
+    "scheduled_for": "2026-11-02T22:30:00Z",
+    "started_at": "2026-11-02T22:33:26.024961Z",
+    "completed_at": "2026-11-02T22:34:01.186178Z",
+    "canonical_receipt_missing": true
+  },
+  "limitations": [
+    "No usable execution environment is available; exec_command failed before command execution",
+    "operations.py and lifecycle Python checks were not run in this retry",
+    "D1 reads were bounded samples and do not establish that all pending approvals are reconciled",
+    "No native next_run_time returned; 18:30 Toronto is expected from saved schedule, not independently confirmed",
+    "No successful unattended candidate-processing pass with matching work receipt has been verified"
+  ],
+  "errors": [
+    {
+      "stage": "execution_environment",
+      "reason": "No usable execution environment is available"
+    }
+  ]
+}
