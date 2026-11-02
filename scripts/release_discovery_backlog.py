@@ -29,6 +29,33 @@ def target_value(target,name,default=''):
     if name=='Seminal_Flag' and isinstance(value,bool):return 'TRUE' if value else 'FALSE'
     return value
 
+def corpus_target(row):
+    """Return the classified CSV shape; public payloads are never written as inputs."""
+    t=row['target']
+    if 'author' not in t and 'summary' not in t:return dict(t)
+    tags=row['taxonomy']['evidence']['classification'];q=row['preflight']['checks']['quality']['evidence']
+    return {
+        'title':t['title'],'authors':target_value(t,'authors'),'year':t['year'],
+        'venue':t.get('venue',''),'Category':tags['Category'],
+        'Investigation_Type':tags['Investigation_Type'],
+        'OSINT_Source_Types':'; '.join(tags['OSINT_Source_Types']),
+        'source_url':t['source_url'],'doi':t.get('doi',''),
+        'abstract':target_value(t,'abstract'),
+        'Seminal_Flag':target_value(t,'Seminal_Flag'),
+        'Quality_Tier':t.get('quality_tier',''),
+        'citation_count':t.get('citation_count'),
+        'total_quality_score':q['quality_score'],
+        'retrieved_at':row.get('schema_retrieved_at',''),
+        'collection_source':t.get('collection_source',''),
+        'collection_url':t.get('collection_url',''),
+        'apwg_year':t.get('apwg_year',''),
+        'publication_year_source':t.get('publication_year_source',''),
+        'apwg_source_url':t.get('apwg_source_url',''),
+        'inclusion_path':t.get('inclusion_path',''),
+        'review_candidate_id':t.get('review_candidate_id',row['candidate_id']),
+        'review_content_sha256':t.get('review_content_sha256',row['content_sha256']),
+    }
+
 def check_record(row,weights):
     h=row['content_sha256'];t=row['target']
     require(row['document_type']=='research_paper','Unsupported resource type')
@@ -118,15 +145,29 @@ def release(manifest,corpus,receipt,exclusions,weights,get=requests.get,write=Fa
         prior=json.loads(receipt.read_text());require(prior['records_sha256']==data['records_sha256'],'Receipt changed')
         present={r.get('review_candidate_id'):r for r in existing}
         deleted=load_keys(Path(exclusions))
-        requested={r['candidate_id']:r for r in rows}
+        requested={r['candidate_id']:r for r in rows};repaired=0
         for released in prior['released']:
             current=present.get(released['candidate_id'])
             if current is not None:
                 require(current.get('review_content_sha256')==released['content_sha256'],'Released row changed')
+                request=requested[released['candidate_id']]
+                if 'author' in request['target'] or 'summary' in request['target']:
+                    canonical=corpus_target(request)
+                    changed=False
+                    for key,value in canonical.items():
+                        expected='' if value is None else str(value)
+                        if current.get(key,'')!=expected:
+                            current[key]=value;changed=True
+                    repaired+=int(changed)
                 continue
             target=requested[released['candidate_id']]['target']
             require(bool(record_keys(target)&deleted),'Released row missing without a published deletion receipt')
-        return {**prior,'already_applied':True}
+        if write and repaired:
+            temp=corpus.with_suffix('.release.tmp')
+            with temp.open('w',newline='') as f:
+                w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(existing)
+            temp.replace(corpus)
+        return {**prior,'already_applied':True,'records_repaired':repaired}
     keys=set().union(*(record_keys(r) for r in existing));excluded=load_keys(Path(exclusions));origins={};added=[];held=[]
     for r in rows:
         try:
@@ -139,10 +180,11 @@ def release(manifest,corpus,receipt,exclusions,weights,get=requests.get,write=Fa
         keys.update(k);added.append({**r,'fresh_source_proof':proof});print('VALIDATED',r['candidate_id'],flush=True)
     result={'release_id':data['release_id'],'records_sha256':data['records_sha256'],'approval_basis':data['approval_basis'],'source_review_commit':data['source_review_commit'],'records_before':len(existing),'records_added':len(added),'records_after':len(existing)+len(added),'existing_records_modified':0,'checked_at':datetime.now(timezone.utc).isoformat(),'released':[{k:r[k] for k in ('candidate_id','content_sha256','authorization','fresh_source_proof')} for r in added],'held':held}
     if write:
-        fields=list(dict.fromkeys(fields+[k for r in added for k in r['target']]))
+        targets=[corpus_target(r) for r in added]
+        fields=list(dict.fromkeys(fields+[k for t in targets for k in t]))
         temp=corpus.with_suffix('.release.tmp')
         with temp.open('w',newline='') as f:
-            w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(existing+[r['target'] for r in added])
+            w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(existing+targets)
         temp.replace(corpus);receipt.parent.mkdir(parents=True,exist_ok=True);receipt.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     return result
 
