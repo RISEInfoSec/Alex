@@ -1,22 +1,28 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-02T22:52:20.463709+00:00",
+  "observed_at": "2026-11-02T22:58:03.027968+00:00",
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-02T22:52:20.463709+00:00",
+    "observed_at": "2026-11-02T22:58:03.027968+00:00",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "expected_next_run_at": "2026-11-02T23:45:00+00:00",
     "last_run": {
       "id": "cc470fe3-8124-832e-8148-d69e9b6008bb",
-      "recorded_status": "in_progress",
+      "recorded_status": "completed",
       "scheduled_for": "2026-11-02T22:45:00Z",
       "started_at": "2026-11-02T22:49:16.857212Z",
-      "completed_at": null
+      "completed_at": "2026-11-02T22:56:35.275076Z"
     },
     "requires_user_action": false,
-    "last_verified_scheduled_success": null
+    "last_verified_scheduled_success": {
+      "run_id": "cc470fe3-8124-832e-8148-d69e9b6008bb",
+      "completed_at": "2026-11-02T22:56:35.275076Z",
+      "trigger": "schedule",
+      "evidence_verified": true,
+      "receipt": "config/content_review_run_receipts/cc470fe3-8124-832e-8148-d69e9b6008bb.json"
+    }
   },
   "source_discovery": {
     "observed_at": "2026-11-02T11:08:00.962752+00:00",
@@ -49,18 +55,18 @@
   "diagnostics": {
     "scheduler_pause_cause": "Native history contains a failed attempt with requires_user_action and no diagnostic text; pause actor/cause unavailable.",
     "stale_repository_claim_corrected_at": "2026-11-02T21:47:27.772Z",
-    "current_observation": "Scheduled verification application work completed in an available execution environment. Current native run remains in_progress; terminal scheduler success cannot be verified before termination.",
+    "current_observation": "The 17:45 America/Toronto unattended scheduled run completed normally. Native terminal completion, exact canonical work receipt and persisted rejection/lifecycle checkpoints were independently matched after termination.",
     "application_receipt": "config/content_review_run_receipts/cc470fe3-8124-832e-8148-d69e9b6008bb.json",
     "native_terminal_failure_at": "2026-11-02T22:08:46.772201Z",
-    "recovery_proven": false,
+    "recovery_proven": true,
     "replacement_registered_at": "2026-11-02T22:22:52.610Z",
     "replacement_automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "latest_native_completed_run_id": "2a5fb02c-39a0-832b-bc95-837e747f4f44",
-    "latest_native_completed_receipt_missing": true,
+    "latest_native_completed_run_id": "cc470fe3-8124-832e-8148-d69e9b6008bb",
+    "latest_native_completed_receipt_missing": false,
     "manual_retry_at": "2026-11-02T22:38:25.374Z",
     "manual_retry_status": "blocked_execution_environment_unavailable",
     "manual_retry_receipt": "config/content_review_run_receipts/manual-status-2026-11-02T22-37-49-503Z.json",
-    "observation_method": "Native automations.peek passed to unmodified operations.py CLI under the verified shared lease.",
+    "observation_method": "Independently fetched native terminal result and canonical receipt verified by operations.observe under a SHA-guarded single-writer lease.",
     "schedule_changed_at": "2026-11-02T22:41:46.976288+00:00",
     "schedule_change": "Owner requested first execution 17:45 America/Toronto on November 2; hourly thereafter.",
     "local_python_checks": {
@@ -68,7 +74,13 @@
       "checked_at": "2026-11-02T22:41:46.976288+00:00",
       "scope": "Lifecycle, canonical run verification and manifest integrity"
     },
-    "execution_environment_verified_at": "2026-11-02T22:55:44.735Z"
+    "execution_environment_verified_at": "2026-11-02T22:55:44.735Z",
+    "independent_verification_at": "2026-11-02T22:58:03.027968+00:00",
+    "verification_checks": {
+      "local_lifecycle_operations_manifest_tests": 12,
+      "saved_console_regression_tests": 67,
+      "github_classification_regression_tests": 515
+    }
   },
   "site": {
     "project_id": "appgprj_6ae0e13117b48191b3b024311ee18342",
