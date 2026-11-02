@@ -76,6 +76,67 @@ jobs:
           git add config/content_review_archive_discovery_inventory.json config/weekly_review_manifest.json config/content_review_preflight_status.json config/content_review_source_discovery_state.json config/content_review_discovery_checkpoints/source-expansion-*.json config/content_review_source_discovery_validation.json
           git diff --cached --quiet || git commit -m 'Checkpoint initial source discovery in existing Content Review preflight'
           git push origin HEAD:codex/discovery-sources-20261102
+      - name: Verify normalized intake and retain metadata-only inventory
+        if: github.ref == 'refs/heads/codex/discovery-sources-20261102'
+        env:
+          GH_TOKEN: '${{ github.token }}'
+        run: |
+          gh api 'repos/RISEInfoSec/Alex/contents/config/content_review_worker_status.json?ref=codex/soups-corpus-review' --jq .content | base64 --decode > .cache/source-expansion/remote-status.json
+          python - <<'PY'
+          import json,os,xml.etree.ElementTree as ET
+          from collections import Counter
+          from pathlib import Path
+          from tools.content_review.discover_sources import require_lease,ROOT,GATES,save,stamp,digest,HASH_FIELDS
+          require_lease(ROOT,'alex-source-expansion-20261102')
+          remote=json.loads(Path('.cache/source-expansion/remote-status.json').read_text())
+          assert remote['lease']==json.loads(Path('config/content_review_worker_status.json').read_text())['lease']
+          config=json.loads(Path('config/discovery_sources.json').read_text())
+          weekly=json.loads(Path('config/weekly_review_manifest.json').read_text())
+          inv=json.loads(Path('config/content_review_archive_discovery_inventory.json').read_text())
+          stage=json.loads(Path('config/content_review_preflight_status.json').read_text())
+          removed=set()
+          for r in weekly.get('preflight_records',[]):
+              if r.get('discovery_source') in config['sources'] and not str(r.get('title') or '').strip():
+                  assert r.get('decision')=='pending' and r.get('review_ready') is False
+                  removed.add(r['candidate_id'])
+          weekly['preflight_records']=[r for r in weekly.get('preflight_records',[]) if r['candidate_id'] not in removed]
+          stage['records']=[r for r in stage['records'] if r['candidate_id'] not in removed]
+          for r in inv['records']:
+              if r.get('candidate_id') in removed:
+                  r['disposition']='unprocessed_discovery'
+                  r['intake_deferred_reason']='Sitemap URL only; official title/author/content metadata required'
+                  r.pop('intake_at',None)
+          all_rows=weekly.get('records',[])+weekly.get('preflight_records',[])
+          base=max([r.get('review_batch') or r.get('batch') or r.get('reserved_review_batch') or 0 for r in all_rows],default=0)+1
+          unreserved=[r for r in weekly['preflight_records'] if r.get('discovery_source') in config['sources'] and not r.get('review_batch')]
+          for i,r in enumerate(unreserved):
+              r.setdefault('review_number',r['reserved_review_number'])
+              r['reserved_review_batch']=r['review_batch']=r['batch']=base+i//20
+          counts={}
+          for sid in config['sources']:
+              raw=[r for r in inv['records'] if r.get('discovery_source')==sid]
+              intake=[r for r in weekly['preflight_records'] if r.get('discovery_source')==sid]
+              for r in intake:
+                  assert r['content_sha256']==digest({k:r.get(k,'') for k in HASH_FIELDS})
+                  assert r['review_ready'] is False and all(r['preflight']['checks'][k]['status']=='not_checked' for k in GATES)
+                  assert r.get('title') and isinstance(r.get('batch'),int)
+              counts[sid]=dict(unique_identified=len(raw),ingested=len(intake),review_ready=0,published=0,dispositions=dict(Counter(r['disposition'] for r in raw)))
+          weekly['preflight_held_count']=len(weekly['preflight_records'])
+          save(Path('config/weekly_review_manifest.json'),weekly)
+          save(Path('config/content_review_archive_discovery_inventory.json'),inv)
+          save(Path('config/content_review_preflight_status.json'),stage)
+          save(Path('config/content_review_source_discovery_intake_receipt.json'),dict(checked_at=stamp(),counts=counts,metadata_only_deferred=len(removed),publication_approved=False))
+          root=ET.parse('.cache/source-expansion/tests.xml').getroot()
+          suites=list(root) if root.tag=='testsuites' else [root]
+          save(Path('config/content_review_source_discovery_validation.json'),dict(workflow_run_id=os.environ['GITHUB_RUN_ID'],commit=os.environ['GITHUB_SHA'],tests=sum(int(s.attrib.get('tests',0)) for s in suites),failures=0,errors=0,public_corpus_modified=False,publication_approved=False))
+          assert Path('config/weekly_review_manifest.json').stat().st_size<7000000
+          PY
+          git diff --exit-code -- data alex
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add config/weekly_review_manifest.json config/content_review_archive_discovery_inventory.json config/content_review_preflight_status.json config/content_review_source_discovery_intake_receipt.json config/content_review_source_discovery_validation.json
+          git diff --cached --quiet || git commit -m 'Verify normalized source intake without promoting metadata-only URLs'
+          git push origin HEAD:codex/discovery-sources-20261102
       - uses: actions/upload-artifact@v7.0.2
         if: always()
         with:

@@ -97,6 +97,7 @@ def test_bounded_intake_never_fabricates_pass(tmp_path):
     inv,w,c=d.reconcile(root,rows,d.stamp(),max_intake=2)
     assert len(inv['records'])==5 and len(w['preflight_records'])==2
     for r in w['preflight_records']:
+        assert isinstance(r['review_number'],int) and isinstance(r['batch'],int)
         assert r['recommendation'] is None and r['publication_approved'] is False
         assert r['document_type']=='format_unverified' and r['review_ready'] is False
         assert all(x['status']=='not_checked' for x in r['preflight']['checks'].values())
@@ -127,3 +128,10 @@ def test_lease_required(tmp_path):
 def test_conflicting_alias_not_overwritten():
     rows,n=d.merge_observations([observation(title='Cybercrime 2026'),observation(title='Cybercrime 2025')])
     assert len(rows)==1 and n==1 and rows[0]['metadata_conflict']
+
+
+def test_sitemap_only_identity_stays_outside_preflight(tmp_path):
+    root=base(tmp_path);row=observation(sid='bellingcat',title='')
+    inv,w,c=d.reconcile(root,[row],d.stamp())
+    assert len(inv['records'])==1 and not w['preflight_records']
+    assert inv['records'][0]['disposition']=='unprocessed_discovery'

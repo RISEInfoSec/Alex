@@ -237,7 +237,7 @@ def reconcile(root,observations,checked_at,max_intake=250,public_root=None):
             if k.startswith('title:'):titles.setdefault(k,[]).append(raw)
     present={r['candidate_id'] for r in weekly.get('records',[])+weekly.get('preflight_records',[])}
     eligible=[r for r in inv['records'] if r.get('discovery_source') in counts and r.get('disposition') not in
-        ('duplicate_identity','editorial_exclusion','intake_rejected') and r.get('candidate_id') not in present]
+        ('duplicate_identity','editorial_exclusion','intake_rejected') and r.get('candidate_id') not in present and str(r.get('title') or '').strip()]
     groups={s:sorted([r for r in eligible if r['discovery_source']==s],key=lambda r:(-(r.get('year') or 0),r['first_seen_at'])) for s in counts}
     n=max([r.get('review_number') or r.get('reserved_review_number') or 0 for r in weekly.get('records',[])+weekly.get('preflight_records',[])],default=0)+1
     intake=[]
@@ -258,6 +258,13 @@ def reconcile(root,observations,checked_at,max_intake=250,public_root=None):
             evidence='Source observation only; existing mechanical gate pending') for k in GATES})
         weekly.setdefault('preflight_records',[]).append(r);raw['disposition']='in_existing_weekly_preflight';raw['intake_at']=checked_at
         n+=1;counts[raw['discovery_source']]['ingested']+=1
+    # Required normalized-console reservation fields do not alter reviewed hashes.
+    all_rows=weekly.get('records',[])+weekly.get('preflight_records',[])
+    batch_base=max([r.get('review_batch') or r.get('batch') or r.get('reserved_review_batch') or 0 for r in all_rows],default=0)+1
+    unreserved=[r for r in weekly.get('preflight_records',[]) if r.get('discovery_source') in counts and not r.get('review_batch')]
+    for i,r in enumerate(unreserved):
+        r.setdefault('review_number',r['reserved_review_number'])
+        r['reserved_review_batch']=r['review_batch']=r['batch']=batch_base+i//20
     for sid in counts:counts[sid]['observation_duplicates_consolidated']=sum(r['source_id']==sid for r in observations)-counts[sid].get('identified',0)
     inv.update(updated_at=checked_at,coverage_complete=False,scope='Additive discovery observations; not verified eligible material or complete archive coverage')
     weekly['preflight_held_count']=len(weekly.get('preflight_records',[]))
