@@ -17,6 +17,7 @@ from alex.editorial_exclusions import record_keys, load_keys
 
 ROOT=Path(__file__).resolve().parents[2]
 UA='ALEX-ContentReview/1.1 (+https://alex.riseinfosec.org/; https://github.com/RISEInfoSec/Alex)'
+SOURCE_LABELS={'first':'FIRST','m3aawg':'M3AAWG','bellingcat':'Bellingcat','consensus':'Consensus'}
 GATES=('format','access','metadata','duplicates','quality','schema')
 HASH_FIELDS=('title','authors','year','doi','source_url','abstract','document_type')
 def stamp(): return datetime.now(timezone.utc).isoformat()
@@ -187,6 +188,12 @@ def reconcile(root,observations,checked_at,max_intake=250,public_root=None):
     root=Path(root);cfg=root/'config';public_root=Path(public_root) if public_root else root
     inv=json.loads((cfg/'content_review_archive_discovery_inventory.json').read_text())
     weekly=json.loads((cfg/'weekly_review_manifest.json').read_text())
+    for sid in SOURCE_LABELS:
+        source_path=cfg/(sid+'_review_manifest.json')
+        if source_path.exists():
+            source=json.loads(source_path.read_text())
+            weekly.setdefault('records',[]).extend(source.get('records',[]))
+            weekly.setdefault('preflight_records',[]).extend(source.get('preflight_records',[]))
     known=json.loads((public_root/'data/papers.json').read_text())
     for path in cfg.glob('*manifest.json'):
         data=json.loads(path.read_text())
@@ -225,7 +232,7 @@ def reconcile(root,observations,checked_at,max_intake=250,public_root=None):
         disposition=('editorial_exclusion' if record_keys(row)&exclusions else 'duplicate_identity' if matches else
             'intake_rejected' if row.get('intake_exclusion') else 'possible_version_or_translation' if variants or row.get('related_version_urls') else
             'source_metadata_conflict' if row.get('metadata_conflict') else 'unprocessed_discovery')
-        raw=dict(discovery_identity=rid,candidate_id=rid,collection='weekly',discovery_source=sid,
+        raw=dict(discovery_identity=rid,candidate_id=rid,collection=sid,discovery_source=sid,
             **{k:v for k,v in row.items() if k!='source_id'},source_fingerprint=fingerprint,first_seen_at=checked_at,last_seen_at=checked_at,
             disposition=disposition,duplicate_matches=matches,possible_version_matches=variants,document_type='format_unverified',
             review_ready=False,recommendation=None,preflight_blockers=list(GATES))
@@ -246,7 +253,7 @@ def reconcile(root,observations,checked_at,max_intake=250,public_root=None):
             if groups[sid] and len(intake)<max_intake:intake.append(groups[sid].pop(0))
     for raw in intake:
         r={k:raw.get(k,'') for k in HASH_FIELDS}
-        r.update(candidate_id=raw['candidate_id'],collection_id='weekly',collection_source=raw['discovery_source'],
+        r.update(candidate_id=raw['candidate_id'],collection_id=raw['discovery_source'],collection_source=SOURCE_LABELS[raw['discovery_source']],
             discovery_source=raw['discovery_source'],collection_url=raw['provenance'][0]['discovery_url'],
             venue=raw.get('venue') or raw.get('publisher') or '',publisher=raw.get('publisher',''),
             discovery_intermediary=raw.get('discovery_intermediary',''),citation_count=raw.get('citation_count'),
@@ -361,6 +368,20 @@ def require_lease(root,run_id):
         raise ValueError('Current verified Content Review single-writer lease required')
 def save(path,value):
     tmp=path.with_suffix(path.suffix+'.tmp');tmp.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n');tmp.replace(path)
+def route_source_manifests(root,combined):
+    """Use source collections in the existing console, with one shared workflow."""
+    weekly=copy.deepcopy(combined)
+    for sid,label in SOURCE_LABELS.items():
+        path=root/'config'/(sid+'_review_manifest.json')
+        source=json.loads(path.read_text()) if path.exists() else dict(schema_version=1,collection_id=sid,collection_source=label,publication_approved=False)
+        for field in ('records','preflight_records'):
+            source[field]=[r for r in combined.get(field,[]) if r.get('collection_id')==sid]
+            weekly[field]=[r for r in weekly.get(field,[]) if r.get('collection_id')!=sid]
+        source['preflight_held_count']=len(source.get('preflight_records',[]))
+        save(path,source)
+    weekly['preflight_held_count']=len(weekly.get('preflight_records',[]))
+    save(root/'config/weekly_review_manifest.json',weekly)
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--root',type=Path,default=ROOT);p.add_argument('--public-root',type=Path)
@@ -381,12 +402,12 @@ def main():
     if args.write:
         require_lease(root,args.run_id)
         save(root/'config/content_review_archive_discovery_inventory.json',inv)
-        save(root/'config/weekly_review_manifest.json',weekly)
+        route_source_manifests(root,weekly)
         stage_path=root/'config/content_review_preflight_status.json';stage=json.loads(stage_path.read_text())
         known={(r['collection'],r['candidate_id']) for r in stage['records']}
         for r in weekly.get('preflight_records',[]):
-            if r.get('discovery_source') in config['sources'] and ('weekly',r['candidate_id']) not in known:
-                stage['records'].append(dict(collection='weekly',candidate_id=r['candidate_id'],content_sha256=r['content_sha256'],
+            if r.get('discovery_source') in config['sources'] and (r.get('collection_id','weekly'),r['candidate_id']) not in known:
+                stage['records'].append(dict(collection=r.get('collection_id','weekly'),candidate_id=r['candidate_id'],content_sha256=r['content_sha256'],
                     review_number=r['reserved_review_number'],status='held',review_ready=False,checks=copy.deepcopy(r['preflight']['checks']),blockers=list(GATES)))
         save(stage_path,stage);save(state_path,state)
         save(root/'config/content_review_discovery_checkpoints'/('source-expansion-'+checked_at.replace(':','-')+'.json'),receipt)
