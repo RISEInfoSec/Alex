@@ -1,18 +1,14 @@
 {
   "schema_version": 1,
   "phase": "active",
-  "ready_total": 1,
+  "ready_total": 0,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "run_id": "cc470fe3-8124-832e-8148-d69e9b6008bb",
-    "acquired_at": "2026-11-02T22:50:31.579Z",
-    "expires_at": "2026-11-02T23:20:31.579Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -33,7 +29,7 @@
   },
   "global_deficit": 249,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-02T22:16:56.666Z",
+  "last_completed_at": "2026-11-02T22:56:13.897Z",
   "last_action": "Reconciled 62 completed submissions, 927 decisions and 598 immutable jobs; no new eligible Include decision was present. Repaired the registered weekly manifest after a literal connector truncation marker made it invalid JSON, restored the complete intended blob, and then synchronized all 385 lifecycle records. No candidate source request was made and the prior HVE check was not repeated. Native terminal completion remains unverified until a later scheduler observation.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
@@ -92,7 +88,7 @@
     "source_release_holds": 6
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-11-02T22:14:16.606Z",
+  "last_started_at": "2026-11-02T22:49:16.857212Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
@@ -494,9 +490,9 @@
   "scheduling_status": {
     "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
     "is_enabled": true,
-    "observed_at": "2026-11-02T22:22:52.610Z",
+    "observed_at": "2026-11-02T22:52:20.463709+00:00",
     "source": "Fresh Site-linked replacement registered after the original task failed two scheduled executions. Original remains disabled.",
-    "expected_next_run_at": "2026-11-02T22:30:00Z",
+    "expected_next_run_at": "2026-11-02T23:45:00+00:00",
     "unattended_recovery_verified": false,
     "retired_automation_ids": [
       "Automation_0ff7fb9b800481919b48ddb2593b8f88"
@@ -674,7 +670,15 @@
   "candidate_lifecycle": {
     "ledger": "config/content_review_candidate_lifecycle.json",
     "policy": "config/content_review_lifecycle_policy.json",
-    "initial_migration_is_not_a_resolution_attempt": true
+    "initial_migration_is_not_a_resolution_attempt": true,
+    "counts": {
+      "completed": 1,
+      "awaiting_initial_checks": 298,
+      "awaiting_software_support": 2,
+      "ready": 7,
+      "access_restricted": 10,
+      "stable_quality_failure": 67
+    }
   },
   "manual_status_recovery": {
     "run_id": "manual-status-2026-11-02T22-37-49-503Z",
@@ -682,5 +686,13 @@
     "status": "blocked_execution_environment",
     "receipt": "config/content_review_run_receipts/manual-status-2026-11-02T22-37-49-503Z.json",
     "candidate_changes": 0
+  },
+  "scheduled_verification": {
+    "run_id": "cc470fe3-8124-832e-8148-d69e9b6008bb",
+    "receipt": "config/content_review_run_receipts/cc470fe3-8124-832e-8148-d69e9b6008bb.json",
+    "application_status": "complete",
+    "native_terminal_status": "unverified_until_later_observation",
+    "source_checks": 0,
+    "reconciled_rejections": 1
   }
 }
