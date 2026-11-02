@@ -7,6 +7,7 @@ on:
       - tests/test_content_review_source_discovery.py
       - config/discovery_sources.json
       - .github/workflows/content_review_source_discovery.yml
+      - docs/discovery_source_expansion_report_2026-11-02.md
 permissions:
   contents: write
 concurrency:
@@ -81,6 +82,7 @@ jobs:
         env:
           GH_TOKEN: '${{ github.token }}'
         run: |
+          if test -f config/content_review_source_discovery_intake_receipt.json; then exit 0; fi
           gh api 'repos/RISEInfoSec/Alex/contents/config/content_review_worker_status.json?ref=codex/soups-corpus-review' --jq .content | base64 --decode > .cache/source-expansion/remote-status.json
           python - <<'PY'
           import json,os,xml.etree.ElementTree as ET
