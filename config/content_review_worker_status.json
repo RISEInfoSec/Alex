@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "run_id": "alex-source-expansion-20261102",
-    "acquired_at": "2026-11-02T11:00:17.484Z",
-    "expires_at": "2026-11-02T11:30:17.484Z",
-    "scope": "Explicit FIRST/M3AAWG/Bellingcat/Consensus source expansion"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -638,5 +633,62 @@
     "preliminary_recommendations_recorded": 15,
     "next_action": "Resolve existing six mechanical gates; prepare final recommendations and admit cleared SANS records in batches of 1–20.",
     "authorization": "Explicit user request to add all 15 SANS candidates with recommendations; bounded intake only."
+  },
+  "source_expansion": {
+    "authorized_at": "2026-11-02",
+    "completed_at": "2026-11-02T11:15:07.220Z",
+    "pull_request": 96,
+    "merge_commit": "9c6a9cd18dfd0adc0752971cb1d37b1f92d8a72d",
+    "sources": {
+      "first": {
+        "unique_identified": 886,
+        "ingested": 84,
+        "review_ready": 0,
+        "published": 0,
+        "dispositions": {
+          "in_existing_weekly_preflight": 84,
+          "unprocessed_discovery": 795,
+          "possible_version_or_translation": 5,
+          "source_metadata_conflict": 2
+        }
+      },
+      "m3aawg": {
+        "unique_identified": 143,
+        "ingested": 83,
+        "review_ready": 0,
+        "published": 0,
+        "dispositions": {
+          "in_existing_weekly_preflight": 83,
+          "unprocessed_discovery": 57,
+          "possible_version_or_translation": 3
+        }
+      },
+      "bellingcat": {
+        "unique_identified": 284,
+        "ingested": 13,
+        "review_ready": 0,
+        "published": 0,
+        "dispositions": {
+          "in_existing_weekly_preflight": 13,
+          "intake_rejected": 6,
+          "unprocessed_discovery": 265
+        }
+      },
+      "consensus": {
+        "unique_identified": 0,
+        "ingested": 0,
+        "review_ready": 0,
+        "published": 0,
+        "dispositions": {}
+      }
+    },
+    "unique_discovered": 1313,
+    "initial_preflight_intake": 180,
+    "new_review_ready": 0,
+    "published": 0,
+    "tests_passed": 175,
+    "consensus": "disabled_pending_secure_key_and_verified_free_account",
+    "scheduler": "Existing hourly task re-enabled; cadence unchanged. Next unattended run not yet verified.",
+    "report": "docs/discovery_source_expansion_report_2026-11-02.md"
   }
 }
