@@ -51,8 +51,12 @@ def test_idempotency_accepts_a_later_published_deletion(tmp_path,monkeypatch):
     rows=list(csv.DictReader(corpus.open()))
     with corpus.open('w',newline='') as stream:
         writer=csv.DictWriter(stream,fieldnames=rows[0].keys());writer.writeheader();writer.writerow(rows[0])
-    identity=next(iter(runner.record_keys(data['records'][0]['target'])))
-    (tmp_path/'deletion_receipts.json').write_text(json.dumps({'schema_version':1,'records':{'deletion':{'identity':identity,'status':'published'}}}))
+    target=data['records'][0]['target']
+    exclusions.write_text(json.dumps({'schema_version':1,'records':[{
+        'decision':'rejected','candidate_id':'private-deletion:test','title':target['title'],'year':target['year'],
+        'doi':target.get('doi',''),'source_url':target['source_url'],'submission_id':'deletion-test',
+        'reviewed_content_sha256':'0'*64
+    }]}))
     assert runner.release(manifest,corpus,receipt,exclusions,WEIGHTS,write=True)['already_applied']
 
 
