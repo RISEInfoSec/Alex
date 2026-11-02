@@ -87,8 +87,12 @@ def evaluate(row, prior=None, at=None, policy=None):
     entry.update(content_sha256=row.get('content_sha256'), evidence_key=key, title=row.get('title', ''),
         source_url=row.get('source_url', ''), identities={k:row.get(k) for k in ('doi','source_url','candidate_id')},
         last_evaluated_at=stamp(at))
+    if len(str(row.get('assessment_date',''))) == 10 and not row.get('intake_at') and not row.get('source_observation',{}).get('first_seen_at'):
+        entry['first_seen_date']=row['assessment_date']
+        entry['first_seen_precision']='date_only'
     attempts = [a for a in entry['attempts'] if a.get('cycle') == entry['cycle']]
     entry['attempt_count'] = len(attempts)
+    entry['retry_policy']={k:policy[k] for k in ('maximum_total_attempts','maximum_failure_age_days')}
     entry['last_attempt_at'] = max([a['at'] for a in entry['attempts']], default=None)
     checks = row.get('preflight', {}).get('checks', {})
     entry['last_check_at'] = max([c.get('checked_at') for c in checks.values() if c.get('checked_at')], default=None)
@@ -171,6 +175,12 @@ def record_attempt(entry, *, attempt_id, at, stage, outcome, reason, evidence_re
 
 def due(entry, at=None):
     at = instant(at) if isinstance(at, str) else at or datetime.now(timezone.utc)
+    attempts=[a for a in entry.get('attempts',[]) if a.get('cycle')==entry.get('cycle')]
+    failed=[instant(a['at']) for a in attempts if a.get('outcome')=='temporary_failure']
+    policy={**DEFAULT_POLICY,**entry.get('retry_policy',{})}
+    if failed and (len(attempts)>=policy['maximum_total_attempts'] or
+                   at-min(failed)>=timedelta(days=policy['maximum_failure_age_days'])):
+        return False
     return (entry.get('state') in ('awaiting_initial_checks','retry_scheduled') and
             (not instant(entry.get('next_retry_at')) or instant(entry['next_retry_at']) <= at))
 
@@ -183,7 +193,7 @@ def load(root, path, default):
 
 def ensure_eligible(root, collection, candidate_id):
     e = load(root, LEDGER, {'records':{}})['records'].get(collection + ':' + candidate_id)
-    if e and (e.get('state') in INACTIVE or (e.get('state') == 'retry_scheduled' and not due(e))):
+    if e and (e.get('state') in INACTIVE or (e.get('state') in ('retry_scheduled','awaiting_initial_checks') and not due(e))):
         raise ValueError('Lifecycle prevents work: ' + e['state'] + ': ' + candidate_id)
 
 def sync(root, at=None):

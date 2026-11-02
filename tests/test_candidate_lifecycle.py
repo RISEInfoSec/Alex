@@ -46,6 +46,9 @@ class LifecycleTests(unittest.TestCase):
         self.assertEqual(datetime.fromisoformat(e['next_retry_at']),later)
         e=evaluate(r,e,NOW+timedelta(days=30));self.assertEqual(e['state'],'retired_unresolved')
         self.assertEqual(len(e['attempts']),1)
+        # A stale state label cannot bypass the age budget before the next sync.
+        stale=copy.deepcopy(e);stale['state']='retry_scheduled';stale['next_retry_at']=NOW.isoformat()
+        self.assertFalse(due(stale,NOW+timedelta(days=31)))
 
     def test_replay_does_not_spend_an_attempt(self):
         r=row();e=attempt(evaluate(r,at=NOW),1,NOW)
