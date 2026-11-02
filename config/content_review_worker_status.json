@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "run_id": "alex-source-collections-ui-20261102",
-    "acquired_at": "2026-11-02T11:30:04.303Z",
-    "expires_at": "2026-11-02T12:00:04.303Z",
-    "scope": "Source collection visibility, order and public collection profiles"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -694,6 +689,26 @@
     "tests_passed": 175,
     "consensus": "disabled_pending_secure_key_and_verified_free_account",
     "scheduler": "Existing hourly task re-enabled; cadence unchanged. Next unattended run not yet verified.",
-    "report": "docs/discovery_source_expansion_report_2026-11-02.md"
+    "report": "docs/discovery_source_expansion_report_2026-11-02.md",
+    "review_collections_visible": true,
+    "review_collection_order": [
+      "Weekly discovery",
+      "Corpus relevance audit",
+      "APWG eCrime",
+      "Bellingcat",
+      "Consensus",
+      "FIRST",
+      "M3AAWG",
+      "SANS",
+      "SOUPS",
+      "Virus Bulletin"
+    ],
+    "collection_view_pr": 97,
+    "preflight_relocation": {
+      "first": 84,
+      "m3aawg": 83,
+      "bellingcat": 13,
+      "identity_hashes_decisions_preserved": true
+    }
   }
 }
