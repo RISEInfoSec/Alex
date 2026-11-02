@@ -8,6 +8,7 @@ from alex.utils.io import load_df, save_df, root_file, validate_columns
 from alex.utils.http import HttpClient
 from alex.utils import connector_config
 from alex.connectors import crossref, openalex, semantic_scholar
+from alex.publication_dates import crossref_publication_fields
 from alex.utils.text import clean
 
 logger = logging.getLogger(__name__)
@@ -64,6 +65,7 @@ def _harvest_one(
             best["abstract"] = crossref.abstract(cr) or best.get("abstract", "")
             best["source_url"] = clean(cr.get("URL", best.get("source_url", "")))
             best["harvest_source"] = "Crossref DOI"
+            best.update(crossref_publication_fields(cr))
 
     if not best.get("abstract"):
         oa = openalex.search(client, title, mailto, per_page=1)

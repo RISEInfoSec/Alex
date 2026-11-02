@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from alex.utils.io import load_df, save_df, save_json, root_file
 from alex.utils.text import split_multi
 from alex.collections import generate
+from alex.publication_dates import row_publication_fields
 from alex.research_context import historical_only
 
 
@@ -100,6 +101,8 @@ def run(record_collection: bool = False) -> None:
             papers[-1]["publication_date"] = str(row["publication_date"])
         if str(row.get("historical_only", "")).strip():
             papers[-1]["historical_only"] = historical_only(dict(row))
+    for paper, (_, row) in zip(papers, public.iterrows()):
+        paper.update(row_publication_fields(row))
     save_json(papers_json, papers)
     generate(root_file(), papers)
     if record_collection:
