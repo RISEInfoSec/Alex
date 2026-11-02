@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "run_id": "content-review-native-6f9ea16b-6774-8324-8df1-7474462a0c38",
+  "native_scheduler": {
+    "automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
+    "native_run_id": "6f9ea16b-6774-8324-8df1-7474462a0c38",
+    "scheduled_for": "2026-11-02T22:00:00Z",
+    "started_at": "2026-11-02T22:02:24.828409Z",
+    "status_observed_at_start": "in_progress",
+    "terminal_status_observed": false,
+    "completion_claimed": false
+  },
+  "worker": {
+    "started_at": "2026-11-02T22:04:11.000Z",
+    "completed_at": "2026-11-02T22:07:19.405Z",
+    "lease_acquired": true,
+    "lease_released": true
+  },
+  "site_observation_ref": "config/content_review_operations.json",
+  "approval_reconciliation": {
+    "completed_submissions": 62,
+    "decisions": 927,
+    "immutable_jobs": 598,
+    "new_eligible_include_decisions": 0,
+    "publication_actions": 0
+  },
+  "lifecycle_sync": {
+    "records": 385,
+    "ready": 8,
+    "awaiting_initial_checks": 298,
+    "awaiting_software_support": 2,
+    "access_restricted": 10,
+    "stable_quality_failure": 67
+  },
+  "candidate_attempt": {
+    "collection": "weekly",
+    "candidate_id": "weekly-250dd6cfa359991d1db168d1",
+    "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+    "attempt_id": "e621df039c43fdbd63e685b79dcdd272cdd8d54ada350ecb18b97b5485398fd6",
+    "outcome": "success",
+    "completed_checks": [
+      "format",
+      "access",
+      "metadata"
+    ],
+    "remaining_holds": [
+      "duplicates",
+      "schema"
+    ],
+    "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json"
+  },
+  "request_totals": {
+    "source": 1,
+    "paid": 0,
+    "openalex": 0
+  },
+  "new_ready": 0,
+  "new_review_batches": 0,
+  "public_corpus_modified": false,
+  "errors": []
+}
