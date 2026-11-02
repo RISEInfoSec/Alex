@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-02T22:41:46.976288+00:00",
+  "observed_at": "2026-11-02T22:52:20.463709+00:00",
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-02T22:41:46.976288+00:00",
+    "observed_at": "2026-11-02T22:52:20.463709+00:00",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
-    "expected_next_run_at": "2026-11-02T22:45:00+00:00",
+    "expected_next_run_at": "2026-11-02T23:45:00+00:00",
     "last_run": {
-      "id": "2a5fb02c-39a0-832b-bc95-837e747f4f44",
-      "recorded_status": "completed",
-      "scheduled_for": "2026-11-02T22:30:00Z",
-      "started_at": "2026-11-02T22:33:26.024961Z",
-      "completed_at": "2026-11-02T22:34:01.186178Z"
+      "id": "cc470fe3-8124-832e-8148-d69e9b6008bb",
+      "recorded_status": "in_progress",
+      "scheduled_for": "2026-11-02T22:45:00Z",
+      "started_at": "2026-11-02T22:49:16.857212Z",
+      "completed_at": null
     },
     "requires_user_action": false,
     "last_verified_scheduled_success": null
@@ -49,8 +49,8 @@
   "diagnostics": {
     "scheduler_pause_cause": "Native history contains a failed attempt with requires_user_action and no diagnostic text; pause actor/cause unavailable.",
     "stale_repository_claim_corrected_at": "2026-11-02T21:47:27.772Z",
-    "current_observation": "The replacement task's 17:30 Toronto scheduled run is natively recorded completed, but its canonical work receipt is absent and no result is available. Candidate processing and full recovery remain unverified. A requested manual retry reached this conversation; no execution environment was available. Connector reads and lifecycle-count validation succeeded; Python checks and source processing could not run.",
-    "application_receipt": "config/content_review_run_receipts/2026-11-02T220000Z-6f9ea16b.json",
+    "current_observation": "Scheduled verification application work completed in an available execution environment. Current native run remains in_progress; terminal scheduler success cannot be verified before termination.",
+    "application_receipt": "config/content_review_run_receipts/cc470fe3-8124-832e-8148-d69e9b6008bb.json",
     "native_terminal_failure_at": "2026-11-02T22:08:46.772201Z",
     "recovery_proven": false,
     "replacement_registered_at": "2026-11-02T22:22:52.610Z",
@@ -60,14 +60,15 @@
     "manual_retry_at": "2026-11-02T22:38:25.374Z",
     "manual_retry_status": "blocked_execution_environment_unavailable",
     "manual_retry_receipt": "config/content_review_run_receipts/manual-status-2026-11-02T22-37-49-503Z.json",
-    "observation_method": "Direct native connector observation; operations.py could not execute because no usable execution environment is available.",
+    "observation_method": "Native automations.peek passed to unmodified operations.py CLI under the verified shared lease.",
     "schedule_changed_at": "2026-11-02T22:41:46.976288+00:00",
     "schedule_change": "Owner requested first execution 17:45 America/Toronto on November 2; hourly thereafter.",
     "local_python_checks": {
       "passed": 12,
       "checked_at": "2026-11-02T22:41:46.976288+00:00",
       "scope": "Lifecycle, canonical run verification and manifest integrity"
-    }
+    },
+    "execution_environment_verified_at": "2026-11-02T22:55:44.735Z"
   },
   "site": {
     "project_id": "appgprj_6ae0e13117b48191b3b024311ee18342",
