@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-02T11:08:00.965663+00:00",
+  "runs": [
+    {
+      "source": "first",
+      "status": "bounded_pass_complete",
+      "pages_attempted": 16,
+      "identified": 889,
+      "failures": [],
+      "remaining_pages": 18,
+      "coverage_complete": false
+    },
+    {
+      "source": "m3aawg",
+      "status": "bounded_pass_complete",
+      "pages_attempted": 16,
+      "identified": 163,
+      "failures": [],
+      "remaining_pages": 0,
+      "coverage_complete": false
+    },
+    {
+      "source": "bellingcat",
+      "status": "bounded_pass_complete",
+      "pages_attempted": 6,
+      "identified": 305,
+      "failures": [],
+      "remaining_pages": 0,
+      "coverage_complete": false
+    },
+    {
+      "source": "consensus",
+      "status": "blocked_credentials_and_usage_authorization",
+      "identified": 0
+    }
+  ],
+  "counts": {
+    "first": {
+      "identified": 886,
+      "new_raw": 886,
+      "ingested": 84,
+      "observation_duplicates_consolidated": 3
+    },
+    "m3aawg": {
+      "identified": 143,
+      "new_raw": 143,
+      "ingested": 83,
+      "observation_duplicates_consolidated": 20
+    },
+    "bellingcat": {
+      "identified": 284,
+      "new_raw": 284,
+      "rejected": 6,
+      "ingested": 83,
+      "observation_duplicates_consolidated": 21
+    },
+    "consensus": {
+      "observation_duplicates_consolidated": 0
+    }
+  },
+  "publication_approved": false,
+  "review_ready_added": 0,
+  "published": 0,
+  "notes": "Raw source discovery and bounded existing weekly preflight intake; no quality or approval inferred"
+}
