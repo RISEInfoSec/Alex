@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "run_id": "cc470fe3-8124-832e-8148-d69e9b6008bb",
+  "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-02T22:45:00Z",
+  "started_at": "2026-11-02T22:49:16.857212Z",
+  "completed_at": "2026-11-02T22:56:11.811Z",
+  "status": "complete",
+  "completed_actions": [
+    "Read current operations/background-worker/workflow/lifecycle/material/retrospective policies.",
+    "Verified native current scheduler in_progress and retired task disabled; read live Site and D1 schema.",
+    "Read complete live D1 inventory: 62 submissions, 927 decisions, 598 jobs; verified 213 latest intake decision identities/hashes against source manifests.",
+    "Validated complete immutable source blobs and all eight source manifests; preserved 1260 candidate identities, reviewed hashes, evidence and decisions.",
+    "Applied completed exact-hash rejection for weekly-17d081f115063ba904133a75; validated update/readback of config/weekly_review_manifest.json.",
+    "Ran python -m tools.content_review.lifecycle --run-id cc470fe3-8124-832e-8148-d69e9b6008bb --write; saved and read back config/content_review_candidate_lifecycle.json (385 identities, unchanged attempt histories).",
+    "Ran tools/content_review/operations.py using independently fetched native observation; saved and read back config/content_review_operations.json."
+  ],
+  "receipt_path": "config/content_review_run_receipts/cc470fe3-8124-832e-8148-d69e9b6008bb.json",
+  "candidate_ids": [
+    "weekly-17d081f115063ba904133a75"
+  ],
+  "candidate_resolution_attempts": 0,
+  "source_document_requests": 0,
+  "paid_requests": 0,
+  "openalex_requests": 0,
+  "hve_source_check_repeated": false,
+  "ready_total": 0,
+  "new_review_batches": 0,
+  "lifecycle_counts": {
+    "completed": 1,
+    "awaiting_initial_checks": 298,
+    "awaiting_software_support": 2,
+    "ready": 7,
+    "access_restricted": 10,
+    "stable_quality_failure": 67
+  },
+  "manifest_integrity": [
+    {
+      "path": "config/weekly_review_manifest.json",
+      "blob_sha": "a0b1d87a26ea41a38625cf20d9cb40cc68f94f95",
+      "records": 69,
+      "preflight_records": 107
+    },
+    {
+      "path": "config/bellingcat_review_manifest.json",
+      "blob_sha": "161887a21599ec4e981f96375bc3318947a9f1a5",
+      "records": 0,
+      "preflight_records": 13
+    },
+    {
+      "path": "config/consensus_review_manifest.json",
+      "blob_sha": "f785f63fd355289e0216ca72a88b735f7ba7a302",
+      "records": 0,
+      "preflight_records": 0
+    },
+    {
+      "path": "config/first_review_manifest.json",
+      "blob_sha": "f5ad1f220de5833d2675459e69f55071081a2c3b",
+      "records": 0,
+      "preflight_records": 84
+    },
+    {
+      "path": "config/m3aawg_review_manifest.json",
+      "blob_sha": "046f81a99c067a0557da3fc7e9036d57aa9e1ff9",
+      "records": 0,
+      "preflight_records": 83
+    },
+    {
+      "path": "config/sans_review_manifest.json",
+      "blob_sha": "bd57bd1fc6248391fdaf02e96cb8f8f99e781fe9",
+      "records": 0,
+      "preflight_records": 15
+    },
+    {
+      "path": "config/soups_review_manifest.json",
+      "blob_sha": "899e28ec6f5c1f3db7bbfef9906cf623df80ed1e",
+      "records": 727,
+      "preflight_records": 70
+    },
+    {
+      "path": "config/virusbulletin_review_manifest.json",
+      "blob_sha": "fa3c9fd49b944a4a120fd0fc43a77902f297c746",
+      "records": 92,
+      "preflight_records": 0
+    }
+  ],
+  "approval_reconciliation": {
+    "submissions": 62,
+    "decisions": 927,
+    "jobs": 598,
+    "intake_decisions_matched": 213,
+    "missing_identities": 0,
+    "hash_conflicts": 0,
+    "rejections_reconciled": 1,
+    "new_include_decisions": 0,
+    "existing_approvals_preserved": true,
+    "latest_submission_at": "2026-11-02T21:08:51.650Z"
+  },
+  "checkpoint_paths": [
+    "config/weekly_review_manifest.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_operations.json"
+  ],
+  "native_scheduler_status": "in_progress",
+  "native_scheduled_success_verified": false,
+  "limitations": [
+    "Native terminal completion requires a later independent observation after this run terminates; no future result is asserted.",
+    "Existing approval release/assessment holds remain governed by their saved evidence; no new candidate source check was necessary in this bounded verification pass."
+  ],
+  "errors": []
+}
