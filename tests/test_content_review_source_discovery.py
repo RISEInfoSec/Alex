@@ -135,3 +135,17 @@ def test_sitemap_only_identity_stays_outside_preflight(tmp_path):
     inv,w,c=d.reconcile(root,[row],d.stamp())
     assert len(inv['records'])==1 and not w['preflight_records']
     assert inv['records'][0]['disposition']=='unprocessed_discovery'
+
+
+def test_source_manifests_share_workflow_and_preserve_identity(tmp_path):
+    root=base(tmp_path)
+    inv,combined,counts=d.reconcile(root,[observation()],d.stamp())
+    before=copy.deepcopy(combined['preflight_records'][0])
+    d.route_source_manifests(root,combined)
+    source=json.loads((root/'config/first_review_manifest.json').read_text())
+    weekly=json.loads((root/'config/weekly_review_manifest.json').read_text())
+    assert source['preflight_records'][0]==before
+    assert before['collection_id']=='first' and before['collection_source']=='FIRST'
+    assert not weekly['preflight_records']
+    from tools.content_review.paid_worker import MANIFESTS
+    assert MANIFESTS['first']=='config/first_review_manifest.json'

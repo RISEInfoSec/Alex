@@ -3,7 +3,7 @@
   "authorized_at": "2026-11-02",
   "scheduler": "Existing hourly Content Review worker Automation_0ff7fb9b800481919b48ddb2593b8f88",
   "inventory": "config/content_review_archive_discovery_inventory.json",
-  "preflight_manifest": "config/weekly_review_manifest.json",
+  "preflight_manifest": "source-specific manifests in the existing Content Review console",
   "maximum_preflight_intake_per_pass": 250,
   "preserve_all_quality_and_approval_rules": true,
   "sources": {
@@ -75,5 +75,11 @@
       "activation_requirements": "Secure key plus verified Free account (CONSENSUS_FREE_PLAN_CONFIRMED=true), durable call ledger and operator enablement. Paid accounts require explicit authorization and account-wide cost control.",
       "attribution": "Consensus is intermediary; keep actual authors, institutions, journal, publisher, DOI, abstract and source URL; unknown citations null."
     }
+  },
+  "preflight_manifests": {
+    "first": "config/first_review_manifest.json",
+    "m3aawg": "config/m3aawg_review_manifest.json",
+    "bellingcat": "config/bellingcat_review_manifest.json",
+    "consensus": "config/consensus_review_manifest.json"
   }
 }

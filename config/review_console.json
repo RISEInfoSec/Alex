@@ -1,33 +1,9 @@
 {
   "collections": [
     {
-      "id": "soups",
-      "name": "SOUPS",
-      "description": "Symposium on Usable Privacy and Security",
-      "homepage": "https://soups.page/",
-      "adapter": "soups",
-      "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/soups_review_manifest.json"
-    },
-    {
-      "id": "apwg",
-      "name": "APWG eCrime",
-      "description": "APWG eCrime Symposium",
-      "homepage": "https://ecrimeresearch.org/",
-      "adapter": "apwg_pending",
-      "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/config/apwg_pending_review.json"
-    },
-    {
-      "id": "virusbulletin",
-      "name": "Virus Bulletin",
-      "description": "Virus Bulletin Conference Archive · malware, cybercrime and investigative research",
-      "homepage": "https://virusbulletin.com/conference/vb-conference-archive/",
-      "adapter": "normalized",
-      "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/virusbulletin_review_manifest.json"
-    },
-    {
       "id": "weekly",
       "name": "Weekly discovery",
-      "description": "Shared Discovery intake: weekly research, FIRST, M3AAWG and Bellingcat; original provenance and all preflight holds retained",
+      "description": "Regular weekly research discovery; original scores, decisions and preflight holds retained",
       "homepage": "https://github.com/RISEInfoSec/Alex",
       "adapter": "normalized",
       "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/weekly_review_manifest.json"
@@ -41,12 +17,68 @@
       "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/corpus_relevance_audit_manifest.json"
     },
     {
+      "id": "apwg",
+      "name": "APWG eCrime",
+      "description": "APWG eCrime Symposium",
+      "homepage": "https://ecrimeresearch.org/",
+      "adapter": "apwg_pending",
+      "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/config/apwg_pending_review.json"
+    },
+    {
+      "id": "bellingcat",
+      "name": "Bellingcat",
+      "description": "13 candidates awaiting existing mechanical checks; original source attribution retained",
+      "homepage": "https://www.bellingcat.com/resources/",
+      "adapter": "normalized",
+      "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/bellingcat_review_manifest.json"
+    },
+    {
+      "id": "consensus",
+      "name": "Consensus",
+      "description": "Academic discovery intermediary; disabled until secure API credentials and free-account access are verified",
+      "homepage": "https://consensus.app/",
+      "adapter": "normalized",
+      "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/consensus_review_manifest.json"
+    },
+    {
+      "id": "first",
+      "name": "FIRST",
+      "description": "84 candidates awaiting existing mechanical checks; original source attribution retained",
+      "homepage": "https://www.first.org/library/",
+      "adapter": "normalized",
+      "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/first_review_manifest.json"
+    },
+    {
+      "id": "m3aawg",
+      "name": "M3AAWG",
+      "description": "83 candidates awaiting existing mechanical checks; original source attribution retained",
+      "homepage": "https://www.m3aawg.org/published-documents",
+      "adapter": "normalized",
+      "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/m3aawg_review_manifest.json"
+    },
+    {
       "id": "sans",
       "name": "SANS",
       "description": "15 requested SANS candidates · preliminary recommendations · unresolved checks held before editorial review",
       "homepage": "https://www.sans.org/mlp/cybersecurity-training-community",
       "adapter": "normalized",
       "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/sans_review_manifest.json"
+    },
+    {
+      "id": "soups",
+      "name": "SOUPS",
+      "description": "Symposium on Usable Privacy and Security",
+      "homepage": "https://soups.page/",
+      "adapter": "soups",
+      "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/soups_review_manifest.json"
+    },
+    {
+      "id": "virusbulletin",
+      "name": "Virus Bulletin",
+      "description": "Virus Bulletin Conference Archive · malware, cybercrime and investigative research",
+      "homepage": "https://virusbulletin.com/conference/vb-conference-archive/",
+      "adapter": "normalized",
+      "manifest_url": "https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/virusbulletin_review_manifest.json"
     }
   ]
 }

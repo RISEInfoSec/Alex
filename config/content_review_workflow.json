@@ -476,8 +476,14 @@
     "helper": "tools/content_review/discover_sources.py",
     "instructions": "docs/discovery_source_expansion.md",
     "scheduler": "existing hourly Content Review worker",
-    "intake": "existing weekly preflight and archive inventory",
+    "intake": "source-specific existing-console manifests, shared gates and global buffer",
     "paid_usage_authorized": false,
-    "nonpaper_publication": "held until existing executor supports actual resource type; never mislabel as research_paper"
+    "nonpaper_publication": "held until existing executor supports actual resource type; never mislabel as research_paper",
+    "manifest_paths": {
+      "first": "config/first_review_manifest.json",
+      "m3aawg": "config/m3aawg_review_manifest.json",
+      "bellingcat": "config/bellingcat_review_manifest.json",
+      "consensus": "config/consensus_review_manifest.json"
+    }
   }
 }
