@@ -104,7 +104,7 @@ def source_collections(root: Path, papers: list[dict]) -> list[dict]:
 
     Profiles provide reviewed page copy and stable routes. Unprofiled incoming
     attribution still appears on the hub with its recorded original links.
-    Empty profiles may advertise an original archive, never a bibliography.
+    Visible empty profiles retain their stable page and original archive link.
     """
     config = json.loads((root / "config/research_collections.json").read_text(encoding="utf-8"))
     profiles = config.get("source_collections", [])
@@ -145,8 +145,8 @@ def source_collections(root: Path, papers: list[dict]) -> list[dict]:
 
 
 def named_collection_navigation(groups: list[dict]) -> str:
-    """Only accepted collections; stable alphabetical links and original provenance."""
-    visible = sorted((g for g in groups if g["papers"] and g["profiled"]),
+    """Show configured named collections with stable, alphabetical public links."""
+    visible = sorted((g for g in groups if g["profiled"] and (g["papers"] or g.get("show_when_empty"))),
                      key=lambda g: g.get("display_label", g["label"]).casefold())
     links = ''.join('<a class="collection-link" href="/' + route(g) + '">' +
                     escape(g.get('display_label', g['label'])) +
@@ -159,11 +159,11 @@ def named_collection_navigation(groups: list[dict]) -> str:
 def source_collection_hub(groups: list[dict]) -> str:
     visible = sorted((g for g in groups if g["papers"] or g.get("show_when_empty")), key=lambda g: g.get("display_label", g["label"]).casefold())
     if not visible:
-        return '<section class="section" id="source-collections"><h2>Browse by collection</h2><p>Collection links will appear here as attributed papers are accepted into ALEX.</p></section>'
-    body = '<section class="section" id="source-collections"><h2>Browse by collection</h2><p>Explore papers by their recorded source collection, alongside the subject and investigation bibliographies.</p><ul>'
+        return '<section class="section" id="source-collections"><h2>Named collections</h2><p>Collection links will appear here as attributed papers are accepted into ALEX.</p></section>'
+    body = '<section class="section" id="source-collections"><h2>Named collections</h2><p>Explore papers by their recorded source collection, alongside the subject and investigation bibliographies.</p><ul>'
     for group in visible:
         count = len(group["papers"])
-        if count and group["profiled"]:
+        if group["profiled"] and (count or group.get("show_when_empty")):
             name = anchor(route(group), group["label"])
         elif group["archive_urls"]:
             name = f'<a href="{escape(group["archive_urls"][0], quote=True)}">{escape(group["label"])}</a>'
@@ -244,7 +244,7 @@ def layout(root: Path, title: str, description: str, path: str, body: str, struc
 <a class="skip-link" href="#main">Skip to content</a>
 {header}
 <main class="container" id="main">
-<nav class="collection-nav" aria-label="Library navigation">{anchor('#search', 'Search ALEX')} · {anchor('research/', 'Research collections')}{' · ' + anchor('research/bibliography/', 'Complete bibliography') if has_bibliography else ''}</nav>
+<nav class="collection-nav" aria-label="Library navigation">{anchor('#search', 'Search ALEX')} · {anchor('research/', 'Named collections')}{' · ' + anchor('research/bibliography/', 'Complete bibliography') if has_bibliography else ''}</nav>
 {body}
 </main>
 {footer}
@@ -357,17 +357,17 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
     editorial = load_editorial(root)
     active, notes = select_collections(papers, editorial)
     sources = source_collections(root, papers)
-    active_sources = [g for g in sources if g["papers"] and g["profiled"]]
+    active_sources = [g for g in sources if g["profiled"] and (g["papers"] or g.get("show_when_empty"))]
     report = coverage_report(papers, editorial, active)
     report["source_collections"] = [{"label": g["label"], "attribution_values": g["values"], "count": len(g["papers"]),
-                                     "path": route(g) if g["papers"] and g["profiled"] else None,
+                                     "path": route(g) if g["profiled"] and (g["papers"] or g.get("show_when_empty")) else None,
                                      "archive_urls": g["archive_urls"]} for g in sources]
     bibliography_copy = json.loads((root / "config/research_collections.json").read_text(encoding="utf-8"))["bibliography"]
     complete = {**bibliography_copy, "dimension": "corpus", "value": "Complete research bibliography", "papers": sorted(papers, key=sort_key)}
     for note in notes:
         print(note)
     outputs = {"research/coverage.json": json.dumps(report, ensure_ascii=False, indent=2) + "\n"}
-    hub = '''<section class="section"><h1>Cybercrime &amp; OSINT research collections</h1>
+    hub = '''<section class="section"><h1>Cybercrime &amp; OSINT named collections</h1>
 <p>Browse research by subject, investigative application or source collection. Research categories describe a paper’s subject; investigation types describe its investigative application. Source collections identify where papers were brought together. A paper can appear in these different views.</p>
 <p>These collections provide publication references and original source links without requiring JavaScript. For full abstracts, keyword searches and all available classifications, <a href="/#search">search the complete library</a>.</p></section>'''
     if papers:
@@ -390,13 +390,13 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
         hub += f'<p>These records remain in the {anchor(route(complete), "complete bibliography")}. Their existing assignments are preserved.</p></section>'
     if not active:
         hub += '<section class="section"><p>No topic bibliographies are currently available. Use ALEX search or the complete bibliography when available to browse the library.</p></section>'
-    outputs["research/index.html"] = layout(root, "Cybercrime & OSINT Research Collections | ALEX by RISE", "Browse ALEX research bibliographies by subject and investigative application, with publication details and links to original sources.", "research/", hub, {"@type": "CollectionPage", "name": "Cybercrime & OSINT research collections", "url": BASE + "research/"}, has_bibliography=bool(papers))
+    outputs["research/index.html"] = layout(root, "Cybercrime & OSINT Named Collections | ALEX by RISE", "Browse ALEX research bibliographies by subject and investigative application, with publication details and links to original sources.", "research/", hub, {"@type": "CollectionPage", "name": "Cybercrime & OSINT named collections", "url": BASE + "research/"}, has_bibliography=bool(papers))
     active_routes = {route(c).removeprefix("research/"): c for c in active + active_sources}
     taxonomy_routes = {(c["dimension"], c["value"]): route(c) for c in active}
     source_routes = {value: route(c) for c in active_sources for value in c["values"]}
     for collection in active + active_sources + ([complete] if papers else []):
         members = collection["papers"]
-        total = math.ceil(len(members) / PAGE_SIZE)
+        total = max(1, math.ceil(len(members) / PAGE_SIZE))
         for page in range(1, total + 1):
             path = route(collection, page)
             start = (page - 1) * PAGE_SIZE
@@ -418,9 +418,11 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
                 body += f'<p>Continuation of the {anchor(route(collection), collection["value"] + " collection")}. See the first page for its scope and research guidance.</p>'
             body += '<p>References reproduce the metadata held by ALEX. Missing author, year or source details are identified in the listing. Publication years are shown as recorded; collection and retrieval dates are not substituted. Follow the original source to verify a citation.</p></section>'
             pager = pagination(collection, page, total)
-            body += f'<section class="section" id="bibliography"><h2>Bibliography</h2><p>Showing {start + 1}–{start + len(chunk)} of {len(members):,} papers, ordered by publication year (newest first), then title.</p>{LEGEND}<p class="meta">Age markers as of {as_of.isoformat()}.</p>{pager}<ol class="bibliography" start="{start + 1}">'
+            body += f'<section class="section" id="bibliography"><h2>Bibliography</h2><p>Showing {start + 1 if members else 0}–{start + len(chunk)} of {len(members):,} papers, ordered by publication year (newest first), then title.</p>{LEGEND}<p class="meta">Age markers as of {as_of.isoformat()}.</p>{pager}<ol class="bibliography" start="{start + 1}">'
             body += '\n'.join(bibliography_item(p, taxonomy_routes if is_complete or is_source else None, source_routes, as_of) for p in chunk if not historical_only(p))
             body += '</ol>'
+            if not members:
+                body += '<p class="collection-empty">No papers accepted into ALEX yet. Accepted papers will appear here after review and publication.</p>'
             historical = [p for p in chunk if historical_only(p)]
             if historical:
                 body += f'<details class="historical-view"><summary>Historical references on this page ({len(historical)})</summary><ol class="bibliography">'

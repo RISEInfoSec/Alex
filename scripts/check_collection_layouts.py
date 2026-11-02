@@ -79,7 +79,7 @@ def verify(site: Path, report_dir: Path) -> None:
                             page.get_by_role('link', name='Go to the bibliography', exact=True).click()
                         page.screenshot(path=str(report_dir / screenshots[(path, width)]))
                     if path == '/research/' and width == 390:
-                        page.get_by_role('heading', name='Browse by collection', exact=True).scroll_into_view_if_needed()
+                        page.get_by_role('heading', name='Named collections', exact=True).scroll_into_view_if_needed()
                         page.screenshot(path=str(report_dir / 'source-directory-mobile.png'))
                     results['layouts_checked'] += 1
                 # Native HTML pagination remains usable with JavaScript off.
