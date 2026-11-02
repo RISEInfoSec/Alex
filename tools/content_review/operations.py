@@ -8,6 +8,7 @@ import copy
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 from tools.content_review.lifecycle import instant, stamp
 
 PATH='config/content_review_operations.json'
@@ -34,9 +35,12 @@ def verified_completion(automation,receipt):
     scheduled=instant(run.get('scheduled_for'));start=instant(run.get('started_at'));end=instant(run.get('completed_at'))
     if not all((scheduled,start,end)) or end<start:return None
     # Native scheduled_for must agree with the saved hourly schedule's anchor.
-    anchor=next((x.split(':',1)[1] for x in automation.get('schedule','').splitlines() if x.startswith('DTSTART:')),None)
-    if not anchor or 'FREQ=HOURLY' not in automation.get('schedule',''):return None
-    try:anchor=datetime.strptime(anchor,'%Y%m%dT%H%M%SZ').replace(tzinfo=timezone.utc)
+    line=next((x for x in automation.get('schedule','').splitlines() if x.startswith('DTSTART')),None)
+    if not line or 'FREQ=HOURLY' not in automation.get('schedule',''):return None
+    header,anchor=line.split(':',1)
+    try:
+        if anchor.endswith('Z'):anchor=datetime.strptime(anchor,'%Y%m%dT%H%M%SZ').replace(tzinfo=timezone.utc)
+        else:anchor=datetime.strptime(anchor,'%Y%m%dT%H%M%S').replace(tzinfo=ZoneInfo(header.split('TZID=',1)[1])).astimezone(timezone.utc)
     except ValueError:return None
     if scheduled<anchor or int((scheduled-anchor).total_seconds())%3600!=0:return None
     if instant(receipt.get('scheduled_for'))!=scheduled:return None
