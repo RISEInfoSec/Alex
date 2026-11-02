@@ -61,7 +61,7 @@ def check_target(row):
     # Rebuild the current publisher input from either the classified-row shape
     # used by earlier requests or the publisher's supported public-paper shape.
     value={k:target_value(t,k) for k in ('title','authors','year','doi','source_url','abstract','venue','collection_source','collection_url')}
-    value['retrieved_at']=row['schema_retrieved_at'] or target_value(t,'retrieved_at');value.update(tags)
+    value['retrieved_at']=row['schema_retrieved_at'];value.update(tags)
     value['OSINT_Source_Types']='; '.join(tags['OSINT_Source_Types']);value['citation_count']=t.get('citation_count')
     q=row['preflight']['checks']['quality']['evidence']
     value['total_quality_score']=t.get('total_quality_score',q['quality_score'])
