@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "owner": "codex-content-review-worker",
-    "run_id": "1eec0b63-209c-8327-838c-69a03ba2f447",
-    "acquired_at": "2026-11-02T22:14:16.606Z",
-    "expires_at": "2026-11-02T22:44:16.606Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -34,8 +29,8 @@
   },
   "global_deficit": 249,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-02T22:07:19.405Z",
-  "last_action": "Reconciled live approvals first (62 submissions, 927 decisions, 598 immutable jobs); no new eligible Include decision was found. Synced the 385-record lifecycle ledger, then completed exact-source format, access, and metadata checks for weekly-250dd6cfa359991d1db168d1. The candidate remains outside review on separate duplicate and schema holds. Lease released in the run checkpoint.",
+  "last_completed_at": "2026-11-02T22:16:56.666Z",
+  "last_action": "Reconciled 62 completed submissions, 927 decisions and 598 immutable jobs; no new eligible Include decision was present. Repaired the registered weekly manifest after a literal connector truncation marker made it invalid JSON, restored the complete intended blob, and then synchronized all 385 lifecycle records. No candidate source request was made and the prior HVE check was not repeated. Native terminal completion remains unverified until a later scheduler observation.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -140,8 +135,8 @@
     "completed_assessment_jobs": 75,
     "completed_corpus_removal_jobs": 491,
     "remaining_immutable_jobs": 31,
-    "verified_at": "2026-11-02T22:05:00.000Z",
-    "reuse_basis": "Live D1 totals and tail rows reconciled before preparation. No newly completed eligible Include decision was present; no publication action was due.",
+    "verified_at": "2026-11-02T22:15:12.000Z",
+    "reuse_basis": "Live D1 counts and tail rows were read after verified lease acquisition. No new eligible Include decision or publication action was due.",
     "server_payload_hashes_observed": 62,
     "new_submission_raw_payload_rehash_available": false
   },
@@ -172,36 +167,29 @@
     "reason": "The checked HVE candidate passed exact-source format, access, and metadata checks but remains held by an unresolved fresh duplicate match and incomplete taxonomy/target serialization. No nominal buffer credit."
   },
   "last_run_checkpoint": {
-    "verified_at": "2026-11-02T22:07:19.405Z",
-    "scope": "native_scheduler_reconciliation_lifecycle_sync_and_one_due_source_check",
-    "native_run_id": "6f9ea16b-6774-8324-8df1-7474462a0c38",
-    "scheduled_for": "2026-11-02T22:00:00Z",
+    "verified_at": "2026-11-02T22:16:56.666Z",
+    "scope": "scheduled_recovery_verification_and_manifest_repair",
+    "native_run_id": "1eec0b63-209c-8327-838c-69a03ba2f447",
+    "scheduled_for": "2026-11-02T22:15:00Z",
     "native_status_observed": "in_progress",
     "native_terminal_completion_claimed": false,
+    "application_status": "complete",
     "d1_completed_submissions": 62,
     "d1_decisions": 927,
     "d1_jobs": 598,
     "lifecycle_records": 385,
     "lifecycle_ready": 8,
-    "due_candidate_checked": "weekly-250dd6cfa359991d1db168d1",
-    "completed_checks": [
-      "format",
-      "access",
-      "metadata"
-    ],
-    "remaining_holds": [
-      "duplicates",
-      "schema"
-    ],
+    "candidate_checks": 0,
     "new_ready": 0,
     "new_batches": 0,
-    "source_requests": 1,
+    "source_requests": 0,
     "paid_requests": 0,
     "openalex_requests": 0,
-    "public_corpus_modified": false,
-    "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json"
+    "manifest_repair": "config/weekly_review_manifest.json",
+    "receipt": "config/content_review_run_receipts/1eec0b63-209c-8327-838c-69a03ba2f447.json",
+    "public_corpus_modified": false
   },
-  "checkpointed_at": "2026-11-02T22:07:19.405Z",
+  "checkpointed_at": "2026-11-02T22:16:56.666Z",
   "source_backoff": {
     "OpenAlex": {
       "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
@@ -502,11 +490,11 @@
   "scheduling_status": {
     "automation_id": "Automation_0ff7fb9b800481919b48ddb2593b8f88",
     "is_enabled": true,
-    "observed_at": "2026-11-02T22:12:48.203Z",
-    "source": "Native scheduler re-enabled for bounded 17:15 recovery verification; prior scheduled attempt failed after successful application work.",
-    "expected_next_run_at": "2026-11-02T22:15:00Z",
-    "last_native_run_id": "6f9ea16b-6774-8324-8df1-7474462a0c38",
-    "last_native_result": "failed",
+    "observed_at": "2026-11-02T22:14:35.719297+00:00",
+    "source": "Native 17:15 Toronto recovery run independently observed in progress; application receipt persisted, terminal result pending later verification.",
+    "expected_next_run_at": "2026-11-02T23:15:00+00:00",
+    "last_native_run_id": "1eec0b63-209c-8327-838c-69a03ba2f447",
+    "last_native_result": "in_progress",
     "unattended_recovery_verified": false,
     "health_snapshot": "config/content_review_operations.json"
   },
