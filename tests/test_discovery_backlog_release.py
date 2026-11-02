@@ -28,6 +28,30 @@ def test_blocks_changed_held_or_unauthorized_records(defect):
     if defect=='approval':row['authorization']={'route':'human_approved','decision':'pending','submission':{}}
     with pytest.raises(ValueError):runner.check_record(row,WEIGHTS)
 
+def test_receipt_replay_repairs_public_payload_into_classified_row(tmp_path):
+    data=copy.deepcopy(AUTO_DATA);data['records']=data['records'][:1];data['records_sha256']=runner.digest(data['records'])
+    row=data['records'][0];target=row['target']
+    manifest=tmp_path/'manifest.json';manifest.write_text(json.dumps(data))
+    fields=['title','authors','abstract','Category','Investigation_Type','OSINT_Source_Types',
+        'total_quality_score','review_candidate_id','review_content_sha256','author','summary']
+    broken={k:'' for k in fields};broken.update(title=target['title'],author=target['author'],
+        summary=target['summary'],review_candidate_id=row['candidate_id'],
+        review_content_sha256=row['content_sha256'])
+    corpus=tmp_path/'corpus.csv'
+    with corpus.open('w',newline='') as stream:
+        writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader();writer.writerow(broken)
+    receipt=tmp_path/'receipt.json';receipt.write_text(json.dumps({
+        'release_id':data['release_id'],'records_sha256':data['records_sha256'],
+        'released':[{'candidate_id':row['candidate_id'],'content_sha256':row['content_sha256']}],
+        'held':[]}))
+    exclusions=tmp_path/'exclusions.json';exclusions.write_text('{"schema_version":1,"records":[]}')
+    result=runner.release(manifest,corpus,receipt,exclusions,WEIGHTS,write=True)
+    fixed=next(csv.DictReader(corpus.open()))
+    assert result['records_repaired']==1
+    assert fixed['authors']==target['author'] and fixed['abstract']==target['summary']
+    assert fixed['Category']==target['category']
+    assert runner.release(manifest,corpus,receipt,exclusions,WEIGHTS,write=True)['records_repaired']==0
+
 def test_source_failure_does_not_block_peer_and_release_is_idempotent(tmp_path,monkeypatch):
     data=copy.deepcopy(DATA);data['records']=data['records'][:2];data['records_sha256']=runner.digest(data['records'])
     manifest=tmp_path/'manifest.json';manifest.write_text(json.dumps(data))
