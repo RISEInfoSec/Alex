@@ -1,4 +1,5 @@
 name: Pages
+run-name: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.name == 'Private deletion publication' && format('Deletion deployment after run {0}', github.event.workflow_run.id) || github.workflow }}
 on:
   push:
     branches: [ main ]
@@ -11,7 +12,7 @@ on:
   # (The full `Pipeline` workflow handles its own deploy job and doesn't
   # need this trigger.)
   workflow_run:
-    workflows: ["Publish assets", "APWG approved release", "Rebuild site assets", "Content Review approved release", "Completed review decisions release", "Approved Content Review publication"]
+    workflows: ["Publish assets", "APWG approved release", "Rebuild site assets", "Content Review approved release", "Completed review decisions release", "Approved Content Review publication", "Private deletion publication"]
     types: [completed]
     branches: [main]
 permissions:
@@ -51,4 +52,5 @@ jobs:
         with:
           path: _site
       - uses: actions/deploy-pages@v5.0.1
+
 

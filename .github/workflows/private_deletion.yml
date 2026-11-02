@@ -1,0 +1,47 @@
+name: Private deletion publication
+run-name: Private deletion ${{ inputs.request_id }}
+on:
+  workflow_dispatch:
+    inputs:
+      request_id:
+        description: Opaque confirmed private decision ID
+        required: true
+      identity:
+        description: Public bibliographic identity
+        required: true
+      reviewed_hash:
+        description: SHA-256 of the reviewed public bibliographic content
+        required: true
+permissions:
+  contents: write
+concurrency:
+  group: private-deletion-publication
+  cancel-in-progress: false
+jobs:
+  remove:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: main
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Apply the exact confirmed deletion and rebuild public outputs
+        env:
+          DELETION_REQUEST_ID: ${{ inputs.request_id }}
+          DELETION_IDENTITY: ${{ inputs.identity }}
+          DELETION_REVIEWED_HASH: ${{ inputs.reviewed_hash }}
+        run: |
+          python scripts/publish_private_deletion.py --request-id "$DELETION_REQUEST_ID" --identity "$DELETION_IDENTITY" --reviewed-hash "$DELETION_REVIEWED_HASH"
+          python -m alex.cli publish
+          python scripts/stage_site.py
+      - name: Commit the exclusion, corpus, receipt and rebuilt collections together
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/accepted_classified.csv data/papers.json data/osint_cyber_papers.csv data/deletion_receipts.json config/corpus_exclusions.json research sitemap.xml
+          git diff --cached --quiet || git commit -m "Publish confirmed private record deletion"
+          git push origin HEAD:main

@@ -31,9 +31,9 @@ def stage(root: Path, destination: Path) -> None:
     for name in ("alex-social-preview-1200x630.png", "collections.css", "research-context.css", "research-context.js", "record-actions.css", "record-actions.js"):
         shutil.copy2(root / "assets" / name, destination / "assets" / name)
     (destination / "data").mkdir()
-    for name in ("papers.json", "osint_cyber_papers.csv", "collection_status.json"):
+    for name in ("papers.json", "osint_cyber_papers.csv", "collection_status.json", "deletion_receipts.json"):
         source = root / "data" / name
-        if name == "collection_status.json" and not source.exists():
+        if name in ("collection_status.json", "deletion_receipts.json") and not source.exists():
             continue
         shutil.copy2(source, destination / "data" / name)
     check(destination, source_root=root)
