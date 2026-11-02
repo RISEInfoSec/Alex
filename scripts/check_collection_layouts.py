@@ -58,7 +58,13 @@ def verify(site: Path, report_dir: Path) -> None:
                     assert page.locator('h1').count() == 1, path
                     assert page.locator('main').count() == 1, path
                     assert page.locator('body').evaluate('(e) => document.documentElement.scrollWidth <= innerWidth'), f'Horizontal overflow: {width}px {path}'
-                    assert page.locator('script:not([type="application/ld+json"])').count() == 0, path
+                    if path == '/research/new-publications/':
+                        # The bibliography is complete with JS disabled. Only the
+                        # reviewed date-window enhancement is allowed here.
+                        assert page.locator('script:not([type="application/ld+json"]):not([src="/assets/publication-window.js"])').count() == 0, path
+                        assert page.locator('[data-publication-date]').count() == int(page.locator('#new-publication-count').inner_text())
+                    else:
+                        assert page.locator('script:not([type="application/ld+json"])').count() == 0, path
                     assert page.locator('img').evaluate_all('(images) => images.every(image => image.hasAttribute("alt") && image.alt.length > 0)'), path
                     assert page.locator('nav[aria-label="Library navigation"] a').count() == 3, path
                     for nav in page.locator('nav[aria-label="Bibliography pages"]').all():
@@ -103,8 +109,10 @@ def verify(site: Path, report_dir: Path) -> None:
                 assert collections['y'] >= filters['y'] + filters['height']
                 assert result_heading['y'] >= collections['y'] + collections['height']
                 if width == 1440:
-                    boxes = page.locator('.collection-link').all()
-                    assert sum(box.bounding_box()['width'] for box in boxes) < filters['width'] / 2
+                    boxes = page.locator('.named-collections .collection-link').all()
+                    assert all(box.bounding_box()['width'] <= collections['width'] for box in boxes)
+                    new_button = page.get_by_role('link', name='New publications', exact=False).bounding_box()
+                    assert new_button and new_button['y'] + new_button['height'] <= collections['y'] + 2
                 page.screenshot(path=str(report_dir / f'homepage-{width}.png'))
             page.locator('#search').fill(papers[0]['title'])
             page.locator('#search').press('Enter')
