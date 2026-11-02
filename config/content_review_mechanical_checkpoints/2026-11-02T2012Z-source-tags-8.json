@@ -1,0 +1,1142 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-02T20:12:00.000Z",
+  "scope": "resolve_remaining_source_tag_holds_and_route",
+  "preserved_initial_weekly_identities": 4041,
+  "new_arrivals": 0,
+  "source_documents_reused": 8,
+  "source_requests": 0,
+  "paid_requests": 0,
+  "paid_tokens": 0,
+  "resolved": [
+    {
+      "source_row": 57,
+      "candidate_id": "weekly-6453882b45c03832307a3619",
+      "content_sha256": "b13863f82ac516856a4f243e3b78e52005ddaecf60105317a28f748fdd217d5f",
+      "route": "automatic",
+      "recommendation": "include",
+      "relevance": "supporting",
+      "correction": {
+        "schema_version": 1,
+        "created_at": "2026-11-02T20:10:02.449698+00:00",
+        "collection": "weekly",
+        "candidate_id": "weekly-6453882b45c03832307a3619",
+        "content_sha256": "b13863f82ac516856a4f243e3b78e52005ddaecf60105317a28f748fdd217d5f",
+        "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+        "paid_response_id": "resp_0ba0bde6771db244016ae4e89a5a3c87d092a16bbd494ad30a",
+        "original_classification": {
+          "Category": "AI/ML for Security",
+          "Investigation_Type": "Incident Response",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "News Media",
+            "Other"
+          ]
+        },
+        "source_document_sha256": "d8c714c775e7770cb35004e9aabef00be5c2e48e90731e70645ffa2bf162224e",
+        "source_document_url": "https://arxiv.org/pdf/2604.19914",
+        "proposed_source_types": [
+          "Public Records",
+          "Other"
+        ],
+        "supported_tags": {
+          "Public Records": {
+            "section": "Abstract; autonomous-vehicle case study",
+            "evidence": "The case study uses mandatory autonomous-vehicle incident reports and distance-travelled ground truth."
+          },
+          "Other": {
+            "section": "Abstract; incident-monitoring framework and case studies",
+            "evidence": "The study combines AI incident databases, domain-expert phase determinations, and statistical/visualization tools, including a deepfake case study."
+          }
+        },
+        "removed_tag_reasons": {
+          "News Media": "The complete abstract does not identify news-media material as a study data source."
+        },
+        "material_inspected": "Hash-bound original paper and complete arXiv abstract, including the reported autonomous-vehicle and deepfake data-source descriptions; no full scientific critique.",
+        "no_source_type_basis": null,
+        "evidence_status": "verified",
+        "scope": "OSINT_Source_Types only; source-content correction, not another paid response",
+        "correction_id": "af07de2bb57a180f1fdc9b684740517224de57db7979b8c2b0ed6be1f899d256"
+      },
+      "receipt": {
+        "schema_version": 1,
+        "correction_id": "af07de2bb57a180f1fdc9b684740517224de57db7979b8c2b0ed6be1f899d256",
+        "candidate_id": "weekly-6453882b45c03832307a3619",
+        "content_sha256": "b13863f82ac516856a4f243e3b78e52005ddaecf60105317a28f748fdd217d5f",
+        "applied_at": "2026-11-02T20:10:02.449606+00:00",
+        "before": {
+          "Category": "AI/ML for Security",
+          "Investigation_Type": "Incident Response",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "News Media",
+            "Other"
+          ]
+        },
+        "after": {
+          "Category": "AI/ML for Security",
+          "Investigation_Type": "Incident Response",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "Other"
+          ]
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-11-02T20:10:02.449606+00:00",
+          "content_sha256": "b13863f82ac516856a4f243e3b78e52005ddaecf60105317a28f748fdd217d5f",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "610f2a20312f702dd402e8b0edacbb4e6de23fe82bf4c4813d76303581728dbe",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:31.538255+00:00",
+              "content_sha256": "b13863f82ac516856a4f243e3b78e52005ddaecf60105317a28f748fdd217d5f",
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Incident Response",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "Other"
+                  ]
+                },
+                "response_id": "resp_0ba0bde6771db244016ae4e89a5a3c87d092a16bbd494ad30a",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 616,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 32,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 648
+                },
+                "uncertainty_flags": [],
+                "classification_origin": "source_evidence_correction",
+                "original_paid_classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Incident Response",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "News Media",
+                    "Other"
+                  ]
+                },
+                "correction_id": "af07de2bb57a180f1fdc9b684740517224de57db7979b8c2b0ed6be1f899d256"
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+              "source_correction_applied_at": "2026-11-02T20:10:02.449606+00:00"
+            },
+            "source_correction_id": "af07de2bb57a180f1fdc9b684740517224de57db7979b8c2b0ed6be1f899d256",
+            "source_document_sha256": "d8c714c775e7770cb35004e9aabef00be5c2e48e90731e70645ffa2bf162224e",
+            "original_paid_target_sha256": "c0c12e7c54831b63b60062561f816eb89b656b2e6f4617466844d8b9414029e3",
+            "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+          }
+        },
+        "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+        "paid_response_id": "resp_0ba0bde6771db244016ae4e89a5a3c87d092a16bbd494ad30a",
+        "additional_paid_requests": 0,
+        "corpus_modified": false,
+        "publication_approved": false
+      },
+      "binding": {
+        "candidate_id": "weekly-6453882b45c03832307a3619",
+        "content_sha256": "b13863f82ac516856a4f243e3b78e52005ddaecf60105317a28f748fdd217d5f",
+        "recommendation": "include",
+        "relevance": "supporting"
+      }
+    },
+    {
+      "source_row": 382,
+      "candidate_id": "weekly-470970e7b01ad6576a8c2e74",
+      "content_sha256": "45f9769560ec2feb9ca823f8e9455bd30052fe92a2f8092fe5e3d6d68e658af3",
+      "route": "automatic",
+      "recommendation": "include",
+      "relevance": "supporting",
+      "correction": null,
+      "receipt": {
+        "schema_version": 1,
+        "candidate_id": "weekly-470970e7b01ad6576a8c2e74",
+        "content_sha256": "45f9769560ec2feb9ca823f8e9455bd30052fe92a2f8092fe5e3d6d68e658af3",
+        "applied_at": "2026-11-02T20:10:02.449606+00:00",
+        "classification_changed": false,
+        "after": {
+          "Category": "AI/ML for Security",
+          "Investigation_Type": "Other",
+          "OSINT_Source_Types": [
+            "Other"
+          ]
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-11-02T20:10:02.449606+00:00",
+          "content_sha256": "45f9769560ec2feb9ca823f8e9455bd30052fe92a2f8092fe5e3d6d68e658af3",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "27e736d9baeeea9384c13aa5bd0890609addb2fea95fd8ae40d4a1fd6c47432f",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:32.359649+00:00",
+              "content_sha256": "45f9769560ec2feb9ca823f8e9455bd30052fe92a2f8092fe5e3d6d68e658af3",
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Other",
+                  "OSINT_Source_Types": [
+                    "Other"
+                  ]
+                },
+                "response_id": "resp_0071eba0e028148a016ae4e89bb17887d08853bcf87126050d",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 629,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 25,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 654
+                },
+                "uncertainty_flags": [
+                  "Investigation_Type_other"
+                ]
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111205240,
+            "source_support_verification": {
+              "source_document_sha256": "40513557c4a62e67ff6acb73e412aca8630001be95f3ad0cd0c64f5351330cf5",
+              "source_document_url": "https://arxiv.org/pdf/2604.21679v1",
+              "supported_tags": {
+                "Other": {
+                  "section": "Abstract; six-month embedded ethnographic fieldwork",
+                  "evidence": "Two researchers conducted six months of ethnographic fieldwork inside a multinational company SOC and co-created LLM tools with practitioners."
+                }
+              },
+              "material_inspected": "Hash-bound original paper and complete arXiv abstract describing the six-month SOC ethnography and practitioner co-creation; no full scientific critique.",
+              "verified_at": "2026-11-02T20:10:02.449606+00:00",
+              "classification_changed": false,
+              "paid_evidence_reused": true
+            }
+          },
+          "revalidated_at": "2026-10-30T19:04:08.068444+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:56:11.400870+00:00",
+            "content_sha256": "45f9769560ec2feb9ca823f8e9455bd30052fe92a2f8092fe5e3d6d68e658af3",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
+        },
+        "additional_paid_requests": 0,
+        "corpus_modified": false,
+        "publication_approved": false
+      },
+      "binding": {
+        "candidate_id": "weekly-470970e7b01ad6576a8c2e74",
+        "content_sha256": "45f9769560ec2feb9ca823f8e9455bd30052fe92a2f8092fe5e3d6d68e658af3",
+        "recommendation": "include",
+        "relevance": "supporting"
+      }
+    },
+    {
+      "source_row": 530,
+      "candidate_id": "weekly-046901143dafd1530a38b025",
+      "content_sha256": "86a90cc8f6057895d5ed9e977ef316839590aa7a1ce3637e3f9adf8942553ede",
+      "route": "automatic",
+      "recommendation": "include",
+      "relevance": "direct",
+      "correction": {
+        "schema_version": 1,
+        "created_at": "2026-11-02T20:10:02.485838+00:00",
+        "collection": "weekly",
+        "candidate_id": "weekly-046901143dafd1530a38b025",
+        "content_sha256": "86a90cc8f6057895d5ed9e977ef316839590aa7a1ce3637e3f9adf8942553ede",
+        "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+        "paid_response_id": "resp_008efd05d5b8f8fe016ae4e89c872087d08b420469dbbe7ebf",
+        "original_classification": {
+          "Category": "Privacy & Surveillance",
+          "Investigation_Type": "Vulnerability Assessment",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "Government Data",
+            "News Media"
+          ]
+        },
+        "source_document_sha256": "e7261cbd5a9c1301965697cf585701775b495878ab598a018d977c60fe29cbbe",
+        "source_document_url": "https://arxiv.org/pdf/2604.23538v1",
+        "proposed_source_types": [
+          "Public Records",
+          "Government Data"
+        ],
+        "supported_tags": {
+          "Public Records": {
+            "section": "Abstract; exposed-record search study",
+            "evidence": "The study identifies publicly indexed Thai National Identification Numbers and associated personal records through major search engines."
+          },
+          "Government Data": {
+            "section": "Abstract; source-sector analysis",
+            "evidence": "The analysis attributes a large majority of exposed records to Thai government-sector websites."
+          }
+        },
+        "removed_tag_reasons": {
+          "News Media": "The complete abstract identifies search-engine results and government websites, not news-media reporting, as the analyzed evidence."
+        },
+        "material_inspected": "Hash-bound original paper and complete arXiv abstract describing search-engine collection and government-site attribution; no full scientific critique.",
+        "no_source_type_basis": null,
+        "evidence_status": "verified",
+        "scope": "OSINT_Source_Types only; source-content correction, not another paid response",
+        "correction_id": "3387931016824b9cc603d761b1894c452419179899b218b8da0b9db563d5f97d"
+      },
+      "receipt": {
+        "schema_version": 1,
+        "correction_id": "3387931016824b9cc603d761b1894c452419179899b218b8da0b9db563d5f97d",
+        "candidate_id": "weekly-046901143dafd1530a38b025",
+        "content_sha256": "86a90cc8f6057895d5ed9e977ef316839590aa7a1ce3637e3f9adf8942553ede",
+        "applied_at": "2026-11-02T20:10:02.449606+00:00",
+        "before": {
+          "Category": "Privacy & Surveillance",
+          "Investigation_Type": "Vulnerability Assessment",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "Government Data",
+            "News Media"
+          ]
+        },
+        "after": {
+          "Category": "Privacy & Surveillance",
+          "Investigation_Type": "Vulnerability Assessment",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "Government Data"
+          ]
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-11-02T20:10:02.449606+00:00",
+          "content_sha256": "86a90cc8f6057895d5ed9e977ef316839590aa7a1ce3637e3f9adf8942553ede",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "0da21e5a0a9cc1095c89aff294f2fca44b3f7fe2958bc4765266fbf5bf88a0d2",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:33.806904+00:00",
+              "content_sha256": "86a90cc8f6057895d5ed9e977ef316839590aa7a1ce3637e3f9adf8942553ede",
+              "evidence": {
+                "classification": {
+                  "Category": "Privacy & Surveillance",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "Government Data"
+                  ]
+                },
+                "response_id": "resp_008efd05d5b8f8fe016ae4e89c872087d08b420469dbbe7ebf",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 666,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 32,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 698
+                },
+                "uncertainty_flags": [],
+                "classification_origin": "source_evidence_correction",
+                "original_paid_classification": {
+                  "Category": "Privacy & Surveillance",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "Government Data",
+                    "News Media"
+                  ]
+                },
+                "correction_id": "3387931016824b9cc603d761b1894c452419179899b218b8da0b9db563d5f97d"
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+              "source_correction_applied_at": "2026-11-02T20:10:02.449606+00:00"
+            },
+            "source_correction_id": "3387931016824b9cc603d761b1894c452419179899b218b8da0b9db563d5f97d",
+            "source_document_sha256": "e7261cbd5a9c1301965697cf585701775b495878ab598a018d977c60fe29cbbe",
+            "original_paid_target_sha256": "07c750ea5246bb278c5f3aab0ac211c43b66c0628d104e53b2c9ef34d25765e0",
+            "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+          }
+        },
+        "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+        "paid_response_id": "resp_008efd05d5b8f8fe016ae4e89c872087d08b420469dbbe7ebf",
+        "additional_paid_requests": 0,
+        "corpus_modified": false,
+        "publication_approved": false
+      },
+      "binding": {
+        "candidate_id": "weekly-046901143dafd1530a38b025",
+        "content_sha256": "86a90cc8f6057895d5ed9e977ef316839590aa7a1ce3637e3f9adf8942553ede",
+        "recommendation": "include",
+        "relevance": "direct"
+      }
+    },
+    {
+      "source_row": 928,
+      "candidate_id": "weekly-1ebb909dbfa6a77d51ef8911",
+      "content_sha256": "b6440069c5bb070dab822b6526364c92be133589dee1d37e83f4560fc3ae1f0b",
+      "route": "automatic",
+      "recommendation": "include",
+      "relevance": "supporting",
+      "correction": {
+        "schema_version": 1,
+        "created_at": "2026-11-02T20:10:02.494560+00:00",
+        "collection": "weekly",
+        "candidate_id": "weekly-1ebb909dbfa6a77d51ef8911",
+        "content_sha256": "b6440069c5bb070dab822b6526364c92be133589dee1d37e83f4560fc3ae1f0b",
+        "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+        "paid_response_id": "resp_0eef2817fb5752a3016ae4e8a4c87087d08823ebb81bfc109d",
+        "original_classification": {
+          "Category": "Cyber Threat Intelligence",
+          "Investigation_Type": "Vulnerability Assessment",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "Corporate Records",
+            "Other"
+          ]
+        },
+        "source_document_sha256": "7f488a709ad1eb74e9099078cf7cd3f030517161f3cd5cb7d0cd7f4a56010c21",
+        "source_document_url": "https://arxiv.org/pdf/2605.07515v1",
+        "proposed_source_types": [
+          "Public Records",
+          "Corporate Records"
+        ],
+        "supported_tags": {
+          "Public Records": {
+            "section": "Abstract; evaluation design",
+            "evidence": "The framework evaluates policy evidence against 1,007 NIST SP 800-53 controls."
+          },
+          "Corporate Records": {
+            "section": "Abstract; evaluation corpora",
+            "evidence": "The evaluation uses two real-world organizational cybersecurity-policy corpora."
+          }
+        },
+        "removed_tag_reasons": {
+          "Other": "The reported evaluation inputs are specifically organizational policy records and NIST controls; no additional residual evidence source is established."
+        },
+        "material_inspected": "Hash-bound original paper and complete arXiv abstract identifying the two policy corpora and NIST control set; no full scientific critique.",
+        "no_source_type_basis": null,
+        "evidence_status": "verified",
+        "scope": "OSINT_Source_Types only; source-content correction, not another paid response",
+        "correction_id": "db1ad58cd99d0248759074114c19cd5502720fb51cd197501c001aa81d9cba1c"
+      },
+      "receipt": {
+        "schema_version": 1,
+        "correction_id": "db1ad58cd99d0248759074114c19cd5502720fb51cd197501c001aa81d9cba1c",
+        "candidate_id": "weekly-1ebb909dbfa6a77d51ef8911",
+        "content_sha256": "b6440069c5bb070dab822b6526364c92be133589dee1d37e83f4560fc3ae1f0b",
+        "applied_at": "2026-11-02T20:10:02.449606+00:00",
+        "before": {
+          "Category": "Cyber Threat Intelligence",
+          "Investigation_Type": "Vulnerability Assessment",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "Corporate Records",
+            "Other"
+          ]
+        },
+        "after": {
+          "Category": "Cyber Threat Intelligence",
+          "Investigation_Type": "Vulnerability Assessment",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "Corporate Records"
+          ]
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-11-02T20:10:02.449606+00:00",
+          "content_sha256": "b6440069c5bb070dab822b6526364c92be133589dee1d37e83f4560fc3ae1f0b",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "d7552513c0cdab16d92a838389b70634e4ddce313c8206af8d6f861dda5fb188",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:42.162462+00:00",
+              "content_sha256": "b6440069c5bb070dab822b6526364c92be133589dee1d37e83f4560fc3ae1f0b",
+              "evidence": {
+                "classification": {
+                  "Category": "Cyber Threat Intelligence",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "Corporate Records"
+                  ]
+                },
+                "response_id": "resp_0eef2817fb5752a3016ae4e8a4c87087d08823ebb81bfc109d",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 595,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 31,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 626
+                },
+                "uncertainty_flags": [],
+                "classification_origin": "source_evidence_correction",
+                "original_paid_classification": {
+                  "Category": "Cyber Threat Intelligence",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "Corporate Records",
+                    "Other"
+                  ]
+                },
+                "correction_id": "db1ad58cd99d0248759074114c19cd5502720fb51cd197501c001aa81d9cba1c"
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+              "source_correction_applied_at": "2026-11-02T20:10:02.449606+00:00"
+            },
+            "source_correction_id": "db1ad58cd99d0248759074114c19cd5502720fb51cd197501c001aa81d9cba1c",
+            "source_document_sha256": "7f488a709ad1eb74e9099078cf7cd3f030517161f3cd5cb7d0cd7f4a56010c21",
+            "original_paid_target_sha256": "9c7dd39ddd18027e830255417903385215aee3f676197b892428095af075173f",
+            "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+          }
+        },
+        "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+        "paid_response_id": "resp_0eef2817fb5752a3016ae4e8a4c87087d08823ebb81bfc109d",
+        "additional_paid_requests": 0,
+        "corpus_modified": false,
+        "publication_approved": false
+      },
+      "binding": {
+        "candidate_id": "weekly-1ebb909dbfa6a77d51ef8911",
+        "content_sha256": "b6440069c5bb070dab822b6526364c92be133589dee1d37e83f4560fc3ae1f0b",
+        "recommendation": "include",
+        "relevance": "supporting"
+      }
+    },
+    {
+      "source_row": 931,
+      "candidate_id": "weekly-11d5c162e2498f7ab097e44c",
+      "content_sha256": "ef17240642870a1921518c5a79bafbd9c95fc59b1d39071ff6ef9a21a48fb65b",
+      "route": "automatic",
+      "recommendation": "include",
+      "relevance": "direct",
+      "correction": {
+        "schema_version": 1,
+        "created_at": "2026-11-02T20:10:02.503029+00:00",
+        "collection": "weekly",
+        "candidate_id": "weekly-11d5c162e2498f7ab097e44c",
+        "content_sha256": "ef17240642870a1921518c5a79bafbd9c95fc59b1d39071ff6ef9a21a48fb65b",
+        "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+        "paid_response_id": "resp_0d98183247d8db53016ae4e8a7637887d0818fb56648168936",
+        "original_classification": {
+          "Category": "Network & Infrastructure Security",
+          "Investigation_Type": "Vulnerability Assessment",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "Other"
+          ]
+        },
+        "source_document_sha256": "fce08c7658e0393e9453fef2fc5a8a5a87c214e90e90b28c77f85f34e0b380da",
+        "source_document_url": "https://arxiv.org/pdf/2605.05531v1",
+        "proposed_source_types": [
+          "Other"
+        ],
+        "supported_tags": {
+          "Other": {
+            "section": "Abstract; SETC experimental methodology",
+            "evidence": "The study generates reproducible exploit scenarios and telemetry in containerized environments for 50 remote-code-execution vulnerabilities across CIM, OCSF, and ECS."
+          }
+        },
+        "removed_tag_reasons": {
+          "Public Records": "Published logging schemas are standards under test, while the reported empirical evidence is generated exploit telemetry rather than an official public-record dataset."
+        },
+        "material_inspected": "Hash-bound original paper and complete arXiv abstract describing the SETC experiments and generated telemetry; no full scientific critique.",
+        "no_source_type_basis": null,
+        "evidence_status": "verified",
+        "scope": "OSINT_Source_Types only; source-content correction, not another paid response",
+        "correction_id": "e6b16e7d30eb463bb9d60f3a97ec35e29cd9a0dc9bef1f5177bf3e78cb2ac4b4"
+      },
+      "receipt": {
+        "schema_version": 1,
+        "correction_id": "e6b16e7d30eb463bb9d60f3a97ec35e29cd9a0dc9bef1f5177bf3e78cb2ac4b4",
+        "candidate_id": "weekly-11d5c162e2498f7ab097e44c",
+        "content_sha256": "ef17240642870a1921518c5a79bafbd9c95fc59b1d39071ff6ef9a21a48fb65b",
+        "applied_at": "2026-11-02T20:10:02.449606+00:00",
+        "before": {
+          "Category": "Network & Infrastructure Security",
+          "Investigation_Type": "Vulnerability Assessment",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "Other"
+          ]
+        },
+        "after": {
+          "Category": "Network & Infrastructure Security",
+          "Investigation_Type": "Vulnerability Assessment",
+          "OSINT_Source_Types": [
+            "Other"
+          ]
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-11-02T20:10:02.449606+00:00",
+          "content_sha256": "ef17240642870a1921518c5a79bafbd9c95fc59b1d39071ff6ef9a21a48fb65b",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "da15c6455289f5f7f49149ff590ea0cbe0bed72bda0ff62b69f3631ff33395ce",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:44.154253+00:00",
+              "content_sha256": "ef17240642870a1921518c5a79bafbd9c95fc59b1d39071ff6ef9a21a48fb65b",
+              "evidence": {
+                "classification": {
+                  "Category": "Network & Infrastructure Security",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": [
+                    "Other"
+                  ]
+                },
+                "response_id": "resp_0d98183247d8db53016ae4e8a7637887d0818fb56648168936",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 584,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 29,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 613
+                },
+                "uncertainty_flags": [],
+                "classification_origin": "source_evidence_correction",
+                "original_paid_classification": {
+                  "Category": "Network & Infrastructure Security",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "Other"
+                  ]
+                },
+                "correction_id": "e6b16e7d30eb463bb9d60f3a97ec35e29cd9a0dc9bef1f5177bf3e78cb2ac4b4"
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+              "source_correction_applied_at": "2026-11-02T20:10:02.449606+00:00"
+            },
+            "source_correction_id": "e6b16e7d30eb463bb9d60f3a97ec35e29cd9a0dc9bef1f5177bf3e78cb2ac4b4",
+            "source_document_sha256": "fce08c7658e0393e9453fef2fc5a8a5a87c214e90e90b28c77f85f34e0b380da",
+            "original_paid_target_sha256": "68dccca1b8411ed0a10298ef72406bf8a9e35b4062decd93c1403c1a3e84a238",
+            "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+          }
+        },
+        "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+        "paid_response_id": "resp_0d98183247d8db53016ae4e8a7637887d0818fb56648168936",
+        "additional_paid_requests": 0,
+        "corpus_modified": false,
+        "publication_approved": false
+      },
+      "binding": {
+        "candidate_id": "weekly-11d5c162e2498f7ab097e44c",
+        "content_sha256": "ef17240642870a1921518c5a79bafbd9c95fc59b1d39071ff6ef9a21a48fb65b",
+        "recommendation": "include",
+        "relevance": "direct"
+      }
+    },
+    {
+      "source_row": 933,
+      "candidate_id": "weekly-fcf6c86ebbdd6bf61faa6304",
+      "content_sha256": "4523ac130590c5d28fc236fbff99a4020c0d46cfe1deb74f9b3db81d1e289528",
+      "route": "automatic",
+      "recommendation": "include",
+      "relevance": "direct",
+      "correction": {
+        "schema_version": 1,
+        "created_at": "2026-11-02T20:10:02.510287+00:00",
+        "collection": "weekly",
+        "candidate_id": "weekly-fcf6c86ebbdd6bf61faa6304",
+        "content_sha256": "4523ac130590c5d28fc236fbff99a4020c0d46cfe1deb74f9b3db81d1e289528",
+        "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+        "paid_response_id": "resp_0f54cafa23d551e1016ae4e8a84fd487d0ba8f750bc99543af",
+        "original_classification": {
+          "Category": "Privacy & Surveillance",
+          "Investigation_Type": "Threat Hunting",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "Other"
+          ]
+        },
+        "source_document_sha256": "d07123177a6415f7107ec762dc1a2762083c7d744676a167ccf9aa7c5af1a660",
+        "source_document_url": "https://arxiv.org/pdf/2605.02553v1",
+        "proposed_source_types": [
+          "Other"
+        ],
+        "supported_tags": {
+          "Other": {
+            "section": "Abstract; three-week residential experiment",
+            "evidence": "The authors collected and analyzed wireless traffic during a three-week study in a real apartment using Raspberry Pis, Wireshark, and basic scripts."
+          }
+        },
+        "removed_tag_reasons": {
+          "Public Records": "The evidence is researcher-collected residential wireless telemetry, not an official public-record dataset."
+        },
+        "material_inspected": "Hash-bound original paper and complete arXiv abstract describing the three-week apartment study and collected wireless telemetry; no full scientific critique.",
+        "no_source_type_basis": null,
+        "evidence_status": "verified",
+        "scope": "OSINT_Source_Types only; source-content correction, not another paid response",
+        "correction_id": "ff5eef638e8fe4f6b7684ae3964544fe7f2b53eae0d3f5df09f4dcb89b83d276"
+      },
+      "receipt": {
+        "schema_version": 1,
+        "correction_id": "ff5eef638e8fe4f6b7684ae3964544fe7f2b53eae0d3f5df09f4dcb89b83d276",
+        "candidate_id": "weekly-fcf6c86ebbdd6bf61faa6304",
+        "content_sha256": "4523ac130590c5d28fc236fbff99a4020c0d46cfe1deb74f9b3db81d1e289528",
+        "applied_at": "2026-11-02T20:10:02.449606+00:00",
+        "before": {
+          "Category": "Privacy & Surveillance",
+          "Investigation_Type": "Threat Hunting",
+          "OSINT_Source_Types": [
+            "Public Records",
+            "Other"
+          ]
+        },
+        "after": {
+          "Category": "Privacy & Surveillance",
+          "Investigation_Type": "Threat Hunting",
+          "OSINT_Source_Types": [
+            "Other"
+          ]
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-11-02T20:10:02.449606+00:00",
+          "content_sha256": "4523ac130590c5d28fc236fbff99a4020c0d46cfe1deb74f9b3db81d1e289528",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "16cdca82134a67fc3b6212767c83d94b126d8deb1032f342214d854b0fff48f7",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:45.211609+00:00",
+              "content_sha256": "4523ac130590c5d28fc236fbff99a4020c0d46cfe1deb74f9b3db81d1e289528",
+              "evidence": {
+                "classification": {
+                  "Category": "Privacy & Surveillance",
+                  "Investigation_Type": "Threat Hunting",
+                  "OSINT_Source_Types": [
+                    "Other"
+                  ]
+                },
+                "response_id": "resp_0f54cafa23d551e1016ae4e8a84fd487d0ba8f750bc99543af",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 622,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 27,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 649
+                },
+                "uncertainty_flags": [],
+                "classification_origin": "source_evidence_correction",
+                "original_paid_classification": {
+                  "Category": "Privacy & Surveillance",
+                  "Investigation_Type": "Threat Hunting",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "Other"
+                  ]
+                },
+                "correction_id": "ff5eef638e8fe4f6b7684ae3964544fe7f2b53eae0d3f5df09f4dcb89b83d276"
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+              "source_correction_applied_at": "2026-11-02T20:10:02.449606+00:00"
+            },
+            "source_correction_id": "ff5eef638e8fe4f6b7684ae3964544fe7f2b53eae0d3f5df09f4dcb89b83d276",
+            "source_document_sha256": "d07123177a6415f7107ec762dc1a2762083c7d744676a167ccf9aa7c5af1a660",
+            "original_paid_target_sha256": "0a980f5e54a7a551f89c3d9b3d0193ef0af69d38b39861c85d4d52ae7fffdda5",
+            "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+          }
+        },
+        "paid_request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b",
+        "paid_response_id": "resp_0f54cafa23d551e1016ae4e8a84fd487d0ba8f750bc99543af",
+        "additional_paid_requests": 0,
+        "corpus_modified": false,
+        "publication_approved": false
+      },
+      "binding": {
+        "candidate_id": "weekly-fcf6c86ebbdd6bf61faa6304",
+        "content_sha256": "4523ac130590c5d28fc236fbff99a4020c0d46cfe1deb74f9b3db81d1e289528",
+        "recommendation": "include",
+        "relevance": "direct"
+      }
+    },
+    {
+      "source_row": 1336,
+      "candidate_id": "weekly-08ab5ddb7219c6ff3d913664",
+      "content_sha256": "74d012360502c69011abe1d434b8c260a72a1041140ca766f11b073d1577b470",
+      "route": "automatic",
+      "recommendation": "include",
+      "relevance": "supporting",
+      "correction": null,
+      "receipt": {
+        "schema_version": 1,
+        "candidate_id": "weekly-08ab5ddb7219c6ff3d913664",
+        "content_sha256": "74d012360502c69011abe1d434b8c260a72a1041140ca766f11b073d1577b470",
+        "applied_at": "2026-11-02T20:10:02.449606+00:00",
+        "classification_changed": false,
+        "after": {
+          "Category": "AI/ML for Security",
+          "Investigation_Type": "Vulnerability Assessment",
+          "OSINT_Source_Types": [
+            "Other"
+          ]
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-11-02T20:10:02.449606+00:00",
+          "content_sha256": "74d012360502c69011abe1d434b8c260a72a1041140ca766f11b073d1577b470",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "ff21cb078873bf9962fdddc2e09a66c2b23f1a69a6bbdf0858675c2260f17bf0",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:46.337791+00:00",
+              "content_sha256": "74d012360502c69011abe1d434b8c260a72a1041140ca766f11b073d1577b470",
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": [
+                    "Other"
+                  ]
+                },
+                "response_id": "resp_012fecd6b4ad2f3d016ae4e8a9842887d0862b0789b19b18bb",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 741,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 27,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 768
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111205240,
+            "source_support_verification": {
+              "source_document_sha256": "82e2a4a00213feaf3dc564ba62221c4b5d051f9727e8ca6675f81ee804562cb1",
+              "source_document_url": "https://arxiv.org/pdf/2605.23243v1",
+              "supported_tags": {
+                "Other": {
+                  "section": "Abstract; dual-mode benchmark evaluation",
+                  "evidence": "The study uses a function-level benchmark and five production-style test applications containing 118 ground-truth vulnerabilities across more than 20 CWE families."
+                }
+              },
+              "material_inspected": "Hash-bound original paper and complete arXiv abstract describing both benchmark modes, applications, vulnerabilities, and model evaluations; no full scientific critique.",
+              "verified_at": "2026-11-02T20:10:02.449606+00:00",
+              "classification_changed": false,
+              "paid_evidence_reused": true
+            }
+          },
+          "revalidated_at": "2026-10-30T19:04:08.097000+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:56:11.400870+00:00",
+            "content_sha256": "74d012360502c69011abe1d434b8c260a72a1041140ca766f11b073d1577b470",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
+        },
+        "additional_paid_requests": 0,
+        "corpus_modified": false,
+        "publication_approved": false
+      },
+      "binding": {
+        "candidate_id": "weekly-08ab5ddb7219c6ff3d913664",
+        "content_sha256": "74d012360502c69011abe1d434b8c260a72a1041140ca766f11b073d1577b470",
+        "recommendation": "include",
+        "relevance": "supporting"
+      }
+    },
+    {
+      "source_row": 2978,
+      "candidate_id": "weekly-17d081f115063ba904133a75",
+      "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
+      "route": "manual",
+      "recommendation": "exclude",
+      "relevance": "contextual",
+      "correction": null,
+      "receipt": {
+        "schema_version": 1,
+        "candidate_id": "weekly-17d081f115063ba904133a75",
+        "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
+        "applied_at": "2026-11-02T20:10:02.449606+00:00",
+        "classification_changed": false,
+        "after": {
+          "Category": "AI/ML for Security",
+          "Investigation_Type": "Vulnerability Assessment",
+          "OSINT_Source_Types": [
+            "Other"
+          ]
+        },
+        "schema": {
+          "status": "passed",
+          "checked_at": "2026-11-02T20:10:02.449606+00:00",
+          "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "0118096182b74f5fef5d9389b25fb75e57a891e7e967d3913db9f1891d71e13b",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-10-30T18:57:49.974368+00:00",
+              "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
+              "evidence": {
+                "classification": {
+                  "Category": "AI/ML for Security",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": [
+                    "Other"
+                  ]
+                },
+                "response_id": "resp_04363b35d6805be2016ae4e8ac3de087d0aaf65b79fc5c0da2",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 661,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 27,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 688
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "41111205240",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "5285298164e8fc13a27b0e75ecc19b063e5fffb4",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "17ea726c6e111965c9451494a83f5937ce77dd809a1c65ef3c5c05268fd76b1b"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "18604c88a0cf76b6943ec665523c5476c1b0d62221f58e9652f3527d494596ba",
+              "workflow_sha256": "317cc698c6e2eb2010abdb9d67c9d86383ed594b9f7e36d87a022f6d6ad1bf5b",
+              "publisher_sha256": "8dee4d6befe5dd3302639cf73d2048f112b49c3bcd7d0d8a681fbdfb78d7a706",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 41111205240,
+            "source_support_verification": {
+              "source_document_sha256": "e00c2ee4a49e6ece51a1d90d082c23114099c668f7821c4d3734a4cb2ad93163",
+              "source_document_url": "https://arxiv.org/pdf/2609.28843v1",
+              "supported_tags": {
+                "Other": {
+                  "section": "Abstract; meta-synthesis and constituent-study basis",
+                  "evidence": "The paper synthesizes four constituent studies and broader literature into a proposed blockchain/AI reference architecture."
+                }
+              },
+              "material_inspected": "Hash-bound original paper and complete arXiv abstract describing its meta-synthesis and proposed reference architecture; no full scientific critique.",
+              "verified_at": "2026-11-02T20:10:02.449606+00:00",
+              "classification_changed": false,
+              "paid_evidence_reused": true
+            }
+          },
+          "revalidated_at": "2026-10-30T19:04:08.104244+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-30T18:56:11.400870+00:00",
+            "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
+            "evidence": "Await actual current-hash paid taxonomy and real disposable publisher serialization."
+          }
+        },
+        "additional_paid_requests": 0,
+        "corpus_modified": false,
+        "publication_approved": false
+      },
+      "binding": {
+        "candidate_id": "weekly-17d081f115063ba904133a75",
+        "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e",
+        "recommendation": "exclude",
+        "relevance": "contextual"
+      }
+    }
+  ],
+  "automatic_requests": [
+    {
+      "request_id": "5fbdc7426060ff52b1e492bf0598e1357d5e4ea73afdbdb23379db4717d1f62a",
+      "candidate_id": "weekly-6453882b45c03832307a3619",
+      "content_sha256": "b13863f82ac516856a4f243e3b78e52005ddaecf60105317a28f748fdd217d5f"
+    },
+    {
+      "request_id": "7fe4e5122becac6ed9bedaf6e1c44daed5a4ee091e1af0184f039c45546b4d38",
+      "candidate_id": "weekly-470970e7b01ad6576a8c2e74",
+      "content_sha256": "45f9769560ec2feb9ca823f8e9455bd30052fe92a2f8092fe5e3d6d68e658af3"
+    },
+    {
+      "request_id": "b657f73ccb0dab53598cb82faa820c627efd14db84ad05e505e434f9f835bb54",
+      "candidate_id": "weekly-046901143dafd1530a38b025",
+      "content_sha256": "86a90cc8f6057895d5ed9e977ef316839590aa7a1ce3637e3f9adf8942553ede"
+    },
+    {
+      "request_id": "2a20649f8e2de50b697bc5c3ba45de9faf81940394c85f7cf4ada5960be94dc1",
+      "candidate_id": "weekly-1ebb909dbfa6a77d51ef8911",
+      "content_sha256": "b6440069c5bb070dab822b6526364c92be133589dee1d37e83f4560fc3ae1f0b"
+    },
+    {
+      "request_id": "c18e7af3357ae84673e83bb60f1d1c4f67f1bf22e032733960ac42d3d9f08ef4",
+      "candidate_id": "weekly-11d5c162e2498f7ab097e44c",
+      "content_sha256": "ef17240642870a1921518c5a79bafbd9c95fc59b1d39071ff6ef9a21a48fb65b"
+    },
+    {
+      "request_id": "755895b88beef314ae3e6f32783c0aa158203ab0a67b84392c30c3a313ce9351",
+      "candidate_id": "weekly-fcf6c86ebbdd6bf61faa6304",
+      "content_sha256": "4523ac130590c5d28fc236fbff99a4020c0d46cfe1deb74f9b3db81d1e289528"
+    },
+    {
+      "request_id": "236ec694789e844a4add2ef8278c1e247bd1aa891633e3576215fc1937afc906",
+      "candidate_id": "weekly-08ab5ddb7219c6ff3d913664",
+      "content_sha256": "74d012360502c69011abe1d434b8c260a72a1041140ca766f11b073d1577b470"
+    }
+  ],
+  "admission": {
+    "batch": 25,
+    "count": 1,
+    "candidate_id": "weekly-17d081f115063ba904133a75",
+    "content_sha256": "cf5a2cb3eda28639b8aef7bbdeee513f4f91a5bcbe0383a9c4baf1f51fd9098e"
+  },
+  "actual_ready_today": 1,
+  "daily_target": 200,
+  "daily_shortfall": 199,
+  "ready_total": 1,
+  "global_deficit": 249,
+  "remaining_source_tag_support_holds": 0,
+  "public_corpus_modified": false,
+  "published_this_pass": 0
+}
