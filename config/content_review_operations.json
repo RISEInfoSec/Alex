@@ -39,13 +39,28 @@
       "last_success_at": "2026-10-29T03:00:58.152439+00:00",
       "last_result_at": "2026-10-29T03:00:58.152439+00:00",
       "last_http_status": 200,
-      "retry_not_before": "2026-11-05T01:15:38Z",
+      "retry_not_before": "2026-10-29T00:00:36.339996+00:00",
       "impact": "Targeted citation enrichment. Five SOUPS metadata holds also have independent quality failures; no repeat requests are justified solely by their elapsed cooldown.",
-      "operator_action": "Owner-requested pause; no OpenAlex traffic before effective hold expiry. Separate one-off weekly retry owns authorized retry; hourly worker must not duplicate it. Historical provider200 is not a new probe or proof of current availability.",
+      "operator_action": "Owner-authorized resumption of qualifying checks. Preserve any later provider cooldown; one credentialed lookup per worker pass,60-second pacing, no automatic retries. Separate one-off weekly retry remains scheduled and must not be duplicated.",
       "evidence_ref": "https://github.com/RISEInfoSec/Alex/actions/runs/40809670371",
       "provider_retry_not_before": "2026-10-29T00:00:36.339996+00:00",
-      "owner_hold_until": "2026-11-05T01:15:38Z",
-      "owner_hold_reason": "Owner-requested pause, not evidence of a provider ban; preserve any later Retry-After or owner hold."
+      "owner_hold_until": null,
+      "owner_hold_reason": "Owner lifted prior pause; resume qualifying bounded credentialed checks.",
+      "owner_hold_history": [
+        {
+          "hold_until": "2026-11-05T01:15:38Z",
+          "reason": "Owner-requested pause, not evidence of a provider ban; preserve any later Retry-After or owner hold.",
+          "lifted_at": "2026-11-03T14:21:42.553Z",
+          "lifted_by": "Owner explicitly authorized resuming OpenAlex checks on3 November2026."
+        }
+      ],
+      "owner_hold_lifted_at": "2026-11-03T14:21:42.553Z",
+      "resumption_status": "authorized_pending_qualifying_lookup",
+      "resumption_evidence": {
+        "authorized_at": "2026-11-03T14:21:42.553Z",
+        "requests": 0,
+        "reason": "No remaining supported isolated-registry candidate without independent holds; no new provider recovery asserted."
+      }
     },
     {
       "id": "consensus",
