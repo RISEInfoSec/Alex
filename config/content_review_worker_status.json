@@ -33,8 +33,8 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-03T20:55:09.669319+00:00",
-  "last_action": "Completed bounded approval/lifecycle reconciliation and one initial Bellingcat duplicate check; no ready batch.",
+  "last_completed_at": "2026-11-03T21:55:14.625316+00:00",
+  "last_action": "Completed bounded approval/lifecycle reconciliation and one initial Bellingcat source format/access check; no ready batch.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -679,12 +679,12 @@
   "candidate_lifecycle": {
     "counts": {
       "completed": 8,
-      "awaiting_initial_checks": 297,
-      "awaiting_software_support": 2,
+      "awaiting_initial_checks": 296,
+      "awaiting_software_support": 3,
       "access_restricted": 11,
       "stable_quality_failure": 67
     },
-    "updated_at": "2026-11-03T20:55:09.669319+00:00",
+    "updated_at": "2026-11-03T21:55:14.625316+00:00",
     "ledger": "config/content_review_candidate_lifecycle.json"
   },
   "manual_status_recovery": {
@@ -713,13 +713,13 @@
   },
   "current_run": {
     "run_id": "b45516ec-f948-8326-9aca-1ff9dc4250c4",
-    "observed_at": "2026-11-03T21:54:34.958943+00:00",
+    "observed_at": "2026-11-03T21:55:20.367234+00:00",
     "started_at": "2026-11-03T21:49:00.916436Z",
     "scheduled_for": "2026-11-03T21:45:00Z",
-    "application_status": "running",
+    "application_status": "complete",
     "scheduler": {
       "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-      "observed_at": "2026-11-03T21:54:34.958943+00:00",
+      "observed_at": "2026-11-03T21:55:20.367234+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "next_run_time": null,
@@ -739,10 +739,11 @@
         "evidence_verified": true,
         "receipt": "config/content_review_run_receipts/83867832-b118-8326-8628-4920a5571caa.json"
       }
-    }
+    },
+    "application_completed_at": "2026-11-03T21:55:20.367234+00:00"
   },
-  "last_heartbeat_at": "2026-11-03T21:54:34.958943+00:00",
-  "latest_publication_reconciliation": "config/content_review_publication_reconciliation/83867832-b118-8326-8628-4920a5571caa.json",
+  "last_heartbeat_at": "2026-11-03T21:55:20.367234+00:00",
+  "latest_publication_reconciliation": "config/content_review_publication_reconciliation/b45516ec-f948-8326-9aca-1ff9dc4250c4.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
     "reason": "Owner lifted pause; supported qualifying credentialed checks may resume subject to later provider cooldowns.",
@@ -751,9 +752,9 @@
   },
   "last_candidate_check": {
     "candidate_id": "bellingcat-url-ab03b31b081cabd4d3d207f6",
-    "checked_at": "2026-11-03T20:54:13.694819+00:00",
-    "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-ab03b31b081cabd4d3d207f6-83867832-b118-8326-8628-4920a5571caa.json",
-    "action": "initial_current_corpus_inventory_exclusion_duplicate_check",
+    "checked_at": "2026-11-03T21:54:16.465820+00:00",
+    "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-ab03b31b081cabd4d3d207f6-b45516ec-f948-8326-9aca-1ff9dc4250c4.json",
+    "action": "initial_official_source_format_access_verification",
     "other_gates": "held"
   }
 }
