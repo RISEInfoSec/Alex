@@ -33,8 +33,8 @@
   },
   "global_deficit": 249,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-03T05:51:30.148Z",
-  "last_action": "Reconciled 213 latest intake decisions; reused unchanged deployed evidence for 82 published targets and one removal. One due initial SANS duplicate check completed with no matches. No new approvals or ready batch; no OpenAlex or paid requests.",
+  "last_completed_at": "2026-11-03T06:54:06.312Z",
+  "last_action": "Reconciled 213 latest intake decisions; reused unchanged deployed evidence for 82 published targets and one removal. One due official SANS publisher-metadata lookup completed; remaining gates held. No new approvals or ready batch; no OpenAlex or paid request.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -696,11 +696,11 @@
     "candidate_changes": 0
   },
   "scheduled_verification": {
-    "run_id": "4342dd0c-19ec-832e-83f8-e9c917615165",
-    "receipt": "config/content_review_run_receipts/4342dd0c-19ec-832e-83f8-e9c917615165.json",
+    "run_id": "bdc9586d-a218-832e-bcad-00df3ff88da2",
+    "receipt": "config/content_review_run_receipts/bdc9586d-a218-832e-bcad-00df3ff88da2.json",
     "application_status": "complete",
     "native_terminal_status": "unverified_until_later_observation",
-    "source_checks": 0,
+    "source_checks": 1,
     "candidate_resolution_attempts": 1
   },
   "publication_status_reconciliation": {
@@ -714,13 +714,13 @@
   },
   "current_run": {
     "run_id": "bdc9586d-a218-832e-bcad-00df3ff88da2",
-    "observed_at": "2026-11-03T06:53:47.211641+00:00",
+    "observed_at": "2026-11-03T06:54:25.712455+00:00",
     "started_at": "2026-11-03T06:49:12.299055Z",
     "scheduled_for": "2026-11-03T06:45:00Z",
-    "application_status": "running",
+    "application_status": "complete",
     "scheduler": {
       "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-      "observed_at": "2026-11-03T06:53:47.211641+00:00",
+      "observed_at": "2026-11-03T06:54:25.712455+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "next_run_time": null,
@@ -734,17 +734,18 @@
       },
       "requires_user_action": false,
       "last_verified_scheduled_success": {
-        "run_id": "8cb362dc-c400-832e-bc6e-ad1c829e7a04",
-        "completed_at": "2026-11-03T04:55:38.782230Z",
+        "run_id": "4342dd0c-19ec-832e-83f8-e9c917615165",
+        "completed_at": "2026-11-03T05:52:21.654522Z",
         "trigger": "schedule",
         "evidence_verified": true,
-        "receipt": "config/content_review_run_receipts/8cb362dc-c400-832e-bc6e-ad1c829e7a04.json"
+        "receipt": "config/content_review_run_receipts/4342dd0c-19ec-832e-83f8-e9c917615165.json"
       }
-    }
+    },
+    "application_completed_at": "2026-11-03T06:54:25.712455+00:00"
   },
-  "last_heartbeat_at": "2026-11-03T06:53:47.211641+00:00",
+  "last_heartbeat_at": "2026-11-03T06:54:25.712455+00:00",
   "latest_publication_reconciliation": {
-    "receipt": "config/content_review_publication_reconciliation/4342dd0c-19ec-832e-83f8-e9c917615165.json",
+    "receipt": "config/content_review_publication_reconciliation/bdc9586d-a218-832e-bcad-00df3ff88da2.json",
     "legacy_verified": 75,
     "automatic_verified": 7,
     "removals_preserved": 1,
@@ -756,8 +757,8 @@
     "requests_this_run": 0
   },
   "last_candidate_check": {
-    "candidate_id": "sans-004",
-    "status": "duplicates_passed_other_gates_held",
-    "checkpoint": "config/content_review_mechanical_checkpoints/sans-004-4342dd0c-19ec-832e-83f8-e9c917615165.json"
+    "candidate_id": "sans-003",
+    "status": "publisher_metadata_observed_reconciliation_held",
+    "checkpoint": "config/content_review_mechanical_checkpoints/sans-003-bdc9586d-a218-832e-bcad-00df3ff88da2.json"
   }
 }
