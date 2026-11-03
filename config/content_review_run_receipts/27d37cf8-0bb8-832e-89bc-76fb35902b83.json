@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "run_id": "27d37cf8-0bb8-832e-89bc-76fb35902b83",
+  "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-03T07:45:00Z",
+  "started_at": "2026-11-03T07:47:14.249822Z",
+  "completed_at": "2026-11-03T07:54:15.740Z",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/27d37cf8-0bb8-832e-89bc-76fb35902b83.json",
+  "completed_actions": [
+    "Read current worker operations/background/workflow/lifecycle and material/retrospective/source policies; verified active private Site and disabled retired task.",
+    "Acquired/read back shared lease; immediately executed operations.py phase start and published/read back both live records before D1. Refreshed actual native observations and running heartbeats during work.",
+    "Read complete D1 pagination: 62 submissions, 927 decisions, 598 jobs. Reconciled 213 latest intake decisions with exact hashes and saved decisions; no new eligible approvals.",
+    "Enumerated seven immutable main release receipts and unchanged requests at freshly fetched main a1197be396ccece17f6535b5c1bf5ff0693bd643. Reused prior evidence for 82 published targets and one explicit removal; main corpus remains byte-identical to prior deployed digest.",
+    "Executed lifecycle CLI and preserved 1260 candidate identities across eight complete manifests plus 385 lifecycle identities and prior attempt histories.",
+    "Completed exactly one due initial identity/duplicate check for sans-005 against current immutable main corpus, all prepared manifests, weekly intake and exclusions; no matches. Other mechanical gates remain held.",
+    "Saved four checkpoint files atomically at eb7387ed48bffdd025bd62464161eb59825728a2 and verified exact published blob SHAs.",
+    "Preserved source resume points; routine coverage retained, older FIRST/SOUPS/Virus Bulletin scope deferred under retrospective SOP, M3AAWG/Bellingcat not due, Consensus disabled.",
+    "Verified prior scheduled native completion bdc9586d-a218-832e-bcad-00df3ff88da2 from independently dated monitor observation and matching canonical time-bound receipt."
+  ],
+  "checkpoint_commit": "eb7387ed48bffdd025bd62464161eb59825728a2",
+  "checkpoint_paths": [
+    "config/sans_review_manifest.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_mechanical_checkpoints/sans-005-27d37cf8-0bb8-832e-89bc-76fb35902b83.json",
+    "config/content_review_publication_reconciliation/27d37cf8-0bb8-832e-89bc-76fb35902b83.json"
+  ],
+  "candidate_ids": [
+    "sans-005"
+  ],
+  "candidate_resolution_attempts": 1,
+  "openalex_requests": 0,
+  "paid_requests": 0,
+  "completed_source_http_requests": 0,
+  "source_execution_interrupted": true,
+  "openalex_owner_hold_until": "2026-11-05T01:15:38Z",
+  "duplicate_weekly_pipeline_launched": false,
+  "hve_source_check_repeated": false,
+  "ready_total": 0,
+  "new_review_batches": 0,
+  "manifest_integrity": {
+    "complete_manifests": 8,
+    "candidate_identities": 1260,
+    "lifecycle_identities": 385,
+    "identity_hash_and_decision_preservation": true
+  },
+  "native_scheduled_success_verified": false,
+  "limitations": [
+    "Application completion requires later independent native terminal verification.",
+    "Fresh live deployed corpus retrieval was unavailable: execution returned network approval cancellation before any candidate checkpoint. Reused prior deployed evidence and current complete immutable main corpus with matching digest; no fresh live-public verification claimed.",
+    "No document/source access, actual resource format, metadata, quality or schema gate pass claimed for sans-005."
+  ],
+  "errors": []
+}
