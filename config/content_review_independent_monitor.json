@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-03T12:35:52.067Z",
+  "observed_at": "2026-11-03T13:29:39.564Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "0951dfec-680c-832b-a9e4-45b6ac342d36",
-    "scheduled_for": "2026-11-03T12:32:00Z",
-    "started_at": "2026-11-03T12:33:57.355964Z",
+    "run_id": "4dd0fabc-33a8-832b-bfe0-1a6629e23300",
+    "scheduled_for": "2026-11-03T13:32:00Z",
+    "started_at": "2026-11-03T13:28:54.253640Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,49 +14,49 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-03T12:35:23.665Z",
+    "observed_at": "2026-11-03T13:29:20.097Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "a7557f21-e3c8-832a-a55f-e01ab7bb7176",
+      "id": "2ba51dd4-e098-832a-b55f-829772aab84f",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-03T11:45:00Z",
-      "started_at": "2026-11-03T11:47:43.369127Z",
-      "completed_at": "2026-11-03T11:52:41.572811Z"
+      "scheduled_for": "2026-11-03T12:45:00Z",
+      "started_at": "2026-11-03T12:44:14.496475Z",
+      "completed_at": "2026-11-03T12:51:58.738423Z"
     }
   },
   "receipt_check": {
-    "run_id": "a7557f21-e3c8-832a-a55f-e01ab7bb7176",
-    "path": "config/content_review_run_receipts/a7557f21-e3c8-832a-a55f-e01ab7bb7176.json",
+    "run_id": "2ba51dd4-e098-832a-b55f-829772aab84f",
+    "path": "config/content_review_run_receipts/2ba51dd4-e098-832a-b55f-829772aab84f.json",
     "verified": true,
     "reason": "Canonical receipt matches native run identity and schedule, declares trigger=schedule and status=complete with nonempty completed_actions, uses the canonical path, and completed within native run bounds."
   },
-  "checkpoint_observed_at": "2026-11-03T11:52:10.247989+00:00",
+  "checkpoint_observed_at": "2026-11-03T12:51:12.413916+00:00",
   "findings": [
     {
       "code": "scheduled_completion_verified",
-      "message": "Native worker run a7557f21-e3c8-832a-a55f-e01ab7bb7176 completed and its canonical receipt matches identity, schedule, status, path and native time bounds."
+      "message": "Native worker run 2ba51dd4-e098-832a-b55f-829772aab84f completed and its canonical receipt matches identity, schedule, status, path and native time bounds."
     },
     {
       "code": "no_missed_start",
-      "message": "Worker run a7557f21-e3c8-832a-a55f-e01ab7bb7176 started 163 seconds after its scheduled time; the next expected hourly start is 2026-11-03T12:45:00.000Z and is not yet overdue."
+      "message": "Worker run 2ba51dd4-e098-832a-b55f-829772aab84f started -46 seconds relative to schedule; the next expected hourly start is 2026-11-03T13:45:00.000Z and is not overdue."
     },
     {
       "code": "worker_checkpoint_complete",
-      "message": "Worker checkpoint a7557f21-e3c8-832a-a55f-e01ab7bb7176 reports application_status=complete at 2026-11-03T11:52:10.247989+00:00."
+      "message": "Worker checkpoint 2ba51dd4-e098-832a-b55f-829772aab84f reports application_status=complete at 2026-11-03T12:51:12.413916+00:00."
     },
     {
       "code": "native_terminal_state_confirmed",
-      "message": "Native scheduler independently reports worker run a7557f21-e3c8-832a-a55f-e01ab7bb7176 completed at 2026-11-03T11:52:41.572811Z."
+      "message": "Native scheduler reports worker run 2ba51dd4-e098-832a-b55f-829772aab84f completed at 2026-11-03T12:51:58.738423Z."
     },
     {
       "code": "observer_scheduled_start_verified",
-      "message": "Observer run 0951dfec-680c-832b-a9e4-45b6ac342d36 started 117 seconds after its scheduled time and remains in_progress."
+      "message": "Observer run 4dd0fabc-33a8-832b-bfe0-1a6629e23300 started 186 seconds before its scheduled time and remains in_progress."
     },
     {
       "code": "observer_freshness_preserved",
-      "message": "The prior observer snapshot at 2026-11-03T11:27:54.106Z was within the 75-minute freshness window."
+      "message": "The prior observer snapshot at 2026-11-03T12:35:52.067Z was within the 75-minute freshness window."
     },
     {
       "code": "native_next_run_time_unavailable",
