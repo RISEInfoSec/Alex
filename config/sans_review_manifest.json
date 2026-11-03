@@ -172,10 +172,14 @@
             "content_sha256": "a7a0eff93c4ba7ab1f52003e207654b2a76e0fe2cc0056a9189c0d32a3968469"
           },
           "metadata": {
-            "status": "not_checked",
-            "evidence": "Existing ALEX gate not executed in this discovery intake; Full-text/methods review; avoid equating local execution with chain-of-custody guarantees; metadata, scoring and deduplication.",
-            "checked_at": null,
-            "content_sha256": "a7a0eff93c4ba7ab1f52003e207654b2a76e0fe2cc0056a9189c0d32a3968469"
+            "status": "held",
+            "checked_at": "2026-11-03T04:53:48.923390+00:00",
+            "content_sha256": "a7a0eff93c4ba7ab1f52003e207654b2a76e0fe2cc0056a9189c0d32a3968469",
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/sans-002-8cb362dc-c400-832e-bc6e-ad1c829e7a04.json",
+              "landing_status": 200
+            },
+            "reason": "Official publisher landing metadata retrieved; exact publication-date/byline/identifier reconciliation against the actual resource remains pending."
           },
           "duplicates": {
             "status": "passed",
@@ -203,6 +207,13 @@
             "content_sha256": "a7a0eff93c4ba7ab1f52003e207654b2a76e0fe2cc0056a9189c0d32a3968469"
           }
         }
+      },
+      "source_metadata_observation": {
+        "checked_at": "2026-11-03T04:53:48.923390+00:00",
+        "evidence_ref": "config/content_review_mechanical_checkpoints/sans-002-8cb362dc-c400-832e-bc6e-ad1c829e7a04.json",
+        "publisher": "SANS",
+        "landing_sha256": "378ff810cfeb4767a122b6ed858d9c2e19029b5f95439e73272778d9acc08dc6",
+        "observations_pending_reconciliation": true
       }
     },
     {
