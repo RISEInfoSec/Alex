@@ -74,6 +74,7 @@ class HttpClient:
         # check-then-write and the JSON file write must be serialised. The
         # actual HTTP call happens outside the lock.
         self._cache_lock = threading.Lock()
+        self._openalex_hold = False
         # host -> time.monotonic() deadline. Set when a server asks us to wait
         # longer than _MAX_RETRY_AFTER; requests to that host return None
         # until the deadline passes.
@@ -133,8 +134,11 @@ class HttpClient:
     def _openalex_request(self, url, params, headers, timeout):
         # Share pacing/backoff across threads, clients and CLI stages using
         # this checkout. Independent runners must obey the worker checkpoint.
+        if self._openalex_hold:
+            return None
         policy = _openalex_policy()
-        state_path = CACHE.with_name(CACHE.name + '.openalex-policy')
+        state_path = Path(os.getenv('ALEX_OPENALEX_STATE_PATH', str(CACHE.with_name(CACHE.name + '.openalex-policy'))))
+        state_path.parent.mkdir(parents=True, exist_ok=True)
         with _OPENALEX_LOCK, state_path.with_suffix(state_path.suffix + '.lock').open('a') as lock:
             fcntl.flock(lock, fcntl.LOCK_EX)
             try:
@@ -146,9 +150,11 @@ class HttpClient:
             hold = policy.get('retry_not_before')
             hold_until = datetime.fromisoformat(hold.replace('Z', '+00:00')).timestamp() if hold else 0
             if now < max(hold_until, state.get('retry_not_before', 0)):
+                self._openalex_hold = True
                 logger.info('OpenAlex remains in backoff; no request sent')
                 return None
             delay = max(0, state.get('last_request_at', 0) + policy['min_interval_seconds'] - now)
+            self._before_openalex_wait(delay, min(timeout, policy['request_timeout_seconds']))
             if delay:
                 time.sleep(delay)
             state['last_request_at'] = time.time()
@@ -158,21 +164,50 @@ class HttpClient:
                 temp.replace(state_path)
             save()
             try:
-                response = self.session.get(url, params=self._with_auth(url, params), headers=headers,
+                response = self._send_request(url, params=self._with_auth(url, params), headers=headers,
                                             timeout=min(timeout, policy['request_timeout_seconds']))
             except requests.exceptions.RequestException as exc:
                 state['retry_not_before'] = time.time() + policy['failure_cooldown_seconds']
+                self._openalex_hold = True
                 state['last_failure'] = 'network_or_timeout'
                 save()
                 logger.warning('OpenAlex network/timeout failure; no automatic retry: %s', _redact(exc))
                 return None
-            if response.status_code == 429 or response.status_code >= 500:
+            if response.status_code in (401, 403, 429) or response.status_code >= 500:
                 retry_after = self._parse_retry_after(response.headers.get('Retry-After'))
-                state['retry_not_before'] = time.time() + max(retry_after or 0, policy['failure_cooldown_seconds'])
+                state['retry_not_before'] = time.time() + max(retry_after or 0, self._quota_reset_seconds(response), policy['failure_cooldown_seconds'])
+                self._openalex_hold = True
                 state['last_failure'] = 'HTTP' + str(response.status_code)
                 save()
                 logger.warning('OpenAlex HTTP%d; provider paused, no automatic retry', response.status_code)
+            reset = self._quota_reset_seconds(response)
+            if reset:
+                self._openalex_hold = True
+                state['retry_not_before'] = max(state.get('retry_not_before', 0), time.time() + reset)
+                state['last_failure'] = 'quota_exhausted'
+                save()
             return response
+
+    def openalex_deferred(self) -> bool:
+        return self._openalex_hold
+
+    def on_openalex_deferred(self):
+        pass
+
+    def _before_openalex_wait(self, delay, timeout):
+        pass
+
+    def _send_request(self, url, **kwargs):
+        return self.session.get(url, **kwargs)
+
+    @staticmethod
+    def _quota_reset_seconds(response):
+        try:
+            if float(response.headers.get('X-RateLimit-Remaining', '1')) <= 0:
+                return max(1, float(response.headers.get('X-RateLimit-Reset') or 3600))
+        except (ValueError, TypeError):
+            pass
+        return 0
 
     def _request_with_retry(
         self,
@@ -190,7 +225,7 @@ class HttpClient:
         params = self._with_auth(url, params)
         for attempt in range(1, max_attempts + 1):
             try:
-                r = self.session.get(url, params=params, headers=headers, timeout=timeout)
+                r = self._send_request(url, params=params, headers=headers, timeout=timeout)
             except requests.exceptions.RequestException as exc:
                 last_exc = exc
                 # Network-level failures (connection error, timeout) get the
