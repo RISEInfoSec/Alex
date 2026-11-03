@@ -107,6 +107,9 @@ def source_collections(root: Path, papers: list[dict]) -> list[dict]:
     Visible empty profiles retain their stable page and original archive link.
     """
     config = json.loads((root / "config/research_collections.json").read_text(encoding="utf-8"))
+    # Discovery providers retain provenance without becoming named collections.
+    general_sources = {v.strip().casefold() for v in config.get("general_discovery_sources", [])}
+    papers = [p for p in papers if str(p.get("collection_source") or "").strip().casefold() not in general_sources]
     profiles = config.get("source_collections", [])
     labels, slugs, values = set(), set(), set()
     metadata = config["collections"] + [config["bibliography"]] + profiles
@@ -471,6 +474,15 @@ def build(root: Path, papers: list[dict] | None = None) -> dict[str, str]:
         'mainEntity':{'@type':'ItemList','numberOfItems':len(recent),'itemListElement':[{'@type':'ListItem','position':i+1,'name':p['title'],**({'url':paper_url(p)} if paper_url(p) else {})} for i,p in enumerate(recent)]}})
     urls = [BASE] + [BASE + path.removesuffix("index.html") for path in sorted(outputs) if path.endswith(".html")]
     outputs["sitemap.xml"] = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{xml_escape(url)}</loc></url>\n' for url in urls) + '</urlset>\n'
+    # Retired collection links remain usable, outside navigation and the sitemap.
+    outputs["research/collections/consensus/index.html"] = (
+        '<!doctype html><html lang="en"><head><meta charset="utf-8">'
+        '<title>ALEX research library</title><meta name="robots" content="noindex">'
+        '<link rel="canonical" href="' + BASE + 'research/bibliography/">'
+        '<meta http-equiv="refresh" content="0;url=/research/bibliography/">'
+        '</head><body><p>This collection has moved into the general library. '
+        '<a href="/research/bibliography/">Browse all accepted research</a>.'
+        '</p></body></html>')
     return outputs
 
 

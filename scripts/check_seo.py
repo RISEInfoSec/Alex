@@ -153,6 +153,11 @@ def check(root: Path = ROOT, source_root: Path | None = None) -> None:
     assert (root / "research/coverage.json").read_text(encoding="utf-8") == expected["research/coverage.json"], "Stale corpus coverage report"
     titles, descriptions = set(), set()
     complete_titles = []
+    redirect_path = "research/collections/consensus/index.html"
+    redirect = (root / redirect_path).read_text(encoding="utf-8")
+    assert redirect == expected[redirect_path]
+    assert 'content="noindex"' in redirect and '0;url=/research/bibliography/' in redirect
+    collection_paths.discard(redirect_path)
     for path in sorted(collection_paths):
         raw = (root / path).read_text(encoding="utf-8")
         assert raw == expected[path], f"Generated collection content is stale: {path}"

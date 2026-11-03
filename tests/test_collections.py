@@ -77,7 +77,7 @@ def test_real_accepted_membership_is_exact_across_all_pages():
 def test_schema_describes_only_visible_bibliography(collection_site):
     output = build(collection_site, papers())
     for path, raw in output.items():
-        if not path.endswith(".html"):
+        if not path.endswith(".html") or path == "research/collections/consensus/index.html":
             continue
         page = BeautifulSoup(raw, "html.parser")
         data = json.loads(page.select_one('script[type="application/ld+json"]').string)
@@ -287,7 +287,7 @@ def test_large_bibliography_pagination_is_bounded_and_has_crawlable_neighbors():
 
 def test_every_static_bibliography_page_is_reachable_from_hub():
     output = build(ROOT)
-    expected = {path for path in output if path.endswith('.html')}
+    expected = {path for path in output if path.endswith('.html') and path != 'research/collections/consensus/index.html'}
     visited, pending = set(), ['research/index.html']
     while pending:
         path = pending.pop()
@@ -326,7 +326,7 @@ def test_prepared_named_collections_keep_stable_pages_and_original_archives(coll
     assert source_section.find('a', string='SOUPS')['href'] == '/research/collections/soups/'
     assert soup(output, 'research/collections/soups/').find('a', href='https://soups.page/')
     assert 'No papers accepted into ALEX yet' in source_section.get_text()
-    assert sum(path.startswith('research/collections/') for path in output) == len(json.loads((collection_site / 'config/research_collections.json').read_text())['source_collections'])
+    assert sum(path.startswith('research/collections/') and path != 'research/collections/consensus/index.html' for path in output) == len(json.loads((collection_site / 'config/research_collections.json').read_text())['source_collections'])
     assert 'Virus Bulletin' in source_section.get_text()
     assert '/research/collections/soups/' in output['sitemap.xml']
     for group in source_collections(collection_site, []):
@@ -377,7 +377,7 @@ def test_unprofiled_source_gets_original_links_without_boilerplate_page(collecti
     output = build(collection_site, records)
     hub = soup(output, 'research/')
     assert hub.find('a', string='Another accepted archive')['href'] == 'https://example.org/archive'
-    assert sum(path.startswith('research/collections/') for path in output) == len(json.loads((collection_site / 'config/research_collections.json').read_text())['source_collections'])
+    assert sum(path.startswith('research/collections/') and path != 'research/collections/consensus/index.html' for path in output) == len(json.loads((collection_site / 'config/research_collections.json').read_text())['source_collections'])
     report = json.loads(output['research/coverage.json'])
     entry = next(g for g in report['source_collections'] if g['label'] == 'Another accepted archive')
     assert entry['count'] == 1 and entry['path'] is None
@@ -434,7 +434,7 @@ def test_named_source_navigation_is_alphabetical_and_publication_bound():
     groups=source_collections(ROOT,rows)
     nav=BeautifulSoup(named_collection_navigation(groups),'html.parser')
     labels=[a.get_text(' ',strip=True).removesuffix(' →') for a in nav.select('a')]
-    assert labels==['APWG eCrime','Bellingcat','Consensus','FIRST','M3AAWG','SANS','SOUPS / USENIX','Virus Bulletin']
+    assert labels==['APWG eCrime','Bellingcat','FIRST','M3AAWG','SANS','SOUPS / USENIX','Virus Bulletin']
     empty_nav = BeautifulSoup(named_collection_navigation(source_collections(ROOT,[])), 'html.parser')
     assert [a.get_text(' ', strip=True).removesuffix(' →') for a in empty_nav.select('a')] == labels
     assert all('/research/collections/' in a['href'] for a in nav.select('a'))
@@ -445,7 +445,12 @@ def test_new_source_profiles_preserve_original_publisher_attribution():
     rows=[dict(title='Verified source',year=2026,collection_source='Consensus',venue='Original Journal',author='Original Author',source_url='https://publisher.example/paper')]
     original=json.loads(json.dumps(rows))
     groups=source_collections(ROOT,rows)
-    assert next(g for g in groups if g['label']=='Consensus')['papers']==rows
+    assert not any(g['label'].casefold()=='consensus' for g in groups)
+    output = build(ROOT, rows)
+    assert 'Verified source' in output['research/bibliography/index.html']
+    assert 'Original Journal' in output['research/bibliography/index.html']
+    assert 'consensus/' not in output['sitemap.xml']
+    assert 'http-equiv="refresh"' in output['research/collections/consensus/index.html']
     assert rows==original
 
 
@@ -455,7 +460,7 @@ def test_every_named_collection_is_reachable_and_terminology_is_consistent():
     records = json.loads((ROOT / 'data/papers.json').read_text())
     groups = source_collections(ROOT, records)
     nav = BeautifulSoup(named_collection_navigation(groups), 'html.parser')
-    assert len(nav.select('a')) == sum(g["profiled"] for g in groups) == 8
+    assert len(nav.select('a')) == sum(g["profiled"] for g in groups) == 7
     for link in nav.select('a'):
         path = link['href'].lstrip('/') + 'index.html'
         assert path in output
@@ -465,5 +470,5 @@ def test_every_named_collection_is_reachable_and_terminology_is_consistent():
         if path.endswith('.html'):
             assert 'research collections' not in raw.casefold()
     homepage = BeautifulSoup((ROOT / 'index.html').read_text(), 'html.parser')
-    assert len(homepage.select('.named-collections a')) == 8
+    assert len(homepage.select('.named-collections a')) == 7
     assert homepage.select_one('.new-publications').find_next('nav')['class'] == ['named-collections']
