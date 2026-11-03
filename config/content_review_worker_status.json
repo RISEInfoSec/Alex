@@ -33,7 +33,7 @@
   },
   "global_deficit": 249,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-03T10:45:50.854Z",
+  "last_completed_at": "2026-11-03T11:52:05.506Z",
   "last_action": "Reconciled 213 latest intake decisions; reused unchanged deployed evidence for 82 published targets and one removal. One due official SANS publisher-metadata lookup completed; remaining gates held. No new approvals or ready batch; no OpenAlex or paid request.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
@@ -696,11 +696,11 @@
     "candidate_changes": 0
   },
   "scheduled_verification": {
-    "run_id": "f633df37-ffac-832a-a4e6-d49ee430f059",
-    "receipt": "config/content_review_run_receipts/f633df37-ffac-832a-a4e6-d49ee430f059.json",
+    "run_id": "a7557f21-e3c8-832a-a55f-e01ab7bb7176",
+    "receipt": "config/content_review_run_receipts/a7557f21-e3c8-832a-a55f-e01ab7bb7176.json",
     "application_status": "complete",
     "native_terminal_status": "unverified_until_later_observation",
-    "source_checks": 1,
+    "source_checks": 0,
     "candidate_resolution_attempts": 1
   },
   "publication_status_reconciliation": {
@@ -714,13 +714,13 @@
   },
   "current_run": {
     "run_id": "a7557f21-e3c8-832a-a55f-e01ab7bb7176",
-    "observed_at": "2026-11-03T11:50:46.315480+00:00",
+    "observed_at": "2026-11-03T11:52:10.247989+00:00",
     "started_at": "2026-11-03T11:47:43.369127Z",
     "scheduled_for": "2026-11-03T11:45:00Z",
-    "application_status": "running",
+    "application_status": "complete",
     "scheduler": {
       "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-      "observed_at": "2026-11-03T11:50:46.315480+00:00",
+      "observed_at": "2026-11-03T11:52:10.247989+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "next_run_time": null,
@@ -740,11 +740,12 @@
         "evidence_verified": true,
         "receipt": "config/content_review_run_receipts/f633df37-ffac-832a-a4e6-d49ee430f059.json"
       }
-    }
+    },
+    "application_completed_at": "2026-11-03T11:52:10.247989+00:00"
   },
-  "last_heartbeat_at": "2026-11-03T11:50:46.315480+00:00",
+  "last_heartbeat_at": "2026-11-03T11:52:10.247989+00:00",
   "latest_publication_reconciliation": {
-    "receipt": "config/content_review_publication_reconciliation/f633df37-ffac-832a-a4e6-d49ee430f059.json",
+    "receipt": "config/content_review_publication_reconciliation/a7557f21-e3c8-832a-a55f-e01ab7bb7176.json",
     "legacy_verified": 75,
     "automatic_verified": 7,
     "removals_preserved": 1,
@@ -756,8 +757,8 @@
     "requests_this_run": 0
   },
   "last_candidate_check": {
-    "candidate_id": "sans-005",
-    "status": "publisher_metadata_observed_reconciliation_held",
-    "checkpoint": "config/content_review_mechanical_checkpoints/sans-005-f633df37-ffac-832a-a4e6-d49ee430f059.json"
+    "candidate_id": "sans-007",
+    "status": "duplicates_passed_other_gates_held",
+    "checkpoint": "config/content_review_mechanical_checkpoints/sans-007-a7557f21-e3c8-832a-a55f-e01ab7bb7176.json"
   }
 }
