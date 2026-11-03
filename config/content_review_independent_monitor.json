@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-03T02:30:19.570Z",
+  "observed_at": "2026-11-03T03:36:40.001Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "8bb301fc-3d50-832f-8099-f1bc5e7cb5a1",
-    "scheduled_for": "2026-11-03T02:32:00Z",
-    "started_at": "2026-11-03T02:28:28.821271Z",
+    "run_id": "a898dcfa-6da0-832f-8c67-b272bb0978c6",
+    "scheduled_for": "2026-11-03T03:32:00Z",
+    "started_at": "2026-11-03T03:35:59.648701Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,45 +14,45 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-03T02:29:57.783Z",
+    "observed_at": "2026-11-03T03:36:24.256Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "16f5b5c4-34d0-832e-a582-d0e95fd15dda",
+      "id": "1f1257c4-1528-832e-bcb2-53b9661032b8",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-03T01:45:00Z",
-      "started_at": "2026-11-03T01:49:11.523334Z",
-      "completed_at": "2026-11-03T01:58:41.919582Z"
+      "scheduled_for": "2026-11-03T02:45:00Z",
+      "started_at": "2026-11-03T02:44:06.210916Z",
+      "completed_at": "2026-11-03T02:50:57.138146Z"
     }
   },
   "receipt_check": {
-    "run_id": "16f5b5c4-34d0-832e-a582-d0e95fd15dda",
-    "path": "config/content_review_run_receipts/16f5b5c4-34d0-832e-a582-d0e95fd15dda.json",
+    "run_id": "1f1257c4-1528-832e-bcb2-53b9661032b8",
+    "path": "config/content_review_run_receipts/1f1257c4-1528-832e-bcb2-53b9661032b8.json",
     "verified": true,
     "reason": "Native terminal scheduled run matches canonical receipt automation/run identity, scheduled_for, trigger=schedule, status=complete, nonempty completed_actions and receipt_path; receipt completed_at is within native started_at/completed_at."
   },
-  "checkpoint_observed_at": "2026-11-03T01:58:14.704789+00:00",
+  "checkpoint_observed_at": "2026-11-03T02:50:39.608972+00:00",
   "findings": [
     {
       "code": "scheduled_completion_verified",
-      "message": "Content Review run 16f5b5c4-34d0-832e-a582-d0e95fd15dda, scheduled 2026-11-03T01:45:00Z, started 2026-11-03T01:49:11.523334Z and completed 2026-11-03T01:58:41.919582Z, has a matching canonical scheduled receipt completed at 2026-11-03T01:58:06.184Z."
+      "message": "Content Review run 1f1257c4-1528-832e-bcb2-53b9661032b8, scheduled 2026-11-03T02:45:00Z, started 2026-11-03T02:44:06.210916Z and completed 2026-11-03T02:50:57.138146Z, has a matching canonical scheduled receipt completed at 2026-11-03T02:50:30.955Z."
     },
     {
       "code": "no_missed_start",
-      "message": "The latest worker run served the 2026-11-03T01:45:00Z hourly slot and started within the 15-minute dispatch window. The next expected hourly slot is 2026-11-03T02:45:00Z (expected from the saved DTSTART anchor, not native next_run_time) and was not due at 2026-11-03T02:29:57.783Z."
+      "message": "The latest worker run served the 2026-11-03T02:45:00Z hourly slot and started within the 15-minute dispatch window. The next expected hourly slot is 2026-11-03T03:45:00Z (expected from the saved DTSTART anchor, not native next_run_time) and was not due at 2026-11-03T03:36:24.256Z."
     },
     {
       "code": "worker_checkpoint_complete",
-      "message": "Worker current_run matches native run 16f5b5c4-34d0-832e-a582-d0e95fd15dda; application_status=complete, observed_at=2026-11-03T01:58:14.704789+00:00, application_completed_at=2026-11-03T01:58:14.704789+00:00. Native state is terminal, so heartbeat age does not indicate stalled activity."
+      "message": "Worker current_run matches native run 1f1257c4-1528-832e-bcb2-53b9661032b8; application_status=complete, observed_at=2026-11-03T02:50:39.608972+00:00, application_completed_at=2026-11-03T02:50:39.608972+00:00. Native state is terminal, so heartbeat age does not indicate stalled activity."
     },
     {
       "code": "native_terminal_state_confirmed",
-      "message": "The worker checkpoint correctly retained native in_progress state observed at 2026-11-03T01:58:14.704789+00:00; this independent lookup at 2026-11-03T02:29:57.783Z now confirms native terminal completion."
+      "message": "The worker checkpoint retained the native in_progress state observed at 2026-11-03T02:50:39.608972+00:00; this independent lookup at 2026-11-03T03:36:24.256Z confirms native terminal completion."
     },
     {
       "code": "observer_scheduled_start_verified",
-      "message": "Observer run 8bb301fc-3d50-832f-8099-f1bc5e7cb5a1 was scheduled 2026-11-03T02:32:00Z and started 2026-11-03T02:28:28.821271Z, within dispatch grace; it remains in_progress. The prior snapshot at 2026-11-03T01:37:12.332Z was within the 75-minute freshness window when this snapshot was written."
+      "message": "Observer run a898dcfa-6da0-832f-8c67-b272bb0978c6 was scheduled 2026-11-03T03:32:00Z and started 2026-11-03T03:35:59.648701Z, within dispatch grace; it remains in_progress. The prior snapshot at 2026-11-03T02:30:19.570Z was within the 75-minute freshness window when this snapshot was written."
     },
     {
       "code": "native_next_run_time_unavailable",
