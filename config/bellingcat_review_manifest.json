@@ -258,16 +258,28 @@
         "content_sha256": "36c2709a928ef3e4a11eab92d3b218ab37e3a8a977feff3ee5ffe8a3b075c69b",
         "checks": {
           "format": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-03T23:47:53.601262+00:00",
             "content_sha256": "36c2709a928ef3e4a11eab92d3b218ab37e3a8a977feff3ee5ffe8a3b075c69b",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-09b311e06ea7c193e1b35dee-2263fc85-29e0-8326-bd23-61f6a36ce8ee.json",
+              "source_url": "https://www.bellingcat.com/resources/how-tos/2026/06/30/burning-forests-tools-for-tracking-and-reporting-wildfire-damage",
+              "observed_document_type": "osint_methodology_guide",
+              "basis": "Official public HTML methodology guide with dated author attribution, sequential satellite imagery and GIS instructions, worked examples and data limitations. It is an OSINT tutorial rather than a verified journal or conference research paper; no peer-review claim.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "access": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-03T23:47:53.601262+00:00",
             "content_sha256": "36c2709a928ef3e4a11eab92d3b218ab37e3a8a977feff3ee5ffe8a3b075c69b",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-09b311e06ea7c193e1b35dee-2263fc85-29e0-8326-bd23-61f6a36ce8ee.json",
+              "source_url": "https://www.bellingcat.com/resources/how-tos/2026/06/30/burning-forests-tools-for-tracking-and-reporting-wildfire-damage",
+              "observed_document_type": "osint_methodology_guide",
+              "basis": "Official public HTML methodology guide with dated author attribution, sequential satellite imagery and GIS instructions, worked examples and data limitations. It is an OSINT tutorial rather than a verified journal or conference research paper; no peer-review claim.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "metadata": {
             "status": "not_checked",
@@ -305,7 +317,9 @@
       "review_number": 182,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "verified_document_type": "osint_methodology_guide",
+      "verified_document_type_evidence": "config/content_review_mechanical_checkpoints/bellingcat-url-09b311e06ea7c193e1b35dee-2263fc85-29e0-8326-bd23-61f6a36ce8ee.json"
     },
     {
       "title": "How to Use AI to Help Find Civilian Harm",
