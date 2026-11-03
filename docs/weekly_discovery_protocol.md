@@ -1,0 +1,132 @@
+# Weekly discovery: OpenAlex access and recovery
+
+Updated 2026-11-02. Applies to `python -m alex.cli discover`, the weekly
+`pipeline.yml` discovery stage and the manual `discover.yml` stage.
+
+## Provider rules and endpoint choice
+
+Current primary sources, checked 2026-11-02:
+
+- https://help.openalex.org/api/authentication/
+- https://help.openalex.org/api/get-single-entities/
+- https://help.openalex.org/api/errors/
+- https://help.openalex.org/access/example-costs/
+
+OpenAlex documents singleton work retrieval by DOI as free, including
+`GET /works/https://doi.org/<doi>`. Searches and list/filter requests consume
+the account's usage budget. Its current free-key ceiling is 30 requests per
+second; special heavy queries have lower ceilings. These are ceilings, not
+targets. Our temporary diagnostic pace remains one OpenAlex call per 60 seconds,
+with a 20-second request timeout and no automatic OpenAlex retries.
+
+Free singletons are an endpoint on the same API, not an independently authorized
+request channel. The documentation does not promise an independent rate-limit
+or cooldown pool for DOI retrieval. Keep the same key, pacing, request cap and
+provider hold across search, list/filter and singleton calls. Conservatively
+pause singletons too when the client observes exhausted account allowance.
+Never rotate keys, remove authentication, change runners or switch endpoints
+to evade a restriction. No prepaid spending or paid plan is enabled by this change.
+
+Individual DOI lookups now use the singleton endpoint. Bulk helper callers
+deduplicate DOIs, resolve them individually, and stop the loop after a provider
+failure. A singleton 404 is a completed lookup with no matching record; it is
+not an accepted paper or a reason to relax quality requirements.
+
+## Limits and coverage
+
+`config/weekly_discovery_policy.json` sets each discovery pass to at most:
+
+- 2,700 seconds (45 minutes) of discovery runtime;
+- 300 HTTP client send attempts across sources, including retries;
+- 20 OpenAlex send attempts shared by searches and singleton lookups.
+
+Before an OpenAlex pacing wait, both the wait and its bounded request must fit
+inside the remaining runtime. Other requests use the remaining timeout budget.
+The GitHub job ceiling remains 60 minutes, leaving time for startup and durable
+state publication. Requests timeouts are connect/read timeouts, not an absolute
+guarantee against a continually trickling response. Git/network state pushes
+are bounded at 120 seconds each; exceptional runner termination remains possible.
+
+The existing per-query pagination ceilings and all relevance/quality thresholds
+are unchanged. Complete means the configured bounded search/enrichment work
+finished; it does not claim exhaustive coverage of every paper at every source.
+Disabled sources retain their existing gates. Available independent sources
+can progress even when OpenAlex is held or has exhausted its per-pass budget.
+
+## Checkpoints and resumption
+
+`data/discovery_checkpoint.json` stores the original date window and query
+registry, completed task results and successful request responses. A resumed
+pass replays completed pages/tasks without sending those requests again, then
+continues unfinished work. Failed responses are not saved as successful pages.
+Corrupt state fails closed; never replace it with an empty checkpoint.
+
+Candidates are written atomically after each query and before enrichment.
+Title deduplication preserves the existing candidate identities. DOI enrichment
+includes this window's previously saved candidates. Its task identity depends
+on the missing DOI set, so new arrivals on resume cannot inherit an older
+"enrichment complete" result. Singleton responses already obtained are reused.
+
+An unfinished window keeps its original dates across later passes. Once it
+finishes, the next window overlaps the last completed boundary and covers any
+gap rather than skipping the intervening dates.
+
+State, receipt and OpenAlex pacing files travel with candidates through the
+existing gzipped `pipeline-state` branch and its compare-and-swap push. In
+GitHub Actions, successful-response boundaries publish state at most once every
+120 seconds, plus a final forced push. This bounds recoverable remote progress;
+an abrupt host loss can still lose work since the last successful push. A failed
+state push stops new network work instead of overwriting another writer.
+
+`ALEX_OPENALEX_STATE_PATH=data/discovery_openalex_state.json` is inherited by
+all weekly pipeline stages and the manual discovery workflow. It preserves
+observed pacing/cooldown across their state pulls. This is not a distributed
+account-wide governor for unrelated runners or the separate Content Review
+service. Those must continue their own conservative limits and shared provider
+policy. Do not claim a verified aggregate account allowance without provider
+usage evidence.
+
+## Failures, receipts and downstream publication
+
+429, 5xx, authentication failures and connection/timeout errors stop OpenAlex
+for the rest of that client pass. Persist the cooldown using the longer of
+Retry-After, the configured cooldown and any exhausted-quota reset header.
+All OpenAlex endpoint types honor it. Do not spend the rest of a pass iterating
+hundreds of requests that cannot be sent. Deferred tasks are retried on a later
+authorized invocation after the hold permits; no retry automation is added.
+
+`data/discovery_run_receipt.json` records:
+
+- `complete`: all configured tasks completed, including empty successful results;
+- `partial`: some tasks completed while others remain deferred or failed;
+- `deferred`: no task completed because runtime/request/provider limits blocked work;
+- `failed`: no task completed and an application/request failure prevented progress.
+
+Receipts include actual client send-attempt counts (cache/hold checks excluded),
+endpoint types, HTTP status or exception class, UTC timestamps, duration, and
+numeric allowlisted quota/reset/Retry-After headers when supplied. Secrets,
+authorization headers, exception URLs and request query strings are excluded.
+Counts are client send attempts; automatic HTTP redirects are not separately
+instrumented as additional sends. Missing headers mean unknown allowance,
+not unlimited allowance. Do not infer successful collection from scheduler
+dispatch, a source returning no new papers, or a previous receipt.
+
+Partial/deferred/failed discovery exits nonzero **after saving state**. Workflows
+push that state even on a nonzero discovery exit and write coverage status to
+the GitHub step summary. The pipeline's existing dependency chain blocks
+classification/publication until discovery returns complete. The existing report
+job remains responsible for the GitHub failure issue. No review decisions,
+accepted corpus files or quality thresholds are changed by this recovery logic.
+
+## Verification and live limits
+
+Run mocked regression coverage for singleton routing, shared search/DOI caps,
+cooldown persistence, zero allowance, runtime guards, request-page replay,
+new candidates after resume, corrupt state, credential-safe receipts and
+state-push failure. No live provider traffic is needed for those tests.
+
+After deployment, an authorized live pass is still required to verify actual
+provider availability, account allowance and the GitHub state-push path. Inspect
+the fresh receipt and state commit; a partial result is useful preserved progress,
+not a completed weekly collection. Never rerun an old workflow definition when
+verifying changed workflow wiring; start a fresh workflow from the updated branch.
