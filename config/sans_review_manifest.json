@@ -272,10 +272,14 @@
             "content_sha256": "86a4b31e79ca5d50e6f9e42f6013b9a3e5a8616ed76092e9e1d786b75e62e83d"
           },
           "metadata": {
-            "status": "not_checked",
-            "evidence": "Existing ALEX gate not executed in this discovery intake; Recover actual paper byline; inspect methods, validation and attribution limits; source access, scoring and deduplication.",
-            "checked_at": null,
-            "content_sha256": "86a4b31e79ca5d50e6f9e42f6013b9a3e5a8616ed76092e9e1d786b75e62e83d"
+            "status": "held",
+            "checked_at": "2026-11-03T06:52:50.308429+00:00",
+            "content_sha256": "86a4b31e79ca5d50e6f9e42f6013b9a3e5a8616ed76092e9e1d786b75e62e83d",
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/sans-003-bdc9586d-a218-832e-bcad-00df3ff88da2.json",
+              "landing_status": 200
+            },
+            "reason": "Official publisher landing metadata retrieved; exact publication-date/byline/identifier reconciliation against the actual resource remains pending."
           },
           "duplicates": {
             "status": "passed",
@@ -303,6 +307,13 @@
             "content_sha256": "86a4b31e79ca5d50e6f9e42f6013b9a3e5a8616ed76092e9e1d786b75e62e83d"
           }
         }
+      },
+      "source_metadata_observation": {
+        "checked_at": "2026-11-03T06:52:50.308429+00:00",
+        "evidence_ref": "config/content_review_mechanical_checkpoints/sans-003-bdc9586d-a218-832e-bcad-00df3ff88da2.json",
+        "publisher": "SANS",
+        "landing_sha256": "282be410ad1b10dead756898f5ecc5640774bdca5c82d4fd94b76e1a29bedebd",
+        "observations_pending_reconciliation": true
       }
     },
     {
