@@ -95,3 +95,20 @@ def test_stale_writer_is_rejected(remote, tmp_path):
     c = _clone(remote, tmp_path / "c")
     _state(c, "pull")
     assert (c / "data" / "discovery_candidates.csv").read_text() == "title\nfrom b\n"
+
+
+def test_discovery_checkpoint_receipt_and_cooldown_round_trip(remote, tmp_path):
+    a = _clone(remote, tmp_path / "a")
+    files = {
+        "discovery_checkpoint.json": '{"status":"partial","tasks":{"Crossref:q":[]}}',
+        "discovery_run_receipt.json": '{"status":"partial","actual_request_count":1}',
+        "discovery_openalex_state.json": '{"retry_not_before":9999999999}',
+        "discovery_candidates.csv": "title\nExisting candidate\n",
+    }
+    for name, content in files.items():
+        _write(a, name, content)
+    assert _state(a, "push", "checkpoint").returncode == 0
+    b = _clone(remote, tmp_path / "b")
+    assert _state(b, "pull").returncode == 0
+    for name, content in files.items():
+        assert (b / "data" / name).read_text() == content

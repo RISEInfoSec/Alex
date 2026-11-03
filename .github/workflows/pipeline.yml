@@ -3,6 +3,9 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "23 3 * * 1"
+env:
+  ALEX_OPENALEX_STATE_PATH: data/discovery_openalex_state.json
+  ALEX_DISCOVERY_SYNC: "1"
 permissions:
   contents: write
   pages: write
@@ -59,8 +62,13 @@ jobs:
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python -m alex.cli discover
-          scripts/state.sh push "Discover candidates"
+          status=0
+          python -m alex.cli discover || status=$?
+          scripts/state.sh push "Checkpoint weekly discovery (exit $status)"
+          if [ -f data/discovery_run_receipt.json ]; then
+            python -c 'import json; r=json.load(open("data/discovery_run_receipt.json")); print("Discovery coverage: " + r["status"] + "; actual requests: " + str(r["actual_request_count"]))' >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit "$status"
 
   chain:
     needs: discover

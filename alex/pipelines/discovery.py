@@ -1,12 +1,15 @@
 from __future__ import annotations
 import logging
 import os
+import hashlib
+import json
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 from typing import Any, Callable
 import pandas as pd
 from alex.utils.io import load_json, load_df, save_df, root_file
 from alex.utils.http import HttpClient
+from alex.utils.discovery_checkpoint import DiscoveryClient, DiscoveryIncomplete
 from alex.publication_dates import row_publication_fields, crossref_publication_fields
 from alex.utils.text import clean, normalize_title
 from alex.utils import connector_config
@@ -43,9 +46,27 @@ DEFAULT_CORE_CIRCUIT_BREAK = 3
 
 def run() -> None:
     config = connector_config.load()
-    queries = config["queries"]
-    client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
+    today = datetime.now(timezone.utc).date()
+    window = {"from_date": (today - timedelta(days=DISCOVER_WINDOW_DAYS)).isoformat(),
+              "until_date": today.isoformat()}
+    budget_path = root_file("config", "weekly_discovery_policy.json")
+    budgets = load_json(budget_path) if budget_path.exists() else {}
+    client = DiscoveryClient(root_file("data", "discovery_checkpoint.json"), window, config,
+                             budgets, mailto=os.getenv("HARVEST_MAILTO", ""))
+    receipt = root_file("data", "discovery_run_receipt.json")
+    try:
+        count = _run(client)
+    except Exception as exc:
+        client.failures['pipeline'] = type(exc).__name__
+        client.finish(receipt, 0)
+        raise
+    client.finish(receipt, count)
 
+
+def _run(client: DiscoveryClient) -> int:
+    # Resume the saved registry and dates; never discard an unfinished window.
+    config = client.state['registry']
+    queries = config["queries"]
     # Resolve which connectors to call this run. Disabled connectors are
     # skipped entirely — no request, no polite-delay, no log spam. S2 also
     # needs an API key (free public tier 429s on every call within seconds).
@@ -68,6 +89,7 @@ def run() -> None:
             "unset; skipping connector. The free public tier 429s on every call."
         )
         enable_s2 = False
+        client.failures['Semantic Scholar:configuration'] = 'missing_api_key'
 
     enable_core = connector_config.is_enabled(config, "core", default=False)
     core_break_threshold = int(
@@ -76,9 +98,8 @@ def run() -> None:
     )
     core_consecutive_empty = 0
     core_tripped = False
-    today = datetime.now(timezone.utc).date()
-    from_date = (today - timedelta(days=DISCOVER_WINDOW_DAYS)).isoformat()
-    until_date = today.isoformat()
+    from_date = client.state['window']['from_date']
+    until_date = client.state['window']['until_date']
     rows = []
     seen = set()
 
@@ -113,6 +134,18 @@ def run() -> None:
         }
         row.update(row_publication_fields(kwargs))
         rows.append(row)
+        client.state.setdefault('candidate_titles', []).append(key)
+
+    def persist_candidates():
+        # Candidates first, then the checkpoint: replay after interruption is
+        # idempotent through the existing normalized-title deduplication.
+        new = pd.DataFrame(rows)
+        df = pd.concat([existing_df, new], ignore_index=True) if not existing_df.empty and not new.empty else (new if not new.empty else existing_df)
+        temp = existing_path.with_suffix('.csv.tmp')
+        save_df(temp, df)
+        temp.replace(existing_path)
+        with client.guard:
+            client._save()
 
     mailto = os.getenv("HARVEST_MAILTO", "")
     core_api_key = os.getenv("CORE_API_KEY", "")
@@ -168,13 +201,15 @@ def run() -> None:
             )))
 
         if not tasks:
+            if enable_core and core_tripped:
+                client.failures["CORE:" + query] = "core_circuit_break"
             continue
 
         # Iterate results in the original task order so dedup via `seen` is
         # reproducible across runs (first source wins for a given title).
         results: dict[str, list] = {}
         with ThreadPoolExecutor(max_workers=DISCOVER_CONNECTOR_WORKERS) as ex:
-            futures = {ex.submit(fn): name for name, fn in tasks}
+            futures = {ex.submit(client.run_task, name + ":" + query, fn): name for name, fn in tasks}
             for fut, name in futures.items():
                 try:
                     results[name] = fut.result()
@@ -195,6 +230,9 @@ def run() -> None:
                     )
             else:
                 core_consecutive_empty = 0
+
+        if enable_core and core_tripped and "CORE" not in results:
+            client.failures["CORE:" + query] = "core_circuit_break"
 
         for item in results.get("OpenAlex", []):
             add_row(
@@ -278,18 +316,17 @@ def run() -> None:
                 citation_count=0,
             )
 
+        persist_candidates()
+
     # arXiv API — bulk per-category fetch over the same 7-day window the
     # other date-filtered connectors use, then client-side keyword filter.
     # Per-category (not per-query) so we issue ~6 API calls to arXiv per run
     # instead of ~16, well inside their "be nice" guidance.
     if enable_arxiv:
         arxiv_config = load_json(root_file("config", "arxiv_categories.json"))
-        api_papers = arxiv.search_recent(
-            client,
-            arxiv_config["categories"],
-            from_date=from_date,
-            until_date=until_date,
-        )
+        arxiv_config = client.state.setdefault('arxiv_config', arxiv_config)
+        api_papers = client.run_task("arXiv:categories", lambda: arxiv.search_recent(
+            client, arxiv_config["categories"], from_date=from_date, until_date=until_date))
         # Default min_keyword_matches=1: empirically the prior `=2` strict
         # subset filter let through 1 paper out of thousands. arXiv content
         # is high-signal already; one full-query subset match is enough.
@@ -321,26 +358,41 @@ def run() -> None:
     # results; when a row has a DOI, a follow-up OpenAlex lookup fills the gap
     # cheaply. Harvest still runs later for authoritative metadata, but it no
     # longer needs to hunt for abstracts as its primary job.
-    _enrich_missing_abstracts(rows, client, os.getenv("HARVEST_MAILTO", ""))
-
-    new_df = pd.DataFrame(rows)
-    if not existing_df.empty and not new_df.empty:
-        df = pd.concat([existing_df, new_df], ignore_index=True)
-    elif not new_df.empty:
-        df = new_df
-    else:
-        df = existing_df
-    save_df(existing_path, df)
-    print(f"Discovered {len(rows)} new candidates ({len(df)} total)")
+    persist_candidates()
+    # Include this window's previously checkpointed candidates after a resume,
+    # without sweeping or re-enriching the unrelated historical backlog.
+    targets = set(client.state.get('candidate_titles', []))
+    enrichment_rows = [row for row in existing_df.astype(object).where(pd.notna(existing_df), "").to_dict('records')
+                       if normalize_title(str(row.get('title', ''))) in targets] + rows
+    def enrich():
+        _enrich_missing_abstracts(enrichment_rows, client, os.getenv("HARVEST_MAILTO", ""))
+        return [{"title": row['title'], "abstract": row.get('abstract', '')} for row in enrichment_rows]
+    needed = any(not row.get("abstract") and row.get("doi") for row in enrichment_rows)
+    # A resumed source can introduce more DOIs after an earlier enrichment
+    # task completed. Its old result must not stand in for the new work set.
+    doi_set = sorted({str(row['doi']).lower() for row in enrichment_rows
+                      if not row.get('abstract') and row.get('doi')})
+    enrichment_key = hashlib.sha256(json.dumps(doi_set).encode()).hexdigest()
+    enriched = client.run_task("OpenAlex:abstract_enrichment:" + enrichment_key, enrich) if needed else []
+    abstracts = {normalize_title(row['title']): row['abstract'] for row in enriched if row.get('abstract')}
+    for row in rows:
+        if not row.get('abstract'):
+            row['abstract'] = abstracts.get(normalize_title(row['title']), '')
+    if not existing_df.empty:
+        for idx, row in existing_df.iterrows():
+            key = normalize_title(str(row.get('title', '')))
+            if key in abstracts and (pd.isna(row.get('abstract')) or not row.get('abstract')):
+                existing_df.at[idx, 'abstract'] = abstracts[key]
+    persist_candidates()
+    print(f"Discovered {len(rows)} new candidates; coverage status is recorded in discovery_run_receipt.json")
+    return len(rows)
 
 
 def _enrich_missing_abstracts(rows: list[dict], client: HttpClient, mailto: str) -> None:
-    """Fill missing abstracts via batched OpenAlex DOI lookups.
+    """Fill missing abstracts using deduplicated, paced free DOI singletons.
 
-    Targets rows that have a DOI but no abstract. Dedupes DOIs (the same DOI
-    can show up across multiple connector results) and resolves them in one
-    batched OpenAlex call per 50 DOIs — a ~400-row pool drops from ~400
-    serial requests to ~8. Mutates rows in place.
+    Weekly discovery persists successful responses and defers the remainder
+    on budget exhaustion or a shared provider hold. Mutates rows in place.
     """
     needed: list[str] = []
     seen: set[str] = set()
