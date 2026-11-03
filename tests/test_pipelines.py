@@ -1594,7 +1594,9 @@ class TestDiscoveryConnectorGating:
              self._patch_paths(tmp_path)[2], \
              patch("alex.pipelines.discovery.semantic_scholar.search") as s2:
             from alex.pipelines import discovery
-            discovery.run()
+            from alex.utils.discovery_checkpoint import DiscoveryIncomplete
+            with pytest.raises(DiscoveryIncomplete):
+                discovery.run()
 
         s2.assert_not_called()
 
