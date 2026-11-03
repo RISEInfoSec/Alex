@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "run_id": "3ce8b762-5e54-832e-8681-5fc54f985956",
+  "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-03T09:45:00Z",
+  "started_at": "2026-11-03T09:48:12.926959Z",
+  "completed_at": "2026-11-03T09:53:14.911Z",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/3ce8b762-5e54-832e-8681-5fc54f985956.json",
+  "completed_actions": [
+    "Read current operations/background-worker/workflow/lifecycle/material/retrospective/named-source policies; verified active private Site, current worker enabled and retired task disabled.",
+    "Acquired and read back SHA-guarded shared lease; ran current operations.py phase start and published/read back both live status records before D1. Refreshed actual native state and running checkpoints.",
+    "Read complete live D1 pagination: 62 submissions, 927 decisions, 598 jobs. Reconciled 213 latest intake decisions with exact content hashes and preserved decisions; no new eligible approvals.",
+    "Verified freshly fetched main a1197be396ccece17f6535b5c1bf5ff0693bd643 remains unchanged; enumerated seven immutable release receipts and requests. Reused completed evidence for 82 published targets, 3190 corpus records and one explicit removal; no fresh deployed-HTTP observation claimed.",
+    "Ran lifecycle CLI and manifest-integrity validation on a complete verified checkout: eight manifests, 1260 candidate identities, 385 lifecycle identities; all prior hashes, decisions and attempt histories preserved.",
+    "Completed exactly one due SANS-006 duplicate/exclusion check against current main corpus, 4041 weekly rows and eight prepared manifests; no matches. Other gates remain held. Saved/read back candidate, lifecycle, immutable evidence and reconciliation checkpoints.",
+    "Preserved named source manifests, shared ready buffer and discovery resume points; older FIRST/SOUPS/Virus Bulletin scope deferred under retrospective policy, M3AAWG/Bellingcat not due, Consensus disabled.",
+    "Verified previous scheduled native completion 2c2da0f9-91fc-832e-9dfd-c08a9d598248 using independent monitor observation and matching identity/time-bound canonical receipt."
+  ],
+  "checkpoint_paths": [
+    "config/sans_review_manifest.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_mechanical_checkpoints/sans-006-3ce8b762-5e54-832e-8681-5fc54f985956.json",
+    "config/content_review_publication_reconciliation/3ce8b762-5e54-832e-8681-5fc54f985956.json"
+  ],
+  "candidate_ids": [
+    "sans-006"
+  ],
+  "candidate_resolution_attempts": 1,
+  "source_requests": 0,
+  "openalex_requests": 0,
+  "paid_requests": 0,
+  "openalex_owner_hold_until": "2026-11-05T01:15:38Z",
+  "duplicate_weekly_pipeline_launched": false,
+  "hve_source_check_repeated": false,
+  "ready_total": 0,
+  "new_review_batches": 0,
+  "manifest_integrity": {
+    "complete_manifests": 8,
+    "candidate_identities": 1260,
+    "lifecycle_identities": 385,
+    "identity_hash_and_decision_preservation": true
+  },
+  "native_scheduled_success_verified": false,
+  "limitations": [
+    "This application completion needs later independent native terminal verification.",
+    "Current main and completed deployment evidence were reused; no fresh deployed-HTTP observation."
+  ],
+  "errors": []
+}
