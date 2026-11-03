@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "run_id": "fb5c7ffc-76cc-832e-9215-65f4d066f5bf",
-    "acquired_at": "2026-11-03T00:43:36.753Z",
-    "expires_at": "2026-11-03T01:13:36.753Z",
-    "purpose": "Scheduled Content Review publication/lifecycle reconciliation and bounded preparation"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -34,7 +29,7 @@
   },
   "global_deficit": 249,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-02T22:56:13.897Z",
+  "last_completed_at": "2026-11-03T00:52:16.728Z",
   "last_action": "Reconciled 62 completed submissions, 927 decisions and 598 immutable jobs; no new eligible Include decision was present. Repaired the registered weekly manifest after a literal connector truncation marker made it invalid JSON, restored the complete intended blob, and then synchronized all 385 lifecycle records. No candidate source request was made and the prior HVE check was not repeated. Native terminal completion remains unverified until a later scheduler observation.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
@@ -699,7 +694,7 @@
   "scheduled_verification": {
     "run_id": "fb5c7ffc-76cc-832e-9215-65f4d066f5bf",
     "receipt": "config/content_review_run_receipts/fb5c7ffc-76cc-832e-9215-65f4d066f5bf.json",
-    "application_status": "running",
+    "application_status": "complete",
     "native_terminal_status": "unverified_until_later_observation",
     "source_checks": 0,
     "candidate_resolution_attempts": 1
