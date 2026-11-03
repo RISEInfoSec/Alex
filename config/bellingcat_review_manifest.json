@@ -103,16 +103,28 @@
         "content_sha256": "72559af7a78f8bdb3269a9407caca82fc59132157f4457ce8b65510d0454318d",
         "checks": {
           "format": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-03T21:54:16.465820+00:00",
             "content_sha256": "72559af7a78f8bdb3269a9407caca82fc59132157f4457ce8b65510d0454318d",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-ab03b31b081cabd4d3d207f6-b45516ec-f948-8326-9aca-1ff9dc4250c4.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/10/22/can-llms-supercharge-geolocations-our-tests-show-big-improvements-but-humans-remain-key",
+              "observed_document_type": "investigative_journalism",
+              "basis": "Official public HTML article with a title, dated byline, methods, test setup, results and limitations. Bellingcat investigators report geolocation benchmarking and human verification limits. It is investigative methodology journalism, not a verified journal or conference research paper; no peer-review claim.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "access": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-03T21:54:16.465820+00:00",
             "content_sha256": "72559af7a78f8bdb3269a9407caca82fc59132157f4457ce8b65510d0454318d",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-ab03b31b081cabd4d3d207f6-b45516ec-f948-8326-9aca-1ff9dc4250c4.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/10/22/can-llms-supercharge-geolocations-our-tests-show-big-improvements-but-humans-remain-key",
+              "observed_document_type": "investigative_journalism",
+              "basis": "Official public HTML article with a title, dated byline, methods, test setup, results and limitations. Bellingcat investigators report geolocation benchmarking and human verification limits. It is investigative methodology journalism, not a verified journal or conference research paper; no peer-review claim.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "metadata": {
             "status": "not_checked",
@@ -150,7 +162,9 @@
       "review_number": 179,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "verified_document_type": "investigative_journalism",
+      "verified_document_type_evidence": "config/content_review_mechanical_checkpoints/bellingcat-url-ab03b31b081cabd4d3d207f6-b45516ec-f948-8326-9aca-1ff9dc4250c4.json"
     },
     {
       "title": "Burning Forests: Tools for Tracking and Reporting Wildfire Damage",
