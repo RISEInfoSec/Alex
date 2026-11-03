@@ -156,8 +156,9 @@ class DiscoveryClient(HttpClient):
         value = getattr(super(), method)(url, params=params, headers=headers, timeout=timeout)
         status = self.local.last_status
         if value is None and status != 404:
-            reason = 'openalex_cooldown' if self.openalex_deferred() else 'request_failed'
-            if self.openalex_deferred():
+            held_openalex = urlsplit(url).hostname == 'api.openalex.org' and self.openalex_deferred()
+            reason = 'openalex_cooldown' if held_openalex else 'request_failed'
+            if held_openalex:
                 self.blocked_sources['OpenAlex'] = reason
             with self.guard:
                 self.sync()
