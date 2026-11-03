@@ -5,7 +5,11 @@ Notes for AI / automation agents working on this repo. Pairs with [`README.md`](
 ## Repo at a glance
 - Pipeline: Discover → Citation chain → Quality gate → Harvest → Rescore → Classify → Publish → Pages deploy.
 - Implementation: `alex/pipelines/<stage>.py`. Each stage is invocable via `python -m alex.cli <stage>`.
-- Single weekly cron: `pipeline.yml` Mon 03:23 UTC runs all stages sequentially in one job.
+- Single weekly cron: `pipeline.yml` Mon 03:23 UTC runs dependent stage jobs.
+- Weekly discovery protocol: read `docs/weekly_discovery_protocol.md` before
+  changing discovery, provider access, checkpoints or retry behaviour. Free DOI
+  singletons share the OpenAlex governor; partial discovery is not a successful
+  weekly collection and must not release downstream publication.
 
 ## Non-obvious rules
 - **Concurrency.** Parallelise *across* upstream sources, never *within* one. Free academic APIs (OpenAlex, Crossref, Zenodo, Semantic Scholar) keep serial pagination with `time.sleep(0.5)` between page fetches. Paid commercial APIs (OpenAI) are exempt from this rule.
