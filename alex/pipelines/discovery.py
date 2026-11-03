@@ -89,6 +89,7 @@ def _run(client: DiscoveryClient) -> int:
             "unset; skipping connector. The free public tier 429s on every call."
         )
         enable_s2 = False
+        client.failures['Semantic Scholar:configuration'] = 'missing_api_key'
 
     enable_core = connector_config.is_enabled(config, "core", default=False)
     core_break_threshold = int(
