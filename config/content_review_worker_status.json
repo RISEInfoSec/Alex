@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "run_id": "16f5b5c4-34d0-832e-a582-d0e95fd15dda",
-    "acquired_at": "2026-11-03T01:50:19.048Z",
-    "expires_at": "2026-11-03T02:20:19.048Z",
-    "purpose": "Scheduled bounded publication, lifecycle and independent source preparation"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -34,7 +29,7 @@
   },
   "global_deficit": 249,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-03T00:52:16.728Z",
+  "last_completed_at": "2026-11-03T01:58:06.184Z",
   "last_action": "Reconciled 62 completed submissions, 927 decisions and 598 immutable jobs; no new eligible Include decision was present. Repaired the registered weekly manifest after a literal connector truncation marker made it invalid JSON, restored the complete intended blob, and then synchronized all 385 lifecycle records. No candidate source request was made and the prior HVE check was not repeated. Native terminal completion remains unverified until a later scheduler observation.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
@@ -697,11 +692,11 @@
     "candidate_changes": 0
   },
   "scheduled_verification": {
-    "run_id": "fb5c7ffc-76cc-832e-9215-65f4d066f5bf",
-    "receipt": "config/content_review_run_receipts/fb5c7ffc-76cc-832e-9215-65f4d066f5bf.json",
+    "run_id": "16f5b5c4-34d0-832e-a582-d0e95fd15dda",
+    "receipt": "config/content_review_run_receipts/16f5b5c4-34d0-832e-a582-d0e95fd15dda.json",
     "application_status": "complete",
     "native_terminal_status": "unverified_until_later_observation",
-    "source_checks": 0,
+    "source_checks": 1,
     "candidate_resolution_attempts": 1
   },
   "publication_status_reconciliation": {
@@ -756,5 +751,10 @@
     "retry_not_before": "2026-11-05T01:15:38Z",
     "reason": "Owner requested pause; not evidence of provider ban. Separate one-off retry owns the authorized pipeline launch.",
     "requests_this_run": 0
+  },
+  "last_candidate_check": {
+    "candidate_id": "sans-001",
+    "status": "access_restricted",
+    "checkpoint": "config/content_review_mechanical_checkpoints/sans-001-16f5b5c4-34d0-832e-a582-d0e95fd15dda.json"
   }
 }
