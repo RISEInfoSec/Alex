@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "run_id": "bdc9586d-a218-832e-bcad-00df3ff88da2",
+  "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-03T06:45:00Z",
+  "started_at": "2026-11-03T06:49:12.299055Z",
+  "completed_at": "2026-11-03T06:54:06.312Z",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/bdc9586d-a218-832e-bcad-00df3ff88da2.json",
+  "completed_actions": [
+    "Read current operations/background/workflow/lifecycle and source/material/retrospective instructions; verified active private Site, current native run and disabled retired task.",
+    "Acquired and read back shared lease; immediately ran operations.py phase start and published/read back both live records before D1. Refreshed native observations and running heartbeats throughout work.",
+    "Read complete D1 inventories: 62 submissions, 927 decisions and 598 jobs. Reconciled 213 latest intake decision hashes and saved decisions without discrepancy; no new eligible approvals.",
+    "Enumerated seven immutable main publication receipts and unchanged requests; freshly retrieved complete 3190-record deployed corpus matches prior digest. Reused evidence for 82 published targets and one explicit removal.",
+    "Ran lifecycle CLI; validated eight complete manifests preserving all 1260 candidate identities and 385 lifecycle identities, reviewed hashes, decisions and prior attempt histories.",
+    "Completed exactly one due initial official publisher-metadata lookup for sans-003. SANS robots and landing returned 200; expected title, structured publication date and linked resource location recorded. Actual resource byline, format/front matter, access, quality and schema remain unverified; no linked-file request or gate pass claimed.",
+    "Saved five checkpoint files atomically at 17753933db789ec730f66e4e2dadbc7fa3392ec0 and verified exact blob SHAs.",
+    "Preserved routine-source coverage and historical resume points; older discovery deferred under retrospective SOP, M3AAWG/Bellingcat refresh not due, Consensus disabled. No unchanged stable/parked/access failure or completed HVE source check repeated.",
+    "Verified prior scheduled run 4342dd0c-19ec-832e-83f8-e9c917615165 from independently dated native monitor observation and matching canonical time-bound receipt."
+  ],
+  "checkpoint_commit": "17753933db789ec730f66e4e2dadbc7fa3392ec0",
+  "checkpoint_paths": [
+    "config/sans_review_manifest.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_source_discovery_state.json",
+    "config/content_review_publication_reconciliation/bdc9586d-a218-832e-bcad-00df3ff88da2.json",
+    "config/content_review_mechanical_checkpoints/sans-003-bdc9586d-a218-832e-bcad-00df3ff88da2.json"
+  ],
+  "candidate_ids": [
+    "sans-003"
+  ],
+  "candidate_resolution_attempts": 1,
+  "candidate_source_requests": 2,
+  "public_evidence_requests": 2,
+  "total_source_http_requests": 4,
+  "paid_requests": 0,
+  "openalex_requests": 0,
+  "openalex_owner_hold_until": "2026-11-05T01:15:38Z",
+  "duplicate_weekly_pipeline_launched": false,
+  "hve_source_check_repeated": false,
+  "ready_total": 0,
+  "new_review_batches": 0,
+  "manifest_integrity": {
+    "complete_manifests": 8,
+    "candidate_identities": 1260,
+    "lifecycle_identities": 385,
+    "identity_hash_and_decision_preservation": true
+  },
+  "native_scheduled_success_verified": false,
+  "limitations": [
+    "Application completion requires later independent native terminal verification.",
+    "Publisher landing metadata is partial evidence; no actual paper/full-text access or complete metadata gate pass claimed."
+  ],
+  "errors": []
+}
