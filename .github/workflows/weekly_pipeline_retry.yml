@@ -48,7 +48,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          active=$(gh run list --workflow pipeline.yml --branch main --limit 20 --json status --jq '[.[] | select(.status != "completed")] | length')
+          active=$(gh run list --workflow pipeline.yml --branch main --created ">$(date -u -d '2 days ago' +%Y-%m-%dT%H:%M:%SZ)" --limit 20 --json status --jq '[.[] | select(.status != "completed")] | length')
           if [ "$active" -gt 0 ]; then
             echo "A Pipeline run already exists in a nonterminal state; no duplicate dispatched."
             exit 0
