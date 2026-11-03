@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "run_id": "16f5b5c4-34d0-832e-a582-d0e95fd15dda",
+  "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-03T01:45:00Z",
+  "started_at": "2026-11-03T01:49:11.523334Z",
+  "completed_at": "2026-11-03T01:58:06.184Z",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/16f5b5c4-34d0-832e-a582-d0e95fd15dda.json",
+  "completed_actions": [
+    "Read current operations, background-worker, workflow, lifecycle, material and retrospective/source policies.",
+    "Verified current native scheduler and linked Site; retired task remains disabled. Acquired and read back shared lease, then immediately published/read back both start status files before D1 or candidate work.",
+    "Read complete live D1 inventories (62 submissions, 927 decisions, 598 jobs); reconciled 213 latest intake decisions and reviewed hashes without discrepancies or new eligible approvals.",
+    "Enumerated current main immutable release receipts/requests; verified unchanged blobs and identical deployed public corpus digest, reusing prior complete evidence for 82 released targets and one explicit removal.",
+    "Synchronized lifecycle ledger and validated all eight complete source manifests, preserving 1260 candidate identities and all 385 lifecycle identities.",
+    "Completed one due SANS candidate initial source-access check: SANS landing/robots and linked Egnyte robots all returned HTTP200; Egnyte robots disallowed download retrieval. No disallowed download request was made. Saved hash-bound evidence and access restriction; stopped unchanged repeats.",
+    "Preserved historical source checkpoints and current source refresh deadlines; Consensus remains disabled.",
+    "Published five checkpoint files atomically at 0ea3db1854550063f89d356f03db79885dcfb820 and verified exact blob SHAs.",
+    "Recorded independent native terminal verification of prior run fb5c7ffc-76cc-832e-9215-65f4d066f5bf from observer snapshot and matching canonical receipt."
+  ],
+  "checkpoint_commit": "0ea3db1854550063f89d356f03db79885dcfb820",
+  "checkpoint_paths": [
+    "config/sans_review_manifest.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_source_discovery_state.json",
+    "config/content_review_publication_reconciliation/16f5b5c4-34d0-832e-a582-d0e95fd15dda.json",
+    "config/content_review_mechanical_checkpoints/sans-001-16f5b5c4-34d0-832e-a582-d0e95fd15dda.json"
+  ],
+  "candidate_ids": [
+    "sans-001"
+  ],
+  "candidate_resolution_attempts": 1,
+  "source_http_requests": 3,
+  "source_page_requests": 1,
+  "robots_requests": 2,
+  "restricted_download_requests": 0,
+  "public_evidence_requests": 1,
+  "paid_requests": 0,
+  "openalex_requests": 0,
+  "openalex_owner_hold_until": "2026-11-05T01:15:38Z",
+  "duplicate_weekly_pipeline_launched": false,
+  "hve_source_check_repeated": false,
+  "ready_total": 0,
+  "new_review_batches": 0,
+  "lifecycle_counts": {
+    "completed": 8,
+    "awaiting_initial_checks": 297,
+    "awaiting_software_support": 2,
+    "access_restricted": 11,
+    "stable_quality_failure": 67
+  },
+  "manifest_integrity": {
+    "complete_manifests": 8,
+    "candidate_identities": 1260,
+    "lifecycle_identities": 385,
+    "identity_hash_and_decision_preservation": true
+  },
+  "native_scheduled_success_verified": false,
+  "limitations": [
+    "SANS landing metadata is verified; actual paper full text, format, quality, taxonomy and schema gates remain unverified. Verified file-host robots restriction suppresses unchanged retries until relevant permission/access-policy change.",
+    "No new candidate passed all six gates; manual buffer remains empty.",
+    "Current native terminal success cannot be verified until after termination; independent observer retains that responsibility."
+  ],
+  "errors": []
+}
