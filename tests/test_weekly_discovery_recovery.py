@@ -204,3 +204,25 @@ def test_corrupt_checkpoint_fails_closed(setup):
     (setup / 'checkpoint.json').write_text('{broken')
     with pytest.raises(json.JSONDecodeError):
         client(setup)
+
+
+def test_other_source_failure_is_not_mislabelled_openalex_cooldown(setup):
+    c = client(setup)
+    c._openalex_hold = True
+    c.session.get = MagicMock(return_value=response(503))
+    c.run_task('Crossref:q', lambda: c.get_json('https://api.crossref.org/works'))
+    assert c.failures['Crossref:q'] == 'request_failed'
+    assert c.session.get.call_count == 3
+
+
+def test_invalid_arxiv_xml_is_failed_coverage_not_an_empty_success(setup):
+    c = client(setup)
+    r = response()
+    r.text = '<broken'
+    c.session.get = MagicMock(return_value=r)
+    c.run_task('arXiv:q', lambda: c.get_raw('http://export.arxiv.org/api/query'))
+    with pytest.raises(DiscoveryIncomplete):
+        c.finish(setup / 'receipt.json', 0)
+    report = json.loads((setup / 'receipt.json').read_text())
+    assert report['status'] == 'failed'
+    assert report['deferred_tasks']['arXiv:q'] == 'invalid_xml_response'
