@@ -17,6 +17,9 @@ BRANCH="${STATE_BRANCH:-pipeline-state}"
 REMOTE="${STATE_REMOTE:-origin}"
 FILES=(
   discovery_candidates.csv
+  discovery_checkpoint.json
+  discovery_run_receipt.json
+  discovery_openalex_state.json
   quality_metrics.csv
   rejected_candidates.csv
   accepted_candidates.csv
