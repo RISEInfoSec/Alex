@@ -697,12 +697,12 @@
     "candidate_changes": 0
   },
   "scheduled_verification": {
-    "run_id": "cc470fe3-8124-832e-8148-d69e9b6008bb",
-    "receipt": "config/content_review_run_receipts/cc470fe3-8124-832e-8148-d69e9b6008bb.json",
-    "application_status": "complete",
+    "run_id": "fb5c7ffc-76cc-832e-9215-65f4d066f5bf",
+    "receipt": "config/content_review_run_receipts/fb5c7ffc-76cc-832e-9215-65f4d066f5bf.json",
+    "application_status": "running",
     "native_terminal_status": "unverified_until_later_observation",
     "source_checks": 0,
-    "reconciled_rejections": 1
+    "candidate_resolution_attempts": 1
   },
   "publication_status_reconciliation": {
     "receipt": "config/content_review_publication_reconciliation/2026-11-02-seven-completed.json",
@@ -715,13 +715,13 @@
   },
   "current_run": {
     "run_id": "fb5c7ffc-76cc-832e-9215-65f4d066f5bf",
-    "observed_at": "2026-11-03T00:49:33.031648+00:00",
+    "observed_at": "2026-11-03T00:50:16.128235+00:00",
     "started_at": "2026-11-03T00:43:00.671766Z",
     "scheduled_for": "2026-11-03T00:45:00Z",
     "application_status": "running",
     "scheduler": {
       "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-      "observed_at": "2026-11-03T00:49:33.031648+00:00",
+      "observed_at": "2026-11-03T00:50:16.128235+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "next_run_time": null,
@@ -743,5 +743,12 @@
       }
     }
   },
-  "last_heartbeat_at": "2026-11-03T00:49:33.031648+00:00"
+  "last_heartbeat_at": "2026-11-03T00:50:16.128235+00:00",
+  "latest_publication_reconciliation": {
+    "receipt": "config/content_review_publication_reconciliation/fb5c7ffc-76cc-832e-9215-65f4d066f5bf.json",
+    "legacy_verified": 75,
+    "automatic_verified": 7,
+    "removals_preserved": 1,
+    "unresolved_mismatches": 0
+  }
 }
