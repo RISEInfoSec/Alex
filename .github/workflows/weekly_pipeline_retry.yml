@@ -1,0 +1,57 @@
+name: ALEX one-off weekly retry
+on:
+  push:
+    branches: [main]
+    paths: ['config/weekly_pipeline_retry_request.json']
+permissions:
+  contents: read
+  actions: write
+concurrency:
+  group: alex-one-off-weekly-retry
+  cancel-in-progress: false
+jobs:
+  launch:
+    if: ${{ github.run_attempt == 1 }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Validate authorized request and owner hold
+        run: |
+          python3 - <<'PY'
+          import json
+          from datetime import datetime, timedelta, timezone
+          from pathlib import Path
+          def utc(value):
+              result = datetime.fromisoformat(value.replace('Z', '+00:00'))
+              if result.tzinfo is None:
+                  raise ValueError('A UTC offset is required')
+              return result
+          request = json.loads(Path('config/weekly_pipeline_retry_request.json').read_text())
+          policy = json.loads(Path('config/openalex_request_policy.json').read_text())
+          assert request['kind'] == 'weekly_pipeline_retry'
+          assert request['request_id'] == 'alex-weekly-retry-20261104'
+          owner_hold = utc('2026-11-05T01:15:38Z')
+          requested = utc(request['not_before'])
+          assert requested >= owner_hold
+          eligible = max(requested, utc(policy['retry_not_before']), owner_hold)
+          now = datetime.now(timezone.utc)
+          assert eligible <= now <= eligible + timedelta(hours=6), 'Retry is early or authorization is stale'
+          print('Authorized one-off retry window verified; no provider request sent.')
+          PY
+      - name: Start one fresh Pipeline from current main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          active=$(gh run list --workflow pipeline.yml --branch main --limit 20 --json status --jq '[.[] | select(.status != "completed")] | length')
+          if [ "$active" -gt 0 ]; then
+            echo "A Pipeline run already exists in a nonterminal state; no duplicate dispatched."
+            exit 0
+          fi
+          gh api --method POST "repos/$GH_REPO/actions/workflows/pipeline.yml/dispatches" -f ref=main
+          echo "Fresh pipeline.yml dispatch submitted; verify the actual child run independently."
