@@ -362,7 +362,7 @@ def _run(client: DiscoveryClient) -> int:
     # Include this window's previously checkpointed candidates after a resume,
     # without sweeping or re-enriching the unrelated historical backlog.
     targets = set(client.state.get('candidate_titles', []))
-    enrichment_rows = [row for row in existing_df.fillna("").to_dict('records')
+    enrichment_rows = [row for row in existing_df.astype(object).where(pd.notna(existing_df), "").to_dict('records')
                        if normalize_title(str(row.get('title', ''))) in targets] + rows
     def enrich():
         _enrich_missing_abstracts(enrichment_rows, client, os.getenv("HARVEST_MAILTO", ""))
