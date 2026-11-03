@@ -45,55 +45,26 @@ def search(
     return paginate(fetch_page, page_size=per_page, max_pages=max_pages)
 
 def get_by_doi(client: HttpClient, doi: str, mailto: str = "") -> dict[str, Any] | None:
-    params = {"filter": f"doi:https://doi.org/{_normalise_doi(doi)}"}
-    if mailto:
-        params["mailto"] = mailto
-    data = client.get_json(OPENALEX, params=params)
-    results = (data or {}).get("results", [])
-    return results[0] if results else None
+    bare = _normalise_doi(doi)
+    if not bare:
+        return None
+    # Singleton DOI lookups are free, but share authentication/pacing/holds.
+    params = {"mailto": mailto} if mailto else None
+    return client.get_json(f"{OPENALEX}/https://doi.org/{bare}", params=params)
 
 
-# Temporary diagnostic mode: exactly one DOI per HTTP request.
-_DOI_BATCH_SIZE = 1
-
-
-def get_many_by_doi(
-    client: HttpClient,
-    dois: list[str],
-    mailto: str = "",
-) -> dict[str, dict[str, Any]]:
-    """Resolve DOIs individually under the temporary slow-query policy.
-
-    Issues one request per unique DOI; the shared HTTP client serializes
-    calls, enforces long pauses and stops provider work after failures.
-    Returns a {bare_doi: work} map keyed on the DOI without the
-    `https://doi.org/` prefix (callers store DOIs in either form, so the
-    map is normalised on lookup too).
-    """
-    unique = {_normalise_doi(d) for d in dois if d}
-    unique.discard("")
-    out: dict[str, dict[str, Any]] = {}
-    if not unique:
-        return out
-
-    deduped = sorted(unique)
-    for start in range(0, len(deduped), _DOI_BATCH_SIZE):
-        chunk = deduped[start:start + _DOI_BATCH_SIZE]
-        # OpenAlex expects `filter=doi:url1|url2|...`. Keys with `https://`
-        # form because that is what the API returns and it doubles as the
-        # canonical reference form.
-        joined = "|".join(f"https://doi.org/{d}" for d in chunk)
-        params: dict[str, Any] = {
-            "filter": f"doi:{joined}",
-            "per-page": _DOI_BATCH_SIZE,
-        }
-        if mailto:
-            params["mailto"] = mailto
-        data = client.get_json(OPENALEX, params=params) or {}
-        for work in data.get("results", []) or []:
-            work_doi = _normalise_doi((work.get("ids") or {}).get("doi", ""))
-            if work_doi:
-                out[work_doi] = work
+def get_many_by_doi(client: HttpClient, dois: list[str], mailto: str = "") -> dict[str, dict[str, Any]]:
+    """Resolve unique DOIs through singleton endpoints; never evade a hold."""
+    out = {}
+    for bare in sorted({_normalise_doi(d) for d in dois if d} - {""}):
+        if isinstance(client, HttpClient) and client.openalex_deferred():
+            client.on_openalex_deferred()
+            break
+        work = get_by_doi(client, bare, mailto)
+        if work:
+            found = _normalise_doi((work.get("ids") or {}).get("doi", ""))
+            if found:
+                out[found] = work
     return out
 
 
