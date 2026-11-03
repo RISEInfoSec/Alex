@@ -56,10 +56,15 @@
             "content_sha256": "45792b3ef161b8b0e6616ae1d2606559b68579be4b76f087d1fd2f625ad9e6cd"
           },
           "access": {
-            "status": "not_checked",
-            "evidence": "Existing ALEX gate not executed in this discovery intake; Existing quality/taxonomy/schema checks; current-corpus and exclusion deduplication; tool/platform currency check. Preserve sample attrition, broad detection proxies and homepage-comparison limits.",
-            "checked_at": null,
-            "content_sha256": "45792b3ef161b8b0e6616ae1d2606559b68579be4b76f087d1fd2f625ad9e6cd"
+            "status": "held",
+            "checked_at": "2026-11-03T01:56:20.050163+00:00",
+            "content_sha256": "45792b3ef161b8b0e6616ae1d2606559b68579be4b76f087d1fd2f625ad9e6cd",
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/sans-001-16f5b5c4-34d0-832e-a582-d0e95fd15dda.json",
+              "landing_status": 200,
+              "download_status": "not_requested_robots_disallowed"
+            },
+            "reason": "Official SANS landing page is accessible, but robots.txt on its linked Egnyte file host disallows automated retrieval. No request to the disallowed download URL was made."
           },
           "metadata": {
             "status": "not_checked",
@@ -86,6 +91,29 @@
             "content_sha256": "45792b3ef161b8b0e6616ae1d2606559b68579be4b76f087d1fd2f625ad9e6cd"
           }
         }
+      },
+      "mechanical_history": [
+        {
+          "stage": "access",
+          "checked_at": "2026-11-03T01:56:20.050163+00:00",
+          "evidence_ref": "config/content_review_mechanical_checkpoints/sans-001-16f5b5c4-34d0-832e-a582-d0e95fd15dda.json",
+          "outcome": "access_restricted"
+        }
+      ],
+      "access_decision": {
+        "verified": true,
+        "status": "restricted",
+        "checked_at": "2026-11-03T01:56:20.050163+00:00",
+        "reason": "Official SANS landing page is accessible, but robots.txt on its linked Egnyte file host disallows automated retrieval. No request to the disallowed download URL was made.",
+        "evidence_ref": "config/content_review_mechanical_checkpoints/sans-001-16f5b5c4-34d0-832e-a582-d0e95fd15dda.json",
+        "permission_change_required": "Verified permission or robots/access-policy change for the linked file host before another automated retrieval."
+      },
+      "source_metadata_observation": {
+        "title": "\"You Again\": Fingerprinting and Tracking Mechanisms of Malicious Sites",
+        "author": "Erin Kuffel-Flato",
+        "publication_date": "2025-09-26",
+        "source_label": "PDF, 0.47MB",
+        "download_url": "https://sansorg.egnyte.com/dl/d7QcDKqTGPtY"
       }
     },
     {

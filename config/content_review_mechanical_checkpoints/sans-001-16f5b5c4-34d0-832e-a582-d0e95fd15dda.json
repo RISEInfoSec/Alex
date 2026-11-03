@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "run_id": "16f5b5c4-34d0-832e-a582-d0e95fd15dda",
+  "checked_at": "2026-11-03T01:56:20.050163+00:00",
+  "candidate_id": "sans-001",
+  "content_sha256": "45792b3ef161b8b0e6616ae1d2606559b68579be4b76f087d1fd2f625ad9e6cd",
+  "source_response": {
+    "status": "retrieved",
+    "info": {
+      "url": "https://www.sans.org/white-papers/you-again-fingerprinting-tracking-mechanisms-malicious-sites",
+      "status": 200,
+      "checked_at": "2026-11-03T01:54:27.621531+00:00",
+      "sha256": "9c9418d61fdaecb8748d9a2751601bab84cfc6112ba0b74b1110cc1cb67727c1",
+      "etag": null,
+      "last_modified": null
+    },
+    "calls": [
+      {
+        "url": "https://www.sans.org/robots.txt",
+        "http_status": 200
+      },
+      {
+        "url": "https://www.sans.org/white-papers/you-again-fingerprinting-tracking-mechanisms-malicious-sites",
+        "http_status": 200
+      },
+      {
+        "url": "https://sansorg.egnyte.com/robots.txt",
+        "http_status": 200,
+        "location": null,
+        "content_type": "text/plain"
+      }
+    ],
+    "candidate_id": "sans-001",
+    "content_sha256": "45792b3ef161b8b0e6616ae1d2606559b68579be4b76f087d1fd2f625ad9e6cd",
+    "download": {
+      "status": "held",
+      "reason": "robots_disallowed"
+    }
+  },
+  "source_metadata_observation": {
+    "title": "\"You Again\": Fingerprinting and Tracking Mechanisms of Malicious Sites",
+    "author": "Erin Kuffel-Flato",
+    "publication_date": "2025-09-26",
+    "source_label": "PDF, 0.47MB",
+    "download_url": "https://sansorg.egnyte.com/dl/d7QcDKqTGPtY"
+  },
+  "outcome": "access_restricted",
+  "reason": "Official SANS landing page is accessible, but robots.txt on its linked Egnyte file host disallows automated retrieval. No request to the disallowed download URL was made.",
+  "limitations": "Only the official landing page was inspected. No actual paper PDF, full-text, quality, taxonomy or schema gate is claimed passed. No login, challenge or robots restriction bypass.",
+  "requests_sent": 3,
+  "openalex_requests": 0
+}
