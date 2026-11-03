@@ -44,3 +44,7 @@ Official references:
 - https://www.bellingcat.com/resources/
 - https://help.consensus.app/en/articles/16516328-the-consensus-api
 - https://docs.consensus.app/api-reference/search
+
+## General-pool routing
+
+Consensus discoveries enter `weekly_review_manifest.json` with `collection_id=weekly`. Keep original authors and Consensus intermediary provenance. Do not register a Consensus named collection or route new records into its legacy empty manifest. The same global deduplication, preflight, review and publication rules apply. See [verification](consensus_general_discovery.md).

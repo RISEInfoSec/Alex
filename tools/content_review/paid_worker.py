@@ -36,7 +36,6 @@ MANIFESTS = {"soups": "config/soups_review_manifest.json",
              "first": "config/first_review_manifest.json",
              "m3aawg": "config/m3aawg_review_manifest.json",
              "bellingcat": "config/bellingcat_review_manifest.json",
-             "consensus": "config/consensus_review_manifest.json",
              "sans": "config/sans_review_manifest.json"}
 GATES = ("format", "access", "metadata", "duplicates", "quality")
 HASH_FIELDS = ("title", "authors", "year", "doi", "source_url", "abstract", "document_type")

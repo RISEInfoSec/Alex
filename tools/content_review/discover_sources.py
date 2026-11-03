@@ -237,7 +237,7 @@ def reconcile(root,observations,checked_at,max_intake=250,public_root=None):
         disposition=('editorial_exclusion' if record_keys(row)&exclusions else 'duplicate_identity' if matches else
             'intake_rejected' if row.get('intake_exclusion') else 'possible_version_or_translation' if variants or row.get('related_version_urls') else
             'source_metadata_conflict' if row.get('metadata_conflict') else 'unprocessed_discovery')
-        raw=dict(discovery_identity=rid,candidate_id=rid,collection=sid,discovery_source=sid,
+        raw=dict(discovery_identity=rid,candidate_id=rid,collection=('weekly' if sid=='consensus' else sid),discovery_source=sid,
             **{k:v for k,v in row.items() if k!='source_id'},source_fingerprint=fingerprint,first_seen_at=checked_at,last_seen_at=checked_at,
             disposition=disposition,duplicate_matches=matches,possible_version_matches=variants,document_type='format_unverified',
             review_ready=False,recommendation=None,preflight_blockers=list(GATES))
@@ -260,7 +260,7 @@ def reconcile(root,observations,checked_at,max_intake=250,public_root=None):
             if groups[sid] and len(intake)<max_intake:intake.append(groups[sid].pop(0))
     for raw in intake:
         r={k:raw.get(k,'') for k in HASH_FIELDS}
-        r.update(candidate_id=raw['candidate_id'],collection_id=raw['discovery_source'],collection_source=SOURCE_LABELS[raw['discovery_source']],
+        r.update(candidate_id=raw['candidate_id'],collection_id=('weekly' if raw['discovery_source']=='consensus' else raw['discovery_source']),collection_source=SOURCE_LABELS[raw['discovery_source']],
             discovery_source=raw['discovery_source'],collection_url=raw['provenance'][0]['discovery_url'],
             venue=raw.get('venue') or raw.get('publisher') or '',publisher=raw.get('publisher',''),
             discovery_intermediary=raw.get('discovery_intermediary',''),citation_count=raw.get('citation_count'),
@@ -382,6 +382,8 @@ def route_source_manifests(root,combined):
     """Use source collections in the existing console, with one shared workflow."""
     weekly=copy.deepcopy(combined)
     for sid,label in SOURCE_LABELS.items():
+        if sid == 'consensus':
+            continue  # Academic intermediary stays in the general discovery pool.
         path=root/'config'/(sid+'_review_manifest.json')
         source=json.loads(path.read_text()) if path.exists() else dict(schema_version=1,collection_id=sid,collection_source=label,publication_approved=False)
         for field in ('records','preflight_records'):

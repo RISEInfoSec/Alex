@@ -164,3 +164,22 @@ def test_source_manifests_share_workflow_and_preserve_identity(tmp_path):
     assert not weekly['preflight_records']
     from tools.content_review.paid_worker import MANIFESTS
     assert MANIFESTS['first']=='config/first_review_manifest.json'
+
+
+def test_consensus_enters_general_pool_with_identity_and_provenance(tmp_path):
+    root=base(tmp_path)
+    row=observation(sid='consensus',url='https://publisher.example/paper',doi='10.1234/example',authors='Original author')
+    inv,combined,counts=d.reconcile(root,[row],d.stamp())
+    record=copy.deepcopy(combined['preflight_records'][0])
+    assert record['collection_id']=='weekly'
+    assert record['collection_source']=='Consensus'
+    assert record['discovery_source']=='consensus'
+    assert record['source_url']==row['source_url'] and record['authors']=='Original author'
+    d.route_source_manifests(root,combined)
+    weekly=json.loads((root/'config/weekly_review_manifest.json').read_text())
+    assert weekly['preflight_records']==[record]
+    assert not (root/'config/consensus_review_manifest.json').exists()
+    persist(root,inv,weekly)
+    _,again,counts=d.reconcile(root,[row],d.stamp())
+    assert again['preflight_records']==[record]
+    assert counts['consensus'].get('ingested',0)==0
