@@ -31,10 +31,10 @@
     "soups": 88,
     "weekly": 94
   },
-  "global_deficit": 249,
+  "global_deficit": 250,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-03T13:50:18.147Z",
-  "last_action": "Reconciled 213 latest intake decisions; reused unchanged deployed evidence for 82 published targets and one removal. One due official SANS publisher-metadata lookup completed; remaining gates held. No new approvals or ready batch; no OpenAlex or paid request.",
+  "last_completed_at": "2026-11-03T14:54:49.613Z",
+  "last_action": "Reconciled213 latest intake decisions; reused82 published target proofs and one removal. One due initial SANS-010 duplicate check passed; other gates held. No new eligible approvals or ready batch; no qualifying OpenAlex lookup.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -696,12 +696,12 @@
     "candidate_changes": 0
   },
   "scheduled_verification": {
-    "run_id": "a7557f21-e3c8-832a-a55f-e01ab7bb7176",
-    "receipt": "config/content_review_run_receipts/a7557f21-e3c8-832a-a55f-e01ab7bb7176.json",
+    "run_id": "97336bf6-02ac-832a-94d0-d10eaa116c8b",
+    "receipt": "config/content_review_run_receipts/97336bf6-02ac-832a-94d0-d10eaa116c8b.json",
     "application_status": "complete",
-    "native_terminal_status": "unverified_until_later_observation",
-    "source_checks": 0,
-    "candidate_resolution_attempts": 1
+    "native_terminal_status": "unverified_until_independent_post_termination_observation",
+    "candidate_resolution_attempts": 1,
+    "source_checks": 0
   },
   "publication_status_reconciliation": {
     "receipt": "config/content_review_publication_reconciliation/2026-11-02-seven-completed.json",
@@ -714,13 +714,13 @@
   },
   "current_run": {
     "run_id": "97336bf6-02ac-832a-94d0-d10eaa116c8b",
-    "observed_at": "2026-11-03T14:54:11.210978+00:00",
+    "observed_at": "2026-11-03T14:54:55.600479+00:00",
     "started_at": "2026-11-03T14:46:55.231974Z",
     "scheduled_for": "2026-11-03T14:45:00Z",
-    "application_status": "running",
+    "application_status": "complete",
     "scheduler": {
       "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-      "observed_at": "2026-11-03T14:54:11.210978+00:00",
+      "observed_at": "2026-11-03T14:54:55.600479+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "next_run_time": null,
@@ -740,24 +740,26 @@
         "evidence_verified": true,
         "receipt": "config/content_review_run_receipts/dc33ec79-22c0-832a-860f-a2c0e1ba5036.json"
       }
-    }
+    },
+    "application_completed_at": "2026-11-03T14:54:55.600479+00:00"
   },
-  "last_heartbeat_at": "2026-11-03T14:54:11.210978+00:00",
+  "last_heartbeat_at": "2026-11-03T14:54:55.600479+00:00",
   "latest_publication_reconciliation": {
-    "receipt": "config/content_review_publication_reconciliation/a7557f21-e3c8-832a-a55f-e01ab7bb7176.json",
+    "receipt": "config/content_review_publication_reconciliation/97336bf6-02ac-832a-94d0-d10eaa116c8b.json",
     "legacy_verified": 75,
     "automatic_verified": 7,
     "removals_preserved": 1,
     "unresolved_mismatches": 0
   },
   "openalex_owner_hold": {
-    "retry_not_before": "2026-11-05T01:15:38Z",
-    "reason": "Owner requested pause; not evidence of provider ban. Separate one-off retry owns the authorized pipeline launch.",
-    "requests_this_run": 0
+    "retry_not_before": null,
+    "reason": "Owner lifted pause; supported qualifying credentialed checks may resume subject to later provider cooldowns.",
+    "requests_this_run": 0,
+    "lifted_at": "2026-11-03T14:21:42.553Z"
   },
   "last_candidate_check": {
-    "candidate_id": "sans-007",
+    "candidate_id": "sans-010",
     "status": "duplicates_passed_other_gates_held",
-    "checkpoint": "config/content_review_mechanical_checkpoints/sans-007-a7557f21-e3c8-832a-a55f-e01ab7bb7176.json"
+    "checkpoint": "config/content_review_mechanical_checkpoints/sans-010-97336bf6-02ac-832a-94d0-d10eaa116c8b.json"
   }
 }
