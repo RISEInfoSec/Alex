@@ -1692,7 +1692,9 @@ class TestDiscoveryConnectorGating:
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
              patch("alex.pipelines.discovery.core.search", return_value=[]) as core_mock:
             from alex.pipelines import discovery
-            discovery.run()
+            from alex.utils.discovery_checkpoint import DiscoveryIncomplete
+            with pytest.raises(DiscoveryIncomplete):
+                discovery.run()
 
         # Threshold is 2 → first two queries call CORE, then circuit trips
         # and remaining three are skipped.
