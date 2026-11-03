@@ -29,3 +29,19 @@ No API usage, spending, scores, gates, decisions, cron cadence or site access po
 is changed. Hourly workers read the updated registry and routing implementation;
 the paid classifier routes new work through weekly. Main's weekly discovery and
 publication workflow dependencies remain unchanged.
+
+Verification completed: 40 public collection tests; 122 pipeline, recovery,
+date, review-release and publication tests; 67 discovery and review-worker tests;
+90 console tests, TypeScript checking and the production console build. All eight
+review manifests pass integrity validation. Pages staging validates 199 indexable
+collection pages plus the retired redirect, SEO/schema/links and unchanged public
+downloads. No accepted data files changed.
+
+Published source commits: main c86796e and review branch 6ec24f3. The console
+publishes through Sites with its owner-only audience preserved. This environment's
+network policy denies the public ALEX domain and GitHub Actions API, so public
+Pages deployment status and live HTTP/browser behavior remain unverified. Provider
+traffic was mocked; no live Consensus call was made. The existing worker and
+independent-monitor schedules are enabled and their latest recorded runs completed;
+no post-change scheduled processing run is claimed as verified. Native scheduler
+next_run_time remains null. Neither schedule requires Consensus-specific edits.
