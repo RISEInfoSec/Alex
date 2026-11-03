@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "run_id": "2c2da0f9-91fc-832e-9dfd-c08a9d598248",
+  "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-03T08:45:00Z",
+  "started_at": "2026-11-03T08:43:14.420182Z",
+  "completed_at": "2026-11-03T08:48:37.214Z",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/2c2da0f9-91fc-832e-9dfd-c08a9d598248.json",
+  "completed_actions": [
+    "Read current operations, background worker, workflow, lifecycle, material, retrospective and named-source policies; verified active private Site and retired task disabled.",
+    "Acquired/read back shared lease; executed operations.py phase start and published/read back both live records before D1. Refreshed actual native state and running heartbeats during work.",
+    "Read complete D1 pagination: 62 submissions, 927 decisions, 598 jobs. Reconciled 213 latest intake decisions with exact hashes and preserved saved decisions; no new eligible approvals.",
+    "Enumerated seven immutable main release receipts and unchanged requests at freshly fetched main a1197be396ccece17f6535b5c1bf5ff0693bd643. Retrieved complete deployed 3190-record corpus under robots permission; digest matches completed reconciliation evidence for 82 published targets and one explicit removal.",
+    "Executed lifecycle CLI; validated eight complete manifests preserving 1260 candidate identities, 385 lifecycle identities, content hashes, decisions and prior attempt histories.",
+    "Completed exactly one due official publisher-metadata lookup for sans-004. SANS robots and landing returned 200; expected title and author visible, linked resource location recorded. Reused completed duplicate evidence; actual-file format, full metadata reconciliation, quality and schema remain held.",
+    "Saved five checkpoint files atomically at 6969f22d838fbd522a560664beb65032db427821 and verified exact published blob SHAs; manifest-integrity CLI passed all eight complete manifests.",
+    "Preserved source coverage/resume points. Older FIRST/SOUPS/Virus Bulletin scope deferred under retrospective SOP, M3AAWG/Bellingcat not due, Consensus disabled. No stable/parked failure or completed HVE check repeated.",
+    "Verified prior scheduled native completion 27d37cf8-0bb8-832e-89bc-76fb35902b83 from independently dated monitor observation and matching canonical time-bound receipt."
+  ],
+  "checkpoint_commit": "6969f22d838fbd522a560664beb65032db427821",
+  "checkpoint_paths": [
+    "config/sans_review_manifest.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_source_discovery_state.json",
+    "config/content_review_mechanical_checkpoints/sans-004-2c2da0f9-91fc-832e-9dfd-c08a9d598248.json",
+    "config/content_review_publication_reconciliation/2c2da0f9-91fc-832e-9dfd-c08a9d598248.json"
+  ],
+  "candidate_ids": [
+    "sans-004"
+  ],
+  "candidate_resolution_attempts": 1,
+  "candidate_source_requests": 2,
+  "public_evidence_requests": 2,
+  "total_source_http_requests": 4,
+  "paid_requests": 0,
+  "openalex_requests": 0,
+  "openalex_owner_hold_until": "2026-11-05T01:15:38Z",
+  "duplicate_weekly_pipeline_launched": false,
+  "hve_source_check_repeated": false,
+  "ready_total": 0,
+  "new_review_batches": 0,
+  "manifest_integrity": {
+    "complete_manifests": 8,
+    "candidate_identities": 1260,
+    "lifecycle_identities": 385,
+    "identity_hash_and_decision_preservation": true
+  },
+  "native_scheduled_success_verified": false,
+  "limitations": [
+    "Application completion requires later independent native terminal verification.",
+    "Publisher landing metadata is partial evidence. No actual-file access, full-text assessment, or complete format/metadata/quality/schema gate pass claimed."
+  ],
+  "errors": []
+}
