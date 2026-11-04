@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "run_id": "33733b4a-b75c-8322-88c6-c7a8eae6d9e2",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-04T15:45:00Z",
+  "started_at": "2026-11-04T15:44:50.244662Z",
+  "completed_at": "2026-11-04T15:55:34.975709+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/33733b4a-b75c-8322-88c6-c7a8eae6d9e2.json",
+  "completed_actions": [
+    "Published immediate start and running status with operations.py",
+    "Reconciled complete live D1: 62 submissions,927 decisions,598 jobs; preserved213 intake decisions",
+    "Verified preceding scheduled native completion and canonical receipt",
+    "Reused unchanged main exact-publication proofs; no eligible approval release",
+    "Evaluated lifecycle and fresh overdue flags",
+    "Completed and persisted one candidate duplicate/exclusion identity check",
+    "Recovered empty large-file connector response using complete immutable blob and verified identities/readback",
+    "Stopped new candidate work on checkpoint failure; retained five-candidate ceiling"
+  ],
+  "candidate_ids": [
+    "weekly-16a1bf792936ad74716079fe"
+  ],
+  "candidate_check_count": 1,
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/content_review_mechanical_checkpoints/weekly-16a1bf792936ad74716079fe-33733b4a-b75c-8322-88c6-c7a8eae6d9e2.json",
+    "config/content_review_publication_reconciliation/33733b4a-b75c-8322-88c6-c7a8eae6d9e2.json",
+    "config/content_review_candidate_lifecycle.json"
+  ],
+  "ready_total": 0,
+  "new_eligible_approvals": 0,
+  "errors": [
+    {
+      "stage": "candidate_checkpoint",
+      "error": "Empty weekly manifest body from Contents API; recovered complete immutable blob and SHA-guarded readback; new work stopped."
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_version": 20,
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-16a1bf792936ad74716079fe"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-16a1bf792936ad74716079fe"
+    ],
+    "completed_candidate_ids": [
+      "weekly-16a1bf792936ad74716079fe"
+    ],
+    "genuinely_first_checked": [],
+    "newly_passed_checks": {},
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "candidate_id": "weekly-16a1bf792936ad74716079fe",
+        "collection": "weekly",
+        "reason": "Upstream identity match requires provenance/version reconciliation; source format/access/schema holds preserved."
+      }
+    ],
+    "cache_reuse": [
+      "Unchanged exact main corpus and immutable release proof",
+      "Existing hash-bound preflight evidence",
+      "Completed HVE source evidence not repeated"
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "stage_elapsed_seconds": {
+      "startup_and_reconciliation_included": true,
+      "total_to_receipt": 644.731071,
+      "individual_stage_measurements": null
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 1,
+    "checkpoint_recovered": true,
+    "remaining_blockers": [
+      "Contents API omits weekly manifest body; use complete immutable blobs for future large reads.",
+      "Weekly independent source/format/schema holds",
+      "Main OpenAlex hold until 2026-11-05T01:15:38Z wins unresolved policy conflict",
+      "No fully cleared candidate; ready deficit 250"
+    ],
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-04T15:52:33.726385+00:00",
+        "stage": "duplicate_identity_check",
+        "candidate_id": "weekly-16a1bf792936ad74716079fe"
+      }
+    },
+    "candidate_checkpoint_digests": [
+      {
+        "candidate_id": "weekly-16a1bf792936ad74716079fe",
+        "content_sha256": "079a26e9f1d73c12fc656d8e4a2232c6297605170a3014f4944f92292ee5edba",
+        "path": "config/content_review_mechanical_checkpoints/weekly-16a1bf792936ad74716079fe-33733b4a-b75c-8322-88c6-c7a8eae6d9e2.json",
+        "sha256": "871c34bdf95fecf0009286239631429100bc16e70a0e0ce557f62405eb8aa691"
+      }
+    ],
+    "before_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "after_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "promotion_eligible": false,
+    "promotion_reason": "First pilot pass; recovered checkpoint failure still disqualifies this pass from promotion.",
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": "Current native run in progress; independent termination verification required."
+}
