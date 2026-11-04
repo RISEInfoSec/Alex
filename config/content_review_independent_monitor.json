@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-04T02:34:20.790Z",
+  "observed_at": "2026-11-04T03:34:29.424Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "ebb0d766-b4c8-8327-907c-64b8c6de128a",
-    "scheduled_for": "2026-11-04T02:32:00Z",
-    "started_at": "2026-11-04T02:31:58.930991Z",
+    "run_id": "e36616e6-9f98-8327-a633-a7199efdcca5",
+    "scheduled_for": "2026-11-04T03:32:00Z",
+    "started_at": "2026-11-04T03:33:15.229814Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,41 +14,41 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-04T02:33:43.953Z",
+    "observed_at": "2026-11-04T03:34:01.402Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "a69f1b5d-33b4-8326-baa0-05bbfd8e67e8",
+      "id": "2057bc09-5138-8326-8c46-8a7010a7059d",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-04T01:45:00Z",
-      "started_at": "2026-11-04T01:49:41.955508Z",
-      "completed_at": "2026-11-04T01:56:17.299541Z"
+      "scheduled_for": "2026-11-04T02:45:00Z",
+      "started_at": "2026-11-04T02:48:59.897620Z",
+      "completed_at": "2026-11-04T02:58:43.886167Z"
     }
   },
   "receipt_check": {
-    "run_id": "a69f1b5d-33b4-8326-baa0-05bbfd8e67e8",
-    "path": "config/content_review_run_receipts/a69f1b5d-33b4-8326-baa0-05bbfd8e67e8.json",
+    "run_id": "2057bc09-5138-8326-8c46-8a7010a7059d",
+    "path": "config/content_review_run_receipts/2057bc09-5138-8326-8c46-8a7010a7059d.json",
     "verified": true,
-    "reason": "Native completed run a69f1b5d-33b4-8326-baa0-05bbfd8e67e8 matches the canonical schedule receipt; trigger, status, nonempty completed_actions, identity, path, and 2026-11-04T01:55:53.340950+00:00 completion are valid within native bounds 2026-11-04T01:49:41.955508Z–2026-11-04T01:56:17.299541Z."
+    "reason": "Native completed run 2057bc09-5138-8326-8c46-8a7010a7059d matches the canonical scheduled receipt; identity, trigger, status, nonempty completed_actions, path, and 2026-11-04T02:56:33.191875+00:00 completion are valid within native bounds 2026-11-04T02:48:59.897620Z–2026-11-04T02:58:43.886167Z."
   },
-  "checkpoint_observed_at": "2026-11-04T01:55:59.029603+00:00",
+  "checkpoint_observed_at": "2026-11-04T02:58:22.513893+00:00",
   "findings": [
     {
       "code": "scheduled_completion_verified",
-      "message": "Canonical receipt config/content_review_run_receipts/a69f1b5d-33b4-8326-baa0-05bbfd8e67e8.json verifies scheduled worker run a69f1b5d-33b4-8326-baa0-05bbfd8e67e8."
+      "message": "Canonical receipt config/content_review_run_receipts/2057bc09-5138-8326-8c46-8a7010a7059d.json verifies scheduled worker run 2057bc09-5138-8326-8c46-8a7010a7059d."
     },
     {
       "code": "worker_checkpoint_complete",
-      "message": "Worker checkpoint is complete for a69f1b5d-33b4-8326-baa0-05bbfd8e67e8, observed 2026-11-04T01:55:59.029603+00:00, within native execution bounds."
+      "message": "Worker checkpoint is complete for 2057bc09-5138-8326-8c46-8a7010a7059d, observed 2026-11-04T02:58:22.513893+00:00, within native execution bounds."
     },
     {
       "code": "native_terminal_state_confirmed",
-      "message": "Native scheduler recorded a69f1b5d-33b4-8326-baa0-05bbfd8e67e8 completed at 2026-11-04T01:56:17.299541Z."
+      "message": "Native scheduler recorded 2057bc09-5138-8326-8c46-8a7010a7059d completed at 2026-11-04T02:58:43.886167Z."
     },
     {
       "code": "no_missed_start",
-      "message": "Latest due worker slot 2026-11-04T01:45:00Z started at 2026-11-04T01:49:41.955508Z, within the 15-minute dispatch grace; the next anchor-derived hourly slot at 2026-11-04T02:45:00Z was not due at scheduler observation 2026-11-04T02:33:43.953Z."
+      "message": "Latest due worker slot 2026-11-04T02:45:00Z started at 2026-11-04T02:48:59.897620Z, within the 15-minute dispatch grace; the next anchor-derived hourly slot at 2026-11-04T03:45:00Z was not due at scheduler observation 2026-11-04T03:34:01.402Z."
     },
     {
       "code": "no_stalled_activity",
@@ -56,11 +56,11 @@
     },
     {
       "code": "observer_scheduled_start_verified",
-      "message": "Observer run ebb0d766-b4c8-8327-907c-64b8c6de128a was scheduled for 2026-11-04T02:32:00Z and started at 2026-11-04T02:31:58.930991Z."
+      "message": "Observer run e36616e6-9f98-8327-a633-a7199efdcca5 was scheduled for 2026-11-04T03:32:00Z and started at 2026-11-04T03:33:15.229814Z, within dispatch grace."
     },
     {
       "code": "observer_freshness_preserved",
-      "message": "Observer run ebb0d766-b4c8-8327-907c-64b8c6de128a is in progress and this snapshot was recorded at 2026-11-04T02:34:20.790Z."
+      "message": "Observer run e36616e6-9f98-8327-a633-a7199efdcca5 is in progress and this snapshot was recorded at 2026-11-04T03:34:29.424Z."
     },
     {
       "code": "native_next_run_time_unavailable",
