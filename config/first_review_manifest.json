@@ -112,10 +112,14 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "duplicates": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T17:52:36.796208+00:00",
             "content_sha256": "1b382b35096960fa4e3edd925e9c50a532f91d9a921c553fc7261f649c9d04d9",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/first-url-1d7d3dcf81be0d055a05a5c6-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+              "matches": 48,
+              "exclusions": []
+            }
           },
           "quality": {
             "status": "not_checked",
@@ -134,7 +138,15 @@
       "review_number": 177,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T17:52:36.796208+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/first-url-1d7d3dcf81be0d055a05a5c6-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+          "content_sha256": "1b382b35096960fa4e3edd925e9c50a532f91d9a921c553fc7261f649c9d04d9",
+          "stage": "duplicates"
+        }
+      ]
     },
     {
       "title": "AI Is Writing Your Bug Reports. Can You Tell?",
