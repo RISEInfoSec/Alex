@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "run_id": "eead75f7-ee28-8332-b856-3826d290c229",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-04T20:45:00Z",
+  "started_at": "2026-11-04T20:48:55.730454Z",
+  "completed_at": "2026-11-04T20:54:54.906643+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/eead75f7-ee28-8332-b856-3826d290c229.json",
+  "completed_actions": [
+    "Published and read back start and running status using operations.py",
+    "Read complete D1 tables: 62 submissions, 927 decisions, 598 immutable jobs; validated 213 latest intake decisions",
+    "Independently matched preceding terminal native observation and canonical receipt using operations.verified_completion",
+    "Reused unchanged main exact publication and exclusion proof; no eligible release",
+    "Evaluated lifecycle with fresh overdue flags and 200 local identity audits",
+    "Stopped candidate processing after running-status readback mismatch; recovered exact readback",
+    "Persisted and read back lifecycle checkpoint; no candidate or manifest changed"
+  ],
+  "candidate_ids": [],
+  "candidate_check_count": 0,
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/content_review_publication_reconciliation/eead75f7-ee28-8332-b856-3826d290c229.json",
+    "config/content_review_candidate_lifecycle.json"
+  ],
+  "ready_total": 0,
+  "new_eligible_approvals": 0,
+  "errors": [
+    {
+      "stage": "running_status_readback",
+      "message": "Immediate readback differed; fresh read matched exact complete JSON. Candidate processing stopped before first candidate.",
+      "recovered": true
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_version": 20,
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [],
+    "attempted_candidate_ids": [],
+    "completed_candidate_ids": [],
+    "genuinely_first_checked": [],
+    "next_dispositions": [],
+    "newly_passed_checks": {},
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [],
+    "cache_reuse": [
+      "Verified unchanged main corpus/publication/exclusion and raw weekly inputs",
+      "Prior exact source and paid proofs",
+      "Completed HVE source check; unchanged parked/stable failures not repeated"
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "stage_elapsed_seconds": {
+      "startup_and_reconciliation_included": true,
+      "total_to_receipt": 359.1762,
+      "individual_stage_measurements": null
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 1,
+    "heartbeat_interval_compliant": true,
+    "heartbeat_observations": [
+      "2026-11-04T20:50:48.093Z",
+      "2026-11-04T20:51:16.377Z",
+      "2026-11-04T20:51:45.850Z",
+      "2026-11-04T20:52:14.842Z",
+      "2026-11-04T20:52:43.396Z",
+      "2026-11-04T20:53:18.774611+00:00",
+      "2026-11-04T20:53:59.975Z",
+      "2026-11-04T20:54:53.721Z"
+    ],
+    "maximum_observed_heartbeat_interval_seconds": 53.746,
+    "remaining_blockers": [
+      "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
+      "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim."
+    ],
+    "source_last_progress": {},
+    "candidate_checkpoint_digests": [],
+    "before_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "after_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "promotion_eligible": false,
+    "promotion_reason": "Recovered running-status readback interruption; candidate work stopped before first candidate. Checkpoint failure and empty pilot pass disqualify promotion.",
+    "application_qualification_checks_passed": false,
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": "Current native run in progress; requires independent post-termination verification."
+}
