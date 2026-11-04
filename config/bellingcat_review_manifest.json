@@ -568,16 +568,28 @@
         "content_sha256": "b3a2c1fede5a69d6774cd2668ce1cda4e93a5b16a9f49c4eea64e120daea133d",
         "checks": {
           "format": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T03:50:28.604295+00:00",
             "content_sha256": "b3a2c1fede5a69d6774cd2668ce1cda4e93a5b16a9f49c4eea64e120daea133d",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-6ece80528bcd7e08c1c2a5d9-ce3d27c4-4b90-8326-8a24-0c1a860d4600.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/04/20/xiaohongshu-rednote-open-source-guide",
+              "observed_document_type": "osint_methodology_article",
+              "basis": "Public HTML investigative guide covering Xiaohongshu search, language bias, censorship and preservation of post context and identifiers. It is a practical newsroom methodology article; scholarly peer review is not established.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "access": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T03:50:28.604295+00:00",
             "content_sha256": "b3a2c1fede5a69d6774cd2668ce1cda4e93a5b16a9f49c4eea64e120daea133d",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-6ece80528bcd7e08c1c2a5d9-ce3d27c4-4b90-8326-8a24-0c1a860d4600.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/04/20/xiaohongshu-rednote-open-source-guide",
+              "observed_document_type": "osint_methodology_article",
+              "basis": "Public HTML investigative guide covering Xiaohongshu search, language bias, censorship and preservation of post context and identifiers. It is a practical newsroom methodology article; scholarly peer review is not established.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "metadata": {
             "status": "not_checked",
@@ -615,7 +627,9 @@
       "review_number": 188,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "verified_document_type": "osint_methodology_article",
+      "verified_document_type_evidence": "config/content_review_mechanical_checkpoints/bellingcat-url-6ece80528bcd7e08c1c2a5d9-ce3d27c4-4b90-8326-8a24-0c1a860d4600.json"
     },
     {
       "title": "When Satellite Imagery Goes Dark: New Tool Shows Damage in Iran and the Gulf",
