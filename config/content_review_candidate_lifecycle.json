@@ -5587,6 +5587,16 @@
           "evidence_ref": "config/content_review_mechanical_checkpoints/bellingcat-url-6ece80528bcd7e08c1c2a5d9-2057bc09-5138-8326-8c46-8a7010a7059d.json",
           "cycle": 1,
           "retry_not_before": null
+        },
+        {
+          "attempt_id": "ce3d27c4-4b90-8326-8a24-0c1a860d4600:bellingcat-url-6ece80528bcd7e08c1c2a5d9:source-format-access",
+          "at": "2026-11-04T03:50:28.604295+00:00",
+          "stage": "format",
+          "outcome": "success",
+          "reason": "Verified original public HTML OSINT methodology article and text access; unsupported paper-only export retained as a capability hold.",
+          "evidence_ref": "config/content_review_mechanical_checkpoints/bellingcat-url-6ece80528bcd7e08c1c2a5d9-ce3d27c4-4b90-8326-8a24-0c1a860d4600.json",
+          "cycle": 1,
+          "retry_not_before": null
         }
       ],
       "history": [
@@ -5596,6 +5606,14 @@
           "previous": null,
           "state": "awaiting_initial_checks",
           "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
+          "cycle": 1
+        },
+        {
+          "at": "2026-11-04T03:50:28.604295+00:00",
+          "event": "state_changed",
+          "previous": "awaiting_initial_checks",
+          "state": "awaiting_software_support",
+          "reason": "Verified osint_methodology_article HTML methods article has no supported paper-only classifier/export path.",
           "cycle": 1
         }
       ],
@@ -5609,32 +5627,31 @@
         "source_url": "https://www.bellingcat.com/resources/2026/04/20/xiaohongshu-rednote-open-source-guide",
         "candidate_id": "bellingcat-url-6ece80528bcd7e08c1c2a5d9"
       },
-      "last_evaluated_at": "2026-11-04T02:56:33.029128+00:00",
-      "attempt_count": 1,
-      "last_attempt_at": "2026-11-04T02:55:59.900782+00:00",
-      "last_check_at": "2026-11-04T02:55:59.900782+00:00",
+      "last_evaluated_at": "2026-11-04T03:50:28.724878+00:00",
+      "attempt_count": 2,
+      "last_attempt_at": "2026-11-04T03:50:28.604295+00:00",
+      "last_check_at": "2026-11-04T03:50:28.604295+00:00",
       "outstanding_checks": [
         "format",
-        "access",
         "metadata",
         "quality",
         "schema"
       ],
       "initial_checks_overdue": false,
-      "state_changed_at": "2026-11-02T21:46:58.757259+00:00",
-      "state": "awaiting_initial_checks",
-      "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
-      "next_action": "Complete missing initial stages.",
-      "reconsideration_condition": null,
+      "state_changed_at": "2026-11-04T03:50:28.604295+00:00",
+      "state": "awaiting_software_support",
+      "reason": "Verified osint_methodology_article HTML methods article has no supported paper-only classifier/export path.",
+      "next_action": "Preserve source verification and stop unchanged paper-only processing.",
+      "reconsideration_condition": "Verified compatible classifier/export capability revision.",
       "next_retry_at": null,
-      "active": true,
+      "active": false,
       "collection": "bellingcat",
       "evidence_location": "config/bellingcat_review_manifest.json#bellingcat-url-6ece80528bcd7e08c1c2a5d9",
       "retry_policy": {
         "maximum_total_attempts": 5,
         "maximum_failure_age_days": 30
       },
-      "last_progress_at": "2026-11-04T02:55:59.900782+00:00"
+      "last_progress_at": "2026-11-04T03:50:28.604295+00:00"
     },
     "bellingcat:bellingcat-url-0f78a1e5a8e7c668bd5eba5f": {
       "candidate_id": "bellingcat-url-0f78a1e5a8e7c668bd5eba5f",
@@ -20188,19 +20205,19 @@
       }
     }
   },
-  "updated_at": "2026-11-04T02:57:27.526Z",
+  "updated_at": "2026-11-04T03:50:28.724878+00:00",
   "policy_version": 1,
   "counts": {
     "completed": 8,
-    "awaiting_initial_checks": 294,
-    "awaiting_software_support": 5,
+    "awaiting_initial_checks": 293,
+    "awaiting_software_support": 6,
     "access_restricted": 11,
     "stable_quality_failure": 67
   },
   "source_counts": {
     "bellingcat": {
-      "awaiting_software_support": 3,
-      "awaiting_initial_checks": 10
+      "awaiting_software_support": 4,
+      "awaiting_initial_checks": 9
     },
     "first": {
       "awaiting_initial_checks": 74,
