@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-04T10:38:37.287Z",
+  "observed_at": "2026-11-04T11:31:36.056Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "c795f06a-5720-8323-a2cb-60edfda8a8af",
-    "scheduled_for": "2026-11-04T10:32:00Z",
-    "started_at": "2026-11-04T10:36:14.211651Z",
+    "run_id": "4f06c2bc-2460-8323-a297-c7f3d5c94ab7",
+    "scheduled_for": "2026-11-04T11:32:00Z",
+    "started_at": "2026-11-04T11:30:37.288640Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,41 +14,41 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-04T10:38:02.045Z",
+    "observed_at": "2026-11-04T11:31:03.937Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "fcbcca29-9450-8326-8498-14d4caf66f3e",
+      "id": "e54e5121-af70-8322-83cf-42dc1675bf67",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-04T09:45:00Z",
-      "started_at": "2026-11-04T09:46:57.645733Z",
-      "completed_at": "2026-11-04T09:54:00.575408Z"
+      "scheduled_for": "2026-11-04T10:45:00Z",
+      "started_at": "2026-11-04T10:47:02.727400Z",
+      "completed_at": "2026-11-04T10:55:58.038662Z"
     }
   },
   "receipt_check": {
-    "run_id": "fcbcca29-9450-8326-8498-14d4caf66f3e",
-    "path": "config/content_review_run_receipts/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
+    "run_id": "e54e5121-af70-8322-83cf-42dc1675bf67",
+    "path": "config/content_review_run_receipts/e54e5121-af70-8322-83cf-42dc1675bf67.json",
     "verified": true,
     "reason": "Native terminal identity and schedule match the complete scheduled receipt; completed_actions is nonempty, receipt_path is canonical, and receipt completed_at is within the native run interval."
   },
-  "checkpoint_observed_at": "2026-11-04T09:52:36.166936+00:00",
+  "checkpoint_observed_at": "2026-11-04T10:55:16.246973+00:00",
   "findings": [
     {
       "code": "scheduled_completion_verified",
-      "message": "Worker run fcbcca29-9450-8326-8498-14d4caf66f3e completed natively and has a matching identity/time-bound canonical receipt."
+      "message": "Worker run e54e5121-af70-8322-83cf-42dc1675bf67 completed natively and has a matching identity/time-bound canonical receipt."
     },
     {
       "code": "worker_checkpoint_complete",
-      "message": "Worker checkpoint for fcbcca29-9450-8326-8498-14d4caf66f3e reports application_status=complete at 2026-11-04T09:52:36.166936+00:00."
+      "message": "Worker checkpoint for e54e5121-af70-8322-83cf-42dc1675bf67 reports application_status=complete at 2026-11-04T10:55:16.246973+00:00."
     },
     {
       "code": "native_terminal_state_confirmed",
-      "message": "Native worker status is completed at 2026-11-04T09:54:00.575408Z; application completion is not being used as scheduler proof."
+      "message": "Native worker status is completed at 2026-11-04T10:55:58.038662Z; application completion is not used as scheduler proof."
     },
     {
       "code": "no_missed_start",
-      "message": "Worker scheduled for 2026-11-04T09:45:00Z started at 2026-11-04T09:46:57.645733Z, within the 15-minute dispatch grace; the next hourly start is not yet due."
+      "message": "Worker scheduled for 2026-11-04T10:45:00Z started at 2026-11-04T10:47:02.727400Z, within the 15-minute dispatch grace; the next hourly start is not yet due."
     },
     {
       "code": "no_stalled_activity",
@@ -56,11 +56,11 @@
     },
     {
       "code": "observer_scheduled_start_verified",
-      "message": "Observer run c795f06a-5720-8323-a2cb-60edfda8a8af scheduled for 2026-11-04T10:32:00Z started at 2026-11-04T10:36:14.211651Z, within dispatch grace."
+      "message": "Observer run 4f06c2bc-2460-8323-a297-c7f3d5c94ab7 scheduled for 2026-11-04T11:32:00Z started at 2026-11-04T11:30:37.288640Z, within dispatch grace."
     },
     {
       "code": "observer_freshness_preserved",
-      "message": "Observer native status is in_progress at the actual snapshot time 2026-11-04T10:38:37.287Z."
+      "message": "Observer native status is in_progress at the actual snapshot time 2026-11-04T11:31:36.056Z."
     },
     {
       "code": "native_next_run_time_unavailable",
