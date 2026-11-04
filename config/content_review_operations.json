@@ -1,23 +1,19 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-04T23:13:39.797Z",
+  "observed_at": "2026-11-04T23:48:00.220017+00:00",
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-04T23:13:39.797Z",
+    "observed_at": "2026-11-04T23:48:00.220017+00:00",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
-    "expected_next_run_at": "2026-11-04T23:45:00Z",
+    "expected_next_run_at": "2026-11-05T00:45:00+00:00",
     "last_run": {
-      "id": "45b8f9ca-5b14-8332-9640-1e9c2814fe3e",
-      "recorded_status": "completed",
-      "scheduled_for": "2026-11-04T22:45:00Z",
-      "started_at": "2026-11-04T22:47:07.192589Z",
-      "completed_at": "2026-11-04T22:48:22.028492Z",
-      "chat_ref": {
-        "type": "chatgpt",
-        "id": "6ae92162-75a0-83e9-b13c-70d99897a78a"
-      }
+      "id": "fe4875f6-dc78-8332-8c50-fe0d998ea688",
+      "recorded_status": "in_progress",
+      "scheduled_for": "2026-11-04T23:45:00Z",
+      "started_at": "2026-11-04T23:46:25.964273Z",
+      "completed_at": null
     },
     "requires_user_action": false,
     "last_verified_scheduled_success": {
@@ -26,14 +22,6 @@
       "trigger": "schedule",
       "evidence_verified": true,
       "receipt": "config/content_review_run_receipts/eead75f7-ee28-8332-b856-3826d290c229.json"
-    },
-    "last_run_deferral": {
-      "run_id": "45b8f9ca-5b14-8332-9640-1e9c2814fe3e",
-      "source": "native_result_and_overlapping_lease",
-      "candidate_processing": false,
-      "lease_acquired_at": "2026-11-04T22:40:37.999Z",
-      "lease_expires_at": "2026-11-04T23:10:37.999Z",
-      "evidence": "config/content_review_maintenance_receipts/2026-11-04-source-recovery.json"
     }
   },
   "source_discovery": {
