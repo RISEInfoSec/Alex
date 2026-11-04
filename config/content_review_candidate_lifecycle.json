@@ -5737,7 +5737,18 @@
       "candidate_id": "bellingcat-url-a40d9944fce570bb11a2f80d",
       "first_seen_at": "2026-11-02T11:08:00.965663+00:00",
       "cycle": 1,
-      "attempts": [],
+      "attempts": [
+        {
+          "attempt_id": "8ee55cd0-472c-8326-93da-1bc21a8b95f8:bellingcat-url-a40d9944fce570bb11a2f80d:duplicates",
+          "at": "2026-11-04T06:45:24.921968+00:00",
+          "stage": "duplicates",
+          "outcome": "success",
+          "reason": "Completed initial current corpus/prepared/weekly/exclusion identity check; other gates remain required.",
+          "evidence_ref": "config/content_review_mechanical_checkpoints/bellingcat-url-a40d9944fce570bb11a2f80d-8ee55cd0-472c-8326-93da-1bc21a8b95f8.json",
+          "cycle": 1,
+          "retry_not_before": null
+        }
+      ],
       "history": [
         {
           "at": "2026-11-02T21:46:58.757259+00:00",
@@ -5758,15 +5769,14 @@
         "source_url": "https://www.bellingcat.com/resources/2026/03/30/explosive-misinformation-a-guide-to-mushroom-clouds-sonic-weapons-and-disintegration",
         "candidate_id": "bellingcat-url-a40d9944fce570bb11a2f80d"
       },
-      "last_evaluated_at": "2026-11-04T01:55:04.077108+00:00",
-      "attempt_count": 0,
-      "last_attempt_at": null,
-      "last_check_at": null,
+      "last_evaluated_at": "2026-11-04T06:45:24.946972+00:00",
+      "attempt_count": 1,
+      "last_attempt_at": "2026-11-04T06:45:24.921968+00:00",
+      "last_check_at": "2026-11-04T06:45:24.921968+00:00",
       "outstanding_checks": [
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -5783,7 +5793,8 @@
       "retry_policy": {
         "maximum_total_attempts": 5,
         "maximum_failure_age_days": 30
-      }
+      },
+      "last_progress_at": "2026-11-04T06:45:24.921968+00:00"
     },
     "bellingcat:bellingcat-url-78bc06a1e7d93395e85c8192": {
       "candidate_id": "bellingcat-url-78bc06a1e7d93395e85c8192",
@@ -20233,7 +20244,7 @@
       }
     }
   },
-  "updated_at": "2026-11-04T05:52:43.997275+00:00",
+  "updated_at": "2026-11-04T06:45:24.946972+00:00",
   "policy_version": 1,
   "counts": {
     "completed": 8,
