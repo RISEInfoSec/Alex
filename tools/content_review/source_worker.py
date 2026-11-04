@@ -1,0 +1,203 @@
+"""Bounded, read-only source evidence worker. No gate passes or corpus writes.
+
+Run in the established GitHub Actions transport. The coordinator remains the
+only writer. Source content is untrusted data and never executed as instructions.
+"""
+from __future__ import annotations
+import argparse, hashlib, io, ipaddress, json, os, re, signal, socket, subprocess, time
+from datetime import datetime, timezone, timedelta
+from email.utils import parsedate_to_datetime
+from pathlib import Path
+from urllib.parse import urlsplit, urljoin, urldefrag
+from urllib.robotparser import RobotFileParser
+import requests
+from bs4 import BeautifulSoup
+from pypdf import PdfReader
+from tools.content_review.paid_worker import digest, reviewed_digest, records, MANIFESTS, file_digest
+from tools.content_review.lifecycle import ensure_eligible, instant
+
+DIRECTORY = 'config/content_review_source_requests'
+WORKFLOW = '.github/workflows/content_review_sources.yml'
+BRANCH = 'codex/soups-corpus-review'
+UA = 'ALEX-ContentReview/2.0 (+https://github.com/RISEInfoSec/Alex)'
+MAX_BYTES = 12 * 1024 * 1024
+
+class Hold(Exception):
+    pass
+
+def safe_url(url, resolve=True):
+    p=urlsplit(url)
+    if p.scheme!='https' or not p.hostname or p.username or p.password or p.port not in (None,443):
+        raise Hold('unsupported_or_credentialed_url')
+    if p.hostname in ('api.openalex.org','api.openai.com'):
+        raise Hold('provider_requires_separate_controlled_route')
+    if resolve:
+        try: addresses={a[4][0] for a in socket.getaddrinfo(p.hostname,443,type=socket.SOCK_STREAM)}
+        except OSError: raise Hold('dns_resolution_failed')
+        if not addresses or any(not ipaddress.ip_address(a).is_global for a in addresses):
+            raise Hold('nonpublic_destination')
+    return urldefrag(url)[0]
+
+def retry_at(value):
+    if not value:return None
+    try:return (datetime.now(timezone.utc)+timedelta(seconds=max(0,float(value)))).isoformat()
+    except ValueError:
+        try:return parsedate_to_datetime(value).astimezone(timezone.utc).isoformat()
+        except (ValueError,TypeError):return None
+
+class Transport:
+    def __init__(self, *, deadline, cap=30, session=None, clock=time.monotonic, sleep=time.sleep):
+        self.deadline,self.cap,self.session,self.clock,self.sleep=deadline,cap,session or requests.Session(),clock,sleep
+        self.sends=[];self.last={};self.robots={};self.stopped={};self.cache={}
+        self.session.headers.update({'User-Agent':UA,'Accept':'text/html,application/pdf;q=0.9,*/*;q=0.1'})
+    def send(self,url):
+        url=safe_url(url);origin=urlsplit(url).netloc
+        if origin in self.stopped:raise Hold('origin_backoff: '+self.stopped[origin]['reason'])
+        delay=max(0,2-(self.clock()-self.last.get(origin,-100)))
+        if len(self.sends)>=self.cap or self.clock()+delay+20>=self.deadline:raise Hold('source_request_or_time_budget_exhausted')
+        self.sleep(delay)
+        event={'url':url,'started_at':datetime.now(timezone.utc).isoformat()};self.sends.append(event)
+        previous=signal.getsignal(signal.SIGALRM)
+        def timed_out(*_):raise TimeoutError('source_deadline')
+        signal.signal(signal.SIGALRM,timed_out);signal.setitimer(signal.ITIMER_REAL,20)
+        try:
+            with self.session.get(url,timeout=20,allow_redirects=False,stream=True) as response:
+                event['http_status']=response.status_code
+                headers={k.lower():v for k,v in response.headers.items() if k.lower() in ('content-type','etag','last-modified','retry-after','location')}
+                event['retry_not_before']=retry_at(headers.get('retry-after'))
+                if response.status_code==429 or response.status_code>=500:
+                    self.stopped[origin]={'reason':'http_'+str(response.status_code),'retry_not_before':event['retry_not_before'] or (datetime.now(timezone.utc)+timedelta(hours=1)).isoformat()}
+                chunks=[];size=0
+                for b in response.iter_content(65536):
+                    size+=len(b)
+                    if size>MAX_BYTES:raise Hold('source_size_limit')
+                    chunks.append(b)
+                body=b''.join(chunks);event['bytes']=len(body)
+                return response.status_code,headers,body
+        except (requests.RequestException,TimeoutError) as exc:
+            event['error']=type(exc).__name__
+            self.stopped[origin]={'reason':'transport_'+type(exc).__name__,'retry_not_before':(datetime.now(timezone.utc)+timedelta(hours=1)).isoformat()}
+            raise Hold(event['error']) from None
+        finally:
+            signal.setitimer(signal.ITIMER_REAL,0);signal.signal(signal.SIGALRM,previous);self.last[origin]=self.clock()
+    def permitted(self,url):
+        p=urlsplit(url);origin=p.scheme+'://'+p.netloc
+        if origin not in self.robots:
+            status,headers,body=self.send(origin+'/robots.txt')
+            if status in (404,410):rp=None
+            elif status==200:
+                rp=RobotFileParser();rp.parse(body.decode('utf-8','replace').splitlines())
+            else:raise Hold('robots_unavailable_http_'+str(status))
+            self.robots[origin]=rp
+        rp=self.robots[origin]
+        if rp and not rp.can_fetch(UA,url):raise Hold('robots_disallow')
+        crawl=rp.crawl_delay(UA) if rp else None
+        if crawl and crawl>2:
+            delay=max(0,crawl-(self.clock()-self.last.get(p.netloc,-100)))
+            if self.clock()+delay+20>=self.deadline:raise Hold('crawl_delay_exceeds_budget')
+            self.sleep(delay)
+    def fetch(self,url):
+        original=url;chain=[]
+        for _ in range(6):
+            url=safe_url(url)
+            if url in self.cache:return {**self.cache[url],'cache_reused':True,'requested_url':original}
+            self.permitted(url)
+            status,headers,body=self.send(url);chain.append({'url':url,'http_status':status})
+            if status in (301,302,303,307,308) and headers.get('location'):
+                url=urljoin(url,headers['location']);continue
+            if status!=200:raise Hold('source_http_'+str(status))
+            result={'requested_url':original,'final_url':url,'http_status':status,'headers':headers,'redirects':chain,'body':body,'body_sha256':hashlib.sha256(body).hexdigest()}
+            self.cache[url]=result;return result
+        raise Hold('redirect_limit')
+
+def extract(response, fragment=''):
+    body=response['body'];out={k:v for k,v in response.items() if k!='body'}
+    out['retrieved_at']=datetime.now(timezone.utc).isoformat();out['byte_count']=len(body)
+    if body.startswith(b'%PDF-'):
+        try:
+            pdf=PdfReader(io.BytesIO(body));pages=[p.extract_text() or '' for p in pdf.pages[:6]]
+        except Exception:raise Hold('pdf_parse_failed') from None
+        text='\n'.join(pages)
+        out.update(container_type='pdf',page_count=len(pdf.pages),pages_inspected=len(pages),pdf_metadata={str(k):str(v) for k,v in (pdf.metadata or {}).items()},text=text[:36000],text_complete=len(pdf.pages)<=6 and len(text)<=36000,document_type='unverified')
+    else:
+        soup=BeautifulSoup(body,'html.parser')
+        text0=soup.get_text(' ',strip=True)
+        if re.search(r'(?i)(just a moment|verify you are human|enable javascript and cookies to continue|access denied)',(soup.title.get_text() if soup.title else '')+' '+text0[:400]):raise Hold('access_challenge')
+        metadata={}
+        for tag in soup.find_all('meta'):
+            name=tag.get('name') or tag.get('property')
+            if name and tag.get('content'):metadata.setdefault(name.lower(),[]).append(tag['content'])
+        section=soup
+        if fragment:
+            anchor=soup.find(id=fragment) or soup.find(attrs={'name':fragment})
+            if anchor is None:raise Hold('candidate_fragment_not_found')
+            # FIRST item wrappers hold one contribution and its explicit asset links.
+            section=anchor if anchor.name in ('article','section') else anchor.find_parent(['article','section']) or anchor.parent
+            if len(section.get_text(' ',strip=True))<120:
+                nodes=[str(anchor)]
+                for sibling in anchor.next_siblings:
+                    if getattr(sibling,'name',None) in ('h2','h3','h4'):break
+                    nodes.append(str(sibling))
+                section=BeautifulSoup(''.join(nodes),'html.parser')
+        links=[{'text':a.get_text(' ',strip=True),'url':urljoin(response['final_url'],a['href'])} for a in section.find_all('a',href=True)]
+        for tag in section(['script','style','nav','footer','header','noscript']):tag.decompose()
+        text=section.get_text('\n',strip=True)
+        out.update(container_type='html',metadata=metadata,title=soup.title.get_text(' ',strip=True) if soup.title else '',links=links[:200],text=text[:36000],text_complete=len(text)<=36000,document_type='unverified',fragment=fragment)
+    out['text_sha256']=hashlib.sha256(out['text'].encode()).hexdigest()
+    if not out['text'].strip():raise Hold('no_extractable_text_ocr_required')
+    return out
+
+def validate(root,path):
+    req=json.loads(path.read_text());payload={k:v for k,v in req.items() if k!='request_id'}
+    if req.get('schema_version')!=1 or digest(payload)!=req.get('request_id') or path.name!=req['request_id']+'.json':raise ValueError('Invalid immutable source request')
+    end=instant(req.get('work_deadline'));start=instant(req.get('started_at'));now=datetime.now(timezone.utc)
+    if not start or not end or not start<=now<end or (end-start).total_seconds()>600:raise ValueError('Expired or unbounded source work')
+    state=json.loads((root/'config/content_review_worker_status.json').read_text());lease=state.get('lease') or {}
+    if lease.get('owner')!=req['lease_owner'] or not instant(lease.get('expires_at')) or instant(lease['expires_at'])<=now:raise ValueError('No matching unexpired writer lease')
+    items=req['records']
+    if not 1<=len(items)<=5 or len({i['candidate_id'] for i in items})!=len(items):raise ValueError('Initial pilot candidate ceiling/identity')
+    for item in items:
+        p=root/MANIFESTS[item['collection']]
+        if file_digest(p)!=item['manifest_sha256']:raise ValueError('Incomplete or changed manifest snapshot')
+        matches=[r for r in records(json.loads(p.read_text())) if r['candidate_id']==item['candidate_id']]
+        if len(matches)!=1:raise ValueError('Candidate missing/nonunique')
+        row=matches[0];ensure_eligible(root,item['collection'],item['candidate_id'])
+        if row['content_sha256']!=item['content_sha256'] or reviewed_digest(row)!=row['content_sha256']:raise ValueError('Candidate content changed')
+        if row.get('decision','pending') not in ('pending','unreviewed'):raise ValueError('Decided candidate')
+        if item['url']!=row['source_url']:raise ValueError('Unbound source URL')
+        if str(row.get('source_observation',{}).get('tlp','')).upper() not in ('','TLP:CLEAR','TLP:WHITE'):raise ValueError('Restricted TLP')
+        if row.get('access_decision',{}).get('status')=='restricted':raise ValueError('Access restricted')
+    return req
+
+def execute(root,path,output):
+    req=validate(root,path);seconds=(instant(req['work_deadline'])-datetime.now(timezone.utc)).total_seconds()
+    tx=Transport(deadline=time.monotonic()+seconds,cap=min(30,req['source_request_limit']))
+    result={'schema_version':1,'request_id':req['request_id'],'status':'running','records':[],'requests':0,'read_only':True,'provenance':{k:os.environ.get(k,'') for k in ('GITHUB_SHA','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_REF','GITHUB_WORKFLOW_REF')}}
+    def checkpoint():
+        result.update(requests=len(tx.sends),request_log=tx.sends,origin_backoff=tx.stopped,updated_at=datetime.now(timezone.utc).isoformat())
+        output.parent.mkdir(parents=True,exist_ok=True);tmp=output.with_suffix('.tmp');tmp.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n');tmp.replace(output)
+    for item in req['records']:
+        row={k:item[k] for k in ('collection','candidate_id','content_sha256')};row.update(status='held',evidence=[])
+        try:
+            source=extract(tx.fetch(item['url']),urlsplit(item['url']).fragment);row['evidence'].append(source)
+            if source['container_type']=='html':
+                pdfs=source.get('metadata',{}).get('citation_pdf_url',[])
+                if not pdfs:pdfs=[a['url'] for a in source.get('links',[]) if re.search(r'(?i)\.pdf(?:$|[?#])',a['url'])]
+                if pdfs:row['evidence'].append(extract(tx.fetch(urljoin(source['final_url'],pdfs[0]))))
+            row.update(status='retrieved',next_action='Inspect actual content and identity; evidence retrieval alone passes no gate.')
+        except Hold as exc:row.update(reason=str(exc),next_action='Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval.')
+        result['records'].append(row);checkpoint()
+    result['status']='complete';checkpoint();return result
+
+def event_request(root,event):
+    if os.environ.get('GITHUB_REF')!='refs/heads/'+BRANCH or event.get('ref')!='refs/heads/'+BRANCH or event.get('after')!=os.environ.get('GITHUB_SHA'):raise ValueError('Review push identity required')
+    changes=subprocess.check_output(['git','diff','--name-status',event['before'],event['after'],'--',DIRECTORY],cwd=root,text=True).splitlines()
+    if len(changes)!=1 or not re.fullmatch('A\\t'+DIRECTORY+r'/[0-9a-f]{64}\.json',changes[0]):raise ValueError('Exactly one immutable new source request')
+    return root/changes[0].split('\t')[1]
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--event',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();root=Path.cwd()
+    if a.output.resolve().is_relative_to(root/'config') or a.output.resolve().is_relative_to(root/'data'):raise ValueError('Artifact output only')
+    path=event_request(root,json.loads(a.event.read_text()));result=execute(root,path,a.output)
+    print('CONTENT_REVIEW_SOURCE_RESULT_JSON='+json.dumps(result,ensure_ascii=False));print('CONTENT_REVIEW_SOURCE_RESULT_SHA256='+file_digest(a.output))
+if __name__=='__main__':main()
