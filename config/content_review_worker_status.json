@@ -34,8 +34,8 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-04T04:45:40.028187+00:00",
-  "last_action": "Completed bounded approval/lifecycle reconciliation; no new eligible approval or ready batch; no candidate/provider requests.",
+  "last_completed_at": "2026-11-04T04:48:05.363401+00:00",
+  "last_action": "Completed approval/lifecycle reconciliation and one initial duplicate check; no ready batch.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -714,13 +714,13 @@
   },
   "current_run": {
     "run_id": "dbd91616-5c38-8326-aad0-a7c76b8a6481",
-    "observed_at": "2026-11-04T04:47:31.022209+00:00",
+    "observed_at": "2026-11-04T04:48:08.377697+00:00",
     "started_at": "2026-11-04T04:40:25.316491Z",
     "scheduled_for": "2026-11-04T04:45:00Z",
     "application_status": "running",
     "scheduler": {
       "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-      "observed_at": "2026-11-04T04:47:31.022209+00:00",
+      "observed_at": "2026-11-04T04:48:08.377697+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "next_run_time": null,
@@ -742,7 +742,7 @@
       }
     }
   },
-  "last_heartbeat_at": "2026-11-04T04:47:31.022209+00:00",
+  "last_heartbeat_at": "2026-11-04T04:48:08.377697+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/dbd91616-5c38-8326-aad0-a7c76b8a6481.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
@@ -751,10 +751,10 @@
     "lifted_at": "2026-11-03T14:21:42.553Z"
   },
   "last_candidate_check": {
-    "candidate_id": "bellingcat-url-6ece80528bcd7e08c1c2a5d9",
-    "checked_at": "2026-11-04T03:50:28.604295+00:00",
-    "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-6ece80528bcd7e08c1c2a5d9-ce3d27c4-4b90-8326-8a24-0c1a860d4600.json",
-    "action": "initial_official_source_format_access_verification",
+    "candidate_id": "bellingcat-url-0f78a1e5a8e7c668bd5eba5f",
+    "checked_at": "2026-11-04T04:48:05.363401+00:00",
+    "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-0f78a1e5a8e7c668bd5eba5f-dbd91616-5c38-8326-aad0-a7c76b8a6481.json",
+    "action": "initial_current_corpus_inventory_exclusion_duplicate_check",
     "other_gates": "held"
   }
 }
