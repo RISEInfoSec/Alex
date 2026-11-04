@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-04T17:32:41.276Z",
+  "observed_at": "2026-11-04T18:32:34.049Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "6567b485-2e34-8323-ab5c-adfec3e28bc5",
-    "scheduled_for": "2026-11-04T17:32:00Z",
-    "started_at": "2026-11-04T17:31:40.347397Z",
+    "run_id": "0e54007a-532c-8323-83a1-4c0738fa60a8",
+    "scheduled_for": "2026-11-04T18:32:00Z",
+    "started_at": "2026-11-04T18:29:42.881834Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,69 +14,69 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-04T17:32:08.022Z",
+    "observed_at": "2026-11-04T18:31:42.337Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "bb95a950-d124-8322-960e-d7bcc5e40864",
+      "id": "8ae66d30-a85c-8322-bfeb-1ca3bd162e7d",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-04T16:45:00Z",
-      "started_at": "2026-11-04T16:43:07.170854Z",
-      "completed_at": "2026-11-04T16:52:42.300672Z"
+      "scheduled_for": "2026-11-04T17:45:00Z",
+      "started_at": "2026-11-04T17:48:08.974044Z",
+      "completed_at": "2026-11-04T17:56:10.583629Z"
     }
   },
   "receipt_check": {
-    "run_id": "bb95a950-d124-8322-960e-d7bcc5e40864",
-    "path": "config/content_review_run_receipts/bb95a950-d124-8322-960e-d7bcc5e40864.json",
+    "run_id": "8ae66d30-a85c-8322-bfeb-1ca3bd162e7d",
+    "path": "config/content_review_run_receipts/8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
     "verified": true,
-    "reason": "Native worker run completed; canonical receipt matches run_id and scheduled_for, records trigger=schedule and status=complete, contains nonempty completed_actions, uses the canonical receipt_path, and completed_at falls within the native run interval."
+    "reason": "Native terminal run, completed worker checkpoint, and canonical receipt match run identity, schedule, trigger, status, action presence, path, and completion bounds."
   },
-  "checkpoint_observed_at": "2026-11-04T16:52:20.197319+00:00",
+  "checkpoint_observed_at": "2026-11-04T17:55:36.961333+00:00",
   "findings": [
     {
       "code": "scheduled_completion_verified",
-      "message": "Worker run bb95a950-d124-8322-960e-d7bcc5e40864 has a matching identity/time-bound canonical completion receipt."
+      "message": "Worker run 8ae66d30-a85c-8322-bfeb-1ca3bd162e7d has a matching identity/time-bound canonical receipt with trigger=schedule and status=complete."
     },
     {
       "code": "worker_checkpoint_complete",
-      "message": "Worker checkpoint records application_status=complete for bb95a950-d124-8322-960e-d7bcc5e40864 at 2026-11-04T16:52:20.197319+00:00."
+      "message": "Checkpoint current_run 8ae66d30-a85c-8322-bfeb-1ca3bd162e7d records application_status=complete at 2026-11-04T17:55:36.961333+00:00."
     },
     {
       "code": "native_terminal_state_confirmed",
-      "message": "Native scheduler records bb95a950-d124-8322-960e-d7bcc5e40864 completed at 2026-11-04T16:52:42.300672Z."
-    },
-    {
-      "code": "worker_reported_checkpoint_recovery",
-      "message": "The canonical receipt records a truncated checkpoint transport response that was rejected before manifest write, recovered from a complete immutable blob, read back, and followed by stopping new candidate work."
-    },
-    {
-      "code": "worker_reported_heartbeat_gap",
-      "message": "The canonical receipt records that some worker heartbeat intervals exceeded 60 seconds; actual timestamps were retained and no heartbeat was backfilled."
-    },
-    {
-      "code": "pilot_promotion_ineligible",
-      "message": "The canonical receipt records checkpoint_failures=1 and promotion_eligible=false; native completion does not override the pilot qualification rule."
+      "message": "Native scheduler records worker run 8ae66d30-a85c-8322-bfeb-1ca3bd162e7d completed at 2026-11-04T17:56:10.583629Z."
     },
     {
       "code": "no_missed_start",
-      "message": "The 2026-11-04T16:45:00Z worker start was served; the next expected hourly start at 2026-11-04T17:45:00Z is not yet due."
+      "message": "The 2026-11-04T17:45:00Z worker start was served; the next expected 2026-11-04T18:45:00Z start is not yet due."
     },
     {
       "code": "no_current_stall",
-      "message": "The latest worker run is terminal and the next expected hourly start is not due, so no active worker heartbeat is expected."
+      "message": "Latest worker run is terminal; no active worker heartbeat is expected after native completion at 2026-11-04T17:56:10.583629Z."
     },
     {
       "code": "observer_scheduled_start_verified",
-      "message": "Observer run 6567b485-2e34-8323-ab5c-adfec3e28bc5 started at 2026-11-04T17:31:40.347397Z for its 2026-11-04T17:32:00Z scheduled occurrence, within dispatch grace."
+      "message": "Observer run 0e54007a-532c-8323-83a1-4c0738fa60a8 started at 2026-11-04T18:29:42.881834Z for scheduled_for 2026-11-04T18:32:00Z, within 15-minute dispatch grace."
     },
     {
       "code": "observer_freshness_preserved",
-      "message": "Observer native state was read at 2026-11-04T17:32:08.022Z; the current observer run remains in progress."
+      "message": "Observer native state was read at 2026-11-04T18:31:42.337Z while run 0e54007a-532c-8323-83a1-4c0738fa60a8 was in progress."
     },
     {
       "code": "native_next_run_time_unavailable",
-      "message": "Native next_run_time is unavailable (null) for both authorized automations; no value was inferred."
+      "message": "Both authorized native automation reads returned next_run_time=null; null is preserved."
+    },
+    {
+      "code": "worker_reported_checkpoint_recovery",
+      "message": "Worker receipt reports 1 checkpoint failure and checkpoint_recovered=true; this is worker-reported application evidence."
+    },
+    {
+      "code": "worker_reported_heartbeat_gap",
+      "message": "Worker receipt reports heartbeat_interval_compliant=false; native completion does not erase that application-level gap."
+    },
+    {
+      "code": "pilot_promotion_ineligible",
+      "message": "Worker receipt records promotion_eligible=false: Checkpoint transport failure disqualifies this pass; prior verification runs excluded."
     }
   ],
   "access_error": null
