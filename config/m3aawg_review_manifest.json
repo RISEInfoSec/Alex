@@ -1251,7 +1251,6 @@
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -1319,10 +1318,14 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "duplicates": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T21:50:26.081926+00:00",
             "content_sha256": "91c24365791b8cbdf56fde450fd42fb78ba790de8ac77a290bc49acad4dfc2bb",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-14536f3e06c8f39154218296-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+              "matches": 0,
+              "exclusions": []
+            }
           },
           "quality": {
             "status": "not_checked",
@@ -1341,7 +1344,15 @@
       "review_number": 205,
       "reserved_review_batch": 26,
       "review_batch": 26,
-      "batch": 26
+      "batch": 26,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T21:50:26.081926+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-14536f3e06c8f39154218296-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+          "content_sha256": "91c24365791b8cbdf56fde450fd42fb78ba790de8ac77a290bc49acad4dfc2bb",
+          "stage": "duplicates"
+        }
+      ]
     },
     {
       "title": "M3AAWG Comments on ICANN/GNSO Initial Report on the DNS Abuse Mitigation Policy Development Process 1",
