@@ -13,7 +13,14 @@ from urllib.robotparser import RobotFileParser
 import requests
 from bs4 import BeautifulSoup
 from pypdf import PdfReader
-from tools.content_review.paid_worker import digest, reviewed_digest, records, MANIFESTS, file_digest
+def digest(value):
+    return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False,allow_nan=False).encode()).hexdigest()
+def reviewed_digest(row):
+    return digest({k:row.get(k,'') for k in ('title','authors','year','doi','source_url','abstract','document_type')})
+def records(manifest):return manifest.get('records',[])+manifest.get('preflight_records',[])
+def file_digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+MANIFESTS={s:'config/'+s+'_review_manifest.json' for s in ('soups','weekly','first','m3aawg','bellingcat','sans')}
+
 from tools.content_review.lifecycle import ensure_eligible, instant
 
 DIRECTORY = 'config/content_review_source_requests'
@@ -133,7 +140,7 @@ def extract(response, fragment=''):
             if anchor is None:raise Hold('candidate_fragment_not_found')
             # FIRST item wrappers hold one contribution and its explicit asset links.
             section=anchor if anchor.name in ('article','section') else anchor.find_parent(['article','section']) or anchor.parent
-            if len(section.get_text(' ',strip=True))<120:
+            if anchor.name not in ('article','section') and len(section.get_text(' ',strip=True))<120:
                 nodes=[str(anchor)]
                 for sibling in anchor.next_siblings:
                     if getattr(sibling,'name',None) in ('h2','h3','h4'):break
