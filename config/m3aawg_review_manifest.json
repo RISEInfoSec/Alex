@@ -1524,7 +1524,6 @@
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -1601,10 +1600,14 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "duplicates": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T21:51:02.220876+00:00",
             "content_sha256": "3205c0db9afb8ca7c6f693be82b351f29489570d4fe48fd4445a240f50ed45d7",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-c8441b726dbfcc4aa5fa86d6-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+              "matches": 0,
+              "exclusions": []
+            }
           },
           "quality": {
             "status": "not_checked",
@@ -1623,7 +1626,15 @@
       "review_number": 211,
       "reserved_review_batch": 26,
       "review_batch": 26,
-      "batch": 26
+      "batch": 26,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T21:51:02.220876+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-c8441b726dbfcc4aa5fa86d6-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+          "content_sha256": "3205c0db9afb8ca7c6f693be82b351f29489570d4fe48fd4445a240f50ed45d7",
+          "stage": "duplicates"
+        }
+      ]
     },
     {
       "title": "Messaging, Malware and Mobile Anti-Abuse Working Group (M3AAWG) Position on Cold Email",
