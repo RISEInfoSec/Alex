@@ -174,7 +174,6 @@
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -249,10 +248,14 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "duplicates": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T17:53:24.612083+00:00",
             "content_sha256": "45088f69a02bd078933ec314ed7b5f3bd62cc16d98a8147c2b94a4dcd505cfee",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-f1e88efb88751bc45f3b48ed-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+              "matches": 0,
+              "exclusions": []
+            }
           },
           "quality": {
             "status": "not_checked",
@@ -271,7 +274,15 @@
       "review_number": 181,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T17:53:24.612083+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-f1e88efb88751bc45f3b48ed-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+          "content_sha256": "45088f69a02bd078933ec314ed7b5f3bd62cc16d98a8147c2b94a4dcd505cfee",
+          "stage": "duplicates"
+        }
+      ]
     },
     {
       "title": "TLS for Mail: M3AAWG Baseline Recommendations",
