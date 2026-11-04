@@ -413,16 +413,28 @@
         "content_sha256": "cae08743a924e1d2bb900a2cedecd46bf73a41fdb30ba5c75757dde47a4af10c",
         "checks": {
           "format": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T01:55:03.909297+00:00",
             "content_sha256": "cae08743a924e1d2bb900a2cedecd46bf73a41fdb30ba5c75757dde47a4af10c",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-8695c9902465df45c5f70e78-a69f1b5d-33b4-8326-baa0-05bbfd8e67e8.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/06/25/how-to-use-ai-to-help-find-civilian-harm-conflict-report-monitor-war-machine-learning-telegram",
+              "observed_document_type": "osint_methodology_article",
+              "basis": "Public HTML methodology article describing Telegram post classification, dataset construction, feature engineering, model comparison, ethical considerations and human verification. It is a newsroom methods article; journal/conference publication and peer review are not established.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "access": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T01:55:03.909297+00:00",
             "content_sha256": "cae08743a924e1d2bb900a2cedecd46bf73a41fdb30ba5c75757dde47a4af10c",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-8695c9902465df45c5f70e78-a69f1b5d-33b4-8326-baa0-05bbfd8e67e8.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/06/25/how-to-use-ai-to-help-find-civilian-harm-conflict-report-monitor-war-machine-learning-telegram",
+              "observed_document_type": "osint_methodology_article",
+              "basis": "Public HTML methodology article describing Telegram post classification, dataset construction, feature engineering, model comparison, ethical considerations and human verification. It is a newsroom methods article; journal/conference publication and peer review are not established.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "metadata": {
             "status": "not_checked",
@@ -460,7 +472,9 @@
       "review_number": 185,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "verified_document_type": "osint_methodology_article",
+      "verified_document_type_evidence": "config/content_review_mechanical_checkpoints/bellingcat-url-8695c9902465df45c5f70e78-a69f1b5d-33b4-8326-baa0-05bbfd8e67e8.json"
     },
     {
       "title": "Mining China’s ‘Little Red Book’ for Open Source Gold",
