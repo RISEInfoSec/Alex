@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "run_id": "d91a87a0-2bdc-8332-8696-79081556d1bd",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-04T21:45:00Z",
+  "started_at": "2026-11-04T21:45:51.123601Z",
+  "completed_at": "2026-11-04T21:51:35.016943+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+  "completed_actions": [
+    "Published and read back start and running status using operations.py",
+    "Read complete D1 tables: 62 submissions, 927 decisions, 598 immutable jobs; validated 213 latest intake decisions",
+    "Independently matched preceding terminal native observation and canonical receipt using operations.verified_completion",
+    "Reused unchanged main exact publication and exclusion proof; no eligible release",
+    "Evaluated lifecycle with fresh overdue flags and 200 local identity audits",
+    "Completed five distinct due M3AAWG initial duplicate/exclusion checks",
+    "Persisted and read back all five evidence records, complete immutable source manifests and lifecycle checkpoints"
+  ],
+  "candidate_ids": [
+    "m3aawg-url-759dd5b0fd3c0145b73d24a7",
+    "m3aawg-url-7461f1af4e7d136e2d833f84",
+    "m3aawg-url-14536f3e06c8f39154218296",
+    "m3aawg-url-cc47571e309bbceb2cf387cd",
+    "m3aawg-url-c8441b726dbfcc4aa5fa86d6"
+  ],
+  "candidate_check_count": 5,
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/content_review_mechanical_checkpoints/m3aawg-url-759dd5b0fd3c0145b73d24a7-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+    "config/content_review_mechanical_checkpoints/m3aawg-url-7461f1af4e7d136e2d833f84-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+    "config/content_review_mechanical_checkpoints/m3aawg-url-14536f3e06c8f39154218296-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+    "config/content_review_mechanical_checkpoints/m3aawg-url-cc47571e309bbceb2cf387cd-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+    "config/content_review_mechanical_checkpoints/m3aawg-url-c8441b726dbfcc4aa5fa86d6-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+    "config/content_review_publication_reconciliation/d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+    "config/content_review_candidate_lifecycle.json"
+  ],
+  "ready_total": 0,
+  "new_eligible_approvals": 0,
+  "errors": [],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_version": 20,
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "m3aawg-url-759dd5b0fd3c0145b73d24a7",
+      "m3aawg-url-7461f1af4e7d136e2d833f84",
+      "m3aawg-url-14536f3e06c8f39154218296",
+      "m3aawg-url-cc47571e309bbceb2cf387cd",
+      "m3aawg-url-c8441b726dbfcc4aa5fa86d6"
+    ],
+    "attempted_candidate_ids": [
+      "m3aawg-url-759dd5b0fd3c0145b73d24a7",
+      "m3aawg-url-7461f1af4e7d136e2d833f84",
+      "m3aawg-url-14536f3e06c8f39154218296",
+      "m3aawg-url-cc47571e309bbceb2cf387cd",
+      "m3aawg-url-c8441b726dbfcc4aa5fa86d6"
+    ],
+    "completed_candidate_ids": [
+      "m3aawg-url-759dd5b0fd3c0145b73d24a7",
+      "m3aawg-url-7461f1af4e7d136e2d833f84",
+      "m3aawg-url-14536f3e06c8f39154218296",
+      "m3aawg-url-cc47571e309bbceb2cf387cd",
+      "m3aawg-url-c8441b726dbfcc4aa5fa86d6"
+    ],
+    "genuinely_first_checked": [
+      "m3aawg-url-759dd5b0fd3c0145b73d24a7",
+      "m3aawg-url-7461f1af4e7d136e2d833f84",
+      "m3aawg-url-14536f3e06c8f39154218296",
+      "m3aawg-url-cc47571e309bbceb2cf387cd",
+      "m3aawg-url-c8441b726dbfcc4aa5fa86d6"
+    ],
+    "next_dispositions": [],
+    "newly_passed_checks": {
+      "duplicates": [
+        "m3aawg-url-759dd5b0fd3c0145b73d24a7",
+        "m3aawg-url-7461f1af4e7d136e2d833f84",
+        "m3aawg-url-14536f3e06c8f39154218296",
+        "m3aawg-url-cc47571e309bbceb2cf387cd",
+        "m3aawg-url-c8441b726dbfcc4aa5fa86d6"
+      ]
+    },
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "candidate_id": "m3aawg-url-759dd5b0fd3c0145b73d24a7",
+        "collection": "m3aawg",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      },
+      {
+        "candidate_id": "m3aawg-url-7461f1af4e7d136e2d833f84",
+        "collection": "m3aawg",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      },
+      {
+        "candidate_id": "m3aawg-url-14536f3e06c8f39154218296",
+        "collection": "m3aawg",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      },
+      {
+        "candidate_id": "m3aawg-url-cc47571e309bbceb2cf387cd",
+        "collection": "m3aawg",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      },
+      {
+        "candidate_id": "m3aawg-url-c8441b726dbfcc4aa5fa86d6",
+        "collection": "m3aawg",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      }
+    ],
+    "cache_reuse": [
+      "Verified unchanged main corpus/publication/exclusion and raw weekly inputs",
+      "Prior exact source and paid proofs",
+      "Completed HVE source check; unchanged parked/stable failures not repeated"
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "stage_elapsed_seconds": {
+      "startup_and_reconciliation_included": true,
+      "total_to_receipt": 343.893368,
+      "individual_stage_measurements": null
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": true,
+    "heartbeat_observations": [
+      "2026-11-04T21:47:15.316204+00:00",
+      "2026-11-04T21:47:43.437690+00:00",
+      "2026-11-04T21:48:13.596111+00:00",
+      "2026-11-04T21:48:40.692632+00:00",
+      "2026-11-04T21:49:07.550649+00:00",
+      "2026-11-04T21:49:40.477822+00:00",
+      "2026-11-04T21:50:04.552690+00:00",
+      "2026-11-04T21:50:41.603169+00:00",
+      "2026-11-04T21:51:27.479909+00:00"
+    ],
+    "maximum_observed_heartbeat_interval_seconds": 45.87674,
+    "remaining_blockers": [
+      "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
+      "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim."
+    ],
+    "source_last_progress": {
+      "m3aawg": {
+        "at": "2026-11-04T21:51:02.220876+00:00",
+        "stage": "duplicates",
+        "candidate_id": "m3aawg-url-c8441b726dbfcc4aa5fa86d6"
+      }
+    },
+    "candidate_checkpoint_digests": [
+      {
+        "candidate_id": "m3aawg-url-759dd5b0fd3c0145b73d24a7",
+        "content_sha256": "272f9426a1d43a212fe6d539e3985f09a0b25384a83ab02f396949d101d8e73d",
+        "path": "config/content_review_mechanical_checkpoints/m3aawg-url-759dd5b0fd3c0145b73d24a7-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+        "sha256": "a21186b2bc31c0f6717345a624a2d0a51ae94bb114a968083e5c6fdf7ef85f9d"
+      },
+      {
+        "candidate_id": "m3aawg-url-7461f1af4e7d136e2d833f84",
+        "content_sha256": "8d34f9ffb3241303eaf8e2f2f57c4103d86d4a012abb009ecd12cd1b0d78ff74",
+        "path": "config/content_review_mechanical_checkpoints/m3aawg-url-7461f1af4e7d136e2d833f84-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+        "sha256": "c9ca19b639ba49dc0bbc43b4195e23fdb431ec45720c232dc1c6c99071bdf6f5"
+      },
+      {
+        "candidate_id": "m3aawg-url-14536f3e06c8f39154218296",
+        "content_sha256": "91c24365791b8cbdf56fde450fd42fb78ba790de8ac77a290bc49acad4dfc2bb",
+        "path": "config/content_review_mechanical_checkpoints/m3aawg-url-14536f3e06c8f39154218296-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+        "sha256": "84ee0b999c3ef748191db1493bc2e10bade96d5412a93e94b13f1aefeb38f4e1"
+      },
+      {
+        "candidate_id": "m3aawg-url-cc47571e309bbceb2cf387cd",
+        "content_sha256": "d17e461fd9042bc57f6e95cb564a1acb641a247910dbd9d350a7a6b80b5819c5",
+        "path": "config/content_review_mechanical_checkpoints/m3aawg-url-cc47571e309bbceb2cf387cd-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+        "sha256": "6e4abd7c1aa263f7848cb9b73c8fba6a47ad4d3917d3189b2a2d1bebbba0c796"
+      },
+      {
+        "candidate_id": "m3aawg-url-c8441b726dbfcc4aa5fa86d6",
+        "content_sha256": "3205c0db9afb8ca7c6f693be82b351f29489570d4fe48fd4445a240f50ed45d7",
+        "path": "config/content_review_mechanical_checkpoints/m3aawg-url-c8441b726dbfcc4aa5fa86d6-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+        "sha256": "98552469f69d3bbb44a39d42b67f17e8b2908c9954712b7428d0d71ff488f4e9"
+      }
+    ],
+    "before_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "after_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "promotion_eligible": false,
+    "promotion_reason": "Application checks satisfy recorded pilot requirements; qualification remains pending independent native terminal verification. Prior verification runs excluded.",
+    "application_qualification_checks_passed": true,
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": "Current native run in progress; requires independent post-termination verification."
+}
