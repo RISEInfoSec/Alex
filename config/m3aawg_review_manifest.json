@@ -1383,7 +1383,6 @@
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -1460,10 +1459,14 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "duplicates": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T21:50:48.787152+00:00",
             "content_sha256": "d17e461fd9042bc57f6e95cb564a1acb641a247910dbd9d350a7a6b80b5819c5",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-cc47571e309bbceb2cf387cd-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+              "matches": 0,
+              "exclusions": []
+            }
           },
           "quality": {
             "status": "not_checked",
@@ -1482,7 +1485,15 @@
       "review_number": 208,
       "reserved_review_batch": 26,
       "review_batch": 26,
-      "batch": 26
+      "batch": 26,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T21:50:48.787152+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-cc47571e309bbceb2cf387cd-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+          "content_sha256": "d17e461fd9042bc57f6e95cb564a1acb641a247910dbd9d350a7a6b80b5819c5",
+          "stage": "duplicates"
+        }
+      ]
     },
     {
       "title": "M3AAWG Comments on CRTC 2026-132: Review of the Unsolicited Telecommunications Rules",
