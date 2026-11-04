@@ -32,8 +32,6 @@
       "recommendation": null,
       "publication_approved": false,
       "preflight_blockers": [
-        "format",
-        "access",
         "metadata",
         "quality",
         "schema"
@@ -91,22 +89,67 @@
         "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
         "checks": {
           "format": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
             "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "actual_type": "best_practice_guide",
+              "container": "pdf",
+              "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+              "result": "Inspected actual matching text; research-paper status is not asserted."
+            },
+            "prior_evidence": {
+              "status": "not_checked",
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "checked_at": null,
+              "evidence": "Source observation only; existing mechanical gate pending"
+            }
           },
           "access": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
             "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "http_status": 200,
+              "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+              "result": "Permitted original resource retrieved with usable text."
+            },
+            "prior_evidence": {
+              "status": "not_checked",
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "checked_at": null,
+              "evidence": "Source observation only; existing mechanical gate pending"
+            }
           },
           "metadata": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
             "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "verified_fields": {
+                "schema_version": 1,
+                "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                "actual_type": "best_practice_guide",
+                "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+                "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+                "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+                "text_complete": true,
+                "publication_date": "2026-09",
+                "author": "M3AAWG",
+                "publication_version": "2.0",
+                "publication_ready": false
+              },
+              "result": "Verified source metadata retained in typed staging. Reviewed-content metadata/abstract version and non-paper export contract remain to be completed; original reviewed hash retained."
+            },
+            "prior_evidence": {
+              "status": "not_checked",
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "checked_at": null,
+              "evidence": "Source observation only; existing mechanical gate pending"
+            }
           },
           "duplicates": {
             "status": "passed",
@@ -119,16 +162,34 @@
             }
           },
           "quality": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
             "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "result": "Type-appropriate quality rubric is not approved. Do not apply bibliometric paper scoring or invent a numeric media deduction."
+            },
+            "prior_evidence": {
+              "status": "not_checked",
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "checked_at": null,
+              "evidence": "Source observation only; existing mechanical gate pending"
+            }
           },
           "schema": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
             "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "result": "Typed staging is available; public non-paper target/classifier/export adapter is not yet supported."
+            },
+            "prior_evidence": {
+              "status": "not_checked",
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "checked_at": null,
+              "evidence": "Source observation only; existing mechanical gate pending"
+            }
           }
         }
       },
@@ -143,7 +204,31 @@
           "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
           "stage": "duplicates"
         }
-      ]
+      ],
+      "source_processing": {
+        "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+        "retrieval_status": "retrieved",
+        "receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+        "checked_at": "2026-11-04T22:57:38.943199+00:00",
+        "reason": null,
+        "evidence_sha256": [
+          "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038"
+        ]
+      },
+      "verified_document_type": "best_practice_guide",
+      "typed_resource_staging": {
+        "schema_version": 1,
+        "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+        "actual_type": "best_practice_guide",
+        "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+        "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+        "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+        "text_complete": true,
+        "publication_date": "2026-09",
+        "author": "M3AAWG",
+        "publication_version": "2.0",
+        "publication_ready": false
+      }
     },
     {
       "title": "M3AAWG Sender Best Common Practices",

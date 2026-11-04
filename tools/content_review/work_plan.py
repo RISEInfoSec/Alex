@@ -21,7 +21,7 @@ def select(manifests, ledger, limit=5, source_progress=None):
             kind=row.get('verified_document_type') or row.get('document_type')
             supported=kind in ('research_paper','research_paper_candidate')
             # Supported complete abstracts first; weekly priority within comparable work.
-            rank=(not(supported and len(row.get('abstract',''))>=100),collection!='weekly',
+            rank=(not(supported and all(current_pass(row,g) for g in ('format','access','metadata','quality'))),not(supported and len(row.get('abstract',''))>=100),collection!='weekly',
                   source_progress.get(collection,{}).get('at',''),entry.get('first_seen_at',''),row['candidate_id'])
             candidates.append((rank,{'collection':collection,'candidate_id':row['candidate_id'],'next_stage':stage}))
     return [item for _,item in sorted(candidates,key=lambda x:x[0])[:limit]]

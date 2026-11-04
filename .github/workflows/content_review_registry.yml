@@ -19,6 +19,14 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 0
           persist-credentials: false
+      - name: Read current main provider policy without executing main code
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: main
+          path: .cache/provider-policy
+          sparse-checkout: config/openalex_request_policy.json
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
       - uses: actions/setup-python@v7.1.0
         with:
           python-version: '3.11'

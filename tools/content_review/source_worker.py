@@ -156,10 +156,24 @@ def extract(response, fragment=''):
         links=[{'text':a.get_text(' ',strip=True),'url':urljoin(response['final_url'],a['href'])} for a in section.find_all('a',href=True)]
         for tag in section(['script','style','nav','footer','header','noscript']):tag.decompose()
         text=section.get_text('\n',strip=True)
-        out.update(container_type='html',metadata=metadata,title=soup.title.get_text(' ',strip=True) if soup.title else '',links=links[:200],text=text[:36000],text_complete=len(text)<=36000,document_type='unverified',fragment=fragment)
+        title=soup.title.get_text(' ',strip=True) if soup.title else ''
+        unavailable=bool(re.search(r'(?i)(temporarily unavailable for review|temporarily unavailable.*content review)',title+' '+text0[:3000]))
+        out.update(container_type='html',metadata=metadata,title=title,links=links[:200],text=text[:36000],text_complete=len(text)<=36000,document_type='unverified',fragment=fragment,resource_unavailable=unavailable)
     out['text_sha256']=hashlib.sha256(out['text'].encode()).hexdigest()
     if not out['text'].strip():raise Hold('no_extractable_text_ocr_required')
     return out
+
+def linked_pdf(source):
+    """Only publisher citation metadata or a verified candidate fragment binds assets.
+
+    A global navigation/footer PDF never establishes candidate identity.
+    """
+    if source.get('resource_unavailable'):raise Hold('publisher_temporarily_withheld_for_review')
+    if source['container_type']!='html':return None
+    pdfs=source.get('metadata',{}).get('citation_pdf_url',[])
+    if not pdfs and source.get('fragment'):
+        pdfs=[a['url'] for a in source.get('links',[]) if re.search(r'(?i)\.pdf(?:$|[?#])',a['url'])]
+    return urljoin(source['final_url'],pdfs[0]) if len(pdfs)==1 else None
 
 def validate(root,path):
     req=json.loads(path.read_text());payload={k:v for k,v in req.items() if k!='request_id'}
@@ -201,10 +215,10 @@ def execute(root,path,output):
         row={k:item[k] for k in ('collection','candidate_id','content_sha256')};row.update(status='held',evidence=[])
         try:
             source=extract(tx.fetch(item['url']),urlsplit(item['url']).fragment);row['evidence'].append(source)
-            if source['container_type']=='html':
-                pdfs=source.get('metadata',{}).get('citation_pdf_url',[])
-                if not pdfs:pdfs=[a['url'] for a in source.get('links',[]) if re.search(r'(?i)\.pdf(?:$|[?#])',a['url'])]
-                if pdfs:row['evidence'].append(extract(tx.fetch(urljoin(source['final_url'],pdfs[0]))))
+            pdf=linked_pdf(source)
+            if pdf:
+                asset=extract(tx.fetch(pdf));row['evidence'].append(asset)
+                linked_pdf(asset) # Detect a publisher's HTML hold page replacing the asset.
             row.update(status='retrieved',next_action='Inspect actual content and identity; evidence retrieval alone passes no gate.')
         except Hold as exc:row.update(reason=str(exc),next_action='Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval.')
         result['records'].append(row);checkpoint()

@@ -29,3 +29,37 @@ def test_local_success_is_not_recovery():
 def test_unknown_request_count_not_assumed_zero():
     r={'trigger':'schedule','pilot':{'attempted_candidate_ids':['a'],'requests':{}}}
     assert processing_progress([r,r])['status']!='stalled_local_only'
+
+def test_robots_redirect_is_followed_and_counted(monkeypatch):
+    monkeypatch.setattr(s,'safe_url',lambda url,resolve=True:url)
+    tx=s.Transport(deadline=1000,clock=lambda:0,sleep=lambda _:None)
+    responses=iter([(301,{'location':'https://www.example.org/robots.txt'},b''),(200,{},b'User-agent: *\nAllow: /')]);calls=[]
+    def send(url):calls.append(url);return next(responses)
+    tx.send=send;tx.permitted('https://example.org/paper')
+    assert calls==['https://example.org/robots.txt','https://www.example.org/robots.txt']
+
+def test_robots_denial_prevents_material_request(monkeypatch):
+    monkeypatch.setattr(s,'safe_url',lambda url,resolve=True:url)
+    tx=s.Transport(deadline=1000,clock=lambda:0,sleep=lambda _:None);calls=[]
+    def send(url):calls.append(url);return 200,{},b'User-agent: *\nDisallow: /'
+    tx.send=send
+    with pytest.raises(s.Hold,match='robots_disallow'):tx.fetch('https://example.org/paper')
+    assert calls==['https://example.org/robots.txt']
+
+def test_exhausted_budget_sends_nothing(monkeypatch):
+    monkeypatch.setattr(s,'safe_url',lambda url,resolve=True:url)
+    tx=s.Transport(deadline=10,clock=lambda:0,sleep=lambda _:None)
+    with pytest.raises(s.Hold,match='budget_exhausted'):tx.send('https://example.org/paper')
+    assert tx.sends==[]
+
+def test_unavailable_page_never_follows_navigation_pdf():
+    x=s.extract(response(b'<title>Temporarily Unavailable For Review</title><p>Content review</p><a href="unrelated.pdf">DNS matrix</a>'))
+    with pytest.raises(s.Hold,match='publisher_temporarily_withheld'):s.linked_pdf(x)
+
+def test_unscoped_html_does_not_follow_arbitrary_pdf():
+    x=s.extract(response(b'<title>A paper</title><p>Article</p><a href="footer.pdf">Annual report</a>'))
+    assert s.linked_pdf(x) is None
+
+def test_explicit_publisher_pdf_is_candidate_bound():
+    x=s.extract(response(b'<meta name="citation_pdf_url" content="paper.pdf"><p>Article</p><a href="footer.pdf">Report</a>'))
+    assert s.linked_pdf(x)=='https://example.org/paper.pdf'

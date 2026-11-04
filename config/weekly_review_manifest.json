@@ -47545,45 +47545,55 @@
           },
           "access": {
             "status": "held",
-            "checked_at": "2026-10-29T02:38:20.332358+00:00",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
             "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
             "evidence": {
-              "name": "cyber-guardian-page",
-              "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
-              "checked_at": "2026-10-29T02:33:29.203372+00:00",
-              "hops": [
-                {
-                  "url": "https://doi.org/10.55041/isjem07154",
-                  "http_status": 302,
-                  "resource_sha256": "faf1448a8552e8e912565f94b164edce81fefa4fa91b058804353e89d16d4a60",
-                  "bytes": 249,
-                  "content_type": "text/html;charset=utf-8"
-                },
-                {
-                  "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
-                  "http_status": 403,
-                  "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
-                  "bytes": 6284,
-                  "content_type": "text/html; charset=UTF-8"
-                }
-              ],
-              "robots_http_status": 200,
-              "http_status": 403,
-              "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
-              "bytes": 6284,
-              "content_type": "text/html; charset=UTF-8"
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "result": "Original publisher returned HTTP 403 after permitted DOI/robots redirects. No challenge or restriction bypass attempted.",
+              "source_receipt": "config/content_review_source_receipts/768a3bffc1653017355b54ad7bfa760b55f96c1b335d3ea0152f3e34441d954f.json"
             },
-            "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
             "prior_evidence": {
               "status": "held",
-              "checked_at": "2026-10-27T23:40:48.220777+00:00",
+              "checked_at": "2026-10-29T02:38:20.332358+00:00",
               "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
               "evidence": {
+                "name": "cyber-guardian-page",
+                "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
+                "checked_at": "2026-10-29T02:33:29.203372+00:00",
+                "hops": [
+                  {
+                    "url": "https://doi.org/10.55041/isjem07154",
+                    "http_status": 302,
+                    "resource_sha256": "faf1448a8552e8e912565f94b164edce81fefa4fa91b058804353e89d16d4a60",
+                    "bytes": 249,
+                    "content_type": "text/html;charset=utf-8"
+                  },
+                  {
+                    "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
+                    "http_status": 403,
+                    "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
+                    "bytes": 6284,
+                    "content_type": "text/html; charset=UTF-8"
+                  }
+                ],
+                "robots_http_status": 200,
+                "http_status": 403,
+                "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
+                "bytes": 6284,
+                "content_type": "text/html; charset=UTF-8"
+              },
+              "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
+              "prior_evidence": {
+                "status": "held",
                 "checked_at": "2026-10-27T23:40:48.220777+00:00",
-                "url": "https://doi.org/10.55041/isjem07154",
-                "error": "HTTPError: HTTP Error 403: Forbidden",
-                "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-                "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+                "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
+                "evidence": {
+                  "checked_at": "2026-10-27T23:40:48.220777+00:00",
+                  "url": "https://doi.org/10.55041/isjem07154",
+                  "error": "HTTPError: HTTP Error 403: Forbidden",
+                  "retry_after": "next pass; source backoff; access failure is not scientific rejection",
+                  "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+                }
               }
             }
           },
@@ -47746,7 +47756,15 @@
           "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
           "stage": "source_identity_reconciliation"
         }
-      ]
+      ],
+      "source_processing": {
+        "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
+        "retrieval_status": "held",
+        "receipt": "config/content_review_source_receipts/768a3bffc1653017355b54ad7bfa760b55f96c1b335d3ea0152f3e34441d954f.json",
+        "checked_at": "2026-11-04T22:57:38.943199+00:00",
+        "reason": "source_http_403",
+        "evidence_sha256": []
+      }
     },
     {
       "candidate_id": "weekly-f15d53b0bfa77e9300cf97d0",
@@ -48454,38 +48472,48 @@
           },
           "access": {
             "status": "held",
-            "checked_at": "2026-10-29T02:38:20.332358+00:00",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
             "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
             "evidence": {
-              "name": "peerj-threat-page",
-              "url": "https://peerj.com/articles/cs-3803/",
-              "checked_at": "2026-10-29T02:33:22.996156+00:00",
-              "hops": [
-                {
-                  "url": "https://peerj.com/articles/cs-3803/",
-                  "http_status": 403,
-                  "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
-                  "bytes": 6122,
-                  "content_type": "text/html; charset=UTF-8"
-                }
-              ],
-              "robots_http_status": 200,
-              "http_status": 403,
-              "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
-              "bytes": 6122,
-              "content_type": "text/html; charset=UTF-8"
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "result": "Original publisher returned HTTP 403 after permitted DOI/robots redirects. No challenge or restriction bypass attempted.",
+              "source_receipt": "config/content_review_source_receipts/768a3bffc1653017355b54ad7bfa760b55f96c1b335d3ea0152f3e34441d954f.json"
             },
-            "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
             "prior_evidence": {
               "status": "held",
-              "checked_at": "2026-10-27T23:41:44.662155+00:00",
+              "checked_at": "2026-10-29T02:38:20.332358+00:00",
               "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
               "evidence": {
+                "name": "peerj-threat-page",
+                "url": "https://peerj.com/articles/cs-3803/",
+                "checked_at": "2026-10-29T02:33:22.996156+00:00",
+                "hops": [
+                  {
+                    "url": "https://peerj.com/articles/cs-3803/",
+                    "http_status": 403,
+                    "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
+                    "bytes": 6122,
+                    "content_type": "text/html; charset=UTF-8"
+                  }
+                ],
+                "robots_http_status": 200,
+                "http_status": 403,
+                "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
+                "bytes": 6122,
+                "content_type": "text/html; charset=UTF-8"
+              },
+              "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
+              "prior_evidence": {
+                "status": "held",
                 "checked_at": "2026-10-27T23:41:44.662155+00:00",
-                "url": "https://peerj.com/articles/cs-3803.pdf",
-                "error": "HTTPError: HTTP Error 403: Forbidden",
-                "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-                "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+                "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
+                "evidence": {
+                  "checked_at": "2026-10-27T23:41:44.662155+00:00",
+                  "url": "https://peerj.com/articles/cs-3803.pdf",
+                  "error": "HTTPError: HTTP Error 403: Forbidden",
+                  "retry_after": "next pass; source backoff; access failure is not scientific rejection",
+                  "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+                }
               }
             }
           },
@@ -48629,7 +48657,15 @@
           "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
           "stage": "source_identity_reconciliation"
         }
-      ]
+      ],
+      "source_processing": {
+        "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
+        "retrieval_status": "held",
+        "receipt": "config/content_review_source_receipts/768a3bffc1653017355b54ad7bfa760b55f96c1b335d3ea0152f3e34441d954f.json",
+        "checked_at": "2026-11-04T22:57:38.943199+00:00",
+        "reason": "source_http_403",
+        "evidence_sha256": []
+      }
     },
     {
       "candidate_id": "weekly-af2684450c2113e29752cac3",
@@ -51434,7 +51470,7 @@
       "doi": "",
       "source_url": "https://arxiv.org/abs/2606.10083",
       "document_type": "research_paper",
-      "document_type_basis": "Verified from the exact arXiv PDF: title page, abstract, authors, affiliations, version date, contents, and structured paper sections.",
+      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
       "format_verification_status": "verified_written_research_paper",
       "abstract": "The cybersecurity community has invested over two decades in building standardized frameworks, the Common Vulnerabilities and Exposures (CVE) system, the Common Vulnerability Scoring System (CVSS), and the Common Weakness Enumeration (CWE) to identify, classify, and remediate threats to digital infrastructure. However, an emerging body of research reveals that a vast majority of successful cyberattacks exploit not software flaws, but human behavioral and psychological vulnerabilities. Social engineering, fraud, and scam attacks, which manipulate human cognition, emotion, and trust, do not have an equivalent standardized framework. Meanwhile, behavioral science and psychology research has established robust theoretical foundations, such as dual-process theory, prospect theory, social influence frameworks, and visceral state models, which explain precisely why and how these attacks succeed. This paper introduces the Human Vulnerabilities & Exploits (HVE) Framework, a structured approach for identifying, classifying, and mitigating the behavioral and psychological vulnerabilities exploited in scams, social engineering, and other human-centric fraud and attacks, analogous in concept to how CVE helps classify software vulnerabilities: it provides a shared, machine-readable taxonomy with structured identifiers, multi-dimensional severity scoring via the Human Vulnerability Severity Score (HVSS), and actionable remediation guidance through Human Vulnerability Patches (HVPs). This introduction synthesizes the relevant literature across cybersecurity standardization, behavioral science, and fraud defense to establish the theoretical and practical foundations for the HVE framework, whose architecture and technical specifications are detailed in subsequent sections.",
       "abstract_source": "https://arxiv.org/abs/2606.10083",
@@ -51455,7 +51491,7 @@
       "assessment_date": "2026-10-27",
       "full_paper_reviewed": false,
       "paper_format_verified": true,
-      "source_verification_status": "verified_original_arxiv_pdf",
+      "source_verification_status": "publisher_resource_and_written_paper_verified",
       "quality_status": "existing_human_quality_review_required",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
       "resource_usefulness_status": "verified_written_research_paper; presentation/audio deduction not applicable",
@@ -51489,47 +51525,127 @@
       "institution_score": 40,
       "institution_bonus": 0,
       "title_anchor_bonus": 0,
-      "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+      "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
-        "duplicates",
         "schema"
       ],
       "preflight": {
         "status": "held",
-        "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+        "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
         "checks": {
-          "duplicates": {
-            "status": "held",
-            "checked_at": "2026-10-28T03:50:34.934054+00:00",
-            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+          "format": {
+            "status": "passed",
+            "checked_at": "2026-11-02T22:06:35.597Z",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
             "evidence": {
-              "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-              "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
-              "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-              "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-              "weekly_inventory_records": 4041,
-              "all_prepared_collections": [
-                "soups",
-                "weekly",
-                "virusbulletin",
-                "apwg"
-              ],
-              "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-              "matches": [
+              "source_url": "https://arxiv.org/pdf/2606.10083",
+              "retrieved_at": "2026-11-02T22:06:35.597Z",
+              "http_result": "200; bounded 20-second request completed",
+              "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+              "document_bytes": 2552773,
+              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+              "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+              "result": "Exact PDF is a substantive written research paper, not slides, a poster, or an event listing."
+            },
+            "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds.",
+            "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "access": {
+            "status": "passed",
+            "checked_at": "2026-11-02T22:06:35.597Z",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+            "evidence": {
+              "source_url": "https://arxiv.org/pdf/2606.10083",
+              "retrieved_at": "2026-11-02T22:06:35.597Z",
+              "http_result": "200; bounded 20-second request completed",
+              "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+              "document_bytes": 2552773,
+              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+              "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+              "result": "Exact source PDF was retrieved successfully with a bounded request and hashed."
+            },
+            "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds.",
+            "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "metadata": {
+            "status": "passed",
+            "checked_at": "2026-11-02T22:06:35.597Z",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+            "evidence": {
+              "source_url": "https://arxiv.org/pdf/2606.10083",
+              "retrieved_at": "2026-11-02T22:06:35.597Z",
+              "http_result": "200; bounded 20-second request completed",
+              "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+              "document_bytes": 2552773,
+              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+              "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+              "result": "PDF front matter verifies title, five authors, Charm Security affiliations, arXiv v1 date (8 June 2026), and a complete abstract matching the cached abstract."
+            },
+            "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds.",
+            "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "duplicates": {
+            "status": "passed",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "status": "passed",
+              "matches": [],
+              "upstream_aliases": [
                 {
-                  "origin": "weekly_upstream",
-                  "id": "40289",
-                  "matched_by": "title"
+                  "upstream_candidate_id": "40289",
+                  "arxiv_id": "2606.10083",
+                  "reason": "Same arXiv identifier, normalized title and complete author byline; distinct discovery identity retained."
                 }
-              ]
-            }
+              ],
+              "exclusions": [],
+              "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+              "upstream_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+              "exclusion_blob": "69ef457727ce2556b599f6491111467e85b7d13c"
+            },
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-28T03:50:34.934054+00:00",
+              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+              "evidence": {
+                "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+                "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+                "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                "weekly_inventory_records": 4041,
+                "all_prepared_collections": [
+                  "soups",
+                  "weekly",
+                  "virusbulletin",
+                  "apwg"
+                ],
+                "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+                "matches": [
+                  {
+                    "origin": "weekly_upstream",
+                    "id": "40289",
+                    "matched_by": "title"
+                  }
+                ]
+              }
+            },
+            "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "quality": {
             "status": "passed",
             "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
             "evidence": {
               "quality_score": 31.65,
               "quality_venue_score": 40,
@@ -51547,67 +51663,639 @@
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-          },
-          "format": {
-            "status": "passed",
-            "checked_at": "2026-11-02T22:06:35.597Z",
-            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
-            "evidence": {
-              "source_url": "https://arxiv.org/pdf/2606.10083",
-              "retrieved_at": "2026-11-02T22:06:35.597Z",
-              "http_result": "200; bounded 20-second request completed",
-              "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
-              "document_bytes": 2552773,
-              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
-              "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
-              "result": "Exact PDF is a substantive written research paper, not slides, a poster, or an event listing."
-            },
-            "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
-          },
-          "access": {
-            "status": "passed",
-            "checked_at": "2026-11-02T22:06:35.597Z",
-            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
-            "evidence": {
-              "source_url": "https://arxiv.org/pdf/2606.10083",
-              "retrieved_at": "2026-11-02T22:06:35.597Z",
-              "http_result": "200; bounded 20-second request completed",
-              "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
-              "document_bytes": 2552773,
-              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
-              "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
-              "result": "Exact source PDF was retrieved successfully with a bounded request and hashed."
-            },
-            "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
-          },
-          "metadata": {
-            "status": "passed",
-            "checked_at": "2026-11-02T22:06:35.597Z",
-            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
-            "evidence": {
-              "source_url": "https://arxiv.org/pdf/2606.10083",
-              "retrieved_at": "2026-11-02T22:06:35.597Z",
-              "http_result": "200; bounded 20-second request completed",
-              "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
-              "document_bytes": 2552773,
-              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
-              "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
-              "result": "PDF front matter verifies title, five authors, Charm Security affiliations, arXiv v1 date (8 June 2026), and a complete abstract matching the cached abstract."
-            },
-            "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-11-04T22:58:12.434182+00:00",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "integrity_repair_versions": [
+        {
+          "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+          "reason": "Prior source check changed document_type without recomputing reviewed hash. Exact original inconsistent record retained; recovered original hash contract by changing only type back to research_paper_candidate before explicit verified-type normalization. No human decision exists.",
+          "record": {
+            "candidate_id": "weekly-250dd6cfa359991d1db168d1",
+            "upstream_candidate_id": "40264",
+            "upstream_stable_identity": "https://arxiv.org/abs/2606.10083",
+            "source_row": 1890,
+            "review_number": 75,
+            "review_batch": 4,
+            "batch": 4,
+            "title": "The Human Vulnerabilities & Exploits (HVE) Framework",
+            "authors": "Avichai Ben; Tom Rahav; Daniel Illaev; Aviv Nahon; Avi Grushka",
+            "year": 2026,
+            "doi": "",
+            "source_url": "https://arxiv.org/abs/2606.10083",
+            "document_type": "research_paper",
+            "document_type_basis": "Verified from the exact arXiv PDF: title page, abstract, authors, affiliations, version date, contents, and structured paper sections.",
+            "format_verification_status": "verified_written_research_paper",
+            "abstract": "The cybersecurity community has invested over two decades in building standardized frameworks, the Common Vulnerabilities and Exposures (CVE) system, the Common Vulnerability Scoring System (CVSS), and the Common Weakness Enumeration (CWE) to identify, classify, and remediate threats to digital infrastructure. However, an emerging body of research reveals that a vast majority of successful cyberattacks exploit not software flaws, but human behavioral and psychological vulnerabilities. Social engineering, fraud, and scam attacks, which manipulate human cognition, emotion, and trust, do not have an equivalent standardized framework. Meanwhile, behavioral science and psychology research has established robust theoretical foundations, such as dual-process theory, prospect theory, social influence frameworks, and visceral state models, which explain precisely why and how these attacks succeed. This paper introduces the Human Vulnerabilities & Exploits (HVE) Framework, a structured approach for identifying, classifying, and mitigating the behavioral and psychological vulnerabilities exploited in scams, social engineering, and other human-centric fraud and attacks, analogous in concept to how CVE helps classify software vulnerabilities: it provides a shared, machine-readable taxonomy with structured identifiers, multi-dimensional severity scoring via the Human Vulnerability Severity Score (HVSS), and actionable remediation guidance through Human Vulnerability Patches (HVPs). This introduction synthesizes the relevant literature across cybersecurity standardization, behavioral science, and fraud defense to establish the theoretical and practical foundations for the HVE framework, whose architecture and technical specifications are detailed in subsequent sections.",
+            "abstract_source": "https://arxiv.org/abs/2606.10083",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              "https://arxiv.org/abs/2606.10083",
+              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "discuss",
+            "relevance": "supporting",
+            "review_reason": "Proposes a shared human-vulnerability taxonomy, severity scheme and remediation vocabulary for scams and social engineering.",
+            "metadata_issue": "Conceptual taxonomy; predictive validity, scoring reproducibility and effectiveness of remedies are not established by the abstract. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 31.65; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": true,
+            "source_verification_status": "verified_original_arxiv_pdf",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "verified_written_research_paper; presentation/audio deduction not applicable",
+            "manual_review_required": true,
+            "total_quality_score": 31.65,
+            "quality_score": 31.65,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 70.59,
+            "is_preprint": false,
+            "venue": "arXiv (Cornell University)",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "lookup_pending",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "cybersecurity",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "61b9da6933415f7372719542e37cfde3fc3f13fed04161eb6f571a676d68cc0a",
+            "assessed_text_sha256": "720465e3ce2d768d12f9156dd6a6580744cef2b1a6a2c37736aab55320088f40",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 40,
+            "institution_bonus": 0,
+            "title_anchor_bonus": 0,
+            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "duplicates",
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+              "checks": {
+                "duplicates": {
+                  "status": "held",
+                  "checked_at": "2026-10-28T03:50:34.934054+00:00",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": {
+                    "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+                    "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+                    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                    "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                    "weekly_inventory_records": 4041,
+                    "all_prepared_collections": [
+                      "soups",
+                      "weekly",
+                      "virusbulletin",
+                      "apwg"
+                    ],
+                    "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+                    "matches": [
+                      {
+                        "origin": "weekly_upstream",
+                        "id": "40289",
+                        "matched_by": "title"
+                      }
+                    ]
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": {
+                    "quality_score": 31.65,
+                    "quality_venue_score": 40,
+                    "quality_citation_score": 0,
+                    "quality_relevance_score": 70.59,
+                    "quality_institution_score": 40,
+                    "quality_institution_bonus": 0,
+                    "quality_title_bonus": 0,
+                    "quality_auto_threshold": 35,
+                    "quality_review_threshold": 20,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "status": "passed",
+                  "checked_at": "2026-11-02T22:06:35.597Z",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": {
+                    "source_url": "https://arxiv.org/pdf/2606.10083",
+                    "retrieved_at": "2026-11-02T22:06:35.597Z",
+                    "http_result": "200; bounded 20-second request completed",
+                    "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+                    "document_bytes": 2552773,
+                    "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                    "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+                    "result": "Exact PDF is a substantive written research paper, not slides, a poster, or an event listing."
+                  },
+                  "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
+                },
+                "access": {
+                  "status": "passed",
+                  "checked_at": "2026-11-02T22:06:35.597Z",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": {
+                    "source_url": "https://arxiv.org/pdf/2606.10083",
+                    "retrieved_at": "2026-11-02T22:06:35.597Z",
+                    "http_result": "200; bounded 20-second request completed",
+                    "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+                    "document_bytes": 2552773,
+                    "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                    "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+                    "result": "Exact source PDF was retrieved successfully with a bounded request and hashed."
+                  },
+                  "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
+                },
+                "metadata": {
+                  "status": "passed",
+                  "checked_at": "2026-11-02T22:06:35.597Z",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": {
+                    "source_url": "https://arxiv.org/pdf/2606.10083",
+                    "retrieved_at": "2026-11-02T22:06:35.597Z",
+                    "http_result": "200; bounded 20-second request completed",
+                    "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+                    "document_bytes": 2552773,
+                    "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                    "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+                    "result": "PDF front matter verifies title, five authors, Charm Security affiliations, arXiv v1 date (8 June 2026), and a complete abstract matching the cached abstract."
+                  },
+                  "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false
+          }
+        }
+      ],
+      "verified_document_type": "research_paper",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+          "superseded_at": "2026-11-04T22:58:12.434182+00:00",
+          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
+          "record": {
+            "candidate_id": "weekly-250dd6cfa359991d1db168d1",
+            "upstream_candidate_id": "40264",
+            "upstream_stable_identity": "https://arxiv.org/abs/2606.10083",
+            "source_row": 1890,
+            "review_number": 75,
+            "review_batch": 4,
+            "batch": 4,
+            "title": "The Human Vulnerabilities & Exploits (HVE) Framework",
+            "authors": "Avichai Ben; Tom Rahav; Daniel Illaev; Aviv Nahon; Avi Grushka",
+            "year": 2026,
+            "doi": "",
+            "source_url": "https://arxiv.org/abs/2606.10083",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Verified from the exact arXiv PDF: title page, abstract, authors, affiliations, version date, contents, and structured paper sections.",
+            "format_verification_status": "verified_written_research_paper",
+            "abstract": "The cybersecurity community has invested over two decades in building standardized frameworks, the Common Vulnerabilities and Exposures (CVE) system, the Common Vulnerability Scoring System (CVSS), and the Common Weakness Enumeration (CWE) to identify, classify, and remediate threats to digital infrastructure. However, an emerging body of research reveals that a vast majority of successful cyberattacks exploit not software flaws, but human behavioral and psychological vulnerabilities. Social engineering, fraud, and scam attacks, which manipulate human cognition, emotion, and trust, do not have an equivalent standardized framework. Meanwhile, behavioral science and psychology research has established robust theoretical foundations, such as dual-process theory, prospect theory, social influence frameworks, and visceral state models, which explain precisely why and how these attacks succeed. This paper introduces the Human Vulnerabilities & Exploits (HVE) Framework, a structured approach for identifying, classifying, and mitigating the behavioral and psychological vulnerabilities exploited in scams, social engineering, and other human-centric fraud and attacks, analogous in concept to how CVE helps classify software vulnerabilities: it provides a shared, machine-readable taxonomy with structured identifiers, multi-dimensional severity scoring via the Human Vulnerability Severity Score (HVSS), and actionable remediation guidance through Human Vulnerability Patches (HVPs). This introduction synthesizes the relevant literature across cybersecurity standardization, behavioral science, and fraud defense to establish the theoretical and practical foundations for the HVE framework, whose architecture and technical specifications are detailed in subsequent sections.",
+            "abstract_source": "https://arxiv.org/abs/2606.10083",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              "https://arxiv.org/abs/2606.10083",
+              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "discuss",
+            "relevance": "supporting",
+            "review_reason": "Proposes a shared human-vulnerability taxonomy, severity scheme and remediation vocabulary for scams and social engineering.",
+            "metadata_issue": "Conceptual taxonomy; predictive validity, scoring reproducibility and effectiveness of remedies are not established by the abstract. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 31.65; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": true,
+            "source_verification_status": "verified_original_arxiv_pdf",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "verified_written_research_paper; presentation/audio deduction not applicable",
+            "manual_review_required": true,
+            "total_quality_score": 31.65,
+            "quality_score": 31.65,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 70.59,
+            "is_preprint": false,
+            "venue": "arXiv (Cornell University)",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "lookup_pending",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "cybersecurity",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "61b9da6933415f7372719542e37cfde3fc3f13fed04161eb6f571a676d68cc0a",
+            "assessed_text_sha256": "720465e3ce2d768d12f9156dd6a6580744cef2b1a6a2c37736aab55320088f40",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 40,
+            "institution_bonus": 0,
+            "title_anchor_bonus": 0,
+            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+              "checks": {
+                "duplicates": {
+                  "status": "passed",
+                  "checked_at": "2026-11-04T22:57:38.943199+00:00",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+                    "status": "passed",
+                    "matches": [],
+                    "upstream_aliases": [
+                      {
+                        "upstream_candidate_id": "40289",
+                        "arxiv_id": "2606.10083",
+                        "reason": "Same arXiv identifier, normalized title and complete author byline; distinct discovery identity retained."
+                      }
+                    ],
+                    "exclusions": [],
+                    "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+                    "upstream_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                    "exclusion_blob": "69ef457727ce2556b599f6491111467e85b7d13c"
+                  },
+                  "prior_evidence": {
+                    "status": "held",
+                    "checked_at": "2026-10-28T03:50:34.934054+00:00",
+                    "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                    "evidence": {
+                      "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+                      "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+                      "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                      "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                      "weekly_inventory_records": 4041,
+                      "all_prepared_collections": [
+                        "soups",
+                        "weekly",
+                        "virusbulletin",
+                        "apwg"
+                      ],
+                      "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+                      "matches": [
+                        {
+                          "origin": "weekly_upstream",
+                          "id": "40289",
+                          "matched_by": "title"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": {
+                    "quality_score": 31.65,
+                    "quality_venue_score": 40,
+                    "quality_citation_score": 0,
+                    "quality_relevance_score": 70.59,
+                    "quality_institution_score": 40,
+                    "quality_institution_bonus": 0,
+                    "quality_title_bonus": 0,
+                    "quality_auto_threshold": 35,
+                    "quality_review_threshold": 20,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "status": "passed",
+                  "checked_at": "2026-11-02T22:06:35.597Z",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": {
+                    "source_url": "https://arxiv.org/pdf/2606.10083",
+                    "retrieved_at": "2026-11-02T22:06:35.597Z",
+                    "http_result": "200; bounded 20-second request completed",
+                    "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+                    "document_bytes": 2552773,
+                    "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                    "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+                    "result": "Exact PDF is a substantive written research paper, not slides, a poster, or an event listing."
+                  },
+                  "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
+                },
+                "access": {
+                  "status": "passed",
+                  "checked_at": "2026-11-02T22:06:35.597Z",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": {
+                    "source_url": "https://arxiv.org/pdf/2606.10083",
+                    "retrieved_at": "2026-11-02T22:06:35.597Z",
+                    "http_result": "200; bounded 20-second request completed",
+                    "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+                    "document_bytes": 2552773,
+                    "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                    "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+                    "result": "Exact source PDF was retrieved successfully with a bounded request and hashed."
+                  },
+                  "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
+                },
+                "metadata": {
+                  "status": "passed",
+                  "checked_at": "2026-11-02T22:06:35.597Z",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": {
+                    "source_url": "https://arxiv.org/pdf/2606.10083",
+                    "retrieved_at": "2026-11-02T22:06:35.597Z",
+                    "http_result": "200; bounded 20-second request completed",
+                    "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+                    "document_bytes": 2552773,
+                    "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                    "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+                    "result": "PDF front matter verifies title, five authors, Charm Security affiliations, arXiv v1 date (8 June 2026), and a complete abstract matching the cached abstract."
+                  },
+                  "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "integrity_repair_versions": [
+              {
+                "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                "reason": "Prior source check changed document_type without recomputing reviewed hash. Exact original inconsistent record retained; recovered original hash contract by changing only type back to research_paper_candidate before explicit verified-type normalization. No human decision exists.",
+                "record": {
+                  "candidate_id": "weekly-250dd6cfa359991d1db168d1",
+                  "upstream_candidate_id": "40264",
+                  "upstream_stable_identity": "https://arxiv.org/abs/2606.10083",
+                  "source_row": 1890,
+                  "review_number": 75,
+                  "review_batch": 4,
+                  "batch": 4,
+                  "title": "The Human Vulnerabilities & Exploits (HVE) Framework",
+                  "authors": "Avichai Ben; Tom Rahav; Daniel Illaev; Aviv Nahon; Avi Grushka",
+                  "year": 2026,
+                  "doi": "",
+                  "source_url": "https://arxiv.org/abs/2606.10083",
+                  "document_type": "research_paper",
+                  "document_type_basis": "Verified from the exact arXiv PDF: title page, abstract, authors, affiliations, version date, contents, and structured paper sections.",
+                  "format_verification_status": "verified_written_research_paper",
+                  "abstract": "The cybersecurity community has invested over two decades in building standardized frameworks, the Common Vulnerabilities and Exposures (CVE) system, the Common Vulnerability Scoring System (CVSS), and the Common Weakness Enumeration (CWE) to identify, classify, and remediate threats to digital infrastructure. However, an emerging body of research reveals that a vast majority of successful cyberattacks exploit not software flaws, but human behavioral and psychological vulnerabilities. Social engineering, fraud, and scam attacks, which manipulate human cognition, emotion, and trust, do not have an equivalent standardized framework. Meanwhile, behavioral science and psychology research has established robust theoretical foundations, such as dual-process theory, prospect theory, social influence frameworks, and visceral state models, which explain precisely why and how these attacks succeed. This paper introduces the Human Vulnerabilities & Exploits (HVE) Framework, a structured approach for identifying, classifying, and mitigating the behavioral and psychological vulnerabilities exploited in scams, social engineering, and other human-centric fraud and attacks, analogous in concept to how CVE helps classify software vulnerabilities: it provides a shared, machine-readable taxonomy with structured identifiers, multi-dimensional severity scoring via the Human Vulnerability Severity Score (HVSS), and actionable remediation guidance through Human Vulnerability Patches (HVPs). This introduction synthesizes the relevant literature across cybersecurity standardization, behavioral science, and fraud defense to establish the theoretical and practical foundations for the HVE framework, whose architecture and technical specifications are detailed in subsequent sections.",
+                  "abstract_source": "https://arxiv.org/abs/2606.10083",
+                  "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+                  "review_evidence": [
+                    "https://arxiv.org/abs/2606.10083",
+                    "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+                  ],
+                  "collection_id": "weekly",
+                  "collection_source": "ALEX regular weekly discovery review queue",
+                  "collection_url": "https://github.com/RISEInfoSec/Alex",
+                  "recommendation": "discuss",
+                  "relevance": "supporting",
+                  "review_reason": "Proposes a shared human-vulnerability taxonomy, severity scheme and remediation vocabulary for scams and social engineering.",
+                  "metadata_issue": "Conceptual taxonomy; predictive validity, scoring reproducibility and effectiveness of remedies are not established by the abstract. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 31.65; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+                  "screening_status": "cached_abstract_review_complete",
+                  "assessment_depth": "cached_abstract",
+                  "assessment_date": "2026-10-27",
+                  "full_paper_reviewed": false,
+                  "paper_format_verified": true,
+                  "source_verification_status": "verified_original_arxiv_pdf",
+                  "quality_status": "existing_human_quality_review_required",
+                  "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+                  "resource_usefulness_status": "verified_written_research_paper; presentation/audio deduction not applicable",
+                  "manual_review_required": true,
+                  "total_quality_score": 31.65,
+                  "quality_score": 31.65,
+                  "quality_auto_threshold": 35,
+                  "quality_review_threshold": 20,
+                  "relevance_score": 70.59,
+                  "is_preprint": false,
+                  "venue": "arXiv (Cornell University)",
+                  "citation_count": 0,
+                  "citation_status": "upstream_value_not_independently_verified",
+                  "doi_status": "lookup_pending",
+                  "source_recommended_action": "human review",
+                  "source_review_reason": "Quality uncertain or moderate",
+                  "discovery_source": "OpenAlex",
+                  "discovery_query": "cybersecurity",
+                  "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+                  "decision": "pending",
+                  "publication_approved": false,
+                  "duplicate_check": {
+                    "status": "no_match_found",
+                    "matches": [],
+                    "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+                  },
+                  "source_record_sha256": "61b9da6933415f7372719542e37cfde3fc3f13fed04161eb6f571a676d68cc0a",
+                  "assessed_text_sha256": "720465e3ce2d768d12f9156dd6a6580744cef2b1a6a2c37736aab55320088f40",
+                  "venue_score": 40,
+                  "citation_score": 0,
+                  "institution_score": 40,
+                  "institution_bonus": 0,
+                  "title_anchor_bonus": 0,
+                  "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                  "review_ready": false,
+                  "preflight_status": "held",
+                  "preflight_blockers": [
+                    "duplicates",
+                    "schema"
+                  ],
+                  "preflight": {
+                    "status": "held",
+                    "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                    "checks": {
+                      "duplicates": {
+                        "status": "held",
+                        "checked_at": "2026-10-28T03:50:34.934054+00:00",
+                        "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                        "evidence": {
+                          "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+                          "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+                          "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                          "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                          "weekly_inventory_records": 4041,
+                          "all_prepared_collections": [
+                            "soups",
+                            "weekly",
+                            "virusbulletin",
+                            "apwg"
+                          ],
+                          "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+                          "matches": [
+                            {
+                              "origin": "weekly_upstream",
+                              "id": "40289",
+                              "matched_by": "title"
+                            }
+                          ]
+                        }
+                      },
+                      "quality": {
+                        "status": "passed",
+                        "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                        "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                        "evidence": {
+                          "quality_score": 31.65,
+                          "quality_venue_score": 40,
+                          "quality_citation_score": 0,
+                          "quality_relevance_score": 70.59,
+                          "quality_institution_score": 40,
+                          "quality_institution_bonus": 0,
+                          "quality_title_bonus": 0,
+                          "quality_auto_threshold": 35,
+                          "quality_review_threshold": 20,
+                          "quality_core_term_gate": "pass",
+                          "quality_relevance_gate": "pass",
+                          "citation_count_known": true,
+                          "quality_review_status": "human_quality_review",
+                          "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                          "quality_requires_review": true
+                        },
+                        "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                      },
+                      "format": {
+                        "status": "passed",
+                        "checked_at": "2026-11-02T22:06:35.597Z",
+                        "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                        "evidence": {
+                          "source_url": "https://arxiv.org/pdf/2606.10083",
+                          "retrieved_at": "2026-11-02T22:06:35.597Z",
+                          "http_result": "200; bounded 20-second request completed",
+                          "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+                          "document_bytes": 2552773,
+                          "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                          "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+                          "result": "Exact PDF is a substantive written research paper, not slides, a poster, or an event listing."
+                        },
+                        "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
+                      },
+                      "access": {
+                        "status": "passed",
+                        "checked_at": "2026-11-02T22:06:35.597Z",
+                        "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                        "evidence": {
+                          "source_url": "https://arxiv.org/pdf/2606.10083",
+                          "retrieved_at": "2026-11-02T22:06:35.597Z",
+                          "http_result": "200; bounded 20-second request completed",
+                          "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+                          "document_bytes": 2552773,
+                          "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                          "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+                          "result": "Exact source PDF was retrieved successfully with a bounded request and hashed."
+                        },
+                        "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
+                      },
+                      "metadata": {
+                        "status": "passed",
+                        "checked_at": "2026-11-02T22:06:35.597Z",
+                        "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                        "evidence": {
+                          "source_url": "https://arxiv.org/pdf/2606.10083",
+                          "retrieved_at": "2026-11-02T22:06:35.597Z",
+                          "http_result": "200; bounded 20-second request completed",
+                          "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+                          "document_bytes": 2552773,
+                          "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                          "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+                          "result": "PDF front matter verifies title, five authors, Charm Security affiliations, arXiv v1 date (8 June 2026), and a complete abstract matching the cached abstract."
+                        },
+                        "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds."
+                      },
+                      "schema": {
+                        "status": "held",
+                        "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                        "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                        "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                        "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                        "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                      }
+                    }
+                  },
+                  "editorial_queue_eligible": false
+                }
+              }
+            ],
+            "verified_document_type": "research_paper"
+          }
+        }
+      ],
+      "recommendation_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
     },
     {
       "candidate_id": "weekly-140a482ff1be3eb40a9ddfad",

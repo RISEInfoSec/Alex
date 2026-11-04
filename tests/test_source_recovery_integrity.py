@@ -1,0 +1,24 @@
+import copy,hashlib,unittest
+from datetime import datetime,timezone,timedelta
+from tools.content_review.snapshot_integrity import verify_bytes
+from tools.content_review.provider_policy import resolve
+from tools.content_review.manifest_integrity import parse
+from tools.content_review.lifecycle import evaluate
+class RecoveryIntegrity(unittest.TestCase):
+ def test_valid_json_subset_is_not_complete_blob(self):
+  whole=b'{"records":[{"candidate_id":"a"},{"candidate_id":"b"}]}';sha=hashlib.sha1(b'blob '+str(len(whole)).encode()+b'\0'+whole).hexdigest()
+  self.assertEqual(verify_bytes(whole,sha,len(whole))['size'],len(whole))
+  with self.assertRaises(ValueError):verify_bytes(b'{"records":[]}',sha,len(whole))
+ def test_unicode_bytes_not_character_count(self):
+  body='é'.encode();sha=hashlib.sha1(b'blob 2\0'+body).hexdigest();verify_bytes(body,sha,2)
+  with self.assertRaises(ValueError):verify_bytes(body,sha,1)
+ def test_truncation_marker_inside_valid_json(self):
+  with self.assertRaises(ValueError):parse('{"records":[{"candidate_id":"a","title":"[truncated]"}]}')
+ def test_longest_deadline_survives_review_resumption(self):
+  now=datetime.now(timezone.utc);later=now+timedelta(hours=5)
+  p=resolve({'retry_not_before':later.isoformat()},{},{'providers':[{'id':'openalex','owner_hold_until':None}]},now)
+  self.assertFalse(p['allowed']);self.assertEqual(p['retry_not_before'],later.isoformat())
+ def test_verified_candidate_label_is_not_missing_export_support(self):
+  r={'candidate_id':'a','content_sha256':'h','document_type':'research_paper_candidate','verified_document_type':'research_paper','preflight':{'checks':{'format':{'status':'passed','content_sha256':'h','checked_at':'2026-11-04T00:00:00Z','evidence':'actual paper'}}}}
+  e=evaluate(r);self.assertNotEqual(e['state'],'awaiting_software_support');self.assertEqual(e['initial_check_status'],'partially_checked')
+if __name__=='__main__':unittest.main()

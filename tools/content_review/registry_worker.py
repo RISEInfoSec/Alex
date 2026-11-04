@@ -3,6 +3,8 @@ import argparse,hashlib,json,os,re,subprocess
 from datetime import datetime,timezone,timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
+from urllib.parse import quote
+from tools.content_review.provider_policy import current as effective_provider_policy
 import requests
 
 DIRECTORY='config/content_review_registry_requests'
@@ -36,18 +38,23 @@ def validate(root,path):
 def execute(root,path,get=None):
  req=validate(root,path)
  result={'schema_version':1,'request_id':req['request_id'],'candidate_id':req['candidate_id'],'content_sha256':req['content_sha256'],'checked_at':now().isoformat(),'status':'held','requests':0,'corpus_modified':False,'publication_approved':False,'provenance':{k:os.environ.get(k,'') for k in ['GITHUB_SHA','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_REF','GITHUB_WORKFLOW_REF']}}
+ policy=effective_provider_policy(root);result['effective_policy']=policy
+ if not policy['allowed']:
+  result['error']=policy.get('reason','OpenAlex held by longest current provider/owner/pacing deadline.');return result
  key=os.environ.get('OPENALEX_API_KEY','')
  if not key:result['error']='Repository OPENALEX_API_KEY unavailable to isolated workflow; no anonymous request sent.';return result
  result['credential_path']='Existing repository OPENALEX_API_KEY secret -> OPENALEX_API_KEY environment -> api_key request parameter'
- params={'filter':'doi:https://doi.org/'+req['doi'],'per-page':1,'select':'id,doi,title,publication_year,authorships,cited_by_count','api_key':key}
+ params={'select':'id,doi,title,publication_year,authorships,cited_by_count','api_key':key}
+ result['endpoint_type']='singleton_doi';result['shared_provider_limits_preserved']=True
  contact=os.environ.get('HARVEST_MAILTO','')
  if contact:params['mailto']=contact
  result['requests']=1
  try:
-  response=(get or requests.get)('https://api.openalex.org/works',params=params,headers={'User-Agent':'ALEX-ContentReview/1.0 (+https://github.com/RISEInfoSec/Alex)','Accept':'application/json'},timeout=20,allow_redirects=False)
+  response=(get or requests.get)('https://api.openalex.org/works/https://doi.org/'+quote(req['doi'],safe='/'),params=params,headers={'User-Agent':'ALEX-ContentReview/1.0 (+https://github.com/RISEInfoSec/Alex)','Accept':'application/json'},timeout=20,allow_redirects=False)
  except requests.RequestException as exc:
   result['error']='OpenAlex '+type(exc).__name__+'; provider stopped without retry.';return result
  result['http_status']=response.status_code
+ result['rate_limit_headers']={k:v for k,v in response.headers.items() if k.lower().startswith('x-ratelimit-') or k.lower()=='retry-after'}
  if response.status_code!=200:
   result['error']='OpenAlex HTTP'+str(response.status_code)+'; provider stopped without retry.'
   retry=response.headers.get('Retry-After')
@@ -60,9 +67,7 @@ def execute(root,path,get=None):
    if end:result['retry_not_before']=end.isoformat()
   return result
  try:
-  data=response.json();results=data.get('results',[])
-  if len(results)!=1:result['error']='Exact DOI lookup returned no unique work.';return result
-  work=results[0];assert work.get('doi','').lower()=='https://doi.org/'+req['doi'].lower()
+  work=response.json();assert work.get('doi','').lower()=='https://doi.org/'+req['doi'].lower()
   count=work.get('cited_by_count');assert isinstance(count,int) and not isinstance(count,bool) and count>=0
   result.update(status='complete',work={k:work.get(k) for k in ['id','doi','title','publication_year','authorships','cited_by_count']})
  except (ValueError,TypeError,AttributeError,AssertionError):result['error']='OpenAlex response failed exact identity/count validation.'

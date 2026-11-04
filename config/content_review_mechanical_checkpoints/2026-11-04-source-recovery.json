@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "trigger": "maintenance",
+  "started_at": "2026-11-04T22:44:37.373496+00:00",
+  "completed_at": "2026-11-04T22:57:38.943199+00:00",
+  "source_pass": {
+    "candidate_limit": 5,
+    "work_deadline": "2026-11-04T22:54:37.373496+00:00",
+    "actual_source_requests": 25,
+    "unused_source_budget": 5,
+    "source_runs": [
+      41928254733,
+      41928617016
+    ],
+    "paid_requests": 0,
+    "openalex_requests": 0,
+    "outcomes": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-8e05fb809c4249f3dca609b2",
+        "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
+        "completed_checks": [
+          "duplicates",
+          "quality",
+          "metadata"
+        ],
+        "remaining_checks": [
+          "format",
+          "access",
+          "schema"
+        ],
+        "reason": "Original publisher returned HTTP 403 after permitted DOI/robots redirects. No challenge or restriction bypass attempted."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-4d1c71ea0e30c834726a8936",
+        "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
+        "completed_checks": [
+          "duplicates",
+          "quality",
+          "metadata"
+        ],
+        "remaining_checks": [
+          "format",
+          "access",
+          "schema"
+        ],
+        "reason": "Original publisher returned HTTP 403 after permitted DOI/robots redirects. No challenge or restriction bypass attempted."
+      },
+      {
+        "collection": "m3aawg",
+        "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+        "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+        "completed_checks": [
+          "format",
+          "access",
+          "duplicates"
+        ],
+        "remaining_checks": [
+          "metadata",
+          "quality",
+          "schema"
+        ],
+        "reason": "Source format/access verified as best_practice_guide; metadata captured in typed staging. Quality rubric and public export capability remain explicit holds."
+      },
+      {
+        "collection": "first",
+        "candidate_id": "first-url-3b1f8e322051d3da339b4cb7",
+        "content_sha256": "9546ea749fa8ec6c7cc970b8497e651a310f938cb89338516e60e88f6befe726",
+        "completed_checks": [],
+        "remaining_checks": [
+          "format",
+          "access",
+          "metadata",
+          "duplicates",
+          "quality",
+          "schema"
+        ],
+        "reason": "Official candidate landing metadata is readable, but its matching asset redirects to FIRST Temporarily Unavailable For Review. Format/audio cannot be verified; unrelated navigation PDF rejected."
+      },
+      {
+        "collection": "bellingcat",
+        "candidate_id": "bellingcat-url-9f54d33c3cf8890621564927",
+        "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+        "completed_checks": [
+          "format",
+          "access",
+          "duplicates"
+        ],
+        "remaining_checks": [
+          "metadata",
+          "quality",
+          "schema"
+        ],
+        "reason": "Source format/access verified as investigative_journalism; metadata captured in typed staging. Quality rubric and public export capability remain explicit holds."
+      }
+    ]
+  },
+  "reuse_continuation": {
+    "candidate_limit": 1,
+    "candidate_id": "weekly-250dd6cfa359991d1db168d1",
+    "source_requests": 0,
+    "duplicate_result": {
+      "status": "passed",
+      "matches": [],
+      "upstream_aliases": [
+        {
+          "upstream_candidate_id": "40289",
+          "arxiv_id": "2606.10083",
+          "reason": "Same arXiv identifier, normalized title and complete author byline; distinct discovery identity retained."
+        }
+      ],
+      "exclusions": []
+    },
+    "next_stage": "classification_and_serialization"
+  },
+  "newly_passed_checks": {
+    "format": [
+      "m3aawg-url-75aa6fb2c156539547d27ab8",
+      "bellingcat-url-9f54d33c3cf8890621564927"
+    ],
+    "access": [
+      "m3aawg-url-75aa6fb2c156539547d27ab8",
+      "bellingcat-url-9f54d33c3cf8890621564927"
+    ],
+    "duplicates": [
+      "bellingcat-url-9f54d33c3cf8890621564927",
+      "weekly-250dd6cfa359991d1db168d1"
+    ]
+  },
+  "review_ready": 0,
+  "reviewed_hashes_and_decisions_preserved": true,
+  "rejected_wrong_item_evidence": "FIRST unrelated DNS matrix rejected; no candidate gate based on it."
+}

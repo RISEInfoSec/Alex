@@ -2,13 +2,16 @@
 from __future__ import annotations
 import argparse
 import json
+import re
 import subprocess
 from pathlib import Path
 
 def parse(content):
     if isinstance(content,bytes):content=content.decode('utf8')
+    if re.search(r'\[(?:\.{3})?truncated\]|\d+ chars truncated|\.\.\. \[omitted\]',content,re.I):raise ValueError('Literal connector truncation marker; complete immutable input required')
     data=json.loads(content)
     if not isinstance(data,dict):raise ValueError('Complete manifest object required')
+    if not any(k in data for k in ('records','preflight_records')):raise ValueError('Manifest record arrays missing')
     rows=[]
     for field in ('records','preflight_records'):
         value=data.get(field,[])
@@ -26,7 +29,11 @@ def validate_update(before,after,allowed_content_changes=(),allowed_decision_cha
     if missing:raise ValueError('Existing identities dropped: '+', '.join(sorted(missing)[:5]))
     for cid in set(old)&set(new):
         if old[cid].get('content_sha256')!=new[cid].get('content_sha256') and cid not in allowed_content_changes:
-            raise ValueError('Reviewed content changed without explicit reconciliation: '+cid)
+            versions=new[cid].get('reviewed_content_versions',[])+new[cid].get('integrity_repair_versions',[])
+            retained=any(v.get('record')==old[cid] and v.get('content_sha256')==old[cid].get('content_sha256') and v.get('reason') for v in versions)
+            from tools.content_review.source_worker import reviewed_digest
+            if not (retained and old[cid].get('decision','pending') in ('pending','unreviewed') and new[cid].get('decision','pending')==old[cid].get('decision','pending') and reviewed_digest(new[cid])==new[cid].get('content_sha256')):
+                raise ValueError('Reviewed content changed without explicit reconciliation: '+cid)
         decision=old[cid].get('decision')
         if decision in ('approved','rejected') and new[cid].get('decision')!=decision and cid not in allowed_decision_changes:
             raise ValueError('Existing decision changed without explicit reconciliation: '+cid)

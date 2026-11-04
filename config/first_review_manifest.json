@@ -1684,10 +1684,19 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "access": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
             "content_sha256": "9546ea749fa8ec6c7cc970b8497e651a310f938cb89338516e60e88f6befe726",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "result": "Official candidate landing metadata is readable, but its matching asset redirects to FIRST Temporarily Unavailable For Review. Format/audio cannot be verified; unrelated navigation PDF rejected."
+            },
+            "prior_evidence": {
+              "status": "not_checked",
+              "content_sha256": "9546ea749fa8ec6c7cc970b8497e651a310f938cb89338516e60e88f6befe726",
+              "checked_at": null,
+              "evidence": "Source observation only; existing mechanical gate pending"
+            }
           },
           "metadata": {
             "status": "not_checked",
@@ -1718,7 +1727,24 @@
       "review_number": 213,
       "reserved_review_batch": 26,
       "review_batch": 26,
-      "batch": 26
+      "batch": 26,
+      "source_processing": {
+        "content_sha256": "9546ea749fa8ec6c7cc970b8497e651a310f938cb89338516e60e88f6befe726",
+        "retrieval_status": "held",
+        "receipt": "config/content_review_source_receipts/768a3bffc1653017355b54ad7bfa760b55f96c1b335d3ea0152f3e34441d954f.json",
+        "checked_at": "2026-11-04T22:57:38.943199+00:00",
+        "reason": "publisher_temporarily_withheld_for_review",
+        "evidence_sha256": [
+          "da1e82638d582f8874c4e7efa168fdd4957b20341705bd5a4048c05ea01e8055"
+        ]
+      },
+      "verified_source_metadata": {
+        "title": "Hunting Cyber Threat Intelligence on Telegram",
+        "authors": "Emmanuele Zambon (Eindhoven University of Technology, NL), Luca Allodi (Eindhoven University of Technology, NL), Roy  Ricaldi (Eindhoven University of Technology, NL), Victor Asanache (Eindhoven University of Technology, NL)",
+        "presentation_date": "2026-04-22",
+        "tlp": "TLP:CLEAR",
+        "receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json"
+      }
     },
     {
       "title": "IntelMQ Hands-on Workshop - Half Day",

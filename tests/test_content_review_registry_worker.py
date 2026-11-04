@@ -6,6 +6,7 @@ from tools.content_review import registry_worker as w
 @pytest.fixture
 def packet(tmp_path):
  (tmp_path/'config').mkdir();now=w.now();owner='test-owner'
+ pp=tmp_path/'.cache/provider-policy/config';pp.mkdir(parents=True);(pp/'openalex_request_policy.json').write_text('{}')
  state={'phase':'active','lease':{'owner':owner,'expires_at':(now+timedelta(minutes=20)).isoformat()}}
  (tmp_path/'config/content_review_worker_status.json').write_text(json.dumps(state))
  row={'candidate_id':'weekly-test','title':'Verified paper','authors':'A. Author','year':2025,'doi':'10.1234/example','source_url':'https://example.org','abstract':'Verified abstract','document_type':'research_paper','citation_count':None,'decision':'pending'}
@@ -26,9 +27,9 @@ def test_one_exact_credentialed_request_and_complete_backoff(packet,monkeypatch,
  monkeypatch.setenv('OPENALEX_API_KEY','fixture-secret');root,path=packet;calls=[]
  class Response:
   status_code=status;headers={'Retry-After':'86400'}
-  def json(self):return {'results':[{'id':'https://openalex.org/W1','doi':'https://doi.org/10.1234/example','title':'Verified paper','cited_by_count':7}]}
+  def json(self):return {'id':'https://openalex.org/W1','doi':'https://doi.org/10.1234/example','title':'Verified paper','cited_by_count':7}
  def get(url,**kw):
-  calls.append(kw);assert kw['params']['api_key']=='fixture-secret';assert '|' not in kw['params']['filter'];assert kw['timeout']==20 and kw['allow_redirects'] is False;return Response()
+  calls.append(kw);assert kw['params']['api_key']=='fixture-secret';assert url.endswith('/works/https://doi.org/10.1234/example') and 'filter' not in kw['params'];assert kw['timeout']==20 and kw['allow_redirects'] is False;return Response()
  result=w.execute(root,path,get=get);assert len(calls)==result['requests']==1;assert 'fixture-secret' not in json.dumps(result)
  assert result['status']==('complete' if status==200 else 'held')
  if status==429:assert w.datetime.fromisoformat(result['retry_not_before'])>w.now()+timedelta(hours=23)

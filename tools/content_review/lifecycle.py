@@ -97,6 +97,8 @@ def evaluate(row, prior=None, at=None, policy=None):
     checks = row.get('preflight', {}).get('checks', {})
     entry['last_check_at'] = max([c.get('checked_at') for c in checks.values() if c.get('checked_at')], default=None)
     entry['outstanding_checks'] = [g for g in GATES if not current_pass(row, g)]
+    entry['completed_checks'] = [g for g in GATES if current_pass(row,g)]
+    entry['initial_check_status'] = 'partially_checked' if entry['completed_checks'] or attempts else 'untouched'
     entry['initial_checks_overdue'] = (not any(c.get('checked_at') for c in checks.values())
         and not attempts and at - instant(entry['first_seen_at']) >= timedelta(hours=policy['initial_check_warning_hours']))
     if row.get('decision') in ('approved','rejected') or row.get('publication_status') == 'published_live_verified':
@@ -116,7 +118,7 @@ def evaluate(row, prior=None, at=None, policy=None):
     if access.get('verified') and access.get('status') == 'restricted':
         return set_state(entry, 'access_restricted', access.get('reason', 'Verified access restriction.'), at,
             'Retain metadata; stop access attempts.', 'Verified permission or relevant access-policy change.')
-    if current_pass(row, 'format') and row.get('document_type') not in policy['supported_resource_types']:
+    if current_pass(row, 'format') and (row.get('verified_document_type') or row.get('document_type')) not in policy['supported_resource_types']:
         return set_state(entry, 'awaiting_software_support', 'Verified resource type has no supported export path: ' + str(row.get('document_type')), at,
             'Retain the actual resource type; do not spend on repeated downloads or paper-only classification.',
             'A compatible classifier/export capability revision becomes available.')

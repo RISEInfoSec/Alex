@@ -29317,45 +29317,55 @@
         },
         "access": {
           "status": "held",
-          "checked_at": "2026-10-29T02:38:20.332358+00:00",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
           "evidence": {
-            "name": "cyber-guardian-page",
-            "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
-            "checked_at": "2026-10-29T02:33:29.203372+00:00",
-            "hops": [
-              {
-                "url": "https://doi.org/10.55041/isjem07154",
-                "http_status": 302,
-                "resource_sha256": "faf1448a8552e8e912565f94b164edce81fefa4fa91b058804353e89d16d4a60",
-                "bytes": 249,
-                "content_type": "text/html;charset=utf-8"
-              },
-              {
-                "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
-                "http_status": 403,
-                "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
-                "bytes": 6284,
-                "content_type": "text/html; charset=UTF-8"
-              }
-            ],
-            "robots_http_status": 200,
-            "http_status": 403,
-            "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
-            "bytes": 6284,
-            "content_type": "text/html; charset=UTF-8"
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "result": "Original publisher returned HTTP 403 after permitted DOI/robots redirects. No challenge or restriction bypass attempted.",
+            "source_receipt": "config/content_review_source_receipts/768a3bffc1653017355b54ad7bfa760b55f96c1b335d3ea0152f3e34441d954f.json"
           },
-          "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
           "prior_evidence": {
             "status": "held",
-            "checked_at": "2026-10-27T23:40:48.220777+00:00",
+            "checked_at": "2026-10-29T02:38:20.332358+00:00",
             "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
             "evidence": {
+              "name": "cyber-guardian-page",
+              "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
+              "checked_at": "2026-10-29T02:33:29.203372+00:00",
+              "hops": [
+                {
+                  "url": "https://doi.org/10.55041/isjem07154",
+                  "http_status": 302,
+                  "resource_sha256": "faf1448a8552e8e912565f94b164edce81fefa4fa91b058804353e89d16d4a60",
+                  "bytes": 249,
+                  "content_type": "text/html;charset=utf-8"
+                },
+                {
+                  "url": "https://isjem.com/download/cyber-guardian-a-complete-security-toolkit-for-android/",
+                  "http_status": 403,
+                  "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
+                  "bytes": 6284,
+                  "content_type": "text/html; charset=UTF-8"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 403,
+              "resource_sha256": "dacbb27ebf7e61f44ffe0169108f0532c91a30e409f5197487f2d7d42e43fa0e",
+              "bytes": 6284,
+              "content_type": "text/html; charset=UTF-8"
+            },
+            "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
+            "prior_evidence": {
+              "status": "held",
               "checked_at": "2026-10-27T23:40:48.220777+00:00",
-              "url": "https://doi.org/10.55041/isjem07154",
-              "error": "HTTPError: HTTP Error 403: Forbidden",
-              "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-              "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+              "content_sha256": "a22cd2e2ecc7c7820aeac9d0267716ab3b443df1086c1b2f8b931190c47fbb56",
+              "evidence": {
+                "checked_at": "2026-10-27T23:40:48.220777+00:00",
+                "url": "https://doi.org/10.55041/isjem07154",
+                "error": "HTTPError: HTTP Error 403: Forbidden",
+                "retry_after": "next pass; source backoff; access failure is not scientific rejection",
+                "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+              }
             }
           }
         },
@@ -31745,38 +31755,48 @@
         },
         "access": {
           "status": "held",
-          "checked_at": "2026-10-29T02:38:20.332358+00:00",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
           "evidence": {
-            "name": "peerj-threat-page",
-            "url": "https://peerj.com/articles/cs-3803/",
-            "checked_at": "2026-10-29T02:33:22.996156+00:00",
-            "hops": [
-              {
-                "url": "https://peerj.com/articles/cs-3803/",
-                "http_status": 403,
-                "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
-                "bytes": 6122,
-                "content_type": "text/html; charset=UTF-8"
-              }
-            ],
-            "robots_http_status": 200,
-            "http_status": 403,
-            "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
-            "bytes": 6122,
-            "content_type": "text/html; charset=UTF-8"
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "result": "Original publisher returned HTTP 403 after permitted DOI/robots redirects. No challenge or restriction bypass attempted.",
+            "source_receipt": "config/content_review_source_receipts/768a3bffc1653017355b54ad7bfa760b55f96c1b335d3ea0152f3e34441d954f.json"
           },
-          "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
           "prior_evidence": {
             "status": "held",
-            "checked_at": "2026-10-27T23:41:44.662155+00:00",
+            "checked_at": "2026-10-29T02:38:20.332358+00:00",
             "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
             "evidence": {
+              "name": "peerj-threat-page",
+              "url": "https://peerj.com/articles/cs-3803/",
+              "checked_at": "2026-10-29T02:33:22.996156+00:00",
+              "hops": [
+                {
+                  "url": "https://peerj.com/articles/cs-3803/",
+                  "http_status": 403,
+                  "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
+                  "bytes": 6122,
+                  "content_type": "text/html; charset=UTF-8"
+                }
+              ],
+              "robots_http_status": 200,
+              "http_status": 403,
+              "resource_sha256": "68112a472e5c3666d3dbe603e6592245404143a7767ea2c2616bc29a066c693f",
+              "bytes": 6122,
+              "content_type": "text/html; charset=UTF-8"
+            },
+            "reason": "Fresh publisherHTTP403. No bypass or substantive recommendation; format/access/schema remain separate holds. Seek legitimate repository alternative in a later bounded pass.",
+            "prior_evidence": {
+              "status": "held",
               "checked_at": "2026-10-27T23:41:44.662155+00:00",
-              "url": "https://peerj.com/articles/cs-3803.pdf",
-              "error": "HTTPError: HTTP Error 403: Forbidden",
-              "retry_after": "next pass; source backoff; access failure is not scientific rejection",
-              "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+              "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
+              "evidence": {
+                "checked_at": "2026-10-27T23:41:44.662155+00:00",
+                "url": "https://peerj.com/articles/cs-3803.pdf",
+                "error": "HTTPError: HTTP Error 403: Forbidden",
+                "retry_after": "next pass; source backoff; access failure is not scientific rejection",
+                "inspection": "HTTP response alone does not establish substantive content or format; preserve access/verification hold."
+              }
             }
           }
         },
@@ -38085,40 +38105,121 @@
       "collection": "weekly",
       "candidate_id": "weekly-250dd6cfa359991d1db168d1",
       "review_number": 75,
-      "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+      "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
       "status": "held",
       "review_ready": false,
       "checks": {
-        "duplicates": {
-          "status": "held",
-          "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+        "format": {
+          "status": "passed",
+          "checked_at": "2026-11-02T22:06:35.597Z",
+          "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
           "evidence": {
-            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
-            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-            "weekly_inventory_records": 4041,
-            "all_prepared_collections": [
-              "soups",
-              "weekly",
-              "virusbulletin",
-              "apwg"
-            ],
-            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-            "matches": [
+            "source_url": "https://arxiv.org/pdf/2606.10083",
+            "retrieved_at": "2026-11-02T22:06:35.597Z",
+            "http_result": "200; bounded 20-second request completed",
+            "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+            "document_bytes": 2552773,
+            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+            "result": "Exact PDF is a substantive written research paper, not slides, a poster, or an event listing."
+          },
+          "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds.",
+          "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+          "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "access": {
+          "status": "passed",
+          "checked_at": "2026-11-02T22:06:35.597Z",
+          "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+          "evidence": {
+            "source_url": "https://arxiv.org/pdf/2606.10083",
+            "retrieved_at": "2026-11-02T22:06:35.597Z",
+            "http_result": "200; bounded 20-second request completed",
+            "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+            "document_bytes": 2552773,
+            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+            "result": "Exact source PDF was retrieved successfully with a bounded request and hashed."
+          },
+          "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds.",
+          "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+          "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "metadata": {
+          "status": "passed",
+          "checked_at": "2026-11-02T22:06:35.597Z",
+          "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+          "evidence": {
+            "source_url": "https://arxiv.org/pdf/2606.10083",
+            "retrieved_at": "2026-11-02T22:06:35.597Z",
+            "http_result": "200; bounded 20-second request completed",
+            "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+            "document_bytes": 2552773,
+            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+            "result": "PDF front matter verifies title, five authors, Charm Security affiliations, arXiv v1 date (8 June 2026), and a complete abstract matching the cached abstract."
+          },
+          "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds.",
+          "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+          "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "duplicates": {
+          "status": "passed",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
+          "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "status": "passed",
+            "matches": [],
+            "upstream_aliases": [
               {
-                "origin": "weekly_upstream",
-                "id": "40289",
-                "matched_by": "title"
+                "upstream_candidate_id": "40289",
+                "arxiv_id": "2606.10083",
+                "reason": "Same arXiv identifier, normalized title and complete author byline; distinct discovery identity retained."
               }
-            ]
-          }
+            ],
+            "exclusions": [],
+            "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+            "upstream_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+            "exclusion_blob": "69ef457727ce2556b599f6491111467e85b7d13c"
+          },
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-28T03:50:34.934054+00:00",
+            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "evidence": {
+              "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+              "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+              "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+              "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+              "weekly_inventory_records": 4041,
+              "all_prepared_collections": [
+                "soups",
+                "weekly",
+                "virusbulletin",
+                "apwg"
+              ],
+              "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+              "matches": [
+                {
+                  "origin": "weekly_upstream",
+                  "id": "40289",
+                  "matched_by": "title"
+                }
+              ]
+            }
+          },
+          "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+          "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "quality": {
           "status": "passed",
           "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+          "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
           "evidence": {
             "quality_score": 31.65,
             "quality_venue_score": 40,
@@ -38136,45 +38237,30 @@
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-        },
-        "format": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-        },
-        "access": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-        },
-        "metadata": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+          "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-11-04T22:58:12.434182+00:00",
+          "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+          "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "duplicates",
-        "format",
-        "access",
-        "metadata",
         "schema"
-      ]
+      ],
+      "verified_document_type": "research_paper"
     },
     {
       "collection": "weekly",
@@ -50830,47 +50916,111 @@
       "review_ready": false,
       "checks": {
         "format": {
-          "status": "not_checked",
+          "status": "passed",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "actual_type": "best_practice_guide",
+            "container": "pdf",
+            "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+            "result": "Inspected actual matching text; research-paper status is not asserted."
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         },
         "access": {
-          "status": "not_checked",
+          "status": "passed",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "http_status": 200,
+            "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+            "result": "Permitted original resource retrieved with usable text."
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         },
         "metadata": {
-          "status": "not_checked",
+          "status": "held",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "verified_fields": {
+              "schema_version": 1,
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "actual_type": "best_practice_guide",
+              "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+              "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+              "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+              "text_complete": true,
+              "publication_date": "2026-09",
+              "author": "M3AAWG",
+              "publication_version": "2.0",
+              "publication_ready": false
+            },
+            "result": "Verified source metadata retained in typed staging. Reviewed-content metadata/abstract version and non-paper export contract remain to be completed; original reviewed hash retained."
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         },
         "duplicates": {
-          "status": "not_checked",
+          "status": "passed",
+          "checked_at": "2026-11-04T17:53:04.154707+00:00",
           "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+            "matches": 0,
+            "exclusions": []
+          }
         },
         "quality": {
-          "status": "not_checked",
+          "status": "held",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "result": "Type-appropriate quality rubric is not approved. Do not apply bibliometric paper scoring or invent a numeric media deduction."
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         },
         "schema": {
-          "status": "not_checked",
+          "status": "held",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "result": "Typed staging is available; public non-paper target/classifier/export adapter is not yet supported."
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         }
       },
       "blockers": [
-        "format",
-        "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ]
@@ -52504,47 +52654,119 @@
       "review_ready": false,
       "checks": {
         "format": {
-          "status": "not_checked",
+          "status": "passed",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "actual_type": "investigative_journalism",
+            "container": "html",
+            "source_sha256": "40655352bfaf766dcd70edce9d48efc45d9b0ee66eadc3a649adb5d1e3df29c6",
+            "result": "Inspected actual matching text; research-paper status is not asserted."
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         },
         "access": {
-          "status": "not_checked",
+          "status": "passed",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "http_status": 200,
+            "source_sha256": "40655352bfaf766dcd70edce9d48efc45d9b0ee66eadc3a649adb5d1e3df29c6",
+            "result": "Permitted original resource retrieved with usable text."
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         },
         "metadata": {
-          "status": "not_checked",
+          "status": "held",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "verified_fields": {
+              "schema_version": 1,
+              "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+              "actual_type": "investigative_journalism",
+              "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+              "source_sha256": "40655352bfaf766dcd70edce9d48efc45d9b0ee66eadc3a649adb5d1e3df29c6",
+              "text_sha256": "a8d79d97a63fc6f29e68842930d51630f5d095af8766490d9d7bb295eb06c875",
+              "text_complete": true,
+              "publication_date": "2026-09-16",
+              "author": "Sebastian Vandermeersch, Conflict and Human Rights Team",
+              "publication_version": null,
+              "publication_ready": false
+            },
+            "result": "Verified source metadata retained in typed staging. Reviewed-content metadata/abstract version and non-paper export contract remain to be completed; original reviewed hash retained."
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         },
         "duplicates": {
-          "status": "not_checked",
+          "status": "passed",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "status": "passed",
+            "matches": [],
+            "upstream_aliases": [],
+            "exclusions": []
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         },
         "quality": {
-          "status": "not_checked",
+          "status": "held",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "result": "Type-appropriate quality rubric is not approved. Do not apply bibliometric paper scoring or invent a numeric media deduction."
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         },
         "schema": {
-          "status": "not_checked",
+          "status": "held",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "result": "Typed staging is available; public non-paper target/classifier/export adapter is not yet supported."
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         }
       },
       "blockers": [
-        "format",
-        "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ]
@@ -52726,10 +52948,19 @@
           "evidence": "Source observation only; existing mechanical gate pending"
         },
         "access": {
-          "status": "not_checked",
+          "status": "held",
+          "checked_at": "2026-11-04T22:57:38.943199+00:00",
           "content_sha256": "9546ea749fa8ec6c7cc970b8497e651a310f938cb89338516e60e88f6befe726",
-          "checked_at": null,
-          "evidence": "Source observation only; existing mechanical gate pending"
+          "evidence": {
+            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+            "result": "Official candidate landing metadata is readable, but its matching asset redirects to FIRST Temporarily Unavailable For Review. Format/audio cannot be verified; unrelated navigation PDF rejected."
+          },
+          "prior_evidence": {
+            "status": "not_checked",
+            "content_sha256": "9546ea749fa8ec6c7cc970b8497e651a310f938cb89338516e60e88f6befe726",
+            "checked_at": null,
+            "evidence": "Source observation only; existing mechanical gate pending"
+          }
         },
         "metadata": {
           "status": "not_checked",
@@ -60539,7 +60770,7 @@
       }
     }
   },
-  "updated_at": "2026-11-02T20:12:00.000Z",
+  "updated_at": "2026-11-04T22:57:38.943199+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,

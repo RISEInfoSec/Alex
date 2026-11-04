@@ -26,10 +26,24 @@ jobs:
       - name: Test source transport and next-stage selection
         run: python -m pytest -q tests/test_content_review_source_worker.py
       - name: Retrieve permitted material without modifying candidates
+        id: retrieve
         run: python -m tools.content_review.source_worker --event "$GITHUB_EVENT_PATH" --output .cache/content-review-source/result.json
       - name: Verify no tracked inputs changed
         if: always()
         run: git diff --exit-code -- data alex config tools .github
+      - name: Preserve failure diagnostic
+        if: failure()
+        env:
+          RETRIEVAL_OUTCOME: ${{ steps.retrieve.outcome }}
+        run: |
+          python - <<'PYCODE'
+          import json,os
+          from pathlib import Path
+          p=Path('.cache/content-review-source/result.json')
+          if not p.exists():
+              p.parent.mkdir(parents=True,exist_ok=True)
+              p.write_text(json.dumps({'status':'failed_before_result','requests':0 if os.environ.get('RETRIEVAL_OUTCOME')=='skipped' else None,'run_id':os.environ['GITHUB_RUN_ID'],'reason':'Inspect failed step; unknown request count is not zero.'})+'\n')
+          PYCODE
       - uses: actions/upload-artifact@v7.0.2
         if: always()
         with:
