@@ -35,7 +35,6 @@
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -110,10 +109,14 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "duplicates": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T17:53:04.154707+00:00",
             "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+              "matches": 0,
+              "exclusions": []
+            }
           },
           "quality": {
             "status": "not_checked",
@@ -132,7 +135,15 @@
       "review_number": 178,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T17:53:04.154707+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+          "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "stage": "duplicates"
+        }
+      ]
     },
     {
       "title": "M3AAWG Sender Best Common Practices",
