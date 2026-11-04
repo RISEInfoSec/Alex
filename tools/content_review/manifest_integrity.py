@@ -1,10 +1,20 @@
 """Validate complete manifests before a write; never reconstruct connector excerpts."""
 from __future__ import annotations
 import argparse
+import hashlib
 import json
 import re
 import subprocess
 from pathlib import Path
+
+def reviewed_digest(row):
+    value={k:row.get(k,'') for k in ('title','authors','year','doi','source_url','abstract','document_type')}
+    return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False,allow_nan=False).encode()).hexdigest()
+
+def validate_hashes(manifest):
+    for row in manifest.get('records',[])+manifest.get('preflight_records',[]):
+        if row.get('content_sha256') and reviewed_digest(row)!=row['content_sha256']:
+            raise ValueError('Current reviewed-content hash mismatch: '+row['candidate_id'])
 
 def parse(content):
     if isinstance(content,bytes):content=content.decode('utf8')
@@ -31,7 +41,6 @@ def validate_update(before,after,allowed_content_changes=(),allowed_decision_cha
         if old[cid].get('content_sha256')!=new[cid].get('content_sha256') and cid not in allowed_content_changes:
             versions=new[cid].get('reviewed_content_versions',[])+new[cid].get('integrity_repair_versions',[])
             retained=any(v.get('record')==old[cid] and v.get('content_sha256')==old[cid].get('content_sha256') and v.get('reason') for v in versions)
-            from tools.content_review.source_worker import reviewed_digest
             if not (retained and old[cid].get('decision','pending') in ('pending','unreviewed') and new[cid].get('decision','pending')==old[cid].get('decision','pending') and reviewed_digest(new[cid])==new[cid].get('content_sha256')):
                 raise ValueError('Reviewed content changed without explicit reconciliation: '+cid)
         decision=old[cid].get('decision')
@@ -48,7 +57,9 @@ def write_manifest(path,value):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--before');p.add_argument('--after',default='HEAD');a=p.parse_args()
     paths=sorted(Path('config').glob('*_review_manifest.json'))
-    for path in paths:parse(path.read_bytes())
+    for path in paths:
+        manifest,_=parse(path.read_bytes())
+        if path.stem.removesuffix('_review_manifest') in ('soups','weekly','first','m3aawg','bellingcat','sans'):validate_hashes(manifest)
     if a.before and set(a.before)!={'0'}:
         changed=subprocess.check_output(['git','diff','--name-only',a.before,a.after,'--','config'],text=True).splitlines()
         for name in changed:

@@ -30,6 +30,14 @@ def test_unknown_request_count_not_assumed_zero():
     r={'trigger':'schedule','pilot':{'attempted_candidate_ids':['a'],'requests':{}}}
     assert processing_progress([r,r])['status']!='stalled_local_only'
 
+def test_requests_alone_cannot_hide_stalled_resolvable_gates():
+    r={'trigger':'schedule','pilot':{'attempted_candidate_ids':['a'],'requests':{'source':4},'resolvable_gate_count':1}}
+    assert processing_progress([r,r])['status']=='stalled_resolvable_gates'
+
+def test_documented_legitimate_holds_are_not_repeated_work_alarm():
+    r={'trigger':'schedule','pilot':{'attempted_candidate_ids':['a'],'requests':{'source':2},'all_candidates_legitimately_held':True}}
+    assert processing_progress([r,r])['status']=='progress_requires_gate_evidence'
+
 def test_robots_redirect_is_followed_and_counted(monkeypatch):
     monkeypatch.setattr(s,'safe_url',lambda url,resolve=True:url)
     tx=s.Transport(deadline=1000,clock=lambda:0,sleep=lambda _:None)

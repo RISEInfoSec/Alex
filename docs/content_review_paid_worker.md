@@ -81,7 +81,7 @@ submission_revision/assessment_version. Reuse unchanged valid evidence.
    verifies field-preserving JSON serialization and preserves all other gates.
    No publisher code runs against repository corpus data. A schema pass is
    compatibility evidence, not import/release permission.
-5. SHA-update the source manifest and checkpoint separately; read each back.
+5. Atomically commit the source manifest, preflight checkpoint, lifecycle and receipt with an expected-head ref update under the current lease; read back the exact blobs.
    Save a new immutable receipt with the result/run provenance and actual usage.
    Replaying a receipt must not spend again or erase existing decisions.
 6. The helper deliberately leaves review_ready=false. Admit only after a

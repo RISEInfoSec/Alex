@@ -114,3 +114,13 @@ A new ready candidate demonstrates one completed path, not sustained throughput.
 The independent observer checks these counts and immutable evidence as well as
 native starts, heartbeat freshness, completion and its own freshness. Preserve
 existing 24/48-hour pilot reviews; do not add a schedule.
+
+## Demonstrated validation and remaining decision
+
+Five independent source candidates used 25 of 30 permitted HTTP sends in the original ten-minute work window (robots and redirects included). M3AAWG and Bellingcat passed actual-type/access checks and entered typed staging. Two original publishers returned HTTP 403; FIRST explicitly withheld the matching asset. An unrelated navigation PDF was rejected before any candidate gate accepted it; regression checks now stop that path. No OpenAlex request was sent.
+
+A separate one-candidate continuation reused HVE's existing source evidence. It resolved two upstream discovery identities as the same arXiv work, repaired a historical type/hash mismatch with complete archived versions, performed one paid classification (718 tokens), replayed the actual target serializer, bound the current recommendation and sealed Weekly batch 26 with one manual-ready paper. No public publication or editorial decision was made. All six supported manifest hash contracts were audited with no remaining current-hash mismatch.
+
+102 targeted Python checks and 91 console checks passed. The first manifest-integrity CI attempt exposed an accidental optional dependency in the validator; it was removed so the checksum/version guard remains standard-library-only. Native readback and subsequent CI are the final deployment checks.
+
+The named-source text-resource policy decision is concrete in `content_review_nonpaper_admission_proposal.md`. The proposal is inactive. This maintenance evidence demonstrates one end-to-end path; sustained hourly recovery must be established by later independently observed scheduled receipts.

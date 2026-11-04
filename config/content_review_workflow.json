@@ -522,5 +522,16 @@
       24,
       48
     ]
+  },
+  "source_execution": {
+    "instructions": "docs/content_review_source_recovery.md",
+    "workflow": ".github/workflows/content_review_sources.yml",
+    "selection": "tools/content_review/work_plan.py",
+    "immutable_request_directory": "config/content_review_source_requests",
+    "processing_health": "config/content_review_processing_health.json",
+    "unchanged_hourly_schedule": true,
+    "single_writer_lease_preserved": true,
+    "source_runner_read_only": true,
+    "main_provider_policy_required": true
   }
 }

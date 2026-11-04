@@ -27,3 +27,6 @@ Use null for unavailable values. observer.trigger must be unknown if scheduling 
 
 ## Detection and limits
 Native observer cadence: hourly, offset from the processing worker. Site refresh: every 30 seconds and on demand. Monitor snapshot stale after 75 minutes. Native observation stale after 75 minutes. The console can flag missing starts and stalled activity between observer passes using worker checkpoints and the last confirmed schedule. A shared scheduler outage cannot be diagnosed directly by this observer; the console detects expired observer evidence. This is not a promise of sub-minute native scheduler polling.
+
+## Candidate processing evidence — 4 November 2026
+Read the processing-health snapshot and last three completed scheduled pilot receipts. Evaluate `work_plan.processing_progress` and write the result only into this observer’s existing snapshot as `processing`, with observed_at and examined run IDs. Report source sends, newly passed gates, full preflights, manual admissions and publications separately. Two repeated non-progress passes must identify the missing stage/capability and corrective action. Missing counters remain unknown; legitimate documented access/policy holds are distinct from due resolvable work. Maintenance progress is not an unattended scheduled recovery.

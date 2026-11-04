@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-11-04T23:08:50.570225+00:00",
+  "trigger": "maintenance",
+  "local_candidates": 6,
+  "source_requests": 25,
+  "source_gate_passes": 4,
+  "downstream_gate_passes": 1,
+  "duplicate_gate_passes": 2,
+  "six_gate_completions": 1,
+  "newly_review_ready": 1,
+  "paid_requests": 1,
+  "paid_tokens": 718,
+  "openalex_requests": 0,
+  "publications": 0,
+  "manual_ready_batch": 26,
+  "candidate_id": "weekly-250dd6cfa359991d1db168d1",
+  "scope_note": "Owner-authorized maintenance validation: five source candidates within one 30-send/10-minute work budget, then a one-candidate continuation reusing verified source evidence. One manual-ready paper demonstrated; sustained unattended recovery is not yet demonstrated.",
+  "corrective_action": "Next hourly pass must use the tested next-gate/source-artifact route. Park access holds until due or new permitted evidence; request the proposed non-paper admission-policy decision.",
+  "historical_scheduled_processing": {
+    "runs": [
+      {
+        "run_id": "33733b4a-b75c-8322-88c6-c7a8eae6d9e2",
+        "local_candidates": 1,
+        "candidate_ids": [
+          "weekly-16a1bf792936ad74716079fe"
+        ],
+        "resolvable_gates": null,
+        "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          "Contents API omits weekly manifest body; use complete immutable blobs for future large reads.",
+          "Weekly independent source/format/schema holds",
+          "Main OpenAlex hold until 2026-11-05T01:15:38Z wins unresolved policy conflict",
+          "No fully cleared candidate; ready deficit 250"
+        ]
+      },
+      {
+        "run_id": "bb95a950-d124-8322-960e-d7bcc5e40864",
+        "local_candidates": 1,
+        "candidate_ids": [
+          "weekly-bc92a562caf705ef01924918"
+        ],
+        "resolvable_gates": null,
+        "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          "Large shell response truncated before manifest mutation; recovered with complete immutable GitHub blob; stop-new-work rule applied.",
+          "Source access, format, metadata and target/schema holds remain.",
+          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z applies.",
+          "Heartbeat publication intervals exceeded 60 seconds during pagination/recovery; no heartbeat backfilled.",
+          "No fully cleared candidate; ready deficit 250."
+        ]
+      },
+      {
+        "run_id": "8ae66d30-a85c-8322-bfeb-1ca3bd162e7d",
+        "local_candidates": 5,
+        "candidate_ids": [
+          "first-url-1d7d3dcf81be0d055a05a5c6",
+          "first-url-0d0f8d6fcb1ee652df3ce003",
+          "m3aawg-url-75aa6fb2c156539547d27ab8",
+          "m3aawg-url-f1e88efb88751bc45f3b48ed",
+          "m3aawg-url-549f0e90d98c62e649bd1d3f"
+        ],
+        "resolvable_gates": null,
+        "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          "Execution transport disconnected before fifth checkpoint; restored on bounded retry, recovered existing fifth result, and stopped new work.",
+          "Format, access, metadata, quality and target/schema gates remain. FIRST parent-page URL matches are possible identity conflicts, not verified duplicate rejection.",
+          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z applies.",
+          "Heartbeat publication intervals exceeded 60 seconds during pagination/recovery; no heartbeat backfilled.",
+          "No fully cleared candidate; ready deficit 250."
+        ]
+      },
+      {
+        "run_id": "f77ac778-17f0-8322-bc3c-820a773baad5",
+        "local_candidates": 5,
+        "candidate_ids": [
+          "weekly-df1beabce75f4832f0c4d757",
+          "weekly-c93b221f1bbf39ef09fa7d61",
+          "weekly-4d1c71ea0e30c834726a8936",
+          "m3aawg-url-45a0557fd7ee897b0fcc7af2",
+          "m3aawg-url-a7f4416d2ed9f61c93794875"
+        ],
+        "resolvable_gates": null,
+        "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
+          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim.",
+          "Early start-to-running heartbeat observation interval exceeded 60 seconds; actual timestamps preserved."
+        ]
+      },
+      {
+        "run_id": "32663319-ec88-8322-9654-efcfa9a2d840",
+        "local_candidates": 5,
+        "candidate_ids": [
+          "weekly-f15d53b0bfa77e9300cf97d0",
+          "weekly-dde1173a07bda8e28203d261",
+          "weekly-8e05fb809c4249f3dca609b2",
+          "m3aawg-url-0a9966988ad5bbd2805eff83",
+          "m3aawg-url-ddd57d729be1055af9000adc"
+        ],
+        "resolvable_gates": null,
+        "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
+          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim."
+        ]
+      },
+      {
+        "run_id": "d91a87a0-2bdc-8332-8696-79081556d1bd",
+        "local_candidates": 5,
+        "candidate_ids": [
+          "m3aawg-url-759dd5b0fd3c0145b73d24a7",
+          "m3aawg-url-7461f1af4e7d136e2d833f84",
+          "m3aawg-url-14536f3e06c8f39154218296",
+          "m3aawg-url-cc47571e309bbceb2cf387cd",
+          "m3aawg-url-c8441b726dbfcc4aa5fa86d6"
+        ],
+        "resolvable_gates": null,
+        "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
+          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim."
+        ]
+      }
+    ],
+    "status": "stalled_local_only",
+    "corrective_action": "Consume pending source artifacts, then execute next missing gate for due candidates. Verify transport/checkpoint capability; park precise access or type-policy holds and select independent resolvable work. Report the cause and exact remedy.",
+    "scheduler_success_is_processing_recovery": false
+  },
+  "evidence": [
+    "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+    "config/content_review_batch_admission_receipts/2026-11-04-source-recovery-hve.json",
+    "config/content_review_paid_receipts/78c2f85871437e41d42d49affdc33c2f494ec8b7a8b2698d3bfe4820f4f60d06.json"
+  ],
+  "sustained_unattended_recovery_verified": false,
+  "blockers": [
+    {
+      "kind": "source_access",
+      "candidates": [
+        "weekly-8e05fb809c4249f3dca609b2",
+        "weekly-4d1c71ea0e30c834726a8936"
+      ],
+      "reason": "Publisher HTTP 403. Respect retry ledger; use a separately verified permitted author/repository copy if available, never bypass."
+    },
+    {
+      "kind": "publisher_withdrawal",
+      "candidate": "first-url-3b1f8e322051d3da339b4cb7",
+      "reason": "FIRST temporarily withholds the exact PDF for content review. Wait for restoration or a permitted author-provided original."
+    },
+    {
+      "kind": "policy_and_export_capability",
+      "candidates": [
+        "m3aawg-url-75aa6fb2c156539547d27ab8",
+        "bellingcat-url-9f54d33c3cf8890621564927"
+      ],
+      "reason": "Actual non-paper types verified; typed staging supported; quality/admission policy and public exporter remain unapproved.",
+      "decision_document": "docs/content_review_nonpaper_admission_proposal.md"
+    }
+  ]
+}

@@ -33,11 +33,17 @@ def processing_progress(receipts):
         if not p or receipt.get('trigger')!='schedule':continue
         source_checks=sum(len(v) for k,v in p.get('newly_passed_checks',{}).items() if k in ('format','access','metadata','quality','schema'))
         runs.append({'run_id':receipt.get('run_id'),'local_candidates':len(p.get('attempted_candidate_ids',[])),
+                     'candidate_ids':p.get('attempted_candidate_ids',[]),'resolvable_gates':p.get('resolvable_gate_count'),
+                     'legitimate_holds_only':p.get('all_candidates_legitimately_held') is True,
                      'source_requests':counts.get('source'),'source_gate_passes':source_checks,
                      'review_ready':len(p.get('manual_admitted',[])), 'six_gate_completions':len(p.get('all_six_completed',[])),
                      'blockers':p.get('remaining_blockers',receipt.get('remaining_blockers',[]))})
     recent=runs[-3:]
     stalled=len(recent)>=2 and all(r['local_candidates'] and r['source_requests']==0 and r['source_gate_passes']==0 and r['review_ready']==0 for r in recent)
-    return {'runs':runs,'status':'stalled_local_only' if stalled else 'progress_requires_gate_evidence',
-            'corrective_action':'Consume pending source artifacts, then execute next missing source/format gate for due candidates; if transport unavailable, publish capability blocker with route and owner action.' if stalled else None,
+    no_progress=len(recent)>=2 and all(r['local_candidates'] and r['source_gate_passes']==0 and r['review_ready']==0 for r in recent)
+    resolvable=no_progress and any((r['resolvable_gates'] or 0)>0 for r in recent)
+    repeated=no_progress and bool(set(recent[-1]['candidate_ids'])&set(recent[-2]['candidate_ids'])) and not all(r['legitimate_holds_only'] for r in recent)
+    status='stalled_resolvable_gates' if resolvable else 'stalled_local_only' if stalled else 'repeated_attempts_without_progress' if repeated else 'progress_requires_gate_evidence'
+    return {'runs':runs,'status':status,
+            'corrective_action':'Consume pending source artifacts, then execute next missing gate for due candidates. Verify transport/checkpoint capability; park precise access or type-policy holds and select independent resolvable work. Report the cause and exact remedy.' if stalled or resolvable or repeated else None,
             'scheduler_success_is_processing_recovery':False}

@@ -12,6 +12,7 @@ def resolve(main_policy, state, operations, at=None):
             if not date:raise ValueError('Invalid provider deadline: '+source)
             deadlines.append({'source':source,'retry_not_before':date.isoformat()})
     add('main policy',main_policy.get('retry_not_before'))
+    add('review owner hold',state.get('openalex_owner_hold',{}).get('retry_not_before'))
     add('review provider checkpoint',state.get('source_backoff',{}).get('OpenAlex',{}).get('retry_not_before'))
     for provider in operations.get('providers',[]):
         if provider.get('id')=='openalex':
