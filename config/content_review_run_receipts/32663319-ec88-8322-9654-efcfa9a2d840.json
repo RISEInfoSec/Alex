@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "run_id": "32663319-ec88-8322-9654-efcfa9a2d840",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-04T19:45:00Z",
+  "started_at": "2026-11-04T19:46:06.776539Z",
+  "completed_at": "2026-11-04T19:53:36.036979+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/32663319-ec88-8322-9654-efcfa9a2d840.json",
+  "completed_actions": [
+    "Published and read back start and running status using operations.py",
+    "Read complete D1 tables: 62 submissions, 927 decisions, 598 immutable jobs; validated 213 latest intake decisions",
+    "Independently matched preceding terminal native observation and canonical receipt using operations.verified_completion",
+    "Reused unchanged main exact publication and exclusion proof; no eligible release",
+    "Evaluated lifecycle with fresh overdue flags and 200 local identity audits",
+    "Completed three weekly upstream identity and cached-abstract checks and two M3AAWG duplicate/exclusion checks",
+    "Persisted and read back all five evidence records, complete immutable source manifests and lifecycle checkpoints"
+  ],
+  "candidate_ids": [
+    "weekly-f15d53b0bfa77e9300cf97d0",
+    "weekly-dde1173a07bda8e28203d261",
+    "weekly-8e05fb809c4249f3dca609b2",
+    "m3aawg-url-0a9966988ad5bbd2805eff83",
+    "m3aawg-url-ddd57d729be1055af9000adc"
+  ],
+  "candidate_check_count": 5,
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/content_review_mechanical_checkpoints/weekly-f15d53b0bfa77e9300cf97d0-32663319-ec88-8322-9654-efcfa9a2d840.json",
+    "config/content_review_mechanical_checkpoints/weekly-dde1173a07bda8e28203d261-32663319-ec88-8322-9654-efcfa9a2d840.json",
+    "config/content_review_mechanical_checkpoints/weekly-8e05fb809c4249f3dca609b2-32663319-ec88-8322-9654-efcfa9a2d840.json",
+    "config/content_review_mechanical_checkpoints/m3aawg-url-0a9966988ad5bbd2805eff83-32663319-ec88-8322-9654-efcfa9a2d840.json",
+    "config/content_review_mechanical_checkpoints/m3aawg-url-ddd57d729be1055af9000adc-32663319-ec88-8322-9654-efcfa9a2d840.json",
+    "config/content_review_publication_reconciliation/32663319-ec88-8322-9654-efcfa9a2d840.json",
+    "config/content_review_candidate_lifecycle.json"
+  ],
+  "ready_total": 0,
+  "new_eligible_approvals": 0,
+  "errors": [],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_version": 20,
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-f15d53b0bfa77e9300cf97d0",
+      "weekly-dde1173a07bda8e28203d261",
+      "weekly-8e05fb809c4249f3dca609b2",
+      "m3aawg-url-0a9966988ad5bbd2805eff83",
+      "m3aawg-url-ddd57d729be1055af9000adc"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-f15d53b0bfa77e9300cf97d0",
+      "weekly-dde1173a07bda8e28203d261",
+      "weekly-8e05fb809c4249f3dca609b2",
+      "m3aawg-url-0a9966988ad5bbd2805eff83",
+      "m3aawg-url-ddd57d729be1055af9000adc"
+    ],
+    "completed_candidate_ids": [
+      "weekly-f15d53b0bfa77e9300cf97d0",
+      "weekly-dde1173a07bda8e28203d261",
+      "weekly-8e05fb809c4249f3dca609b2",
+      "m3aawg-url-0a9966988ad5bbd2805eff83",
+      "m3aawg-url-ddd57d729be1055af9000adc"
+    ],
+    "genuinely_first_checked": [
+      "m3aawg-url-0a9966988ad5bbd2805eff83",
+      "m3aawg-url-ddd57d729be1055af9000adc"
+    ],
+    "next_dispositions": [
+      "weekly-f15d53b0bfa77e9300cf97d0",
+      "weekly-dde1173a07bda8e28203d261",
+      "weekly-8e05fb809c4249f3dca609b2"
+    ],
+    "newly_passed_checks": {
+      "duplicates": [
+        "m3aawg-url-0a9966988ad5bbd2805eff83",
+        "m3aawg-url-ddd57d729be1055af9000adc"
+      ]
+    },
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "candidate_id": "weekly-f15d53b0bfa77e9300cf97d0",
+        "collection": "weekly",
+        "reason": "Reconciled current upstream identity and cached abstract integrity; original source access/format and final target remain unresolved. Upstream match is provenance, not duplicate rejection."
+      },
+      {
+        "candidate_id": "weekly-dde1173a07bda8e28203d261",
+        "collection": "weekly",
+        "reason": "Reconciled current upstream identity and cached abstract integrity; original source access/format and final target remain unresolved. Upstream match is provenance, not duplicate rejection."
+      },
+      {
+        "candidate_id": "weekly-8e05fb809c4249f3dca609b2",
+        "collection": "weekly",
+        "reason": "Reconciled current upstream identity and cached abstract integrity; original source access/format and final target remain unresolved. Upstream match is provenance, not duplicate rejection."
+      },
+      {
+        "candidate_id": "m3aawg-url-0a9966988ad5bbd2805eff83",
+        "collection": "m3aawg",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      },
+      {
+        "candidate_id": "m3aawg-url-ddd57d729be1055af9000adc",
+        "collection": "m3aawg",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      }
+    ],
+    "cache_reuse": [
+      "Verified unchanged main corpus/publication/exclusion and raw weekly inputs",
+      "Prior exact source and paid proofs",
+      "Completed HVE source check; unchanged parked/stable failures not repeated"
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "stage_elapsed_seconds": {
+      "startup_and_reconciliation_included": true,
+      "total_to_receipt": 449.260451,
+      "individual_stage_measurements": null
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": true,
+    "heartbeat_observations": [
+      "2026-11-04T19:47:37.385436+00:00",
+      "2026-11-04T19:48:10.219705+00:00",
+      "2026-11-04T19:48:41.884854+00:00",
+      "2026-11-04T19:49:13.150007+00:00",
+      "2026-11-04T19:49:44.259178+00:00",
+      "2026-11-04T19:50:16.782188+00:00",
+      "2026-11-04T19:51:16.046343+00:00",
+      "2026-11-04T19:52:03.424237+00:00",
+      "2026-11-04T19:52:37.516452+00:00",
+      "2026-11-04T19:52:57.700251+00:00",
+      "2026-11-04T19:53:28.517072+00:00"
+    ],
+    "maximum_observed_heartbeat_interval_seconds": 59.264,
+    "remaining_blockers": [
+      "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
+      "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim."
+    ],
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-04T19:52:09.305439+00:00",
+        "stage": "source_identity_reconciliation",
+        "candidate_id": "weekly-8e05fb809c4249f3dca609b2"
+      },
+      "m3aawg": {
+        "at": "2026-11-04T19:52:43.960364+00:00",
+        "stage": "duplicates",
+        "candidate_id": "m3aawg-url-ddd57d729be1055af9000adc"
+      }
+    },
+    "candidate_checkpoint_digests": [
+      {
+        "candidate_id": "weekly-f15d53b0bfa77e9300cf97d0",
+        "content_sha256": "f9188109e92282c2267e5387744065e45efc57002e156bb960dc89ec92bf6ea9",
+        "path": "config/content_review_mechanical_checkpoints/weekly-f15d53b0bfa77e9300cf97d0-32663319-ec88-8322-9654-efcfa9a2d840.json",
+        "sha256": "14c22ff3421261dd7587fd489b019536fbd93ac95d6692851334635f23a98bbf"
+      },
+      {
+        "candidate_id": "weekly-dde1173a07bda8e28203d261",
+        "content_sha256": "abd92154521bddecb3e0b3085046fa5da316bb5c0d50c89c34cd88ddf3d521f4",
+        "path": "config/content_review_mechanical_checkpoints/weekly-dde1173a07bda8e28203d261-32663319-ec88-8322-9654-efcfa9a2d840.json",
+        "sha256": "db48ccf20e99f0b8516faaac63d31dfc9edc4a98150320724e65a3509a087bf8"
+      },
+      {
+        "candidate_id": "weekly-8e05fb809c4249f3dca609b2",
+        "content_sha256": "21a4f1f11d545daad3186455181ac734fad10d62949060db1b3d8f2dfd07cad0",
+        "path": "config/content_review_mechanical_checkpoints/weekly-8e05fb809c4249f3dca609b2-32663319-ec88-8322-9654-efcfa9a2d840.json",
+        "sha256": "484ba7e88b9c28de75a1af1b83bcd69ad3c7edd4c0a471318b08ad224256d300"
+      },
+      {
+        "candidate_id": "m3aawg-url-0a9966988ad5bbd2805eff83",
+        "content_sha256": "5c02cbf6909ae40b26e6fd95016d6f0debc8bae9fc4d0cdc9e9cfae78d54107d",
+        "path": "config/content_review_mechanical_checkpoints/m3aawg-url-0a9966988ad5bbd2805eff83-32663319-ec88-8322-9654-efcfa9a2d840.json",
+        "sha256": "79b5a96e9e0e0518102220b969cbc7aa6ce07e702b64fd95d1da2746880860be"
+      },
+      {
+        "candidate_id": "m3aawg-url-ddd57d729be1055af9000adc",
+        "content_sha256": "fc000bf071a4807c03c43c394b44355d71376377c12c349e3d7a3b9aac647f0d",
+        "path": "config/content_review_mechanical_checkpoints/m3aawg-url-ddd57d729be1055af9000adc-32663319-ec88-8322-9654-efcfa9a2d840.json",
+        "sha256": "e136516202e06685ced2ae022d5613315d5b722b98e47aff442e2fa2f8cb77f6"
+      }
+    ],
+    "before_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "after_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "promotion_eligible": false,
+    "promotion_reason": "Application checks satisfy recorded pilot requirements; qualification remains pending independent native terminal verification. Prior verification runs excluded.",
+    "application_qualification_checks_passed": true,
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": "Current native run in progress; requires independent post-termination verification."
+}
