@@ -1119,7 +1119,6 @@
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -1187,10 +1186,14 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "duplicates": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T21:50:11.773767+00:00",
             "content_sha256": "8d34f9ffb3241303eaf8e2f2f57c4103d86d4a012abb009ecd12cd1b0d78ff74",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-7461f1af4e7d136e2d833f84-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+              "matches": 0,
+              "exclusions": []
+            }
           },
           "quality": {
             "status": "not_checked",
@@ -1209,7 +1212,15 @@
       "review_number": 202,
       "reserved_review_batch": 26,
       "review_batch": 26,
-      "batch": 26
+      "batch": 26,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T21:50:11.773767+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-7461f1af4e7d136e2d833f84-d91a87a0-2bdc-8332-8696-79081556d1bd.json",
+          "content_sha256": "8d34f9ffb3241303eaf8e2f2f57c4103d86d4a012abb009ecd12cd1b0d78ff74",
+          "stage": "duplicates"
+        }
+      ]
     },
     {
       "title": "cybercrime-supply-chain-2026.pdf",
