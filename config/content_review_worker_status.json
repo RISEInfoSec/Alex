@@ -7,7 +7,7 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "Early heartbeat interval exceeded 60 seconds; five candidate checkpoints verified.",
+  "last_error": null,
   "lease": {
     "run_id": "32663319-ec88-8322-9654-efcfa9a2d840",
     "acquired_at": "2026-11-04T19:47:28.312Z",
@@ -33,7 +33,7 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-04T18:58:13.723099+00:00",
+  "last_completed_at": "2026-11-04T19:53:36.036979+00:00",
   "last_action": "Five checks completed: three weekly provenance/abstract and two M3AAWG duplicate checks; zero newly ready.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
@@ -713,13 +713,13 @@
   },
   "current_run": {
     "run_id": "32663319-ec88-8322-9654-efcfa9a2d840",
-    "observed_at": "2026-11-04T19:53:28.517072+00:00",
+    "observed_at": "2026-11-04T19:54:01.999537+00:00",
     "started_at": "2026-11-04T19:46:06.776539Z",
     "scheduled_for": "2026-11-04T19:45:00Z",
-    "application_status": "running",
+    "application_status": "complete",
     "scheduler": {
       "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-      "observed_at": "2026-11-04T19:53:28.517072+00:00",
+      "observed_at": "2026-11-04T19:54:01.999537+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "next_run_time": null,
@@ -739,9 +739,10 @@
         "evidence_verified": true,
         "receipt": "config/content_review_run_receipts/f77ac778-17f0-8322-bc3c-820a773baad5.json"
       }
-    }
+    },
+    "application_completed_at": "2026-11-04T19:54:01.999537+00:00"
   },
-  "last_heartbeat_at": "2026-11-04T19:53:28.517072+00:00",
+  "last_heartbeat_at": "2026-11-04T19:54:01.999537+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
