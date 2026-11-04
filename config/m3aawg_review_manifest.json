@@ -313,7 +313,6 @@
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -388,10 +387,14 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "duplicates": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T17:53:37.067960+00:00",
             "content_sha256": "e49628f9d97d219e4765e1f92670026470be2d7bea752df36d1edf3f03d3e95e",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-549f0e90d98c62e649bd1d3f-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+              "matches": 0,
+              "exclusions": []
+            }
           },
           "quality": {
             "status": "not_checked",
@@ -410,7 +413,15 @@
       "review_number": 184,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T17:53:37.067960+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-549f0e90d98c62e649bd1d3f-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+          "content_sha256": "e49628f9d97d219e4765e1f92670026470be2d7bea752df36d1edf3f03d3e95e",
+          "stage": "duplicates"
+        }
+      ]
     },
     {
       "title": "In Japanese - M3AAWG Help! I Hit a Spam Trap!",
