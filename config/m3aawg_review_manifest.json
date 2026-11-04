@@ -452,7 +452,6 @@
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -527,10 +526,14 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "duplicates": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T18:56:54.720876+00:00",
             "content_sha256": "2d8758ed38cc4634f7c3f43e076119d9274ef84bd529579187edaaca4caa1d3a",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-45a0557fd7ee897b0fcc7af2-f77ac778-17f0-8322-bc3c-820a773baad5.json",
+              "matches": 0,
+              "exclusions": []
+            }
           },
           "quality": {
             "status": "not_checked",
@@ -549,7 +552,15 @@
       "review_number": 187,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T18:56:54.720876+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-45a0557fd7ee897b0fcc7af2-f77ac778-17f0-8322-bc3c-820a773baad5.json",
+          "content_sha256": "2d8758ed38cc4634f7c3f43e076119d9274ef84bd529579187edaaca4caa1d3a",
+          "stage": "duplicates"
+        }
+      ]
     },
     {
       "title": "Cybercrime Supply Chain 2026: Measurements and Assessments of Cyber Attack Resources and Where Criminals Acquire Them",
