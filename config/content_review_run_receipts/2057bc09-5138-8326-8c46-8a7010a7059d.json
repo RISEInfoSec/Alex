@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "run_id": "2057bc09-5138-8326-8c46-8a7010a7059d",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-04T02:45:00Z",
+  "started_at": "2026-11-04T02:48:59.897620Z",
+  "completed_at": "2026-11-04T02:56:33.191875+00:00",
+  "status": "complete",
+  "completed_actions": [
+    "Published and read back start and running checkpoints using current operations.py",
+    "Verified previous scheduled native completion and canonical receipt",
+    "Reconciled complete live D1: 62 submissions, 927 decisions and 598 jobs; 213 latest intake identities/hashes/decisions preserved",
+    "Reused unchanged main corpus and exact prior publication proofs; seven immutable release receipts unchanged",
+    "Evaluated lifecycle and preserved all prior attempts and identities",
+    "Completed one due initial Bellingcat duplicate check against corpus, manifests, weekly intake and exclusions",
+    "Validated all complete manifest JSON and preserved 1260 identities",
+    "Evaluated source due state and retained archive resume checkpoints and completed HVE evidence",
+    "Retained independent gates; no candidate qualified for an OpenAlex request",
+    "Saved evidence and reconciliation checkpoints"
+  ],
+  "receipt_path": "config/content_review_run_receipts/2057bc09-5138-8326-8c46-8a7010a7059d.json",
+  "candidate_ids": [
+    "bellingcat-url-6ece80528bcd7e08c1c2a5d9"
+  ],
+  "candidate_check_count": 1,
+  "request_counts": {
+    "openalex": 0,
+    "paid": 0,
+    "source": 0
+  },
+  "checkpoint_paths": [
+    "config/content_review_publication_reconciliation/2057bc09-5138-8326-8c46-8a7010a7059d.json",
+    "config/content_review_mechanical_checkpoints/bellingcat-url-6ece80528bcd7e08c1c2a5d9-2057bc09-5138-8326-8c46-8a7010a7059d.json",
+    "config/content_review_candidate_lifecycle.json"
+  ],
+  "ready_total": 0,
+  "new_eligible_approvals": 0,
+  "errors": [],
+  "native_terminal_success": "Not yet observed; independent verification required after termination"
+}
