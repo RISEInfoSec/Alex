@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "run_id": "8ae66d30-a85c-8322-bfeb-1ca3bd162e7d",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-04T17:45:00Z",
+  "started_at": "2026-11-04T17:48:08.974044Z",
+  "completed_at": "2026-11-04T17:55:19.574984+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+  "completed_actions": [
+    "Published start status and native running observations with operations.py",
+    "Reconciled complete current D1 and preserved 213 latest intake decisions",
+    "Verified preceding native terminal completion against canonical receipt",
+    "Reused unchanged main publication receipts and exclusions; zero new eligible releases",
+    "Ran lifecycle evaluator and 200 local identity audits",
+    "Completed five initial duplicate/exclusion checks across FIRST and M3AAWG; three duplicate gates passed and two possible-identity holds retained",
+    "Recovered candidate checkpoint from complete immutable source blob, validated identities, SHA-updated and read back",
+    "Stopped new candidate work on checkpoint transport failure"
+  ],
+  "candidate_ids": [
+    "first-url-1d7d3dcf81be0d055a05a5c6",
+    "first-url-0d0f8d6fcb1ee652df3ce003",
+    "m3aawg-url-75aa6fb2c156539547d27ab8",
+    "m3aawg-url-f1e88efb88751bc45f3b48ed",
+    "m3aawg-url-549f0e90d98c62e649bd1d3f"
+  ],
+  "candidate_check_count": 5,
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/content_review_mechanical_checkpoints/first-url-1d7d3dcf81be0d055a05a5c6-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+    "config/content_review_mechanical_checkpoints/first-url-0d0f8d6fcb1ee652df3ce003-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+    "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+    "config/content_review_mechanical_checkpoints/m3aawg-url-f1e88efb88751bc45f3b48ed-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+    "config/content_review_mechanical_checkpoints/m3aawg-url-549f0e90d98c62e649bd1d3f-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+    "config/content_review_publication_reconciliation/8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+    "config/content_review_candidate_lifecycle.json"
+  ],
+  "ready_total": 0,
+  "new_eligible_approvals": 0,
+  "errors": [
+    {
+      "stage": "candidate_checkpoint",
+      "error": "Execution transport disconnected before fifth checkpoint; new work stopped. Execution recovered on bounded retry; fifth existing result was persisted from complete immutable blob and read back."
+    },
+    {
+      "stage": "heartbeat",
+      "error": "Some intervals exceeded 60 seconds; actual timestamps retained."
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_version": 20,
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "first-url-1d7d3dcf81be0d055a05a5c6",
+      "first-url-0d0f8d6fcb1ee652df3ce003",
+      "m3aawg-url-75aa6fb2c156539547d27ab8",
+      "m3aawg-url-f1e88efb88751bc45f3b48ed",
+      "m3aawg-url-549f0e90d98c62e649bd1d3f"
+    ],
+    "attempted_candidate_ids": [
+      "first-url-1d7d3dcf81be0d055a05a5c6",
+      "first-url-0d0f8d6fcb1ee652df3ce003",
+      "m3aawg-url-75aa6fb2c156539547d27ab8",
+      "m3aawg-url-f1e88efb88751bc45f3b48ed",
+      "m3aawg-url-549f0e90d98c62e649bd1d3f"
+    ],
+    "completed_candidate_ids": [
+      "first-url-1d7d3dcf81be0d055a05a5c6",
+      "first-url-0d0f8d6fcb1ee652df3ce003",
+      "m3aawg-url-75aa6fb2c156539547d27ab8",
+      "m3aawg-url-f1e88efb88751bc45f3b48ed",
+      "m3aawg-url-549f0e90d98c62e649bd1d3f"
+    ],
+    "genuinely_first_checked": [
+      "first-url-1d7d3dcf81be0d055a05a5c6",
+      "first-url-0d0f8d6fcb1ee652df3ce003",
+      "m3aawg-url-75aa6fb2c156539547d27ab8",
+      "m3aawg-url-f1e88efb88751bc45f3b48ed",
+      "m3aawg-url-549f0e90d98c62e649bd1d3f"
+    ],
+    "newly_passed_checks": {
+      "duplicates": [
+        "m3aawg-url-75aa6fb2c156539547d27ab8",
+        "m3aawg-url-f1e88efb88751bc45f3b48ed",
+        "m3aawg-url-549f0e90d98c62e649bd1d3f"
+      ]
+    },
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "candidate_id": "first-url-1d7d3dcf81be0d055a05a5c6",
+        "collection": "first",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      },
+      {
+        "candidate_id": "first-url-0d0f8d6fcb1ee652df3ce003",
+        "collection": "first",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      },
+      {
+        "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+        "collection": "m3aawg",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      },
+      {
+        "candidate_id": "m3aawg-url-f1e88efb88751bc45f3b48ed",
+        "collection": "m3aawg",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      },
+      {
+        "candidate_id": "m3aawg-url-549f0e90d98c62e649bd1d3f",
+        "collection": "m3aawg",
+        "reason": "Completed initial current corpus/prepared/upstream/exclusion comparison; original material/access and export support remain unresolved."
+      }
+    ],
+    "cache_reuse": [
+      "Unchanged exact main publication receipts and corpus proof",
+      "Completed HVE source check",
+      "Prior source failures not replayed"
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "stage_elapsed_seconds": {
+      "startup_and_reconciliation_included": true,
+      "total_to_receipt": 430.600953,
+      "individual_stage_measurements": null
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 1,
+    "checkpoint_recovered": true,
+    "heartbeat_interval_compliant": false,
+    "remaining_blockers": [
+      "Execution transport disconnected before fifth checkpoint; restored on bounded retry, recovered existing fifth result, and stopped new work.",
+      "Format, access, metadata, quality and target/schema gates remain. FIRST parent-page URL matches are possible identity conflicts, not verified duplicate rejection.",
+      "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z applies.",
+      "Heartbeat publication intervals exceeded 60 seconds during pagination/recovery; no heartbeat backfilled.",
+      "No fully cleared candidate; ready deficit 250."
+    ],
+    "source_last_progress": {
+      "first": {
+        "at": "2026-11-04T17:52:50.814808+00:00",
+        "stage": "duplicates",
+        "candidate_id": "first-url-0d0f8d6fcb1ee652df3ce003"
+      },
+      "m3aawg": {
+        "at": "2026-11-04T17:53:37.067960+00:00",
+        "stage": "duplicates",
+        "candidate_id": "m3aawg-url-549f0e90d98c62e649bd1d3f"
+      }
+    },
+    "candidate_checkpoint_digests": [
+      {
+        "candidate_id": "first-url-1d7d3dcf81be0d055a05a5c6",
+        "content_sha256": "1b382b35096960fa4e3edd925e9c50a532f91d9a921c553fc7261f649c9d04d9",
+        "path": "config/content_review_mechanical_checkpoints/first-url-1d7d3dcf81be0d055a05a5c6-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+        "sha256": "8c43f68231404e6d6932f4668b277dc4bd5a7ee99f22b93084299c8a4800f302"
+      },
+      {
+        "candidate_id": "first-url-0d0f8d6fcb1ee652df3ce003",
+        "content_sha256": "cb52ac129007acd9eb8c256766911988d0534f0405bafd2f18a7a44c836102c3",
+        "path": "config/content_review_mechanical_checkpoints/first-url-0d0f8d6fcb1ee652df3ce003-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+        "sha256": "3bb0006b181a51a1dc0db103c5883833fefd0c17a267cafce035e57b98a955c7"
+      },
+      {
+        "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+        "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+        "path": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+        "sha256": "b64a83169e4e19b2b1793002c7c397a20e21af7d8e7eea2ff72f09b6beb72d10"
+      },
+      {
+        "candidate_id": "m3aawg-url-f1e88efb88751bc45f3b48ed",
+        "content_sha256": "45088f69a02bd078933ec314ed7b5f3bd62cc16d98a8147c2b94a4dcd505cfee",
+        "path": "config/content_review_mechanical_checkpoints/m3aawg-url-f1e88efb88751bc45f3b48ed-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+        "sha256": "7edbfdf5c3966f6281bb50be53b04ba5a048829780f342a677595b4624a8447b"
+      },
+      {
+        "candidate_id": "m3aawg-url-549f0e90d98c62e649bd1d3f",
+        "content_sha256": "e49628f9d97d219e4765e1f92670026470be2d7bea752df36d1edf3f03d3e95e",
+        "path": "config/content_review_mechanical_checkpoints/m3aawg-url-549f0e90d98c62e649bd1d3f-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+        "sha256": "e830880166559b700690921e71ce17d57ff2ed0eb4e6d754421a5677ef62f68d"
+      }
+    ],
+    "before_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "after_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "promotion_eligible": false,
+    "promotion_reason": "Checkpoint transport failure disqualifies this pass; prior verification runs excluded.",
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": "Current native run still in progress; independent terminal verification required."
+}
