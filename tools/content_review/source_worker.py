@@ -34,12 +34,12 @@ class Hold(Exception):
 
 def safe_url(url, resolve=True):
     p=urlsplit(url)
-    if p.scheme!='https' or not p.hostname or p.username or p.password or p.port not in (None,443):
+    if p.scheme not in ('https','http') or not p.hostname or p.username or p.password or p.port not in (None,443 if p.scheme=='https' else 80):
         raise Hold('unsupported_or_credentialed_url')
     if p.hostname in ('api.openalex.org','api.openai.com'):
         raise Hold('provider_requires_separate_controlled_route')
     if resolve:
-        try: addresses={a[4][0] for a in socket.getaddrinfo(p.hostname,443,type=socket.SOCK_STREAM)}
+        try: addresses={a[4][0] for a in socket.getaddrinfo(p.hostname,443 if p.scheme=='https' else 80,type=socket.SOCK_STREAM)}
         except OSError: raise Hold('dns_resolution_failed')
         if not addresses or any(not ipaddress.ip_address(a).is_global for a in addresses):
             raise Hold('nonpublic_destination')
@@ -71,6 +71,7 @@ class Transport:
             with self.session.get(url,timeout=20,allow_redirects=False,stream=True) as response:
                 event['http_status']=response.status_code
                 headers={k.lower():v for k,v in response.headers.items() if k.lower() in ('content-type','etag','last-modified','retry-after','location')}
+                if 'location' in headers:event['redirect_location']=urljoin(url,headers['location'])
                 event['retry_not_before']=retry_at(headers.get('retry-after'))
                 if response.status_code==429 or response.status_code>=500:
                     self.stopped[origin]={'reason':'http_'+str(response.status_code),'retry_not_before':event['retry_not_before'] or (datetime.now(timezone.utc)+timedelta(hours=1)).isoformat()}
@@ -90,7 +91,13 @@ class Transport:
     def permitted(self,url):
         p=urlsplit(url);origin=p.scheme+'://'+p.netloc
         if origin not in self.robots:
-            status,headers,body=self.send(origin+'/robots.txt')
+            robots_url=origin+'/robots.txt'
+            for _ in range(6):
+                status,headers,body=self.send(robots_url)
+                if status in (301,302,303,307,308) and headers.get('location'):
+                    robots_url=safe_url(urljoin(robots_url,headers['location']));continue
+                break
+            else:raise Hold('robots_redirect_limit')
             if status in (404,410):rp=None
             elif status==200:
                 rp=RobotFileParser();rp.parse(body.decode('utf-8','replace').splitlines())
@@ -171,7 +178,14 @@ def validate(root,path):
         row=matches[0];ensure_eligible(root,item['collection'],item['candidate_id'])
         if row['content_sha256']!=item['content_sha256'] or reviewed_digest(row)!=row['content_sha256']:raise ValueError('Candidate content changed')
         if row.get('decision','pending') not in ('pending','unreviewed'):raise ValueError('Decided candidate')
-        if item['url']!=row['source_url']:raise ValueError('Unbound source URL')
+        if item['url']!=row['source_url']:
+            ref=item.get('resume_receipt','')
+            if not re.fullmatch(r'config/content_review_source_receipts/[0-9a-f]{64}\.json',ref):raise ValueError('Unbound source URL')
+            receipt=json.loads((root/ref).read_text())
+            if receipt.get('independently_verified') is not True:raise ValueError('Unverified prior source receipt')
+            prior=[r for r in receipt['result']['records'] if r['candidate_id']==row['candidate_id'] and r['content_sha256']==row['content_sha256']]
+            links=[a['url'] for r in prior for e in r['evidence'] for a in e.get('links',[])]
+            if item['url'] not in links:raise ValueError('Asset URL absent from verified original source')
         if str(row.get('source_observation',{}).get('tlp','')).upper() not in ('','TLP:CLEAR','TLP:WHITE'):raise ValueError('Restricted TLP')
         if row.get('access_decision',{}).get('status')=='restricted':raise ValueError('Access restricted')
     return req

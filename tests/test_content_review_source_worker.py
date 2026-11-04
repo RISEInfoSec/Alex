@@ -17,7 +17,7 @@ def test_fragment_scopes_candidate():
     assert 'Second' not in x['text'] and x['links'][0]['url'].endswith('first.pdf')
 def test_truncated_text_is_explicit():
     x=s.extract(response(b'<p>'+b'a'*40000+b'</p>'));assert not x['text_complete'] and len(x['text'])==36000
-@pytest.mark.parametrize('url',['http://example.org','https://u:p@example.org','https://example.org:8080','https://api.openalex.org/works'])
+@pytest.mark.parametrize('url',['file:///etc/passwd','https://u:p@example.org','https://example.org:8080','https://api.openalex.org/works'])
 def test_unsafe_and_separate_provider_routes(url):
     with pytest.raises(s.Hold):s.safe_url(url,resolve=False)
 def test_source_after_duplicate_pass():
