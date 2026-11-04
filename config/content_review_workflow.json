@@ -1,6 +1,6 @@
 {
   "name": "Content Review",
-  "version": 19,
+  "version": 20,
   "status": "active_preflight_first",
   "purpose": "One inbound ALEX workflow preserving existing automatic acceptance, routing exceptions and explicitly curated collections to human review, and running assessments without waiting for manual follow-up.",
   "review_console_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site/",
@@ -496,5 +496,31 @@
     "instructions": "docs/content_review_operations.md",
     "approved_at": "2026-11-02",
     "historical_attempts_not_invented": true
+  },
+  "bounded_processing_pilot": {
+    "id": "initial-check-pilot-2026-11-04",
+    "status": "authorized_active",
+    "authorized_on": "2026-11-04",
+    "initial_candidate_limit": 5,
+    "initial_successful_passes": 2,
+    "subsequent_candidate_limit": 10,
+    "local_candidate_limit": 200,
+    "source_request_limit": 30,
+    "total_runtime_seconds": 720,
+    "checkpoint_reserve_seconds": 120,
+    "independent_origin_limit": 3,
+    "per_origin_concurrency": 1,
+    "minimum_origin_interval_seconds": 2,
+    "request_timeout_seconds": 20,
+    "new_paid_classification_limit": 5,
+    "openalex_request_limit": 1,
+    "openalex_interval_seconds": 60,
+    "checkpoint_interval_seconds": 60,
+    "promotion": "Two distinct post-activation scheduled passes with matching independently verified native terminal completion and canonical pilot receipts, integrity_passed=true, budget_compliant=true, access_rules_preserved=true, lease_conflicts=0 and checkpoint_failures=0. Empty/lease-deferred/no-execution passes do not qualify. No automatic promotion based on timestamps alone.",
+    "on_validation_failure": "Keep/revert candidate limit to five and record the blocker; continue safe independent work. Never weaken gates.",
+    "milestones_hours": [
+      24,
+      48
+    ]
   }
 }
