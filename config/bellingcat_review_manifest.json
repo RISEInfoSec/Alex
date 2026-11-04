@@ -876,16 +876,28 @@
         "content_sha256": "cc420f27e4714766adbb2f344c3d37a0c0fc4e98627cf10be3bd759a517eb9a2",
         "checks": {
           "format": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T07:50:13.267059+00:00",
             "content_sha256": "cc420f27e4714766adbb2f344c3d37a0c0fc4e98627cf10be3bd759a517eb9a2",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-a40d9944fce570bb11a2f80d-96d0705d-10d8-8326-8577-b7a121f01db6.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/03/30/explosive-misinformation-a-guide-to-mushroom-clouds-sonic-weapons-and-disintegration",
+              "observed_document_type": "osint_methodology_article",
+              "basis": "Public HTML explanatory guide on checking claims about explosion footage using visual context, source corroboration and limits of inference. It is an expert-informed newsroom guide rather than a research paper.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "access": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T07:50:13.267059+00:00",
             "content_sha256": "cc420f27e4714766adbb2f344c3d37a0c0fc4e98627cf10be3bd759a517eb9a2",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-a40d9944fce570bb11a2f80d-96d0705d-10d8-8326-8577-b7a121f01db6.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/03/30/explosive-misinformation-a-guide-to-mushroom-clouds-sonic-weapons-and-disintegration",
+              "observed_document_type": "osint_methodology_article",
+              "basis": "Public HTML explanatory guide on checking claims about explosion footage using visual context, source corroboration and limits of inference. It is an expert-informed newsroom guide rather than a research paper.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "metadata": {
             "status": "not_checked",
@@ -921,7 +933,9 @@
       "review_number": 194,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "verified_document_type": "osint_methodology_article",
+      "verified_document_type_evidence": "config/content_review_mechanical_checkpoints/bellingcat-url-a40d9944fce570bb11a2f80d-96d0705d-10d8-8326-8577-b7a121f01db6.json"
     },
     {
       "title": "Using Bellingcat’s New Open Source Tool to Explore Historical and Spatial Flight Data",
