@@ -1029,16 +1029,28 @@
         "content_sha256": "0ef07dd4f02950595651367ec1c286d8e41876b8589700528dbe89b6bc762c96",
         "checks": {
           "format": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T09:51:51.680184+00:00",
             "content_sha256": "0ef07dd4f02950595651367ec1c286d8e41876b8589700528dbe89b6bc762c96",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-78bc06a1e7d93395e85c8192-fcbcca29-9450-8326-8498-14d4caf66f3e.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/03/05/turnstone-flight-tracking-tool",
+              "observed_document_type": "osint_methodology_article",
+              "basis": "Public HTML tool tutorial on historical and spatial flight-data analysis using Turnstone. Worked examples and data limitations establish a methodology guide, rather than a research paper.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "access": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T09:51:51.680184+00:00",
             "content_sha256": "0ef07dd4f02950595651367ec1c286d8e41876b8589700528dbe89b6bc762c96",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-78bc06a1e7d93395e85c8192-fcbcca29-9450-8326-8498-14d4caf66f3e.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/03/05/turnstone-flight-tracking-tool",
+              "observed_document_type": "osint_methodology_article",
+              "basis": "Public HTML tool tutorial on historical and spatial flight-data analysis using Turnstone. Worked examples and data limitations establish a methodology guide, rather than a research paper.",
+              "export_support": "Research-paper-only executor does not support this verified article type. Original reviewed hash fields preserved; verified type recorded separately."
+            }
           },
           "metadata": {
             "status": "not_checked",
@@ -1074,7 +1086,9 @@
       "review_number": 197,
       "reserved_review_batch": 26,
       "review_batch": 26,
-      "batch": 26
+      "batch": 26,
+      "verified_document_type": "osint_methodology_article",
+      "verified_document_type_evidence": "config/content_review_mechanical_checkpoints/bellingcat-url-78bc06a1e7d93395e85c8192-fcbcca29-9450-8326-8498-14d4caf66f3e.json"
     },
     {
       "title": "Identifying ‘Less-Lethal’ Weapons Used By DHS Agents in US Immigration Raids and Protests",
