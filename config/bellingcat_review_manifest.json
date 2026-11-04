@@ -1182,16 +1182,28 @@
         "content_sha256": "43b861d7b5e02dedeac7447513d91aa210932b37c5e648c220636a03ce1f105a",
         "checks": {
           "format": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T13:47:39.045849+00:00",
             "content_sha256": "43b861d7b5e02dedeac7447513d91aa210932b37c5e648c220636a03ce1f105a",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-f1debd08c6fdef6b0dc160da-54a219b1-a920-8322-87a6-aa9f5ae0a8e3.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/01/27/less-lethal-weapons-guide",
+              "observed_document_type": "osint_guide",
+              "basis": "HTML visual identification guide using observable equipment features and manufacturer markings to distinguish resource types in images and footage. This is an OSINT guide, not a research paper.",
+              "export_support": "Paper-only executor unsupported; original reviewed hash fields preserved and verified type recorded separately."
+            }
           },
           "access": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T13:47:39.045849+00:00",
             "content_sha256": "43b861d7b5e02dedeac7447513d91aa210932b37c5e648c220636a03ce1f105a",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-f1debd08c6fdef6b0dc160da-54a219b1-a920-8322-87a6-aa9f5ae0a8e3.json",
+              "source_url": "https://www.bellingcat.com/resources/2026/01/27/less-lethal-weapons-guide",
+              "observed_document_type": "osint_guide",
+              "basis": "HTML visual identification guide using observable equipment features and manufacturer markings to distinguish resource types in images and footage. This is an OSINT guide, not a research paper.",
+              "export_support": "Paper-only executor unsupported; original reviewed hash fields preserved and verified type recorded separately."
+            }
           },
           "metadata": {
             "status": "not_checked",
@@ -1227,7 +1239,8 @@
       "review_number": 200,
       "reserved_review_batch": 26,
       "review_batch": 26,
-      "batch": 26
+      "batch": 26,
+      "verified_document_type": "osint_guide"
     },
     {
       "title": "EU Satellite Imagery Delayed Over Gaza and Parts of West Bank by 24-hours",
