@@ -5657,7 +5657,18 @@
       "candidate_id": "bellingcat-url-0f78a1e5a8e7c668bd5eba5f",
       "first_seen_at": "2026-11-02T11:08:00.965663+00:00",
       "cycle": 1,
-      "attempts": [],
+      "attempts": [
+        {
+          "attempt_id": "dbd91616-5c38-8326-aad0-a7c76b8a6481:bellingcat-url-0f78a1e5a8e7c668bd5eba5f:duplicates",
+          "at": "2026-11-04T04:46:36.808868+00:00",
+          "stage": "duplicates",
+          "outcome": "success",
+          "reason": "Completed initial current corpus/prepared/weekly/exclusion identity check; other gates remain required.",
+          "evidence_ref": "config/content_review_mechanical_checkpoints/bellingcat-url-0f78a1e5a8e7c668bd5eba5f-dbd91616-5c38-8326-aad0-a7c76b8a6481.json",
+          "cycle": 1,
+          "retry_not_before": null
+        }
+      ],
       "history": [
         {
           "at": "2026-11-02T21:46:58.757259+00:00",
@@ -5678,15 +5689,14 @@
         "source_url": "https://www.bellingcat.com/resources/2026/04/07/tool-damage-assessment-destruction-sentinel-satellite-imagery-iran-us-gulf",
         "candidate_id": "bellingcat-url-0f78a1e5a8e7c668bd5eba5f"
       },
-      "last_evaluated_at": "2026-11-04T01:55:04.077108+00:00",
-      "attempt_count": 0,
-      "last_attempt_at": null,
-      "last_check_at": null,
+      "last_evaluated_at": "2026-11-04T04:46:36.826542+00:00",
+      "attempt_count": 1,
+      "last_attempt_at": "2026-11-04T04:46:36.808868+00:00",
+      "last_check_at": "2026-11-04T04:46:36.808868+00:00",
       "outstanding_checks": [
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -5703,7 +5713,8 @@
       "retry_policy": {
         "maximum_total_attempts": 5,
         "maximum_failure_age_days": 30
-      }
+      },
+      "last_progress_at": "2026-11-04T04:46:36.808868+00:00"
     },
     "bellingcat:bellingcat-url-a40d9944fce570bb11a2f80d": {
       "candidate_id": "bellingcat-url-a40d9944fce570bb11a2f80d",
@@ -20205,7 +20216,7 @@
       }
     }
   },
-  "updated_at": "2026-11-04T03:50:28.724878+00:00",
+  "updated_at": "2026-11-04T04:46:36.826542+00:00",
   "policy_version": 1,
   "counts": {
     "completed": 8,
