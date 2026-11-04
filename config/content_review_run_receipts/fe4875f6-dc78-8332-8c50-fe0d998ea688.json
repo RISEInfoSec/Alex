@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "run_id": "fe4875f6-dc78-8332-8c50-fe0d998ea688",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-04T23:45:00Z",
+  "started_at": "2026-11-04T23:46:25.964273Z",
+  "completed_at": "2026-11-04T23:56:00.265235+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/fe4875f6-dc78-8332-8c50-fe0d998ea688.json",
+  "completed_actions": [
+    "Published/read back immediate start and refreshed native running observations",
+    "Verified complete submission signature unchanged; reused completed decisions and unchanged current main publication/exclusion snapshot",
+    "Used work_plan.select and original-budget source handoff for five due weekly candidates",
+    "Independently verified source Actions41936672610 and artifact ZIP/text hashes;22 actual sends",
+    "Inspected five publisher pages and four bound PDFs; persisted10 new format/access/metadata passes",
+    "Versioned two verified written papers and queued exact-hash paid request; native failure and zero-call diagnostic retained",
+    "Evaluated lifecycle and saved processing-health counters and exact remaining blockers"
+  ],
+  "candidate_ids": [
+    "weekly-02db78e5dcf92cfe64dc4487",
+    "weekly-040edeb033e8ee41aeb9433a",
+    "weekly-09d2d4f0bfbb0771930884fd",
+    "weekly-0a59e535bcac3620fc21829c",
+    "weekly-0c62bfc049ea611ecb965fc6"
+  ],
+  "candidate_check_count": 5,
+  "request_counts": {
+    "source": 22,
+    "paid": 0,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+    "config/content_review_paid_receipts/ceee7bc1588cb506cb2e99aeabed773bee313a417b45c86272818941293379ce-blocked.json",
+    "config/weekly_review_manifest.json",
+    "config/content_review_preflight_status.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_processing_health.json"
+  ],
+  "ready_total": 1,
+  "newly_review_ready": 0,
+  "errors": [
+    {
+      "stage": "paid_input_validation",
+      "run_id": 41937221730,
+      "provider_requests": 0,
+      "message": "Request/input integrity validation failed"
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_version": 20,
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-02db78e5dcf92cfe64dc4487",
+      "weekly-040edeb033e8ee41aeb9433a",
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c",
+      "weekly-0c62bfc049ea611ecb965fc6"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-02db78e5dcf92cfe64dc4487",
+      "weekly-040edeb033e8ee41aeb9433a",
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c",
+      "weekly-0c62bfc049ea611ecb965fc6"
+    ],
+    "completed_candidate_ids": [
+      "weekly-02db78e5dcf92cfe64dc4487",
+      "weekly-040edeb033e8ee41aeb9433a",
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c",
+      "weekly-0c62bfc049ea611ecb965fc6"
+    ],
+    "genuinely_first_checked": [
+      "weekly-02db78e5dcf92cfe64dc4487",
+      "weekly-040edeb033e8ee41aeb9433a",
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c",
+      "weekly-0c62bfc049ea611ecb965fc6"
+    ],
+    "next_dispositions": [],
+    "newly_passed_checks": {
+      "format": [
+        "weekly-040edeb033e8ee41aeb9433a",
+        "weekly-09d2d4f0bfbb0771930884fd",
+        "weekly-0a59e535bcac3620fc21829c",
+        "weekly-0c62bfc049ea611ecb965fc6"
+      ],
+      "access": [
+        "weekly-040edeb033e8ee41aeb9433a",
+        "weekly-09d2d4f0bfbb0771930884fd",
+        "weekly-0a59e535bcac3620fc21829c",
+        "weekly-0c62bfc049ea611ecb965fc6"
+      ],
+      "metadata": [
+        "weekly-09d2d4f0bfbb0771930884fd",
+        "weekly-0a59e535bcac3620fc21829c"
+      ]
+    },
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "stage": "classification_and_serialization",
+        "candidate_ids": [
+          "weekly-09d2d4f0bfbb0771930884fd",
+          "weekly-0a59e535bcac3620fc21829c"
+        ],
+        "reason": "Actions run41937221730 failed Request/input integrity validation before provider sends; exact local validate_request passes. Reproduce on immutable runner commit and expose sanitized failing precondition before any retry.",
+        "corrective_action": "Compare immutable request contract and manifest/gate digests in Actions environment; retain exact hashes and source evidence. Do not repeat source retrieval."
+      },
+      {
+        "stage": "source_or_metadata",
+        "candidate_id": "weekly-02db78e5dcf92cfe64dc4487",
+        "reason": "Publisher landing page retrieved with matching title/byline and abstract; no bound actual document inspected. Format remains held; resolve only a publisher-bound permitted original."
+      },
+      {
+        "stage": "source_or_metadata",
+        "candidate_id": "weekly-040edeb033e8ee41aeb9433a",
+        "reason": "Verified paper; PDF DOI 10.70610/jcpa.v4i01.1264 differs from publisher citation DOI 10.70610/jcpa.1264; metadata conflict held."
+      },
+      {
+        "stage": "source_or_metadata",
+        "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
+        "reason": "Verified paper; current byline Dhivya J differs from publisher/PDF J. Dhivya; explicit metadata/version reconciliation held."
+      }
+    ],
+    "cache_reuse": [
+      "Complete unchanged 62-submission identity/revision/payload signature matches prior fully read decision snapshot; 213 intake decisions reused.",
+      "Current main commit9cd520330e0bdb0bbaf7913b3f2fb3109302707b matches verified corpus/exclusion/publication snapshot.",
+      "HVE prior source/classification evidence not replayed; current pending ready batch26 retained."
+    ],
+    "requests": {
+      "source": 22,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 0,
+    "stage_elapsed_seconds": {
+      "total_to_receipt": 574.421115,
+      "source_runner_started_at": null,
+      "source_runner_completed_at": null
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": null,
+    "remaining_blockers": [
+      {
+        "stage": "classification_and_serialization",
+        "candidate_ids": [
+          "weekly-09d2d4f0bfbb0771930884fd",
+          "weekly-0a59e535bcac3620fc21829c"
+        ],
+        "reason": "Actions run41937221730 failed Request/input integrity validation before provider sends; exact local validate_request passes. Reproduce on immutable runner commit and expose sanitized failing precondition before any retry.",
+        "corrective_action": "Compare immutable request contract and manifest/gate digests in Actions environment; retain exact hashes and source evidence. Do not repeat source retrieval."
+      },
+      {
+        "stage": "source_or_metadata",
+        "candidate_id": "weekly-02db78e5dcf92cfe64dc4487",
+        "reason": "Publisher landing page retrieved with matching title/byline and abstract; no bound actual document inspected. Format remains held; resolve only a publisher-bound permitted original."
+      },
+      {
+        "stage": "source_or_metadata",
+        "candidate_id": "weekly-040edeb033e8ee41aeb9433a",
+        "reason": "Verified paper; PDF DOI 10.70610/jcpa.v4i01.1264 differs from publisher citation DOI 10.70610/jcpa.1264; metadata conflict held."
+      },
+      {
+        "stage": "source_or_metadata",
+        "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
+        "reason": "Verified paper; current byline Dhivya J differs from publisher/PDF J. Dhivya; explicit metadata/version reconciliation held."
+      }
+    ],
+    "resolvable_gate_count": 2,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-04T23:56:00.265235+00:00",
+        "stage": "format_access_metadata",
+        "candidate_ids": [
+          "weekly-02db78e5dcf92cfe64dc4487",
+          "weekly-040edeb033e8ee41aeb9433a",
+          "weekly-09d2d4f0bfbb0771930884fd",
+          "weekly-0a59e535bcac3620fc21829c",
+          "weekly-0c62bfc049ea611ecb965fc6"
+        ]
+      }
+    },
+    "candidate_checkpoint_digests": [
+      {
+        "path": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+        "sha256": "83362cfeba8966d0775d6cf28b9a89da06a30eafe5055438584399e43eff74cd"
+      },
+      {
+        "path": "config/content_review_paid_receipts/ceee7bc1588cb506cb2e99aeabed773bee313a417b45c86272818941293379ce-blocked.json",
+        "sha256": "583655bcdf5d2a56d16e8193b76d7b2e4b78250c037c039ccb80628374b0a4f0"
+      },
+      {
+        "path": "config/weekly_review_manifest.json",
+        "sha256": "8f4804b473a6e008d6c8ecde818aaa3132c5eb5b40fb946212c8cf9f046ded07"
+      },
+      {
+        "path": "config/content_review_preflight_status.json",
+        "sha256": "ca9987b5b28953e189efdc037ae6cac4afa5fd98f6ba01938132276804fad113"
+      },
+      {
+        "path": "config/content_review_candidate_lifecycle.json",
+        "sha256": "3bce07e6cfc5518bd3a9f8957ead20c7865696c5a2de70b92bc096d8cd161e3b"
+      },
+      {
+        "path": "config/content_review_processing_health.json",
+        "sha256": "04992b1e9c6bf87777897b22bed621fd1278f43fe74c10f29469451caaeae9f1"
+      }
+    ],
+    "before_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 1
+    },
+    "after_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 1
+    },
+    "promotion_eligible": false,
+    "promotion_reason": "Paid runner input validation failure; current native terminal proof unavailable; heartbeat maximum not independently computed.",
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": null
+}
