@@ -712,7 +712,6 @@
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -780,10 +779,14 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "duplicates": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T18:57:06.213438+00:00",
             "content_sha256": "dd22d2cc90930de963b5b4c385582281a2de22f92a0ae9e3a7cb7d2dfeb5bb6b",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-a7f4416d2ed9f61c93794875-f77ac778-17f0-8322-bc3c-820a773baad5.json",
+              "matches": 0,
+              "exclusions": []
+            }
           },
           "quality": {
             "status": "not_checked",
@@ -802,7 +805,15 @@
       "review_number": 193,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T18:57:06.213438+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-a7f4416d2ed9f61c93794875-f77ac778-17f0-8322-bc3c-820a773baad5.json",
+          "content_sha256": "dd22d2cc90930de963b5b4c385582281a2de22f92a0ae9e3a7cb7d2dfeb5bb6b",
+          "stage": "duplicates"
+        }
+      ]
     },
     {
       "title": "the_gdpr_and_esp_suppression_lists.pdf",
