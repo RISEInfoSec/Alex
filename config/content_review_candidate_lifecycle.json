@@ -177,7 +177,18 @@
       "candidate_id": "weekly-16a1bf792936ad74716079fe",
       "first_seen_at": "2026-10-27T00:00:00+00:00",
       "cycle": 1,
-      "attempts": [],
+      "attempts": [
+        {
+          "attempt_id": "33733b4a-b75c-8322-88c6-c7a8eae6d9e2:weekly-16a1bf792936ad74716079fe:duplicates",
+          "at": "2026-11-04T15:52:33.726385+00:00",
+          "stage": "duplicates",
+          "outcome": "success",
+          "reason": "Completed initial current public/prepared/weekly/exclusion identity check; remaining independent gates held.",
+          "evidence_ref": "config/content_review_mechanical_checkpoints/weekly-16a1bf792936ad74716079fe-33733b4a-b75c-8322-88c6-c7a8eae6d9e2.json",
+          "cycle": 1,
+          "retry_not_before": null
+        }
+      ],
       "history": [
         {
           "at": "2026-11-02T21:46:58.757259+00:00",
@@ -198,13 +209,14 @@
         "source_url": "https://doi.org/10.1108/iimtjm-01-2026-0001",
         "candidate_id": "weekly-16a1bf792936ad74716079fe"
       },
-      "last_evaluated_at": "2026-11-04T13:47:39.066409+00:00",
-      "attempt_count": 0,
-      "last_attempt_at": null,
-      "last_check_at": "2026-10-30T16:50:58.355752+00:00",
+      "last_evaluated_at": "2026-11-04T15:52:33.907815+00:00",
+      "attempt_count": 1,
+      "last_attempt_at": "2026-11-04T15:52:33.726385+00:00",
+      "last_check_at": "2026-11-04T15:52:33.726385+00:00",
       "outstanding_checks": [
         "format",
         "access",
+        "duplicates",
         "schema"
       ],
       "initial_checks_overdue": false,
@@ -223,7 +235,8 @@
         "maximum_total_attempts": 5,
         "maximum_failure_age_days": 30
       },
-      "evaluated_at": "2026-11-04T14:45:53.286843+00:00"
+      "evaluated_at": "2026-11-04T14:45:53.286843+00:00",
+      "last_progress_at": "2026-11-04T15:52:33.726385+00:00"
     },
     "weekly:weekly-bc92a562caf705ef01924918": {
       "candidate_id": "weekly-bc92a562caf705ef01924918",
@@ -20740,7 +20753,7 @@
       "evaluated_at": "2026-11-04T14:45:53.286843+00:00"
     }
   },
-  "updated_at": "2026-11-04T14:45:53.286843+00:00",
+  "updated_at": "2026-11-04T15:52:33.907815+00:00",
   "policy_version": 1,
   "counts": {
     "completed": 8,
