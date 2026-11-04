@@ -34,8 +34,8 @@
   },
   "global_deficit": 250,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-04T05:52:06.888144+00:00",
-  "last_action": "Completed bounded approval/lifecycle reconciliation; no new eligible approval or ready batch; no candidate/provider requests.",
+  "last_completed_at": "2026-11-04T05:53:37.115045+00:00",
+  "last_action": "Completed approval/lifecycle reconciliation and one initial source format/access check; no ready batch.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -680,12 +680,12 @@
   "candidate_lifecycle": {
     "counts": {
       "completed": 8,
-      "awaiting_initial_checks": 293,
-      "awaiting_software_support": 6,
+      "awaiting_initial_checks": 292,
+      "awaiting_software_support": 7,
       "access_restricted": 11,
       "stable_quality_failure": 67
     },
-    "updated_at": "2026-11-04T05:52:06.888144+00:00",
+    "updated_at": "2026-11-04T05:53:37.115045+00:00",
     "ledger": "config/content_review_candidate_lifecycle.json"
   },
   "manual_status_recovery": {
@@ -714,13 +714,13 @@
   },
   "current_run": {
     "run_id": "83e963c7-6418-8326-99b8-71bf593c3e36",
-    "observed_at": "2026-11-04T05:52:48.280448+00:00",
+    "observed_at": "2026-11-04T05:53:40.488025+00:00",
     "started_at": "2026-11-04T05:48:17.828745Z",
     "scheduled_for": "2026-11-04T05:45:00Z",
     "application_status": "running",
     "scheduler": {
       "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-      "observed_at": "2026-11-04T05:52:48.280448+00:00",
+      "observed_at": "2026-11-04T05:53:40.488025+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "next_run_time": null,
@@ -742,7 +742,7 @@
       }
     }
   },
-  "last_heartbeat_at": "2026-11-04T05:52:48.280448+00:00",
+  "last_heartbeat_at": "2026-11-04T05:53:40.488025+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/83e963c7-6418-8326-99b8-71bf593c3e36.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
@@ -752,9 +752,9 @@
   },
   "last_candidate_check": {
     "candidate_id": "bellingcat-url-0f78a1e5a8e7c668bd5eba5f",
-    "checked_at": "2026-11-04T04:48:05.363401+00:00",
-    "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-0f78a1e5a8e7c668bd5eba5f-dbd91616-5c38-8326-aad0-a7c76b8a6481.json",
-    "action": "initial_current_corpus_inventory_exclusion_duplicate_check",
+    "checked_at": "2026-11-04T05:53:37.115045+00:00",
+    "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-0f78a1e5a8e7c668bd5eba5f-83e963c7-6418-8326-99b8-71bf593c3e36.json",
+    "action": "initial_official_source_format_access_verification",
     "other_gates": "held"
   }
 }
