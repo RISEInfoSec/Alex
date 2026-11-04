@@ -1,0 +1,50 @@
+{
+  "main_commit": "9cd520330e0bdb0bbaf7913b3f2fb3109302707b",
+  "public_sha256": "296d5c0d1ad96c4dde2e3c7f7f64ff802a3cdc8df3fa1e68ab4cc7b54ad995a9",
+  "release_receipts_enumerated": [
+    "2026-10-28-accepted-46.json",
+    "2026-10-28-completed-reviews.json",
+    "2026-10-28-final-approvals.json",
+    "2026-10-30-approved-4.json",
+    "2026-11-01-discovery-backlog.json",
+    "approved-2026-11-01-batch24.json",
+    "approved-2026-11-02-automatic-7.json"
+  ],
+  "run_id": "bb95a950-d124-8322-960e-d7bcc5e40864",
+  "checked_at": "2026-11-04T16:51:55.272198+00:00",
+  "latest_intake_decisions": 213,
+  "d1_counts": {
+    "review_submissions": 62,
+    "review_decisions": 927,
+    "review_jobs": 598
+  },
+  "lifecycle_counts": {
+    "completed": 8,
+    "awaiting_initial_checks": 288,
+    "awaiting_software_support": 11,
+    "access_restricted": 11,
+    "stable_quality_failure": 67
+  },
+  "candidate_results": [
+    {
+      "candidate_id": "weekly-bc92a562caf705ef01924918",
+      "collection": "weekly",
+      "stage": "source_identity_reconciliation",
+      "reason": "Reconciled current upstream identity and cached abstract integrity; original source access/format and final target remain unresolved. Upstream match is provenance, not duplicate rejection.",
+      "checkpoint": "config/content_review_mechanical_checkpoints/weekly-bc92a562caf705ef01924918-bb95a950-d124-8322-960e-d7bcc5e40864.json",
+      "content_sha256": "a4d2b4359136f0c6291cb12f196e765818c30e59793c36d4ca4bc4ab36774aa9",
+      "checkpoint_sha256": "289879d7181e3cd7fda46502801aac9dbc3d6e6863db5236006326eee1fdf01e"
+    }
+  ],
+  "new_eligible_approvals": 0,
+  "ready_total": 0,
+  "source_requests": 0,
+  "limitations": "Unchanged main exact-publication proof reused; no fresh deployed HTTP verification. New candidate work stopped after first checkpoint transport failure.",
+  "source_discovery_dispositions": {
+    "first": "Considered existing preflight, deferred after checkpoint failure; old routine discovery outside SOP remains deferred.",
+    "m3aawg": "Existing preflight considered independently of seven-day discovery refresh, deferred after checkpoint failure.",
+    "bellingcat": "Existing unsupported records held; discovery refresh not due.",
+    "soups_virusbulletin": "Completed routine coverage reused and older resume positions preserved.",
+    "consensus": "Disabled; no secure Free-account activation."
+  }
+}
