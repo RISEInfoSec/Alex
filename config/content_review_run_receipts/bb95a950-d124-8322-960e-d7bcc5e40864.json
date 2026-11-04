@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "run_id": "bb95a950-d124-8322-960e-d7bcc5e40864",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-04T16:45:00Z",
+  "started_at": "2026-11-04T16:43:07.170854Z",
+  "completed_at": "2026-11-04T16:51:55.272198+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/bb95a950-d124-8322-960e-d7bcc5e40864.json",
+  "completed_actions": [
+    "Published start status and native running observations with operations.py",
+    "Reconciled complete current D1 and preserved 213 latest intake decisions",
+    "Verified preceding native terminal completion against canonical receipt",
+    "Reused unchanged main publication receipts and exclusions; zero new eligible releases",
+    "Ran lifecycle evaluator and 200 local identity audits",
+    "Completed one current weekly upstream identity and cached abstract integrity check",
+    "Recovered candidate checkpoint from complete immutable source blob, validated identities, SHA-updated and read back",
+    "Stopped new candidate work on checkpoint transport failure"
+  ],
+  "candidate_ids": [
+    "weekly-bc92a562caf705ef01924918"
+  ],
+  "candidate_check_count": 1,
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/content_review_mechanical_checkpoints/weekly-bc92a562caf705ef01924918-bb95a950-d124-8322-960e-d7bcc5e40864.json",
+    "config/content_review_publication_reconciliation/bb95a950-d124-8322-960e-d7bcc5e40864.json",
+    "config/content_review_candidate_lifecycle.json"
+  ],
+  "ready_total": 0,
+  "new_eligible_approvals": 0,
+  "errors": [
+    {
+      "stage": "candidate_checkpoint",
+      "error": "Shell response truncated; JSON validation rejected before write. Recovered immutable full blob and exact readback; no further candidate work."
+    },
+    {
+      "stage": "heartbeat",
+      "error": "Some intervals exceeded 60 seconds; actual timestamps retained."
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_version": 20,
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-bc92a562caf705ef01924918"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-bc92a562caf705ef01924918"
+    ],
+    "completed_candidate_ids": [
+      "weekly-bc92a562caf705ef01924918"
+    ],
+    "genuinely_first_checked": [],
+    "newly_passed_checks": {},
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "candidate_id": "weekly-bc92a562caf705ef01924918",
+        "collection": "weekly",
+        "reason": "Reconciled current upstream identity and cached abstract integrity; original source access/format and final target remain unresolved. Upstream match is provenance, not duplicate rejection."
+      }
+    ],
+    "cache_reuse": [
+      "Unchanged exact main publication receipts and corpus proof",
+      "Completed HVE source check",
+      "Prior source failures not replayed"
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "stage_elapsed_seconds": {
+      "startup_and_reconciliation_included": true,
+      "total_to_receipt": 528.101356,
+      "individual_stage_measurements": null
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 1,
+    "checkpoint_recovered": true,
+    "heartbeat_interval_compliant": false,
+    "remaining_blockers": [
+      "Large shell response truncated before manifest mutation; recovered with complete immutable GitHub blob; stop-new-work rule applied.",
+      "Source access, format, metadata and target/schema holds remain.",
+      "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z applies.",
+      "Heartbeat publication intervals exceeded 60 seconds during pagination/recovery; no heartbeat backfilled.",
+      "No fully cleared candidate; ready deficit 250."
+    ],
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-04T16:49:10.505945+00:00",
+        "stage": "source_identity_reconciliation",
+        "candidate_id": "weekly-bc92a562caf705ef01924918"
+      }
+    },
+    "candidate_checkpoint_digests": [
+      {
+        "candidate_id": "weekly-bc92a562caf705ef01924918",
+        "content_sha256": "a4d2b4359136f0c6291cb12f196e765818c30e59793c36d4ca4bc4ab36774aa9",
+        "path": "config/content_review_mechanical_checkpoints/weekly-bc92a562caf705ef01924918-bb95a950-d124-8322-960e-d7bcc5e40864.json",
+        "sha256": "289879d7181e3cd7fda46502801aac9dbc3d6e6863db5236006326eee1fdf01e"
+      }
+    ],
+    "before_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "after_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "promotion_eligible": false,
+    "promotion_reason": "Checkpoint transport failure disqualifies this pass; prior verification runs excluded.",
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": "Current native run still in progress; independent terminal verification required."
+}
