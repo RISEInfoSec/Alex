@@ -254,10 +254,14 @@
             "evidence": "Source observation only; existing mechanical gate pending"
           },
           "duplicates": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T17:52:50.814808+00:00",
             "content_sha256": "cb52ac129007acd9eb8c256766911988d0534f0405bafd2f18a7a44c836102c3",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/first-url-0d0f8d6fcb1ee652df3ce003-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+              "matches": 48,
+              "exclusions": []
+            }
           },
           "quality": {
             "status": "not_checked",
@@ -276,7 +280,15 @@
       "review_number": 180,
       "reserved_review_batch": 25,
       "review_batch": 25,
-      "batch": 25
+      "batch": 25,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T17:52:50.814808+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/first-url-0d0f8d6fcb1ee652df3ce003-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+          "content_sha256": "cb52ac129007acd9eb8c256766911988d0534f0405bafd2f18a7a44c836102c3",
+          "stage": "duplicates"
+        }
+      ]
     },
     {
       "title": "Chaos Stack: Designing Layered Tabletop Exercises for Complex Crisis Simulation",
