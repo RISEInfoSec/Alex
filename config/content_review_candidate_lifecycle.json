@@ -5577,7 +5577,18 @@
       "candidate_id": "bellingcat-url-6ece80528bcd7e08c1c2a5d9",
       "first_seen_at": "2026-11-02T11:08:00.965663+00:00",
       "cycle": 1,
-      "attempts": [],
+      "attempts": [
+        {
+          "attempt_id": "2057bc09-5138-8326-8c46-8a7010a7059d:bellingcat-url-6ece80528bcd7e08c1c2a5d9:duplicates",
+          "at": "2026-11-04T02:55:59.900782+00:00",
+          "stage": "duplicates",
+          "outcome": "success",
+          "reason": "Completed initial current public/prepared/weekly/exclusion identity check; other gates remain required.",
+          "evidence_ref": "config/content_review_mechanical_checkpoints/bellingcat-url-6ece80528bcd7e08c1c2a5d9-2057bc09-5138-8326-8c46-8a7010a7059d.json",
+          "cycle": 1,
+          "retry_not_before": null
+        }
+      ],
       "history": [
         {
           "at": "2026-11-02T21:46:58.757259+00:00",
@@ -5598,15 +5609,14 @@
         "source_url": "https://www.bellingcat.com/resources/2026/04/20/xiaohongshu-rednote-open-source-guide",
         "candidate_id": "bellingcat-url-6ece80528bcd7e08c1c2a5d9"
       },
-      "last_evaluated_at": "2026-11-04T01:55:04.077108+00:00",
-      "attempt_count": 0,
-      "last_attempt_at": null,
-      "last_check_at": null,
+      "last_evaluated_at": "2026-11-04T02:56:33.029128+00:00",
+      "attempt_count": 1,
+      "last_attempt_at": "2026-11-04T02:55:59.900782+00:00",
+      "last_check_at": "2026-11-04T02:55:59.900782+00:00",
       "outstanding_checks": [
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
@@ -5623,7 +5633,8 @@
       "retry_policy": {
         "maximum_total_attempts": 5,
         "maximum_failure_age_days": 30
-      }
+      },
+      "last_progress_at": "2026-11-04T02:55:59.900782+00:00"
     },
     "bellingcat:bellingcat-url-0f78a1e5a8e7c668bd5eba5f": {
       "candidate_id": "bellingcat-url-0f78a1e5a8e7c668bd5eba5f",
@@ -20177,7 +20188,7 @@
       }
     }
   },
-  "updated_at": "2026-11-04T01:55:04.077108+00:00",
+  "updated_at": "2026-11-04T02:57:27.526Z",
   "policy_version": 1,
   "counts": {
     "completed": 8,
