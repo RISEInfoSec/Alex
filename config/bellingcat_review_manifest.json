@@ -1305,16 +1305,28 @@
         "content_sha256": "62282b618979259d5698a55796c6db0c3178e0b4e156d5701733668350ec40ab",
         "checks": {
           "format": {
-            "status": "not_checked",
+            "status": "held",
+            "checked_at": "2026-11-04T11:48:53.499964+00:00",
             "content_sha256": "62282b618979259d5698a55796c6db0c3178e0b4e156d5701733668350ec40ab",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-fb17433d185a1407c68bc180-2276dd87-e61c-8322-8a5d-d7d0d0af4638.json",
+              "source_url": "https://www.bellingcat.com/news/2026/10/29/eu-satellite-imagery-delayed-over-gaza-and-parts-of-west-bank-by-24-hours",
+              "observed_document_type": "investigative_journalism",
+              "basis": "HTML investigative reporting with a transferable technique: compare satellite tile acquisition and publication timestamps to measure imagery availability delays. This is journalism with methods, not a research paper.",
+              "export_support": "Paper-only executor unsupported; original reviewed hash fields preserved and verified type recorded separately."
+            }
           },
           "access": {
-            "status": "not_checked",
+            "status": "passed",
+            "checked_at": "2026-11-04T11:48:53.499964+00:00",
             "content_sha256": "62282b618979259d5698a55796c6db0c3178e0b4e156d5701733668350ec40ab",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/bellingcat-url-fb17433d185a1407c68bc180-2276dd87-e61c-8322-8a5d-d7d0d0af4638.json",
+              "source_url": "https://www.bellingcat.com/news/2026/10/29/eu-satellite-imagery-delayed-over-gaza-and-parts-of-west-bank-by-24-hours",
+              "observed_document_type": "investigative_journalism",
+              "basis": "HTML investigative reporting with a transferable technique: compare satellite tile acquisition and publication timestamps to measure imagery availability delays. This is journalism with methods, not a research paper.",
+              "export_support": "Paper-only executor unsupported; original reviewed hash fields preserved and verified type recorded separately."
+            }
           },
           "metadata": {
             "status": "not_checked",
@@ -1350,7 +1362,8 @@
       "review_number": 203,
       "reserved_review_batch": 26,
       "review_batch": 26,
-      "batch": 26
+      "batch": 26,
+      "verified_document_type": "investigative_journalism"
     },
     {
       "title": "Viral Google Maps Images Shared Widely This Week Show Gaza Ruins. We Obtained More Recent Satellite Imagery",
