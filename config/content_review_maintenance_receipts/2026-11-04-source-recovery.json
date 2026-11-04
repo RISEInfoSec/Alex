@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "trigger": "maintenance",
+  "owner_authorized": true,
+  "started_at": "2026-11-04T22:40:37.999Z",
+  "completed_at": "2026-11-04T23:14:31.615Z",
+  "lease_owner": "maintenance-source-recovery-2026-11-04T22-40-37-999Z",
+  "lease_released": true,
+  "source_validation": {
+    "distinct_candidates": 5,
+    "requests": 25,
+    "cap": 30,
+    "original_work_deadline": "2026-11-04T22:54:37.373496+00:00",
+    "runs": [
+      41928254733,
+      41928617016
+    ],
+    "new_source_gate_passes": 4
+  },
+  "paper_continuation": {
+    "candidate_id": "weekly-250dd6cfa359991d1db168d1",
+    "source_requests": 0,
+    "paid_requests": 1,
+    "paid_tokens": 718,
+    "paid_run": 41930371885,
+    "six_gate_completions": 1,
+    "manual_ready_batch": 26,
+    "newly_review_ready": 1
+  },
+  "openalex_requests": 0,
+  "publications": 0,
+  "preserved": {
+    "identities_and_decisions_in_six_manifests": 1168,
+    "other_manifests_unchanged": true,
+    "hve_prior_hash_retained_in_archived_version": true,
+    "quality_thresholds": true,
+    "access_rules": true,
+    "hourly_schedules": true
+  },
+  "verification": {
+    "python_tests": 102,
+    "console_tests": 92,
+    "manifest_integrity_workflow": 41931706676,
+    "recovery_regression_workflow": 41931706776,
+    "review_site_commit": "16492084c18af64011d43de928152eb8ba158911",
+    "repository_commit": "d883256b708beecb03e9c08758150bc489ea243f",
+    "live_batch26_seen": true,
+    "unattended_recovery_verified": false
+  },
+  "native_observation": {
+    "observed_at": "2026-11-04T23:13:39.797Z",
+    "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+    "is_enabled": true,
+    "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+    "last_run": {
+      "id": "45b8f9ca-5b14-8332-9640-1e9c2814fe3e",
+      "recorded_status": "completed",
+      "scheduled_for": "2026-11-04T22:45:00Z",
+      "started_at": "2026-11-04T22:47:07.192589Z",
+      "completed_at": "2026-11-04T22:48:22.028492Z",
+      "chat_ref": {
+        "type": "chatgpt",
+        "id": "6ae92162-75a0-83e9-b13c-70d99897a78a"
+      }
+    },
+    "latest_result": "This pass was deferred because owner-authorized source-recovery maintenance holds the shared lease until 6:10 p.m. Toronto time. No candidate work occurred. Start status and canonical receipt were not written because this run could not acquire the required lease. The current worker remains enabled; the retired task remains disabled."
+  },
+  "last_run_deferral": {
+    "run_id": "45b8f9ca-5b14-8332-9640-1e9c2814fe3e",
+    "source": "native_result_and_overlapping_lease",
+    "candidate_processing": false,
+    "lease_acquired_at": "2026-11-04T22:40:37.999Z",
+    "lease_expires_at": "2026-11-04T23:10:37.999Z",
+    "evidence": "config/content_review_maintenance_receipts/2026-11-04-source-recovery.json"
+  },
+  "remaining_blockers": "config/content_review_processing_health.json",
+  "nonpaper_decision": "docs/content_review_nonpaper_admission_proposal.md"
+}

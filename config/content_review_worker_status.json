@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "active",
+  "phase": "idle",
   "ready_total": 1,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
@@ -8,13 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": null,
-  "lease": {
-    "owner": "maintenance-source-recovery-2026-11-04T22-40-37-999Z",
-    "acquired_at": "2026-11-04T22:40:37.999Z",
-    "expires_at": "2026-11-04T23:31:56.179Z",
-    "purpose": "Owner-authorized source-processing repairs and bounded real-candidate validation; maintenance, not a scheduled run",
-    "renewed_at": "2026-11-04T23:01:56.179Z"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -36,7 +30,7 @@
   "global_deficit": 249,
   "soups_batch_deficit": 0,
   "last_completed_at": "2026-11-04T21:51:35.016943+00:00",
-  "last_action": "Five distinct due M3AAWG duplicate/exclusion checks completed; zero newly ready.",
+  "last_action": "Maintenance completed: one verified paper admitted to weekly batch 26; precise source/type holds retained. Scheduled recovery remains unverified.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -771,14 +765,14 @@
     "stable_quality_failure": 67
   },
   "maintenance_recovery": {
-    "observed_at": "2026-11-04T23:11:25.049Z",
-    "status": "one_review_ready_sustained_recovery_unverified",
+    "observed_at": "2026-11-04T23:14:31.615Z",
+    "status": "complete_one_review_ready_sustained_recovery_unverified",
     "source_requests": 25,
     "paid_requests": 1,
     "paid_tokens": 718,
     "source_gate_passes": 4,
     "newly_ready": 1,
     "weekly_batch": 26,
-    "receipt": "config/content_review_processing_health.json"
+    "receipt": "config/content_review_maintenance_receipts/2026-11-04-source-recovery.json"
   }
 }
