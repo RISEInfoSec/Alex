@@ -1567,6 +1567,24 @@
       "http404": 4,
       "request_errors": 0,
       "state_commit": "f0f01deba4c4a1cead2c7dc4c79dd3d5d8194b84"
+    },
+    {
+      "schema_version": 1,
+      "continuation": 3,
+      "owner_authorization": "Explicit owner approval of PR118 bounded recovery pace and resumption, 2026-11-05",
+      "previous_run": 42106396231,
+      "expected_main_sha": "1f338893faa6fddc6b0f064469be76dd69198aac",
+      "started_at": "2026-11-05T21:34:42Z",
+      "quarantined_historical_run": 36439756777,
+      "verified_successful_replacement": 36443867559,
+      "active_runs": [],
+      "dispatch_attempts": 1,
+      "status": "in_progress",
+      "child_run": 42113903650,
+      "child_head_sha": "1f338893faa6fddc6b0f064469be76dd69198aac",
+      "child_created_at": "2026-11-05T21:34:42Z",
+      "conclusion": null,
+      "canonical_receipt": null
     }
   ],
   "latest_weekly_checkpoint": {
@@ -1621,7 +1639,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-05T21:33:12.260Z",
+  "updated_at": "2026-11-05T21:35:51.697Z",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1646,7 +1664,7 @@
     "canonical_receipt": "config/content_review_weekly_recovery/42106396231.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "No active current pipeline and no live provider hold. Dispatch one further bounded continuation, reuse all 371 cached DOI results, and independently verify its terminal receipt. Keep hourly checks paused and retain the maintenance lease.",
+  "next_action": "Continuation 3 is running. At the next unattended check, verify its native terminal result and exact pipeline-state receipt before any further dispatch. Continue bounded passes only if no live provider hold or other active pipeline exists.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -1660,8 +1678,13 @@
   "maintenance_lease": {
     "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
     "verified_owner": true,
-    "renewed_at": "2026-11-05T21:33:12.260Z",
-    "expires_at": "2026-11-05T23:33:12.260Z",
+    "renewed_at": "2026-11-05T21:35:51.697Z",
+    "expires_at": "2026-11-06T00:45:00.000Z",
     "purpose": "Owner-authorized ALEX end-to-end recovery; hourly worker and monitor remain paused."
+  },
+  "unattended_continuation": {
+    "automation_id": "6ae935ba229c81919751322fbce87ef8",
+    "next_check_not_before": "2026-11-05T22:40:00Z",
+    "current_child_run": 42113903650
   }
 }
