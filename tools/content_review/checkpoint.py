@@ -17,6 +17,9 @@ def prepare(root,paths,base_blobs,lease,owner,at=None):
         if p.is_absolute() or '..' in p.parts:raise ValueError('Repository-relative path required')
         after=(Path(root)/p).read_text()
         validate(after, name)
+        if name == 'config/content_review_preflight_status.json':
+            from tools.content_review.stage_summary import validate_summary
+            validate_summary(json.loads(after))
         if name in base_blobs:
             old=base_blobs[name];verify_bytes(old['content'],old['sha'],old['size'])
             if name.endswith('_review_manifest.json'):validate_update(old['content'],after)

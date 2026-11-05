@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T16:35:36Z",
+  "observed_at": "2026-11-05T16:50:00.779567+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -73,16 +73,17 @@
         "paid_handoff",
         "source_handoff"
       ],
-      "status": "prior_runtime_repair_scheduled_recovery_unverified",
+      "status": "scheduled_imports_verified_downstream_recovery_pending",
       "evidence": [
         "config/content_review_run_receipts/632603a3-e58c-832e-aba4-f32087ee94c4.json",
-        "config/content_review_maintenance_receipts/maintenance-runtime-repair-2026-11-05T15-19-51-174Z.json"
+        "config/content_review_maintenance_receipts/maintenance-runtime-repair-2026-11-05T15-19-51-174Z.json",
+        "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json"
       ],
       "cause": "Missing requests/jsonschema plus a recorded installation denial under stale monitor-only scope; later owner-authorized dependency repair did not yet establish sustained scheduled progress.",
-      "next_action": "Use verified runtime_guard; inspect/reuse exact-hash paid results before new work; process eligible peers independently. This maintenance session's cloud executor failed before shell access.",
+      "next_action": "Dependencies pass in this scheduled interpreter. Resume retained exact-hash paid preparation after current main corpus/decision prerequisites, with bounded heartbeat groups.",
       "verification_criteria": "Subsequent existing scheduled receipts show classification/schema passes, complete gates and admissions with independent native proof, compliant heartbeats and intact checkpoints.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:35:36Z"
+      "updated_at": "2026-11-05T16:50:00.779567+00:00"
     },
     {
       "id": "zero-attempt-masks-stall",
@@ -211,15 +212,18 @@
         "console",
         "monitor"
       ],
-      "status": "diagnosed_repair_pending",
+      "status": "implemented_local_regression_verified",
       "evidence": [
-        "config/content_review_preflight_status.json"
+        "config/content_review_preflight_status.json",
+        "tools/content_review/stage_summary.py",
+        "tests/test_stage_summary.py",
+        "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json"
       ],
       "cause": "Stage summary omits FIRST/M3AAWG/Bellingcat and has outdated SOUPS/weekly gate totals; actual records total456. Venue repair correctly holds quality but aggregate summary is stale.",
-      "next_action": "Implement shared summary derivation from actual stage records, regression-test it, regenerate under the lease, then reconcile console freshness without inventing candidate progress.",
+      "next_action": "Verify push CI and console Refresh against regenerated counts; checkpoint guard rejects future stale summaries.",
       "verification_criteria": "Every summary gate count equals its actual rows; unknown/not_checked preserved; console and monitor show reconciled counts and historical timestamps accurately.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:35:36Z"
+      "updated_at": "2026-11-05T16:50:00.779567+00:00"
     },
     {
       "id": "existing-corpus-metadata-type-audit",

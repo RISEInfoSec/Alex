@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "run_id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T16:45:00Z",
+  "started_at": "2026-11-05T16:43:29.150583Z",
+  "completed_at": "2026-11-05T16:51:57.695Z",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json",
+  "completed_actions": [
+    "Published and read back start/running status under verified lease",
+    "Verified scheduled runtime dependencies and local paid preparation for two retained peers with zero requests",
+    "Refreshed all 66 complete D1 submissions; exact snapshot unchanged",
+    "Verified immutable SHA/size of seven complete manifests, stage, lifecycle and every canonical receipt/correction",
+    "Evaluated 200 local lifecycle records preserving all 385 identities",
+    "Implemented and regression-tested shared stage summary; regenerated counts from all 456 unmodified stage records; added checkpoint rejection of stale summary",
+    "Inspected PR112 native merged state; retained exact live reconciliation as pending"
+  ],
+  "candidate_ids": [],
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "native_terminal_success": null,
+  "remaining_blockers": [
+    {
+      "stage": "candidate_execution_window",
+      "reason": "Complete immutable input refresh and validated shared stage-summary repair consumed this pass's preparation window. Two retained weekly peers passed local handoff preparation; no current-main corpus refresh, paid dispatch, source dispatch or new gate completion was performed.",
+      "corrective_action": "Reuse verified retained inputs; refresh current main corpus/exclusions and exact-hash paid results, then execute selected missing gates with heartbeat groups below 40 seconds. Do not repeat completed source checks."
+    }
+  ],
+  "collection_observations": {
+    "weekly": {
+      "selected_candidate_ids": [
+        "weekly-5119ae5a98d80e9ef5d2544b",
+        "weekly-580cbf65ba78205f3b91860e",
+        "weekly-02db78e5dcf92cfe64dc4487"
+      ],
+      "work": "Local preparation diagnostic passed for two retained peers; no gate pass.",
+      "deferral": "Complete immutable input refresh and validated shared stage-summary repair consumed this pass's preparation window. Two retained weekly peers passed local handoff preparation; no current-main corpus refresh, paid dispatch, source dispatch or new gate completion was performed."
+    },
+    "soups": {
+      "selected_candidate_ids": [
+        "soups-006886aaa25c557b8eeb"
+      ],
+      "deferral": "Selected quality work deferred by shared maintenance/time budget; no legitimate hold inferred."
+    },
+    "bellingcat": {
+      "selected_candidate_ids": [
+        "bellingcat-url-ab03b31b081cabd4d3d207f6"
+      ],
+      "deferral": "Selected source work deferred by shared maintenance/time budget; no source retry sent."
+    },
+    "first": {
+      "selected_candidate_ids": [],
+      "deferral": "Not selected in the current five-candidate readiness tiers. Existing withheld/TLP restrictions preserved; aggregate counts repaired."
+    },
+    "m3aawg": {
+      "selected_candidate_ids": [],
+      "deferral": "Not selected in current five-candidate readiness tiers; aggregate counts repaired. Exact deployed publication reconciliation remains pending."
+    },
+    "sans": {
+      "selected_candidate_ids": [],
+      "deferral": "Verified manifest; not selected in current five-candidate readiness tiers."
+    },
+    "virusbulletin": {
+      "selected_candidate_ids": [],
+      "deferral": "Distinct paid adapter remains unsupported; retained manifest verified, no unvalidated handoff."
+    },
+    "apwg": {
+      "selected_candidate_ids": [],
+      "deferral": "Annual 2026 full-paper discovery remains December obligation; distinct adapter audit remains pending."
+    },
+    "corpus-audit": {
+      "selected_candidate_ids": [],
+      "deferral": "Existing-corpus route kept separate from intake; record-level metadata/type investigation pending."
+    }
+  },
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-580cbf65ba78205f3b91860e",
+      "soups-006886aaa25c557b8eeb",
+      "bellingcat-url-ab03b31b081cabd4d3d207f6",
+      "weekly-02db78e5dcf92cfe64dc4487"
+    ],
+    "planned_candidates": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+        "next_stage": "classification_and_serialization"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-580cbf65ba78205f3b91860e",
+        "next_stage": "classification_and_serialization"
+      },
+      {
+        "collection": "soups",
+        "candidate_id": "soups-006886aaa25c557b8eeb",
+        "next_stage": "quality"
+      },
+      {
+        "collection": "bellingcat",
+        "candidate_id": "bellingcat-url-ab03b31b081cabd4d3d207f6",
+        "next_stage": "source"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-02db78e5dcf92cfe64dc4487",
+        "next_stage": "source"
+      }
+    ],
+    "attempted_candidate_ids": [],
+    "completed_candidate_ids": [],
+    "genuinely_first_checked": [],
+    "next_dispositions": [],
+    "newly_passed_checks": {},
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "local_audits": 200,
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "Preparation heartbeat gaps exceeded 60 seconds; no candidate gate completion. Shared maintenance is not qualifying processing.",
+    "resolvable_gate_count": 5,
+    "all_candidates_legitimately_held": false,
+    "remaining_blockers": [
+      {
+        "stage": "candidate_execution_window",
+        "reason": "Complete immutable input refresh and validated shared stage-summary repair consumed this pass's preparation window. Two retained weekly peers passed local handoff preparation; no current-main corpus refresh, paid dispatch, source dispatch or new gate completion was performed.",
+        "corrective_action": "Reuse verified retained inputs; refresh current main corpus/exclusions and exact-hash paid results, then execute selected missing gates with heartbeat groups below 40 seconds. Do not repeat completed source checks."
+      }
+    ],
+    "source_last_progress": {},
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "stage_records": 456,
+      "lifecycle_identities": 385
+    },
+    "after_counts": {
+      "stage_records": 456,
+      "lifecycle_identities": 385
+    },
+    "cache_reuse": [
+      "Seven complete retained source manifests",
+      "66 unchanged complete D1 submissions",
+      "Two retained paper inputs; no source refetch"
+    ],
+    "stage_elapsed_seconds": {
+      "to_receipt": 508.545
+    }
+  }
+}
