@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "run_id": "6518a129-da24-8332-a08d-d53e3ce3eb56",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T08:45:00Z",
+  "started_at": "2026-11-05T08:46:46.152732Z",
+  "completed_at": "2026-11-05T08:54:04.373488+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/6518a129-da24-8332-a08d-d53e3ce3eb56.json",
+  "completed_actions": [
+    "Verified owner/run_id lease and published/read back immediate start and running status",
+    "Refreshed complete66-submission snapshot; unchanged signature permits verified decision reuse",
+    "Verified current main immutable corpus/exclusion/upstream and effective OpenAlex policy; no eligible registry request",
+    "Independently verified source Actions41997536808, artifact digest/provenance, all five candidate identities and17 real sends",
+    "Inspected retained candidate-bound material; two format/access gates passed, precise DOI/version and access holds retained",
+    "Evaluated200 local lifecycle records preserving385 identities and history"
+  ],
+  "candidate_ids": [
+    "weekly-2527e09d730dd8e2b15cb6d8",
+    "weekly-26b3719a7cdde3455962fdfa",
+    "weekly-26e0bf60c0b553b19739cc91",
+    "weekly-27cbe4630996d447436a64dd",
+    "weekly-2fb8d1268a016d82ab42dd40"
+  ],
+  "request_counts": {
+    "source": 17,
+    "paid": 0,
+    "openalex": 0
+  },
+  "native_terminal_success": null,
+  "errors": [],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "candidate_limit": 5,
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "selected_candidate_ids": [
+      "weekly-2527e09d730dd8e2b15cb6d8",
+      "weekly-26b3719a7cdde3455962fdfa",
+      "weekly-26e0bf60c0b553b19739cc91",
+      "weekly-27cbe4630996d447436a64dd",
+      "weekly-2fb8d1268a016d82ab42dd40"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-2527e09d730dd8e2b15cb6d8",
+      "weekly-26b3719a7cdde3455962fdfa",
+      "weekly-26e0bf60c0b553b19739cc91",
+      "weekly-27cbe4630996d447436a64dd",
+      "weekly-2fb8d1268a016d82ab42dd40"
+    ],
+    "completed_candidate_ids": [
+      "weekly-2527e09d730dd8e2b15cb6d8",
+      "weekly-26b3719a7cdde3455962fdfa",
+      "weekly-26e0bf60c0b553b19739cc91",
+      "weekly-27cbe4630996d447436a64dd",
+      "weekly-2fb8d1268a016d82ab42dd40"
+    ],
+    "genuinely_first_checked": [],
+    "next_dispositions": [
+      "weekly-2527e09d730dd8e2b15cb6d8",
+      "weekly-26b3719a7cdde3455962fdfa",
+      "weekly-26e0bf60c0b553b19739cc91",
+      "weekly-27cbe4630996d447436a64dd",
+      "weekly-2fb8d1268a016d82ab42dd40"
+    ],
+    "newly_passed_checks": {
+      "format": [
+        "weekly-26e0bf60c0b553b19739cc91"
+      ],
+      "access": [
+        "weekly-26e0bf60c0b553b19739cc91"
+      ]
+    },
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "candidate_id": "weekly-2527e09d730dd8e2b15cb6d8",
+        "stage": "source_access",
+        "reason": "robots_unavailable_http_403",
+        "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+      },
+      {
+        "candidate_id": "weekly-26b3719a7cdde3455962fdfa",
+        "stage": "source_access",
+        "reason": "robots_unavailable_http_403",
+        "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+      },
+      {
+        "candidate_id": "weekly-26e0bf60c0b553b19739cc91",
+        "stage": "metadata",
+        "reason": "Inspected matching written journal paper front matter and body. Zenodo current version DOI 10.5281/zenodo.20267496 differs from discovery DOI 10.5281/zenodo.20267495; reconcile concept/version identifier and date before classification.",
+        "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+      },
+      {
+        "candidate_id": "weekly-27cbe4630996d447436a64dd",
+        "stage": "source_access",
+        "reason": "source_http_403",
+        "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+      },
+      {
+        "candidate_id": "weekly-2fb8d1268a016d82ab42dd40",
+        "stage": "source_document",
+        "reason": "Publisher page matches title and Syed Mudassir Shah byline but retained material is abstract/landing page only; actual intended full document remains uninspected. Resume only a bound permitted original from retained links.",
+        "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains unchanged corpus/exclusion/upstream blobs; prior release41945055902 failed exact assessment binding.",
+        "corrective_action": "Repair controlled full-corpus serialization preserving assessment/content binding before retry."
+      }
+    ],
+    "remaining_blockers": [
+      {
+        "candidate_id": "weekly-2527e09d730dd8e2b15cb6d8",
+        "stage": "source_access",
+        "reason": "robots_unavailable_http_403",
+        "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+      },
+      {
+        "candidate_id": "weekly-26b3719a7cdde3455962fdfa",
+        "stage": "source_access",
+        "reason": "robots_unavailable_http_403",
+        "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+      },
+      {
+        "candidate_id": "weekly-26e0bf60c0b553b19739cc91",
+        "stage": "metadata",
+        "reason": "Inspected matching written journal paper front matter and body. Zenodo current version DOI 10.5281/zenodo.20267496 differs from discovery DOI 10.5281/zenodo.20267495; reconcile concept/version identifier and date before classification.",
+        "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+      },
+      {
+        "candidate_id": "weekly-27cbe4630996d447436a64dd",
+        "stage": "source_access",
+        "reason": "source_http_403",
+        "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+      },
+      {
+        "candidate_id": "weekly-2fb8d1268a016d82ab42dd40",
+        "stage": "source_document",
+        "reason": "Publisher page matches title and Syed Mudassir Shah byline but retained material is abstract/landing page only; actual intended full document remains uninspected. Resume only a bound permitted original from retained links.",
+        "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains unchanged corpus/exclusion/upstream blobs; prior release41945055902 failed exact assessment binding.",
+        "corrective_action": "Repair controlled full-corpus serialization preserving assessment/content binding before retry."
+      }
+    ],
+    "requests": {
+      "source": 17,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "stage_elapsed_seconds": {
+      "to_receipt": 438.379774
+    },
+    "cache_reuse": [
+      "Unchanged complete66-submission snapshot",
+      "Prior completed source/paid evidence and approved decisions retained"
+    ],
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "Actual start/preparation heartbeat intervals exceeded60seconds; no invented timestamps.",
+    "resolvable_gate_count": 1,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-05T08:54:04.373488+00:00",
+        "stage": "format/access",
+        "candidate_ids": [
+          "weekly-26e0bf60c0b553b19739cc91"
+        ]
+      }
+    },
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "lifecycle_identities": 385,
+      "weekly_ready": 2
+    },
+    "after_counts": {
+      "lifecycle_identities": 385,
+      "weekly_ready": 2
+    },
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "checkpoint_paths": [
+    "config/weekly_review_manifest.json",
+    "config/content_review_preflight_status.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_source_receipts/7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe.json",
+    "config/content_review_processing_health.json",
+    "config/content_review_run_receipts/6518a129-da24-8332-a08d-d53e3ce3eb56.json"
+  ]
+}

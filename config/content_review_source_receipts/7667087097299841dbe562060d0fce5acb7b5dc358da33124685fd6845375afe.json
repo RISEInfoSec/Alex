@@ -1,0 +1,732 @@
+{
+  "schema_version": 1,
+  "independently_verified": true,
+  "request": {
+    "schema_version": 1,
+    "started_at": "2026-11-05T08:46:46.152732+00:00",
+    "work_deadline": "2026-11-05T08:56:46.152732+00:00",
+    "lease_owner": "6518a129-da24-8332-a08d-d53e3ce3eb56",
+    "source_request_limit": 30,
+    "records": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-2527e09d730dd8e2b15cb6d8",
+        "content_sha256": "9cfe19bde71969dfb19f9bfb801c0277654023186771631029693711936174dd",
+        "manifest_sha256": "d3dc2acd2dde479b5dc2eb64332d61d8d195ba35f7795551c11bd12b06ef2b07",
+        "url": "https://doi.org/10.3390/app16083921"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-26b3719a7cdde3455962fdfa",
+        "content_sha256": "21212074cdd8f84d78f4fe561e0e45bdcb5defa0aec95c5e366ab19ab61b36f7",
+        "manifest_sha256": "d3dc2acd2dde479b5dc2eb64332d61d8d195ba35f7795551c11bd12b06ef2b07",
+        "url": "https://doi.org/10.36838/ijhsr89.237"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-26e0bf60c0b553b19739cc91",
+        "content_sha256": "b211d2f89f4c3a9191db5f081e8dcf6d9938f66aaf7d652e57690bb35a2dbfcd",
+        "manifest_sha256": "d3dc2acd2dde479b5dc2eb64332d61d8d195ba35f7795551c11bd12b06ef2b07",
+        "url": "https://doi.org/10.5281/zenodo.20267495"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-27cbe4630996d447436a64dd",
+        "content_sha256": "dbf130f26b358d5c00d877e1b08aa49bd1771b32660142fcca3abb12dc3a7ab3",
+        "manifest_sha256": "d3dc2acd2dde479b5dc2eb64332d61d8d195ba35f7795551c11bd12b06ef2b07",
+        "url": "https://doi.org/10.56201/ijssmr.vol.12no1.2026.pg524-541"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-2fb8d1268a016d82ab42dd40",
+        "content_sha256": "393002c9caaa2df2a29ec144a105b29944af28ec9d0ed2b56e87d2eb7da68780",
+        "manifest_sha256": "d3dc2acd2dde479b5dc2eb64332d61d8d195ba35f7795551c11bd12b06ef2b07",
+        "url": "https://doi.org/10.52279/jlss.08.03.309321"
+      }
+    ],
+    "request_id": "7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe"
+  },
+  "native_run": {
+    "id": 41997536808,
+    "event": "push",
+    "head_branch": "codex/soups-corpus-review",
+    "path": ".github/workflows/content_review_sources.yml",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "feae65b617aabce8051a2e4b95fd2f24f26c64ae",
+    "run_attempt": 1
+  },
+  "artifact_id": 13400642577,
+  "artifact_sha256": "f67692de4674dcdb3e71d6e6653f7e3398a52542a70d4901b00fe9f071b4a81b",
+  "result": {
+    "schema_version": 1,
+    "request_id": "7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe",
+    "status": "complete",
+    "records": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-2527e09d730dd8e2b15cb6d8",
+        "content_sha256": "9cfe19bde71969dfb19f9bfb801c0277654023186771631029693711936174dd",
+        "status": "held",
+        "evidence": [],
+        "reason": "robots_unavailable_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-26b3719a7cdde3455962fdfa",
+        "content_sha256": "21212074cdd8f84d78f4fe561e0e45bdcb5defa0aec95c5e366ab19ab61b36f7",
+        "status": "held",
+        "evidence": [],
+        "reason": "robots_unavailable_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-26e0bf60c0b553b19739cc91",
+        "content_sha256": "b211d2f89f4c3a9191db5f081e8dcf6d9938f66aaf7d652e57690bb35a2dbfcd",
+        "status": "retrieved",
+        "evidence": [
+          {
+            "requested_url": "https://doi.org/10.5281/zenodo.20267495",
+            "final_url": "https://zenodo.org/records/20267496",
+            "http_status": 200,
+            "headers": {
+              "content-type": "text/html; charset=utf-8",
+              "retry-after": "49"
+            },
+            "redirects": [
+              {
+                "url": "https://doi.org/10.5281/zenodo.20267495",
+                "http_status": 302
+              },
+              {
+                "url": "https://zenodo.org/doi/10.5281/zenodo.20267495",
+                "http_status": 302
+              },
+              {
+                "url": "https://zenodo.org/records/20267496",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "c2087948e3035f3acd800232c29100eb73570ca31b459b33837df6d2329a9dad",
+            "retrieved_at": "2026-11-05T08:51:16.559158+00:00",
+            "byte_count": 93642,
+            "container_type": "html",
+            "metadata": {
+              "viewport": [
+                "width=device-width, initial-scale=1"
+              ],
+              "google-site-verification": [
+                "5fPGCLllnWrvFxH9QWI0l1TadV7byeEvfPcyK2VkS_s",
+                "Rp5zp04IKW-s1IbpTOGB7Z6XY60oloZD5C3kTM-AiY4"
+              ],
+              "generator": [
+                "InvenioRDM 15.0"
+              ],
+              "robots": [
+                "noindex, nofollow"
+              ],
+              "description": [
+                "Internet has now become a crucial element of daily life, aiding people with conveniences in purchasing, money transaction and communication. However, there has been a rise in online fraud cases in India. Victims are frequently targeted through various forms of cybercrimes including phishing, identity theft and fake online transactions, which cause significant monetary loss and emotional suffering. The current research will evaluate the effectiveness of Indian legislation in tackling online fraud. This paper will analyze essential legislation including the Information Technology Act of 2000 along with other relevant legislation and guidelines. The analysis will be done based on information gathered from scholarly journals, official documents, and online sources. The results show that while there is enough legislation in place to counter the problem of online fraud in India, their efficiency is hindered by issues like lack of awareness among the public and long legal procedures involved. The conclusion states that while India has made substantial progress in combating the issue of online fraud, more needs to be done in order to increase system effectiveness.  "
+              ],
+              "citation_title": [
+                "Online Fraud and Legal Protection Under Indian Law: A Critical Analysis of Legal Remedies and Their Effectiveness in India"
+              ],
+              "citation_author": [
+                "Husna Kounain",
+                "Hunain Fathima",
+                "Huma",
+                "Mayuri",
+                "M. Misba",
+                "Prof . Sumaiya Banu"
+              ],
+              "citation_doi": [
+                "10.5281/zenodo.20267496"
+              ],
+              "citation_keywords": [
+                "fraud, cybercrime, Information Technology Act 2000 legal remedies, phishing, digital payments."
+              ],
+              "citation_abstract_html_url": [
+                "https://zenodo.org/records/20267496"
+              ],
+              "og:title": [
+                "Online Fraud and Legal Protection Under Indian Law: A Critical Analysis of Legal Remedies and Their Effectiveness in India"
+              ],
+              "og:description": [
+                "Internet has now become a crucial element of daily life, aiding people with conveniences in purchasing, money transaction and communication. However, there has been a rise in online fraud cases in India. Victims are frequently targeted through various forms of cybercrimes including phishing, identity theft and fake online transactions, which cause significant monetary loss and emotional suffering. The current research will evaluate the effectiveness of Indian legislation in tackling online fraud. This paper will analyze essential legislation including the Information Technology Act of 2000 along with other relevant legislation and guidelines. The analysis will be done based on information gathered from scholarly journals, official documents, and online sources. The results show that while there is enough legislation in place to counter the problem of online fraud in India, their efficiency is hindered by issues like lack of awareness among the public and long legal procedures involved. The conclusion states that while India has made substantial progress in combating the issue of online fraud, more needs to be done in order to increase system effectiveness.  "
+              ],
+              "og:url": [
+                "https://zenodo.org/records/20267496"
+              ],
+              "og:site_name": [
+                "Zenodo"
+              ],
+              "twitter:card": [
+                "summary"
+              ],
+              "twitter:site": [
+                "@zenodo_org"
+              ],
+              "twitter:title": [
+                "Online Fraud and Legal Protection Under Indian Law: A Critical Analysis of Legal Remedies and Their Effectiveness in India"
+              ],
+              "twitter:description": [
+                "Internet has now become a crucial element of daily life, aiding people with conveniences in purchasing, money transaction and communication. However, there has been a rise in online fraud cases in India. Victims are frequently targeted through various forms of cybercrimes including phishing, identity theft and fake online transactions, which cause significant monetary loss and emotional suffering. The current research will evaluate the effectiveness of Indian legislation in tackling online fraud. This paper will analyze essential legislation including the Information Technology Act of 2000 along with other relevant legislation and guidelines. The analysis will be done based on information gathered from scholarly journals, official documents, and online sources. The results show that while there is enough legislation in place to counter the problem of online fraud in India, their efficiency is hindered by issues like lack of awareness among the public and long legal procedures involved. The conclusion states that while India has made substantial progress in combating the issue of online fraud, more needs to be done in order to increase system effectiveness.  "
+              ],
+              "citation_pdf_url": [
+                "https://zenodo.org/records/20267496/files/Online%20Fraud%20and%20Legal%20Protection%20-Formatted%20Paper.pdf"
+              ]
+            },
+            "title": "Online Fraud and Legal Protection Under Indian Law: A Critical Analysis of Legal Remedies and Their Effectiveness in India | Zenodo",
+            "links": [
+              {
+                "text": "Skip to main",
+                "url": "https://zenodo.org/records/20267496#main"
+              },
+              {
+                "text": "",
+                "url": "https://zenodo.org/"
+              },
+              {
+                "text": "Communities",
+                "url": "https://zenodo.org/communities"
+              },
+              {
+                "text": "My dashboard",
+                "url": "https://zenodo.org/me/uploads"
+              },
+              {
+                "text": "Log in",
+                "url": "https://zenodo.org/login/?next=/records/20267496"
+              },
+              {
+                "text": "Sign up",
+                "url": "https://zenodo.org/signup/"
+              },
+              {
+                "text": "COMPUTER ENGG DOMAIN",
+                "url": "https://zenodo.org/communities/comspub/records"
+              },
+              {
+                "text": "Journal article",
+                "url": "https://zenodo.org/communities/comspub/records?q=&f=resource_type%3Apublication%2Binner%3Apublication-article"
+              },
+              {
+                "text": "Husna Kounain",
+                "url": "https://zenodo.org/search?q=metadata.creators.person_or_org.name:%22Husna+Kounain%22"
+              },
+              {
+                "text": "Hunain Fathima",
+                "url": "https://zenodo.org/search?q=metadata.creators.person_or_org.name:%22Hunain+Fathima%22"
+              },
+              {
+                "text": "Huma",
+                "url": "https://zenodo.org/search?q=metadata.creators.person_or_org.name:%22Huma%22"
+              },
+              {
+                "text": "Mayuri",
+                "url": "https://zenodo.org/search?q=metadata.creators.person_or_org.name:%22Mayuri%22"
+              },
+              {
+                "text": "M. Misba",
+                "url": "https://zenodo.org/search?q=metadata.creators.person_or_org.name:%22M.+Misba%22"
+              },
+              {
+                "text": "Prof . Sumaiya Banu",
+                "url": "https://zenodo.org/search?q=metadata.creators.person_or_org.name:%22Prof+.+Sumaiya+Banu%22"
+              },
+              {
+                "text": "Online Fraud and Legal Protection -Formatted Paper.pdf",
+                "url": "https://zenodo.org/records/20267496/files/Online%20Fraud%20and%20Legal%20Protection%20-Formatted%20Paper.pdf?download=1"
+              },
+              {
+                "text": "Preview",
+                "url": "https://zenodo.org/records/20267496/preview/Online%20Fraud%20and%20Legal%20Protection%20-Formatted%20Paper.pdf?include_deleted=0"
+              },
+              {
+                "text": "Download",
+                "url": "https://zenodo.org/records/20267496/files/Online%20Fraud%20and%20Legal%20Protection%20-Formatted%20Paper.pdf?download=1"
+              },
+              {
+                "text": "https://www.meity.gov.in",
+                "url": "https://www.meity.gov.in"
+              },
+              {
+                "text": "https://www.indiacode.nic.in",
+                "url": "https://www.indiacode.nic.in"
+              },
+              {
+                "text": "https://www.rbi.org.in",
+                "url": "https://www.rbi.org.in"
+              },
+              {
+                "text": "https://ncrb.gov.in",
+                "url": "https://ncrb.gov.in"
+              },
+              {
+                "text": "https://cybercrime.gov.in",
+                "url": "https://cybercrime.gov.in"
+              },
+              {
+                "text": "https://www.npci.org.in",
+                "url": "https://www.npci.org.in"
+              },
+              {
+                "text": "https://www.pavanduggal.com",
+                "url": "https://www.pavanduggal.com"
+              },
+              {
+                "text": "More info on how stats are collected....",
+                "url": "https://zenodo.org/help/statistics"
+              },
+              {
+                "text": "OpenAIRE",
+                "url": "https://explore.openaire.eu/search/result?pid=10.5281/zenodo.20267496"
+              },
+              {
+                "text": "fraud, cybercrime, Information Technology Act 2000 legal remedies, phishing, digital payments.",
+                "url": "https://zenodo.org/search?q=metadata.subjects.subject:%22fraud,+cybercrime,+Information+Technology+Act+2000+legal+remedies,+phishing,+digital+payments.%22"
+              },
+              {
+                "text": "Read more",
+                "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+              },
+              {
+                "text": "About",
+                "url": "https://about.zenodo.org"
+              },
+              {
+                "text": "Policies",
+                "url": "https://about.zenodo.org/policies"
+              },
+              {
+                "text": "Infrastructure",
+                "url": "https://about.zenodo.org/infrastructure"
+              },
+              {
+                "text": "Principles",
+                "url": "https://about.zenodo.org/principles"
+              },
+              {
+                "text": "Projects",
+                "url": "https://about.zenodo.org/projects/"
+              },
+              {
+                "text": "Roadmap",
+                "url": "https://about.zenodo.org/roadmap/"
+              },
+              {
+                "text": "Contact",
+                "url": "https://about.zenodo.org/contact"
+              },
+              {
+                "text": "Blog",
+                "url": "https://blog.zenodo.org"
+              },
+              {
+                "text": "Help",
+                "url": "https://help.zenodo.org/"
+              },
+              {
+                "text": "FAQ",
+                "url": "https://support.zenodo.org/help/"
+              },
+              {
+                "text": "REST API",
+                "url": "https://developers.zenodo.org"
+              },
+              {
+                "text": "OAI-PMH",
+                "url": "https://developers.zenodo.org#oai-pmh"
+              },
+              {
+                "text": "GitHub",
+                "url": "https://github.com/zenodo/zenodo-rdm"
+              },
+              {
+                "text": "Donate",
+                "url": "https://zenodo.org/donate"
+              },
+              {
+                "text": "",
+                "url": "https://home.cern"
+              },
+              {
+                "text": "",
+                "url": "https://www.openaire.eu"
+              },
+              {
+                "text": "",
+                "url": "https://commission.europa.eu/index_en"
+              },
+              {
+                "text": "CERN Data Centre",
+                "url": "https://home.cern/science/computing/data-centre"
+              },
+              {
+                "text": "InvenioRDM",
+                "url": "https://inveniordm.docs.cern.ch/"
+              },
+              {
+                "text": "Status",
+                "url": "https://stats.uptimerobot.com/vlYOVuWgM/"
+              },
+              {
+                "text": "Privacy policy",
+                "url": "https://about.zenodo.org/privacy-policy"
+              },
+              {
+                "text": "Cookie policy",
+                "url": "https://about.zenodo.org/cookie-policy"
+              },
+              {
+                "text": "Terms of Use",
+                "url": "https://about.zenodo.org/terms"
+              },
+              {
+                "text": "how we use cookies",
+                "url": "https://about.zenodo.org/cookie-policy"
+              }
+            ],
+            "text": "Online Fraud and Legal Protection Under Indian Law: A Critical Analysis of Legal Remedies and Their Effectiveness in India | Zenodo\nSkip to main\nCOMPUTER ENGG DOMAIN\nPublished May 18, 2026\n| Version v1\nJournal article\nOpen\nOnline Fraud and Legal Protection Under Indian Law: A Critical Analysis of Legal Remedies and Their Effectiveness in India\nAuthors/Creators\nHusna Kounain\nHunain Fathima\nHuma\nMayuri\nM. Misba\nProf . Sumaiya Banu\nDescription\nInternet has now become a crucial element of daily life, aiding people with conveniences in purchasing, money transaction and communication. However, there has been a rise in online fraud cases in India. Victims are frequently targeted through various forms of cybercrimes including phishing, identity theft and fake online transactions, which cause significant monetary\nloss\nand\nemotional\nsuffering.\nThe\ncurrent\nresearch\nwill\nevaluate the\neffectiveness\nof Indian legislation in tackling online fraud. This paper will analyze essential legislation including the Information Technology Act of 2000 along with other relevant legislation and guidelines. The analysis will be done based on information gathered from scholarly journals, official documents, and online sources. The results show that while there is enough\nlegislation in place to counter the problem of online fraud in India, their efficiency is\nhindered by issues like lack of awareness among the public and long legal procedures involved. The conclusion states that while India has made substantial progress in combating the issue of online fraud, more needs to be done in order to increase system effectiveness.\nFiles\nOnline Fraud and Legal Protection -Formatted Paper.pdf\nFiles\n(187.3 kB)\nName\nSize\nOnline Fraud and Legal Protection -Formatted Paper.pdf\nmd5:6643c5325a52a688ce462c98d521e310\n187.3 kB\nPreview\nDownload\nAdditional details\nReferences\n1.\tGovernment of India. (2000). Information Technology Act, 2000. Retrieved from\nhttps://www.meity.gov.in\n2.\tGovernment of India. (2023). Bharatiya Nyaya Sanhita, 2023. Retrieved from\nhttps://www.indiacode.nic.in\n3.\tReserve Bank of India. (2017). Customer protection – Limiting liability of customers in electronic banking transactions. Retrieved from\nhttps://www.rbi.org.in\n4.\tNational Crime Records Bureau. (2024). Crime in India Report 2023. Ministry of Home Affairs. Retrieved from\nhttps://ncrb.gov.in\n5.\tIndian Cyber Crime Coordination Centre. (2024). Cyber crime reporting statistics. Ministry of Home Affairs. Retrieved from\nhttps://cybercrime.gov.in\n6.\tNational Payments Corporation of India. (2024). UPI product statistics. Retrieved from\nhttps://www.npci.org.in\n7.\tDuggal, P. (2021). Cyber law in India. Retrieved from\nhttps://www.pavanduggal.com\n8.\tKshetri, N. (2010). The global cybercrime industry: Institutional and strategic perspectives. Springer.\n28\nViews\n14\nDownloads\nShow more details\nAll versions\nThis version\nViews\nTotal views\n28\n28\nDownloads\nTotal downloads\n14\n14\nData volume\nTotal data volume\n3.2 MB\n3.2 MB\nMore info on how stats are collected....\nVersions\nExternal resources\nIndexed in\nOpenAIRE\nCommunities\nKeywords and subjects\nKeywords\nfraud, cybercrime, Information Technology Act 2000 legal remedies, phishing, digital payments.\nDetails\nDOI\nDOI Badge\nDOI\n10.5281/zenodo.20267496\nMarkdown\n[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20267496.svg)](https://doi.org/10.5281/zenodo.20267496)\nreStructuredText\n.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.20267496.svg\n  :target: https://doi.org/10.5281/zenodo.20267496\nHTML\n<a href=\"https://doi.org/10.5281/zenodo.20267496\"><img src=\"https://zenodo.org/badge/DOI/10.5281/zenodo.20267496.svg\" alt=\"DOI\"></a>\nImage URL\nhttps://zenodo.org/badge/DOI/10.5281/zenodo.20267496.svg\nTarget URL\nhttps://doi.org/10.5281/zenodo.20267496\nResource type\nJournal article\nPublisher\nZenodo\nPublished in\nRecent Trends in Cyber Criminology Research, 2(2), 39-46, ISSN: 3107-944X, 2026.\nLanguages\nEnglish\nRights\nLicense\nCreative Commons Attribution 4.0 International\nThe Creative Commons Attribution license allows re-distribution and re-use of a licensed work on the condition that the creator is appropriately credited.\nRead more\nCitation\nExport\nTechnical metadata\nCreated\nMay 18, 2026\nModified\nMay 18, 2026\nJump up\nThis site uses cookies. Find out more on\nhow we use cookies\nAccept all cookies\nAccept only essential cookies",
+            "text_complete": true,
+            "document_type": "unverified",
+            "fragment": "",
+            "resource_unavailable": false,
+            "text_sha256": "90246a4d08ac8f956402780788699eb5f73c063a8707485fad8560d10ba855a2"
+          },
+          {
+            "requested_url": "https://zenodo.org/records/20267496/files/Online%20Fraud%20and%20Legal%20Protection%20-Formatted%20Paper.pdf",
+            "final_url": "https://zenodo.org/records/20267496/files/Online%20Fraud%20and%20Legal%20Protection%20-Formatted%20Paper.pdf",
+            "http_status": 200,
+            "headers": {
+              "content-type": "application/octet-stream, application/octet-stream",
+              "retry-after": "39"
+            },
+            "redirects": [
+              {
+                "url": "https://zenodo.org/records/20267496/files/Online%20Fraud%20and%20Legal%20Protection%20-Formatted%20Paper.pdf",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "2002fb33218299fd63c2ceeb06dc790b2e27b110471a76832c27e2ef4defe053",
+            "retrieved_at": "2026-11-05T08:51:27.147424+00:00",
+            "byte_count": 187319,
+            "container_type": "pdf",
+            "page_count": 8,
+            "pages_inspected": 6,
+            "pdf_metadata": {
+              "/Author": "imthiyaz p",
+              "/Creator": "Microsoft® Word 2010",
+              "/CreationDate": "D:20260518141143+05'30'",
+              "/ModDate": "D:20260518141143+05'30'",
+              "/Producer": "Microsoft® Word 2010"
+            },
+            "text": " \n \nRecent Trends in Cyber Criminology Research \n \n \n \n \n \n \nPage No. 39    http://www.hbrppublication.com                                                 2026:  2 (2), 39 -46 \ne-ISSN: 3107-944X \n \nVolume 02 Issue 02 \nMay-Aug, 2026 \n \n*Corresponding \nAuthor:- Husna \nKounain,  \nStudent, Department  of \nComputer Science,  \nHKBK College of \nEngineering, Bengaluru-\n560045 \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nOnline Fraud and Legal Protection under \nIndian Law: \nA Critical Analysis of Legal Remedies and \nTheir Effectiveness in India \n \n1Husna Kounain, 2 Hunain Fathima, 3Huma, 4Mayuri, 5M. \nMisba, 6 Prof . Sumaiya Banu \n \n1-5Student, Department of Computer Science, 6HOD of \nDepartment of Humanities \nHKBK College of Engineering, Bengaluru-560045 \n \n_________________________________________ \nABSTRACT \nInternet has now become a crucial element of daily life, \naiding people with conveniences in purchasing, money \ntransaction and communication. However, there has been \na rise in online fraud cases in India. Victims are frequently \ntargeted through various forms of cybercrimes including \nphishing, identity theft and fake onl ine transactions, which \ncause significant monetary  loss and emotional suffering. \nThe current research will evaluate the  effectiveness of \nIndian legislation in tackling online fraud. This paper will \nanalyze essential legislation including the Information \nTechnology Act of 2000 along with other relevant \nlegislation and guidelines. The analysis will be done based \non information gathered from scholarly journals, official \ndocuments, and online sources. The results show that while \nthere is enough legislation in place to counter the problem \nof online fraud in India, their efficiency is  hindered by \nissues like lack of awareness among the public and long \nlegal procedures involved. The conclusion states that while \nIndia has made substantial progress in combating the  issue \nof online fraud, more needs to be done in order to increase \nsystem effectiveness. \n \nKeywords: fraud, cybercrime, Information Technology  Act \n2000 legal remedies, phishing, digital payments. \n \n______________________________________________\n \n \n \n \n \n \n \n \n \nRecent Trends in Cyber Criminology Research \n \n \n \n \n \n \nPage No. 40    http://www.hbrppublication.com                                                 2026:  2 (2), 39 -46 \n1. INTRODUCTION \nInternet access has become an \nindispensable necessity of modern-day life \nin India. People  pay for services u sing \ntheir mobile phones; perform bank \ntransactions using UPI (Unified Payment \nInterface); engage in online shopping; and \nhandle various financial matters without \neven visiting the banks. Currently, there \nare more than 931 million internet users in \nIndia, with UPI  carrying out billions of  \ntransactions annually, indicating a  quick \ndevelopment of the \"Digital India.\" \nHowever, there are always risks associated \nwith every new technological \nadvancement because every internet user \nbecomes a victim of cybercrimina ls' \nactivities. \nOnline fraud, which can be described as a \ndeception committed on the digital \nplatform with a purpose of appropriating \nmoney from people, is one of the \nsignificant problems faced by  India \nrecently. Over the past few years, \nmillions of complaints about various \ntypes of cybercrimes were filed against \nfraudsters who applied such methods as \nphishing, fake KYC updates, lottery \nscams, and impersonation, causing huge \nfinancial damages to their victims. At the \nsame time, many ordinary people who are \nnot technologically literate find the usage \nof the internet a risky business.The \ngovernment of India has undertaken \nseveral legal steps to address the problem. \nThere are certain legislative acts and \nguidelines that can help tackle the issue at \nhand, such as the Information Technology \nAct 2000, sections of the Bharatiya Nyaya \nSanhita, and guidelines set forth by RBI. \nThere are also special mechanisms like \ncyber crime portals and helplines, as well \nas cyber cells designed to aid the victims \nof such crimes. \nNevertheless, the current legal approaches \ndo not seem to work effectively enough. \nEven though there are lots of cases of \nonline fraud reported annually, the number \nof convictions does not seem to grow \naccordingly, and the majority of the \nvictims find it hard to recover their losses. \nSome of the reasons behind that may be \nassociated with inadequate enforcement of \nthe legislation and delayed investigation \nprocedures, thus resulting in the \nmentioned gaps. Accordingly, the research \nquestion of this paper i s as follows: \"Are \nlegal remedies for online fraud in India \nsufficient?\" \nStudy Objectives \n \n To determine whether legal \nsolutions for online fraud cases in India \nare adequate. \n To study  the Laws relating  to \nonline fraud. \n To assess the efficacy of the legal \nsolutions available. \n To highlight difficulties \nencountered in implementation. \n To propose solutions for \nimprovement. \n \n2. LITERATURE REVIEW \nOnline fraud is a big problem in India. It is \nhappening because more and more people \nare using the internet. There are types of \nonline fraud like fake emails, fake identity \nand fake online transactions. The laws in \nIndia to stop online fraud are good. They \nare not working well. The Information \nTechnology Act 2000 is one of the laws to \nstop online fraud. It says that if som eone \ncheats you on the internet they  can be \npunished.. The law is not working well \nbecause it is not being enforced properly. \nThe Reserve Bank of India is also trying \nto stop fraud. They have made some rules \nto help people who have been cheated.. \nEven with  these rules many people are \nstill losing their money. The problem is \nthat the laws are not being enforced \nproperly and the legal process is too slow. \nSo we need to make the laws better and \nenforce them properly. \n \n3. RESEARCH METHODOLOGY \nThis research follows  an qualitative \n \n \nRecent Trends in Cyber Criminology Research \n \n \n \n \n \n \nPage No. 41    http://www.hbrppublication.com                                                 2026:  2 (2), 39 -46 \napproach.Doctrinal research means we \nstudy and analyse existing laws, court \njudgments and legal rules.We do not \ncollect data from surveys or \nexperiments.This type of research is \ncommonly used in studies.It helps us \nunderstand what the law says and how it is \napplied in situations. \n3.1 Sources of Data \nThis paper uses secondary sources of \ndata.Secondary sources are materials \ncreated by others.Examples include books, \nreports and official documents.The \nsources used in this study are: \n \n laws and acts: The Information \nTechnology Act, 2000 and the Bharatiya \nNyaya Sanhita, 2023.\n Government reports: The NCRB \nCrime in India Report 2023 and reports \nfrom the Indian Cyber Crime \nCoordination Centre (I4C).\n RBI guidelines on banking and \ncustomer protection.\n books and journal articles on cyber \nlaw and online fraud.\n News. Case studies related  to \nonline fraud incidents in India.\n \n3.2 Method of Analysis \n \nThe data collected was carefully. \nAnalysed.We identified legal provisions \nand checked them against real -world \nsituations.Examples include reported fraud \ncases.The effectiveness of  each law  was \njudged based on factors like conviction \nrates.We also looked  at victim recovery  \nrates and feedback from reports.This \nhelped us understand where the legal \nsystem is working w ell and where it is \nfalling short. \n \n3.3. Scope and Limitations of the Study \nThis study is limited to the framework in \nIndia only.It does not compare laws with \nlaws from other countries.The study relies \nentirely on published and publicly \navailable documents .We did not collect \ndata like interviews or survey’s.The \nfindings are based on what has been \nreported and documented.The legal \nframework and online fraud in India are \nthe focus of this study.The laws and \nregulations in India are crucial in \nunderstanding fr aud.The study on  online \nfraud, in India helps in understanding the \nsystem in India. \n \n4. LEGAL FRAMEWORK \nIndia has a lot of laws and rules that deal \nwith fraud. This section will explain the \nimportant ones in a simple way. \n \n4.1 The Information Technology Act, \n2000 (IT Act) \nThe Information Technology Act, 2000 is \nthe law in India that deals with \ncybercrime. The Indian Parliament passed \nthe Information Technology Act, 2000 to \ncontrol the use of computers and the \ninternet. Some of its sections that relate to \nonline fraud are: \n \n Section 43: If someone uses \nanother person’s computer without \npermission and causes damage they have \nto pay compensation to the person who \nowns the computer.\n Section 66: If someone does \nsomething or commits fraud using a \ncomputer they can be puni shed with up to \n3 years in prison or a fine of up to Rs. 5 \nLakh or both.\n Section 66C: This section punishes \npeople who steal someone’s identity like \ntheir password or Aadhaar number \nwithout their permission. The punishment \nis up to 3 years in prison and a fine of up \nto Rs. 1 Lakh.\n Section 66D: This section \npunishes people who cheat by \nimpersonating someone using a computer \nor communication device. The punishment \nis up to 3 years in prison and a fine of up \nto Rs. 1 Lakh.\n4.2 Bharatiya Nyaya Sanhita,  2023 \n(BNS) \n \n \nRecent Trends in Cyber Criminology Research \n \n \n \n \n \n \nPage No. 42    http://www.hbrppublication.com                                                 2026:  2 (2), 39 -46 \nThe Bharatiya Nyaya Sanhita, 2023 \nreplaced the Indian Penal Code, 1860. The \nBharatiya Nyaya Sanhita, 2023 includes \nrules to deal with modern crimes, \nincluding online fraud. Key sections \ninclude: \n Section 318: This section deals \nwith cheating and dishonesty.  If someone \ncheats another person, including through \nmeans they can be punished with up to 3 \nyears in prison.\n Section 319: This section deals \nwith cheating by impersonation, which \nmeans pretending to be someone to cheat. \nThis is directly relevant to arrest  scams \nand phishing.\n Section 111: This section deals \nwith crime, which can be applied when a \ngroup of people run a large online fraud \noperation together.\n \n4.3 Reserve Bank of India  (RBI) \nGuidelines \nThe Reserve Bank of India has issued \nguidelines to protect cus tomers from \nlosses due to online fraud. According to \nthe Reserve Bank of India circular of 2017 \non limiting customer liability in banking \ntransactions: \n \n If the banks own system is at fault \nthe customer is not responsible for any \nloss.\n If a third party is responsible not \nthe bank and not the customer the \ncustomers maximum liability depends on \nhow they report the fraud.\n If the customer reports the fraud \nwithin 3 working days they are not \nliable for any loss.\n \nThese guidelines are meant to ensure that \ncustomers are protected and that banks \ntake responsibility for the security of \ntransactions. \n \n4.4 Cybercrime Reporting System: \nHelpline 1930 \nThe Government of India through the \nMinistry of Home Affairs has set up a \nNational Cybercrime Helpline number \n1930 and a portal, at \nwww.cybercrime.gov.in. These are meant \nto help victims report cybercrime quickly. \nThe system can also help freeze money in \naccounts if the online fraud is reported in \ntime. This is called the Citizen Financial \nCyber Fraud Reporting and Management \nSystem (CFCFRMS) of the Government \nof India. \n \n5. ANALYSIS AND DISCUSSION \nIndia has taken steps to fight online fraud \nby setting up helplines and reporting \nsystems like the  cybercrime helpline that \nyou can call at 1930. These systems help \nstop some losses by acting such as \nfreezing suspicious accounts. However \nthey only work well if peopl e report  the \ncrime away and the police respond \nquickly. \nThe big problem is that cybercriminals are \nmuch faster than the law. They can do \ntransactions in just a few minutes and use \nmany accounts in different places. On the \nhand it takes a long time to report a crime \nand investigate it. This delay gives the \nguys time to move or withdraw the money \nbefore anything can be done.Another issue \nis that important institutions like  banks, \npolice and regulatory bodies do not work \ntogether. People who are victims o ften get \nconfused because they are sent from one \nauthority to another, which makes the \nprocess even slower. Although there are \nsystems that bring everything together \nthey do not work smoothly which makes it \nhard to handle cases.If we look at the \nnumbers we  can see that the current \nsystem has some flaws. Cybercrime cases \nare going up every year. Not many people \nare convicted.. To make things worse only  \na small amount of the stolen money is ever \nrecovered. This shows that the laws we \nhave are not working well . They  are not \nstopping cybercriminals and they are not \ngiving victims the justice they deserve. \n \n \nRecent Trends in Cyber Criminology Research \n \n \n \n \n \n \nPage No. 43    http://www.hbrppublication.com                                                 2026:  2 (2), 39 -46 \nThe nature of cybercrime makes it hard to \nenforce the law. Digital evidence can be \nhard to find and keep and many cases \ninvolve places, including other countri es. \nThese things create procedural challenges \nslowing down investigations and making \nit harder to prosecute the bad guys \neffectively.Victims also have a  time \ngetting their money back. Even when fake  \naccounts are found and money is frozen \nthe process of get ting the money often \ninvolves long legal procedures extra costs \nand going to court. This discourages \npeople from seeking justice and reduces \nthe value of the help that is available. \nOverall while India has a framework with \nlaws like the Information Technology Act, \n2000 it does not work well in practice. \nIssues like delays, poor coordination, low \nconviction rates, lack of awareness and \nnot enough accountability from \ninstitutions reduce the impact of the laws. \nTherefore it can be said that the system \nonly wor ks a little and needs \nimprovements in how it is implemented \nenforced and made known to the public to \nprovide adequate protection. \n5.1 Case Study: Online Fraud and \nLegal Remedies in Practice \n \nThere is a type of fraud in India called the \n\"digital arrest\" scam. I t is when someone \npretends to be a police officer and cheats \nyou. In 2025 an old man in Delhi was \ncheated by someone who pretended to be \na police officer. The man was told that he \nhad done something and he had to pay a \nfine. He was cheated of ₹5 lakh. \nWhen it comes to the law the authorities \ntook action using the Information \nTechnology Act from 2000 Section 66D, \nwhich deals with cheating by pretending \nto be someone else. They also used rules \nfrom the Bharatiya Nyaya Sanhita to \ntackle organized crime. Accord ing to \nreports the authorities were able to freeze \nsome of the stolen money using the \ncybercrime helpline and related systems. \nHowever they could not recover a lot of \nthe money because it was transferred \nquickly and hidden in channels like \nmultiple accounts and digital assets. \n \n5.2 COMMON TYPES OF ONLINE \nFRAUD IN INDIA : \n5.2.1. OTP Fraud: The Stolen Key \nOTP fraud is a game where a criminal \ntricks you into giving them the key\" to \nyour bank account. Scammers usually \npretend to be bank officials or delivery \nagents to create panic. Once you give \nthem the secret code they can instantly \ntake your money. \n \n5.2.2 Online Shopping Fraud: The Fake \nDeal \nOnline shopping fraud is when someone \ncheats you by pretending to sell you \nsomething. They take your money. You do \nnot get what you paid for. \n5.2.3. Digital Payment Fraud: The \nReverse Trap \nYou should be careful with some apps like \nthe ones that use UPI. There is a scam \ngoing around that uses \"Collect Requests”. \nIt looks like you are getting cash back or a \nrefund. Really it is a trick. Th e scammer \ntries to get you to enter your PIN and \nwhen you do it does not give you money it \nactually sends money to them. \n5.2.4. Victim Blaming: The Invisible \nBarrier \nWhen something goes wrong like money \ngetting stolen banks and police sometimes \nsay it is the pers ons fault because they did \nsomething wrong. This means the banks \nand police do not have to give the person \ntheir money or do anything to help. \n \n6. FINDINGS \nBased on the analysis of existing laws \nofficial reports and case studies here are \nthe key findings of this study: \n Rising Cybercrime Numbers: \nAccording to NCRB (2024) cybercrime \ncomplaints in India have increased every \nyear. Cybercrime is on the rise in India \nand online fraud is becoming more \n \n \nRecent Trends in Cyber Criminology Research \n \n \n \n \n \n \nPage No. 44    http://www.hbrppublication.com                                                 2026:  2 (2), 39 -46 \ncommon. \n Low Conviction Rate: Many cases \nare registered, but the number of people \nconvicted and punished for cybercrime is \nvery small. This shows that the legal \nprocess against cybercrime is not \neffective. \n Poor Money Recovery: In online \nfraud cases victims cannot recover their \nstolen money. Money is quickly \ntransferred across accounts and the legal \nprocess to freeze and return it is too slow. \nOnline fraud victims face difficulties in \nrecovering their money. \n Lack of Public Awareness: Many  \npeople in India in smaller towns and \nvillages do not know about cybercrime \nlaws the helpline number 1930 or the \ncybercrime portal. This means many \ncybercrimes, including online fraud go \nunreported. \n Weak Coordination Between \nAgencies: Banks, police and regulatory \nbodies like RBI do  not always \ncommunicate effectively. This creates  \ndelays and confusion  in handling fraud \ncases and cybercrime. \n Digital Arrest Scam is Growing: \nThe \" arrest\" scam is a new and harmful \ntype of cybercrime.  It targets less tech-\nsavvy people causing financial loss and \nmental trauma. Cybercrime, such as arrest \nscams affects many people. \n Legal Framework Exists but \nImplementation is Weak: India has laws, \nlike the IT Act 2000 and the BNS 2023 \nthat cover cybercrime and online fraud. \nHowever these laws are not always \nenforced properly. Police often lack the \ntechnical knowle dge to handle digital \nevidence related to cybercrime. \n  \n7. CHALLENGES /LIMITATIONS \n7.1 Challenges in Fighting Online \nFraud \n The speed of cybercrime is much \nfaster than the speed of law. Criminals can \nmove money quickly. It takes time to \nreport, investigate and freeze accounts. By \nthen the money is usually gone. \n The -border nature of crime makes \nit hard to catch fraudsters. Many operate \nfrom countries like Cambodia and \nMyanmar. It is difficult for Indian police \nto take action against people who're not in \nIndia. O nline fraudsters often hide in \ncountries. \n Digital evidence is tricky to \nhandle. It requires technical knowledge \nand tools. Many police stations in smaller \ncities do not have the equipment or \ntraining. They struggle  to collect and \npreserve evidence. \n Many vi ctims do not know to \nreport fraud. They should call the helpline \n1930 within  3 days to have a chance of \ngetting their money back. If they delay it \nreduces the chance of recovery. Online \nfraud victims must report fast. \n Victims often feel embarrassed. \nDo not  report the crime. This means the \nactual number of frauds is much higher \nthan what's officially recorded. Victims of \nonline fraud feel ashamed. \n Some banks do not follow RBI \nguidelines properly. They refuse to \ncompensate victims even when they are \nentitled to it. Banks should protect their \ncustomers. \n7.2 Limitations of This Study \n \n This study uses existing reports. \nNo direct surveys or interviews were \ndone, which means the findings depend \non published reports. The study relies on \ndata. \n This study is  about India and \ndoes not compare the Indian legal \nsystem, with other countries. It focuses on \nIndia’s online fraud problem. \n Some case studies are based on \nnews reports, which may not give the \npicture of the  case. News reports have \nlimitations. \n \n ",
+            "text_complete": false,
+            "document_type": "unverified",
+            "text_sha256": "462b1d15b479dc39aed43defbdd440a23ddc1af024f2af1ae1f2664a7e75c84a"
+          }
+        ],
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-27cbe4630996d447436a64dd",
+        "content_sha256": "dbf130f26b358d5c00d877e1b08aa49bd1771b32660142fcca3abb12dc3a7ab3",
+        "status": "held",
+        "evidence": [],
+        "reason": "source_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-2fb8d1268a016d82ab42dd40",
+        "content_sha256": "393002c9caaa2df2a29ec144a105b29944af28ec9d0ed2b56e87d2eb7da68780",
+        "status": "retrieved",
+        "evidence": [
+          {
+            "requested_url": "https://doi.org/10.52279/jlss.08.03.309321",
+            "final_url": "https://www.advancelrf.org/artificial-intelligence-and-criminal-responsibility-reconstructing-mens-rea-and-attribution-for-ai-assisted-cybercrime-in-pakistan/",
+            "http_status": 200,
+            "headers": {
+              "content-type": "text/html; charset=UTF-8"
+            },
+            "redirects": [
+              {
+                "url": "https://doi.org/10.52279/jlss.08.03.309321",
+                "http_status": 302
+              },
+              {
+                "url": "https://www.advancelrf.org/artificial-intelligence-and-criminal-responsibility-reconstructing-mens-rea-and-attribution-for-ai-assisted-cybercrime-in-pakistan/",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "c65a2e23cfc21f3c657d19a17dbea2deb5efe0402b8cb6e0318679d772506cca",
+            "retrieved_at": "2026-11-05T08:51:34.781158+00:00",
+            "byte_count": 104595,
+            "container_type": "html",
+            "metadata": {
+              "viewport": [
+                "width=device-width, initial-scale=1"
+              ],
+              "description": [
+                "Artificial Intelligence and Criminal Responsibility: Reconstructing Mens Rea and Attribution for AI-Assisted Cybercrime in Pakistan Author: Syed Mudassir Shah Abstract Artificial intelligence is changing the scale, speed, personalization, and technical complexity of cybercrime without eliminating the need to attribute criminal responsibility to human actors. In Pakistan, the principal substantive framework remains the Prevention of Electronic"
+              ],
+              "robots": [
+                "max-image-preview:large"
+              ],
+              "author": [
+                "AdeelSaqlain"
+              ],
+              "generator": [
+                "All in One SEO (AIOSEO) 4.9.10",
+                "WordPress 7.0.8",
+                "Elementor 4.2.0; features: additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-auto"
+              ],
+              "og:locale": [
+                "en_US"
+              ],
+              "og:site_name": [
+                "Journal of Law and Social Studies (JLSS) -"
+              ],
+              "og:type": [
+                "article"
+              ],
+              "og:title": [
+                "Artificial Intelligence and Criminal Responsibility: Reconstructing Mens Rea and Attribution for AI-Assisted Cybercrime in Pakistan - Journal of Law and Social Studies (JLSS)"
+              ],
+              "og:description": [
+                "Artificial Intelligence and Criminal Responsibility: Reconstructing Mens Rea and Attribution for AI-Assisted Cybercrime in Pakistan Author: Syed Mudassir Shah Abstract Artificial intelligence is changing the scale, speed, personalization, and technical complexity of cybercrime without eliminating the need to attribute criminal responsibility to human actors. In Pakistan, the principal substantive framework remains the Prevention of Electronic"
+              ],
+              "og:url": [
+                "https://www.advancelrf.org/artificial-intelligence-and-criminal-responsibility-reconstructing-mens-rea-and-attribution-for-ai-assisted-cybercrime-in-pakistan/"
+              ],
+              "og:image": [
+                "https://www.advancelrf.org/wp-content/uploads/2021/01/LOGO-NEW-WITH-ISSN.png"
+              ],
+              "og:image:secure_url": [
+                "https://www.advancelrf.org/wp-content/uploads/2021/01/LOGO-NEW-WITH-ISSN.png"
+              ],
+              "article:published_time": [
+                "2026-10-01T18:29:51+00:00"
+              ],
+              "article:modified_time": [
+                "2026-10-01T18:33:26+00:00"
+              ],
+              "twitter:card": [
+                "summary_large_image"
+              ],
+              "twitter:title": [
+                "Artificial Intelligence and Criminal Responsibility: Reconstructing Mens Rea and Attribution for AI-Assisted Cybercrime in Pakistan - Journal of Law and Social Studies (JLSS)"
+              ],
+              "twitter:description": [
+                "Artificial Intelligence and Criminal Responsibility: Reconstructing Mens Rea and Attribution for AI-Assisted Cybercrime in Pakistan Author: Syed Mudassir Shah Abstract Artificial intelligence is changing the scale, speed, personalization, and technical complexity of cybercrime without eliminating the need to attribute criminal responsibility to human actors. In Pakistan, the principal substantive framework remains the Prevention of Electronic"
+              ],
+              "twitter:image": [
+                "https://www.advancelrf.org/wp-content/uploads/2021/01/LOGO-NEW-WITH-ISSN.png"
+              ],
+              "msapplication-tileimage": [
+                "https://www.advancelrf.org/wp-content/uploads/2021/01/cropped-FAVICON-270x270.png"
+              ]
+            },
+            "title": "Artificial Intelligence and Criminal Responsibility: Reconstructing Mens Rea and Attribution for AI-Assisted Cybercrime in Pakistan - Journal of Law and Social Studies (JLSS)",
+            "links": [
+              {
+                "text": "Skip to content",
+                "url": "https://www.advancelrf.org/artificial-intelligence-and-criminal-responsibility-reconstructing-mens-rea-and-attribution-for-ai-assisted-cybercrime-in-pakistan/#content"
+              },
+              {
+                "text": "",
+                "url": "https://www.advancelrf.org/"
+              },
+              {
+                "text": "Home",
+                "url": "https://www.advancelrf.org/"
+              },
+              {
+                "text": "Journals",
+                "url": "https://www.advancelrf.org/"
+              },
+              {
+                "text": "Journal of Law and Social Studies (JLSS)",
+                "url": "https://www.advancelrf.org/journal-of-law-and-social-studies-jlss/"
+              },
+              {
+                "text": "Proceedings",
+                "url": "https://www.advancelrf.org/"
+              },
+              {
+                "text": "Submit Your Paper",
+                "url": "https://advancelrf.org/ojs/index.php/Advancelfr/about/submissions"
+              },
+              {
+                "text": "Contact",
+                "url": "https://www.advancelrf.org/contact/"
+              },
+              {
+                "text": "10.52279/jlss.08.03.309321",
+                "url": "https://doi.org/10.52279/jlss.08.03.309321"
+              },
+              {
+                "text": "PDF",
+                "url": "https://www.advancelrf.org/wp-content/uploads/2026/09/Vol-8-No.-3-5.pdf"
+              },
+              {
+                "text": "WordPress",
+                "url": "https://wordpress.org/"
+              }
+            ],
+            "text": "Artificial Intelligence and Criminal Responsibility: Reconstructing Mens Rea and Attribution for AI-Assisted Cybercrime in Pakistan - Journal of Law and Social Studies (JLSS)\nSkip to content\nArtificial Intelligence and Criminal Responsibility: Reconstructing\nMens Rea and Attribution for AI-Assisted Cybercrime in Pakistan\nAuthor:\nSyed Mudassir Shah\nAbstract\nArtificial intelligence is changing the scale, speed, personalization, and technical complexity of cybercrime without eliminating the need to attribute criminal responsibility to human actors. In Pakistan, the principal substantive framework remains the Prevention of Electronic Crimes Act 2016, as amended in 2025, supplemented by the Pakistan Penal Code, the Qanun-e-Shahadat Order 1984, the Electronic Transactions Ordinance 2002, and the National Forensics Agency Act 2024. These laws are largely technology-neutral, yet AI-assisted offending creates evidential and conceptual pressure on traditional categories of intention, knowledge, authorization, causation, participation, and digital attribution. A person may use a generative model to draft phishing messages, automate reconnaissance, generate malicious code, create deepfakes, or optimize fraud while delegating numerous operational choices to software. The central legal problem is therefore not whether an AI system itself possesses criminal mens rea, but how courts should infer the mental state and causal contribution of programmers, operators, deployers, account holders, collaborators, and beneficiaries when machine output intervenes between human instruction and prohibited result. This paper argues against premature recognition of AI as a criminal subject. Current systems lack the normative agency, legal status, and punishment-sensitive interests that make criminal blame meaningful. Pakistani law should instead adopt a human-centred attribution framework built around purposeful use, knowledge of capabilities, control over deployment, foreseeability of system behaviour, acceptance of risk, contribution to the offence, and corroborated digital evidence. The paper proposes a four-layer attribution model covering identity, control, mental state, and causal contribution, together with evidential safeguards for logs, prompts, model outputs, account records, device forensics, and chain of custody. Reform should clarify AI-assisted liability without creating strict criminal responsibility for developers or users merely because an unpredictable model produced harmful output.\nKeywords\nArtificial Intelligence; Cybercrime; Mens Rea; Attribution; PECA 2016; Digital Evidence\nReferences\nAbbott, R., & Sarch, A. F. (2019). Punishing artificial intelligence: Legal fiction or science fiction.\nUC Davis Law Review, 53, 323–384.\nCouncil of Europe. (2001). Convention on Cybercrime (ETS No. 185).\nCouncil of Europe. (2022). Second Additional Protocol to the Convention on Cybercrime on\nenhanced co-operation and disclosure of electronic evidence (CETS No. 224).\nCouncil of Europe. (2025). Working Group on Artificial Intelligence: Terms of reference on\ncybercrime, electronic evidence and artificial intelligence. Cybercrime Convention Committee.\nCouncil of Europe. (2026). Pakistan: Octopus Cybercrime Community—Country profile. Council of\nEurope Cybercrime Programme Office.\nElectronic Transactions Ordinance, 2002 (Ordinance LI of 2002) (Pakistan).\nEuropean Union. (2024). Regulation (EU) 2024/1689 laying down harmonised rules on artificial\nintelligence (Artificial Intelligence Act). Official Journal of the European Union.\nEuropol. (2023). ChatGPT: The impact of large language models on law enforcement. Publications\nOffice of the European Union.\nEuropol. (2026). Decoding the EU’s most threatening criminal networks—Issue 2: The blueprint of\ncriminal opportunism. Publications Office of the European Union.\nFinancial Action Task Force. (2026). Cyber-enabled fraud: Digitalisation and money laundering,\nterrorist financing and proliferation financing risks. FATF.\nHallevy, G. (2010). The criminal liability of artificial intelligence entities—From science fiction to\nlegal social control. Akron Intellectual Property Journal, 4(2), 171–201.\nHallevy, G. (2013). When robots kill: Artificial intelligence under criminal law. Northeastern\nUniversity Press.\nKing, T. C., Aggarwal, N., Taddeo, M., & Floridi, L. (2020). Artificial intelligence crime: An\ninterdisciplinary analysis of foreseeable threats and solutions. Science and Engineering Ethics,\n26, 89–120. https://doi.org/10.1007/s11948-018-00081-0\nLagioia, F., & Sartor, G. (2020). AI systems under criminal law: A legal analysis and a regulatory\nperspective. Philosophy & Technology, 33, 433–465. https://doi.org/10.1007/s13347-019-\n00362-x\nMangi, D. B., Butro, I., & Shaikh, A. (2025). The impact of artificial intelligence on data protection\nlaws in Pakistan: A critical analysis. ACADEMIA International Journal for Social Sciences, 4(2),\n1653–1663. https://doi.org/10.63056/ACAD.004.02.0279\nMinistry of Information Technology and Telecommunication, Government of Pakistan. (2025).\nNational Artificial Intelligence Policy 2025.\nNational Forensics Agency Act, 2024 (Act XXXVII of 2024) (Pakistan).\nNational Institute of Standards and Technology. (2024). Artificial Intelligence Risk Management\nFramework: Generative Artificial Intelligence Profile (NIST AI 600-1). U.S. Department of\nCommerce.\nNerantzi, E., & Sartor, G. (2024). ‘Hard AI crime’: The deterrence turn. Oxford Journal of Legal\nStudies, 44(3), 673–701. https://doi.org/10.1093/ojls/gqae018\nPakistan Digital Authority. (2026). Islamabad AI Declaration on sovereign, responsible and\ncapability-driven artificial intelligence. Government of Pakistan.\nPakistan Penal Code, 1860 (Act XLV of 1860) (Pakistan).\nPrevention of Electronic Crimes Act, 2016 (Act XL of 2016), as amended by the Prevention of\nElectronic Crimes (Amendment) Act, 2025 (Act II of 2025) (Pakistan).\nQanun-e-Shahadat Order, 1984 (President’s Order No. 10 of 1984) (Pakistan).\nSattar, S. (2025). The next frontier of cybercrime law for artificial intelligence and criminal liability.\nInternational Journal of Law and Policy. https://doi.org/10.59022/ijlp.355\nTabassi, E. (2023). Artificial Intelligence Risk Management Framework (AI RMF 1.0) (NIST AI\n100-1). National Institute of Standards and Technology. https://doi.org/10.6028/NIST.AI.100-1\nUnited Nations Interregional Crime and Justice Research Institute, Europol, & Trend Micro. (2020).\nMalicious uses and abuses of artificial intelligence. UNICRI.\nUnited Nations Office on Drugs and Crime. (2024). Transnational organized crime and the\nconvergence of cyber-enabled fraud, underground banking and technological innovation in\nSoutheast Asia: A shifting threat landscape. United Nations.\nUnited Nations Office on Drugs and Crime. (2025). Emerging threats: The intersection of criminal\nand technological innovation in the use of automation and artificial intelligence. United Nations.\nUnited Nations. (2024). United Nations Convention against Cybercrime: Strengthening international\ncooperation for combating certain crimes committed by means of information and\ncommunications technology systems and for the sharing of evidence in electronic form of serious\ncrimes.\nVassilev, A., Oprea, A., Fordyce, A., Anderson, H., Davies, X., & Hamin, M. (2025). Adversarial\nmachine learning: A taxonomy and terminology of attacks and mitigations (NIST AI 100-\n2e2025). National Institute of Standards and Technology\nDOI:\n10.52279/jlss.08.03.309321\n| 309\n-321\n|\nPDF\nJournal of Law and Social Studies (JLSS) is proudly powered by\nWordPress",
+            "text_complete": true,
+            "document_type": "unverified",
+            "fragment": "",
+            "resource_unavailable": false,
+            "text_sha256": "e2873f5768143f156cfa1b6f5352d498a1aab71e93b6f3dc1b054df849e001f6"
+          }
+        ],
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate."
+      }
+    ],
+    "requests": 17,
+    "read_only": true,
+    "provenance": {
+      "GITHUB_SHA": "feae65b617aabce8051a2e4b95fd2f24f26c64ae",
+      "GITHUB_RUN_ID": "41997536808",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+      "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_sources.yml@refs/heads/codex/soups-corpus-review"
+    },
+    "request_log": [
+      {
+        "url": "https://doi.org/robots.txt",
+        "started_at": "2026-11-05T08:50:49.077597+00:00",
+        "http_status": 301,
+        "redirect_location": "https://www.doi.org/robots.txt",
+        "retry_not_before": null,
+        "bytes": 0
+      },
+      {
+        "url": "https://www.doi.org/robots.txt",
+        "started_at": "2026-11-05T08:50:49.179825+00:00",
+        "http_status": 404,
+        "retry_not_before": null,
+        "bytes": 7625
+      },
+      {
+        "url": "https://doi.org/10.3390/app16083921",
+        "started_at": "2026-11-05T08:50:51.143376+00:00",
+        "http_status": 302,
+        "redirect_location": "https://www.mdpi.com/2076-3417/16/8/3921",
+        "retry_not_before": null,
+        "bytes": 165
+      },
+      {
+        "url": "https://www.mdpi.com/robots.txt",
+        "started_at": "2026-11-05T08:50:51.320668+00:00",
+        "http_status": 403,
+        "retry_not_before": null,
+        "bytes": 378
+      },
+      {
+        "url": "https://doi.org/10.36838/ijhsr89.237",
+        "started_at": "2026-11-05T08:50:53.267448+00:00",
+        "http_status": 302,
+        "redirect_location": "https://terra-docs.s3.us-east-2.amazonaws.com/IJHSR/Articles/volume8-issue9/IJHSR_2026_89_237.pdf",
+        "retry_not_before": null,
+        "bytes": 279
+      },
+      {
+        "url": "https://terra-docs.s3.us-east-2.amazonaws.com/robots.txt",
+        "started_at": "2026-11-05T08:50:53.370498+00:00",
+        "http_status": 403,
+        "retry_not_before": null,
+        "bytes": 263
+      },
+      {
+        "url": "https://doi.org/10.5281/zenodo.20267495",
+        "started_at": "2026-11-05T08:50:55.330315+00:00",
+        "http_status": 302,
+        "redirect_location": "https://zenodo.org/doi/10.5281/zenodo.20267495",
+        "retry_not_before": null,
+        "bytes": 177
+      },
+      {
+        "url": "https://zenodo.org/robots.txt",
+        "started_at": "2026-11-05T08:50:55.489211+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 272
+      },
+      {
+        "url": "https://zenodo.org/doi/10.5281/zenodo.20267495",
+        "started_at": "2026-11-05T08:51:05.894861+00:00",
+        "http_status": 302,
+        "redirect_location": "https://zenodo.org/records/20267496",
+        "retry_not_before": "2026-11-05T08:52:05.125427+00:00",
+        "bytes": 257
+      },
+      {
+        "url": "https://zenodo.org/records/20267496",
+        "started_at": "2026-11-05T08:51:16.126805+00:00",
+        "http_status": 200,
+        "retry_not_before": "2026-11-05T08:52:05.435339+00:00",
+        "bytes": 93642
+      },
+      {
+        "url": "https://zenodo.org/records/20267496/files/Online%20Fraud%20and%20Legal%20Protection%20-Formatted%20Paper.pdf",
+        "started_at": "2026-11-05T08:51:26.560412+00:00",
+        "http_status": 200,
+        "retry_not_before": "2026-11-05T08:52:05.749697+00:00",
+        "bytes": 187319
+      },
+      {
+        "url": "https://doi.org/10.56201/ijssmr.vol.12no1.2026.pg524-541",
+        "started_at": "2026-11-05T08:51:27.414659+00:00",
+        "http_status": 302,
+        "redirect_location": "https://www.iiardjournals.org/abstract?j=IJSSMR&pn=Cybercrime%20and%20Socio-Economic%20Development%20in%20Lafia%20Local%20Government%20Area%2C%20Nasarawa%20State%2C%20Nigeria&id=64408",
+        "retry_not_before": null,
+        "bytes": 467
+      },
+      {
+        "url": "https://www.iiardjournals.org/robots.txt",
+        "started_at": "2026-11-05T08:51:27.697214+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 126
+      },
+      {
+        "url": "https://www.iiardjournals.org/abstract?j=IJSSMR&pn=Cybercrime%20and%20Socio-Economic%20Development%20in%20Lafia%20Local%20Government%20Area%2C%20Nasarawa%20State%2C%20Nigeria&id=64408",
+        "started_at": "2026-11-05T08:51:29.906549+00:00",
+        "http_status": 403,
+        "retry_not_before": null,
+        "bytes": 6161
+      },
+      {
+        "url": "https://doi.org/10.52279/jlss.08.03.309321",
+        "started_at": "2026-11-05T08:51:29.938215+00:00",
+        "http_status": 302,
+        "redirect_location": "https://www.advancelrf.org/artificial-intelligence-and-criminal-responsibility-reconstructing-mens-rea-and-attribution-for-ai-assisted-cybercrime-in-pakistan/",
+        "retry_not_before": null,
+        "bytes": 401
+      },
+      {
+        "url": "https://www.advancelrf.org/robots.txt",
+        "started_at": "2026-11-05T08:51:30.451847+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 169
+      },
+      {
+        "url": "https://www.advancelrf.org/artificial-intelligence-and-criminal-responsibility-reconstructing-mens-rea-and-attribution-for-ai-assisted-cybercrime-in-pakistan/",
+        "started_at": "2026-11-05T08:51:34.215654+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 104595
+      }
+    ],
+    "origin_backoff": {},
+    "updated_at": "2026-11-05T08:51:34.803054+00:00"
+  }
+}

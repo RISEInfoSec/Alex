@@ -1,30 +1,55 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T07:52:35.093821+00:00",
+  "observed_at": "2026-11-05T08:54:04.373488+00:00",
   "trigger": "schedule",
-  "native_run_id": "d28a0eec-2cdc-8332-a20c-540f3f9f238a",
-  "local_candidates": 0,
+  "native_run_id": "6518a129-da24-8332-a08d-d53e3ce3eb56",
+  "local_candidates": 5,
   "local_audits": 200,
-  "source_requests": 0,
-  "source_gate_passes": 0,
+  "source_requests": 17,
+  "source_gate_passes": 2,
   "downstream_gate_passes": 0,
   "six_gate_completions": 0,
   "newly_review_ready": 0,
   "publications": 0,
   "blockers": [
     {
-      "stage": "source_runner_lease_validation",
-      "reason": "Actions41989955836 rejected request before execute constructed transport: immutable request commit270faa4bb36f0a9f5596cde62b5a94852425f636 had run_id lease but omitted owner. No source HTTP calls or candidate work occurred. Owner field was subsequently corrected and read back; failed request was not replayed.",
-      "corrective_action": "Next pass verify BOTH lease.owner and lease.run_id before preparing a fresh immutable source request. Reuse retained artifacts; preserve original failure."
+      "candidate_id": "weekly-2527e09d730dd8e2b15cb6d8",
+      "stage": "source_access",
+      "reason": "robots_unavailable_http_403",
+      "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+    },
+    {
+      "candidate_id": "weekly-26b3719a7cdde3455962fdfa",
+      "stage": "source_access",
+      "reason": "robots_unavailable_http_403",
+      "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+    },
+    {
+      "candidate_id": "weekly-26e0bf60c0b553b19739cc91",
+      "stage": "metadata",
+      "reason": "Inspected matching written journal paper front matter and body. Zenodo current version DOI 10.5281/zenodo.20267496 differs from discovery DOI 10.5281/zenodo.20267495; reconcile concept/version identifier and date before classification.",
+      "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+    },
+    {
+      "candidate_id": "weekly-27cbe4630996d447436a64dd",
+      "stage": "source_access",
+      "reason": "source_http_403",
+      "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+    },
+    {
+      "candidate_id": "weekly-2fb8d1268a016d82ab42dd40",
+      "stage": "source_document",
+      "reason": "Publisher page matches title and Syed Mudassir Shah byline but retained material is abstract/landing page only; actual intended full document remains uninspected. Resume only a bound permitted original from retained links.",
+      "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
     },
     {
       "stage": "publication_full_corpus_serialization",
-      "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains prior corpus/exclusion blobs. Existing release41945055902 failed exact assessment/content binding. No unchanged release replayed.",
-      "corrective_action": "Repair exact full-corpus assessment/content serialization through existing controlled release."
+      "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains unchanged corpus/exclusion/upstream blobs; prior release41945055902 failed exact assessment binding.",
+      "corrective_action": "Repair controlled full-corpus serialization preserving assessment/content binding before retry."
     }
   ],
-  "scope_note": "Source runner validation failed before transport. Five selections are not five candidate attempts. Existing two ready papers retained.",
-  "corrective_action": "Next pass verify BOTH lease.owner and lease.run_id before preparing a fresh immutable source request. Reuse retained artifacts; preserve original failure.",
+  "scope_note": "Five real source dispositions, one inspected paper; version DOI conflict remains. Three access denials and one abstract-only page. No paid or registry calls.",
+  "corrective_action": "Reuse retained successful reads; reconcile version DOI and full-document binding, then current downstream gates.",
   "processing_progress": {
     "runs": [
       {
@@ -486,6 +511,62 @@
             "stage": "publication_full_corpus_serialization",
             "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains prior corpus/exclusion blobs. Existing release41945055902 failed exact assessment/content binding. No unchanged release replayed.",
             "corrective_action": "Repair exact full-corpus assessment/content serialization through existing controlled release."
+          }
+        ]
+      },
+      {
+        "run_id": "6518a129-da24-8332-a08d-d53e3ce3eb56",
+        "checkpoint_integrity": "reported_passed",
+        "local_candidates": 5,
+        "candidate_ids": [
+          "weekly-2527e09d730dd8e2b15cb6d8",
+          "weekly-26b3719a7cdde3455962fdfa",
+          "weekly-26e0bf60c0b553b19739cc91",
+          "weekly-27cbe4630996d447436a64dd",
+          "weekly-2fb8d1268a016d82ab42dd40"
+        ],
+        "resolvable_gates": 1,
+        "legitimate_holds_only": false,
+        "source_requests": 17,
+        "source_gate_passes": 2,
+        "downstream_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          {
+            "candidate_id": "weekly-2527e09d730dd8e2b15cb6d8",
+            "stage": "source_access",
+            "reason": "robots_unavailable_http_403",
+            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+          },
+          {
+            "candidate_id": "weekly-26b3719a7cdde3455962fdfa",
+            "stage": "source_access",
+            "reason": "robots_unavailable_http_403",
+            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+          },
+          {
+            "candidate_id": "weekly-26e0bf60c0b553b19739cc91",
+            "stage": "metadata",
+            "reason": "Inspected matching written journal paper front matter and body. Zenodo current version DOI 10.5281/zenodo.20267496 differs from discovery DOI 10.5281/zenodo.20267495; reconcile concept/version identifier and date before classification.",
+            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+          },
+          {
+            "candidate_id": "weekly-27cbe4630996d447436a64dd",
+            "stage": "source_access",
+            "reason": "source_http_403",
+            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+          },
+          {
+            "candidate_id": "weekly-2fb8d1268a016d82ab42dd40",
+            "stage": "source_document",
+            "reason": "Publisher page matches title and Syed Mudassir Shah byline but retained material is abstract/landing page only; actual intended full document remains uninspected. Resume only a bound permitted original from retained links.",
+            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+          },
+          {
+            "stage": "publication_full_corpus_serialization",
+            "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains unchanged corpus/exclusion/upstream blobs; prior release41945055902 failed exact assessment binding.",
+            "corrective_action": "Repair controlled full-corpus serialization preserving assessment/content binding before retry."
           }
         ]
       }

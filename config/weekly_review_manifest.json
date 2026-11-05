@@ -57046,7 +57046,19 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "9cfe19bde71969dfb19f9bfb801c0277654023186771631029693711936174dd",
+        "retrieval_status": "held",
+        "receipt": "config/content_review_source_receipts/7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe.json",
+        "reason": "robots_unavailable_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval.",
+        "evidence_sha256": [],
+        "inspection_reason": "robots_unavailable_http_403"
+      }
     },
     {
       "candidate_id": "weekly-efe8e005d212f2f402915ef3",
@@ -60570,7 +60582,21 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "393002c9caaa2df2a29ec144a105b29944af28ec9d0ed2b56e87d2eb7da68780",
+        "retrieval_status": "retrieved",
+        "receipt": "config/content_review_source_receipts/7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe.json",
+        "reason": null,
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+        "evidence_sha256": [
+          "c65a2e23cfc21f3c657d19a17dbea2deb5efe0402b8cb6e0318679d772506cca"
+        ],
+        "inspection_reason": "Publisher page matches title and Syed Mudassir Shah byline but retained material is abstract/landing page only; actual intended full document remains uninspected. Resume only a bound permitted original from retained links."
+      }
     },
     {
       "candidate_id": "weekly-f45b274e476c4837e5b1dab6",
@@ -61699,7 +61725,19 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "dbf130f26b358d5c00d877e1b08aa49bd1771b32660142fcca3abb12dc3a7ab3",
+        "retrieval_status": "held",
+        "receipt": "config/content_review_source_receipts/7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe.json",
+        "reason": "source_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval.",
+        "evidence_sha256": [],
+        "inspection_reason": "source_http_403"
+      }
     },
     {
       "candidate_id": "weekly-7674161f5ff3cfc7ad86045d",
@@ -63881,25 +63919,37 @@
             "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
           },
           "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T08:54:04.373488+00:00",
             "content_sha256": "b211d2f89f4c3a9191db5f081e8dcf6d9938f66aaf7d652e57690bb35a2dbfcd",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe.json",
+              "body_sha256": "2002fb33218299fd63c2ceeb06dc790b2e27b110471a76832c27e2ef4defe053",
+              "text_sha256": "462b1d15b479dc39aed43defbdd440a23ddc1af024f2af1ae1f2664a7e75c84a",
+              "actual_type": "research_paper",
+              "scope": "Matching title/byline, journal front matter, abstract and substantive written body inspected; pages39-46. Actual type evidence does not establish publication readiness."
+            }
           },
           "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T08:54:04.373488+00:00",
             "content_sha256": "b211d2f89f4c3a9191db5f081e8dcf6d9938f66aaf7d652e57690bb35a2dbfcd",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe.json",
+              "body_sha256": "2002fb33218299fd63c2ceeb06dc790b2e27b110471a76832c27e2ef4defe053",
+              "text_sha256": "462b1d15b479dc39aed43defbdd440a23ddc1af024f2af1ae1f2664a7e75c84a",
+              "actual_type": "research_paper",
+              "scope": "Matching title/byline, journal front matter, abstract and substantive written body inspected; pages39-46. Actual type evidence does not establish publication readiness."
+            }
           },
           "metadata": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "checked_at": "2026-11-05T08:54:04.373488+00:00",
             "content_sha256": "b211d2f89f4c3a9191db5f081e8dcf6d9938f66aaf7d652e57690bb35a2dbfcd",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe.json"
+            },
+            "reason": "Inspected matching written journal paper front matter and body. Zenodo current version DOI 10.5281/zenodo.20267496 differs from discovery DOI 10.5281/zenodo.20267495; reconcile concept/version identifier and date before classification."
           },
           "schema": {
             "status": "held",
@@ -63911,7 +63961,22 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "b211d2f89f4c3a9191db5f081e8dcf6d9938f66aaf7d652e57690bb35a2dbfcd",
+        "retrieval_status": "retrieved",
+        "receipt": "config/content_review_source_receipts/7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe.json",
+        "reason": null,
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+        "evidence_sha256": [
+          "c2087948e3035f3acd800232c29100eb73570ca31b459b33837df6d2329a9dad",
+          "2002fb33218299fd63c2ceeb06dc790b2e27b110471a76832c27e2ef4defe053"
+        ],
+        "inspection_reason": "Inspected matching written journal paper front matter and body. Zenodo current version DOI 10.5281/zenodo.20267496 differs from discovery DOI 10.5281/zenodo.20267495; reconcile concept/version identifier and date before classification."
+      }
     },
     {
       "candidate_id": "weekly-e0de60f6ef98f3d46f44bb22",
@@ -65878,7 +65943,19 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "21212074cdd8f84d78f4fe561e0e45bdcb5defa0aec95c5e366ab19ab61b36f7",
+        "retrieval_status": "held",
+        "receipt": "config/content_review_source_receipts/7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe.json",
+        "reason": "robots_unavailable_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval.",
+        "evidence_sha256": [],
+        "inspection_reason": "robots_unavailable_http_403"
+      }
     },
     {
       "candidate_id": "weekly-02db78e5dcf92cfe64dc4487",
