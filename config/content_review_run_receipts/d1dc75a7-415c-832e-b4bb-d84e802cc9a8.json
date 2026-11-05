@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "run_id": "d1dc75a7-415c-832e-b4bb-d84e802cc9a8",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T15:45:00Z",
+  "started_at": "2026-11-05T15:43:55.664792Z",
+  "completed_at": "2026-11-05T15:47:36.213Z",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/d1dc75a7-415c-832e-b4bb-d84e802cc9a8.json",
+  "completed_actions": [
+    "Published and read back native start and running status under the verified lease",
+    "Verified runtime imports including paid and source handoff dependencies",
+    "Refreshed all 66 complete D1 submissions and confirmed exact equality to the prior verified snapshot",
+    "Verified immutable SHA and byte lengths of seven retained source manifests and lifecycle inputs",
+    "Read current source recovery, manual-resource, checkpoint and main OpenAlex policies",
+    "Checkpointed owner-directed task transition before candidate processing"
+  ],
+  "candidate_ids": [],
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "native_terminal_success": null,
+  "remaining_blockers": [
+    {
+      "stage": "pass_redirected",
+      "reason": "Owner redirected the active turn to drafting an end-to-end repair and proactive maintenance instruction before candidate processing began.",
+      "corrective_action": "Continue the next existing bounded pass with refreshed decisions, verified retained inputs and actual heartbeat checkpoints; no source or paid request was started."
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "candidate_limit": 5,
+    "attempted_candidate_ids": [],
+    "completed_candidate_ids": [],
+    "selected_candidate_ids": [],
+    "genuinely_first_checked": [],
+    "next_dispositions": [],
+    "newly_passed_checks": {},
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "local_audits": 0,
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "checkpoint_failures": 0,
+    "lease_conflicts": 0,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "No candidate work; preparation heartbeat interval exceeded 60 seconds. Not a qualifying pilot.",
+    "resolvable_gate_count": null,
+    "all_candidates_legitimately_held": false,
+    "remaining_blockers": [
+      {
+        "stage": "pass_redirected",
+        "reason": "Owner redirected the active turn to drafting an end-to-end repair and proactive maintenance instruction before candidate processing began.",
+        "corrective_action": "Continue the next existing bounded pass with refreshed decisions, verified retained inputs and actual heartbeat checkpoints; no source or paid request was started."
+      }
+    ],
+    "source_last_progress": {},
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ]
+  }
+}
