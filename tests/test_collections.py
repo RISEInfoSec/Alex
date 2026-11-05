@@ -63,6 +63,8 @@ def test_real_accepted_membership_is_exact_across_all_pages():
     output = build(ROOT)
     with (ROOT / "data/accepted_classified.csv").open(newline="", encoding="utf-8") as f:
         accepted = list(csv.DictReader(f))
+    from alex.metadata_holds import filter_records
+    accepted = filter_records(accepted, ROOT / "config/corpus_metadata_holds.json")
     for collection in load_editorial(ROOT):
         field = {"category": "Category", "investigation_type": "Investigation_Type"}[collection["dimension"]]
         expected = sorted(r["title"] for r in accepted if r[field] == collection["value"])

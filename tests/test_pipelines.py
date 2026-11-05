@@ -2198,6 +2198,8 @@ def test_human_approved_apwg_release_exports_only_authorized_papers(tmp_path, mo
     with corpus.open('w',newline='') as f:
         w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(original)
     (tmp_path/'data'/'papers.json').write_text(json.dumps(original_public))
+    import shutil
+    shutil.copy2(root_file('config','corpus_metadata_holds.json'), tmp_path/'config/corpus_metadata_holds.json')
     monkeypatch.setenv('APWG_ENABLE_IMPORT','1')
     apply_release(manifest,corpus,tmp_path/'receipt.json',True)
     monkeypatch.setattr('alex.utils.io.ROOT',tmp_path)

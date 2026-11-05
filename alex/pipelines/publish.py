@@ -3,6 +3,7 @@ from alex.resource_types import public_fields
 import csv
 import pandas as pd
 from alex.editorial_exclusions import filter_frame
+from alex.metadata_holds import filter_frame as filter_metadata_holds
 import json
 import os
 from datetime import datetime, timezone
@@ -61,6 +62,7 @@ def run(record_collection: bool = False) -> None:
         return
 
     df = filter_frame(df, root_file("config", "corpus_exclusions.json"))
+    df = filter_metadata_holds(df, root_file("config", "corpus_metadata_holds.json"))
 
     # Pandas reads empty CSV cells as NaN, which json.dumps would emit as
     # literal `NaN` (invalid JSON). Coerce to empty strings before export.

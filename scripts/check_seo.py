@@ -132,7 +132,9 @@ def check(root: Path = ROOT, source_root: Path | None = None) -> None:
     csv.field_size_limit(16 * 1024 * 1024)
     with (source_root / "data/accepted_classified.csv").open(encoding="utf-8", newline="") as stream:
         accepted = list(csv.DictReader(stream))
-    assert len(accepted) == len(papers), "Public/accepted corpus counts differ; run publish"
+    from alex.metadata_holds import filter_records
+    accepted = filter_records(accepted, source_root / "config/corpus_metadata_holds.json")
+    assert len(accepted) == len(papers), "Public/eligible accepted corpus counts differ; run publish"
     fields = {"title": "title", "author": "authors", "year": "year", "summary": "abstract",
               "category": "Category", "investigation_type": "Investigation_Type", "doi": "doi",
               "source_url": "source_url", "venue": "venue", "collection_source": "collection_source",
