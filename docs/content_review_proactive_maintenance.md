@@ -24,7 +24,7 @@ Before each pass ends, update the defect's evidence and next action under the sh
 | Bellingcat | Shared paper contract plus manual investigative-journalism route; no paper bibliometric substitution. |
 | Virus Bulletin | Existing normalized legacy inventory and controlled collection executor; paid_worker.MANIFESTS does not currently support its hash contract. Diagnose and test that adapter separately before enabling paid work. Preserve curated decisions and media holds. |
 | APWG eCrime | Distinct apwg_pending adapter and controlled APWG import; annual 2026 full-paper check remains scheduled for December. Do not pretend the shared paper handoff covers it. |
-| Consensus | Disabled pending secure credential, verified Free account, durable budget and operator enablement; do not use paid access or another credential path. |
+| Consensus (general weekly provider; not a named collection) | Disabled pending secure credential, verified Free account, durable budget and operator enablement; do not use paid access or another credential path. |
 | Corpus relevance audit | Distinct corpus_audit adapter; reconcile completed keeps/removals and exclusions. Never reimport removed content or count completed audit work as intake throughput. |
 
 Use current registry/configuration, not this table's prose, for active counts. Enumerate every collection in each pass receipt with selected IDs or an evidence-backed deferral. For comparable due candidates, work_plan.select rotates collection groups using last actual progress; weekly wins a tie but cannot monopolize successive passes. Persist source_last_progress only for actual useful progress; polling/heartbeat does not reset waiting age. Discovery not yet due does not defer ingested preflight.
