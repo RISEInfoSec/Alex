@@ -1,6 +1,6 @@
 {
   "runtime_seconds": 2700,
   "max_requests": 300,
-  "openalex_max_requests": 20,
-  "note": "Retain the temporary 60-second OpenAlex pacing. Stop before the 60-minute job ceiling, persist incomplete coverage, and resume the same window on a later authorized run."
+  "openalex_max_requests": 250,
+  "note": "PROPOSAL ONLY pending owner approval: serial OpenAlex requests at least 1 second apart, at most 250 OpenAlex / 300 total requests and 45 minutes per pass; preserve 20-second timeout, zero automatic OpenAlex retries, shared holds and all downstream gates."
 }
