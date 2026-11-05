@@ -127,7 +127,16 @@ class Transport:
 def extract(response, fragment=''):
     body=response['body'];out={k:v for k,v in response.items() if k!='body'}
     out['retrieved_at']=datetime.now(timezone.utc).isoformat();out['byte_count']=len(body)
-    if body.startswith(b'%PDF-'):
+    if response.get('headers', {}).get('content-type', '').split(';')[0] == 'application/json':
+        try: data=json.loads(body)
+        except (ValueError,UnicodeDecodeError): raise Hold('invalid_source_json') from None
+        # Full authoritative metadata remains intact, even when its title is anomalously long.
+        if not isinstance(data,dict) or not isinstance(data.get('metadata'),dict):raise Hold('unsupported_metadata_json')
+        text=json.dumps(data['metadata'],ensure_ascii=False)
+        out.update(container_type='json',metadata=data['metadata'],repository_record_id=data.get('id'),
+                   repository_doi=data.get('doi'),files=data.get('files',[]),links=data.get('links',{}),
+                   text=text[:36000],text_complete=len(text)<=36000,metadata_complete=True,document_type='unverified')
+    elif body.startswith(b'%PDF-'):
         try:
             pdf=PdfReader(io.BytesIO(body));pages=[p.extract_text() or '' for p in pdf.pages[:6]]
         except Exception:raise Hold('pdf_parse_failed') from None
@@ -169,11 +178,35 @@ def linked_pdf(source):
     A global navigation/footer PDF never establishes candidate identity.
     """
     if source.get('resource_unavailable'):raise Hold('publisher_temporarily_withheld_for_review')
+    if source['container_type']=='json':
+        pdfs=[f.get('links',{}).get('self') for f in source.get('files',[])
+              if str(f.get('key','')).lower().endswith('.pdf')]
+        return pdfs[0] if len(pdfs)==1 and pdfs[0] else None
     if source['container_type']!='html':return None
     pdfs=source.get('metadata',{}).get('citation_pdf_url',[])
     if not pdfs and source.get('fragment'):
         pdfs=[a['url'] for a in source.get('links',[]) if re.search(r'(?i)\.pdf(?:$|[?#])',a['url'])]
     return urljoin(source['final_url'],pdfs[0]) if len(pdfs)==1 else None
+
+def validate_corpus_snapshot(root,req):
+    """Read-only evidence for existing publications; never fake intake identities."""
+    if req.get('snapshot_path') != 'config/content_review_corpus_metadata_snapshot.json':
+        raise ValueError('Unexpected corpus snapshot path')
+    path=root/req['snapshot_path']
+    if file_digest(path)!=req.get('snapshot_sha256'):raise ValueError('Changed corpus snapshot')
+    snapshot=json.loads(path.read_text())
+    if not re.fullmatch(r'[0-9a-f]{64}',snapshot.get('public_json_sha256','')) or not snapshot.get('source_commit'):
+        raise ValueError('Missing live corpus provenance')
+    for item in req['records']:
+        if item.get('collection')!='corpus_metadata_audit':raise ValueError('Invalid corpus evidence route')
+        matches=[r for r in snapshot['records'] if str(r['id'])==item['candidate_id']]
+        if len(matches)!=1 or digest(matches[0])!=item['content_sha256']:
+            raise ValueError('Changed corpus record')
+        doi=str(matches[0].get('doi','')).lower()
+        match=re.fullmatch(r'10\.5281/zenodo\.(\d+)',doi)
+        if not match or item['url']!='https://zenodo.org/api/records/'+match.group(1):
+            raise ValueError('Corpus URL does not match DOI')
+
 
 def validate(root,path):
     req=json.loads(path.read_text());payload={k:v for k,v in req.items() if k!='request_id'}
@@ -184,6 +217,11 @@ def validate(root,path):
     if lease.get('owner')!=req['lease_owner'] or not instant(lease.get('expires_at')) or instant(lease['expires_at'])<=now:raise ValueError('No matching unexpired writer lease')
     items=req['records']
     if not 1<=len(items)<=5 or len({i['candidate_id'] for i in items})!=len(items):raise ValueError('Initial pilot candidate ceiling/identity')
+    if req.get('purpose') == 'corpus_metadata_audit':
+        validate_corpus_snapshot(root,req)
+        return req
+    if req.get('purpose') not in (None,'candidate_source_evidence'):
+        raise ValueError('Unsupported source request purpose')
     for item in items:
         p=root/MANIFESTS[item['collection']]
         if file_digest(p)!=item['manifest_sha256']:raise ValueError('Incomplete or changed manifest snapshot')

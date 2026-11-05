@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "correction_id": "00c70017fdf3b1ea356642132b122a47a8de8322ea11af862ae97297e7d83f68",
+  "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
+  "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+  "applied_at": "2026-11-05T18:22:04.883416+00:00",
+  "before": {
+    "Category": "Cybercrime & Fraud",
+    "Investigation_Type": "Phishing Analysis",
+    "OSINT_Source_Types": [
+      "Social Media"
+    ]
+  },
+  "after": {
+    "Category": "Cybercrime & Fraud",
+    "Investigation_Type": "Other",
+    "OSINT_Source_Types": [
+      "Academic Literature",
+      "Government Data",
+      "Other"
+    ]
+  },
+  "schema": {
+    "status": "passed",
+    "checked_at": "2026-11-05T18:22:04.883416+00:00",
+    "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+    "evidence": {
+      "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+      "target_record_sha256": "a682afff70627f1227fba21df1d4b8584b15290fc9b0b6825ae0619a68e0a6a3",
+      "document_type": "research_paper",
+      "corpus_modified": false,
+      "publication_approved": false,
+      "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-11-05T17:28:48.923637+00:00",
+        "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+        "evidence": {
+          "classification": {
+            "Category": "Cybercrime & Fraud",
+            "Investigation_Type": "Other",
+            "OSINT_Source_Types": [
+              "Academic Literature",
+              "Government Data",
+              "Other"
+            ]
+          },
+          "response_id": "resp_0737d52a237fc4f6016aecbccfc4b887d1aa9e1b767b083e53",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 577,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 27,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 604
+          },
+          "uncertainty_flags": [],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "Cybercrime & Fraud",
+            "Investigation_Type": "Phishing Analysis",
+            "OSINT_Source_Types": [
+              "Social Media"
+            ]
+          },
+          "correction_id": "00c70017fdf3b1ea356642132b122a47a8de8322ea11af862ae97297e7d83f68"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "42074896351",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356",
+        "source_correction_applied_at": "2026-11-05T18:22:04.883416+00:00"
+      },
+      "source_correction_id": "00c70017fdf3b1ea356642132b122a47a8de8322ea11af862ae97297e7d83f68",
+      "source_document_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
+      "original_paid_target_sha256": "e55f433cd9887a9fcc8864d31a0d916fc0c92d973c5ddff8045b14938428a5b7",
+      "source_correction_scope": "Investigation_Type and OSINT_Source_Types only; original paid artifact retained"
+    }
+  },
+  "paid_request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356",
+  "paid_response_id": "resp_0737d52a237fc4f6016aecbccfc4b887d1aa9e1b767b083e53",
+  "additional_paid_requests": 0,
+  "corpus_modified": false,
+  "publication_approved": false
+}

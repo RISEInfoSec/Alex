@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "correction_id": "6d9ac9362a774204eb627ce322d74a08bb58a7e50a122b0d76f6b4a758b0acac",
+  "candidate_id": "weekly-580cbf65ba78205f3b91860e",
+  "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+  "applied_at": "2026-11-05T18:22:04.883416+00:00",
+  "before": {
+    "Category": "IoT & CPS Security",
+    "Investigation_Type": "Vulnerability Assessment",
+    "OSINT_Source_Types": [
+      "Other"
+    ]
+  },
+  "after": {
+    "Category": "IoT & CPS Security",
+    "Investigation_Type": "Network Investigation",
+    "OSINT_Source_Types": [
+      "Other"
+    ]
+  },
+  "schema": {
+    "status": "passed",
+    "checked_at": "2026-11-05T18:22:04.883416+00:00",
+    "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+    "evidence": {
+      "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+      "target_record_sha256": "689d6d7413db82ecc60fc9b5641cbaa1f438dde6fb4126344cd8d7baa796a7d1",
+      "document_type": "research_paper",
+      "corpus_modified": false,
+      "publication_approved": false,
+      "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-11-05T17:28:47.561793+00:00",
+        "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+        "evidence": {
+          "classification": {
+            "Category": "IoT & CPS Security",
+            "Investigation_Type": "Network Investigation",
+            "OSINT_Source_Types": [
+              "Other"
+            ]
+          },
+          "response_id": "resp_0eae14f953497c7b016aecbcce862c87d1b073d6ddbb355a66",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 710,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 27,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 737
+          },
+          "uncertainty_flags": [],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "IoT & CPS Security",
+            "Investigation_Type": "Vulnerability Assessment",
+            "OSINT_Source_Types": [
+              "Other"
+            ]
+          },
+          "correction_id": "6d9ac9362a774204eb627ce322d74a08bb58a7e50a122b0d76f6b4a758b0acac"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "42074896351",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356",
+        "source_correction_applied_at": "2026-11-05T18:22:04.883416+00:00"
+      },
+      "source_correction_id": "6d9ac9362a774204eb627ce322d74a08bb58a7e50a122b0d76f6b4a758b0acac",
+      "source_document_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
+      "original_paid_target_sha256": "ee02ae5b011920edefa9c30815debbc38dbc705b2fc2f8015bc29cf51a9c596b",
+      "source_correction_scope": "Investigation_Type and OSINT_Source_Types only; original paid artifact retained"
+    }
+  },
+  "paid_request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356",
+  "paid_response_id": "resp_0eae14f953497c7b016aecbcce862c87d1b073d6ddbb355a66",
+  "additional_paid_requests": 0,
+  "corpus_modified": false,
+  "publication_approved": false
+}

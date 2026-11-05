@@ -71,3 +71,28 @@ def test_unscoped_html_does_not_follow_arbitrary_pdf():
 def test_explicit_publisher_pdf_is_candidate_bound():
     x=s.extract(response(b'<meta name="citation_pdf_url" content="paper.pdf"><p>Article</p><a href="footer.pdf">Report</a>'))
     assert s.linked_pdf(x)=='https://example.org/paper.pdf'
+
+
+def test_authoritative_json_title_is_preserved_without_silent_truncation():
+    data={'id':123,'doi':'10.5281/zenodo.123','metadata':{'title':'a'*70000,'resource_type':{'type':'publication','subtype':'article'}},
+          'files':[{'key':'paper.pdf','links':{'self':'https://zenodo.org/records/123/files/paper.pdf'}}]}
+    raw=response(json.dumps(data).encode());raw['headers']={'content-type':'application/json'}
+    result=s.extract(raw)
+    assert result['metadata']['title']==data['metadata']['title']
+    assert result['metadata_complete'] and not result['text_complete']
+    assert s.linked_pdf(result)=='https://zenodo.org/records/123/files/paper.pdf'
+
+
+def test_corpus_metadata_route_binds_full_record_and_authoritative_url(tmp_path):
+    row={'id':123,'doi':'10.5281/zenodo.123','title':'Original title'}
+    path=tmp_path/'config/content_review_corpus_metadata_snapshot.json';path.parent.mkdir()
+    path.write_text(json.dumps({'public_json_sha256':'a'*64,'source_commit':'b'*40,'records':[row]}))
+    req={'snapshot_path':str(path.relative_to(tmp_path)),'snapshot_sha256':s.file_digest(path),
+         'records':[{'collection':'corpus_metadata_audit','candidate_id':'123','content_sha256':s.digest(row),
+                     'url':'https://zenodo.org/api/records/123'}]}
+    s.validate_corpus_snapshot(tmp_path,req)
+    req['records'][0]['url']='https://zenodo.org/api/records/456'
+    with pytest.raises(ValueError,match='DOI'):s.validate_corpus_snapshot(tmp_path,req)
+    req['records'][0]['url']='https://zenodo.org/api/records/123'
+    req['records'][0]['content_sha256']='c'*64
+    with pytest.raises(ValueError,match='record'):s.validate_corpus_snapshot(tmp_path,req)

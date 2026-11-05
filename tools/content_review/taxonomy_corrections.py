@@ -1,7 +1,8 @@
-"""Auditable, source-backed OSINT tag amendments after verified paid execution.
+"""Auditable source-backed taxonomy amendments after verified paid execution.
 
-Only the source-type array can change. Never changes the paid artifact, paper
-identity, category, investigation type, scores, decisions, admission or corpus.
+Version 1 amends source types; version 2 also permits an explicitly authorized,
+source-supported investigation type. Never changes the original paid artifact,
+paper identity, category, scores, decisions, admission or corpus.
 """
 from __future__ import annotations
 
@@ -28,7 +29,8 @@ def _passed(check, h):
 
 def make_correction(row, collection, source_document_sha256, source_document_url,
                     proposed_source_types, supported_tags, removed_tag_reasons,
-                    material_inspected, no_source_type_basis=None):
+                    material_inspected, no_source_type_basis=None, *, investigation_type=None,
+                    investigation_support=None, authorization=None):
     paid = row["taxonomy_verification"]
     correction = {"schema_version": 1, "created_at": now(), "collection": collection,
                   "candidate_id": row["candidate_id"], "content_sha256": row["content_sha256"],
@@ -39,6 +41,10 @@ def make_correction(row, collection, source_document_sha256, source_document_url
                   "removed_tag_reasons": removed_tag_reasons, "material_inspected": material_inspected,
                   "no_source_type_basis": no_source_type_basis, "evidence_status": "verified",
                   "scope": "OSINT_Source_Types only; source-content correction, not another paid response"}
+    if investigation_type is not None:
+        correction.update(schema_version=2, proposed_investigation_type=investigation_type,
+                          investigation_support=investigation_support, authorization=authorization,
+                          scope="Investigation_Type and OSINT_Source_Types only; original paid artifact retained")
     correction["correction_id"] = digest(correction)
     return correction
 
@@ -51,7 +57,7 @@ def apply_correction(row, stage_row, correction, applied_at=None):
     """
     stamp = applied_at or now()
     payload = {k: v for k, v in correction.items() if k != "correction_id"}
-    if correction.get("schema_version") != 1 or digest(payload) != correction.get("correction_id"):
+    if correction.get("schema_version") not in (1, 2) or digest(payload) != correction.get("correction_id"):
         raise ValueError("Correction digest mismatch")
     h = row.get("content_sha256")
     if (reviewed_digest(row) != h or stage_row.get("content_sha256") != h
@@ -87,9 +93,19 @@ def apply_correction(row, stage_row, correction, applied_at=None):
             raise ValueError("Source document differs from verified format/access evidence")
     before = copy.deepcopy(correction["original_classification"])
     after = {**before, "OSINT_Source_Types": correction.get("proposed_source_types")}
+    if correction["schema_version"] == 2:
+        support_type = correction.get("investigation_support") or {}
+        if (not correction.get("authorization") or not support_type.get("section")
+                or not support_type.get("evidence") or not support_type.get("prior_label_reason")):
+            raise ValueError("Investigation amendment requires authorization and explicit source support")
+        after["Investigation_Type"] = correction.get("proposed_investigation_type")
+        if after["Investigation_Type"] == before["Investigation_Type"]:
+            raise ValueError("Investigation amendment changes nothing")
+    elif any(k in correction for k in ("proposed_investigation_type", "investigation_support", "authorization")):
+        raise ValueError("Version 1 cannot amend investigation type")
     Draft202012Validator(CLASSIFICATION_SCHEMA).validate(after)
     tags = after["OSINT_Source_Types"]
-    if len(tags) != len(set(tags)) or tags == before["OSINT_Source_Types"]:
+    if len(tags) != len(set(tags)) or after == before:
         raise ValueError("Correction is duplicate-tagged or changes nothing")
     support = correction.get("supported_tags", {})
     if set(support) != set(tags) or any(not v.get("section") or not v.get("evidence") for v in support.values()):
@@ -121,7 +137,7 @@ def apply_correction(row, stage_row, correction, applied_at=None):
     corrected["evidence"].update(taxonomy=amended, source_correction_id=correction["correction_id"],
                                  source_document_sha256=source_sha,
                                  original_paid_target_sha256=original_schema["evidence"]["target_record_sha256"],
-                                 source_correction_scope="Only OSINT source tags amended; original paid artifact retained verbatim.")
+                                 source_correction_scope=correction["scope"])
     row["taxonomy_source_correction"] = proof
     row["taxonomy_verification"] = amended
     stage_row["checks"]["schema"] = copy.deepcopy(corrected)

@@ -98,3 +98,35 @@ def test_paid_replay_reapplies_correction_without_network_or_new_admission(examp
     stage["checks"]["schema"] = copy.deepcopy(saved["original_paid_schema"])
     receipt = correction.apply_correction(row, stage, request)
     assert receipt["after"]["OSINT_Source_Types"] == [] and row["review_ready"] is False
+
+
+def test_authorized_investigation_amendment_preserves_original_response(example):
+    row, stage, request = example
+    original = copy.deepcopy(row['taxonomy_verification'])
+    request = correction.make_correction(row, 'weekly', 'a'*64, 'https://example.org/paper.pdf',
+        ['Other'], {'Other': {'section':'Methods','evidence':'Original telemetry data.'}}, {},
+        'Full methods inspected', investigation_type='Network Investigation',
+        investigation_support={'section':'Methods','evidence':'Traffic flow detection with network traces.',
+                               'prior_label_reason':'No malware binary analysis performed.'},
+        authorization='Owner requested correction of the documented classification hold.')
+    receipt = correction.apply_correction(row, stage, request)
+    assert receipt['after']['Investigation_Type'] == 'Network Investigation'
+    assert receipt['after']['Category'] == receipt['before']['Category']
+    assert row['taxonomy_source_correction']['original_paid_taxonomy'] == original
+    assert receipt['additional_paid_requests'] == 0
+    assert correction.apply_correction(row, stage, request)['after'] == receipt['after']
+
+
+@pytest.mark.parametrize('fault', ['authorization','source_support','reason','unchanged','legacy_smuggling'])
+def test_investigation_amendment_requires_explicit_bound_proof(example, fault):
+    row, stage, request = example
+    request.update(schema_version=2, proposed_investigation_type='Network Investigation',
+        investigation_support={'section':'Methods','evidence':'Network traces','prior_label_reason':'No binaries'},
+        authorization='Owner requested repair')
+    if fault == 'authorization': request['authorization']=''
+    if fault == 'source_support': request['investigation_support']['evidence']=''
+    if fault == 'reason': request['investigation_support']['prior_label_reason']=''
+    if fault == 'unchanged': request['proposed_investigation_type']='Malware Analysis'
+    if fault == 'legacy_smuggling': request['schema_version']=1
+    reseal(request)
+    with pytest.raises(ValueError): correction.apply_correction(row, stage, request)

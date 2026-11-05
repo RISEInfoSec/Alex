@@ -40641,8 +40641,8 @@
       "candidate_id": "weekly-580cbf65ba78205f3b91860e",
       "review_number": 96,
       "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "status": "passed",
@@ -40784,95 +40784,78 @@
           }
         },
         "schema": {
-          "status": "held",
+          "status": "passed",
+          "checked_at": "2026-11-05T18:22:04.883416+00:00",
           "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
-          "checked_at": "2026-11-05T17:36:23.059739+00:00",
           "evidence": {
-            "reason": "The inspected abstract and written-paper opening describe federated network-traffic malware/botnet detection on IoT-23 and N-BaIoT, not a demonstrated vulnerability assessment. The paid Investigation_Type=Vulnerability Assessment is not sufficiently supported by the inspected methods.",
-            "paid_taxonomy_and_serialization": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "689d6d7413db82ecc60fc9b5641cbaa1f438dde6fb4126344cd8d7baa796a7d1",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
               "status": "passed",
-              "checked_at": "2026-11-05T17:28:47.566321+00:00",
+              "checked_at": "2026-11-05T17:28:47.561793+00:00",
               "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
               "evidence": {
-                "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
-                "target_record_sha256": "ee02ae5b011920edefa9c30815debbc38dbc705b2fc2f8015bc29cf51a9c596b",
-                "document_type": "research_paper",
-                "corpus_modified": false,
-                "publication_approved": false,
-                "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
-                "taxonomy": {
-                  "status": "passed",
-                  "checked_at": "2026-11-05T17:28:47.561793+00:00",
-                  "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
-                  "evidence": {
-                    "classification": {
-                      "Category": "IoT & CPS Security",
-                      "Investigation_Type": "Vulnerability Assessment",
-                      "OSINT_Source_Types": [
-                        "Other"
-                      ]
-                    },
-                    "response_id": "resp_0eae14f953497c7b016aecbcce862c87d1b073d6ddbb355a66",
-                    "model": "gpt-4o-mini-2024-07-18",
-                    "reported_usage": {
-                      "input_tokens": 710,
-                      "input_tokens_details": {
-                        "cache_write_tokens": 0,
-                        "cached_tokens": 0
-                      },
-                      "output_tokens": 27,
-                      "output_tokens_details": {
-                        "reasoning_tokens": 0
-                      },
-                      "total_tokens": 737
-                    },
-                    "uncertainty_flags": []
-                  },
-                  "provenance": {
-                    "GITHUB_RUN_ID": "42074896351",
-                    "GITHUB_RUN_ATTEMPT": "1",
-                    "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
-                    "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
-                    "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
-                  },
-                  "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356"
+                "classification": {
+                  "Category": "IoT & CPS Security",
+                  "Investigation_Type": "Network Investigation",
+                  "OSINT_Source_Types": [
+                    "Other"
+                  ]
                 },
-                "contract": {
-                  "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
-                  "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
-                  "runner_sha256": "d162ba76e1dba67f447494b04e6b6d7fc876662c2b675e244954ab4d437386d7",
-                  "workflow_sha256": "17625572aa76ac38bec3f25510bc8bd2496989de8e33e713f38280e7f74cdff2",
-                  "publisher_sha256": "435e346a6b9d2d69c037e11f27998078186bde9235ac3da10f32b05ea93b4c4b",
-                  "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+                "response_id": "resp_0eae14f953497c7b016aecbcce862c87d1b073d6ddbb355a66",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 710,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 27,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 737
                 },
-                "workflow_run_id": 42074896351
+                "uncertainty_flags": [],
+                "classification_origin": "source_evidence_correction",
+                "original_paid_classification": {
+                  "Category": "IoT & CPS Security",
+                  "Investigation_Type": "Vulnerability Assessment",
+                  "OSINT_Source_Types": [
+                    "Other"
+                  ]
+                },
+                "correction_id": "6d9ac9362a774204eb627ce322d74a08bb58a7e50a122b0d76f6b4a758b0acac"
               },
-              "revalidated_at": "2026-11-05T17:36:23.156434+00:00",
-              "prior_evidence": {
-                "status": "held",
-                "checked_at": "2026-11-05T13:48:13.546750+00:00",
-                "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
-                "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
-                "prior_evidence": {
-                  "status": "held",
-                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
-                  "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
-                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
-                }
-              }
+              "provenance": {
+                "GITHUB_RUN_ID": "42074896351",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356",
+              "source_correction_applied_at": "2026-11-05T18:22:04.883416+00:00"
             },
-            "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-            "source_body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
-            "next_action": "Retain original paid evidence. A supported evidence-bound Investigation_Type amendment is required; the current approved correction helper only changes OSINT_Source_Types. Do not repeat identical paid classification or source downloads."
+            "source_correction_id": "6d9ac9362a774204eb627ce322d74a08bb58a7e50a122b0d76f6b4a758b0acac",
+            "source_document_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
+            "original_paid_target_sha256": "ee02ae5b011920edefa9c30815debbc38dbc705b2fc2f8015bc29cf51a9c596b",
+            "source_correction_scope": "Investigation_Type and OSINT_Source_Types only; original paid artifact retained"
           }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "verified_document_type": "research_paper"
+      "blockers": [],
+      "verified_document_type": "research_paper",
+      "recommendation_content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-11-05T18:22:04.883416+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-11-05T18:22:04.883416+00:00",
+      "review_batch": 31
     },
     {
       "collection": "weekly",
@@ -44924,8 +44907,8 @@
       "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
       "review_number": 136,
       "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "status": "passed",
@@ -45079,95 +45062,80 @@
           }
         },
         "schema": {
-          "status": "held",
+          "status": "passed",
+          "checked_at": "2026-11-05T18:22:04.883416+00:00",
           "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
-          "checked_at": "2026-11-05T17:36:23.059739+00:00",
           "evidence": {
-            "reason": "The inspected methodology describes a purposive questionnaire of 130 students about internship-scam victimization, not analysis of phishing messages. The paid Investigation_Type=Phishing Analysis is not sufficiently supported; Social Media is described as an exposure channel, not the collected primary data.",
-            "paid_taxonomy_and_serialization": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "a682afff70627f1227fba21df1d4b8584b15290fc9b0b6825ae0619a68e0a6a3",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
               "status": "passed",
-              "checked_at": "2026-11-05T17:28:48.928330+00:00",
+              "checked_at": "2026-11-05T17:28:48.923637+00:00",
               "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
               "evidence": {
-                "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
-                "target_record_sha256": "e55f433cd9887a9fcc8864d31a0d916fc0c92d973c5ddff8045b14938428a5b7",
-                "document_type": "research_paper",
-                "corpus_modified": false,
-                "publication_approved": false,
-                "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
-                "taxonomy": {
-                  "status": "passed",
-                  "checked_at": "2026-11-05T17:28:48.923637+00:00",
-                  "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
-                  "evidence": {
-                    "classification": {
-                      "Category": "Cybercrime & Fraud",
-                      "Investigation_Type": "Phishing Analysis",
-                      "OSINT_Source_Types": [
-                        "Social Media"
-                      ]
-                    },
-                    "response_id": "resp_0737d52a237fc4f6016aecbccfc4b887d1aa9e1b767b083e53",
-                    "model": "gpt-4o-mini-2024-07-18",
-                    "reported_usage": {
-                      "input_tokens": 577,
-                      "input_tokens_details": {
-                        "cache_write_tokens": 0,
-                        "cached_tokens": 0
-                      },
-                      "output_tokens": 27,
-                      "output_tokens_details": {
-                        "reasoning_tokens": 0
-                      },
-                      "total_tokens": 604
-                    },
-                    "uncertainty_flags": []
-                  },
-                  "provenance": {
-                    "GITHUB_RUN_ID": "42074896351",
-                    "GITHUB_RUN_ATTEMPT": "1",
-                    "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
-                    "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
-                    "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
-                  },
-                  "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356"
+                "classification": {
+                  "Category": "Cybercrime & Fraud",
+                  "Investigation_Type": "Other",
+                  "OSINT_Source_Types": [
+                    "Academic Literature",
+                    "Government Data",
+                    "Other"
+                  ]
                 },
-                "contract": {
-                  "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
-                  "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
-                  "runner_sha256": "d162ba76e1dba67f447494b04e6b6d7fc876662c2b675e244954ab4d437386d7",
-                  "workflow_sha256": "17625572aa76ac38bec3f25510bc8bd2496989de8e33e713f38280e7f74cdff2",
-                  "publisher_sha256": "435e346a6b9d2d69c037e11f27998078186bde9235ac3da10f32b05ea93b4c4b",
-                  "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+                "response_id": "resp_0737d52a237fc4f6016aecbccfc4b887d1aa9e1b767b083e53",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 577,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 27,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 604
                 },
-                "workflow_run_id": 42074896351
+                "uncertainty_flags": [],
+                "classification_origin": "source_evidence_correction",
+                "original_paid_classification": {
+                  "Category": "Cybercrime & Fraud",
+                  "Investigation_Type": "Phishing Analysis",
+                  "OSINT_Source_Types": [
+                    "Social Media"
+                  ]
+                },
+                "correction_id": "00c70017fdf3b1ea356642132b122a47a8de8322ea11af862ae97297e7d83f68"
               },
-              "revalidated_at": "2026-11-05T17:36:23.162082+00:00",
-              "prior_evidence": {
-                "status": "held",
-                "checked_at": "2026-11-05T13:48:13.546750+00:00",
-                "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
-                "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
-                "prior_evidence": {
-                  "status": "held",
-                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
-                  "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
-                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
-                }
-              }
+              "provenance": {
+                "GITHUB_RUN_ID": "42074896351",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356",
+              "source_correction_applied_at": "2026-11-05T18:22:04.883416+00:00"
             },
-            "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-            "source_body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
-            "next_action": "Retain original paid evidence. A supported evidence-bound Investigation_Type amendment is required; the current approved correction helper only changes OSINT_Source_Types. Do not repeat identical paid classification or source downloads."
+            "source_correction_id": "00c70017fdf3b1ea356642132b122a47a8de8322ea11af862ae97297e7d83f68",
+            "source_document_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
+            "original_paid_target_sha256": "e55f433cd9887a9fcc8864d31a0d916fc0c92d973c5ddff8045b14938428a5b7",
+            "source_correction_scope": "Investigation_Type and OSINT_Source_Types only; original paid artifact retained"
           }
         }
       },
-      "blockers": [
-        "schema"
-      ],
-      "verified_document_type": "research_paper"
+      "blockers": [],
+      "verified_document_type": "research_paper",
+      "recommendation_content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-11-05T18:22:04.883416+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-11-05T18:22:04.883416+00:00",
+      "review_batch": 31
     },
     {
       "collection": "weekly",
@@ -61955,12 +61923,12 @@
         "passed": 173
       },
       "schema": {
-        "held": 88,
-        "passed": 88
+        "held": 86,
+        "passed": 90
       }
     }
   },
-  "updated_at": "2026-11-05T17:36:23.059739+00:00",
+  "updated_at": "2026-11-05T18:22:04.883416+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,
