@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "run_id": "6f97ac53-d43c-8332-818a-312850747391",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T05:45:00Z",
+  "started_at": "2026-11-05T05:43:27.423411Z",
+  "completed_at": "2026-11-05T05:50:34.092Z",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/6f97ac53-d43c-8332-818a-312850747391.json",
+  "completed_actions": [
+    "Acquired/read back shared lease; executed current operations.py and published/read back start and running records",
+    "Refreshed all 66 complete D1 submissions; complete identity/revision/payload signature unchanged",
+    "Verified complete immutable review manifests, checkpoint correction, current main corpus/exclusions/upstream bytes",
+    "Evaluated 200 existing lifecycle records with current evaluator, preserving all 385 ledger identities and prior attempts",
+    "Prepared lossless blob-verified lifecycle/audit/processing-health checkpoint"
+  ],
+  "candidate_ids": [],
+  "candidate_check_count": 0,
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_lifecycle_audits/6f97ac53-d43c-8332-818a-312850747391.json",
+    "config/content_review_processing_health.json",
+    "config/content_review_run_receipts/6f97ac53-d43c-8332-818a-312850747391.json"
+  ],
+  "errors": [
+    {
+      "stage": "heartbeat",
+      "reason": "Actual startup and running observation gaps exceeded 60 seconds; no heartbeat backfilled."
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [],
+    "planned_candidate_ids": [
+      "weekly-02db78e5dcf92cfe64dc4487",
+      "weekly-040edeb033e8ee41aeb9433a",
+      "weekly-0c62bfc049ea611ecb965fc6",
+      "weekly-16a1bf792936ad74716079fe",
+      "weekly-2096e9686479ceda7cc35242"
+    ],
+    "attempted_candidate_ids": [],
+    "completed_candidate_ids": [],
+    "genuinely_first_checked": [],
+    "next_dispositions": [],
+    "newly_passed_checks": {},
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [],
+    "remaining_blockers": [
+      {
+        "stage": "candidate_execution",
+        "reason": "Pass preparation and complete-input validation consumed execution time; no candidate resolution attempt or provider request was performed.",
+        "corrective_action": "Reuse verified immutable input snapshots and preserve candidate execution time; resume work_plan source/metadata stages and retained evidence through current supported executors."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Existing release 41945055902 remains failed at assessment-hash binding; no unchanged retry performed.",
+        "corrective_action": "Resolve full-corpus exact assessment/content serialization before existing controlled release."
+      }
+    ],
+    "cache_reuse": [
+      "66 complete submission signature unchanged; prior verified decisions reusable",
+      "Immutable local complete inputs verified against current Git byte sizes and blob SHAs"
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "stage_elapsed_seconds": {
+      "to_receipt": 426.669
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "No candidate work; heartbeat intervals exceeded 60 seconds. Current native run remains in progress.",
+    "resolvable_gate_count": null,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {},
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "lifecycle_identities": 385
+    },
+    "after_counts": {
+      "lifecycle_identities": 385,
+      "lifecycle_states": {
+        "completed": 13,
+        "awaiting_initial_checks": 278,
+        "awaiting_software_support": 9,
+        "retry_scheduled": 6,
+        "ready": 1,
+        "access_restricted": 11,
+        "stable_quality_failure": 67
+      }
+    },
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": null
+}
