@@ -48,7 +48,23 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          active=$(gh run list --workflow pipeline.yml --branch main --created ">$(date -u -d '2 days ago' +%Y-%m-%dT%H:%M:%SZ)" --limit 20 --json status --jq '[.[] | select(.status != "completed")] | length')
+          # Resolve only the verified, jobless September 28 stale dispatch.
+          stale=36439756777
+          state=$(gh api "repos/$GH_REPO/actions/runs/$stale" --jq .status)
+          if [ "$state" != completed ]; then
+            gh api "repos/$GH_REPO/actions/runs/$stale" --jq 'select(.status == "queued" and .head_branch == "main" and .path == ".github/workflows/pipeline.yml" and .created_at == "2026-09-28T14:56:22Z") | .id' | grep -qx "$stale"
+            jobs=$(gh api "repos/$GH_REPO/actions/runs/$stale/jobs" --jq .total_count)
+            test "$jobs" -eq 0
+            gh api --method POST "repos/$GH_REPO/actions/runs/$stale/cancel"
+            for attempt in $(seq 1 6); do
+              state=$(gh api "repos/$GH_REPO/actions/runs/$stale" --jq .status)
+              [ "$state" = completed ] && break
+              sleep 5
+            done
+            test "$state" = completed
+          fi
+          # Include old entries as well as recent runs in duplicate protection.
+          active=$(gh run list --workflow pipeline.yml --branch main --limit 100 --json status --jq '[.[] | select(.status != "completed")] | length')
           if [ "$active" -gt 0 ]; then
             echo "A Pipeline run already exists in a nonterminal state; no duplicate dispatched."
             exit 0
