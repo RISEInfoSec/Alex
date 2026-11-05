@@ -42148,22 +42148,16 @@
       "checks": {
         "duplicates": {
           "status": "passed",
-          "checked_at": "2026-10-28T03:50:34.934054+00:00",
+          "checked_at": "2026-11-05T03:55:29.229248+00:00",
           "content_sha256": "97263f56af4ac45fe6d103a0cd715dfe235cda062c7fae45e78366d048ab3deb",
           "evidence": {
-            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
-            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-            "weekly_inventory_records": 4041,
-            "all_prepared_collections": [
-              "soups",
-              "weekly",
-              "virusbulletin",
-              "apwg"
-            ],
-            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-            "matches": []
+            "status": "passed",
+            "matches": [],
+            "upstream_aliases": [],
+            "exclusions": [],
+            "main_commit": "1c3633d145a2cddcd2d504d0a1b89d15c34f00c8",
+            "source_manifest_count": 8,
+            "upstream_count": 4041
           }
         },
         "quality": {
@@ -42688,34 +42682,187 @@
       "collection": "weekly",
       "candidate_id": "weekly-10bf6841abc6f36147d952f0",
       "review_number": 119,
-      "content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
+      "content_sha256": "aecb18a4c7b6e6eea3a493cee8e27bdf189446ef49741c1fe164fa91514fedbd",
       "status": "held",
       "review_ready": false,
       "checks": {
+        "format": {
+          "status": "passed",
+          "checked_at": "2026-11-05T02:57:06.220618+00:00",
+          "content_sha256": "aecb18a4c7b6e6eea3a493cee8e27bdf189446ef49741c1fe164fa91514fedbd",
+          "evidence": {
+            "source_receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+            "url": "https://www.ijsr.net/archive/v15i4/SR26420051813.pdf",
+            "body_sha256": "0e0550124620be875079ee5c409ef65a313ac32cf40ebc7b3f3e45842b7c322a",
+            "text_sha256": "bcdf6e018c49e24543654ce32492fafe5bd3fa2b29555f7ea759947731592d54",
+            "page_count": 6,
+            "pages_inspected": 6,
+            "scope": "Inspected actual bound PDF front matter and substantive methods/body: research paper; title, byline and DOI match the candidate. Scientific quality and downstream classification remain separate.",
+            "actual_document_type": "research_paper"
+          },
+          "rebound_from_content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
+          "rebound_at": "2026-11-05T03:55:29.229248+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "access": {
+          "status": "passed",
+          "checked_at": "2026-11-05T02:57:06.220618+00:00",
+          "content_sha256": "aecb18a4c7b6e6eea3a493cee8e27bdf189446ef49741c1fe164fa91514fedbd",
+          "evidence": {
+            "source_receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+            "url": "https://www.ijsr.net/archive/v15i4/SR26420051813.pdf",
+            "body_sha256": "0e0550124620be875079ee5c409ef65a313ac32cf40ebc7b3f3e45842b7c322a",
+            "text_sha256": "bcdf6e018c49e24543654ce32492fafe5bd3fa2b29555f7ea759947731592d54",
+            "page_count": 6,
+            "pages_inspected": 6,
+            "scope": "Inspected actual bound PDF front matter and substantive methods/body: research paper; title, byline and DOI match the candidate. Scientific quality and downstream classification remain separate.",
+            "actual_document_type": "research_paper"
+          },
+          "rebound_from_content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
+          "rebound_at": "2026-11-05T03:55:29.229248+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
+        "metadata": {
+          "status": "passed",
+          "checked_at": "2026-11-05T03:55:29.229248+00:00",
+          "content_sha256": "aecb18a4c7b6e6eea3a493cee8e27bdf189446ef49741c1fe164fa91514fedbd",
+          "evidence": {
+            "source_receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+            "publisher_metadata": {
+              "revisit-after": [
+                "7 days"
+              ],
+              "viewport": [
+                "width=device-width, initial-scale=1.0"
+              ],
+              "google-site-verification": [
+                "MstdiD18eX5O0bh2Pjtd_zXT3yCzwCViXd98OxojmvU"
+              ],
+              "citeveriq-verification": [
+                "944821d61f278dbace1467782cfbfbf4"
+              ],
+              "keywords": [
+                "Ransomware propagation, Cybersecurity, Epidemic modeling, SIR-SEIR model, Machine learning, Ransomware detection, International Journal of Science and Research (IJSR), ijsr, scholarly article, academic research"
+              ],
+              "description": [
+                "Ransomware attacks have emerged as a major cybersecurity threat that causes severe operational disruption and financial losses for organizations worldwide. Rece"
+              ],
+              "robots": [
+                "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+              ],
+              "author": [
+                "Laxmikant P. Gawande"
+              ],
+              "citation_title": [
+                "An Integrated SIR-SEIR and Machine Learning Framework for Ransomware Propagation Analysis in Windows Networks"
+              ],
+              "citation_author": [
+                "Laxmikant P. Gawande"
+              ],
+              "citation_publication_date": [
+                "2026-04-15"
+              ],
+              "citation_journal_title": [
+                "International Journal of Science and Research (IJSR)"
+              ],
+              "citation_volume": [
+                "15"
+              ],
+              "citation_issue": [
+                "4"
+              ],
+              "citation_firstpage": [
+                "1320"
+              ],
+              "citation_lastpage": [
+                "1325"
+              ],
+              "citation_doi": [
+                "10.21275/SR26420051813"
+              ],
+              "citation_pdf_url": [
+                "https://www.ijsr.net/archive/v15i4/SR26420051813.pdf"
+              ],
+              "citation_publisher": [
+                "International Journal of Science and Research (IJSR)"
+              ],
+              "citation_issn": [
+                "2319-7064"
+              ],
+              "citation_abstract": [
+                "Ransomware attacks have emerged as a major cybersecurity threat that causes severe operational disruption and financial losses for organizations worldwide. Recent ransomware campaigns frequently exploit unpatched software vulnerabilities, enabling malicious code to propagate rapidly across enterprise networks. A notable example is the global outbreak of WannaCry ransomware, which demonstrated the destructive impact of self-propagating malware exploiting the Eternal Blue exploit vulnerability in Microsoft Windows environments. This research proposes a comprehensive analytical framework for investigating ransomware propagation and detection using statistical simulation and machine learning techniques implemented in the R programming language. The proposed approach integrates epidemic-based propagation models, enterprise network simulation, and machine learning-based detection methods. A simulated enterprise network consisting of 1000 nodes was analyzed using classical SIR and SEIR epidemic models to evaluate infection dynamics. Machine learning algorithms including Random Forest, Support Vector Machine, and Logistic Regression were trained using the CIC-MalMem-2022 dataset. Experimental evaluation showed that among the tested classifiers, Random Forest produced the best predictive performance with 92% accuracy, with strong precision and recall performance. Simulation results further demonstrate that increasing patch deployment significantly reduces ransomware propagation within enterprise environments. The proposed framework provides an integrated analytical approach for understanding ransomware attack behavior and improving enterprise cyber defense strategies. The simulation and visualization were implemented using the R statistical programming environment."
+              ],
+              "citation_keywords": [
+                "Ransomware propagation, Cybersecurity, Epidemic modeling, SIR-SEIR model, Machine learning, Ransomware detection"
+              ],
+              "og:title": [
+                "An Integrated SIR-SEIR and Machine Learning Framework for Ransomware Propagation Analysis in Windows Networks"
+              ],
+              "og:description": [
+                "Ransomware attacks have emerged as a major cybersecurity threat that causes severe operational disruption and financial losses for organizations worldwide. Rece"
+              ],
+              "og:image": [
+                "https://www.ijsr.net/images/ijsr_logo.jpg"
+              ],
+              "og:image:alt": [
+                "International Journal of Science and Research (IJSR) Logo"
+              ],
+              "og:url": [
+                "https://www.ijsr.net/getabstract.php?paperid=SR26420051813"
+              ],
+              "og:type": [
+                "article"
+              ],
+              "og:locale": [
+                "en_US"
+              ],
+              "og:site_name": [
+                "International Journal of Science and Research (IJSR)"
+              ],
+              "twitter:card": [
+                "summary_large_image"
+              ],
+              "twitter:title": [
+                "An Integrated SIR-SEIR and Machine Learning Framework for Ransomware Propagation Analysis in Windows Networks"
+              ],
+              "twitter:description": [
+                "Ransomware attacks have emerged as a major cybersecurity threat that causes severe operational disruption and financial losses for organizations worldwide. Rece"
+              ],
+              "twitter:image": [
+                "https://www.ijsr.net/images/ijsr_logo.jpg"
+              ],
+              "twitter:site": [
+                "@IJSRNET"
+              ]
+            },
+            "scope": "Publisher citation metadata agrees with PDF title/byline/year/DOI. Byline punctuation is normalized only for comparison; exact stored author retained. Publisher April 2026 issue agrees with PDF; no day precision added.",
+            "citation_limit": "No fresh citation count claimed; existing provisional score retained."
+          },
+          "rebound_from_content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
+          "rebound_at": "2026-11-05T03:55:29.229248+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+        },
         "duplicates": {
           "status": "passed",
-          "checked_at": "2026-10-28T03:50:34.934054+00:00",
-          "content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
+          "checked_at": "2026-11-05T03:55:29.229248+00:00",
+          "content_sha256": "aecb18a4c7b6e6eea3a493cee8e27bdf189446ef49741c1fe164fa91514fedbd",
           "evidence": {
-            "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-            "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
-            "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-            "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-            "weekly_inventory_records": 4041,
-            "all_prepared_collections": [
-              "soups",
-              "weekly",
-              "virusbulletin",
-              "apwg"
-            ],
-            "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-            "matches": []
-          }
+            "status": "passed",
+            "matches": [],
+            "upstream_aliases": [],
+            "exclusions": [],
+            "main_commit": "1c3633d145a2cddcd2d504d0a1b89d15c34f00c8",
+            "source_manifest_count": 8,
+            "upstream_count": 4041
+          },
+          "rebound_from_content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
+          "rebound_at": "2026-11-05T03:55:29.229248+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "quality": {
           "status": "passed",
           "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
+          "content_sha256": "aecb18a4c7b6e6eea3a493cee8e27bdf189446ef49741c1fe164fa91514fedbd",
           "evidence": {
             "quality_score": 27.24,
             "quality_venue_score": 40,
@@ -42733,58 +42880,30 @@
             "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
             "quality_requires_review": true
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-        },
-        "format": {
-          "status": "passed",
-          "checked_at": "2026-11-05T02:57:06.220618+00:00",
-          "content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
-          "evidence": {
-            "source_receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
-            "url": "https://www.ijsr.net/archive/v15i4/SR26420051813.pdf",
-            "body_sha256": "0e0550124620be875079ee5c409ef65a313ac32cf40ebc7b3f3e45842b7c322a",
-            "text_sha256": "bcdf6e018c49e24543654ce32492fafe5bd3fa2b29555f7ea759947731592d54",
-            "page_count": 6,
-            "pages_inspected": 6,
-            "scope": "Inspected actual bound PDF front matter and substantive methods/body: research paper; title, byline and DOI match the candidate. Scientific quality and downstream classification remain separate.",
-            "actual_document_type": "research_paper"
-          }
-        },
-        "access": {
-          "status": "passed",
-          "checked_at": "2026-11-05T02:57:06.220618+00:00",
-          "content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
-          "evidence": {
-            "source_receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
-            "url": "https://www.ijsr.net/archive/v15i4/SR26420051813.pdf",
-            "body_sha256": "0e0550124620be875079ee5c409ef65a313ac32cf40ebc7b3f3e45842b7c322a",
-            "text_sha256": "bcdf6e018c49e24543654ce32492fafe5bd3fa2b29555f7ea759947731592d54",
-            "page_count": 6,
-            "pages_inspected": 6,
-            "scope": "Inspected actual bound PDF front matter and substantive methods/body: research paper; title, byline and DOI match the candidate. Scientific quality and downstream classification remain separate.",
-            "actual_document_type": "research_paper"
-          }
-        },
-        "metadata": {
-          "status": "held",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
-          "content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
-          "evidence": "Not yet completed; not a pass.",
-          "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+          "rebound_from_content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
+          "rebound_at": "2026-11-05T03:55:29.229248+00:00",
+          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "schema": {
           "status": "held",
-          "checked_at": "2026-10-27T23:05:43.163744+00:00",
-          "content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
-          "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-          "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-          "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          "checked_at": "2026-11-05T03:55:29.229248+00:00",
+          "content_sha256": "aecb18a4c7b6e6eea3a493cee8e27bdf189446ef49741c1fe164fa91514fedbd",
+          "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
         }
       },
       "blockers": [
-        "metadata",
         "schema"
-      ]
+      ],
+      "verified_document_type": "research_paper"
     },
     {
       "collection": "weekly",
