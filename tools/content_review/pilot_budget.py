@@ -3,11 +3,16 @@ from __future__ import annotations
 import time
 
 
-def candidate_limit(policy, qualifying_receipts):
+def candidate_limit(policy, qualifying_receipts, checkpoint_repairs=()):
+    # Immutable receipts may later be contradicted by an independently recorded
+    # checkpoint failure. A repair preserves the work, not the original success.
+    invalid_runs = {r.get('affected_run_id') for r in checkpoint_repairs
+                    if r.get('prior_integrity_claim_corrected') is True}
     seen = set()
     for r in qualifying_receipts:
         p = r.get('pilot', {})
         if (p.get('pilot_id') == policy['id'] and r.get('trigger') == 'schedule'
+            and r.get('run_id') not in invalid_runs and p.get('promotion_eligible') is not False
             and r.get('native_terminal_verified') is True and r.get('status') == 'complete'
             and p.get('integrity_passed') is True and p.get('budget_compliant') is True
             and p.get('access_rules_preserved') is True and p.get('lease_conflicts') == 0

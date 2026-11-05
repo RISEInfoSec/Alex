@@ -26,3 +26,27 @@ def test_source_activity_cannot_hide_stalled_downstream_gates():
         'all_candidates_legitimately_held':False}} for i in range(2)]
     result=processing_progress(receipts)
     assert result['status']=='stalled_downstream_gates' and result['corrective_action']
+
+def test_corrected_checkpoint_failure_cannot_promote_pilot_or_claim_recovery():
+    from tools.content_review.pilot_budget import candidate_limit
+    from tools.content_review.work_plan import processing_progress
+    policy={'id':'pilot','initial_candidate_limit':5,'subsequent_candidate_limit':10,'initial_successful_passes':2}
+    receipts=[{'run_id':str(i),'trigger':'schedule','started_at':str(i),
+        'native_terminal_verified':True,'status':'complete','pilot':{
+        'pilot_id':'pilot','integrity_passed':True,'budget_compliant':True,
+        'access_rules_preserved':True,'lease_conflicts':0,'checkpoint_failures':0,
+        'attempted_candidate_ids':['candidate'],'requests':{'source':5},
+        'newly_passed_checks':{'access':['candidate']}}} for i in range(2)]
+    repairs=[{'affected_run_id':'1','prior_integrity_claim_corrected':True}]
+    assert candidate_limit(policy,receipts)==10
+    assert candidate_limit(policy,receipts,repairs)==5
+    progress=processing_progress(receipts,repairs)
+    assert progress['status']=='checkpoint_integrity_failed'
+    assert progress['runs'][-1]['source_gate_passes']==1
+    assert progress['runs'][-1]['checkpoint_integrity']=='failed_corrected'
+    receipts[-1]['pilot']['promotion_eligible']=False
+    assert candidate_limit(policy,receipts)==5
+    # A later intact pass ends the current checkpoint incident, while preserving
+    # the correction in historical evidence.
+    later={**receipts[0],'run_id':'2','started_at':'2'}
+    assert processing_progress(receipts+[later],repairs)['status']!='checkpoint_integrity_failed'

@@ -27,14 +27,18 @@ def select(manifests, ledger, limit=5, source_progress=None):
             candidates.append((rank,{'collection':collection,'candidate_id':row['candidate_id'],'next_stage':stage}))
     return [item for _,item in sorted(candidates,key=lambda x:x[0])[:limit]]
 
-def processing_progress(receipts):
+def processing_progress(receipts, checkpoint_repairs=()):
+    invalid_runs={r.get('affected_run_id') for r in checkpoint_repairs
+                  if r.get('prior_integrity_claim_corrected') is True}
     runs=[]
     for receipt in sorted(receipts,key=lambda r:r.get('started_at','')):
         p=receipt.get('pilot',{});counts=p.get('requests',receipt.get('request_counts',{}))
         if not p or receipt.get('trigger')!='schedule':continue
         source_checks=sum(len(v) for k,v in p.get('newly_passed_checks',{}).items() if k in ('format','access','metadata'))
         downstream_checks=sum(len(v) for k,v in p.get('newly_passed_checks',{}).items() if k in ('quality','schema'))
-        runs.append({'run_id':receipt.get('run_id'),'local_candidates':len(p.get('attempted_candidate_ids',[])),
+        runs.append({'run_id':receipt.get('run_id'),
+                     'checkpoint_integrity':'failed_corrected' if receipt.get('run_id') in invalid_runs else 'failed' if p.get('integrity_passed') is False or (p.get('checkpoint_failures') or 0)>0 else 'reported_passed' if p.get('integrity_passed') is True else 'unknown',
+                     'local_candidates':len(p.get('attempted_candidate_ids',[])),
                      'candidate_ids':p.get('attempted_candidate_ids',[]),'resolvable_gates':p.get('resolvable_gate_count'),
                      'legitimate_holds_only':p.get('all_candidates_legitimately_held') is True,
                      'source_requests':counts.get('source'),'source_gate_passes':source_checks,'downstream_gate_passes':downstream_checks,
@@ -46,7 +50,8 @@ def processing_progress(receipts):
     resolvable=no_progress and any((r['resolvable_gates'] or 0)>0 for r in recent)
     repeated=no_progress and bool(set(recent[-1]['candidate_ids'])&set(recent[-2]['candidate_ids'])) and not all(r['legitimate_holds_only'] for r in recent)
     downstream_stall=len(recent)>=2 and all(r['local_candidates'] and r['downstream_gate_passes']==0 and r['six_gate_completions']==0 and r['review_ready']==0 for r in recent) and any((r['resolvable_gates'] or 0)>0 for r in recent) and not all(r['legitimate_holds_only'] for r in recent)
-    status='stalled_resolvable_gates' if resolvable else 'stalled_local_only' if stalled else 'stalled_downstream_gates' if downstream_stall else 'repeated_attempts_without_progress' if repeated else 'progress_requires_gate_evidence'
+    checkpoint_failed=bool(recent and recent[-1]['checkpoint_integrity'] in ('failed','failed_corrected'))
+    status='checkpoint_integrity_failed' if checkpoint_failed else 'stalled_resolvable_gates' if resolvable else 'stalled_local_only' if stalled else 'stalled_downstream_gates' if downstream_stall else 'repeated_attempts_without_progress' if repeated else 'progress_requires_gate_evidence'
     return {'runs':runs,'status':status,
-            'corrective_action':'Consume pending source artifacts, then execute next missing gate for due candidates. Verify transport/checkpoint capability; park precise access or type-policy holds and select independent resolvable work. Report the cause and exact remedy.' if stalled or resolvable or repeated or downstream_stall else None,
+            'corrective_action':'Verify the restored checkpoint and use lossless blob-verified transport. Preserve actual source progress, exclude the failed pass from promotion, and require a later intact scheduled checkpoint to establish recovery.' if checkpoint_failed else 'Consume pending source artifacts, then execute next missing gate for due candidates. Verify transport/checkpoint capability; park precise access or type-policy holds and select independent resolvable work. Report the cause and exact remedy.' if stalled or resolvable or repeated or downstream_stall else None,
             'scheduler_success_is_processing_recovery':False}

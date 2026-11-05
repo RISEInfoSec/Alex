@@ -16,3 +16,14 @@ The complete local files were recovered with exact SHA-256 matches to the canoni
 The monitoring distinction is scheduler completion / local activity / source gate progress / downstream quality-schema progress / six-gate completion / manual readiness / publication. Two source-active passes with resolvable gates but no downstream or readiness progress are now a specific downstream-stall condition. Monitor manifest/stage validation failures independently, including a successful scheduler run whose canonical checkpoint failed integrity.
 
 The two paper inputs from the 23:45 pass retain their new type/metadata versions and source evidence. Their prior paid request made zero calls. A later eligible pass must generate a new immutable request against the repaired manifest and current classifier/publisher contract; do not resend the stale contract or repeat source retrieval.
+
+## Corrected receipts and pilot promotion
+
+Load the complete `config/content_review_checkpoint_repairs/*.json` records and
+pass them as `checkpoint_repairs` to both `pilot_budget.candidate_limit` and
+`work_plan.processing_progress`. A correction with
+`prior_integrity_claim_corrected=true` invalidates the original pass's integrity
+claim for promotion, even after its data is restored. Preserve the original
+receipt and actual source/gate counts. The latest affected scheduled pass reports
+`checkpoint_integrity_failed` until a later intact scheduled checkpoint supplies
+new evidence. Native scheduler completion alone never clears this condition.
