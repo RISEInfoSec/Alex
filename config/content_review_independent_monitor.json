@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-04T23:37:01.801Z",
+  "observed_at": "2026-11-05T01:35:38.060Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "c0568884-7b48-8333-a386-0caddf6200ea",
-    "scheduled_for": "2026-11-04T23:32:00Z",
-    "started_at": "2026-11-04T23:34:05.314440Z",
+    "run_id": "dc3f6d71-7b44-8333-9302-f36f585a9227",
+    "scheduled_for": "2026-11-05T01:32:00Z",
+    "started_at": "2026-11-05T01:31:49.671385Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,88 +14,165 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-04T23:34:44.071Z",
+    "observed_at": "2026-11-05T01:35:38.060Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "45b8f9ca-5b14-8332-9640-1e9c2814fe3e",
+      "id": "a89a024b-85d0-8332-93ff-1877c4129fef",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-04T22:45:00Z",
-      "started_at": "2026-11-04T22:47:07.192589Z",
-      "completed_at": "2026-11-04T22:48:22.028492Z"
-    },
-    "last_run_deferral": {
-      "run_id": "45b8f9ca-5b14-8332-9640-1e9c2814fe3e",
-      "source": "native_result_and_overlapping_lease",
-      "candidate_processing": false,
-      "lease_acquired_at": "2026-11-04T22:40:37.999Z",
-      "lease_expires_at": "2026-11-04T23:10:37.999Z",
-      "evidence": "config/content_review_maintenance_receipts/2026-11-04-source-recovery.json"
+      "scheduled_for": "2026-11-05T00:45:00Z",
+      "started_at": "2026-11-05T00:48:09.777946Z",
+      "completed_at": "2026-11-05T01:00:38.859577Z"
     }
   },
   "receipt_check": {
-    "run_id": "45b8f9ca-5b14-8332-9640-1e9c2814fe3e",
-    "path": null,
-    "verified": false,
-    "reason": "Native result and immutable maintenance evidence agree that the scheduled run intentionally did no candidate work because a verified maintenance lease overlapped its actual start; no canonical work receipt is expected or manufactured."
+    "run_id": "a89a024b-85d0-8332-93ff-1877c4129fef",
+    "path": "config/content_review_run_receipts/a89a024b-85d0-8332-93ff-1877c4129fef.json",
+    "verified": true,
+    "reason": "Canonical scheduled receipt matches native run identity and schedule, records status=complete with nonempty completed_actions and canonical receipt_path, and completed_at falls within native started/completed bounds. The receipt separately records application checkpoint and publication failures; native scheduler completion does not erase them."
   },
-  "checkpoint_observed_at": "2026-11-04T21:51:58.979684+00:00",
+  "checkpoint_observed_at": "2026-11-05T00:59:42.962541+00:00",
   "processing": {
-    "observed_at": "2026-11-04T23:34:44.071Z",
-    "evidence_observed_at": "2026-11-04T23:08:50.570225+00:00",
+    "observed_at": "2026-11-05T01:35:38.060Z",
+    "evidence_observed_at": "2026-11-05T00:58:43.403318+00:00",
     "evidence_fresh": true,
-    "immutable_tree_sha": "e0864e3d336ac24da9aedfb6298ac7d55590e703",
+    "immutable_tree_sha": "48304bad7cbba00e3d1bfb45d6e8c9b962e75a15",
     "examined_run_ids": [
-      "f77ac778-17f0-8322-bc3c-820a773baad5",
-      "32663319-ec88-8322-9654-efcfa9a2d840",
-      "d91a87a0-2bdc-8332-8696-79081556d1bd"
+      "d91a87a0-2bdc-8332-8696-79081556d1bd",
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688",
+      "a89a024b-85d0-8332-93ff-1877c4129fef"
     ],
     "runs": [
       {
-        "run_id": "f77ac778-17f0-8322-bc3c-820a773baad5",
-        "local_candidates": 5,
-        "actual_source_requests": 0,
-        "new_source_gate_passes": 0,
-        "new_downstream_gate_passes": 0,
-        "new_duplicate_gate_passes": 2,
-        "all_six_completions": 0,
-        "newly_manual_ready": 0,
-        "publications": 0
-      },
-      {
-        "run_id": "32663319-ec88-8322-9654-efcfa9a2d840",
-        "local_candidates": 5,
-        "actual_source_requests": 0,
-        "new_source_gate_passes": 0,
-        "new_downstream_gate_passes": 0,
-        "new_duplicate_gate_passes": 2,
-        "all_six_completions": 0,
-        "newly_manual_ready": 0,
-        "publications": 0
-      },
-      {
         "run_id": "d91a87a0-2bdc-8332-8696-79081556d1bd",
+        "checkpoint_integrity": "reported_passed",
         "local_candidates": 5,
+        "candidate_ids": [
+          "m3aawg-url-759dd5b0fd3c0145b73d24a7",
+          "m3aawg-url-7461f1af4e7d136e2d833f84",
+          "m3aawg-url-14536f3e06c8f39154218296",
+          "m3aawg-url-cc47571e309bbceb2cf387cd",
+          "m3aawg-url-c8441b726dbfcc4aa5fa86d6"
+        ],
         "actual_source_requests": 0,
         "new_source_gate_passes": 0,
         "new_downstream_gate_passes": 0,
-        "new_duplicate_gate_passes": 5,
         "all_six_completions": 0,
         "newly_manual_ready": 0,
-        "publications": 0
+        "publications": 0,
+        "resolvable_gates": null,
+        "legitimate_holds_only": false,
+        "blockers": [
+          "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
+          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim."
+        ]
+      },
+      {
+        "run_id": "fe4875f6-dc78-8332-8c50-fe0d998ea688",
+        "checkpoint_integrity": "failed_corrected",
+        "local_candidates": 5,
+        "candidate_ids": [
+          "weekly-02db78e5dcf92cfe64dc4487",
+          "weekly-040edeb033e8ee41aeb9433a",
+          "weekly-09d2d4f0bfbb0771930884fd",
+          "weekly-0a59e535bcac3620fc21829c",
+          "weekly-0c62bfc049ea611ecb965fc6"
+        ],
+        "actual_source_requests": 22,
+        "new_source_gate_passes": 10,
+        "new_downstream_gate_passes": 0,
+        "all_six_completions": 0,
+        "newly_manual_ready": 0,
+        "publications": 0,
+        "resolvable_gates": 2,
+        "legitimate_holds_only": false,
+        "blockers": [
+          {
+            "stage": "classification_and_serialization",
+            "candidate_ids": [
+              "weekly-09d2d4f0bfbb0771930884fd",
+              "weekly-0a59e535bcac3620fc21829c"
+            ],
+            "reason": "Actions run41937221730 failed Request/input integrity validation before provider sends; exact local validate_request passes. Reproduce on immutable runner commit and expose sanitized failing precondition before any retry.",
+            "corrective_action": "Compare immutable request contract and manifest/gate digests in Actions environment; retain exact hashes and source evidence. Do not repeat source retrieval."
+          },
+          {
+            "stage": "source_or_metadata",
+            "candidate_id": "weekly-02db78e5dcf92cfe64dc4487",
+            "reason": "Publisher landing page retrieved with matching title/byline and abstract; no bound actual document inspected. Format remains held; resolve only a publisher-bound permitted original."
+          },
+          {
+            "stage": "source_or_metadata",
+            "candidate_id": "weekly-040edeb033e8ee41aeb9433a",
+            "reason": "Verified paper; PDF DOI 10.70610/jcpa.v4i01.1264 differs from publisher citation DOI 10.70610/jcpa.1264; metadata conflict held."
+          },
+          {
+            "stage": "source_or_metadata",
+            "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
+            "reason": "Verified paper; current byline Dhivya J differs from publisher/PDF J. Dhivya; explicit metadata/version reconciliation held."
+          }
+        ]
+      },
+      {
+        "run_id": "a89a024b-85d0-8332-93ff-1877c4129fef",
+        "checkpoint_integrity": "failed",
+        "local_candidates": 2,
+        "candidate_ids": [
+          "weekly-09d2d4f0bfbb0771930884fd",
+          "weekly-0a59e535bcac3620fc21829c"
+        ],
+        "actual_source_requests": 0,
+        "new_source_gate_passes": 0,
+        "new_downstream_gate_passes": 2,
+        "all_six_completions": 0,
+        "newly_manual_ready": 0,
+        "publications": 0,
+        "resolvable_gates": 0,
+        "legitimate_holds_only": false,
+        "blockers": [
+          {
+            "stage": "publication_full_corpus_serialization",
+            "candidate_ids": [
+              "weekly-250dd6cfa359991d1db168d1",
+              "m3aawg-url-75aa6fb2c156539547d27ab8"
+            ],
+            "reason": "PR111 merged after validation. Release run41945055902 verified exact source bytes and staged2 additions, then failed full-corpus publish: alex.resource_types.public_fields -> validate_assessment -> Reviewed resource content changed. Save-corpus/receipt step skipped; zero durable or live publications claimed.",
+            "corrective_action": "Reproduce mixed-corpus CSV serialization for the approved guide; reconcile exact hash/type values through public_fields without weakening assessment binding, then resume the immutable existing release request."
+          },
+          {
+            "stage": "source_metadata",
+            "reason": "Other prior source/type/DOI/byline holds preserved; no repeated download."
+          }
+        ]
       }
     ],
-    "status": "stalled_local_only",
-    "stalled_local_only": true,
+    "status": "checkpoint_integrity_failed",
+    "stalled_local_only": false,
     "stalled_resolvable_gates": false,
     "repeated_attempts_without_progress": false,
-    "missing_stage_or_capability": "Scheduled passes stop after local identity/duplicate work. Due supported papers still need the tested source-artifact route for source retrieval and format/access verification, followed by metadata, quality, classification/serialization and admission. Verified non-paper candidates separately await an approved type-specific quality/admission policy and public exporter.",
-    "corrective_action": "Consume pending permitted source artifacts in the next lease-owning scheduled pass, then execute each due candidate's next missing gate. Park precise access or type-policy holds and select independent resolvable supported papers.",
-    "legitimate_holds": [
-      "Publisher HTTP 403 candidates remain access-held until a separately verified permitted copy is available.",
-      "The FIRST-withheld PDF remains held until restoration or a permitted author-provided original.",
-      "Verified non-paper resources remain held for an approved type-specific policy and exporter."
+    "missing_stage_or_capability": "The latest scheduled pass completed two downstream schema classifications from retained source evidence, but Unicode character-count validation stopped the candidate checkpoint before tree creation. Its approved release then failed full-corpus assessment-hash validation; no durable admission or publication was established.",
+    "corrective_action": "Verify the restored checkpoint and use lossless blob-verified transport. Preserve actual source progress, exclude the failed pass from promotion, and require a later intact scheduled checkpoint to establish recovery.",
+    "checkpoint_corrections": [
+      {
+        "affected_run_id": "fe4875f6-dc78-8332-8c50-fe0d998ea688",
+        "path": "config/content_review_checkpoint_repairs/2026-11-05-truncated-write.json",
+        "blob_sha": "d7f88dda85f4036ff6cba25b35fd7606889c8104",
+        "prior_integrity_claim_corrected": true,
+        "repair_commit": "3fea1236cfee84e5390f5f17e392b1e4a2e2aebd",
+        "verified_files": [
+          {
+            "path": "config/weekly_review_manifest.json",
+            "restored_blob": "d01ceb748d0f957eba8521caaaee75d8aefe787e",
+            "size": 4627376
+          },
+          {
+            "path": "config/content_review_preflight_status.json",
+            "restored_blob": "572c3cca9b55d3f147db29c9f0ce5867d335e7dd",
+            "size": 3302143
+          }
+        ]
+      }
     ],
     "maintenance_validation": {
       "observed_at": "2026-11-04T23:14:31.615Z",
@@ -111,40 +188,40 @@
   },
   "findings": [
     {
-      "code": "intentional_lease_deferral",
-      "message": "Worker run 45b8f9ca-5b14-8332-9640-1e9c2814fe3e started within dispatch grace and intentionally performed no candidate work because verified maintenance lease 2026-11-04T22:40:37.999Z–23:10:37.999Z overlapped its start."
+      "code": "native_terminal_observed",
+      "message": "Worker run a89a024b-85d0-8332-93ff-1877c4129fef was observed natively completed at 2026-11-05T01:00:38.859577Z; application outcome is evaluated separately."
+    },
+    {
+      "code": "receipt_verified_with_application_failures",
+      "message": "The canonical receipt for a89a024b-85d0-8332-93ff-1877c4129fef passed identity, schedule, action, path and native time-bound checks, while recording checkpoint_failures=1 and integrity_passed=false."
     },
     {
       "code": "no_missed_start",
-      "message": "The 2026-11-04T22:45:00Z worker start was served within dispatch grace; the next expected 2026-11-04T23:45:00Z start is not yet due."
+      "message": "The 2026-11-05T00:45:00Z worker start was served at 2026-11-05T00:48:09.777946Z, within dispatch grace; the next expected 2026-11-05T01:45:00Z start is not yet due."
     },
     {
       "code": "no_current_stall",
-      "message": "The latest worker run is terminal and explicitly deferred; no active worker heartbeat is expected."
+      "message": "The latest worker run is terminal; no active worker heartbeat is expected. Its final checkpoint observation is preserved without inventing later activity."
     },
     {
-      "code": "receipt_absence_explained",
-      "message": "No canonical work receipt exists for the deferred run, consistent with candidate_processing=false; this is not treated as a receipt mismatch."
+      "code": "processing_checkpoint_integrity_failed",
+      "message": "The latest scheduled pass classified two retained paper inputs and recorded two downstream schema passes, but its candidate checkpoint failed before tree creation; zero all-six completions, manual-ready admissions and publications are independently established."
     },
     {
-      "code": "processing_stalled_local_only",
-      "message": "The last three completed work-bearing scheduled pilot receipts processed 15 local candidates with zero source requests, zero source/downstream gate passes, zero all-six completions, zero manual-ready admissions and zero publications."
+      "code": "publication_not_recovered",
+      "message": "The latest receipt records that PR #111 merged but full-corpus assessment-hash validation failed; save/receipt publication steps did not run and zero publications are counted."
     },
     {
-      "code": "maintenance_progress_not_scheduled_recovery",
-      "message": "Maintenance evidence records 25 source requests, four source-gate passes, one all-six completion and one manual-ready paper, but explicitly does not establish sustained unattended scheduled recovery."
+      "code": "checkpoint_correction_applied",
+      "message": "Correction config/content_review_checkpoint_repairs/2026-11-05-truncated-write.json overrides run fe4875f6-dc78-8332-8c50-fe0d998ea688's original integrity claim while preserving 22 source requests and 10 source-gate passes; that run remains promotion-ineligible."
     },
     {
       "code": "processing_evidence_fresh",
-      "message": "Processing-health evidence observed at 2026-11-04T23:08:50.570225+00:00 was fresh at the 2026-11-04T23:34:44.071Z observer lookup."
+      "message": "Processing-health evidence observed at 2026-11-05T00:58:43.403318+00:00 was fresh at 2026-11-05T01:35:38.060Z."
     },
     {
       "code": "observer_scheduled_start_verified",
-      "message": "Observer run c0568884-7b48-8333-a386-0caddf6200ea started at 2026-11-04T23:34:05.314440Z for scheduled_for 2026-11-04T23:32:00Z, within 15-minute dispatch grace."
-    },
-    {
-      "code": "observer_freshness_preserved",
-      "message": "Observer native state was read at 2026-11-04T23:34:44.071Z while run c0568884-7b48-8333-a386-0caddf6200ea was in progress."
+      "message": "Observer run dc3f6d71-7b44-8333-9302-f36f585a9227 started at 2026-11-05T01:31:49.671385Z for scheduled_for 2026-11-05T01:32:00Z, within dispatch grace, and remains in progress."
     },
     {
       "code": "native_next_run_time_unavailable",
