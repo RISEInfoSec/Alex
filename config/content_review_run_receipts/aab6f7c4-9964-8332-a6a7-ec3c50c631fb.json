@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "run_id": "aab6f7c4-9964-8332-a6a7-ec3c50c631fb",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T01:45:00Z",
+  "started_at": "2026-11-05T01:40:23.586889Z",
+  "completed_at": "2026-11-05T01:49:22.210342+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/aab6f7c4-9964-8332-a6a7-ec3c50c631fb.json",
+  "completed_actions": [
+    "Published/read back immediate start and real running observations.",
+    "Read complete current submission signature; reused unchanged full decisions and reconciled two approvals and one rejection.",
+    "Verified current immutable checkout bytes and all checkpoint corrections.",
+    "Reverified prior paid native run and current-contract serializer; no repeat spend.",
+    "Admitted two six-gate-cleared papers in sealed Weekly batch27.",
+    "Atomic candidate checkpoint22d4c09320ac1d0154a645d3d329ed6b06e67e78 verified each created blob SHA before tree and exact committed tree SHA/size/content after update.",
+    "Evaluated and saved lifecycle with current overdue flags; preserved publication blocker and all historical decisions."
+  ],
+  "candidate_ids": [
+    "weekly-09d2d4f0bfbb0771930884fd",
+    "weekly-0a59e535bcac3620fc21829c"
+  ],
+  "candidate_check_count": 2,
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/weekly_review_manifest.json",
+    "config/m3aawg_review_manifest.json",
+    "config/bellingcat_review_manifest.json",
+    "config/content_review_preflight_status.json",
+    "config/content_review_candidate_lifecycle.json"
+  ],
+  "ready_total": 2,
+  "newly_review_ready": 2,
+  "errors": [],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_version": 20,
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c"
+    ],
+    "completed_candidate_ids": [
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c"
+    ],
+    "genuinely_first_checked": [],
+    "next_dispositions": [
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c"
+    ],
+    "newly_passed_checks": {
+      "schema": [
+        "weekly-09d2d4f0bfbb0771930884fd",
+        "weekly-0a59e535bcac3620fc21829c"
+      ]
+    },
+    "all_six_completed": [
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c"
+    ],
+    "manual_admitted": [
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c"
+    ],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "stage": "publication_full_corpus_serialization",
+        "candidate_ids": [
+          "weekly-250dd6cfa359991d1db168d1",
+          "m3aawg-url-75aa6fb2c156539547d27ab8"
+        ],
+        "reason": "Existing release PR111 merged, but release run41945055902 failed full-corpus assessment-hash validation. Current main remains1c3633d145a2cddcd2d504d0a1b89d15c34f00c8 with no durable additions. No unchanged failed release replayed.",
+        "corrective_action": "Reproduce and correct mixed-corpus CSV serialization while preserving exact resource assessment binding, then resume the existing immutable release."
+      }
+    ],
+    "cache_reuse": [
+      "Prior paid Actions41944513536 and complete result reused with independent native success and current contract/hash/serializer verification; zero new classification calls.",
+      "65 complete D1 submissions matched identity/revision/payload signatures, permitting reuse of930 prior fully read decisions.",
+      "Main corpus/exclusions/upstream blobs unchanged; all current candidate identities and prior reviewed hashes preserved.",
+      "Completed HVE sources and stable parked work not repeated."
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 0,
+    "stage_elapsed_seconds": {
+      "total_to_receipt": 538.626799
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": null,
+    "remaining_blockers": [
+      {
+        "stage": "publication_full_corpus_serialization",
+        "candidate_ids": [
+          "weekly-250dd6cfa359991d1db168d1",
+          "m3aawg-url-75aa6fb2c156539547d27ab8"
+        ],
+        "reason": "Existing release PR111 merged, but release run41945055902 failed full-corpus assessment-hash validation. Current main remains1c3633d145a2cddcd2d504d0a1b89d15c34f00c8 with no durable additions. No unchanged failed release replayed.",
+        "corrective_action": "Reproduce and correct mixed-corpus CSV serialization while preserving exact resource assessment binding, then resume the existing immutable release."
+      }
+    ],
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-05T01:49:22.210342+00:00",
+        "stage": "admitted",
+        "candidate_ids": [
+          "weekly-09d2d4f0bfbb0771930884fd",
+          "weekly-0a59e535bcac3620fc21829c"
+        ]
+      }
+    },
+    "resolvable_gate_count": 0,
+    "all_candidates_legitimately_held": false,
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 1
+    },
+    "after_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 2
+    },
+    "promotion_eligible": false,
+    "promotion_reason": "Current native terminal proof and complete heartbeat interval proof unavailable; prior corrected passes remain excluded.",
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": null
+}
