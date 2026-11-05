@@ -1547,36 +1547,37 @@
       "created_at": "2026-11-05T19:11:00Z",
       "updated_at": "2026-11-05T19:11:05Z"
     },
-    "state_sha": "97d5642f7fef4aff140d802f8b98b329935f1674",
-    "state_at": "2026-11-05T19:21:17Z",
+    "state_sha": "2e276c14007f752d86aedf37b9956ef5995ae9cf",
+    "state_at": "2026-11-05T19:31:14Z",
     "state_status": "in_progress",
-    "completed_tasks": 48,
+    "completed_tasks": 49,
     "completed_by_provider": {
       "GitHub": 12,
       "Crossref": 12,
       "Zenodo": 12,
-      "OpenAlex": 11,
+      "OpenAlex": 12,
       "arXiv": 1
     },
-    "candidate_titles": 4492,
-    "requests_this_attempt": 62,
+    "candidate_titles": 4672,
+    "requests_this_attempt": 113,
     "statuses": {
-      "200": 62
+      "200": 111,
+      "404": 2
     },
     "hosts": {
-      "api.openalex.org": 62
+      "api.openalex.org": 113
     },
     "last_openalex_quota": {
       "X-RateLimit-Limit": 10000.0,
-      "X-RateLimit-Remaining": 9180.0,
-      "X-RateLimit-Credits-Used": 10.0,
-      "X-RateLimit-Reset": 16746.0
+      "X-RateLimit-Remaining": 9090.0,
+      "X-RateLimit-Credits-Used": 0.0,
+      "X-RateLimit-Reset": 16150.0
     },
     "last_request": {
       "host": "api.openalex.org",
       "http_status": 200,
-      "elapsed_seconds": 0.57,
-      "started_at": "2026-11-05T19:20:54.026225+00:00"
+      "elapsed_seconds": 0.217,
+      "started_at": "2026-11-05T19:30:50.716182+00:00"
     }
   },
   "additional_repair": {
@@ -1584,6 +1585,10 @@
     "cause": "Discovery rewrites an unnecessary pretty-printed legacy cache in addition to the canonical durable response checkpoint. Native HTTP duration0.4–0.6s versus observed start gaps around8s motivated investigation.",
     "change": "Disable only legacy cache reads/writes for DiscoveryClient; retain every existing canonical persistence and request-accounting boundary.",
     "tests_passed": 582,
-    "live_throughput_verified": false
-  }
+    "live_throughput_verified": false,
+    "merge_commit": "ecc30e794b4c322d630ed23d0cbbfb41a25768db",
+    "ci_run": 42093725614,
+    "ci_conclusion": "success"
+  },
+  "updated_at": "2026-11-05T19:35:47.429210+00:00"
 }
