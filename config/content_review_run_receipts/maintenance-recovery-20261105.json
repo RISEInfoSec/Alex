@@ -3,7 +3,7 @@
   "run_id": "maintenance-recovery-2026-11-05T18-08-44Z",
   "trigger": "owner_maintenance",
   "started_at": "2026-11-05T18:08:44Z",
-  "observed_at": "2026-11-05T18:45:46.962056+00:00",
+  "observed_at": "2026-11-05T18:54:12.472733+00:00",
   "status": "in_progress",
   "completed_at": null,
   "receipt_path": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
@@ -12,7 +12,8 @@
     "Two semantic taxonomy amendments verified against retained original documents and paid responses; all six gates passed; batch31 sealed",
     "Five DataCite DOI identities and Book resource types independently verified; concept/version duplicate pair identified",
     "Original five accepted CSV rows retained; exact publication hold prepared in PR116",
-    "Recovery instructions and pilot heartbeat/useful-progress promotion guard implemented; verified owner-pause intervals exclude intentional gaps only"
+    "Recovery instructions and pilot heartbeat/useful-progress promotion guard implemented; verified owner-pause intervals exclude intentional gaps only",
+    "PR116 merged and Pages deployed; live JSON/CSV/bibliography exactly verified with five holds and3189 public records"
   ],
   "classification": {
     "admission_receipt": "config/content_review_batch_admission_receipts/recovery-20261105.json",
@@ -28,7 +29,34 @@
     "datacite_records_verified": 5,
     "source_receipt": "config/content_review_source_receipts/402fd00b610f0913ba71b086f02a2438279583feb53343af2bc8ba3a5462824f.json",
     "publication_pr": "https://github.com/RISEInfoSec/Alex/pull/116",
-    "live_verified": false
+    "live_verified": true,
+    "merge_commit": "02116666232d3d888c6ed9cadac20d3ca947afcd",
+    "pages_run": 42087436283,
+    "public_count": 3189,
+    "live_verification": {
+      "papers.json": {
+        "status": 200,
+        "sha256": "2f5963e5bb18ec5659ed80b8fe2dd5126733ba49c6ae254c0eed4577ed7d2c31",
+        "bytes": 8953294
+      },
+      "osint_cyber_papers.csv": {
+        "status": 200,
+        "sha256": "ae4682dc8575627ddde047dd53614fa2308718b9f84155726e7a5f2729c9327c",
+        "bytes": 7912955
+      },
+      "bibliography": {
+        "status": 200,
+        "exact_match": true
+      },
+      "public_count": 3189,
+      "held_dois_absent": [
+        "10.5281/zenodo.20019655",
+        "10.5281/zenodo.20397169",
+        "10.5281/zenodo.20664393",
+        "10.5281/zenodo.20666247",
+        "10.5281/zenodo.20666248"
+      ]
+    }
   },
   "weekly_retry": {
     "repair_pr": "https://github.com/RISEInfoSec/Alex/pull/115",
@@ -1407,6 +1435,36 @@
         }
       },
       "active_runs": []
+    },
+    "in_progress_checkpoint": {
+      "observed_checkpoint_commit": "981f86f604dbfcb93d49163608aee3f34c05ccac",
+      "checkpoint_at": "2026-11-05T18:45:44Z",
+      "run_id": 42083423973,
+      "status": "in_progress",
+      "completed_tasks": 22,
+      "completed_tasks_by_provider": {
+        "GitHub": 7,
+        "Crossref": 6,
+        "Zenodo": 6,
+        "OpenAlex": 3
+      },
+      "cached_successful_responses": 160,
+      "actual_request_count": 161,
+      "http_status_counts": {
+        "200": 161
+      },
+      "openalex_calls": 20,
+      "openalex_http_statuses": {
+        "200": 20
+      },
+      "last_openalex_quota_headers": {
+        "X-RateLimit-Limit": 10000.0,
+        "X-RateLimit-Remaining": 9800.0,
+        "X-RateLimit-Credits-Used": 10.0,
+        "X-RateLimit-Reset": 19139.0
+      },
+      "provider_pacing_and_caps_unchanged": true,
+      "scope": "Immutable in-progress checkpoint; not a terminal run receipt or proof of completed discovery."
     }
   },
   "validation": {
@@ -1414,7 +1472,9 @@
     "review_tests_passed": 657,
     "pages_artifact_pages": 199,
     "review_ci_run": 42086345309,
-    "later_pilot_guard_ci_pending": true
+    "later_pilot_guard_ci_pending": false,
+    "final_review_ci_run": 42087528158,
+    "public_browser_ci_run": 42086625885
   },
   "schedules": {
     "paused": true,

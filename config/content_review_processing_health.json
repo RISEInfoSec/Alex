@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T18:38:16.568874+00:00",
+  "observed_at": "2026-11-05T18:54:12.472733+00:00",
   "trigger": "owner_maintenance",
   "native_run_id": null,
   "local_candidates": 2,
@@ -19,15 +19,11 @@
       "reason": "Fresh current-main run42083423973 still running; awaiting canonical terminal receipt."
     },
     {
-      "stage": "metadata_publication",
-      "reason": "Exact five-DOI hold prepared; PR116 browser CI/deployment verification pending."
-    },
-    {
       "stage": "scheduled_recovery",
       "reason": "Existing worker and monitor intentionally paused under owner maintenance; future qualifying runs not yet observed."
     }
   ],
-  "scope_note": "Current owner recovery: two source-backed semantic corrections and batch31 admission, seven read-only metadata requests including robots, no new paid calls. Five Book records verified; technical publication hold prepared. Not scheduled recovery.",
+  "scope_note": "Owner recovery: two six-gate completions and manual admissions; seven read-only source requests; zero additional paid calls; five source-verified Book records held from paper-only publication and live output verified. Native weekly run still running; no scheduled-recovery claim.",
   "corrective_action": "Finish publication/live verification, then release lease and restore both original hourly automations; verify later actual scheduled runs.",
   "processing_progress": {
     "runs": [

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T18:38:16.568874+00:00",
+  "observed_at": "2026-11-05T18:54:12.472733+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -273,17 +273,20 @@
       "routes": [
         "existing_corpus_maintenance"
       ],
-      "status": "authoritative_book_evidence_verified_reversible_publication_hold_prepared",
+      "status": "resolved_live_reversible_technical_holds_verified",
       "evidence": [
         "https://alex.riseinfosec.org/research/bibliography/",
         "config/content_review_source_receipts/402fd00b610f0913ba71b086f02a2438279583feb53343af2bc8ba3a5462824f.json",
-        "config/content_review_corpus_metadata_retained_rows.json"
+        "config/content_review_corpus_metadata_retained_rows.json",
+        "https://github.com/RISEInfoSec/Alex/pull/116",
+        "https://github.com/RISEInfoSec/Alex/actions/runs/42087436283",
+        "config/content_review_run_receipts/maintenance-recovery-20261105.json"
       ],
       "cause": "All five DOIs are registered as Book; giant titles contain document bodies upstream. Two entries are a concept/version pair. They entered the paper-only route.",
-      "next_action": "Deploy exact five-DOI technical publication hold, retain original source rows, verify live JSON/CSV/site and prevent re-export. No editorial rejection inferred.",
+      "next_action": "All five verified Book entries held outside the paper-only public export. Original rows and source evidence retained; release only after supported-type/content reassessment, not automatic relabeling.",
       "verification_criteria": "Each confirmed defect has authoritative evidence and regression coverage, correct actual document type, and any required content-bound reassessment before republication.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T18:38:16.568874+00:00",
+      "updated_at": "2026-11-05T18:54:12.472733+00:00",
       "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
       "history": [
         {
