@@ -1,20 +1,14 @@
 {
   "schema_version": 1,
-  "phase": "active",
+  "phase": "idle",
   "ready_total": 2,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "Actual heartbeat intervals exceeded60seconds during startup/preparation; no backfill, pass not promotion eligible.",
-  "lease": {
-    "owner": "b0118d73-fbd8-8332-bd8d-261c5a2ce052",
-    "run_id": "b0118d73-fbd8-8332-bd8d-261c5a2ce052",
-    "acquired_at": "2026-11-05T09:41:44.837Z",
-    "expires_at": "2026-11-05T10:11:44.837Z",
-    "purpose": "Scheduled bounded initial-check pilot"
-  },
+  "last_error": "Actual initial/start preparation heartbeat gaps exceeded60seconds; pass promotion ineligible. No heartbeat backfilled.",
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -795,5 +789,5 @@
     "candidate_processing": false,
     "note": "Checkpoint repair verified; corrected scheduled receipt excluded from promotion. Public route PR checks remain in progress."
   },
-  "last_completed_at": "2026-11-05T08:56:30.541352+00:00"
+  "last_completed_at": "2026-11-05T09:50:17.543779+00:00"
 }
