@@ -50,3 +50,15 @@ def test_comparable_sources_rotate_without_weekly_monopoly(monkeypatch):
             progress[r["collection"]]={"at":"2026-11-0"+str(turn+1)}
     assert seen==set(collections)
     assert select(manifests,ledger,limit=0)==[]
+
+def test_missing_counters_remain_unknown():
+    run=receipt("1",[])
+    for field in ("attempted_candidate_ids","newly_passed_checks","manual_admitted","all_six_completed"):
+        run["pilot"].pop(field, None)
+    result=processing_progress([run])["runs"][0]
+    for field in ("local_candidates","source_gate_passes","downstream_gate_passes","review_ready","six_gate_completions","publications"):
+        assert result[field] is None
+
+def test_actual_schema_progress_is_not_local_only_stall():
+    result=processing_progress([receipt("1",["x"],schema=1),receipt("2",["y"],schema=1)])
+    assert result["status"]=="progress_requires_gate_evidence"
