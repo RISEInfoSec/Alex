@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "run_id": "01a60396-1168-8332-b1ab-e722c9c1d79a",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T03:45:00Z",
+  "started_at": "2026-11-05T03:49:58.730520+00:00",
+  "completed_at": "2026-11-05T03:58:42.081989+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/01a60396-1168-8332-b1ab-e722c9c1d79a.json",
+  "completed_actions": [
+    "Acquired/read back matching lease and published/read back actual start and running records with current operations.py",
+    "Read66 complete submissions; exact complete snapshot unchanged, reused verified932 decisions",
+    "Verified complete immutable main corpus/exclusions/upstream and review manifest/stage/lifecycle bytes",
+    "Reused retained source content for two due candidates; refreshed duplicates for both; passed ransomware publisher/PDF metadata and explicitly versioned verified research-paper type with complete originals",
+    "Saved atomic candidate/stage/lifecycle/evidence checkpoint7af335dfd0e4eacf657c85e30f0560ed04b6689f with all created blob SHAs compared before tree and committed size/SHA readback"
+  ],
+  "candidate_ids": [
+    "weekly-10bf6841abc6f36147d952f0",
+    "weekly-2096e9686479ceda7cc35242"
+  ],
+  "candidate_check_count": 2,
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/weekly_review_manifest.json",
+    "config/content_review_preflight_status.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_mechanical_checkpoints/01a60396-1168-8332-b1ab-e722c9c1d79a.json"
+  ],
+  "errors": [
+    {
+      "stage": "heartbeat",
+      "reason": "Startup/running gaps exceeded60seconds; actual observations preserved."
+    },
+    {
+      "stage": "local_prewrite_validation",
+      "reason": "Initial local version archive did not retain the complete pre-pass record. Validator stopped before any write; added exact full original then validated successfully. No malformed remote candidate data written."
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-10bf6841abc6f36147d952f0",
+      "weekly-2096e9686479ceda7cc35242"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-10bf6841abc6f36147d952f0",
+      "weekly-2096e9686479ceda7cc35242"
+    ],
+    "completed_candidate_ids": [
+      "weekly-10bf6841abc6f36147d952f0",
+      "weekly-2096e9686479ceda7cc35242"
+    ],
+    "genuinely_first_checked": [],
+    "next_dispositions": [
+      "weekly-10bf6841abc6f36147d952f0",
+      "weekly-2096e9686479ceda7cc35242"
+    ],
+    "newly_passed_checks": {
+      "metadata": [
+        "weekly-10bf6841abc6f36147d952f0"
+      ]
+    },
+    "refreshed_passed_checks": {
+      "duplicates": [
+        "weekly-10bf6841abc6f36147d952f0",
+        "weekly-2096e9686479ceda7cc35242"
+      ]
+    },
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "candidate_id": "weekly-10bf6841abc6f36147d952f0",
+        "stage": "classification_and_serialization",
+        "reason": "Metadata and verified paper type now reconciled; fresh current-contract paid request prepared locally but not submitted because result/checkpoint consumption would consume completion reserve. No paid calls made.",
+        "corrective_action": "Generate/submit current immutable paid handoff after rechecking current decisions/gates; reuse retained PDF."
+      },
+      {
+        "candidate_id": "weekly-2096e9686479ceda7cc35242",
+        "stage": "metadata",
+        "reason": "Publisher June22 publication date conflicts with PDF June30; retained genuine metadata hold.",
+        "corrective_action": "Resolve exact date/version from independent authoritative retained evidence without repeating unchanged source retrieval."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Main unchanged at1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; prior release41945055902 failed assessment-hash binding. No unchanged failed release replayed.",
+        "corrective_action": "Correct full-corpus resource serialization while preserving exact assessment/content binding, then resume existing controlled release."
+      }
+    ],
+    "remaining_blockers": [
+      {
+        "candidate_id": "weekly-10bf6841abc6f36147d952f0",
+        "stage": "classification_and_serialization",
+        "reason": "Metadata and verified paper type now reconciled; fresh current-contract paid request prepared locally but not submitted because result/checkpoint consumption would consume completion reserve. No paid calls made.",
+        "corrective_action": "Generate/submit current immutable paid handoff after rechecking current decisions/gates; reuse retained PDF."
+      },
+      {
+        "candidate_id": "weekly-2096e9686479ceda7cc35242",
+        "stage": "metadata",
+        "reason": "Publisher June22 publication date conflicts with PDF June30; retained genuine metadata hold.",
+        "corrective_action": "Resolve exact date/version from independent authoritative retained evidence without repeating unchanged source retrieval."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Main unchanged at1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; prior release41945055902 failed assessment-hash binding. No unchanged failed release replayed.",
+        "corrective_action": "Correct full-corpus resource serialization while preserving exact assessment/content binding, then resume existing controlled release."
+      }
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 2,
+    "stage_elapsed_seconds": {
+      "to_receipt": 523.354248
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 1,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "Recovered local prewrite validation and real heartbeat gaps; native termination not yet available.",
+    "resolvable_gate_count": 1,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-05T03:58:42.081989+00:00",
+        "stage": "metadata",
+        "candidate_ids": [
+          "weekly-10bf6841abc6f36147d952f0"
+        ]
+      }
+    },
+    "cache_reuse": [
+      "Complete66-submission signature unchanged;932 prior complete decisions reused",
+      "Retained PDF/publisher metadata reused; zero source/paid/OpenAlex sends"
+    ],
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "after_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "candidate_checkpoint_digests": [
+      {
+        "path": "config/weekly_review_manifest.json",
+        "sha256": "752cae55615ed14aabf54440459527d436aa14e6f0bdf35d37b1c4e04915878b"
+      },
+      {
+        "path": "config/content_review_preflight_status.json",
+        "sha256": "7b117fafec9435adfbb1aab2e2afcd71a6a67f22a04992faeb964fc021c165b8"
+      },
+      {
+        "path": "config/content_review_candidate_lifecycle.json",
+        "sha256": "6572142fb7e7266dee1078a5f76a973fa9ed1e52e7d4bbeb9f0c369f464ddb56"
+      },
+      {
+        "path": "config/content_review_mechanical_checkpoints/01a60396-1168-8332-b1ab-e722c9c1d79a.json",
+        "sha256": "0e403fe03fd2ddfb6b39ee81af84f015653350a87196134e7a78fda5b1ef9416"
+      }
+    ],
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": null
+}
