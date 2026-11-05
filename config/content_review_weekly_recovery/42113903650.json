@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "native": {
+    "id": 42113903650,
+    "status": "completed",
+    "conclusion": "cancelled",
+    "head_sha": "1f338893faa6fddc6b0f064469be76dd69198aac",
+    "created_at": "2026-11-05T21:34:42Z",
+    "updated_at": "2026-11-05T21:55:03Z",
+    "html_url": "https://github.com/RISEInfoSec/Alex/actions/runs/42113903650"
+  },
+  "state_sha": "057d8c17db9ecf7bdaed08f54dc274ccc59c6e93",
+  "state_at": "2026-11-05T21:54:30.854019+00:00",
+  "status": "cancelled_on_revised_owner_timing_hold",
+  "terminal_discovery_receipt": null,
+  "checkpoint_blob": {
+    "path": "discovery_checkpoint.json.gz",
+    "sha": "4de754ceb28b027d20167bfcd8749371a4dad9b4",
+    "size": 43301157,
+    "sha256": "81e05432657720e7a7845c25c16228ad68f5314a8d44e447bc7744a54473ec6e"
+  },
+  "provider_state_blob": {
+    "path": "discovery_openalex_state.json.gz",
+    "sha": "a8828f1c726fd304c09498941d25b4e63927f320",
+    "size": 116,
+    "sha256": "b0bc22a0f52e6225522e62180c499892c5b9c734bfefc0c4d82c62f104b01812"
+  },
+  "checkpoint": {
+    "status": "in_progress",
+    "response_count": 804,
+    "previous_response_count": 685,
+    "new_cached_responses": 119,
+    "last_attempt_requests": 119,
+    "http_status_counts": {
+      "200": 114,
+      "404": 5
+    },
+    "error_types": {},
+    "candidate_titles": 4672,
+    "last_request": {
+      "started_at": "2026-11-05T21:54:30.854019+00:00",
+      "http_status": 200,
+      "elapsed_seconds": 0.223
+    },
+    "provider_retry_not_before": "2026-11-05T20:45:39.224652+00:00"
+  },
+  "owner_hold": {
+    "observed_from_updated_automation_prompt_at": "2026-11-05T21:36:05.702666+00:00",
+    "retry_not_before": "2026-11-06T01:46:00.000Z",
+    "reason": "Latest owner timing superseded the earlier 20:46 UTC continuation; no maintenance or provider requests before 20:46 America/Toronto.",
+    "run_cancel_requested_at": "2026-11-05T21:53:23Z",
+    "run_force_cancel_requested_at": "2026-11-05T21:54:37Z",
+    "run_cancelled_at": "2026-11-05T21:55:03Z"
+  },
+  "integrity": {
+    "state_head_verified": true,
+    "checkpoint_blob_verified": true,
+    "provider_state_blob_verified": true,
+    "terminal_receipt_absent_expected_for_cancelled_job": true
+  }
+}

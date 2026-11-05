@@ -1498,10 +1498,10 @@
     "window_candidates": 4672,
     "completed_search_tasks": 49,
     "deduplicated_doi_abstract_lookups_total": 1072,
-    "cached_doi_results": 371,
-    "deduplicated_doi_abstract_lookups_remaining": 701,
-    "state_commit": "f0f01deba4c4a1cead2c7dc4c79dd3d5d8194b84",
-    "retry_not_before": null
+    "cached_doi_results": 490,
+    "deduplicated_doi_abstract_lookups_remaining": 582,
+    "state_commit": "057d8c17db9ecf7bdaed08f54dc274ccc59c6e93",
+    "retry_not_before": "2026-11-06T01:46:00.000Z"
   },
   "approval_required": {
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
@@ -1579,54 +1579,79 @@
       "verified_successful_replacement": 36443867559,
       "active_runs": [],
       "dispatch_attempts": 1,
-      "status": "in_progress",
+      "status": "cancelled_on_revised_owner_timing_hold",
       "child_run": 42113903650,
       "child_head_sha": "1f338893faa6fddc6b0f064469be76dd69198aac",
       "child_created_at": "2026-11-05T21:34:42Z",
-      "conclusion": null,
-      "canonical_receipt": null
+      "conclusion": "cancelled",
+      "canonical_receipt": "config/content_review_weekly_recovery/42113903650.json",
+      "actual_requests": 119,
+      "http200": 114,
+      "http404": 5,
+      "request_errors": 0,
+      "state_commit": "057d8c17db9ecf7bdaed08f54dc274ccc59c6e93",
+      "retry_not_before": "2026-11-06T01:46:00.000Z"
     }
   ],
   "latest_weekly_checkpoint": {
+    "schema_version": 1,
     "native": {
-      "id": 42091428591,
+      "id": 42113903650,
+      "status": "completed",
+      "conclusion": "cancelled",
+      "head_sha": "1f338893faa6fddc6b0f064469be76dd69198aac",
+      "created_at": "2026-11-05T21:34:42Z",
+      "updated_at": "2026-11-05T21:55:03Z",
+      "html_url": "https://github.com/RISEInfoSec/Alex/actions/runs/42113903650"
+    },
+    "state_sha": "057d8c17db9ecf7bdaed08f54dc274ccc59c6e93",
+    "state_at": "2026-11-05T21:54:30.854019+00:00",
+    "status": "cancelled_on_revised_owner_timing_hold",
+    "terminal_discovery_receipt": null,
+    "checkpoint_blob": {
+      "path": "discovery_checkpoint.json.gz",
+      "sha": "4de754ceb28b027d20167bfcd8749371a4dad9b4",
+      "size": 43301157,
+      "sha256": "81e05432657720e7a7845c25c16228ad68f5314a8d44e447bc7744a54473ec6e"
+    },
+    "provider_state_blob": {
+      "path": "discovery_openalex_state.json.gz",
+      "sha": "a8828f1c726fd304c09498941d25b4e63927f320",
+      "size": 116,
+      "sha256": "b0bc22a0f52e6225522e62180c499892c5b9c734bfefc0c4d82c62f104b01812"
+    },
+    "checkpoint": {
       "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "c31135d143bd707d369a326a71c9ac58a95c62e3",
-      "created_at": "2026-11-05T19:11:00Z",
-      "updated_at": "2026-11-05T19:11:05Z"
+      "response_count": 804,
+      "previous_response_count": 685,
+      "new_cached_responses": 119,
+      "last_attempt_requests": 119,
+      "http_status_counts": {
+        "200": 114,
+        "404": 5
+      },
+      "error_types": {},
+      "candidate_titles": 4672,
+      "last_request": {
+        "started_at": "2026-11-05T21:54:30.854019+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.223
+      },
+      "provider_retry_not_before": "2026-11-05T20:45:39.224652+00:00"
     },
-    "state_sha": "2e276c14007f752d86aedf37b9956ef5995ae9cf",
-    "state_at": "2026-11-05T19:31:14Z",
-    "state_status": "in_progress",
-    "completed_tasks": 49,
-    "completed_by_provider": {
-      "GitHub": 12,
-      "Crossref": 12,
-      "Zenodo": 12,
-      "OpenAlex": 12,
-      "arXiv": 1
+    "owner_hold": {
+      "observed_from_updated_automation_prompt_at": "2026-11-05T21:36:05.702666+00:00",
+      "retry_not_before": "2026-11-06T01:46:00.000Z",
+      "reason": "Latest owner timing superseded the earlier 20:46 UTC continuation; no maintenance or provider requests before 20:46 America/Toronto.",
+      "run_cancel_requested_at": "2026-11-05T21:53:23Z",
+      "run_force_cancel_requested_at": "2026-11-05T21:54:37Z",
+      "run_cancelled_at": "2026-11-05T21:55:03Z"
     },
-    "candidate_titles": 4672,
-    "requests_this_attempt": 113,
-    "statuses": {
-      "200": 111,
-      "404": 2
-    },
-    "hosts": {
-      "api.openalex.org": 113
-    },
-    "last_openalex_quota": {
-      "X-RateLimit-Limit": 10000,
-      "X-RateLimit-Remaining": 9090,
-      "X-RateLimit-Credits-Used": 0,
-      "X-RateLimit-Reset": 16150
-    },
-    "last_request": {
-      "host": "api.openalex.org",
-      "http_status": 200,
-      "elapsed_seconds": 0.217,
-      "started_at": "2026-11-05T19:30:50.716182+00:00"
+    "integrity": {
+      "state_head_verified": true,
+      "checkpoint_blob_verified": true,
+      "provider_state_blob_verified": true,
+      "terminal_receipt_absent_expected_for_cancelled_job": true
     }
   },
   "additional_repair": {
@@ -1639,7 +1664,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-05T21:35:51.697Z",
+  "updated_at": "2026-11-05T21:58:48.572Z",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1664,7 +1689,7 @@
     "canonical_receipt": "config/content_review_weekly_recovery/42106396231.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "Continuation 3 is running. At the next unattended check, verify its native terminal result and exact pipeline-state receipt before any further dispatch. Continue bounded passes only if no live provider hold or other active pipeline exists.",
+  "next_action": "Do not continue maintenance, dispatch or provider requests before 2026-11-06T01:46:00Z (20:46 America/Toronto). At that time re-read live provider state and acquire/verify a fresh maintenance lease before any write or dispatch. Reuse all 490 cached DOI outcomes.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -1678,13 +1703,15 @@
   "maintenance_lease": {
     "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
     "verified_owner": true,
-    "renewed_at": "2026-11-05T21:35:51.697Z",
+    "renewed_at": null,
     "expires_at": "2026-11-06T00:45:00.000Z",
-    "purpose": "Owner-authorized ALEX end-to-end recovery; hourly worker and monitor remain paused."
+    "purpose": "Owner-authorized ALEX end-to-end recovery; hourly worker and monitor remain paused.",
+    "renewal_required_at_resume": true,
+    "status": "allowed_to_expire_during_owner_hold"
   },
   "unattended_continuation": {
     "automation_id": "6ae935ba229c81919751322fbce87ef8",
-    "next_check_not_before": "2026-11-05T22:40:00Z",
-    "current_child_run": 42113903650
+    "next_check_not_before": "2026-11-06T01:46:00.000Z",
+    "current_child_run": null
   }
 }
