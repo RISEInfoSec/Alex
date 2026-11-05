@@ -15,7 +15,7 @@ from collections import Counter
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import expect, sync_playwright
 
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
@@ -159,7 +159,7 @@ def verify(site: Path, report_dir: Path) -> None:
             page.locator('#search').fill('Historical example')
             assert page.locator('#results > .section').count() == 1
             page.locator('#includeHistorical').uncheck()
-            assert page.get_by_role('heading', name='No matching papers', exact=True).is_visible()
+            expect(page.get_by_role('heading', name='No matching resources', exact=True)).to_be_visible()
             page.locator('#clearBtn').click()
             assert page.locator('#results > .section').count() == 2
             assert not errors, errors
