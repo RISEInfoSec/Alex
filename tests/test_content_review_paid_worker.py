@@ -97,6 +97,29 @@ def test_retired_lifecycle_prevents_paid_request_and_replay(setup):
         worker.checked_row(root,request['records'][0])
 
 
+def test_paid_handoff_checkpoint_preserves_other_collections_and_unknown_gates(setup, monkeypatch):
+    from tools.content_review.checkpoint import prepare
+    root, row, request, path = setup
+    run = run_proof(monkeypatch)
+    stage_path = root / 'config/content_review_preflight_status.json'
+    stage = json.loads(stage_path.read_text())
+    peers = [{'collection': col, 'candidate_id': col + '-held',
+              'checks': {'quality': {'status': 'unknown'}}}
+             for col in ('first', 'm3aawg', 'bellingcat', 'sans', 'virusbulletin')]
+    stage['records'].extend(copy.deepcopy(peers))
+    stage_path.write_text(json.dumps(stage))
+    result = worker.execute(root, path, root / '.cache/result.json', post=lambda *a, **kw: Response())
+    _, updated, _ = handoff.reconcile_result(root, request, result, run)
+    assert updated['records'][1:] == peers
+    for peer in peers:
+        counts = updated['summary'][peer['collection']]
+        assert counts['quality'] == {'unknown': 1}
+        assert counts['schema'] == {'not_checked': 1}
+    stage_path.write_text(json.dumps(updated))
+    lease = {'owner': 'test', 'expires_at': (datetime.now(timezone.utc) + timedelta(minutes=1)).isoformat()}
+    assert prepare(root, ['config/content_review_preflight_status.json'], {}, lease, 'test')
+
+
 def test_readiness_keeps_valid_peer_when_another_has_missing_venue(setup):
     from tools.content_review.runtime_guard import candidate_readiness
     root,row,request,path=setup

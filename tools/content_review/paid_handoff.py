@@ -113,9 +113,8 @@ def reconcile_result(root, request, result, run):
         applied.append({"collection": col, "candidate_id": cid, "content_sha256": row["content_sha256"],
                         "preflight_passed": passed, "idempotency_key": item["idempotency_key"]})
     stage["updated_at"] = now()
-    stage["summary"] = {col: {k: {status: sum(z["checks"][k]["status"] == status for z in stage["records"] if z["collection"] == col)
-                              for status in {z["checks"][k]["status"] for z in stage["records"] if z["collection"] == col}}
-                             for k in (*GATES, "schema")} for col in ("soups", "weekly")}
+    from tools.content_review.stage_summary import derive
+    stage["summary"] = derive(stage["records"])
     receipt = {"schema_version": 1, "request_id": request["request_id"], "run_id": run["id"],
                "run_attempt": run["run_attempt"], "head_sha": run["head_sha"], "verified_at": now(),
                "result_sha256": digest(result), "usage": result["usage"], "applied": applied, "held": held,

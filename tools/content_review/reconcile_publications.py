@@ -37,6 +37,15 @@ def reconcile(manifest, request, receipt, public_records, *, checked_at, receipt
         if row.get('decision') == 'rejected':
             raise ValueError('Publication conflicts with retained rejection: ' + cid)
         target = item['target']
+        from alex.resource_types import TYPES, validate_release, dry_run
+        if item.get('document_type') in TYPES:
+            # Manual resources retain the bound CSV input as target, whereas
+            # paper requests retain public JSON. Verify the original approval
+            # and assessment before replaying the real disposable exporter.
+            validate_release(item)
+            if row.get('resource_assessment_sha256') != item.get('resource_assessment_sha256'):
+                raise ValueError('Changed resource assessment: ' + cid)
+            target = dry_run(item)
         # The public exporter omits internal provenance and reassigns numeric IDs.
         fields = {k: v for k, v in target.items() if k not in PUBLIC_ONLY_OMISSIONS}
         matches = [p for p in public_records if all(k in p and p[k] == v for k, v in fields.items())]
@@ -48,7 +57,9 @@ def reconcile(manifest, request, receipt, public_records, *, checked_at, receipt
             if row.get(key) != target.get(target_key):
                 raise ValueError('Manifest content differs from release target: ' + cid)
         verified.append(cid)
-        if row.get('publication_status') == 'published_live_verified' and row.get('automatic_handoff_status') == 'consumed_published' and not row.get('automatic_handoff_pending'):
+        automatic = item.get('authorization', {}).get('route') == 'existing_regular_automatic_acceptance'
+        consumed = not automatic or (row.get('automatic_handoff_status') == 'consumed_published' and not row.get('automatic_handoff_pending'))
+        if row.get('publication_status') == 'published_live_verified' and consumed:
             continue
         row.update(publication_status='published_live_verified', publication_receipt=receipt_ref,
                    published_at=receipt['checked_at'], public_verification={

@@ -616,7 +616,7 @@
       "assessment_depth": "retained_source_text_with_explicit_limits",
       "assessment_date": "2026-11-05",
       "screening_status": "current_resource_recommendation_complete_after_preflight",
-      "batch_admission_eligible": true,
+      "batch_admission_eligible": false,
       "admission_hold": null,
       "preflight_reservation": {
         "review_number": 178,
@@ -626,7 +626,18 @@
       "admitted_at": "2026-11-05T00:10:10.738257+00:00",
       "decision_content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
       "decision_submission_revision": 1,
-      "decision_submission_id": "f821ae8b-38dc-4580-a72a-c04afec6185e"
+      "decision_submission_id": "f821ae8b-38dc-4580-a72a-c04afec6185e",
+      "publication_status": "published_live_verified",
+      "publication_receipt": "main/data/content_review_release_receipts/approved-2026-11-05-0045.json",
+      "published_at": "2026-11-05T16:23:00.386822+00:00",
+      "public_verification": {
+        "checked_at": "2026-11-05T17:23:51.625323+00:00",
+        "url": "https://alex.riseinfosec.org/data/papers.json",
+        "public_records": 3192,
+        "public_record_id": 3192,
+        "public_sha256": "e5e4468362358ca46662d1aea8abcfba29623aa1494f860bf9d06e73f970cfbc",
+        "method": "Exactly one deployed record equals every public field of the immutable release target; current reviewed hash matches request and successful receipt."
+      }
     }
   ],
   "preflight_records": [
@@ -10980,5 +10991,17 @@
   ],
   "prepared_count": 1,
   "mechanical_passed_awaiting_batch_admission": 0,
-  "preflight_policy": "Admit only six current hash-bound gate passes and current substantive recommendations. Seal batches of1–20 cleared candidates immediately;20 is the maximum, never a minimum. Never wait for20 or append to sealed batches."
+  "preflight_policy": "Admit only six current hash-bound gate passes and current substantive recommendations. Seal batches of1–20 cleared candidates immediately;20 is the maximum, never a minimum. Never wait for20 or append to sealed batches.",
+  "automatic_handoff_pending_count": 0,
+  "batch_admission_eligible_count": 0,
+  "last_publication_reconciliation": {
+    "checked_at": "2026-11-05T17:23:51.625323+00:00",
+    "receipt": "main/data/content_review_release_receipts/approved-2026-11-05-0045.json",
+    "verified_candidates": [
+      "m3aawg-url-75aa6fb2c156539547d27ab8"
+    ],
+    "changed_candidates": [
+      "m3aawg-url-75aa6fb2c156539547d27ab8"
+    ]
+  }
 }

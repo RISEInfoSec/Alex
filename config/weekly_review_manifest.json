@@ -45767,7 +45767,7 @@
         "basis": "Proposes a shared taxonomy, severity scheme and remediation vocabulary for the human vulnerabilities exploited in scams and social engineering. Potentially useful for organizing investigative hypotheses and training, but the abstract does not establish predictive validity, inter-rater reliability or effectiveness of the proposed remedies. Review the framework as a conceptual tool, not a validated risk score.",
         "assessed_at": "2026-11-04T23:04:57.797803+00:00"
       },
-      "batch_admission_eligible": true,
+      "batch_admission_eligible": false,
       "preflight_reservation": {
         "review_number": 75,
         "review_batch": 4
@@ -45784,7 +45784,18 @@
       ],
       "decision_content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
       "decision_submission_revision": 1,
-      "decision_submission_id": "b9959fde-5252-4bf2-b3b4-d529e8aae5d5"
+      "decision_submission_id": "b9959fde-5252-4bf2-b3b4-d529e8aae5d5",
+      "publication_status": "published_live_verified",
+      "publication_receipt": "main/data/content_review_release_receipts/approved-2026-11-05-0045.json",
+      "published_at": "2026-11-05T16:23:00.386822+00:00",
+      "public_verification": {
+        "checked_at": "2026-11-05T17:23:51.625323+00:00",
+        "url": "https://alex.riseinfosec.org/data/papers.json",
+        "public_records": 3192,
+        "public_record_id": 3191,
+        "public_sha256": "e5e4468362358ca46662d1aea8abcfba29623aa1494f860bf9d06e73f970cfbc",
+        "method": "Exactly one deployed record equals every public field of the immutable release target; current reviewed hash matches request and successful receipt."
+      }
     },
     {
       "candidate_id": "weekly-0a59e535bcac3620fc21829c",
@@ -55817,35 +55828,50 @@
           },
           "duplicates": {
             "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
             "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "checked_at": "2026-11-05T17:23:51.625323+00:00",
             "evidence": {
               "status": "passed",
               "matches": [],
               "upstream_aliases": [],
               "exclusions": [],
-              "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
-              "upstream_count": 4041,
-              "source_manifest_count": 7
+              "public_sha256": "e5e4468362358ca46662d1aea8abcfba29623aa1494f860bf9d06e73f970cfbc",
+              "d1_submissions": 66,
+              "d1_decisions": 932,
+              "main_commit": "1bfd96fb2101a5549797a8af17e5ab63eccccdf0"
             },
-            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            "prior_evidence": {
+              "status": "passed",
+              "checked_at": "2026-11-05T12:49:26.143423+00:00",
+              "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+              "evidence": {
+                "status": "passed",
+                "matches": [],
+                "upstream_aliases": [],
+                "exclusions": [],
+                "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+                "upstream_count": 4041,
+                "source_manifest_count": 7
+              },
+              "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+              "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+              "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            }
           },
           "quality": {
             "status": "passed",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
             "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "checked_at": "2026-11-05T17:23:51.625323+00:00",
             "evidence": {
               "quality_score": 31.65,
-              "quality_venue_score": 40,
-              "quality_citation_score": 0,
+              "quality_venue_score": 40.0,
+              "quality_citation_score": 0.0,
               "quality_relevance_score": 70.59,
-              "quality_institution_score": 40,
-              "quality_institution_bonus": 0,
-              "quality_title_bonus": 0,
-              "quality_auto_threshold": 35,
-              "quality_review_threshold": 20,
+              "quality_institution_score": 40.0,
+              "quality_institution_bonus": 0.0,
+              "quality_title_bonus": 0.0,
+              "quality_auto_threshold": 35.0,
+              "quality_review_threshold": 20.0,
               "quality_core_term_gate": "pass",
               "quality_relevance_gate": "pass",
               "citation_count_known": true,
@@ -55853,10 +55879,34 @@
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
-            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            "input_revision": "4304ed93d729e92d8bdf4257f995e2a9e26f38d513573ba4485a1deeead2d343",
+            "limitations": "Existing unchanged quality weights and thresholds. Upstream citation input is unverified; no claim of verified zero. Restored affiliation corroborated against retained original-document evidence where present.",
+            "prior_evidence": {
+              "status": "passed",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+              "evidence": {
+                "quality_score": 31.65,
+                "quality_venue_score": 40,
+                "quality_citation_score": 0,
+                "quality_relevance_score": 70.59,
+                "quality_institution_score": 40,
+                "quality_institution_bonus": 0,
+                "quality_title_bonus": 0,
+                "quality_auto_threshold": 35,
+                "quality_review_threshold": 20,
+                "quality_core_term_gate": "pass",
+                "quality_relevance_gate": "pass",
+                "citation_count_known": true,
+                "quality_review_status": "human_quality_review",
+                "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                "quality_requires_review": true
+              },
+              "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+              "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+              "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+              "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            }
           },
           "schema": {
             "status": "held",
@@ -59081,35 +59131,50 @@
           },
           "duplicates": {
             "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
             "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+            "checked_at": "2026-11-05T17:23:51.625323+00:00",
             "evidence": {
               "status": "passed",
               "matches": [],
               "upstream_aliases": [],
               "exclusions": [],
-              "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
-              "upstream_count": 4041,
-              "source_manifest_count": 7
+              "public_sha256": "e5e4468362358ca46662d1aea8abcfba29623aa1494f860bf9d06e73f970cfbc",
+              "d1_submissions": 66,
+              "d1_decisions": 932,
+              "main_commit": "1bfd96fb2101a5549797a8af17e5ab63eccccdf0"
             },
-            "rebound_from_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
-            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            "prior_evidence": {
+              "status": "passed",
+              "checked_at": "2026-11-05T12:49:26.143423+00:00",
+              "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+              "evidence": {
+                "status": "passed",
+                "matches": [],
+                "upstream_aliases": [],
+                "exclusions": [],
+                "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+                "upstream_count": 4041,
+                "source_manifest_count": 7
+              },
+              "rebound_from_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+              "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+              "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            }
           },
           "quality": {
             "status": "passed",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
             "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+            "checked_at": "2026-11-05T17:23:51.625323+00:00",
             "evidence": {
               "quality_score": 28.41,
-              "quality_venue_score": 40,
-              "quality_citation_score": 0,
+              "quality_venue_score": 40.0,
+              "quality_citation_score": 0.0,
               "quality_relevance_score": 17.65,
-              "quality_institution_score": 80,
-              "quality_institution_bonus": 10,
-              "quality_title_bonus": 0,
-              "quality_auto_threshold": 35,
-              "quality_review_threshold": 20,
+              "quality_institution_score": 80.0,
+              "quality_institution_bonus": 10.0,
+              "quality_title_bonus": 0.0,
+              "quality_auto_threshold": 35.0,
+              "quality_review_threshold": 20.0,
               "quality_core_term_gate": "pass",
               "quality_relevance_gate": "pass",
               "citation_count_known": true,
@@ -59117,10 +59182,34 @@
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
-            "rebound_from_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
-            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            "input_revision": "0747601822889be092d1eac34d61acd448191f5b0269fe2db830dc7ba5b2f1e7",
+            "limitations": "Existing unchanged quality weights and thresholds. Upstream citation input is unverified; no claim of verified zero. Restored affiliation corroborated against retained original-document evidence where present.",
+            "prior_evidence": {
+              "status": "passed",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+              "evidence": {
+                "quality_score": 28.41,
+                "quality_venue_score": 40,
+                "quality_citation_score": 0,
+                "quality_relevance_score": 17.65,
+                "quality_institution_score": 80,
+                "quality_institution_bonus": 10,
+                "quality_title_bonus": 0,
+                "quality_auto_threshold": 35,
+                "quality_review_threshold": 20,
+                "quality_core_term_gate": "pass",
+                "quality_relevance_gate": "pass",
+                "citation_count_known": true,
+                "quality_review_status": "human_quality_review",
+                "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                "quality_requires_review": true
+              },
+              "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+              "rebound_from_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+              "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+              "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            }
           },
           "schema": {
             "status": "held",
@@ -59354,7 +59443,47 @@
       ],
       "recommendation_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
       "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
-      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
+      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch",
+      "quality_input_versions": [
+        {
+          "checked_at": "2026-11-05T17:23:51.625323+00:00",
+          "prior_affiliations": null,
+          "prior_quality": {
+            "status": "passed",
+            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+            "evidence": {
+              "quality_score": 28.41,
+              "quality_venue_score": 40,
+              "quality_citation_score": 0,
+              "quality_relevance_score": 17.65,
+              "quality_institution_score": 80,
+              "quality_institution_bonus": 10,
+              "quality_title_bonus": 0,
+              "quality_auto_threshold": 35,
+              "quality_review_threshold": 20,
+              "quality_core_term_gate": "pass",
+              "quality_relevance_gate": "pass",
+              "citation_count_known": true,
+              "quality_review_status": "human_quality_review",
+              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+              "quality_requires_review": true
+            },
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "source_record_sha256": "9da2e58c8dbd0709e4d1ed64fcde3b57b33a19f022c1cc0074e8786b18379e84",
+          "source_proof": {
+            "receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+            "body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
+            "inspection": "University of Jeddah and Air University Islamabad appear in author affiliations on the inspected PDF first page."
+          },
+          "reason": "Restore original scoring input omitted by weekly manifest builder; original document corroborates affiliation."
+        }
+      ],
+      "affiliations": "University of Jeddah; Air University"
     },
     {
       "candidate_id": "weekly-91d7bab72e8b83aa104b6b72",
@@ -64987,7 +65116,6 @@
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
-        "quality",
         "schema"
       ],
       "preflight": {
@@ -65058,53 +65186,92 @@
           },
           "duplicates": {
             "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
             "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+            "checked_at": "2026-11-05T17:23:51.625323+00:00",
             "evidence": {
               "status": "passed",
               "matches": [],
               "upstream_aliases": [],
               "exclusions": [],
-              "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
-              "upstream_count": 4041,
-              "source_manifest_count": 7
+              "public_sha256": "e5e4468362358ca46662d1aea8abcfba29623aa1494f860bf9d06e73f970cfbc",
+              "d1_submissions": 66,
+              "d1_decisions": 932,
+              "main_commit": "1bfd96fb2101a5549797a8af17e5ab63eccccdf0"
             },
-            "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
-            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
-          },
-          "quality": {
-            "status": "held",
-            "checked_at": "2026-11-05T16:14:37Z",
-            "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
-            "evidence": "Venue is now recovered. Re-evaluate the venue-dependent quality component under the existing weights before current-input classification; prior numeric result is retained, not silently rebound.",
             "prior_evidence": {
               "status": "passed",
-              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "checked_at": "2026-11-05T12:49:26.143423+00:00",
               "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
               "evidence": {
-                "quality_score": 25.82,
-                "quality_venue_score": 20,
-                "quality_citation_score": 0,
-                "quality_relevance_score": 35.29,
-                "quality_institution_score": 80,
-                "quality_institution_bonus": 10,
-                "quality_title_bonus": 0,
-                "quality_auto_threshold": 35,
-                "quality_review_threshold": 20,
-                "quality_core_term_gate": "pass",
-                "quality_relevance_gate": "pass",
-                "citation_count_known": true,
-                "quality_review_status": "human_quality_review",
-                "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-                "quality_requires_review": true
+                "status": "passed",
+                "matches": [],
+                "upstream_aliases": [],
+                "exclusions": [],
+                "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+                "upstream_count": 4041,
+                "source_manifest_count": 7
               },
-              "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
               "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
               "rebound_at": "2026-11-05T13:48:13.546750+00:00",
               "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            }
+          },
+          "quality": {
+            "status": "passed",
+            "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+            "checked_at": "2026-11-05T17:23:51.625323+00:00",
+            "evidence": {
+              "quality_score": 32.82,
+              "quality_venue_score": 40.0,
+              "quality_citation_score": 0.0,
+              "quality_relevance_score": 35.29,
+              "quality_institution_score": 80.0,
+              "quality_institution_bonus": 10.0,
+              "quality_title_bonus": 0.0,
+              "quality_auto_threshold": 35.0,
+              "quality_review_threshold": 20.0,
+              "quality_core_term_gate": "pass",
+              "quality_relevance_gate": "pass",
+              "citation_count_known": true,
+              "quality_review_status": "human_quality_review",
+              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+              "quality_requires_review": true
             },
-            "input_revision": "venue-recovery-2026-11-05"
+            "input_revision": "b86cd64d53f2dc4d1ad8603d81ce4643d7f10fb34f7e85adb2ee06520f0c1f99",
+            "limitations": "Existing unchanged quality weights and thresholds. Upstream citation input is unverified; no claim of verified zero. Restored affiliation corroborated against retained original-document evidence where present.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-11-05T16:14:37Z",
+              "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+              "evidence": "Venue is now recovered. Re-evaluate the venue-dependent quality component under the existing weights before current-input classification; prior numeric result is retained, not silently rebound.",
+              "prior_evidence": {
+                "status": "passed",
+                "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+                "evidence": {
+                  "quality_score": 25.82,
+                  "quality_venue_score": 20,
+                  "quality_citation_score": 0,
+                  "quality_relevance_score": 35.29,
+                  "quality_institution_score": 80,
+                  "quality_institution_bonus": 10,
+                  "quality_title_bonus": 0,
+                  "quality_auto_threshold": 35,
+                  "quality_review_threshold": 20,
+                  "quality_core_term_gate": "pass",
+                  "quality_relevance_gate": "pass",
+                  "citation_count_known": true,
+                  "quality_review_status": "human_quality_review",
+                  "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                  "quality_requires_review": true
+                },
+                "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+                "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+                "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+                "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+              },
+              "input_revision": "venue-recovery-2026-11-05"
+            }
           },
           "schema": {
             "status": "held",
@@ -65759,7 +65926,54 @@
           "evidence": "config/content_review_maintenance_receipts/2026-11-05-pipeline-repair.json"
         }
       ],
-      "lifecycle_evidence_revision": "venue-recovery-2026-11-05"
+      "lifecycle_evidence_revision": "venue-recovery-2026-11-05",
+      "quality_input_versions": [
+        {
+          "checked_at": "2026-11-05T17:23:51.625323+00:00",
+          "prior_affiliations": null,
+          "prior_quality": {
+            "status": "held",
+            "checked_at": "2026-11-05T16:14:37Z",
+            "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+            "evidence": "Venue is now recovered. Re-evaluate the venue-dependent quality component under the existing weights before current-input classification; prior numeric result is retained, not silently rebound.",
+            "prior_evidence": {
+              "status": "passed",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+              "evidence": {
+                "quality_score": 25.82,
+                "quality_venue_score": 20,
+                "quality_citation_score": 0,
+                "quality_relevance_score": 35.29,
+                "quality_institution_score": 80,
+                "quality_institution_bonus": 10,
+                "quality_title_bonus": 0,
+                "quality_auto_threshold": 35,
+                "quality_review_threshold": 20,
+                "quality_core_term_gate": "pass",
+                "quality_relevance_gate": "pass",
+                "citation_count_known": true,
+                "quality_review_status": "human_quality_review",
+                "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                "quality_requires_review": true
+              },
+              "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+              "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+              "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+              "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            },
+            "input_revision": "venue-recovery-2026-11-05"
+          },
+          "source_record_sha256": "0a4fb74259ae9995452015fa9e55aac672378a270f10bb2fa26734f9c549a707",
+          "source_proof": {
+            "receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+            "body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
+            "inspection": "PDF first-page author affiliations identify dr mgr educational and research institute, corroborating the original upstream expansion."
+          },
+          "reason": "Restore original scoring input omitted by weekly manifest builder; original document corroborates affiliation."
+        }
+      ],
+      "affiliations": "Dr. M.G.R. Educational and Research Institute"
     },
     {
       "candidate_id": "weekly-0ea84d001099ee3ab328c37d",
@@ -74440,25 +74654,13 @@
     "source": "Latest completed native D1 submission; exact candidate/content identity verified."
   },
   "last_publication_reconciliation": {
-    "checked_at": "2026-11-02T23:41:39Z",
-    "receipt": "https://github.com/RISEInfoSec/Alex/blob/main/data/content_review_release_receipts/approved-2026-11-02-automatic-7.json",
+    "checked_at": "2026-11-05T17:23:51.625323+00:00",
+    "receipt": "main/data/content_review_release_receipts/approved-2026-11-05-0045.json",
     "verified_candidates": [
-      "weekly-6453882b45c03832307a3619",
-      "weekly-470970e7b01ad6576a8c2e74",
-      "weekly-046901143dafd1530a38b025",
-      "weekly-1ebb909dbfa6a77d51ef8911",
-      "weekly-11d5c162e2498f7ab097e44c",
-      "weekly-fcf6c86ebbdd6bf61faa6304",
-      "weekly-08ab5ddb7219c6ff3d913664"
+      "weekly-250dd6cfa359991d1db168d1"
     ],
     "changed_candidates": [
-      "weekly-6453882b45c03832307a3619",
-      "weekly-470970e7b01ad6576a8c2e74",
-      "weekly-046901143dafd1530a38b025",
-      "weekly-1ebb909dbfa6a77d51ef8911",
-      "weekly-11d5c162e2498f7ab097e44c",
-      "weekly-fcf6c86ebbdd6bf61faa6304",
-      "weekly-08ab5ddb7219c6ff3d913664"
+      "weekly-250dd6cfa359991d1db168d1"
     ]
   }
 }
