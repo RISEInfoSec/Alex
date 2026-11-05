@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "run_id": "632603a3-e58c-832e-aba4-f32087ee94c4",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T14:45:00Z",
+  "started_at": "2026-11-05T14:40:46.158996Z",
+  "completed_at": "2026-11-05T14:45:49.680669+00:00",
+  "status": "complete",
+  "completed_actions": [
+    "Published and read back immediate native start and actual running status",
+    "Refreshed all66 complete D1 submissions; complete payload snapshot unchanged",
+    "Verified immutable blob size/SHA for complete candidate inputs and correction",
+    "Evaluated200 lifecycle records preserving385 identities, decisions and all attempts",
+    "Recorded unavailable runtime capability without repeating completed candidate work"
+  ],
+  "receipt_path": "config/content_review_run_receipts/632603a3-e58c-832e-aba4-f32087ee94c4.json",
+  "candidate_ids": [],
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-56fec07c6bb5ce26240c614e",
+      "weekly-580cbf65ba78205f3b91860e",
+      "weekly-02db78e5dcf92cfe64dc4487",
+      "weekly-040edeb033e8ee41aeb9433a"
+    ],
+    "planned_candidates": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+        "next_stage": "classification_and_serialization"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
+        "next_stage": "classification_and_serialization"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-580cbf65ba78205f3b91860e",
+        "next_stage": "classification_and_serialization"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-02db78e5dcf92cfe64dc4487",
+        "next_stage": "source"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-040edeb033e8ee41aeb9433a",
+        "next_stage": "metadata"
+      }
+    ],
+    "attempted_candidate_ids": [],
+    "completed_candidate_ids": [],
+    "genuinely_first_checked": [],
+    "newly_passed_checks": {},
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [],
+    "cache_reuse": [
+      "66 complete D1 submissions unchanged",
+      "Verified immutable complete manifests/stage/lifecycle and checkpoint repair"
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "remaining_blockers": [
+      {
+        "stage": "classification_and_serialization",
+        "candidate_ids": [
+          "weekly-5119ae5a98d80e9ef5d2544b",
+          "weekly-56fec07c6bb5ce26240c614e",
+          "weekly-580cbf65ba78205f3b91860e"
+        ],
+        "reason": "Supported paid/source handoff imports requests; paid validation also imports jsonschema. Both are absent locally. Automatic review rejected dependency installation under stale monitor-only scope; subsequent escalation was denied by approval policy. No provider calls or new candidate attempts occurred.",
+        "corrective_action": "Provide the declared requests/jsonschema dependencies through an authorized runtime setup, then inspect prior exact-hash paid results and resume current-contract handoff with retained source evidence."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Prior controlled release failed assessment/content binding. No unchanged failed release replayed.",
+        "corrective_action": "Verify current main serializer and exact assessment/content binding before retry."
+      }
+    ],
+    "resolvable_gate_count": 3,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {},
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "lifecycle_identities": 385
+    },
+    "after_counts": {
+      "lifecycle_identities": 385
+    },
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "stage_elapsed_seconds": {
+      "to_receipt": 303.802123
+    },
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": null,
+  "errors": [
+    {
+      "stage": "classification_and_serialization",
+      "candidate_ids": [
+        "weekly-5119ae5a98d80e9ef5d2544b",
+        "weekly-56fec07c6bb5ce26240c614e",
+        "weekly-580cbf65ba78205f3b91860e"
+      ],
+      "reason": "Supported paid/source handoff imports requests; paid validation also imports jsonschema. Both are absent locally. Automatic review rejected dependency installation under stale monitor-only scope; subsequent escalation was denied by approval policy. No provider calls or new candidate attempts occurred.",
+      "corrective_action": "Provide the declared requests/jsonschema dependencies through an authorized runtime setup, then inspect prior exact-hash paid results and resume current-contract handoff with retained source evidence."
+    },
+    {
+      "stage": "publication_full_corpus_serialization",
+      "reason": "Prior controlled release failed assessment/content binding. No unchanged failed release replayed.",
+      "corrective_action": "Verify current main serializer and exact assessment/content binding before retry."
+    }
+  ]
+}

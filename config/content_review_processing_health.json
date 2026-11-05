@@ -1,35 +1,42 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T13:51:06.729964+00:00",
+  "observed_at": "2026-11-05T14:45:49.680669+00:00",
   "trigger": "schedule",
-  "native_run_id": "48c3643c-4abc-832e-9705-a1fc0ebce17e",
-  "local_candidates": 3,
+  "native_run_id": "632603a3-e58c-832e-aba4-f32087ee94c4",
+  "local_candidates": 0,
   "local_audits": 200,
   "source_requests": 0,
-  "source_gate_passes": 0,
-  "downstream_gate_passes": 0,
+  "source_gate_passes": {
+    "format": 0,
+    "access": 0,
+    "metadata": 0
+  },
+  "downstream_gate_passes": {
+    "quality": 0,
+    "schema": 0
+  },
   "six_gate_completions": 0,
   "newly_review_ready": 0,
   "publications": 0,
   "blockers": [
     {
+      "stage": "classification_and_serialization",
       "candidate_ids": [
         "weekly-5119ae5a98d80e9ef5d2544b",
         "weekly-56fec07c6bb5ce26240c614e",
         "weekly-580cbf65ba78205f3b91860e"
       ],
-      "stage": "classification_and_serialization",
-      "reason": "Verified paper types normalized with current first-five gates. Local requests/jsonschema dependencies are unavailable to prepare the current-contract paid handoff; no paid request or provider call made.",
-      "corrective_action": "Use the supported paid handoff in a runtime with its declared dependencies; first inspect existing exact-hash requests/results. Reuse retained source material and normalized inputs."
+      "reason": "Supported paid/source handoff imports requests; paid validation also imports jsonschema. Both are absent locally. Automatic review rejected dependency installation under stale monitor-only scope; subsequent escalation was denied by approval policy. No provider calls or new candidate attempts occurred.",
+      "corrective_action": "Provide the declared requests/jsonschema dependencies through an authorized runtime setup, then inspect prior exact-hash paid results and resume current-contract handoff with retained source evidence."
     },
     {
       "stage": "publication_full_corpus_serialization",
-      "reason": "Existing controlled release41945055902 failed full-corpus assessment/content binding; current main release script differs from retained local copy. No unchanged failed release replayed.",
-      "corrective_action": "Read and validate the current main controlled serializer and preserve exact assessment/content binding before retry."
+      "reason": "Prior controlled release failed assessment/content binding. No unchanged failed release replayed.",
+      "corrective_action": "Verify current main serializer and exact assessment/content binding before retry."
     }
   ],
-  "scope_note": "Three retained-source paper types explicitly normalized. No new gate pass, provider request, admission or publication.",
-  "corrective_action": "Use the supported paid handoff in a runtime with its declared dependencies; first inspect existing exact-hash requests/results. Reuse retained source material and normalized inputs.",
+  "scope_note": "Lifecycle evaluation and current input verification only; no candidate processing occurred.",
+  "corrective_action": "Provide the declared requests/jsonschema dependencies through an authorized runtime setup, then inspect prior exact-hash paid results and resume current-contract handoff with retained source evidence.",
   "processing_progress": {
     "runs": [
       {
@@ -155,6 +162,36 @@
             "stage": "publication_full_corpus_serialization",
             "reason": "Existing controlled release41945055902 failed full-corpus assessment/content binding; current main release script differs from retained local copy. No unchanged failed release replayed.",
             "corrective_action": "Read and validate the current main controlled serializer and preserve exact assessment/content binding before retry."
+          }
+        ]
+      },
+      {
+        "run_id": "632603a3-e58c-832e-aba4-f32087ee94c4",
+        "checkpoint_integrity": "reported_passed",
+        "local_candidates": 0,
+        "candidate_ids": [],
+        "resolvable_gates": 3,
+        "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "downstream_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          {
+            "stage": "classification_and_serialization",
+            "candidate_ids": [
+              "weekly-5119ae5a98d80e9ef5d2544b",
+              "weekly-56fec07c6bb5ce26240c614e",
+              "weekly-580cbf65ba78205f3b91860e"
+            ],
+            "reason": "Supported paid/source handoff imports requests; paid validation also imports jsonschema. Both are absent locally. Automatic review rejected dependency installation under stale monitor-only scope; subsequent escalation was denied by approval policy. No provider calls or new candidate attempts occurred.",
+            "corrective_action": "Provide the declared requests/jsonschema dependencies through an authorized runtime setup, then inspect prior exact-hash paid results and resume current-contract handoff with retained source evidence."
+          },
+          {
+            "stage": "publication_full_corpus_serialization",
+            "reason": "Prior controlled release failed assessment/content binding. No unchanged failed release replayed.",
+            "corrective_action": "Verify current main serializer and exact assessment/content binding before retry."
           }
         ]
       }
