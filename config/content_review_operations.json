@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T17:24:36.657231+00:00",
+  "observed_at": "2026-11-05T18:01:33Z",
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-05T17:24:36.657231+00:00",
-    "is_enabled": false,
+    "observed_at": "2026-11-05T18:01:33Z",
+    "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
-    "expected_next_run_at": null,
+    "expected_next_run_at": "2026-11-05T18:45:00.000Z",
     "last_run": {
       "id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
       "recorded_status": "completed",
@@ -22,6 +22,13 @@
       "trigger": "schedule",
       "evidence_verified": true,
       "receipt": "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json"
+    },
+    "authorized_maintenance_pause": {
+      "paused_at": "2026-11-05T16:55:52Z",
+      "restored_and_verified_at": "2026-11-05T18:01:33Z",
+      "original_schedule_unchanged": true,
+      "missed_slots_during_pause_are_not_failures": true,
+      "expected_next_basis": "First saved hourly slot after verified owner-authorized restoration; not a native next-run guarantee."
     }
   },
   "source_discovery": {
@@ -115,7 +122,7 @@
     "latest_version_number": 32,
     "current_live_url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site",
     "linked_automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "linked_automation_enabled": false
+    "linked_automation_enabled": true
   },
   "scheduler_history": [
     {
@@ -151,6 +158,13 @@
   "owner_maintenance": {
     "observed_at": "2026-11-05T17:53:09.792274+00:00",
     "receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
-    "scheduled_recovery_proven": false
+    "scheduled_recovery_proven": false,
+    "completed_at": "2026-11-05T18:01:33Z",
+    "schedules_restored": true,
+    "lease_release": {
+      "commit_sha": "61612fb2e61b376e7faaf5bb89cbc21c56fe0ef8",
+      "content_sha": "723e8d35db03c616065a2fb6609a2620169406c5",
+      "released_at": "2026-11-05T17:58:09Z"
+    }
   }
 }
