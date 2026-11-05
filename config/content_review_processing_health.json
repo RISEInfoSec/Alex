@@ -1,41 +1,55 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T11:48:53.306186+00:00",
+  "observed_at": "2026-11-05T12:50:21.131210+00:00",
   "trigger": "schedule",
-  "native_run_id": "151949cc-5180-832e-856e-7f03240012d6",
-  "local_candidates": 0,
-  "local_audits": 102,
-  "source_requests": 0,
-  "source_gate_passes": 0,
+  "native_run_id": "da45ceb2-82f4-832e-9025-098f80cb3919",
+  "local_candidates": 5,
+  "local_audits": 200,
+  "source_requests": 24,
+  "source_gate_passes": 9,
   "downstream_gate_passes": 0,
   "six_gate_completions": 0,
   "newly_review_ready": 0,
   "publications": 0,
   "blockers": [
     {
-      "stage": "candidate_preparation",
-      "reason": "Complete immutable input transfer, byte/SHA verification and current decision refresh consumed the candidate execution window; no candidate resolution or provider request was performed. Remaining gate execution was not started with incomplete corpus/source/decision prerequisites.",
-      "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline."
+      "candidate_id": "weekly-4c965b0ec0c5b5cb9145ad85",
+      "stage": "source_access",
+      "reason": "Verified bot challenge HTML, not intended material; no bypass or gate pass.",
+      "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
     },
     {
-      "stage": "metadata_and_type_versioning",
-      "candidate_ids": [
-        "weekly-3edc6db58d7fb63369f1382a",
-        "weekly-3f202ca007a2c04f9672c7d9",
-        "weekly-45dd07b0aa7eb7dec470f1dd",
-        "weekly-4b38dda890565d1ac84397c0"
-      ],
-      "reason": "Retained paper inputs remain parked as provisional research_paper_candidate. Existing normalize_record requires current first-five gates including metadata; authoritative date/byline/version conflicts remain. No relevant capability revision or current metadata pass was established.",
-      "corrective_action": "Resolve authoritative metadata with retained content, then use explicit full-version type normalization and rebind only unchanged valid evidence. Preserve parked suppression until the evidence changes."
+      "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+      "stage": "verified_type_and_downstream",
+      "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+      "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+    },
+    {
+      "candidate_id": "weekly-52701703a3ce1a9eaef90f2c",
+      "stage": "source_access",
+      "reason": "ReadTimeout",
+      "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
+    },
+    {
+      "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
+      "stage": "verified_type_and_downstream",
+      "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+      "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+    },
+    {
+      "candidate_id": "weekly-580cbf65ba78205f3b91860e",
+      "stage": "verified_type_and_downstream",
+      "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+      "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
     },
     {
       "stage": "publication_full_corpus_serialization",
-      "reason": "Prior release41945055902 failed assessment/content binding; full current public target was not independently revalidated in this pass.",
-      "corrective_action": "Validate the current exact mixed-corpus assessment binding through the existing controlled release; do not repeat the unchanged failed release."
+      "reason": "Main corpus/exclusions remain exact verified blobs056f6e/69ef4577; prior41945055902 failed exact full-corpus assessment binding. No unchanged release replayed.",
+      "corrective_action": "Repair and validate the existing controlled serializer while preserving assessment/content binding."
     }
   ],
-  "scope_note": "Lifecycle/complete-input preparation only. No candidate attempt, source request, paid call, gate pass, admission or publication.",
-  "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline.",
+  "scope_note": "Three matching papers verified; challenge and timeout remain distinct holds. No paid/registry calls or publication.",
+  "corrective_action": "Reuse retained matching sources, finish current type normalization and remaining downstream gates; preserve challenge/timeout holds.",
   "processing_progress": {
     "runs": [
       {
@@ -127,6 +141,62 @@
             "stage": "publication_full_corpus_serialization",
             "reason": "Prior release41945055902 failed assessment/content binding; full current public target was not independently revalidated in this pass.",
             "corrective_action": "Validate the current exact mixed-corpus assessment binding through the existing controlled release; do not repeat the unchanged failed release."
+          }
+        ]
+      },
+      {
+        "run_id": "da45ceb2-82f4-832e-9025-098f80cb3919",
+        "checkpoint_integrity": "reported_passed",
+        "local_candidates": 5,
+        "candidate_ids": [
+          "weekly-4c965b0ec0c5b5cb9145ad85",
+          "weekly-5119ae5a98d80e9ef5d2544b",
+          "weekly-52701703a3ce1a9eaef90f2c",
+          "weekly-56fec07c6bb5ce26240c614e",
+          "weekly-580cbf65ba78205f3b91860e"
+        ],
+        "resolvable_gates": 3,
+        "legitimate_holds_only": false,
+        "source_requests": 24,
+        "source_gate_passes": 9,
+        "downstream_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          {
+            "candidate_id": "weekly-4c965b0ec0c5b5cb9145ad85",
+            "stage": "source_access",
+            "reason": "Verified bot challenge HTML, not intended material; no bypass or gate pass.",
+            "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
+          },
+          {
+            "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+            "stage": "verified_type_and_downstream",
+            "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+            "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+          },
+          {
+            "candidate_id": "weekly-52701703a3ce1a9eaef90f2c",
+            "stage": "source_access",
+            "reason": "ReadTimeout",
+            "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
+          },
+          {
+            "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
+            "stage": "verified_type_and_downstream",
+            "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+            "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+          },
+          {
+            "candidate_id": "weekly-580cbf65ba78205f3b91860e",
+            "stage": "verified_type_and_downstream",
+            "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+            "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+          },
+          {
+            "stage": "publication_full_corpus_serialization",
+            "reason": "Main corpus/exclusions remain exact verified blobs056f6e/69ef4577; prior41945055902 failed exact full-corpus assessment binding. No unchanged release replayed.",
+            "corrective_action": "Repair and validate the existing controlled serializer while preserving assessment/content binding."
           }
         ]
       }

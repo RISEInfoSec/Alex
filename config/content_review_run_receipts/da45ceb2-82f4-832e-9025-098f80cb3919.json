@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "run_id": "da45ceb2-82f4-832e-9025-098f80cb3919",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T12:45:00Z",
+  "started_at": "2026-11-05T12:40:57.617427Z",
+  "completed_at": "2026-11-05T12:50:21.131210+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/da45ceb2-82f4-832e-9025-098f80cb3919.json",
+  "completed_actions": [
+    "Published/read back actual native start/running status",
+    "Refreshed66 complete D1 submissions and reused unchanged verified decision snapshot",
+    "Verified complete immutable current corpus/exclusions/upstream and seven named source manifests",
+    "Verified source Actions42029889065/request455c09f1 provenance,24 actual HTTP sends and candidate-bound text hashes",
+    "Inspected five distinct sources: three matching papers passed format/access/metadata; challenge and timeout retained",
+    "Audited200 lifecycle records preserving385 identities and prior attempts"
+  ],
+  "candidate_ids": [
+    "weekly-4c965b0ec0c5b5cb9145ad85",
+    "weekly-5119ae5a98d80e9ef5d2544b",
+    "weekly-52701703a3ce1a9eaef90f2c",
+    "weekly-56fec07c6bb5ce26240c614e",
+    "weekly-580cbf65ba78205f3b91860e"
+  ],
+  "request_counts": {
+    "source": 24,
+    "paid": 0,
+    "openalex": 0
+  },
+  "native_terminal_success": null,
+  "errors": [
+    {
+      "stage": "heartbeat",
+      "reason": "Actual preparation intervals exceeded60seconds; no timestamp backfill."
+    },
+    {
+      "stage": "local_preparation",
+      "reason": "Missing optional requests dependency prevented whole-module import; unchanged pure preparation/verification definitions used for coordinator only. Source execution remained in the supported Actions runner. CSV field limit increased for complete17MB upstream read."
+    }
+  ],
+  "checkpoint_paths": [
+    "config/weekly_review_manifest.json",
+    "config/content_review_preflight_status.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+    "config/content_review_processing_health.json",
+    "config/content_review_run_receipts/da45ceb2-82f4-832e-9025-098f80cb3919.json"
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-4c965b0ec0c5b5cb9145ad85",
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-52701703a3ce1a9eaef90f2c",
+      "weekly-56fec07c6bb5ce26240c614e",
+      "weekly-580cbf65ba78205f3b91860e"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-4c965b0ec0c5b5cb9145ad85",
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-52701703a3ce1a9eaef90f2c",
+      "weekly-56fec07c6bb5ce26240c614e",
+      "weekly-580cbf65ba78205f3b91860e"
+    ],
+    "completed_candidate_ids": [
+      "weekly-4c965b0ec0c5b5cb9145ad85",
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-52701703a3ce1a9eaef90f2c",
+      "weekly-56fec07c6bb5ce26240c614e",
+      "weekly-580cbf65ba78205f3b91860e"
+    ],
+    "genuinely_first_checked": [
+      "weekly-4c965b0ec0c5b5cb9145ad85",
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-52701703a3ce1a9eaef90f2c",
+      "weekly-56fec07c6bb5ce26240c614e",
+      "weekly-580cbf65ba78205f3b91860e"
+    ],
+    "next_dispositions": [],
+    "newly_passed_checks": {
+      "format": [
+        "weekly-5119ae5a98d80e9ef5d2544b",
+        "weekly-56fec07c6bb5ce26240c614e",
+        "weekly-580cbf65ba78205f3b91860e"
+      ],
+      "access": [
+        "weekly-5119ae5a98d80e9ef5d2544b",
+        "weekly-56fec07c6bb5ce26240c614e",
+        "weekly-580cbf65ba78205f3b91860e"
+      ],
+      "metadata": [
+        "weekly-5119ae5a98d80e9ef5d2544b",
+        "weekly-56fec07c6bb5ce26240c614e",
+        "weekly-580cbf65ba78205f3b91860e"
+      ]
+    },
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "candidate_id": "weekly-4c965b0ec0c5b5cb9145ad85",
+        "stage": "source_access",
+        "reason": "Verified bot challenge HTML, not intended material; no bypass or gate pass.",
+        "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
+      },
+      {
+        "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+        "stage": "verified_type_and_downstream",
+        "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+        "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+      },
+      {
+        "candidate_id": "weekly-52701703a3ce1a9eaef90f2c",
+        "stage": "source_access",
+        "reason": "ReadTimeout",
+        "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
+      },
+      {
+        "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
+        "stage": "verified_type_and_downstream",
+        "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+        "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+      },
+      {
+        "candidate_id": "weekly-580cbf65ba78205f3b91860e",
+        "stage": "verified_type_and_downstream",
+        "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+        "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Main corpus/exclusions remain exact verified blobs056f6e/69ef4577; prior41945055902 failed exact full-corpus assessment binding. No unchanged release replayed.",
+        "corrective_action": "Repair and validate the existing controlled serializer while preserving assessment/content binding."
+      }
+    ],
+    "remaining_blockers": [
+      {
+        "candidate_id": "weekly-4c965b0ec0c5b5cb9145ad85",
+        "stage": "source_access",
+        "reason": "Verified bot challenge HTML, not intended material; no bypass or gate pass.",
+        "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
+      },
+      {
+        "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+        "stage": "verified_type_and_downstream",
+        "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+        "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+      },
+      {
+        "candidate_id": "weekly-52701703a3ce1a9eaef90f2c",
+        "stage": "source_access",
+        "reason": "ReadTimeout",
+        "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
+      },
+      {
+        "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
+        "stage": "verified_type_and_downstream",
+        "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+        "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+      },
+      {
+        "candidate_id": "weekly-580cbf65ba78205f3b91860e",
+        "stage": "verified_type_and_downstream",
+        "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+        "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Main corpus/exclusions remain exact verified blobs056f6e/69ef4577; prior41945055902 failed exact full-corpus assessment binding. No unchanged release replayed.",
+        "corrective_action": "Repair and validate the existing controlled serializer while preserving assessment/content binding."
+      }
+    ],
+    "requests": {
+      "source": 24,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "stage_elapsed_seconds": {
+      "to_receipt": 563.514663
+    },
+    "cache_reuse": [
+      "All66 complete D1 submission records match previous verified complete snapshot; no prior decision replay",
+      "Byte/immutable SHA-verified current corpus, upstream4041 identities and seven named-source manifests",
+      "Completed HVE, parked records and retained sources skipped"
+    ],
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "Actual preparation heartbeat gaps and recovered missing local dependency/CSV field limit. Native terminal proof awaits independent verification.",
+    "resolvable_gate_count": 3,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-05T12:49:26.143423+00:00",
+        "stage": "format/access/metadata",
+        "candidate_ids": [
+          "weekly-5119ae5a98d80e9ef5d2544b",
+          "weekly-56fec07c6bb5ce26240c614e",
+          "weekly-580cbf65ba78205f3b91860e"
+        ]
+      }
+    },
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "lifecycle_identities": 385
+    },
+    "after_counts": {
+      "lifecycle_identities": 385
+    },
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  }
+}
