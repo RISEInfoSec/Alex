@@ -20,5 +20,5 @@ jobs:
           run_id=42113903650
           status=$(gh api "repos/$GH_REPO/actions/runs/$run_id" --jq .status)
           if [ "$status" != completed ]; then
-            gh api --method POST "repos/$GH_REPO/actions/runs/$run_id/cancel"
+            gh api --method POST "repos/$GH_REPO/actions/runs/$run_id/force-cancel"
           fi
