@@ -8,7 +8,13 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "Historical scheduled heartbeat gaps remain non-qualifying. Runtime dependencies repaired and local preparation verified under owner-authorized maintenance; one candidate still lacks venue. See maintenance_recovery.",
-  "lease": null,
+  "lease": {
+    "owner": "maintenance-pipeline-2026-11-05T16-12-23Z",
+    "run_id": "maintenance-pipeline-2026-11-05T16-12-23Z",
+    "acquired_at": "2026-11-05T16:12:23Z",
+    "expires_at": "2026-11-05T16:42:23.000Z",
+    "purpose": "Owner-authorized full pipeline repairs; no scheduled processing claim"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -784,5 +790,11 @@
     "candidate_processing": false,
     "note": "Checkpoint repair verified; corrected scheduled receipt excluded from promotion. Public route PR checks remain in progress."
   },
-  "last_completed_at": "2026-11-05T14:47:27.564870+00:00"
+  "last_completed_at": "2026-11-05T14:47:27.564870+00:00",
+  "maintenance_activity": {
+    "observed_at": "2026-11-05T16:12:23Z",
+    "run_id": "maintenance-pipeline-2026-11-05T16-12-23Z",
+    "stage": "repair_preparation",
+    "candidate_processing": false
+  }
 }
