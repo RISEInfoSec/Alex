@@ -1,19 +1,14 @@
 {
   "schema_version": 1,
-  "phase": "failed",
+  "phase": "idle",
   "ready_total": 2,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "Source runner41989955836 rejected missing lease.owner before source sends. Owner corrected/read back; no retry. Heartbeat gaps recorded.",
-  "lease": {
-    "owner": "6518a129-da24-8332-a08d-d53e3ce3eb56",
-    "run_id": "6518a129-da24-8332-a08d-d53e3ce3eb56",
-    "acquired_at": "2026-11-05T08:48:22.189Z",
-    "expires_at": "2026-11-05T09:18:22.189Z"
-  },
+  "last_error": "Actual heartbeat intervals exceeded60seconds during startup/preparation; no backfill, pass not promotion eligible.",
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -37,7 +32,7 @@
   },
   "global_deficit": 248,
   "soups_batch_deficit": 0,
-  "last_action": "Audited200 lifecycle records; preserved385 identities and existing2 ready papers. Zero candidate processing, source/paid/OpenAlex requests or publications.",
+  "last_action": "Five distinct source dispositions;17 sends;one paper passed format/access. Audited200 lifecycle records preserving385 identities. No new ready papers or publications.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -793,5 +788,6 @@
     },
     "candidate_processing": false,
     "note": "Checkpoint repair verified; corrected scheduled receipt excluded from promotion. Public route PR checks remain in progress."
-  }
+  },
+  "last_completed_at": "2026-11-05T08:56:30.541352+00:00"
 }
