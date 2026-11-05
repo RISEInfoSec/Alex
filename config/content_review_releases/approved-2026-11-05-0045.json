@@ -1,0 +1,1018 @@
+{
+  "schema_version": 1,
+  "release_id": "approved-2026-11-05-0045",
+  "publication_approved": true,
+  "approval_basis": "Completed authenticated human Include decisions for exact reviewed hashes under standing publication authorization.",
+  "source_review_commit": "6b923d70252c4355de56e264cbd15e1902db1e9a",
+  "records": [
+    {
+      "candidate_id": "weekly-250dd6cfa359991d1db168d1",
+      "collection": "weekly",
+      "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+      "document_type": "research_paper",
+      "authorization": {
+        "route": "human_approved",
+        "decision": "approved",
+        "submission": {
+          "id": "b9959fde-5252-4bf2-b3b4-d529e8aae5d5",
+          "revision": 1,
+          "payload_hash": "4e68a1738a6b5aef5b5e55343a3d87e168063c2a92e9a9088a7a3ed91bbaa8d8"
+        }
+      },
+      "preflight": {
+        "status": "passed",
+        "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+        "checks": {
+          "format": {
+            "status": "passed",
+            "checked_at": "2026-11-02T22:06:35.597Z",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+            "evidence": {
+              "source_url": "https://arxiv.org/pdf/2606.10083",
+              "retrieved_at": "2026-11-02T22:06:35.597Z",
+              "http_result": "200; bounded 20-second request completed",
+              "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+              "document_bytes": 2552773,
+              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+              "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+              "result": "Exact PDF is a substantive written research paper, not slides, a poster, or an event listing."
+            },
+            "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds.",
+            "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "access": {
+            "status": "passed",
+            "checked_at": "2026-11-02T22:06:35.597Z",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+            "evidence": {
+              "source_url": "https://arxiv.org/pdf/2606.10083",
+              "retrieved_at": "2026-11-02T22:06:35.597Z",
+              "http_result": "200; bounded 20-second request completed",
+              "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+              "document_bytes": 2552773,
+              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+              "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+              "result": "Exact source PDF was retrieved successfully with a bounded request and hashed."
+            },
+            "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds.",
+            "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "metadata": {
+            "status": "passed",
+            "checked_at": "2026-11-02T22:06:35.597Z",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+            "evidence": {
+              "source_url": "https://arxiv.org/pdf/2606.10083",
+              "retrieved_at": "2026-11-02T22:06:35.597Z",
+              "http_result": "200; bounded 20-second request completed",
+              "document_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64",
+              "document_bytes": 2552773,
+              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+              "evidence_ref": "config/content_review_mechanical_checkpoints/2026-11-02T220635Z-weekly-hve-source.json",
+              "result": "PDF front matter verifies title, five authors, Charm Security affiliations, arXiv v1 date (8 June 2026), and a complete abstract matching the cached abstract."
+            },
+            "limitations": "No DOI is asserted. Citation count was not rechecked. This source check does not resolve the separate duplicate or taxonomy/target-schema holds.",
+            "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "duplicates": {
+            "status": "passed",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "status": "passed",
+              "matches": [],
+              "upstream_aliases": [
+                {
+                  "upstream_candidate_id": "40289",
+                  "arxiv_id": "2606.10083",
+                  "reason": "Same arXiv identifier, normalized title and complete author byline; distinct discovery identity retained."
+                }
+              ],
+              "exclusions": [],
+              "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+              "upstream_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+              "exclusion_blob": "69ef457727ce2556b599f6491111467e85b7d13c"
+            },
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-28T03:50:34.934054+00:00",
+              "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+              "evidence": {
+                "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+                "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+                "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                "weekly_inventory_records": 4041,
+                "all_prepared_collections": [
+                  "soups",
+                  "weekly",
+                  "virusbulletin",
+                  "apwg"
+                ],
+                "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+                "matches": [
+                  {
+                    "origin": "weekly_upstream",
+                    "id": "40289",
+                    "matched_by": "title"
+                  }
+                ]
+              }
+            },
+            "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "quality": {
+            "status": "passed",
+            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+            "evidence": {
+              "quality_score": 31.65,
+              "quality_venue_score": 40,
+              "quality_citation_score": 0,
+              "quality_relevance_score": 70.59,
+              "quality_institution_score": 40,
+              "quality_institution_bonus": 0,
+              "quality_title_bonus": 0,
+              "quality_auto_threshold": 35,
+              "quality_review_threshold": 20,
+              "quality_core_term_gate": "pass",
+              "quality_relevance_gate": "pass",
+              "citation_count_known": true,
+              "quality_review_status": "human_quality_review",
+              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+              "quality_requires_review": true
+            },
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "rebound_at": "2026-11-04T22:58:12.434182+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "schema": {
+            "status": "passed",
+            "checked_at": "2026-11-04T23:02:43.704860+00:00",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "75a1bab4573c3204b1a655717e1a682c1e6c87b2b03314eb84fbbbd955722b41",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-11-04T23:02:43.697201+00:00",
+                "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+                "evidence": {
+                  "classification": {
+                    "Category": "Vulnerability Research",
+                    "Investigation_Type": "Other",
+                    "OSINT_Source_Types": []
+                  },
+                  "response_id": "resp_050993b774c722eb016aebb992805c87d2941fb78911c46d79",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 688,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 30,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 718
+                  },
+                  "uncertainty_flags": [
+                    "Investigation_Type_other"
+                  ]
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41930371885",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "1edd5cd60f76440215fdf3553265154ff22f0959",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "78c2f85871437e41d42d49affdc33c2f494ec8b7a8b2698d3bfe4820f4f60d06"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "d263828c0d83f99cea23895e274bafb40f747d64307f00a68777560d454f7cdd",
+                "workflow_sha256": "17625572aa76ac38bec3f25510bc8bd2496989de8e33e713f38280e7f74cdff2",
+                "publisher_sha256": "878f4918d90d2285c7fbc120123cd521ede835e0c115258ab9a97a7da4d255e9",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41930371885
+            },
+            "revalidated_at": "2026-11-04T23:04:57.796190+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-11-04T22:58:12.434182+00:00",
+              "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+              "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+              "prior_evidence": {
+                "status": "held",
+                "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+                "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              }
+            }
+          }
+        }
+      },
+      "taxonomy": {
+        "status": "passed",
+        "checked_at": "2026-11-04T23:02:43.697201+00:00",
+        "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+        "evidence": {
+          "classification": {
+            "Category": "Vulnerability Research",
+            "Investigation_Type": "Other",
+            "OSINT_Source_Types": []
+          },
+          "response_id": "resp_050993b774c722eb016aebb992805c87d2941fb78911c46d79",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 688,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 30,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 718
+          },
+          "uncertainty_flags": [
+            "Investigation_Type_other"
+          ]
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "41930371885",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "1edd5cd60f76440215fdf3553265154ff22f0959",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "78c2f85871437e41d42d49affdc33c2f494ec8b7a8b2698d3bfe4820f4f60d06"
+      },
+      "target": {
+        "id": 1,
+        "title": "The Human Vulnerabilities & Exploits (HVE) Framework",
+        "author": "Avichai Ben; Tom Rahav; Daniel Illaev; Aviv Nahon; Avi Grushka",
+        "year": 2026,
+        "apwg_year": "",
+        "publication_year_source": "",
+        "venue": "arXiv (Cornell University)",
+        "summary": "The cybersecurity community has invested over two decades in building standardized frameworks, the Common Vulnerabilities and Exposures (CVE) system, the Common Vulnerability Scoring System (CVSS), and the Common Weakness Enumeration (CWE) to identify, classify, and remediate threats to digital infrastructure. However, an emerging body of research reveals that a vast majority of successful cyberattacks exploit not software flaws, but human behavioral and psychological vulnerabilities. Social engineering, fraud, and scam attacks, which manipulate human cognition, emotion, and trust, do not have an equivalent standardized framework. Meanwhile, behavioral science and psychology research has established robust theoretical foundations, such as dual-process theory, prospect theory, social influence frameworks, and visceral state models, which explain precisely why and how these attacks succeed. This paper introduces the Human Vulnerabilities & Exploits (HVE) Framework, a structured approach for identifying, classifying, and mitigating the behavioral and psychological vulnerabilities exploited in scams, social engineering, and other human-centric fraud and attacks, analogous in concept to how CVE helps classify software vulnerabilities: it provides a shared, machine-readable taxonomy with structured identifiers, multi-dimensional severity scoring via the Human Vulnerability Severity Score (HVSS), and actionable remediation guidance through Human Vulnerability Patches (HVPs). This introduction synthesizes the relevant literature across cybersecurity standardization, behavioral science, and fraud defense to establish the theoretical and practical foundations for the HVE framework, whose architecture and technical specifications are detailed in subsequent sections.",
+        "keywords": [],
+        "osint_source": [],
+        "category": "Vulnerability Research",
+        "collection_source": "ALEX regular weekly discovery review queue",
+        "collection_url": "https://github.com/RISEInfoSec/Alex",
+        "apwg_source_url": "",
+        "investigation_type": "Other",
+        "tags": [],
+        "link": "https://arxiv.org/abs/2606.10083",
+        "source_url": "https://arxiv.org/abs/2606.10083",
+        "doi": "",
+        "seminal": false,
+        "quality_tier": "Exploratory",
+        "retrieved": ""
+      },
+      "target_schema": {
+        "status": "passed",
+        "checked_at": "2026-11-04T23:02:43.704860+00:00",
+        "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+        "evidence": {
+          "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+          "target_record_sha256": "75a1bab4573c3204b1a655717e1a682c1e6c87b2b03314eb84fbbbd955722b41",
+          "document_type": "research_paper",
+          "corpus_modified": false,
+          "publication_approved": false,
+          "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+          "taxonomy": {
+            "status": "passed",
+            "checked_at": "2026-11-04T23:02:43.697201+00:00",
+            "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+            "evidence": {
+              "classification": {
+                "Category": "Vulnerability Research",
+                "Investigation_Type": "Other",
+                "OSINT_Source_Types": []
+              },
+              "response_id": "resp_050993b774c722eb016aebb992805c87d2941fb78911c46d79",
+              "model": "gpt-4o-mini-2024-07-18",
+              "reported_usage": {
+                "input_tokens": 688,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 30,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 718
+              },
+              "uncertainty_flags": [
+                "Investigation_Type_other"
+              ]
+            },
+            "provenance": {
+              "GITHUB_RUN_ID": "41930371885",
+              "GITHUB_RUN_ATTEMPT": "1",
+              "GITHUB_SHA": "1edd5cd60f76440215fdf3553265154ff22f0959",
+              "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+              "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+            },
+            "request_id": "78c2f85871437e41d42d49affdc33c2f494ec8b7a8b2698d3bfe4820f4f60d06"
+          },
+          "contract": {
+            "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+            "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+            "runner_sha256": "d263828c0d83f99cea23895e274bafb40f747d64307f00a68777560d454f7cdd",
+            "workflow_sha256": "17625572aa76ac38bec3f25510bc8bd2496989de8e33e713f38280e7f74cdff2",
+            "publisher_sha256": "878f4918d90d2285c7fbc120123cd521ede835e0c115258ab9a97a7da4d255e9",
+            "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+          },
+          "workflow_run_id": 41930371885
+        },
+        "revalidated_at": "2026-11-04T23:04:57.796190+00:00",
+        "prior_evidence": {
+          "status": "held",
+          "checked_at": "2026-11-04T22:58:12.434182+00:00",
+          "content_sha256": "cdefde086b8ab8f341b4212cbfc64910754c3ed3427d82b48afc40db751a36dc",
+          "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-10-27T23:05:43.163744+00:00",
+            "content_sha256": "8ac35952224584f2b05194cfa403ef22753af9fd40fd2ab66b3e42bc0b33171a",
+            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+          }
+        }
+      },
+      "schema_retrieved_at": "",
+      "source_revalidation": {
+        "url": "https://arxiv.org/pdf/2606.10083",
+        "kind": "exact_pdf",
+        "expected_sha256": "955e8e252ce3237bf629b0f6e1fa614d1e9f567d3beb09809ffc5377649feb64"
+      }
+    },
+    {
+      "title": "M3AAWG Best Practices for Sending Legally Mandated Emails to Large Audiences",
+      "authors": "M3AAWG",
+      "year": 2026,
+      "doi": "",
+      "source_url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
+      "abstract": "This version 2.0 best-practice guide sets out responsibilities for brand owners, email infrastructure operators and deliverability consultants when sending legally mandated bulk notifications, including breach notices. It addresses domain authentication, recognizable sending domains, DNS configuration, recipient ordering, restrained message content, accessibility, proof of sending, and coordination with service and mailbox providers. It also describes alternatives to email. This is operational industry guidance; its relevance is primarily incident-response communications rather than evidence collection.",
+      "document_type": "best_practice_guide",
+      "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+      "collection_id": "m3aawg",
+      "collection_source": "M3AAWG",
+      "discovery_source": "m3aawg",
+      "collection_url": "https://www.m3aawg.org/published-documents",
+      "venue": "M3AAWG",
+      "publisher": "M3AAWG",
+      "discovery_intermediary": "",
+      "citation_count": null,
+      "observed_document_type": "best_practice_guide_candidate",
+      "source_record_sha256": "eea58c781b15b81a068c66393f43d7e99c14e91cf5727dbff9ca4a9e16c97b4a",
+      "reserved_review_number": 178,
+      "decision": "approved",
+      "review_ready": false,
+      "editorial_queue_eligible": false,
+      "recommendation": "discuss",
+      "publication_approved": true,
+      "preflight_blockers": [],
+      "source_observation": {
+        "discovery_identity": "m3aawg-url-75aa6fb2c156539547d27ab8",
+        "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+        "collection": "weekly",
+        "discovery_source": "m3aawg",
+        "source_url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
+        "title": "M3AAWG Best Practices for Sending Legally Mandated Emails to Large Audiences",
+        "authors": "",
+        "year": 2026,
+        "doi": "",
+        "abstract": "",
+        "publication_date_observed": "2026-09-14",
+        "publisher": "M3AAWG",
+        "observed_document_type": "best_practice_guide_candidate",
+        "language": "unverified",
+        "related_version_urls": [],
+        "edition_note": "Reconcile latest edition and translations before creating a public record",
+        "provenance": [
+          {
+            "discovery_url": "https://www.m3aawg.org/published-documents",
+            "checked_at": "2026-11-02T11:07:07.651841+00:00",
+            "resource_sha256": "7680caf90adb1070dd6969991eed46b71705ab9d69f832ba37354f3703a97f12"
+          },
+          {
+            "discovery_url": "https://www.m3aawg.org/published-documents?page=0",
+            "checked_at": "2026-11-02T11:07:14.519103+00:00",
+            "resource_sha256": "62e197bca212a3c05f47a20fcefb7f3c16e6791e95142458f230e95ad2307e80"
+          }
+        ],
+        "source_fingerprint": "eea58c781b15b81a068c66393f43d7e99c14e91cf5727dbff9ca4a9e16c97b4a",
+        "first_seen_at": "2026-11-02T11:08:00.965663+00:00",
+        "last_seen_at": "2026-11-02T11:08:00.965663+00:00",
+        "disposition": "unprocessed_discovery",
+        "duplicate_matches": [],
+        "possible_version_matches": [],
+        "document_type": "format_unverified",
+        "review_ready": false,
+        "recommendation": null,
+        "preflight_blockers": [
+          "format",
+          "access",
+          "metadata",
+          "duplicates",
+          "quality",
+          "schema"
+        ]
+      },
+      "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+      "preflight": {
+        "status": "passed",
+        "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "checks": {
+          "format": {
+            "status": "passed",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "actual_type": "best_practice_guide",
+              "container": "pdf",
+              "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+              "result": "Inspected actual matching text; research-paper status is not asserted."
+            },
+            "prior_evidence": {
+              "status": "not_checked",
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "checked_at": null,
+              "evidence": "Source observation only; existing mechanical gate pending"
+            },
+            "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+            "reused_from_content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
+          },
+          "access": {
+            "status": "passed",
+            "checked_at": "2026-11-04T22:57:38.943199+00:00",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+              "http_status": 200,
+              "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+              "result": "Permitted original resource retrieved with usable text."
+            },
+            "prior_evidence": {
+              "status": "not_checked",
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "checked_at": null,
+              "evidence": "Source observation only; existing mechanical gate pending"
+            },
+            "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+            "reused_from_content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
+          },
+          "metadata": {
+            "status": "passed",
+            "checked_at": "2026-11-05T00:10:10.738257+00:00",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+            "evidence": {
+              "method": "Verified retained original source metadata",
+              "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+              "author": "M3AAWG",
+              "publication_date": "2026-09",
+              "publication_version": "2.0",
+              "summary_kind": "editorial_synopsis",
+              "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038"
+            }
+          },
+          "duplicates": {
+            "status": "passed",
+            "checked_at": "2026-11-04T17:53:04.154707+00:00",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+            "evidence": {
+              "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+              "matches": 0,
+              "exclusions": []
+            },
+            "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+            "reused_from_content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
+          },
+          "quality": {
+            "status": "passed",
+            "checked_at": "2026-11-05T00:10:10.738257+00:00",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+            "evidence": {
+              "policy": "manual-text-resources-v1",
+              "quality_method": "qualitative",
+              "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+              "criteria": {
+                "accountability": {
+                  "status": "passed",
+                  "evidence": "M3AAWG identified as issuing organization on the source title page."
+                },
+                "substantive_material": {
+                  "status": "passed",
+                  "evidence": "All five PDF pages retained and inspected, including roles, technical considerations, audience, message structure and postmaster coordination."
+                },
+                "investigative_relevance": {
+                  "status": "passed",
+                  "evidence": "Concrete supporting use in cybercrime incident response and breach-victim communications; limited direct evidence-collection utility is disclosed."
+                },
+                "evidence_or_guidance": {
+                  "status": "passed",
+                  "evidence": "Specific instructions cover SPF/DKIM/DMARC, FCrDNS, sending-domain recognition, staged recipients and evidence of sending."
+                },
+                "version": {
+                  "status": "passed",
+                  "evidence": "Title page explicitly identifies version 2.0 September 2026 and original version 1.0 December 2020."
+                },
+                "actionable_scope": {
+                  "status": "passed",
+                  "evidence": "Separates brand owner, infrastructure operator and deliverability consultant tasks for mandated notices, with alternative contact options."
+                }
+              },
+              "limitations": "Industry best-practice guidance without an empirical evaluation. It does not determine legal obligations. Primary utility is breach-response communications; it is not a general investigative method.",
+              "manual_only": true
+            }
+          },
+          "schema": {
+            "status": "passed",
+            "checked_at": "2026-11-05T00:10:10.738257+00:00",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+            "evidence": {
+              "method": "Production publisher on disposable one-record fixture",
+              "document_type": "best_practice_guide",
+              "target_record_sha256": "f4ab7bf1be6d73a52a57dab907e5edc03f5dc84b13d48f299bf18e596ef9180d",
+              "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+              "corpus_modified": false,
+              "publication_approved": false
+            }
+          }
+        }
+      },
+      "review_number": 178,
+      "reserved_review_batch": 25,
+      "review_batch": 34,
+      "batch": 34,
+      "mechanical_provenance_checks": [
+        {
+          "checked_at": "2026-11-04T17:53:04.154707+00:00",
+          "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+          "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "stage": "duplicates"
+        }
+      ],
+      "source_processing": {
+        "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+        "retrieval_status": "retrieved",
+        "receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+        "checked_at": "2026-11-04T22:57:38.943199+00:00",
+        "reason": null,
+        "evidence_sha256": [
+          "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038"
+        ]
+      },
+      "verified_document_type": "best_practice_guide",
+      "typed_resource_staging": {
+        "schema_version": 1,
+        "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+        "actual_type": "best_practice_guide",
+        "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+        "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+        "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+        "text_complete": true,
+        "publication_date": "2026-09",
+        "author": "M3AAWG",
+        "publication_version": "2.0",
+        "publication_ready": false
+      },
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "record": {
+            "title": "M3AAWG Best Practices for Sending Legally Mandated Emails to Large Audiences",
+            "authors": "",
+            "year": 2026,
+            "doi": "",
+            "source_url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
+            "abstract": "",
+            "document_type": "format_unverified",
+            "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+            "collection_id": "m3aawg",
+            "collection_source": "M3AAWG",
+            "discovery_source": "m3aawg",
+            "collection_url": "https://www.m3aawg.org/published-documents",
+            "venue": "M3AAWG",
+            "publisher": "M3AAWG",
+            "discovery_intermediary": "",
+            "citation_count": null,
+            "observed_document_type": "best_practice_guide_candidate",
+            "source_record_sha256": "eea58c781b15b81a068c66393f43d7e99c14e91cf5727dbff9ca4a9e16c97b4a",
+            "reserved_review_number": 178,
+            "decision": "pending",
+            "review_ready": false,
+            "editorial_queue_eligible": false,
+            "recommendation": null,
+            "publication_approved": false,
+            "preflight_blockers": [
+              "metadata",
+              "quality",
+              "schema"
+            ],
+            "source_observation": {
+              "discovery_identity": "m3aawg-url-75aa6fb2c156539547d27ab8",
+              "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+              "collection": "weekly",
+              "discovery_source": "m3aawg",
+              "source_url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
+              "title": "M3AAWG Best Practices for Sending Legally Mandated Emails to Large Audiences",
+              "authors": "",
+              "year": 2026,
+              "doi": "",
+              "abstract": "",
+              "publication_date_observed": "2026-09-14",
+              "publisher": "M3AAWG",
+              "observed_document_type": "best_practice_guide_candidate",
+              "language": "unverified",
+              "related_version_urls": [],
+              "edition_note": "Reconcile latest edition and translations before creating a public record",
+              "provenance": [
+                {
+                  "discovery_url": "https://www.m3aawg.org/published-documents",
+                  "checked_at": "2026-11-02T11:07:07.651841+00:00",
+                  "resource_sha256": "7680caf90adb1070dd6969991eed46b71705ab9d69f832ba37354f3703a97f12"
+                },
+                {
+                  "discovery_url": "https://www.m3aawg.org/published-documents?page=0",
+                  "checked_at": "2026-11-02T11:07:14.519103+00:00",
+                  "resource_sha256": "62e197bca212a3c05f47a20fcefb7f3c16e6791e95142458f230e95ad2307e80"
+                }
+              ],
+              "source_fingerprint": "eea58c781b15b81a068c66393f43d7e99c14e91cf5727dbff9ca4a9e16c97b4a",
+              "first_seen_at": "2026-11-02T11:08:00.965663+00:00",
+              "last_seen_at": "2026-11-02T11:08:00.965663+00:00",
+              "disposition": "unprocessed_discovery",
+              "duplicate_matches": [],
+              "possible_version_matches": [],
+              "document_type": "format_unverified",
+              "review_ready": false,
+              "recommendation": null,
+              "preflight_blockers": [
+                "format",
+                "access",
+                "metadata",
+                "duplicates",
+                "quality",
+                "schema"
+              ]
+            },
+            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "preflight": {
+              "status": "held",
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "checks": {
+                "format": {
+                  "status": "passed",
+                  "checked_at": "2026-11-04T22:57:38.943199+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+                    "actual_type": "best_practice_guide",
+                    "container": "pdf",
+                    "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+                    "result": "Inspected actual matching text; research-paper status is not asserted."
+                  },
+                  "prior_evidence": {
+                    "status": "not_checked",
+                    "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                    "checked_at": null,
+                    "evidence": "Source observation only; existing mechanical gate pending"
+                  }
+                },
+                "access": {
+                  "status": "passed",
+                  "checked_at": "2026-11-04T22:57:38.943199+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+                    "http_status": 200,
+                    "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+                    "result": "Permitted original resource retrieved with usable text."
+                  },
+                  "prior_evidence": {
+                    "status": "not_checked",
+                    "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                    "checked_at": null,
+                    "evidence": "Source observation only; existing mechanical gate pending"
+                  }
+                },
+                "metadata": {
+                  "status": "held",
+                  "checked_at": "2026-11-04T22:57:38.943199+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+                    "verified_fields": {
+                      "schema_version": 1,
+                      "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                      "actual_type": "best_practice_guide",
+                      "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+                      "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+                      "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+                      "text_complete": true,
+                      "publication_date": "2026-09",
+                      "author": "M3AAWG",
+                      "publication_version": "2.0",
+                      "publication_ready": false
+                    },
+                    "result": "Verified source metadata retained in typed staging. Reviewed-content metadata/abstract version and non-paper export contract remain to be completed; original reviewed hash retained."
+                  },
+                  "prior_evidence": {
+                    "status": "not_checked",
+                    "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                    "checked_at": null,
+                    "evidence": "Source observation only; existing mechanical gate pending"
+                  }
+                },
+                "duplicates": {
+                  "status": "passed",
+                  "checked_at": "2026-11-04T17:53:04.154707+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+                    "matches": 0,
+                    "exclusions": []
+                  }
+                },
+                "quality": {
+                  "status": "held",
+                  "checked_at": "2026-11-04T22:57:38.943199+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+                    "result": "Type-appropriate quality rubric is not approved. Do not apply bibliometric paper scoring or invent a numeric media deduction."
+                  },
+                  "prior_evidence": {
+                    "status": "not_checked",
+                    "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                    "checked_at": null,
+                    "evidence": "Source observation only; existing mechanical gate pending"
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-11-04T22:57:38.943199+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+                    "result": "Typed staging is available; public non-paper target/classifier/export adapter is not yet supported."
+                  },
+                  "prior_evidence": {
+                    "status": "not_checked",
+                    "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                    "checked_at": null,
+                    "evidence": "Source observation only; existing mechanical gate pending"
+                  }
+                }
+              }
+            },
+            "review_number": 178,
+            "reserved_review_batch": 25,
+            "review_batch": 25,
+            "batch": 25,
+            "mechanical_provenance_checks": [
+              {
+                "checked_at": "2026-11-04T17:53:04.154707+00:00",
+                "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+                "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                "stage": "duplicates"
+              }
+            ],
+            "source_processing": {
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "retrieval_status": "retrieved",
+              "receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+              "checked_at": "2026-11-04T22:57:38.943199+00:00",
+              "reason": null,
+              "evidence_sha256": [
+                "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038"
+              ]
+            },
+            "verified_document_type": "best_practice_guide",
+            "typed_resource_staging": {
+              "schema_version": 1,
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "actual_type": "best_practice_guide",
+              "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+              "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+              "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+              "text_complete": true,
+              "publication_date": "2026-09",
+              "author": "M3AAWG",
+              "publication_version": "2.0",
+              "publication_ready": false
+            }
+          },
+          "reason": "Owner-approved typed resource schema: verified type/metadata and explicitly editorial synopsis.",
+          "superseded_at": "2026-11-05T00:10:10.738257+00:00"
+        }
+      ],
+      "summary_kind": "editorial_synopsis",
+      "publication_date": "2026-09",
+      "publication_version": "2.0",
+      "abstract_truncated": false,
+      "abstract_integrity_status": "editorial_synopsis_not_source_abstract",
+      "manual_vote_required": true,
+      "automatic_acceptance_eligible": false,
+      "automatic_route_eligible": false,
+      "automatic_handoff_pending": false,
+      "lifecycle_evidence_revision": "manual-text-resources-v1",
+      "resource_assessment": {
+        "assessor": "ALEX assistant substantive source assessment; pending human editorial decision",
+        "original_publication_date": "2020-12",
+        "date_note": "The assessed edition is version 2.0, September 2026; version 1.0 was originally published December 2020. No day is inferred.",
+        "assessment_limits": "All five extracted PDF pages assessed. Referenced external guidance was not revalidated.",
+        "limitations": "Industry best-practice guidance without an empirical evaluation. It does not determine legal obligations. Primary utility is breach-response communications; it is not a general investigative method.",
+        "criteria": {
+          "accountability": {
+            "status": "passed",
+            "evidence": "M3AAWG identified as issuing organization on the source title page."
+          },
+          "substantive_material": {
+            "status": "passed",
+            "evidence": "All five PDF pages retained and inspected, including roles, technical considerations, audience, message structure and postmaster coordination."
+          },
+          "investigative_relevance": {
+            "status": "passed",
+            "evidence": "Concrete supporting use in cybercrime incident response and breach-victim communications; limited direct evidence-collection utility is disclosed."
+          },
+          "evidence_or_guidance": {
+            "status": "passed",
+            "evidence": "Specific instructions cover SPF/DKIM/DMARC, FCrDNS, sending-domain recognition, staged recipients and evidence of sending."
+          },
+          "version": {
+            "status": "passed",
+            "evidence": "Title page explicitly identifies version 2.0 September 2026 and original version 1.0 December 2020."
+          },
+          "actionable_scope": {
+            "status": "passed",
+            "evidence": "Separates brand owner, infrastructure operator and deliverability consultant tasks for mandated notices, with alternative contact options."
+          }
+        },
+        "schema_version": 1,
+        "policy": "manual-text-resources-v1",
+        "actual_type": "best_practice_guide",
+        "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "quality_method": "qualitative",
+        "manual_only": true,
+        "summary_kind": "editorial_synopsis",
+        "assessed_at": "2026-11-05T00:10:10.738257+00:00",
+        "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+        "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+        "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+        "text_complete": true,
+        "publication_date": "2026-09",
+        "publication_version": "2.0"
+      },
+      "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+      "taxonomy": {
+        "status": "passed",
+        "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "checked_at": "2026-11-05T00:10:10.738257+00:00",
+        "evidence": {
+          "contract": "manual-text-resources-v1",
+          "method": "substantive_resource_assessment",
+          "classification": {
+            "Category": "Network & Infrastructure Security",
+            "Investigation_Type": "Incident Response",
+            "OSINT_Source_Types": [
+              "DNS/WHOIS"
+            ]
+          },
+          "rationale": "Operational breach notification and email infrastructure/authentication guidance. DNS/WHOIS denotes the DNS configuration material; no scholarly-paper or citation classification is implied.",
+          "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+          "provider_requests": 0
+        }
+      },
+      "target": {
+        "title": "M3AAWG Best Practices for Sending Legally Mandated Emails to Large Audiences",
+        "authors": "M3AAWG",
+        "year": 2026,
+        "doi": "",
+        "source_url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
+        "abstract": "This version 2.0 best-practice guide sets out responsibilities for brand owners, email infrastructure operators and deliverability consultants when sending legally mandated bulk notifications, including breach notices. It addresses domain authentication, recognizable sending domains, DNS configuration, recipient ordering, restrained message content, accessibility, proof of sending, and coordination with service and mailbox providers. It also describes alternatives to email. This is operational industry guidance; its relevance is primarily incident-response communications rather than evidence collection.",
+        "document_type": "best_practice_guide",
+        "venue": "M3AAWG",
+        "collection_source": "M3AAWG",
+        "collection_url": "https://www.m3aawg.org/published-documents",
+        "retrieved_at": "",
+        "publication_date": "2026-09",
+        "publication_version": "2.0",
+        "Category": "Network & Infrastructure Security",
+        "Investigation_Type": "Incident Response",
+        "OSINT_Source_Types": "DNS/WHOIS",
+        "citation_count": "",
+        "total_quality_score": "",
+        "Seminal_Flag": "FALSE",
+        "resource_schema_version": 1,
+        "summary_kind": "editorial_synopsis",
+        "resource_assessment": "{\"actual_type\": \"best_practice_guide\", \"assessed_at\": \"2026-11-05T00:10:10.738257+00:00\", \"assessment_limits\": \"All five extracted PDF pages assessed. Referenced external guidance was not revalidated.\", \"assessor\": \"ALEX assistant substantive source assessment; pending human editorial decision\", \"content_sha256\": \"deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137\", \"criteria\": {\"accountability\": {\"evidence\": \"M3AAWG identified as issuing organization on the source title page.\", \"status\": \"passed\"}, \"actionable_scope\": {\"evidence\": \"Separates brand owner, infrastructure operator and deliverability consultant tasks for mandated notices, with alternative contact options.\", \"status\": \"passed\"}, \"evidence_or_guidance\": {\"evidence\": \"Specific instructions cover SPF/DKIM/DMARC, FCrDNS, sending-domain recognition, staged recipients and evidence of sending.\", \"status\": \"passed\"}, \"investigative_relevance\": {\"evidence\": \"Concrete supporting use in cybercrime incident response and breach-victim communications; limited direct evidence-collection utility is disclosed.\", \"status\": \"passed\"}, \"substantive_material\": {\"evidence\": \"All five PDF pages retained and inspected, including roles, technical considerations, audience, message structure and postmaster coordination.\", \"status\": \"passed\"}, \"version\": {\"evidence\": \"Title page explicitly identifies version 2.0 September 2026 and original version 1.0 December 2020.\", \"status\": \"passed\"}}, \"date_note\": \"The assessed edition is version 2.0, September 2026; version 1.0 was originally published December 2020. No day is inferred.\", \"limitations\": \"Industry best-practice guidance without an empirical evaluation. It does not determine legal obligations. Primary utility is breach-response communications; it is not a general investigative method.\", \"manual_only\": true, \"original_publication_date\": \"2020-12\", \"policy\": \"manual-text-resources-v1\", \"publication_date\": \"2026-09\", \"publication_version\": \"2.0\", \"quality_method\": \"qualitative\", \"schema_version\": 1, \"source_receipt\": \"config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json\", \"source_sha256\": \"afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038\", \"summary_kind\": \"editorial_synopsis\", \"text_complete\": true, \"text_sha256\": \"1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a\"}",
+        "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+        "review_candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+        "review_content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "inclusion_path": "manual-text-resources-v1"
+      },
+      "target_schema": {
+        "status": "passed",
+        "checked_at": "2026-11-05T00:10:10.738257+00:00",
+        "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "evidence": {
+          "method": "Production publisher on disposable one-record fixture",
+          "document_type": "best_practice_guide",
+          "target_record_sha256": "f4ab7bf1be6d73a52a57dab907e5edc03f5dc84b13d48f299bf18e596ef9180d",
+          "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+          "corpus_modified": false,
+          "publication_approved": false
+        }
+      },
+      "schema_retrieved_at": "",
+      "preflight_status": "passed",
+      "relevance": "supporting",
+      "review_reason": "A useful operational reference for breach-response teams: it connects authenticated notifications, recipient handling and proof-of-send requirements to concrete responsibilities. Its direct investigative value is limited, so manual review should decide whether supporting incident-response guidance belongs in this collection.",
+      "recommendation_content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+      "recommendation_status": "current_substantive_resource_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-11-05T00:10:10.738257+00:00",
+      "recommendation_evidence": {
+        "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "abstract_sha256": "f78128a8d54decb1b8b9ac87b436c96366559da12cf5eeda692ef4ca46dda1fd",
+        "assessment_depth": "retained_source_text_with_explicit_limits",
+        "method": "Retained source text assessed using the approved qualitative resource criteria; see limitations.",
+        "source_provenance": [],
+        "format_checked_at": "2026-11-04T22:57:38.943199+00:00",
+        "access_checked_at": "2026-11-04T22:57:38.943199+00:00",
+        "limitations": "Industry best-practice guidance without an empirical evaluation. It does not determine legal obligations. Primary utility is breach-response communications; it is not a general investigative method.",
+        "recommendation": "discuss",
+        "relevance": "supporting",
+        "basis": "A useful operational reference for breach-response teams: it connects authenticated notifications, recipient handling and proof-of-send requirements to concrete responsibilities. Its direct investigative value is limited, so manual review should decide whether supporting incident-response guidance belongs in this collection.",
+        "assessed_at": "2026-11-05T00:10:10.738257+00:00",
+        "source_text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+        "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5"
+      },
+      "assessment_basis": "Retained source text assessed using the approved qualitative resource criteria; see limitations.",
+      "assessment_depth": "retained_source_text_with_explicit_limits",
+      "assessment_date": "2026-11-05",
+      "screening_status": "current_resource_recommendation_complete_after_preflight",
+      "batch_admission_eligible": true,
+      "admission_hold": null,
+      "preflight_reservation": {
+        "review_number": 178,
+        "review_batch": 25
+      },
+      "readiness_status": "passed",
+      "admitted_at": "2026-11-05T00:10:10.738257+00:00",
+      "decision_content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+      "decision_submission_revision": 1,
+      "decision_submission_id": "f821ae8b-38dc-4580-a72a-c04afec6185e",
+      "authorization": {
+        "route": "human_approved",
+        "decision": "approved",
+        "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+        "submission": {
+          "id": "f821ae8b-38dc-4580-a72a-c04afec6185e",
+          "revision": 1,
+          "payload_hash": "f388a664336bf2e66d209106632db97b76c34c1366dbe845e15ec4fa90498515"
+        }
+      },
+      "source_revalidation": {
+        "url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
+        "kind": "exact_pdf",
+        "expected_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038"
+      }
+    }
+  ],
+  "records_sha256": "fe0d204192054ef5f146883d86d125741e8e555d2fa6310997ad487074c5ab49"
+}
