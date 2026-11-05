@@ -1,45 +1,58 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T14:30:22.696Z",
+  "observed_at": "2026-11-05T15:39:52.054Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "5318cb30-4ec4-832f-853a-9a1f12c822f1",
-    "scheduled_for": "2026-11-05T14:32:00Z",
-    "started_at": "2026-11-05T14:28:38.091631Z",
+    "run_id": "862d0cb3-bd48-832f-b90f-15e717207f67",
+    "scheduled_for": "2026-11-05T15:32:00Z",
+    "started_at": "2026-11-05T15:36:11.336468Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "native_status": "in_progress",
-    "next_run_time": null
+    "next_run_time": null,
+    "observed_at": "2026-11-05T15:36:38.414Z"
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-05T14:29:08.921Z",
+    "observed_at": "2026-11-05T15:36:38.330Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "48c3643c-4abc-832e-9705-a1fc0ebce17e",
+      "id": "632603a3-e58c-832e-aba4-f32087ee94c4",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-05T13:45:00Z",
-      "started_at": "2026-11-05T13:42:59.274060Z",
-      "completed_at": "2026-11-05T13:53:35.928504Z"
-    }
+      "scheduled_for": "2026-11-05T14:45:00Z",
+      "started_at": "2026-11-05T14:40:46.158996Z",
+      "completed_at": "2026-11-05T14:47:48.147752Z"
+    },
+    "last_run_deferral": null
   },
   "receipt_check": {
-    "run_id": "48c3643c-4abc-832e-9705-a1fc0ebce17e",
-    "path": "config/content_review_run_receipts/48c3643c-4abc-832e-9705-a1fc0ebce17e.json",
+    "run_id": "632603a3-e58c-832e-aba4-f32087ee94c4",
+    "path": "config/content_review_run_receipts/632603a3-e58c-832e-aba4-f32087ee94c4.json",
     "verified": true,
-    "reason": "Native terminal completion matches the canonical scheduled receipt identity, schedule, nonempty actions, path and completion time bounds."
+    "reason": "Native terminal completion matches the canonical scheduled receipt identity, schedule, nonempty actions, path and completion time bounds.",
+    "checks": {
+      "identity": true,
+      "trigger": true,
+      "application_complete": true,
+      "scheduled_for": true,
+      "actions": true,
+      "path": true,
+      "time_bounds": true,
+      "native_terminal": true
+    }
   },
-  "checkpoint_observed_at": "2026-11-05T13:53:13.404216+00:00",
+  "checkpoint_observed_at": "2026-11-05T14:47:27.564870+00:00",
   "processing": {
-    "observed_at": "2026-11-05T14:30:22.696Z",
-    "evidence_tree_sha": "668560138ec0afa50dfc6f18f8ebd072764194ce",
+    "observed_at": "2026-11-05T15:39:52.054Z",
+    "evidence_commit_sha": "53a912010d52c86f7b0baf96c2dcf5678ec88a10",
+    "evidence_tree_sha": "714ca29e90a9a012678e5d7deb918e4abe5b6fa5",
     "examined_run_ids": [
-      "151949cc-5180-832e-856e-7f03240012d6",
       "da45ceb2-82f4-832e-9025-098f80cb3919",
-      "48c3643c-4abc-832e-9705-a1fc0ebce17e"
+      "48c3643c-4abc-832e-9705-a1fc0ebce17e",
+      "632603a3-e58c-832e-aba4-f32087ee94c4"
     ],
     "totals": {
       "local_candidates": 8,
@@ -52,53 +65,6 @@
     },
     "runs": [
       {
-        "run_id": "151949cc-5180-832e-856e-7f03240012d6",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 0,
-        "candidate_ids": [],
-        "actual_source_requests": 0,
-        "new_source_gate_passes": 0,
-        "new_downstream_gate_passes": 0,
-        "per_gate_passes": {
-          "format": 0,
-          "access": 0,
-          "metadata": 0,
-          "quality": 0,
-          "schema": 0
-        },
-        "all_six_completions": 0,
-        "all_six_candidate_ids": [],
-        "newly_manual_ready": 0,
-        "manual_ready_candidate_ids": [],
-        "publications": 0,
-        "publication_ids": [],
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "blockers": [
-          {
-            "stage": "candidate_preparation",
-            "reason": "Complete immutable input transfer, byte/SHA verification and current decision refresh consumed the candidate execution window; no candidate resolution or provider request was performed. Remaining gate execution was not started with incomplete corpus/source/decision prerequisites.",
-            "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline."
-          },
-          {
-            "stage": "metadata_and_type_versioning",
-            "candidate_ids": [
-              "weekly-3edc6db58d7fb63369f1382a",
-              "weekly-3f202ca007a2c04f9672c7d9",
-              "weekly-45dd07b0aa7eb7dec470f1dd",
-              "weekly-4b38dda890565d1ac84397c0"
-            ],
-            "reason": "Retained paper inputs remain parked as provisional research_paper_candidate. Existing normalize_record requires current first-five gates including metadata; authoritative date/byline/version conflicts remain. No relevant capability revision or current metadata pass was established.",
-            "corrective_action": "Resolve authoritative metadata with retained content, then use explicit full-version type normalization and rebind only unchanged valid evidence. Preserve parked suppression until the evidence changes."
-          },
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Prior release41945055902 failed assessment/content binding; full current public target was not independently revalidated in this pass.",
-            "corrective_action": "Validate the current exact mixed-corpus assessment binding through the existing controlled release; do not repeat the unchanged failed release."
-          }
-        ]
-      },
-      {
         "run_id": "da45ceb2-82f4-832e-9025-098f80cb3919",
         "checkpoint_integrity": "reported_passed",
         "local_candidates": 5,
@@ -109,24 +75,13 @@
           "weekly-56fec07c6bb5ce26240c614e",
           "weekly-580cbf65ba78205f3b91860e"
         ],
-        "actual_source_requests": 24,
-        "new_source_gate_passes": 9,
-        "new_downstream_gate_passes": 0,
-        "per_gate_passes": {
-          "format": 3,
-          "access": 3,
-          "metadata": 3,
-          "quality": 0,
-          "schema": 0
-        },
-        "all_six_completions": 0,
-        "all_six_candidate_ids": [],
-        "newly_manual_ready": 0,
-        "manual_ready_candidate_ids": [],
-        "publications": 0,
-        "publication_ids": [],
         "resolvable_gates": 3,
         "legitimate_holds_only": false,
+        "source_requests": 24,
+        "source_gate_passes": 9,
+        "downstream_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
         "blockers": [
           {
             "candidate_id": "weekly-4c965b0ec0c5b5cb9145ad85",
@@ -163,7 +118,26 @@
             "reason": "Main corpus/exclusions remain exact verified blobs056f6e/69ef4577; prior41945055902 failed exact full-corpus assessment binding. No unchanged release replayed.",
             "corrective_action": "Repair and validate the existing controlled serializer while preserving assessment/content binding."
           }
-        ]
+        ],
+        "actual_source_requests": 24,
+        "new_source_gate_passes": 9,
+        "new_downstream_gate_passes": 0,
+        "per_gate_passes": {
+          "duplicates": 0,
+          "format": 3,
+          "access": 3,
+          "metadata": 3,
+          "quality": 0,
+          "schema": 0
+        },
+        "all_six_completions": 0,
+        "newly_manual_ready": 0,
+        "automatic_survivors": 0,
+        "publications": 0,
+        "completed_at": "2026-11-05T12:50:21.131210+00:00",
+        "receipt_path": "config/content_review_run_receipts/da45ceb2-82f4-832e-9025-098f80cb3919.json",
+        "heartbeat_interval_compliant": false,
+        "promotion_eligible": false
       },
       {
         "run_id": "48c3643c-4abc-832e-9705-a1fc0ebce17e",
@@ -174,24 +148,13 @@
           "weekly-56fec07c6bb5ce26240c614e",
           "weekly-580cbf65ba78205f3b91860e"
         ],
-        "actual_source_requests": 0,
-        "new_source_gate_passes": 0,
-        "new_downstream_gate_passes": 0,
-        "per_gate_passes": {
-          "format": 0,
-          "access": 0,
-          "metadata": 0,
-          "quality": 0,
-          "schema": 0
-        },
-        "all_six_completions": 0,
-        "all_six_candidate_ids": [],
-        "newly_manual_ready": 0,
-        "manual_ready_candidate_ids": [],
-        "publications": 0,
-        "publication_ids": [],
         "resolvable_gates": 3,
         "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "downstream_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
         "blockers": [
           {
             "candidate_ids": [
@@ -208,108 +171,169 @@
             "reason": "Existing controlled release41945055902 failed full-corpus assessment/content binding; current main release script differs from retained local copy. No unchanged failed release replayed.",
             "corrective_action": "Read and validate the current main controlled serializer and preserve exact assessment/content binding before retry."
           }
-        ]
+        ],
+        "actual_source_requests": 0,
+        "new_source_gate_passes": 0,
+        "new_downstream_gate_passes": 0,
+        "per_gate_passes": {
+          "duplicates": 0,
+          "format": 0,
+          "access": 0,
+          "metadata": 0,
+          "quality": 0,
+          "schema": 0
+        },
+        "all_six_completions": 0,
+        "newly_manual_ready": 0,
+        "automatic_survivors": 0,
+        "publications": 0,
+        "completed_at": "2026-11-05T13:51:06.729964+00:00",
+        "receipt_path": "config/content_review_run_receipts/48c3643c-4abc-832e-9705-a1fc0ebce17e.json",
+        "heartbeat_interval_compliant": false,
+        "promotion_eligible": false
+      },
+      {
+        "run_id": "632603a3-e58c-832e-aba4-f32087ee94c4",
+        "checkpoint_integrity": "reported_passed",
+        "local_candidates": 0,
+        "candidate_ids": [],
+        "resolvable_gates": 3,
+        "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "downstream_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          {
+            "stage": "classification_and_serialization",
+            "candidate_ids": [
+              "weekly-5119ae5a98d80e9ef5d2544b",
+              "weekly-56fec07c6bb5ce26240c614e",
+              "weekly-580cbf65ba78205f3b91860e"
+            ],
+            "reason": "Supported paid/source handoff imports requests; paid validation also imports jsonschema. Both are absent locally. Automatic review rejected dependency installation under stale monitor-only scope; subsequent escalation was denied by approval policy. No provider calls or new candidate attempts occurred.",
+            "corrective_action": "Provide the declared requests/jsonschema dependencies through an authorized runtime setup, then inspect prior exact-hash paid results and resume current-contract handoff with retained source evidence."
+          },
+          {
+            "stage": "publication_full_corpus_serialization",
+            "reason": "Prior controlled release failed assessment/content binding. No unchanged failed release replayed.",
+            "corrective_action": "Verify current main serializer and exact assessment/content binding before retry."
+          }
+        ],
+        "actual_source_requests": 0,
+        "new_source_gate_passes": 0,
+        "new_downstream_gate_passes": 0,
+        "per_gate_passes": {
+          "duplicates": 0,
+          "format": 0,
+          "access": 0,
+          "metadata": 0,
+          "quality": 0,
+          "schema": 0
+        },
+        "all_six_completions": 0,
+        "newly_manual_ready": 0,
+        "automatic_survivors": 0,
+        "publications": 0,
+        "completed_at": "2026-11-05T14:45:49.680669+00:00",
+        "receipt_path": "config/content_review_run_receipts/632603a3-e58c-832e-aba4-f32087ee94c4.json",
+        "heartbeat_interval_compliant": false,
+        "promotion_eligible": false
       }
     ],
-    "status": "progress_requires_gate_evidence",
-    "stalled_local_only": false,
-    "stalled_resolvable_gates": true,
-    "repeated_attempts_without_progress": false,
-    "stalled_downstream_gates": true,
-    "missing_stage_or_capability": "Three source-qualified papers were advanced through verified type normalization, but the latest pass could not prepare the current-contract paid classification and target serialization because the runtime lacks its declared requests/jsonschema dependencies. Across the last two work-bearing runs, these candidates produced source/type progress but no quality/schema, six-gate, manual-ready or publication completion.",
-    "corrective_action": "Run the supported paid handoff where its declared dependencies are available, after checking for existing exact-hash requests and results. Reuse the retained sources and normalized inputs, then validate current target serialization. Keep the separate full-corpus assessment/content binding repair before any release.",
-    "scheduler_success_is_processing_recovery": false,
-    "sustained_throughput_verified": false,
-    "processing_health": {
-      "native_run_id": "48c3643c-4abc-832e-9705-a1fc0ebce17e",
-      "application_status": "complete",
-      "local_candidates": 3,
-      "local_audits": 200,
-      "actual_source_requests": 0,
-      "source_gate_passes": 0,
-      "downstream_gate_passes": 0,
-      "six_gate_completions": 0,
-      "newly_review_ready": 0,
-      "publications": 0,
-      "scope_note": "Three retained-source paper types explicitly normalized. No new gate pass, provider request, admission or publication.",
+    "status": "stalled_resolvable_gates",
+    "evaluator_status": "progress_requires_gate_evidence",
+    "evaluator": "tools/content_review/work_plan.py processing_progress with checkpoint_repairs",
+    "evaluator_blob_sha": "15538f8c79a78b4ed282940eae367e8c4c9ec052",
+    "flags": [
+      "stalled_resolvable_gates"
+    ],
+    "independent_rule": "The latest two scheduled passes document resolvable gates and zero downstream/six-gate/manual-ready progress. The latest pass attempted no candidates, so the helper's nonzero-local-candidate condition suppresses its stall label; this independent flag preserves that observed execution blockage.",
+    "missing_stages": [
+      "classification_and_serialization",
+      "metadata_venue_for_weekly-56fec07c6bb5ce26240c614e",
+      "publication_full_corpus_serialization"
+    ],
+    "corrective_action": "On the next existing scheduled worker pass, verify the repaired runtime, refresh decisions, reuse exact-hash retained source/paid evidence, and resume eligible peers through classification and serialization. Reconcile the held paper's venue from verified evidence; validate full-corpus assessment/content binding before publication. Publish real heartbeats within 60 seconds.",
+    "current_health": {
+      "path": "config/content_review_processing_health.json",
+      "observed_at": "2026-11-05T15:23:32.046Z",
+      "trigger": "maintenance",
+      "native_run_id": null,
       "blockers": [
         {
+          "stage": "metadata",
           "candidate_ids": [
-            "weekly-5119ae5a98d80e9ef5d2544b",
-            "weekly-56fec07c6bb5ce26240c614e",
-            "weekly-580cbf65ba78205f3b91860e"
+            "weekly-56fec07c6bb5ce26240c614e"
           ],
-          "stage": "classification_and_serialization",
-          "reason": "Verified paper types normalized with current first-five gates. Local requests/jsonschema dependencies are unavailable to prepare the current-contract paid handoff; no paid request or provider call made.",
-          "corrective_action": "Use the supported paid handoff in a runtime with its declared dependencies; first inspect existing exact-hash requests/results. Reuse retained source material and normalized inputs."
+          "reason": "Venue is empty. Per-candidate preparation rejects it; two other retained candidates passed local request preparation.",
+          "corrective_action": "Reconcile venue from retained verified source evidence before classification; process eligible peers independently."
         },
         {
           "stage": "publication_full_corpus_serialization",
-          "reason": "Existing controlled release41945055902 failed full-corpus assessment/content binding; current main release script differs from retained local copy. No unchanged failed release replayed.",
-          "corrective_action": "Read and validate the current main controlled serializer and preserve exact assessment/content binding before retry."
+          "reason": "Prior controlled release failed assessment/content binding. No unchanged failed release replayed.",
+          "corrective_action": "Verify current main serializer and exact assessment/content binding before retry."
         }
-      ],
-      "corrective_action": "Use the supported paid handoff in a runtime with its declared dependencies; first inspect existing exact-hash requests/results. Reuse retained source material and normalized inputs."
+      ]
     },
-    "checkpoint_corrections": [
+    "freshness": {
+      "threshold_seconds": 4500,
+      "health_age_seconds": 980.008,
+      "latest_scheduled_receipt_age_seconds": 3242.374,
+      "health_stale": false,
+      "scheduled_evidence_stale": false,
+      "maintenance_is_scheduled_evidence": false
+    },
+    "maintenance": {
+      "receipt_path": "config/content_review_maintenance_receipts/maintenance-runtime-repair-2026-11-05T15-19-51-174Z.json",
+      "receipt_blob_size_sha_verified": true,
+      "recorded_runtime_imports_verified": true,
+      "scheduled_recovery_proven": false
+    },
+    "checkpoint_repairs": [
       {
         "affected_run_id": "fe4875f6-dc78-8332-8c50-fe0d998ea688",
-        "path": "config/content_review_checkpoint_repairs/2026-11-05-truncated-write.json",
-        "blob_sha": "d7f88dda85f4036ff6cba25b35fd7606889c8104",
-        "blob_size": 1153,
-        "immutable_blob_sha_verified": true,
-        "immutable_blob_size_verified": true,
+        "correction_path": "config/content_review_checkpoint_repairs/2026-11-05-truncated-write.json",
         "prior_integrity_claim_corrected": true,
-        "repair_commit": "3fea1236cfee84e5390f5f17e392b1e4a2e2aebd",
-        "repair_tree_sha": "bc24b5105351025f6f012c3681c500f97ebb7906",
-        "verified_files": [
-          {
-            "path": "config/weekly_review_manifest.json",
-            "restored_blob": "d01ceb748d0f957eba8521caaaee75d8aefe787e",
-            "size": 4627376,
-            "immutable_tree_sha_and_size_verified": true
-          },
-          {
-            "path": "config/content_review_preflight_status.json",
-            "restored_blob": "572c3cca9b55d3f147db29c9f0ce5867d335e7dd",
-            "size": 3302143,
-            "immutable_tree_sha_and_size_verified": true
-          }
-        ]
+        "promotion_disqualified": true,
+        "blob_size_sha_verified": true,
+        "original_receipt_preserved": true
       }
     ],
-    "maintenance_validation": {
-      "observed_at": "2026-11-04T23:14:31.615Z",
-      "evidence": "config/content_review_maintenance_receipts/2026-11-04-source-recovery.json",
-      "source_requests": 25,
-      "new_source_gate_passes": 4,
-      "downstream_gate_passes": 1,
-      "all_six_completions": 1,
-      "newly_manual_ready": 1,
-      "publications": 0,
-      "unattended_scheduled_recovery_verified": false
-    }
+    "checkpoint_integrity": "reported_passed",
+    "scheduler_success_is_processing_recovery": false,
+    "sustained_scheduled_recovery_verified": false,
+    "scope_note": "Read-only independent evaluation. Candidate-attempt total includes repeated IDs across passes; maintenance validation is separate from scheduled processing and publications."
   },
   "findings": [
     {
-      "code": "native_run_verified",
-      "message": "Worker run 48c3643c-4abc-832e-9705-a1fc0ebce17e started within dispatch grace, completed natively and has a matching identity/time-bound canonical receipt."
+      "code": "scheduled_completion_verified",
+      "message": "Worker 632603a3-e58c-832e-aba4-f32087ee94c4 completed natively with a matching canonical receipt. This proves completion of its recorded application work, not candidate processing recovery."
     },
     {
-      "code": "no_active_scheduler_or_heartbeat_incident",
-      "message": "No missed scheduled start, active heartbeat stall, receipt mismatch, lease deferral or access failure was observed. The application completed before native termination."
+      "code": "no_missed_start",
+      "message": "Next unserved expected worker start is 2026-11-05T15:45:00.000Z, derived from confirmed hourly schedule, with 15-minute grace; native next_run_time is null."
+    },
+    {
+      "code": "no_active_heartbeat_stall",
+      "message": "Latest native worker is completed; current_run records application complete and the processing lease is null. Historical heartbeat gaps remain promotion-ineligible."
+    },
+    {
+      "code": "observer_fresh",
+      "message": "Actual observer run 862d0cb3-bd48-832f-b90f-15e717207f67 is in progress, started 2026-11-05T15:36:11.336468Z, within 15-minute dispatch grace of 2026-11-05T15:32:00Z. Prior snapshot age was 69.4893 minutes."
     },
     {
       "code": "stalled_resolvable_gates",
-      "message": "Three repeated candidates are source-qualified and type-normalized, but paid classification and serialization did not run because the declared runtime dependencies are unavailable. No downstream gate, six-gate completion, admission or publication resulted."
-    },
-    {
-      "code": "promotion_ineligible",
-      "message": "The latest pass reports heartbeat_interval_compliant=false and is not eligible for promotion; native completion does not establish sustained processing recovery."
+      "message": "Two latest scheduled passes retained three resolvable gates and made no downstream, six-gate, admission or publication progress. Dependency repair is documented as maintenance; scheduled recovery remains unverified."
     },
     {
       "code": "checkpoint_correction_preserved",
-      "message": "Corrected run fe4875f6-dc78-8332-8c50-fe0d998ea688 remains excluded from promotion; correction and repair-tree blob SHA/size evidence were verified."
+      "message": "Run fe4875f6-dc78-8332-8c50-fe0d998ea688 remains integrity-corrected and promotion-disqualified. The correction's complete immutable JSON was size/SHA verified; real source/gate counts are preserved."
+    },
+    {
+      "code": "maintenance_not_scheduled_recovery",
+      "message": "Runtime maintenance reports 73 tests and two eligible retained papers; one paper still lacks venue and full-corpus publication binding remains held. No scheduled work is attributed to maintenance."
     }
   ],
   "access_error": null
