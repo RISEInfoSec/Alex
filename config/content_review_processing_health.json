@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T19:07:56.442625+00:00",
+  "observed_at": "2026-11-05T19:26:13.412050+00:00",
   "trigger": "owner_maintenance",
   "native_run_id": null,
   "local_candidates": 2,
@@ -15,16 +15,56 @@
   "publications": 0,
   "blockers": [
     {
-      "stage": "weekly_discovery",
-      "reason": "Native run42083423973 completed partial:243 HTTP200 requests,40 completed tasks,3412 new candidates. Nine searches and1011 DOI abstract lookups remain under the20-call diagnostic cap.",
-      "corrective_action": "Await owner decision on tested PR118; production retains original pacing."
+      "stage": "weekly_coverage_remaining",
+      "reason": "Owner-approved continuation42091428591 is running from PR118 policy; final receipt required before another pass.",
+      "latest_checkpoint": {
+        "native": {
+          "id": 42091428591,
+          "status": "in_progress",
+          "conclusion": null,
+          "head_sha": "c31135d143bd707d369a326a71c9ac58a95c62e3",
+          "created_at": "2026-11-05T19:11:00Z",
+          "updated_at": "2026-11-05T19:11:05Z"
+        },
+        "state_sha": "97d5642f7fef4aff140d802f8b98b329935f1674",
+        "state_at": "2026-11-05T19:21:17Z",
+        "state_status": "in_progress",
+        "completed_tasks": 48,
+        "completed_by_provider": {
+          "GitHub": 12,
+          "Crossref": 12,
+          "Zenodo": 12,
+          "OpenAlex": 11,
+          "arXiv": 1
+        },
+        "candidate_titles": 4492,
+        "requests_this_attempt": 62,
+        "statuses": {
+          "200": 62
+        },
+        "hosts": {
+          "api.openalex.org": 62
+        },
+        "last_openalex_quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9180.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 16746.0
+        },
+        "last_request": {
+          "host": "api.openalex.org",
+          "http_status": 200,
+          "elapsed_seconds": 0.57,
+          "started_at": "2026-11-05T19:20:54.026225+00:00"
+        }
+      }
     },
     {
       "stage": "scheduled_recovery",
-      "reason": "Owner-requested hourly pause and retained maintenance lease remain active; two later qualifying scheduled runs not yet observed."
+      "reason": "Hourly checks remain intentionally paused while the owner maintenance lease is retained; later qualifying scheduled runs not yet observed."
     }
   ],
-  "scope_note": "Live classification and metadata-routing repairs verified. Weekly transport/provider availability verified; full discovery remains budget-deferred. Maintenance does not establish unattended recovery.",
+  "scope_note": "Classification and metadata routing repairs are live. Owner-approved bounded weekly continuation is active. Current pass uses durable saved responses; no full-coverage or unattended-recovery claim.",
   "corrective_action": "Finish publication/live verification, then release lease and restore both original hourly automations; verify later actual scheduled runs.",
   "processing_progress": {
     "runs": [
