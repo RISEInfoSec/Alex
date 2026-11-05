@@ -1,5 +1,5 @@
 {
-  "mode": "proposed_controlled_production_recovery",
+  "mode": "controlled_production_recovery",
   "min_interval_seconds": 1,
   "request_timeout_seconds": 20,
   "failure_cooldown_seconds": 3600,
@@ -7,7 +7,8 @@
   "automatic_retries": 0,
   "worker_max_requests_per_run": 1,
   "retry_not_before": "2026-11-05T01:15:38Z",
-  "authorization": "PROPOSAL ONLY: owner approval pending to replace temporary 60-second diagnostic pacing after 20 HTTP 200 OpenAlex responses and 9,800 credits reported remaining. No paid plan or automatic retry enabled.",
+  "authorization": "Owner explicitly approved PR118 bounded recovery pace on 2026-11-05: no more than1 serial OpenAlex request/second,250 OpenAlex/300 total requests and45 minutes per pass. Preserve timeout, cooldown, quota/owner holds and zero automatic OpenAlex retries; no paid plan enabled.",
   "owner_hold_reason": "Owner requested a 48-hour OpenAlex backoff before one authorized weekly pipeline retry; no provider ban is established.",
-  "previous_diagnostic_authorization": "User requested very slow individual OpenAlex queries until rate limits/timeouts are understood."
+  "previous_diagnostic_authorization": "User requested very slow individual OpenAlex queries until rate limits/timeouts are understood.",
+  "authorized_at": "2026-11-05T19:09:04.043800+00:00"
 }

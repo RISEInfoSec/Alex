@@ -1,6 +1,6 @@
 # Weekly discovery: OpenAlex access and recovery
 
-Updated 2026-11-02. Applies to `python -m alex.cli discover`, the weekly
+Updated 2026-11-05 after explicit owner approval of PR118. Applies to `python -m alex.cli discover`, the weekly
 `pipeline.yml` discovery stage and the manual `discover.yml` stage.
 
 ## Provider rules and endpoint choice
@@ -16,8 +16,10 @@ OpenAlex documents singleton work retrieval by DOI as free, including
 `GET /works/https://doi.org/<doi>`. Searches and list/filter requests consume
 the account's usage budget. Its current free-key ceiling is 30 requests per
 second; special heavy queries have lower ceilings. These are ceilings, not
-targets. Our temporary diagnostic pace remains one OpenAlex call per 60 seconds,
-with a 20-second request timeout and no automatic OpenAlex retries.
+targets. The owner-approved recovery pace is one serial OpenAlex call per second,
+with a 20-second request timeout and no automatic OpenAlex retries. The prior
+60-second diagnostic pace completed20 successful calls; the final response
+reported9,800 credits remaining. This observation does not guarantee future allowance.
 
 Free singletons are an endpoint on the same API, not an independently authorized
 request channel. The documentation does not promise an independent rate-limit
@@ -38,7 +40,7 @@ not an accepted paper or a reason to relax quality requirements.
 
 - 2,700 seconds (45 minutes) of discovery runtime;
 - 300 HTTP client send attempts across sources, including retries;
-- 20 OpenAlex send attempts shared by searches and singleton lookups.
+- 250 OpenAlex send attempts shared by searches and singleton lookups.
 
 Before an OpenAlex pacing wait, both the wait and its bounded request must fit
 inside the remaining runtime. Other requests use the remaining timeout budget.
@@ -130,3 +132,12 @@ provider availability, account allowance and the GitHub state-push path. Inspect
 the fresh receipt and state commit; a partial result is useful preserved progress,
 not a completed weekly collection. Never rerun an old workflow definition when
 verifying changed workflow wiring; start a fresh workflow from the updated branch.
+
+
+Owner-approved recovery continuation (5 November): PR118 replaces the temporary
+20-call/60-second diagnostic limits following explicit approval. Resume the
+verified saved window from pipeline-state in bounded current-main passes. Keep
+300 total attempts,45 minutes, durable checkpoints and all existing downstream
+completeness/quality/editorial gates. No new schedule, paid plan, credential
+rotation or automatic provider-error retry is enabled. Observe each terminal
+receipt before launching another pass; never overlap active pipeline writers.
