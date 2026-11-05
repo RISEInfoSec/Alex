@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "run_id": "151949cc-5180-832e-856e-7f03240012d6",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T11:45:00Z",
+  "started_at": "2026-11-05T11:41:32.193163+00:00",
+  "completed_at": "2026-11-05T11:48:53.306186+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/151949cc-5180-832e-856e-7f03240012d6.json",
+  "completed_actions": [
+    "Published/read back actual native start and running observations",
+    "Refreshed all66 complete D1 submission identity/revision/payload records",
+    "Verified immutable current weekly manifest, preflight stage, lifecycle ledger and worker modules by byte size/Git blob SHA",
+    "Evaluated 102 weekly lifecycle records, preserving all385 identities and every prior attempt",
+    "Recorded the retained-paper provisional-type/metadata blocker and no-execution outcome"
+  ],
+  "candidate_ids": [],
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "native_terminal_success": null,
+  "errors": [
+    {
+      "stage": "heartbeat",
+      "reason": "Actual startup/preparation heartbeat intervals exceeded60seconds; no timestamps backfilled."
+    }
+  ],
+  "checkpoint_paths": [
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_processing_health.json",
+    "config/content_review_run_receipts/151949cc-5180-832e-856e-7f03240012d6.json"
+  ],
+  "d1_submission_snapshot": {
+    "rows": 66,
+    "complete": true,
+    "signature_sha256": "ea97151f657ce3583e8888d096eff2d123a82db87b0d848637447929d79dc30c",
+    "decisions_reused": false
+  },
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [],
+    "planned_candidate_ids": [
+      "weekly-02db78e5dcf92cfe64dc4487",
+      "weekly-040edeb033e8ee41aeb9433a",
+      "weekly-16a1bf792936ad74716079fe",
+      "weekly-2096e9686479ceda7cc35242",
+      "weekly-2fb8d1268a016d82ab42dd40"
+    ],
+    "attempted_candidate_ids": [],
+    "completed_candidate_ids": [],
+    "genuinely_first_checked": [],
+    "next_dispositions": [],
+    "newly_passed_checks": {},
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [],
+    "remaining_blockers": [
+      {
+        "stage": "candidate_preparation",
+        "reason": "Complete immutable input transfer, byte/SHA verification and current decision refresh consumed the candidate execution window; no candidate resolution or provider request was performed. Remaining gate execution was not started with incomplete corpus/source/decision prerequisites.",
+        "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline."
+      },
+      {
+        "stage": "metadata_and_type_versioning",
+        "candidate_ids": [
+          "weekly-3edc6db58d7fb63369f1382a",
+          "weekly-3f202ca007a2c04f9672c7d9",
+          "weekly-45dd07b0aa7eb7dec470f1dd",
+          "weekly-4b38dda890565d1ac84397c0"
+        ],
+        "reason": "Retained paper inputs remain parked as provisional research_paper_candidate. Existing normalize_record requires current first-five gates including metadata; authoritative date/byline/version conflicts remain. No relevant capability revision or current metadata pass was established.",
+        "corrective_action": "Resolve authoritative metadata with retained content, then use explicit full-version type normalization and rebind only unchanged valid evidence. Preserve parked suppression until the evidence changes."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Prior release41945055902 failed assessment/content binding; full current public target was not independently revalidated in this pass.",
+        "corrective_action": "Validate the current exact mixed-corpus assessment binding through the existing controlled release; do not repeat the unchanged failed release."
+      }
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 102,
+    "stage_elapsed_seconds": {
+      "to_receipt": 441.113023
+    },
+    "cache_reuse": [
+      "No completed source/paid check or parked candidate replayed"
+    ],
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "No candidate execution and actual heartbeat gaps.",
+    "resolvable_gate_count": null,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {},
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "lifecycle_identities": 385
+    },
+    "after_counts": {
+      "lifecycle_identities": 385
+    },
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  }
+}

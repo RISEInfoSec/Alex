@@ -1,638 +1,46 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T10:56:11.522784+00:00",
+  "observed_at": "2026-11-05T11:48:53.306186+00:00",
   "trigger": "schedule",
-  "native_run_id": "06e2604a-928c-832e-93d7-b3e1702c73ba",
-  "local_candidates": 5,
-  "local_audits": 200,
-  "source_requests": 22,
-  "source_gate_passes": 8,
+  "native_run_id": "151949cc-5180-832e-856e-7f03240012d6",
+  "local_candidates": 0,
+  "local_audits": 102,
+  "source_requests": 0,
+  "source_gate_passes": 0,
   "downstream_gate_passes": 0,
   "six_gate_completions": 0,
   "newly_review_ready": 0,
   "publications": 0,
   "blockers": [
     {
-      "candidate_id": "weekly-3ca57cf58ab7d8c4da4e219b",
-      "stage": "source_access",
-      "reason": "robots_unavailable_http_403",
-      "corrective_action": "Preserve access hold; no unchanged retry or bypass."
+      "stage": "candidate_preparation",
+      "reason": "Complete immutable input transfer, byte/SHA verification and current decision refresh consumed the candidate execution window; no candidate resolution or provider request was performed. Remaining gate execution was not started with incomplete corpus/source/decision prerequisites.",
+      "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline."
     },
     {
-      "candidate_id": "weekly-3edc6db58d7fb63369f1382a",
       "stage": "metadata_and_type_versioning",
-      "reason": "Matching paper and DOI inspected. PDF published7October versus publisher10October/date-issued17October conflict; expanded author initials also require reconciliation.",
-      "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
-    },
-    {
-      "candidate_id": "weekly-3f202ca007a2c04f9672c7d9",
-      "stage": "metadata_and_type_versioning",
-      "reason": "Matching original written paper, Karishma R and DOI inspected. Publication verified at June2026 precision; exact metadata/type versioning and downstream classification remain.",
-      "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
-    },
-    {
-      "candidate_id": "weekly-45dd07b0aa7eb7dec470f1dd",
-      "stage": "metadata_and_type_versioning",
-      "reason": "Matching written paper/DOI inspected. PDF has Nicholas Muriuki Muriithi, Ephantus Mwangi and Kennedy Malanga; discovery lists Nicholas Muriuki only. Reconcile full author list and publication version.",
-      "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
-    },
-    {
-      "candidate_id": "weekly-4b38dda890565d1ac84397c0",
-      "stage": "metadata_and_type_versioning",
-      "reason": "Matching Ukrainian research paper, DOI and ORCIDs inspected. Publisher visible and PDF publication1June2026 differ from HTML citation meta18May; reconcile authoritative date and author transliteration before downstream classification.",
-      "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
+      "candidate_ids": [
+        "weekly-3edc6db58d7fb63369f1382a",
+        "weekly-3f202ca007a2c04f9672c7d9",
+        "weekly-45dd07b0aa7eb7dec470f1dd",
+        "weekly-4b38dda890565d1ac84397c0"
+      ],
+      "reason": "Retained paper inputs remain parked as provisional research_paper_candidate. Existing normalize_record requires current first-five gates including metadata; authoritative date/byline/version conflicts remain. No relevant capability revision or current metadata pass was established.",
+      "corrective_action": "Resolve authoritative metadata with retained content, then use explicit full-version type normalization and rebind only unchanged valid evidence. Preserve parked suppression until the evidence changes."
     },
     {
       "stage": "publication_full_corpus_serialization",
-      "reason": "Current main6899fc7f unchanged; existing release41945055902 failed exact assessment/content binding. Complete66-submission signature unchanged.",
-      "corrective_action": "Repair exact full-corpus serialization preserving assessment binding before retry."
-    },
-    {
-      "stage": "checkpoint_transport",
-      "reason": "Bounded chunk response was incomplete; length validation rejected it before tree/branch update. No new requests after failure."
+      "reason": "Prior release41945055902 failed assessment/content binding; full current public target was not independently revalidated in this pass.",
+      "corrective_action": "Validate the current exact mixed-corpus assessment binding through the existing controlled release; do not repeat the unchanged failed release."
     }
   ],
-  "scope_note": "Five source dispositions; four real written papers inspected. Metadata/type reconciliation remains; one access hold. No paid/registry calls.",
-  "corrective_action": "Reuse retained papers, resolve authoritative metadata and type versioning, then downstream gates. Investigate provisional-type lifecycle parking blocking resolvable work.",
+  "scope_note": "Lifecycle/complete-input preparation only. No candidate attempt, source request, paid call, gate pass, admission or publication.",
+  "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline.",
   "processing_progress": {
     "runs": [
       {
-        "run_id": "33733b4a-b75c-8322-88c6-c7a8eae6d9e2",
-        "checkpoint_integrity": "failed",
-        "local_candidates": 1,
-        "candidate_ids": [
-          "weekly-16a1bf792936ad74716079fe"
-        ],
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          "Contents API omits weekly manifest body; use complete immutable blobs for future large reads.",
-          "Weekly independent source/format/schema holds",
-          "Main OpenAlex hold until 2026-11-05T01:15:38Z wins unresolved policy conflict",
-          "No fully cleared candidate; ready deficit 250"
-        ]
-      },
-      {
-        "run_id": "bb95a950-d124-8322-960e-d7bcc5e40864",
-        "checkpoint_integrity": "failed",
-        "local_candidates": 1,
-        "candidate_ids": [
-          "weekly-bc92a562caf705ef01924918"
-        ],
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          "Large shell response truncated before manifest mutation; recovered with complete immutable GitHub blob; stop-new-work rule applied.",
-          "Source access, format, metadata and target/schema holds remain.",
-          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z applies.",
-          "Heartbeat publication intervals exceeded 60 seconds during pagination/recovery; no heartbeat backfilled.",
-          "No fully cleared candidate; ready deficit 250."
-        ]
-      },
-      {
-        "run_id": "8ae66d30-a85c-8322-bfeb-1ca3bd162e7d",
-        "checkpoint_integrity": "failed",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "first-url-1d7d3dcf81be0d055a05a5c6",
-          "first-url-0d0f8d6fcb1ee652df3ce003",
-          "m3aawg-url-75aa6fb2c156539547d27ab8",
-          "m3aawg-url-f1e88efb88751bc45f3b48ed",
-          "m3aawg-url-549f0e90d98c62e649bd1d3f"
-        ],
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          "Execution transport disconnected before fifth checkpoint; restored on bounded retry, recovered existing fifth result, and stopped new work.",
-          "Format, access, metadata, quality and target/schema gates remain. FIRST parent-page URL matches are possible identity conflicts, not verified duplicate rejection.",
-          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z applies.",
-          "Heartbeat publication intervals exceeded 60 seconds during pagination/recovery; no heartbeat backfilled.",
-          "No fully cleared candidate; ready deficit 250."
-        ]
-      },
-      {
-        "run_id": "f77ac778-17f0-8322-bc3c-820a773baad5",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "weekly-df1beabce75f4832f0c4d757",
-          "weekly-c93b221f1bbf39ef09fa7d61",
-          "weekly-4d1c71ea0e30c834726a8936",
-          "m3aawg-url-45a0557fd7ee897b0fcc7af2",
-          "m3aawg-url-a7f4416d2ed9f61c93794875"
-        ],
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
-          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim.",
-          "Early start-to-running heartbeat observation interval exceeded 60 seconds; actual timestamps preserved."
-        ]
-      },
-      {
-        "run_id": "32663319-ec88-8322-9654-efcfa9a2d840",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "weekly-f15d53b0bfa77e9300cf97d0",
-          "weekly-dde1173a07bda8e28203d261",
-          "weekly-8e05fb809c4249f3dca609b2",
-          "m3aawg-url-0a9966988ad5bbd2805eff83",
-          "m3aawg-url-ddd57d729be1055af9000adc"
-        ],
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
-          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim."
-        ]
-      },
-      {
-        "run_id": "eead75f7-ee28-8332-b856-3826d290c229",
-        "checkpoint_integrity": "failed",
-        "local_candidates": 0,
-        "candidate_ids": [],
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
-          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim."
-        ]
-      },
-      {
-        "run_id": "d91a87a0-2bdc-8332-8696-79081556d1bd",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "m3aawg-url-759dd5b0fd3c0145b73d24a7",
-          "m3aawg-url-7461f1af4e7d136e2d833f84",
-          "m3aawg-url-14536f3e06c8f39154218296",
-          "m3aawg-url-cc47571e309bbceb2cf387cd",
-          "m3aawg-url-c8441b726dbfcc4aa5fa86d6"
-        ],
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
-          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim."
-        ]
-      },
-      {
-        "run_id": "fe4875f6-dc78-8332-8c50-fe0d998ea688",
-        "checkpoint_integrity": "failed_corrected",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "weekly-02db78e5dcf92cfe64dc4487",
-          "weekly-040edeb033e8ee41aeb9433a",
-          "weekly-09d2d4f0bfbb0771930884fd",
-          "weekly-0a59e535bcac3620fc21829c",
-          "weekly-0c62bfc049ea611ecb965fc6"
-        ],
-        "resolvable_gates": 2,
-        "legitimate_holds_only": false,
-        "source_requests": 22,
-        "source_gate_passes": 10,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          {
-            "stage": "classification_and_serialization",
-            "candidate_ids": [
-              "weekly-09d2d4f0bfbb0771930884fd",
-              "weekly-0a59e535bcac3620fc21829c"
-            ],
-            "reason": "Actions run41937221730 failed Request/input integrity validation before provider sends; exact local validate_request passes. Reproduce on immutable runner commit and expose sanitized failing precondition before any retry.",
-            "corrective_action": "Compare immutable request contract and manifest/gate digests in Actions environment; retain exact hashes and source evidence. Do not repeat source retrieval."
-          },
-          {
-            "stage": "source_or_metadata",
-            "candidate_id": "weekly-02db78e5dcf92cfe64dc4487",
-            "reason": "Publisher landing page retrieved with matching title/byline and abstract; no bound actual document inspected. Format remains held; resolve only a publisher-bound permitted original."
-          },
-          {
-            "stage": "source_or_metadata",
-            "candidate_id": "weekly-040edeb033e8ee41aeb9433a",
-            "reason": "Verified paper; PDF DOI 10.70610/jcpa.v4i01.1264 differs from publisher citation DOI 10.70610/jcpa.1264; metadata conflict held."
-          },
-          {
-            "stage": "source_or_metadata",
-            "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
-            "reason": "Verified paper; current byline Dhivya J differs from publisher/PDF J. Dhivya; explicit metadata/version reconciliation held."
-          }
-        ]
-      },
-      {
-        "run_id": "a89a024b-85d0-8332-93ff-1877c4129fef",
-        "checkpoint_integrity": "failed",
-        "local_candidates": 2,
-        "candidate_ids": [
-          "weekly-09d2d4f0bfbb0771930884fd",
-          "weekly-0a59e535bcac3620fc21829c"
-        ],
-        "resolvable_gates": 0,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 2,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          {
-            "stage": "publication_full_corpus_serialization",
-            "candidate_ids": [
-              "weekly-250dd6cfa359991d1db168d1",
-              "m3aawg-url-75aa6fb2c156539547d27ab8"
-            ],
-            "reason": "PR111 merged after validation. Release run41945055902 verified exact source bytes and staged2 additions, then failed full-corpus publish: alex.resource_types.public_fields -> validate_assessment -> Reviewed resource content changed. Save-corpus/receipt step skipped; zero durable or live publications claimed.",
-            "corrective_action": "Reproduce mixed-corpus CSV serialization for the approved guide; reconcile exact hash/type values through public_fields without weakening assessment binding, then resume the immutable existing release request."
-          },
-          {
-            "stage": "source_metadata",
-            "reason": "Other prior source/type/DOI/byline holds preserved; no repeated download."
-          }
-        ]
-      },
-      {
-        "run_id": "aab6f7c4-9964-8332-a6a7-ec3c50c631fb",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 2,
-        "candidate_ids": [
-          "weekly-09d2d4f0bfbb0771930884fd",
-          "weekly-0a59e535bcac3620fc21829c"
-        ],
-        "resolvable_gates": 0,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 2,
-        "review_ready": 2,
-        "six_gate_completions": 2,
-        "blockers": [
-          {
-            "stage": "publication_full_corpus_serialization",
-            "candidate_ids": [
-              "weekly-250dd6cfa359991d1db168d1",
-              "m3aawg-url-75aa6fb2c156539547d27ab8"
-            ],
-            "reason": "Existing release PR111 merged, but release run41945055902 failed full-corpus assessment-hash validation. Current main remains1c3633d145a2cddcd2d504d0a1b89d15c34f00c8 with no durable additions. No unchanged failed release replayed.",
-            "corrective_action": "Reproduce and correct mixed-corpus CSV serialization while preserving exact resource assessment binding, then resume the existing immutable release."
-          }
-        ]
-      },
-      {
-        "run_id": "e54c6b4b-7010-8332-a843-733bf4f11d21",
-        "checkpoint_integrity": "failed",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "weekly-1ea0d5996c905cf07960fb8e",
-          "weekly-18d5465ae2e817495b96b772",
-          "weekly-2096e9686479ceda7cc35242",
-          "weekly-10bf6841abc6f36147d952f0",
-          "weekly-140a482ff1be3eb40a9ddfad"
-        ],
-        "resolvable_gates": 2,
-        "legitimate_holds_only": false,
-        "source_requests": 18,
-        "source_gate_passes": 4,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          {
-            "candidate_id": "weekly-10bf6841abc6f36147d952f0",
-            "stage": "metadata_duplicates_and_classification",
-            "reason": "Actual publisher-bound written paper inspected; format/access passed. Refresh duplicates, reconcile exact author/date metadata, normalize type with retained version and complete current-contract downstream classification.",
-            "corrective_action": "Reuse retained PDF; finish missing independent gates before paid handoff."
-          },
-          {
-            "candidate_id": "weekly-140a482ff1be3eb40a9ddfad",
-            "stage": "source_access",
-            "reason": "source_http_404",
-            "corrective_action": "Honor access restrictions and bounded lifecycle retry; do not bypass or repeat unchanged denial."
-          },
-          {
-            "candidate_id": "weekly-18d5465ae2e817495b96b772",
-            "stage": "source_access",
-            "reason": "robots_disallow",
-            "corrective_action": "Honor access restrictions and bounded lifecycle retry; do not bypass or repeat unchanged denial."
-          },
-          {
-            "candidate_id": "weekly-1ea0d5996c905cf07960fb8e",
-            "stage": "source_access",
-            "reason": "source_http_403",
-            "corrective_action": "Honor access restrictions and bounded lifecycle retry; do not bypass or repeat unchanged denial."
-          },
-          {
-            "candidate_id": "weekly-2096e9686479ceda7cc35242",
-            "stage": "metadata_duplicates_and_classification",
-            "reason": "Actual publisher-bound written paper inspected; format/access passed. Refresh duplicates, reconcile exact author/date metadata, normalize type with retained version and complete current-contract downstream classification. Publisher page date June22 conflicts with PDF online June30; retain metadata hold.",
-            "corrective_action": "Reuse retained PDF; finish missing independent gates before paid handoff."
-          },
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Current main remains1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; existing release41945055902 failed assessment-hash validation. Two newly authenticated approvals persisted; no unchanged failed release replayed.",
-            "corrective_action": "Repair full-corpus assessment binding through existing controlled publication path, preserving approvals and hashes."
-          }
-        ]
-      },
-      {
-        "run_id": "01a60396-1168-8332-b1ab-e722c9c1d79a",
-        "checkpoint_integrity": "failed",
-        "local_candidates": 2,
-        "candidate_ids": [
-          "weekly-10bf6841abc6f36147d952f0",
-          "weekly-2096e9686479ceda7cc35242"
-        ],
-        "resolvable_gates": 1,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 1,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          {
-            "candidate_id": "weekly-10bf6841abc6f36147d952f0",
-            "stage": "classification_and_serialization",
-            "reason": "Metadata and verified paper type now reconciled; fresh current-contract paid request prepared locally but not submitted because result/checkpoint consumption would consume completion reserve. No paid calls made.",
-            "corrective_action": "Generate/submit current immutable paid handoff after rechecking current decisions/gates; reuse retained PDF."
-          },
-          {
-            "candidate_id": "weekly-2096e9686479ceda7cc35242",
-            "stage": "metadata",
-            "reason": "Publisher June22 publication date conflicts with PDF June30; retained genuine metadata hold.",
-            "corrective_action": "Resolve exact date/version from independent authoritative retained evidence without repeating unchanged source retrieval."
-          },
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Main unchanged at1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; prior release41945055902 failed assessment-hash binding. No unchanged failed release replayed.",
-            "corrective_action": "Correct full-corpus resource serialization while preserving exact assessment/content binding, then resume existing controlled release."
-          }
-        ]
-      },
-      {
-        "run_id": "57dd42d5-24e0-8332-a7b5-ee830d411cd9",
-        "checkpoint_integrity": "failed",
-        "local_candidates": 1,
-        "candidate_ids": [
-          "weekly-10bf6841abc6f36147d952f0"
-        ],
-        "resolvable_gates": 1,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 1,
-        "review_ready": 1,
-        "six_gate_completions": 1,
-        "blockers": [
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Current main1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; release41945055902 remains failed at assessment-hash binding.",
-            "corrective_action": "Repair full-corpus exact assessment/content serialization through existing controlled release."
-          },
-          {
-            "candidate_id": "weekly-2096e9686479ceda7cc35242",
-            "stage": "metadata",
-            "reason": "Retained publisher June22 versus PDF June30 date conflict.",
-            "corrective_action": "Resolve authoritative date/version without repeating unchanged retrieval."
-          }
-        ]
-      },
-      {
-        "run_id": "6f97ac53-d43c-8332-818a-312850747391",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 0,
-        "candidate_ids": [],
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          {
-            "stage": "candidate_execution",
-            "reason": "Pass preparation and complete-input validation consumed execution time; no candidate resolution attempt or provider request was performed.",
-            "corrective_action": "Reuse verified immutable input snapshots and preserve candidate execution time; resume work_plan source/metadata stages and retained evidence through current supported executors."
-          },
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Existing release 41945055902 remains failed at assessment-hash binding; no unchanged retry performed.",
-            "corrective_action": "Resolve full-corpus exact assessment/content serialization before existing controlled release."
-          }
-        ]
-      },
-      {
-        "run_id": "4be13912-2f88-8332-8d0d-04893f4b6cf5",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 1,
-        "candidate_ids": [
-          "weekly-0c62bfc049ea611ecb965fc6"
-        ],
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 1,
-        "downstream_gate_passes": 1,
-        "review_ready": 1,
-        "six_gate_completions": 1,
-        "blockers": [
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Prior authorized release41945055902 failed full-corpus assessment binding; no unchanged failed release replayed. Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains the same public corpus/exclusion blobs.",
-            "corrective_action": "Repair exact full-corpus assessment/content binding through existing controlled release."
-          },
-          {
-            "stage": "metadata",
-            "candidate_id": "weekly-2096e9686479ceda7cc35242",
-            "reason": "Retained publisher/PDF publication-date conflict persists.",
-            "corrective_action": "Resolve authoritative version/date without repeating completed source retrieval."
-          },
-          {
-            "stage": "metadata",
-            "candidate_id": "weekly-040edeb033e8ee41aeb9433a",
-            "reason": "Publisher/PDF DOI conflict persists.",
-            "corrective_action": "Reconcile authoritative DOI/version before downstream spend."
-          }
-        ]
-      },
-      {
-        "run_id": "d28a0eec-2cdc-8332-a20c-540f3f9f238a",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 0,
-        "candidate_ids": [],
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "source_requests": 0,
-        "source_gate_passes": 0,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          {
-            "stage": "source_runner_lease_validation",
-            "reason": "Actions41989955836 rejected request before execute constructed transport: immutable request commit270faa4bb36f0a9f5596cde62b5a94852425f636 had run_id lease but omitted owner. No source HTTP calls or candidate work occurred. Owner field was subsequently corrected and read back; failed request was not replayed.",
-            "corrective_action": "Next pass verify BOTH lease.owner and lease.run_id before preparing a fresh immutable source request. Reuse retained artifacts; preserve original failure."
-          },
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains prior corpus/exclusion blobs. Existing release41945055902 failed exact assessment/content binding. No unchanged release replayed.",
-            "corrective_action": "Repair exact full-corpus assessment/content serialization through existing controlled release."
-          }
-        ]
-      },
-      {
-        "run_id": "6518a129-da24-8332-a08d-d53e3ce3eb56",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "weekly-2527e09d730dd8e2b15cb6d8",
-          "weekly-26b3719a7cdde3455962fdfa",
-          "weekly-26e0bf60c0b553b19739cc91",
-          "weekly-27cbe4630996d447436a64dd",
-          "weekly-2fb8d1268a016d82ab42dd40"
-        ],
-        "resolvable_gates": 1,
-        "legitimate_holds_only": false,
-        "source_requests": 17,
-        "source_gate_passes": 2,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          {
-            "candidate_id": "weekly-2527e09d730dd8e2b15cb6d8",
-            "stage": "source_access",
-            "reason": "robots_unavailable_http_403",
-            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
-          },
-          {
-            "candidate_id": "weekly-26b3719a7cdde3455962fdfa",
-            "stage": "source_access",
-            "reason": "robots_unavailable_http_403",
-            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
-          },
-          {
-            "candidate_id": "weekly-26e0bf60c0b553b19739cc91",
-            "stage": "metadata",
-            "reason": "Inspected matching written journal paper front matter and body. Zenodo current version DOI 10.5281/zenodo.20267496 differs from discovery DOI 10.5281/zenodo.20267495; reconcile concept/version identifier and date before classification.",
-            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
-          },
-          {
-            "candidate_id": "weekly-27cbe4630996d447436a64dd",
-            "stage": "source_access",
-            "reason": "source_http_403",
-            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
-          },
-          {
-            "candidate_id": "weekly-2fb8d1268a016d82ab42dd40",
-            "stage": "source_document",
-            "reason": "Publisher page matches title and Syed Mudassir Shah byline but retained material is abstract/landing page only; actual intended full document remains uninspected. Resume only a bound permitted original from retained links.",
-            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
-          },
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains unchanged corpus/exclusion/upstream blobs; prior release41945055902 failed exact assessment binding.",
-            "corrective_action": "Repair controlled full-corpus serialization preserving assessment/content binding before retry."
-          }
-        ]
-      },
-      {
-        "run_id": "b0118d73-fbd8-8332-bd8d-261c5a2ce052",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "weekly-328f6ec95bbfcadaaa853928",
-          "weekly-329702d8ba40bd7d92d1f60a",
-          "weekly-36e8099cc6628dcd94b4d43c",
-          "weekly-38472eee4022e096fd8e9c71",
-          "weekly-388340f7d9bd8ceeaca2a20b"
-        ],
-        "resolvable_gates": 3,
-        "legitimate_holds_only": false,
-        "source_requests": 19,
-        "source_gate_passes": 6,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          {
-            "candidate_id": "weekly-328f6ec95bbfcadaaa853928",
-            "stage": "source_access",
-            "reason": "source_http_403",
-            "corrective_action": "Preserve access restriction; no unchanged retry or bypass."
-          },
-          {
-            "candidate_id": "weekly-329702d8ba40bd7d92d1f60a",
-            "stage": "source_access",
-            "reason": "robots_disallow",
-            "corrective_action": "Preserve access restriction; no unchanged retry or bypass."
-          },
-          {
-            "candidate_id": "weekly-36e8099cc6628dcd94b4d43c",
-            "stage": "metadata_and_type_versioning",
-            "reason": "Research paper front matter and body verified. Publisher and PDF title/DOI/date agree, but PDF autogenerated citations use Boniphace while the byline/publisher use Boniface; reconcile exact author metadata before classification.",
-            "corrective_action": "Reuse retained complete source evidence and resolve only the missing metadata/type versioning, then existing downstream quality/classification/serialization gates."
-          },
-          {
-            "candidate_id": "weekly-38472eee4022e096fd8e9c71",
-            "stage": "metadata_and_type_versioning",
-            "reason": "Research paper front matter and abstract verified. PDF second author Mukosi Mashudu Lucky differs in ordering from publisher Mukosi Lucky Mashudu; ORCID and publication/version metadata require reconciliation before classification.",
-            "corrective_action": "Reuse retained complete source evidence and resolve only the missing metadata/type versioning, then existing downstream quality/classification/serialization gates."
-          },
-          {
-            "candidate_id": "weekly-388340f7d9bd8ceeaca2a20b",
-            "stage": "metadata_and_type_versioning",
-            "reason": "Research review paper front matter and methodology verified, matching Sami Syed and DOI. Resolve publication date separately from received/accepted dates and version the provisional research_paper_candidate type before downstream classification.",
-            "corrective_action": "Reuse retained complete source evidence and resolve only the missing metadata/type versioning, then existing downstream quality/classification/serialization gates."
-          },
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Existing release41945055902 failed exact assessment/content binding; main6899fc7f retains unchanged corpus. No unchanged failed release replayed.",
-            "corrective_action": "Repair controlled full-corpus serialization while preserving assessment/content binding."
-          }
-        ]
-      },
-      {
         "run_id": "06e2604a-928c-832e-93d7-b3e1702c73ba",
-        "checkpoint_integrity": "reported_passed",
+        "checkpoint_integrity": "failed",
         "local_candidates": 5,
         "candidate_ids": [
           "weekly-3ca57cf58ab7d8c4da4e219b",
@@ -685,10 +93,46 @@
             "corrective_action": "Repair exact full-corpus serialization preserving assessment binding before retry."
           }
         ]
+      },
+      {
+        "run_id": "151949cc-5180-832e-856e-7f03240012d6",
+        "checkpoint_integrity": "reported_passed",
+        "local_candidates": 0,
+        "candidate_ids": [],
+        "resolvable_gates": null,
+        "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "downstream_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          {
+            "stage": "candidate_preparation",
+            "reason": "Complete immutable input transfer, byte/SHA verification and current decision refresh consumed the candidate execution window; no candidate resolution or provider request was performed. Remaining gate execution was not started with incomplete corpus/source/decision prerequisites.",
+            "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline."
+          },
+          {
+            "stage": "metadata_and_type_versioning",
+            "candidate_ids": [
+              "weekly-3edc6db58d7fb63369f1382a",
+              "weekly-3f202ca007a2c04f9672c7d9",
+              "weekly-45dd07b0aa7eb7dec470f1dd",
+              "weekly-4b38dda890565d1ac84397c0"
+            ],
+            "reason": "Retained paper inputs remain parked as provisional research_paper_candidate. Existing normalize_record requires current first-five gates including metadata; authoritative date/byline/version conflicts remain. No relevant capability revision or current metadata pass was established.",
+            "corrective_action": "Resolve authoritative metadata with retained content, then use explicit full-version type normalization and rebind only unchanged valid evidence. Preserve parked suppression until the evidence changes."
+          },
+          {
+            "stage": "publication_full_corpus_serialization",
+            "reason": "Prior release41945055902 failed assessment/content binding; full current public target was not independently revalidated in this pass.",
+            "corrective_action": "Validate the current exact mixed-corpus assessment binding through the existing controlled release; do not repeat the unchanged failed release."
+          }
+        ]
       }
     ],
-    "status": "stalled_downstream_gates",
-    "corrective_action": "Consume pending source artifacts, then execute next missing gate for due candidates. Verify transport/checkpoint capability; park precise access or type-policy holds and select independent resolvable work. Report the cause and exact remedy.",
+    "status": "progress_requires_gate_evidence",
+    "corrective_action": null,
     "scheduler_success_is_processing_recovery": false
   }
 }
