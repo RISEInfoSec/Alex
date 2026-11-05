@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
 
-from alex.utils.http import HttpClient
+from alex.utils.http import HttpClient, _CACHE_MISS
 
 logger = logging.getLogger(__name__)
 
@@ -37,6 +37,7 @@ def atomic_json(path, value):
 class DiscoveryClient(HttpClient):
     def __init__(self, path: Path, window: dict, registry: dict, budgets: dict, mailto=''):
         super().__init__(mailto)
+        self.cache.clear()  # The verified discovery checkpoint is the sole response cache.
         self.path = path
         self.guard = threading.RLock()
         self.local = threading.local()
@@ -64,6 +65,19 @@ class DiscoveryClient(HttpClient):
                           'responses': {}, 'tasks': {}, 'status': 'in_progress'}
         self.state['status'] = 'in_progress'
         self._save()
+
+    def _cache_get(self, key):
+        # HttpClient's legacy cache is not transported on pipeline-state. Using
+        # it here would duplicate every durable response and rewrite a large,
+        # pretty-printed file for every request. _read handles canonical replay.
+        return _CACHE_MISS
+
+    def _cache_put(self, key, value):
+        pass
+
+    def _save_cache(self):
+        # Also suppress legacy-cache purging during HttpClient initialization.
+        pass
 
     def _save(self):
         atomic_json(self.path, self.state)
