@@ -1,6 +1,7 @@
 from __future__ import annotations
 import logging
 from alex.editorial_exclusions import load_keys, record_keys
+from alex.discovery_types import paper_route_hold
 from datetime import datetime, timezone
 
 import pandas as pd
@@ -139,6 +140,13 @@ def run() -> None:
             out["recommended_action"] = "reject"
             rejected.append(out)
             text_vetoed.append(idx)
+        elif paper_route_hold(row):
+            # Retain identity, abstract and source evidence for type-appropriate
+            # review. A paper bibliometric score cannot approve a dataset, etc.
+            out["review_reason"] = paper_route_hold(row)
+            out["recommended_action"] = "human review"
+            out["document_type_review_required"] = True
+            review.append(out)
         elif not has_core_term(row.get("title", ""), row.get("abstract", ""), core_terms, core_min):
             out["review_reason"] = (
                 "No core cyber/OSINT term" if core_min == 1
