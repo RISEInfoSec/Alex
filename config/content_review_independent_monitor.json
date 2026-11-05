@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T08:35:27.275Z",
+  "observed_at": "2026-11-05T09:37:13.061Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "f25c7015-f590-8333-bb26-59b5e4c72cce",
-    "scheduled_for": "2026-11-05T08:32:00Z",
-    "started_at": "2026-11-05T08:31:40.341665Z",
+    "run_id": "db48cde6-bacc-8333-808d-45b9fdab509a",
+    "scheduled_for": "2026-11-05T09:32:00Z",
+    "started_at": "2026-11-05T09:34:37.732119Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,77 +14,36 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-05T08:35:27.275Z",
+    "observed_at": "2026-11-05T09:37:13.061Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "d28a0eec-2cdc-8332-a20c-540f3f9f238a",
+      "id": "6518a129-da24-8332-a08d-d53e3ce3eb56",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-05T07:45:00Z",
-      "started_at": "2026-11-05T07:44:46.523660Z",
-      "completed_at": "2026-11-05T07:55:07.683946Z"
+      "scheduled_for": "2026-11-05T08:45:00Z",
+      "started_at": "2026-11-05T08:46:46.152732Z",
+      "completed_at": "2026-11-05T08:57:24.402914Z"
     }
   },
   "receipt_check": {
-    "run_id": "d28a0eec-2cdc-8332-a20c-540f3f9f238a",
-    "path": "config/content_review_run_receipts/d28a0eec-2cdc-8332-a20c-540f3f9f238a.json",
-    "verified": false,
-    "reason": "The canonical scheduled receipt matches native run identity, schedule, actions, path and completion interval, but receipt status is failed rather than complete; native termination does not verify successful application work."
+    "run_id": "6518a129-da24-8332-a08d-d53e3ce3eb56",
+    "path": "config/content_review_run_receipts/6518a129-da24-8332-a08d-d53e3ce3eb56.json",
+    "verified": true,
+    "reason": "The canonical scheduled receipt matches the native run identity and scheduled time, contains completed application actions, reports complete, and its completion time falls within the native run interval."
   },
-  "checkpoint_observed_at": "2026-11-05T07:54:50.820842+00:00",
+  "checkpoint_observed_at": "2026-11-05T08:56:30.541352+00:00",
   "processing": {
-    "observed_at": "2026-11-05T08:35:27.275Z",
-    "evidence_observed_at": "2026-11-05T07:52:35.093821+00:00",
+    "observed_at": "2026-11-05T09:37:13.061Z",
+    "evidence_observed_at": "2026-11-05T08:54:04.373488+00:00",
     "evidence_fresh": true,
-    "immutable_tree_sha": "2f84ead30aea1a1a9f9c7a8092aee876c13968a7",
+    "immutable_tree_sha": "08a6d96118debc68d050839d7eaa31107b253c76",
     "examined_run_ids": [
-      "57dd42d5-24e0-8332-a7b5-ee830d411cd9",
       "6f97ac53-d43c-8332-818a-312850747391",
-      "4be13912-2f88-8332-8d0d-04893f4b6cf5"
+      "4be13912-2f88-8332-8d0d-04893f4b6cf5",
+      "6518a129-da24-8332-a08d-d53e3ce3eb56"
     ],
     "runs": [
-      {
-        "run_id": "57dd42d5-24e0-8332-a7b5-ee830d411cd9",
-        "checkpoint_integrity": "failed",
-        "local_candidates": 1,
-        "candidate_ids": [
-          "weekly-10bf6841abc6f36147d952f0"
-        ],
-        "actual_source_requests": 0,
-        "new_source_gate_passes": 0,
-        "new_downstream_gate_passes": 1,
-        "per_gate_passes": {
-          "schema": [
-            "weekly-10bf6841abc6f36147d952f0"
-          ]
-        },
-        "all_six_completions": 1,
-        "all_six_candidate_ids": [
-          "weekly-10bf6841abc6f36147d952f0"
-        ],
-        "newly_manual_ready": 1,
-        "manual_ready_candidate_ids": [
-          "weekly-10bf6841abc6f36147d952f0"
-        ],
-        "publications": 0,
-        "publication_ids": [],
-        "resolvable_gates": 1,
-        "legitimate_holds_only": false,
-        "blockers": [
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Current main1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; release41945055902 remains failed at assessment-hash binding.",
-            "corrective_action": "Repair full-corpus exact assessment/content serialization through existing controlled release."
-          },
-          {
-            "candidate_id": "weekly-2096e9686479ceda7cc35242",
-            "stage": "metadata",
-            "reason": "Retained publisher June22 versus PDF June30 date conflict.",
-            "corrective_action": "Resolve authoritative date/version without repeating unchanged retrieval."
-          }
-        ]
-      },
       {
         "run_id": "6f97ac53-d43c-8332-818a-312850747391",
         "checkpoint_integrity": "reported_passed",
@@ -164,41 +123,134 @@
             "corrective_action": "Reconcile authoritative DOI/version before downstream spend."
           }
         ]
+      },
+      {
+        "run_id": "6518a129-da24-8332-a08d-d53e3ce3eb56",
+        "checkpoint_integrity": "reported_passed",
+        "local_candidates": 5,
+        "candidate_ids": [
+          "weekly-2527e09d730dd8e2b15cb6d8",
+          "weekly-26b3719a7cdde3455962fdfa",
+          "weekly-26e0bf60c0b553b19739cc91",
+          "weekly-27cbe4630996d447436a64dd",
+          "weekly-2fb8d1268a016d82ab42dd40"
+        ],
+        "actual_source_requests": 17,
+        "new_source_gate_passes": 2,
+        "new_downstream_gate_passes": 0,
+        "per_gate_passes": {
+          "format": [
+            "weekly-26e0bf60c0b553b19739cc91"
+          ],
+          "access": [
+            "weekly-26e0bf60c0b553b19739cc91"
+          ]
+        },
+        "all_six_completions": 0,
+        "all_six_candidate_ids": [],
+        "newly_manual_ready": 0,
+        "manual_ready_candidate_ids": [],
+        "publications": 0,
+        "publication_ids": [],
+        "resolvable_gates": 1,
+        "legitimate_holds_only": false,
+        "blockers": [
+          {
+            "candidate_id": "weekly-2527e09d730dd8e2b15cb6d8",
+            "stage": "source_access",
+            "reason": "robots_unavailable_http_403",
+            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+          },
+          {
+            "candidate_id": "weekly-26b3719a7cdde3455962fdfa",
+            "stage": "source_access",
+            "reason": "robots_unavailable_http_403",
+            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+          },
+          {
+            "candidate_id": "weekly-26e0bf60c0b553b19739cc91",
+            "stage": "metadata",
+            "reason": "Inspected matching written journal paper front matter and body. Zenodo current version DOI 10.5281/zenodo.20267496 differs from discovery DOI 10.5281/zenodo.20267495; reconcile concept/version identifier and date before classification.",
+            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+          },
+          {
+            "candidate_id": "weekly-27cbe4630996d447436a64dd",
+            "stage": "source_access",
+            "reason": "source_http_403",
+            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+          },
+          {
+            "candidate_id": "weekly-2fb8d1268a016d82ab42dd40",
+            "stage": "source_document",
+            "reason": "Publisher page matches title and Syed Mudassir Shah byline but retained material is abstract/landing page only; actual intended full document remains uninspected. Resume only a bound permitted original from retained links.",
+            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+          },
+          {
+            "stage": "publication_full_corpus_serialization",
+            "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains unchanged corpus/exclusion/upstream blobs; prior release41945055902 failed exact assessment binding.",
+            "corrective_action": "Repair controlled full-corpus serialization preserving assessment/content binding before retry."
+          }
+        ]
       }
     ],
     "status": "progress_requires_gate_evidence",
     "stalled_local_only": false,
     "stalled_resolvable_gates": false,
     "repeated_attempts_without_progress": false,
-    "missing_stage_or_capability": "The latest scheduled application attempt failed before any source HTTP call because its immutable source request omitted lease.owner. The last three completed passes produced two manual-ready papers but no publication; exact full-corpus assessment/content serialization remains unresolved.",
-    "corrective_action": "Before the next source request, verify both lease.owner and lease.run_id. Reuse retained artifacts, preserve the failed attempt, repair the controlled publication serializer separately, and require later heartbeat-compliant scheduled evidence before promotion.",
+    "missing_stage_or_capability": "The latest completed pass reached source transport and passed format/access for one paper, but authoritative DOI/version metadata reconciliation is still required before downstream gates. Three access restrictions and one abstract-only source are documented holds. Exact full-corpus assessment/content serialization remains unresolved for publication.",
+    "corrective_action": "Reuse retained source evidence; reconcile the Zenodo concept/version DOI and date, bind a permitted full document where available, then run the remaining downstream gates. Preserve access holds, repair controlled publication serialization separately, and require heartbeat-compliant scheduled evidence for promotion.",
     "scheduler_success_is_processing_recovery": false,
     "sustained_throughput_verified": false,
     "processing_health": {
-      "native_run_id": "d28a0eec-2cdc-8332-a20c-540f3f9f238a",
-      "application_status": "failed",
-      "local_candidates": 0,
+      "native_run_id": "6518a129-da24-8332-a08d-d53e3ce3eb56",
+      "application_status": "complete",
+      "local_candidates": 5,
       "local_audits": 200,
-      "actual_source_requests": 0,
-      "source_gate_passes": 0,
+      "actual_source_requests": 17,
+      "source_gate_passes": 2,
       "downstream_gate_passes": 0,
       "six_gate_completions": 0,
       "newly_review_ready": 0,
       "publications": 0,
-      "scope_note": "Source runner validation failed before transport. Five selections are not five candidate attempts. Existing two ready papers retained.",
+      "scope_note": "Five real source dispositions, one inspected paper; version DOI conflict remains. Three access denials and one abstract-only page. No paid or registry calls.",
       "blockers": [
         {
-          "stage": "source_runner_lease_validation",
-          "reason": "Actions41989955836 rejected request before execute constructed transport: immutable request commit270faa4bb36f0a9f5596cde62b5a94852425f636 had run_id lease but omitted owner. No source HTTP calls or candidate work occurred. Owner field was subsequently corrected and read back; failed request was not replayed.",
-          "corrective_action": "Next pass verify BOTH lease.owner and lease.run_id before preparing a fresh immutable source request. Reuse retained artifacts; preserve original failure."
+          "candidate_id": "weekly-2527e09d730dd8e2b15cb6d8",
+          "stage": "source_access",
+          "reason": "robots_unavailable_http_403",
+          "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+        },
+        {
+          "candidate_id": "weekly-26b3719a7cdde3455962fdfa",
+          "stage": "source_access",
+          "reason": "robots_unavailable_http_403",
+          "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+        },
+        {
+          "candidate_id": "weekly-26e0bf60c0b553b19739cc91",
+          "stage": "metadata",
+          "reason": "Inspected matching written journal paper front matter and body. Zenodo current version DOI 10.5281/zenodo.20267496 differs from discovery DOI 10.5281/zenodo.20267495; reconcile concept/version identifier and date before classification.",
+          "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+        },
+        {
+          "candidate_id": "weekly-27cbe4630996d447436a64dd",
+          "stage": "source_access",
+          "reason": "source_http_403",
+          "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
+        },
+        {
+          "candidate_id": "weekly-2fb8d1268a016d82ab42dd40",
+          "stage": "source_document",
+          "reason": "Publisher page matches title and Syed Mudassir Shah byline but retained material is abstract/landing page only; actual intended full document remains uninspected. Resume only a bound permitted original from retained links.",
+          "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
         },
         {
           "stage": "publication_full_corpus_serialization",
-          "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains prior corpus/exclusion blobs. Existing release41945055902 failed exact assessment/content binding. No unchanged release replayed.",
-          "corrective_action": "Repair exact full-corpus assessment/content serialization through existing controlled release."
+          "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains unchanged corpus/exclusion/upstream blobs; prior release41945055902 failed exact assessment binding.",
+          "corrective_action": "Repair controlled full-corpus serialization preserving assessment/content binding before retry."
         }
       ],
-      "corrective_action": "Next pass verify BOTH lease.owner and lease.run_id before preparing a fresh immutable source request. Reuse retained artifacts; preserve original failure."
+      "corrective_action": "Reuse retained successful reads; reconcile version DOI and full-document binding, then current downstream gates."
     },
     "checkpoint_corrections": [
       {
@@ -241,24 +293,24 @@
   },
   "findings": [
     {
-      "code": "application_failure_receipt",
-      "message": "Worker run d28a0eec-2cdc-8332-a20c-540f3f9f238a completed natively, but its matching identity/time-bound canonical receipt reports application status failed after source-runner lease-owner validation rejected the request before any HTTP send."
+      "code": "native_completion_verified",
+      "message": "Worker run 6518a129-da24-8332-a08d-d53e3ce3eb56 completed natively and its identity/time-bound canonical receipt verifies completed application work."
     },
     {
-      "code": "processing_progress_not_recovery",
-      "message": "The last three completed scheduled pilot receipts contain two candidate dispositions, one source-gate pass, two downstream-gate passes, two six-gate/manual-ready completions and zero publications. The newest failed attempt processed no candidates and made no source request."
+      "code": "processing_progress_not_sustained_recovery",
+      "message": "The last three completed scheduled pilot receipts contain six candidate dispositions, 17 source requests, three new source-gate passes, one new downstream-gate pass, one six-gate/manual-ready completion and zero publications. This is progress, but not sustained throughput."
     },
     {
       "code": "heartbeat_gaps_recorded",
-      "message": "The failed application receipt records noncompliant heartbeat intervals; the native run is terminal, so no active heartbeat stall is inferred and the pass remains promotion-ineligible."
+      "message": "The latest receipt records noncompliant startup/preparation heartbeat intervals. The native run is terminal, so no active heartbeat stall is inferred; the pass remains promotion-ineligible."
     },
     {
       "code": "no_scheduler_incident",
-      "message": "Worker dispatch offset -0.225 minutes and observer dispatch offset -0.328 minutes were within the 15-minute grace. No missed start or active scheduler stall was observed."
+      "message": "Worker dispatch offset 1.769 minutes and observer dispatch offset 2.629 minutes were within the 15-minute grace. No missed start or active scheduler stall was observed."
     },
     {
       "code": "checkpoint_correction_preserved",
-      "message": "Corrected run fe4875f6-dc78-8332-8c50-fe0d998ea688 remains promotion-ineligible; the correction blob and its restored repair-tree blobs were verified by immutable SHA and size."
+      "message": "Corrected run fe4875f6-dc78-8332-8c50-fe0d998ea688 remains promotion-ineligible; the correction blob and restored repair-tree blobs were verified by immutable SHA and size. The latest work-bearing scheduled run is later and reports an intact checkpoint."
     }
   ],
   "access_error": null
