@@ -1,36 +1,30 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T03:58:42.081989+00:00",
+  "observed_at": "2026-11-05T04:59:04.298778+00:00",
   "trigger": "schedule",
-  "native_run_id": "01a60396-1168-8332-b1ab-e722c9c1d79a",
-  "local_candidates": 2,
+  "native_run_id": "57dd42d5-24e0-8332-a7b5-ee830d411cd9",
+  "local_candidates": 1,
   "source_requests": 0,
-  "source_gate_passes": 1,
-  "downstream_gate_passes": 0,
-  "six_gate_completions": 0,
-  "newly_review_ready": 0,
+  "source_gate_passes": 0,
+  "downstream_gate_passes": 1,
+  "six_gate_completions": 1,
+  "newly_review_ready": 1,
   "publications": 0,
   "blockers": [
     {
-      "candidate_id": "weekly-10bf6841abc6f36147d952f0",
-      "stage": "classification_and_serialization",
-      "reason": "Metadata and verified paper type now reconciled; fresh current-contract paid request prepared locally but not submitted because result/checkpoint consumption would consume completion reserve. No paid calls made.",
-      "corrective_action": "Generate/submit current immutable paid handoff after rechecking current decisions/gates; reuse retained PDF."
+      "stage": "publication_full_corpus_serialization",
+      "reason": "Current main1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; release41945055902 remains failed at assessment-hash binding.",
+      "corrective_action": "Repair full-corpus exact assessment/content serialization through existing controlled release."
     },
     {
       "candidate_id": "weekly-2096e9686479ceda7cc35242",
       "stage": "metadata",
-      "reason": "Publisher June22 publication date conflicts with PDF June30; retained genuine metadata hold.",
-      "corrective_action": "Resolve exact date/version from independent authoritative retained evidence without repeating unchanged source retrieval."
-    },
-    {
-      "stage": "publication_full_corpus_serialization",
-      "reason": "Main unchanged at1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; prior release41945055902 failed assessment-hash binding. No unchanged failed release replayed.",
-      "corrective_action": "Correct full-corpus resource serialization while preserving exact assessment/content binding, then resume existing controlled release."
+      "reason": "Retained publisher June22 versus PDF June30 date conflict.",
+      "corrective_action": "Resolve authoritative date/version without repeating unchanged retrieval."
     }
   ],
-  "scope_note": "Two due retained-source candidates advanced; one new metadata pass and two refreshed duplicate passes. Verified type version retains full originals. No provider sends. Prior publication failure preserved.",
-  "corrective_action": "Resume exact-hash classification for the reconciled ransomware paper; resolve date conflict and publication serializer separately.",
+  "scope_note": "Retained ransomware paper completed current-contract paid classification/serialization and six-gate admission to Weekly28; one paid call664tokens; no source or OpenAlex sends. Further requests stopped after local baseline guard failure.",
+  "corrective_action": "Consume ready batch28; separately resolve metadata and publication serializer. Later intact scheduled evidence required for promotion.",
   "processing_progress": {
     "runs": [
       {
@@ -380,6 +374,34 @@
             "stage": "publication_full_corpus_serialization",
             "reason": "Main unchanged at1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; prior release41945055902 failed assessment-hash binding. No unchanged failed release replayed.",
             "corrective_action": "Correct full-corpus resource serialization while preserving exact assessment/content binding, then resume existing controlled release."
+          }
+        ]
+      },
+      {
+        "run_id": "57dd42d5-24e0-8332-a7b5-ee830d411cd9",
+        "checkpoint_integrity": "failed",
+        "local_candidates": 1,
+        "candidate_ids": [
+          "weekly-10bf6841abc6f36147d952f0"
+        ],
+        "resolvable_gates": 1,
+        "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "downstream_gate_passes": 1,
+        "review_ready": 1,
+        "six_gate_completions": 1,
+        "blockers": [
+          {
+            "stage": "publication_full_corpus_serialization",
+            "reason": "Current main1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; release41945055902 remains failed at assessment-hash binding.",
+            "corrective_action": "Repair full-corpus exact assessment/content serialization through existing controlled release."
+          },
+          {
+            "candidate_id": "weekly-2096e9686479ceda7cc35242",
+            "stage": "metadata",
+            "reason": "Retained publisher June22 versus PDF June30 date conflict.",
+            "corrective_action": "Resolve authoritative date/version without repeating unchanged retrieval."
           }
         ]
       }

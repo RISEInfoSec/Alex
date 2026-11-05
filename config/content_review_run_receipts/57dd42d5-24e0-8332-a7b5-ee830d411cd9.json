@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "run_id": "57dd42d5-24e0-8332-a7b5-ee830d411cd9",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T04:45:00Z",
+  "started_at": "2026-11-05T04:49:54.541761Z",
+  "completed_at": "2026-11-05T04:59:04.298778+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/57dd42d5-24e0-8332-a7b5-ee830d411cd9.json",
+  "completed_actions": [
+    "Acquired/read back lease and published native start and running records with current operations.py",
+    "Read66 complete current submissions; exact full snapshot unchanged, reused932 verified decisions",
+    "Verified complete review inputs against immutable Git sizes/SHAs and current main corpus/exclusions/upstream bytes",
+    "Submitted one fresh current-contract paid request; independently verified Actions41970671854 and candidate/input/contract/provenance/usage",
+    "Replayed actual disposable serializer; bound substantive current abstract recommendation Discuss; prepared sealed Weekly batch28 with one cleared candidate",
+    "Evaluated lifecycle and recorded actual classification attempt with immutable paid evidence",
+    "Validated atomic manifest/stage/lifecycle/paid receipt checkpoint and compared every created Git blob SHA before tree publication"
+  ],
+  "candidate_ids": [
+    "weekly-10bf6841abc6f36147d952f0"
+  ],
+  "candidate_check_count": 1,
+  "request_counts": {
+    "source": 0,
+    "paid": 1,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/weekly_review_manifest.json",
+    "config/content_review_preflight_status.json",
+    "config/content_review_paid_receipts/8e693cc381c96f31f3cdef81a960958f6b95860707a60aa5fcba1f2bfed0e928.json",
+    "config/content_review_candidate_lifecycle.json"
+  ],
+  "errors": [
+    {
+      "stage": "heartbeat",
+      "reason": "Actual start/running intervals exceeded60seconds; no heartbeat backfilled."
+    },
+    {
+      "stage": "checkpoint_base_validation",
+      "reason": "Initial local ledger baseline was the evaluated copy; guard rejected before any remote candidate write. Restored exact immutable baseline and revalidated. No further provider requests after guard failure."
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-10bf6841abc6f36147d952f0"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-10bf6841abc6f36147d952f0"
+    ],
+    "completed_candidate_ids": [
+      "weekly-10bf6841abc6f36147d952f0"
+    ],
+    "genuinely_first_checked": [],
+    "next_dispositions": [
+      "weekly-10bf6841abc6f36147d952f0"
+    ],
+    "newly_passed_checks": {
+      "schema": [
+        "weekly-10bf6841abc6f36147d952f0"
+      ]
+    },
+    "all_six_completed": [
+      "weekly-10bf6841abc6f36147d952f0"
+    ],
+    "manual_admitted": [
+      "weekly-10bf6841abc6f36147d952f0"
+    ],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Current main1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; release41945055902 remains failed at assessment-hash binding.",
+        "corrective_action": "Repair full-corpus exact assessment/content serialization through existing controlled release."
+      },
+      {
+        "candidate_id": "weekly-2096e9686479ceda7cc35242",
+        "stage": "metadata",
+        "reason": "Retained publisher June22 versus PDF June30 date conflict.",
+        "corrective_action": "Resolve authoritative date/version without repeating unchanged retrieval."
+      }
+    ],
+    "remaining_blockers": [
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Current main1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; release41945055902 remains failed at assessment-hash binding.",
+        "corrective_action": "Repair full-corpus exact assessment/content serialization through existing controlled release."
+      },
+      {
+        "candidate_id": "weekly-2096e9686479ceda7cc35242",
+        "stage": "metadata",
+        "reason": "Retained publisher June22 versus PDF June30 date conflict.",
+        "corrective_action": "Resolve authoritative date/version without repeating unchanged retrieval."
+      }
+    ],
+    "cache_reuse": [
+      "Complete66-submission signature unchanged;932 decisions reused",
+      "Retained PDF and five independent gates reused; no source refetch",
+      "Inspected recent native paid runs before new spend"
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 1,
+      "openalex": 0
+    },
+    "paid_tokens": 664,
+    "local_audits": 1,
+    "stage_elapsed_seconds": {
+      "to_receipt": 549.759162
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 1,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "Recovered baseline validation failure and real heartbeat gaps; current native terminal state remains in progress.",
+    "resolvable_gate_count": 1,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-05T04:59:04.298778+00:00",
+        "stage": "admitted",
+        "candidate_ids": [
+          "weekly-10bf6841abc6f36147d952f0"
+        ]
+      }
+    },
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 0
+    },
+    "after_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 1
+    },
+    "candidate_checkpoint_digests": [
+      {
+        "path": "config/weekly_review_manifest.json",
+        "sha256": "014d7ecffb55fcc054ea5263a796648a704439de6a897bebbd475bacc11dd2eb"
+      },
+      {
+        "path": "config/content_review_preflight_status.json",
+        "sha256": "bc4af79fb24ed0f44dc30dbc12cce977a81a0ed1b7c8ea59b69c963cfffaa11e"
+      },
+      {
+        "path": "config/content_review_paid_receipts/8e693cc381c96f31f3cdef81a960958f6b95860707a60aa5fcba1f2bfed0e928.json",
+        "sha256": "df5654900695876064b15e34736831ae46e35abae0d7eacd22f97d4dc643f667"
+      },
+      {
+        "path": "config/content_review_candidate_lifecycle.json",
+        "sha256": "ab6f66c56d1bc2e3974f045e47baf4f7f04e97261f5ffaba5543c5daf35bb6a3"
+      }
+    ],
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "native_terminal_success": null
+}
