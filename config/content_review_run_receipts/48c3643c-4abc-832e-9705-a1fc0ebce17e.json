@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "run_id": "48c3643c-4abc-832e-9705-a1fc0ebce17e",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T13:45:00Z",
+  "started_at": "2026-11-05T13:42:59.274060Z",
+  "completed_at": "2026-11-05T13:51:06.729964+00:00",
+  "status": "complete",
+  "completed_actions": [
+    "Published and read back immediate native start and running records",
+    "Refreshed66 complete D1 submissions and confirmed unchanged complete identity/revision/payload signature",
+    "Verified immutable source-critical inputs with snapshot_integrity",
+    "Normalized three verified written papers through the existing explicit version/rebinding procedure",
+    "Evaluated200 lifecycle records preserving385 identities and prior decisions/evidence"
+  ],
+  "candidate_ids": [
+    "weekly-5119ae5a98d80e9ef5d2544b",
+    "weekly-56fec07c6bb5ce26240c614e",
+    "weekly-580cbf65ba78205f3b91860e"
+  ],
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "receipt_path": "config/content_review_run_receipts/48c3643c-4abc-832e-9705-a1fc0ebce17e.json",
+  "native_terminal_success": null,
+  "normalization_results": [
+    {
+      "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+      "old_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+      "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065"
+    },
+    {
+      "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
+      "old_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+      "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd"
+    },
+    {
+      "candidate_id": "weekly-580cbf65ba78205f3b91860e",
+      "old_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+      "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196"
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-56fec07c6bb5ce26240c614e",
+      "weekly-580cbf65ba78205f3b91860e"
+    ],
+    "planned_candidate_ids": [
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-56fec07c6bb5ce26240c614e",
+      "weekly-580cbf65ba78205f3b91860e",
+      "weekly-02db78e5dcf92cfe64dc4487",
+      "weekly-040edeb033e8ee41aeb9433a"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-56fec07c6bb5ce26240c614e",
+      "weekly-580cbf65ba78205f3b91860e"
+    ],
+    "completed_candidate_ids": [
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-56fec07c6bb5ce26240c614e",
+      "weekly-580cbf65ba78205f3b91860e"
+    ],
+    "genuinely_first_checked": [],
+    "next_dispositions": [
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-56fec07c6bb5ce26240c614e",
+      "weekly-580cbf65ba78205f3b91860e"
+    ],
+    "newly_passed_checks": {},
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "candidate_ids": [
+          "weekly-5119ae5a98d80e9ef5d2544b",
+          "weekly-56fec07c6bb5ce26240c614e",
+          "weekly-580cbf65ba78205f3b91860e"
+        ],
+        "stage": "classification_and_serialization",
+        "reason": "Verified paper types normalized with current first-five gates. Local requests/jsonschema dependencies are unavailable to prepare the current-contract paid handoff; no paid request or provider call made.",
+        "corrective_action": "Use the supported paid handoff in a runtime with its declared dependencies; first inspect existing exact-hash requests/results. Reuse retained source material and normalized inputs."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Existing controlled release41945055902 failed full-corpus assessment/content binding; current main release script differs from retained local copy. No unchanged failed release replayed.",
+        "corrective_action": "Read and validate the current main controlled serializer and preserve exact assessment/content binding before retry."
+      }
+    ],
+    "cache_reuse": [
+      "Complete66-submission snapshot unchanged",
+      "Current corpus/upstream/exclusions matched immutable SHA and size",
+      "Three retained source papers and current first-five gates reused; no source refetch"
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "stage_elapsed_seconds": {
+      "to_receipt": 487.456638
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "Actual heartbeat gaps and local paid-handoff dependency blocker; no promotion.",
+    "remaining_blockers": [
+      {
+        "candidate_ids": [
+          "weekly-5119ae5a98d80e9ef5d2544b",
+          "weekly-56fec07c6bb5ce26240c614e",
+          "weekly-580cbf65ba78205f3b91860e"
+        ],
+        "stage": "classification_and_serialization",
+        "reason": "Verified paper types normalized with current first-five gates. Local requests/jsonschema dependencies are unavailable to prepare the current-contract paid handoff; no paid request or provider call made.",
+        "corrective_action": "Use the supported paid handoff in a runtime with its declared dependencies; first inspect existing exact-hash requests/results. Reuse retained source material and normalized inputs."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Existing controlled release41945055902 failed full-corpus assessment/content binding; current main release script differs from retained local copy. No unchanged failed release replayed.",
+        "corrective_action": "Read and validate the current main controlled serializer and preserve exact assessment/content binding before retry."
+      }
+    ],
+    "resolvable_gate_count": 3,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-05T13:48:13.546750+00:00",
+        "stage": "verified_type_normalization",
+        "candidate_ids": [
+          "weekly-5119ae5a98d80e9ef5d2544b",
+          "weekly-56fec07c6bb5ce26240c614e",
+          "weekly-580cbf65ba78205f3b91860e"
+        ]
+      }
+    },
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "lifecycle_identities": 385
+    },
+    "after_counts": {
+      "lifecycle_identities": 385
+    },
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "errors": [
+    {
+      "stage": "local_paid_handoff",
+      "reason": "requests/jsonschema dependencies unavailable; no provider call"
+    },
+    {
+      "stage": "heartbeat",
+      "reason": "Actual heartbeat intervals exceeded60seconds; no timestamp backfill"
+    }
+  ],
+  "checkpoint_paths": [
+    "config/weekly_review_manifest.json",
+    "config/content_review_preflight_status.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_processing_health.json",
+    "config/content_review_run_receipts/48c3643c-4abc-832e-9705-a1fc0ebce17e.json"
+  ]
+}

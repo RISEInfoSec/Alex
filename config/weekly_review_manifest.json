@@ -55692,9 +55692,9 @@
       "year": 2026,
       "doi": "10.64388/irev9i11-1718132",
       "source_url": "https://doi.org/10.64388/irev9i11-1718132",
-      "document_type": "research_paper_candidate",
-      "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-      "format_verification_status": "hold_original_document_type_unverified",
+      "document_type": "research_paper",
+      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
+      "format_verification_status": "verified_written_research_paper",
       "abstract": "In today’s enterprise landscape, the top method for credential theft, ransomware delivery and business email compromise (BEC) is phishing. Highly targeted social-engineering attacks are outsmarting traditional, rule-based email security filters and signature-matching anti-virus tools, thanks to the use of legitimate cloud systems, obfuscated redirect chains and polymorphic file attachments. In this paper, we present the design and implementation of a fully automated pipeline for phishing detection and incident response (IDIR) using the n8n open-source workflow automation platform, and empirically test the system’s performance. It is integrated with Gmail as the (monitored) email surface, VirusTotal’s threat intelligence API to analyze file attachments as well as URLs (including over 70 antivirus engines), urlscan.io for URL behavior sandboxing and Groq-hosted LLaMA 3 large language models for AI-driven structured incident reports. A 41-node directed acyclic graph (DAG) workflow ensures a sender allowlist, categorizes incoming email messages into 4 threat scenarios, carries out multiple queries on threat intelligence with various APIs, produces HTML-based email phishing reports per branch via LLM inference, and sends automated Gmail notifications with quarantine labelling. Empirical testing has shown that the system is able to detect an incident after about 5 seconds and respond after 20–35 seconds, orders of magnitude quicker than the manual workflow for an analyst to respond. It is a modular, extensible and immediate use for SOC automation deployment and Security Orchestration, Automation and Response (SOAR) deployments.",
       "abstract_source": "https://doi.org/10.64388/irev9i11-1718132",
       "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
@@ -55713,8 +55713,8 @@
       "assessment_depth": "cached_abstract",
       "assessment_date": "2026-10-27",
       "full_paper_reviewed": false,
-      "paper_format_verified": false,
-      "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+      "paper_format_verified": true,
+      "source_verification_status": "publisher_resource_and_written_paper_verified",
       "quality_status": "existing_human_quality_review_required",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
       "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
@@ -55748,7 +55748,7 @@
       "institution_score": 20,
       "institution_bonus": 0,
       "title_anchor_bonus": 0,
-      "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+      "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
@@ -55756,12 +55756,69 @@
       ],
       "preflight": {
         "status": "held",
-        "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+        "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
         "checks": {
+          "format": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+              "pages_inspected": 6,
+              "page_count": 10,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+            },
+            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "access": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+              "pages_inspected": 6,
+              "page_count": 10,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+            },
+            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "metadata": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+              "pages_inspected": 6,
+              "page_count": 10,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
+              "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
+              "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
+              "year": 2026,
+              "doi": "10.64388/irev9i11-1718132",
+              "date_precision": "publisher date distinct from printed month/year",
+              "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
+            },
+            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
           "duplicates": {
             "status": "passed",
             "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
             "evidence": {
               "status": "passed",
               "matches": [],
@@ -55770,12 +55827,15 @@
               "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
               "upstream_count": 4041,
               "source_manifest_count": 7
-            }
+            },
+            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "quality": {
             "status": "passed",
             "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
             "evidence": {
               "quality_score": 31.65,
               "quality_venue_score": 40,
@@ -55793,63 +55853,24 @@
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-          },
-          "format": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
-              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
-              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
-              "pages_inspected": 6,
-              "page_count": 10,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
-            }
-          },
-          "access": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
-              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
-              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
-              "pages_inspected": 6,
-              "page_count": 10,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
-            }
-          },
-          "metadata": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
-              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
-              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
-              "pages_inspected": 6,
-              "page_count": 10,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
-              "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
-              "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
-              "year": 2026,
-              "doi": "10.64388/irev9i11-1718132",
-              "date_precision": "publisher date distinct from printed month/year",
-              "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
-            }
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-11-05T13:48:13.546750+00:00",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
@@ -55868,7 +55889,208 @@
           "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc"
         ]
       },
-      "verified_document_type": "research_paper"
+      "verified_document_type": "research_paper",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+          "superseded_at": "2026-11-05T13:48:13.546750+00:00",
+          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
+          "record": {
+            "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+            "upstream_candidate_id": "25977",
+            "upstream_stable_identity": "10.64388/irev9i11-1718132",
+            "source_row": 1115,
+            "review_number": 74,
+            "review_batch": 4,
+            "batch": 4,
+            "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
+            "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
+            "year": 2026,
+            "doi": "10.64388/irev9i11-1718132",
+            "source_url": "https://doi.org/10.64388/irev9i11-1718132",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "In today’s enterprise landscape, the top method for credential theft, ransomware delivery and business email compromise (BEC) is phishing. Highly targeted social-engineering attacks are outsmarting traditional, rule-based email security filters and signature-matching anti-virus tools, thanks to the use of legitimate cloud systems, obfuscated redirect chains and polymorphic file attachments. In this paper, we present the design and implementation of a fully automated pipeline for phishing detection and incident response (IDIR) using the n8n open-source workflow automation platform, and empirically test the system’s performance. It is integrated with Gmail as the (monitored) email surface, VirusTotal’s threat intelligence API to analyze file attachments as well as URLs (including over 70 antivirus engines), urlscan.io for URL behavior sandboxing and Groq-hosted LLaMA 3 large language models for AI-driven structured incident reports. A 41-node directed acyclic graph (DAG) workflow ensures a sender allowlist, categorizes incoming email messages into 4 threat scenarios, carries out multiple queries on threat intelligence with various APIs, produces HTML-based email phishing reports per branch via LLM inference, and sends automated Gmail notifications with quarantine labelling. Empirical testing has shown that the system is able to detect an incident after about 5 seconds and respond after 20–35 seconds, orders of magnitude quicker than the manual workflow for an analyst to respond. It is a modular, extensible and immediate use for SOC automation deployment and Security Orchestration, Automation and Response (SOAR) deployments.",
+            "abstract_source": "https://doi.org/10.64388/irev9i11-1718132",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              "https://doi.org/10.64388/irev9i11-1718132",
+              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "include",
+            "relevance": "direct",
+            "review_reason": "Describes a 41-node email-phishing response workflow linking Gmail, URL reputation services and an LLM to structured reports and quarantine actions.",
+            "metadata_issue": "Reported latency does not establish classification accuracy or safe autonomous action; test scale and independent ground truth are unspecified. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 31.65; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 31.65,
+            "quality_score": 31.65,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 70.59,
+            "is_preprint": false,
+            "venue": "Iconic Research and Engineering Journals",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "upstream_identifier_not_independently_verified",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "open source intelligence",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "5cfb8957de2d104e55e0eac96b5363ddf210255e1ce1b7dade79c87541862d4f",
+            "assessed_text_sha256": "5260482f4bca9b6726d5d252581ba97bbec867f18b0b6ab876401bc2764f7294",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 20,
+            "institution_bonus": 0,
+            "title_anchor_bonus": 0,
+            "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+              "checks": {
+                "duplicates": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": {
+                    "status": "passed",
+                    "matches": [],
+                    "upstream_aliases": [],
+                    "exclusions": [],
+                    "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+                    "upstream_count": 4041,
+                    "source_manifest_count": 7
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": {
+                    "quality_score": 31.65,
+                    "quality_venue_score": 40,
+                    "quality_citation_score": 0,
+                    "quality_relevance_score": 70.59,
+                    "quality_institution_score": 40,
+                    "quality_institution_bonus": 0,
+                    "quality_title_bonus": 0,
+                    "quality_auto_threshold": 35,
+                    "quality_review_threshold": 20,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+                    "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+                    "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 10,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+                  }
+                },
+                "access": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+                    "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+                    "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 10,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+                  }
+                },
+                "metadata": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+                    "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+                    "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 10,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
+                    "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
+                    "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
+                    "year": 2026,
+                    "doi": "10.64388/irev9i11-1718132",
+                    "date_precision": "publisher date distinct from printed month/year",
+                    "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "source_processing_history": [
+              {}
+            ],
+            "source_processing": {
+              "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+              "retrieval_status": "retrieved",
+              "receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "reason": null,
+              "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+              "evidence_sha256": [
+                "7e2e62a04871da041121e8654300278df0ce18c6c922647a94938f74379836e1",
+                "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc"
+              ]
+            },
+            "verified_document_type": "research_paper"
+          }
+        }
+      ],
+      "recommendation_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
     },
     {
       "candidate_id": "weekly-140a482ff1be3eb40a9ddfad",
@@ -58734,9 +58956,9 @@
       "year": 2026,
       "doi": "10.1038/s41598-026-55768-3",
       "source_url": "https://doi.org/10.1038/s41598-026-55768-3",
-      "document_type": "research_paper_candidate",
-      "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-      "format_verification_status": "hold_original_document_type_unverified",
+      "document_type": "research_paper",
+      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
+      "format_verification_status": "verified_written_research_paper",
       "abstract": "The rapid expansion of Internet of Things (IoT) infrastructures has significantly increased the exposure of edge devices to malware and botnet attacks. Conventional intrusion detection systems are largely centralized and struggle to operate effectively in decentralized, heterogeneous, and privacy-sensitive IoT environments, thereby limiting scalability and robustness. To address these challenges, this study proposes the Federated ConvNeXt-Swin Temporal Fusion Network (F-CSTFNet), a federated deep learning framework designed for distributed IoT malware and botnet detection. The proposed architecture integrates ConvNeXt-based convolutional feature extraction with Swin Transformer temporal attention to capture both local traffic patterns and long-range behavioral dependencies within network flows. This hybrid convolution-attention design enables the detection of short-term anomalies as well as evolving attack dynamics directly from network telemetry. In addition, a channel-adaptive feature recalibration mechanism enhances robustness when learning from heterogeneous and noisy client data. The model is trained using a federated learning paradigm that enables multiple IoT clients to collaboratively learn a global model without sharing raw data, thereby preserving data privacy and locality. Extensive experiments conducted on the IoT-23 and N-BaIoT datasets demonstrate that F-CSTFNet outperforms several state-of-the-art centralized and federated baselines in terms of detection accuracy, convergence stability, and client-level fairness. The framework also achieves low performance variance across clients, a high Jain's Fairness Index (JFI), and reduced inequality during distributed training. These results demonstrate the effectiveness of the proposed architecture as a scalable, privacy-preserving, and resilient intrusion detection framework for next-generation IoT security systems.",
       "abstract_source": "https://doi.org/10.1038/s41598-026-55768-3",
       "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
@@ -58755,8 +58977,8 @@
       "assessment_depth": "cached_abstract",
       "assessment_date": "2026-10-27",
       "full_paper_reviewed": false,
-      "paper_format_verified": false,
-      "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+      "paper_format_verified": true,
+      "source_verification_status": "publisher_resource_and_written_paper_verified",
       "quality_status": "existing_human_quality_review_required",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
       "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
@@ -58790,7 +59012,7 @@
       "institution_score": 80,
       "institution_bonus": 10,
       "title_anchor_bonus": 0,
-      "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+      "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
@@ -58798,12 +59020,69 @@
       ],
       "preflight": {
         "status": "held",
-        "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+        "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
         "checks": {
+          "format": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
+              "text_sha256": "a04d546624ace8cda6d84dd230914d94a53bbd0ff9c201fb39d99e013a68e0f0",
+              "url": "https://www.nature.com/articles/s41598-026-55768-3.pdf",
+              "pages_inspected": 6,
+              "page_count": 25,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+            },
+            "rebound_from_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "access": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
+              "text_sha256": "a04d546624ace8cda6d84dd230914d94a53bbd0ff9c201fb39d99e013a68e0f0",
+              "url": "https://www.nature.com/articles/s41598-026-55768-3.pdf",
+              "pages_inspected": 6,
+              "page_count": 25,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+            },
+            "rebound_from_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "metadata": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
+              "text_sha256": "a04d546624ace8cda6d84dd230914d94a53bbd0ff9c201fb39d99e013a68e0f0",
+              "url": "https://www.nature.com/articles/s41598-026-55768-3.pdf",
+              "pages_inspected": 6,
+              "page_count": 25,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
+              "title": "Federated ConvNeXt-swin temporal fusion network for malware and botnet detection in IoT systems",
+              "authors": "Faisal S. Alsubaei; Abdulwahab Ali Almazroi; Nasir Ayub",
+              "year": 2026,
+              "doi": "10.1038/s41598-026-55768-3",
+              "date_precision": "publisher date distinct from printed month/year",
+              "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
+            },
+            "rebound_from_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
           "duplicates": {
             "status": "passed",
             "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+            "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
             "evidence": {
               "status": "passed",
               "matches": [],
@@ -58812,12 +59091,15 @@
               "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
               "upstream_count": 4041,
               "source_manifest_count": 7
-            }
+            },
+            "rebound_from_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "quality": {
             "status": "passed",
             "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+            "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
             "evidence": {
               "quality_score": 28.41,
               "quality_venue_score": 40,
@@ -58835,63 +59117,24 @@
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-          },
-          "format": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
-              "text_sha256": "a04d546624ace8cda6d84dd230914d94a53bbd0ff9c201fb39d99e013a68e0f0",
-              "url": "https://www.nature.com/articles/s41598-026-55768-3.pdf",
-              "pages_inspected": 6,
-              "page_count": 25,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
-            }
-          },
-          "access": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
-              "text_sha256": "a04d546624ace8cda6d84dd230914d94a53bbd0ff9c201fb39d99e013a68e0f0",
-              "url": "https://www.nature.com/articles/s41598-026-55768-3.pdf",
-              "pages_inspected": 6,
-              "page_count": 25,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
-            }
-          },
-          "metadata": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
-              "text_sha256": "a04d546624ace8cda6d84dd230914d94a53bbd0ff9c201fb39d99e013a68e0f0",
-              "url": "https://www.nature.com/articles/s41598-026-55768-3.pdf",
-              "pages_inspected": 6,
-              "page_count": 25,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
-              "title": "Federated ConvNeXt-swin temporal fusion network for malware and botnet detection in IoT systems",
-              "authors": "Faisal S. Alsubaei; Abdulwahab Ali Almazroi; Nasir Ayub",
-              "year": 2026,
-              "doi": "10.1038/s41598-026-55768-3",
-              "date_precision": "publisher date distinct from printed month/year",
-              "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
-            }
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-11-05T13:48:13.546750+00:00",
+            "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
@@ -58910,7 +59153,208 @@
           "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416"
         ]
       },
-      "verified_document_type": "research_paper"
+      "verified_document_type": "research_paper",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+          "superseded_at": "2026-11-05T13:48:13.546750+00:00",
+          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
+          "record": {
+            "candidate_id": "weekly-580cbf65ba78205f3b91860e",
+            "upstream_candidate_id": "40462",
+            "upstream_stable_identity": "10.1038/s41598-026-55768-3",
+            "source_row": 1942,
+            "review_number": 96,
+            "review_batch": 5,
+            "batch": 5,
+            "title": "Federated ConvNeXt-swin temporal fusion network for malware and botnet detection in IoT systems",
+            "authors": "Faisal S. Alsubaei; Abdulwahab Ali Almazroi; Nasir Ayub",
+            "year": 2026,
+            "doi": "10.1038/s41598-026-55768-3",
+            "source_url": "https://doi.org/10.1038/s41598-026-55768-3",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "The rapid expansion of Internet of Things (IoT) infrastructures has significantly increased the exposure of edge devices to malware and botnet attacks. Conventional intrusion detection systems are largely centralized and struggle to operate effectively in decentralized, heterogeneous, and privacy-sensitive IoT environments, thereby limiting scalability and robustness. To address these challenges, this study proposes the Federated ConvNeXt-Swin Temporal Fusion Network (F-CSTFNet), a federated deep learning framework designed for distributed IoT malware and botnet detection. The proposed architecture integrates ConvNeXt-based convolutional feature extraction with Swin Transformer temporal attention to capture both local traffic patterns and long-range behavioral dependencies within network flows. This hybrid convolution-attention design enables the detection of short-term anomalies as well as evolving attack dynamics directly from network telemetry. In addition, a channel-adaptive feature recalibration mechanism enhances robustness when learning from heterogeneous and noisy client data. The model is trained using a federated learning paradigm that enables multiple IoT clients to collaboratively learn a global model without sharing raw data, thereby preserving data privacy and locality. Extensive experiments conducted on the IoT-23 and N-BaIoT datasets demonstrate that F-CSTFNet outperforms several state-of-the-art centralized and federated baselines in terms of detection accuracy, convergence stability, and client-level fairness. The framework also achieves low performance variance across clients, a high Jain's Fairness Index (JFI), and reduced inequality during distributed training. These results demonstrate the effectiveness of the proposed architecture as a scalable, privacy-preserving, and resilient intrusion detection framework for next-generation IoT security systems.",
+            "abstract_source": "https://doi.org/10.1038/s41598-026-55768-3",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              "https://doi.org/10.1038/s41598-026-55768-3",
+              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "include",
+            "relevance": "supporting",
+            "review_reason": "Evaluates federated malware and botnet classification using convolutional and temporal-attention models on IoT-23 and N-BaIoT.",
+            "metadata_issue": "Federated training without raw-data exchange does not by itself prove privacy; verify client splits, leakage and claimed fairness improvements. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 28.41; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 28.41,
+            "quality_score": 28.41,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 17.65,
+            "is_preprint": false,
+            "venue": "Scientific Reports",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "upstream_identifier_not_independently_verified",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "cybercrime research",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "9da2e58c8dbd0709e4d1ed64fcde3b57b33a19f022c1cc0074e8786b18379e84",
+            "assessed_text_sha256": "f3a75153af6eb91127e84854d9458121009a1d56768d5f0da1c0edd4bff21573",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 80,
+            "institution_bonus": 10,
+            "title_anchor_bonus": 0,
+            "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+              "checks": {
+                "duplicates": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+                  "evidence": {
+                    "status": "passed",
+                    "matches": [],
+                    "upstream_aliases": [],
+                    "exclusions": [],
+                    "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+                    "upstream_count": 4041,
+                    "source_manifest_count": 7
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+                  "evidence": {
+                    "quality_score": 28.41,
+                    "quality_venue_score": 40,
+                    "quality_citation_score": 0,
+                    "quality_relevance_score": 17.65,
+                    "quality_institution_score": 80,
+                    "quality_institution_bonus": 10,
+                    "quality_title_bonus": 0,
+                    "quality_auto_threshold": 35,
+                    "quality_review_threshold": 20,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
+                    "text_sha256": "a04d546624ace8cda6d84dd230914d94a53bbd0ff9c201fb39d99e013a68e0f0",
+                    "url": "https://www.nature.com/articles/s41598-026-55768-3.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 25,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+                  }
+                },
+                "access": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
+                    "text_sha256": "a04d546624ace8cda6d84dd230914d94a53bbd0ff9c201fb39d99e013a68e0f0",
+                    "url": "https://www.nature.com/articles/s41598-026-55768-3.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 25,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+                  }
+                },
+                "metadata": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
+                    "text_sha256": "a04d546624ace8cda6d84dd230914d94a53bbd0ff9c201fb39d99e013a68e0f0",
+                    "url": "https://www.nature.com/articles/s41598-026-55768-3.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 25,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
+                    "title": "Federated ConvNeXt-swin temporal fusion network for malware and botnet detection in IoT systems",
+                    "authors": "Faisal S. Alsubaei; Abdulwahab Ali Almazroi; Nasir Ayub",
+                    "year": 2026,
+                    "doi": "10.1038/s41598-026-55768-3",
+                    "date_precision": "publisher date distinct from printed month/year",
+                    "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "source_processing_history": [
+              {}
+            ],
+            "source_processing": {
+              "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+              "retrieval_status": "retrieved",
+              "receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "reason": null,
+              "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+              "evidence_sha256": [
+                "fbd3041e78a2e2ea47d5da53a74dccac72bc50e508cb309feb63d5164a4f8089",
+                "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416"
+              ]
+            },
+            "verified_document_type": "research_paper"
+          }
+        }
+      ],
+      "recommendation_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
     },
     {
       "candidate_id": "weekly-91d7bab72e8b83aa104b6b72",
@@ -64483,9 +64927,9 @@
       "year": 2026,
       "doi": "10.64643/jatirv2i6-140529",
       "source_url": "https://doi.org/10.64643/jatirv2i6-140529",
-      "document_type": "research_paper_candidate",
-      "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-      "format_verification_status": "hold_original_document_type_unverified",
+      "document_type": "research_paper",
+      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
+      "format_verification_status": "verified_written_research_paper",
       "abstract": "The rapid proliferation of digital platforms and social media has increased college students' exposure to internship scams, a form of cyber-enabled employment fraud involving financial loss, data theft, or unpaid labour. This study examines the prevalence and impact of internship scam victimization among college students in Chennai. Using a descriptive research design, primary data were collected from 130 students through a structured Google Forms questionnaire. Findings revealed a victimization rate of 87.7%, with 82.3% encountering suspicious offers and 66.9% experiencing financial loss. Social media emerged as the primary source of internship opportunities (80.0%) and the main channel for fraud. Easy selection processes (61.5%) and high stipend offer (50.8%) were identified as major attractions used by scammers. The study also found significant psychological and academic consequences, including stress, anxiety, reduced trust in future opportunities, and academic disruption highlighting the need for stronger institutional support, safer internship practices, and improved student awareness to reduce internship scam victimization.",
       "abstract_source": "https://doi.org/10.64643/jatirv2i6-140529",
       "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
@@ -64504,8 +64948,8 @@
       "assessment_depth": "cached_abstract",
       "assessment_date": "2026-10-27",
       "full_paper_reviewed": false,
-      "paper_format_verified": false,
-      "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+      "paper_format_verified": true,
+      "source_verification_status": "publisher_resource_and_written_paper_verified",
       "quality_status": "existing_human_quality_review_required",
       "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
       "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
@@ -64539,7 +64983,7 @@
       "institution_score": 80,
       "institution_bonus": 10,
       "title_anchor_bonus": 0,
-      "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+      "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
@@ -64547,12 +64991,69 @@
       ],
       "preflight": {
         "status": "held",
-        "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+        "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
         "checks": {
+          "format": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
+              "text_sha256": "da57fd88579510039c77e02bf0d3a45cfea1bece19747fc7ce786da7357629fc",
+              "url": "https://jatir.org/publishedpapers/140529_PAPER.pdf",
+              "pages_inspected": 6,
+              "page_count": 12,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+            },
+            "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "access": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
+              "text_sha256": "da57fd88579510039c77e02bf0d3a45cfea1bece19747fc7ce786da7357629fc",
+              "url": "https://jatir.org/publishedpapers/140529_PAPER.pdf",
+              "pages_inspected": 6,
+              "page_count": 12,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+            },
+            "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "metadata": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
+              "text_sha256": "da57fd88579510039c77e02bf0d3a45cfea1bece19747fc7ce786da7357629fc",
+              "url": "https://jatir.org/publishedpapers/140529_PAPER.pdf",
+              "pages_inspected": 6,
+              "page_count": 12,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
+              "title": "A study on internship scam victims among college students in Chennai",
+              "authors": "Mr Samsudeen R; Shaakira Banu Zakir Sheriff",
+              "year": 2026,
+              "doi": "10.64643/jatirv2i6-140529",
+              "date_precision": "publisher date distinct from printed month/year",
+              "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
+            },
+            "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
           "duplicates": {
             "status": "passed",
             "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+            "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
             "evidence": {
               "status": "passed",
               "matches": [],
@@ -64561,12 +65062,15 @@
               "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
               "upstream_count": 4041,
               "source_manifest_count": 7
-            }
+            },
+            "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "quality": {
             "status": "passed",
             "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+            "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
             "evidence": {
               "quality_score": 25.82,
               "quality_venue_score": 20,
@@ -64584,63 +65088,24 @@
               "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
               "quality_requires_review": true
             },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-          },
-          "format": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
-              "text_sha256": "da57fd88579510039c77e02bf0d3a45cfea1bece19747fc7ce786da7357629fc",
-              "url": "https://jatir.org/publishedpapers/140529_PAPER.pdf",
-              "pages_inspected": 6,
-              "page_count": 12,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
-            }
-          },
-          "access": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
-              "text_sha256": "da57fd88579510039c77e02bf0d3a45cfea1bece19747fc7ce786da7357629fc",
-              "url": "https://jatir.org/publishedpapers/140529_PAPER.pdf",
-              "pages_inspected": 6,
-              "page_count": 12,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
-            }
-          },
-          "metadata": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
-              "text_sha256": "da57fd88579510039c77e02bf0d3a45cfea1bece19747fc7ce786da7357629fc",
-              "url": "https://jatir.org/publishedpapers/140529_PAPER.pdf",
-              "pages_inspected": 6,
-              "page_count": 12,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
-              "title": "A study on internship scam victims among college students in Chennai",
-              "authors": "Mr Samsudeen R; Shaakira Banu Zakir Sheriff",
-              "year": 2026,
-              "doi": "10.64643/jatirv2i6-140529",
-              "date_precision": "publisher date distinct from printed month/year",
-              "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
-            }
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-10-27T23:05:43.163744+00:00",
-            "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
-            "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-            "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-            "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-11-05T13:48:13.546750+00:00",
+            "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
           }
         }
       },
@@ -64659,7 +65124,208 @@
           "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86"
         ]
       },
-      "verified_document_type": "research_paper"
+      "verified_document_type": "research_paper",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+          "superseded_at": "2026-11-05T13:48:13.546750+00:00",
+          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
+          "record": {
+            "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
+            "upstream_candidate_id": "43718",
+            "upstream_stable_identity": "10.64643/jatirv2i6-140529",
+            "source_row": 2156,
+            "review_number": 136,
+            "review_batch": 7,
+            "batch": 7,
+            "title": "A study on internship scam victims among college students in Chennai",
+            "authors": "Mr Samsudeen R; Shaakira Banu Zakir Sheriff",
+            "year": 2026,
+            "doi": "10.64643/jatirv2i6-140529",
+            "source_url": "https://doi.org/10.64643/jatirv2i6-140529",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "The rapid proliferation of digital platforms and social media has increased college students' exposure to internship scams, a form of cyber-enabled employment fraud involving financial loss, data theft, or unpaid labour. This study examines the prevalence and impact of internship scam victimization among college students in Chennai. Using a descriptive research design, primary data were collected from 130 students through a structured Google Forms questionnaire. Findings revealed a victimization rate of 87.7%, with 82.3% encountering suspicious offers and 66.9% experiencing financial loss. Social media emerged as the primary source of internship opportunities (80.0%) and the main channel for fraud. Easy selection processes (61.5%) and high stipend offer (50.8%) were identified as major attractions used by scammers. The study also found significant psychological and academic consequences, including stress, anxiety, reduced trust in future opportunities, and academic disruption highlighting the need for stronger institutional support, safer internship practices, and improved student awareness to reduce internship scam victimization.",
+            "abstract_source": "https://doi.org/10.64643/jatirv2i6-140529",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              "https://doi.org/10.64643/jatirv2i6-140529",
+              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "include",
+            "relevance": "direct",
+            "review_reason": "Surveys 130 Chennai students about internship-scam exposure, financial harm and the social-media channels and offer features involved.",
+            "metadata_issue": "Very high self-reported victimisation requires recruitment, question wording and denominator checks; not a population prevalence estimate for all students. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 25.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 25.82,
+            "quality_score": 25.82,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 35.29,
+            "is_preprint": false,
+            "venue": "",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "upstream_identifier_not_independently_verified",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "cybercrime research",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "0a4fb74259ae9995452015fa9e55aac672378a270f10bb2fa26734f9c549a707",
+            "assessed_text_sha256": "01360b538bceb66e5a655bb7cb411974d89277857cc5a781f32994aebbeb9e95",
+            "venue_score": 20,
+            "citation_score": 0,
+            "institution_score": 80,
+            "institution_bonus": 10,
+            "title_anchor_bonus": 0,
+            "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+              "checks": {
+                "duplicates": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+                  "evidence": {
+                    "status": "passed",
+                    "matches": [],
+                    "upstream_aliases": [],
+                    "exclusions": [],
+                    "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+                    "upstream_count": 4041,
+                    "source_manifest_count": 7
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+                  "evidence": {
+                    "quality_score": 25.82,
+                    "quality_venue_score": 20,
+                    "quality_citation_score": 0,
+                    "quality_relevance_score": 35.29,
+                    "quality_institution_score": 80,
+                    "quality_institution_bonus": 10,
+                    "quality_title_bonus": 0,
+                    "quality_auto_threshold": 35,
+                    "quality_review_threshold": 20,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
+                    "text_sha256": "da57fd88579510039c77e02bf0d3a45cfea1bece19747fc7ce786da7357629fc",
+                    "url": "https://jatir.org/publishedpapers/140529_PAPER.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 12,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+                  }
+                },
+                "access": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
+                    "text_sha256": "da57fd88579510039c77e02bf0d3a45cfea1bece19747fc7ce786da7357629fc",
+                    "url": "https://jatir.org/publishedpapers/140529_PAPER.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 12,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+                  }
+                },
+                "metadata": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
+                    "text_sha256": "da57fd88579510039c77e02bf0d3a45cfea1bece19747fc7ce786da7357629fc",
+                    "url": "https://jatir.org/publishedpapers/140529_PAPER.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 12,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
+                    "title": "A study on internship scam victims among college students in Chennai",
+                    "authors": "Mr Samsudeen R; Shaakira Banu Zakir Sheriff",
+                    "year": 2026,
+                    "doi": "10.64643/jatirv2i6-140529",
+                    "date_precision": "publisher date distinct from printed month/year",
+                    "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "source_processing_history": [
+              {}
+            ],
+            "source_processing": {
+              "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+              "retrieval_status": "retrieved",
+              "receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "reason": null,
+              "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+              "evidence_sha256": [
+                "d1381a1c9577d5232103260d30c7b53f92be7ba9c37d5b284cb1de0325e0c9cb",
+                "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86"
+              ]
+            },
+            "verified_document_type": "research_paper"
+          }
+        }
+      ],
+      "recommendation_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
     },
     {
       "candidate_id": "weekly-0ea84d001099ee3ab328c37d",

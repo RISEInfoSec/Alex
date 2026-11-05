@@ -1,113 +1,37 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T12:50:21.131210+00:00",
+  "observed_at": "2026-11-05T13:51:06.729964+00:00",
   "trigger": "schedule",
-  "native_run_id": "da45ceb2-82f4-832e-9025-098f80cb3919",
-  "local_candidates": 5,
+  "native_run_id": "48c3643c-4abc-832e-9705-a1fc0ebce17e",
+  "local_candidates": 3,
   "local_audits": 200,
-  "source_requests": 24,
-  "source_gate_passes": 9,
+  "source_requests": 0,
+  "source_gate_passes": 0,
   "downstream_gate_passes": 0,
   "six_gate_completions": 0,
   "newly_review_ready": 0,
   "publications": 0,
   "blockers": [
     {
-      "candidate_id": "weekly-4c965b0ec0c5b5cb9145ad85",
-      "stage": "source_access",
-      "reason": "Verified bot challenge HTML, not intended material; no bypass or gate pass.",
-      "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
-    },
-    {
-      "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
-      "stage": "verified_type_and_downstream",
-      "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
-      "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
-    },
-    {
-      "candidate_id": "weekly-52701703a3ce1a9eaef90f2c",
-      "stage": "source_access",
-      "reason": "ReadTimeout",
-      "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
-    },
-    {
-      "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
-      "stage": "verified_type_and_downstream",
-      "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
-      "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
-    },
-    {
-      "candidate_id": "weekly-580cbf65ba78205f3b91860e",
-      "stage": "verified_type_and_downstream",
-      "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
-      "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+      "candidate_ids": [
+        "weekly-5119ae5a98d80e9ef5d2544b",
+        "weekly-56fec07c6bb5ce26240c614e",
+        "weekly-580cbf65ba78205f3b91860e"
+      ],
+      "stage": "classification_and_serialization",
+      "reason": "Verified paper types normalized with current first-five gates. Local requests/jsonschema dependencies are unavailable to prepare the current-contract paid handoff; no paid request or provider call made.",
+      "corrective_action": "Use the supported paid handoff in a runtime with its declared dependencies; first inspect existing exact-hash requests/results. Reuse retained source material and normalized inputs."
     },
     {
       "stage": "publication_full_corpus_serialization",
-      "reason": "Main corpus/exclusions remain exact verified blobs056f6e/69ef4577; prior41945055902 failed exact full-corpus assessment binding. No unchanged release replayed.",
-      "corrective_action": "Repair and validate the existing controlled serializer while preserving assessment/content binding."
+      "reason": "Existing controlled release41945055902 failed full-corpus assessment/content binding; current main release script differs from retained local copy. No unchanged failed release replayed.",
+      "corrective_action": "Read and validate the current main controlled serializer and preserve exact assessment/content binding before retry."
     }
   ],
-  "scope_note": "Three matching papers verified; challenge and timeout remain distinct holds. No paid/registry calls or publication.",
-  "corrective_action": "Reuse retained matching sources, finish current type normalization and remaining downstream gates; preserve challenge/timeout holds.",
+  "scope_note": "Three retained-source paper types explicitly normalized. No new gate pass, provider request, admission or publication.",
+  "corrective_action": "Use the supported paid handoff in a runtime with its declared dependencies; first inspect existing exact-hash requests/results. Reuse retained source material and normalized inputs.",
   "processing_progress": {
     "runs": [
-      {
-        "run_id": "06e2604a-928c-832e-93d7-b3e1702c73ba",
-        "checkpoint_integrity": "failed",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "weekly-3ca57cf58ab7d8c4da4e219b",
-          "weekly-3edc6db58d7fb63369f1382a",
-          "weekly-3f202ca007a2c04f9672c7d9",
-          "weekly-45dd07b0aa7eb7dec470f1dd",
-          "weekly-4b38dda890565d1ac84397c0"
-        ],
-        "resolvable_gates": 4,
-        "legitimate_holds_only": false,
-        "source_requests": 22,
-        "source_gate_passes": 8,
-        "downstream_gate_passes": 0,
-        "review_ready": 0,
-        "six_gate_completions": 0,
-        "blockers": [
-          {
-            "candidate_id": "weekly-3ca57cf58ab7d8c4da4e219b",
-            "stage": "source_access",
-            "reason": "robots_unavailable_http_403",
-            "corrective_action": "Preserve access hold; no unchanged retry or bypass."
-          },
-          {
-            "candidate_id": "weekly-3edc6db58d7fb63369f1382a",
-            "stage": "metadata_and_type_versioning",
-            "reason": "Matching paper and DOI inspected. PDF published7October versus publisher10October/date-issued17October conflict; expanded author initials also require reconciliation.",
-            "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
-          },
-          {
-            "candidate_id": "weekly-3f202ca007a2c04f9672c7d9",
-            "stage": "metadata_and_type_versioning",
-            "reason": "Matching original written paper, Karishma R and DOI inspected. Publication verified at June2026 precision; exact metadata/type versioning and downstream classification remain.",
-            "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
-          },
-          {
-            "candidate_id": "weekly-45dd07b0aa7eb7dec470f1dd",
-            "stage": "metadata_and_type_versioning",
-            "reason": "Matching written paper/DOI inspected. PDF has Nicholas Muriuki Muriithi, Ephantus Mwangi and Kennedy Malanga; discovery lists Nicholas Muriuki only. Reconcile full author list and publication version.",
-            "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
-          },
-          {
-            "candidate_id": "weekly-4b38dda890565d1ac84397c0",
-            "stage": "metadata_and_type_versioning",
-            "reason": "Matching Ukrainian research paper, DOI and ORCIDs inspected. Publisher visible and PDF publication1June2026 differ from HTML citation meta18May; reconcile authoritative date and author transliteration before downstream classification.",
-            "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
-          },
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Current main6899fc7f unchanged; existing release41945055902 failed exact assessment/content binding. Complete66-submission signature unchanged.",
-            "corrective_action": "Repair exact full-corpus serialization preserving assessment binding before retry."
-          }
-        ]
-      },
       {
         "run_id": "151949cc-5180-832e-856e-7f03240012d6",
         "checkpoint_integrity": "reported_passed",
@@ -197,6 +121,40 @@
             "stage": "publication_full_corpus_serialization",
             "reason": "Main corpus/exclusions remain exact verified blobs056f6e/69ef4577; prior41945055902 failed exact full-corpus assessment binding. No unchanged release replayed.",
             "corrective_action": "Repair and validate the existing controlled serializer while preserving assessment/content binding."
+          }
+        ]
+      },
+      {
+        "run_id": "48c3643c-4abc-832e-9705-a1fc0ebce17e",
+        "checkpoint_integrity": "reported_passed",
+        "local_candidates": 3,
+        "candidate_ids": [
+          "weekly-5119ae5a98d80e9ef5d2544b",
+          "weekly-56fec07c6bb5ce26240c614e",
+          "weekly-580cbf65ba78205f3b91860e"
+        ],
+        "resolvable_gates": 3,
+        "legitimate_holds_only": false,
+        "source_requests": 0,
+        "source_gate_passes": 0,
+        "downstream_gate_passes": 0,
+        "review_ready": 0,
+        "six_gate_completions": 0,
+        "blockers": [
+          {
+            "candidate_ids": [
+              "weekly-5119ae5a98d80e9ef5d2544b",
+              "weekly-56fec07c6bb5ce26240c614e",
+              "weekly-580cbf65ba78205f3b91860e"
+            ],
+            "stage": "classification_and_serialization",
+            "reason": "Verified paper types normalized with current first-five gates. Local requests/jsonschema dependencies are unavailable to prepare the current-contract paid handoff; no paid request or provider call made.",
+            "corrective_action": "Use the supported paid handoff in a runtime with its declared dependencies; first inspect existing exact-hash requests/results. Reuse retained source material and normalized inputs."
+          },
+          {
+            "stage": "publication_full_corpus_serialization",
+            "reason": "Existing controlled release41945055902 failed full-corpus assessment/content binding; current main release script differs from retained local copy. No unchanged failed release replayed.",
+            "corrective_action": "Read and validate the current main controlled serializer and preserve exact assessment/content binding before retry."
           }
         ]
       }
