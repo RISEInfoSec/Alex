@@ -1,23 +1,18 @@
 {
   "schema_version": 1,
   "phase": "idle",
-  "ready_total": 1,
+  "ready_total": 2,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "Preparation overhead prevented candidate execution; actual heartbeat gaps exceed60seconds. Pass is not promotion eligible.",
-  "lease": {
-    "run_id": "4be13912-2f88-8332-8d0d-04893f4b6cf5",
-    "owner": "4be13912-2f88-8332-8d0d-04893f4b6cf5",
-    "acquired_at": "2026-11-05T06:45:25.888Z",
-    "expires_at": "2026-11-05T06:56:25.291Z"
-  },
+  "last_error": "Actual heartbeat gaps prevent promotion; publication serializer and separate metadata conflicts remain.",
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
-    "weekly": 1,
+    "weekly": 2,
     "virusbulletin": 0,
     "apwg": 0,
     "first": 0,
@@ -35,10 +30,9 @@
     "soups": 88,
     "weekly": 94
   },
-  "global_deficit": 249,
+  "global_deficit": 248,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-05T05:51:06.500688+00:00",
-  "last_action": "Audited200 lifecycle records;385 identities preserved. No candidate attempts, provider requests, new ready candidates or publications.",
+  "last_action": "Retained paper passed metadata/classification/serialization; Weekly batch29 sealed with one cleared Discuss candidate. One paid request718tokens; no source requests or publication.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
