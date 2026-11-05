@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T18:54:12.472733+00:00",
+  "observed_at": "2026-11-05T19:07:56.442625+00:00",
   "trigger": "owner_maintenance",
   "native_run_id": null,
   "local_candidates": 2,
@@ -16,14 +16,15 @@
   "blockers": [
     {
       "stage": "weekly_discovery",
-      "reason": "Fresh current-main run42083423973 still running; awaiting canonical terminal receipt."
+      "reason": "Native run42083423973 completed partial:243 HTTP200 requests,40 completed tasks,3412 new candidates. Nine searches and1011 DOI abstract lookups remain under the20-call diagnostic cap.",
+      "corrective_action": "Await owner decision on tested PR118; production retains original pacing."
     },
     {
       "stage": "scheduled_recovery",
-      "reason": "Existing worker and monitor intentionally paused under owner maintenance; future qualifying runs not yet observed."
+      "reason": "Owner-requested hourly pause and retained maintenance lease remain active; two later qualifying scheduled runs not yet observed."
     }
   ],
-  "scope_note": "Owner recovery: two six-gate completions and manual admissions; seven read-only source requests; zero additional paid calls; five source-verified Book records held from paper-only publication and live output verified. Native weekly run still running; no scheduled-recovery claim.",
+  "scope_note": "Live classification and metadata-routing repairs verified. Weekly transport/provider availability verified; full discovery remains budget-deferred. Maintenance does not establish unattended recovery.",
   "corrective_action": "Finish publication/live verification, then release lease and restore both original hourly automations; verify later actual scheduled runs.",
   "processing_progress": {
     "runs": [

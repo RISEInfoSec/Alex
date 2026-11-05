@@ -1,0 +1,2653 @@
+{
+  "schema_version": 1,
+  "independently_verified": true,
+  "native_run": {
+    "id": 42083423973,
+    "head_sha": "4f09d578a3ebe6227c0d96a745731adf3eaabe16",
+    "head_branch": "main",
+    "path": ".github/workflows/pipeline.yml",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "html_url": "https://github.com/RISEInfoSec/Alex/actions/runs/42083423973",
+    "created_at": "2026-11-05T18:21:22Z",
+    "updated_at": "2026-11-05T18:57:29Z"
+  },
+  "pipeline_state_commit": "7c99e908c9e365b926d586119da7f8ec05967079",
+  "discovery_receipt": {
+    "schema_version": 1,
+    "status": "partial",
+    "window": {
+      "from_date": "2026-10-29",
+      "until_date": "2026-11-05"
+    },
+    "completed_at": "2026-11-05T18:56:46.178821+00:00",
+    "elapsed_seconds": 2086.794,
+    "completed_tasks": 40,
+    "replayed_tasks": 0,
+    "deferred_tasks": {
+      "OpenAlex:threat intelligence collection": "openalex_request_budget",
+      "OpenAlex:dark web intelligence": "openalex_request_budget",
+      "OpenAlex:OSINT research": "openalex_request_budget",
+      "OpenAlex:open source investigation": "openalex_request_budget",
+      "OpenAlex:cybersecurity": "openalex_request_budget",
+      "OpenAlex:cybercrime research": "openalex_request_budget",
+      "OpenAlex:cybercrime": "openalex_request_budget",
+      "OpenAlex:APT": "openalex_request_budget",
+      "OpenAlex:advanced persistent threats": "openalex_request_budget",
+      "OpenAlex:abstract_enrichment:09e9fb0a722a0fce94d0979dfe41a119d565a2cd60fafba2610334232aca1369": "openalex_request_budget"
+    },
+    "new_candidates": 3412,
+    "actual_request_count": 243,
+    "openalex_request_count": 20,
+    "checkpoint_cache_hits": 0,
+    "requests": [
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:00.425115+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.625,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:00.425564+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.403,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793902981.0,
+          "retry_after_seconds": 59.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:00.426071+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.284,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793902980.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:22:00.429405+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.619,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9990.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 20279.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:01.638788+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.806,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:02.395898+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.905,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 28.0,
+          "X-RateLimit-Reset": 1793902981.0,
+          "retry_after_seconds": 58.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:03.161842+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.987,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:03.895968+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.58,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 27.0,
+          "X-RateLimit-Reset": 1793902981.0,
+          "retry_after_seconds": 56.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:04.764176+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.199,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:05.111508+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.257,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793902981.0,
+          "retry_after_seconds": 55.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:05.643404+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.299,
+        "quota": {}
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:06.612851+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.187,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:07.116885+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.654,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793902981.0,
+          "retry_after_seconds": 53.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:07.655063+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.306,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:08.710695+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.739,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793902981.0,
+          "retry_after_seconds": 51.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:08.887108+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.327,
+        "quota": {}
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:09.956500+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.419,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:10.190754+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.974,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 23.0,
+          "X-RateLimit-Reset": 1793902981.0,
+          "retry_after_seconds": 50.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:11.488031+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.2,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:12.036888+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.604,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 22.0,
+          "X-RateLimit-Reset": 1793902981.0,
+          "retry_after_seconds": 47.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:14.574607+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.786,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 21.0,
+          "X-RateLimit-Reset": 1793902981.0,
+          "retry_after_seconds": 46.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:22:16.273735+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.692,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 20.0,
+          "X-RateLimit-Reset": 1793902981.0,
+          "retry_after_seconds": 44.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:23:00.427237+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.747,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9980.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 20220.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:24:00.427328+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.107,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9970.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 20159.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:25:00.427455+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.372,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9960.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 20099.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:26:00.427662+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.031,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9950.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 20039.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:27:00.427708+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.674,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9940.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19980.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:28:00.427850+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.231,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9930.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19919.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:29:00.427970+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.221,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9920.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19859.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:30:00.428010+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.985,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9910.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19798.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:31:00.428268+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.146,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9900.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19739.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:04.459946+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.573,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:04.461018+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 2.437,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793903526.0,
+          "retry_after_seconds": 59.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:04.464103+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.242,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793903524.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:06.886230+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.249,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:08.563030+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.95,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 28.0,
+          "X-RateLimit-Reset": 1793903526.0,
+          "retry_after_seconds": 56.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:09.082633+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.667,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:11.212652+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.915,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 27.0,
+          "X-RateLimit-Reset": 1793903526.0,
+          "retry_after_seconds": 54.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:11.696555+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.189,
+        "quota": {}
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:13.705885+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.231,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:14.955990+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.77,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793903526.0,
+          "retry_after_seconds": 49.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:15.757536+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.215,
+        "quota": {}
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:18.031700+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.262,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:19.400478+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.519,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793903526.0,
+          "retry_after_seconds": 45.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:20.229875+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.386,
+        "quota": {}
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:22.780956+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.673,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:24.393240+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.062,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793903526.0,
+          "retry_after_seconds": 40.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:25.221615+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.095,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:27.651540+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.744,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 23.0,
+          "X-RateLimit-Reset": 1793903526.0,
+          "retry_after_seconds": 36.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:31.340923+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.837,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 22.0,
+          "X-RateLimit-Reset": 1793903526.0,
+          "retry_after_seconds": 34.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:34.155149+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.579,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 21.0,
+          "X-RateLimit-Reset": 1793903526.0,
+          "retry_after_seconds": 30.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:31:37.788975+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.581,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 20.0,
+          "X-RateLimit-Reset": 1793903526.0,
+          "retry_after_seconds": 27.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:32:00.428308+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.124,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9890.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19679.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:05.880408+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.66,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:05.881704+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.334,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 20.0,
+          "X-RateLimit-Reset": 1793903529.0,
+          "retry_after_seconds": 2.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:05.882837+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.259,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793903585.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:10.592684+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.444,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:12.544519+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.355,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 21.0,
+          "X-RateLimit-Reset": 1793903536.0,
+          "retry_after_seconds": 2.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:26.658686+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.355,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:27.664554+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.711,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793903552.0,
+          "retry_after_seconds": 4.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:30.856795+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.476,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:33.023559+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.581,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793903555.0,
+          "retry_after_seconds": 0.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:34.051491+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 2.304,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:38.125842+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.686,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793903586.0,
+          "retry_after_seconds": 26.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:39.062983+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.372,
+        "quota": {}
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:42.515653+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.882,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:44.905959+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.884,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793903586.0,
+          "retry_after_seconds": 20.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:47.387015+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.402,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:49.567605+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.764,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 23.0,
+          "X-RateLimit-Reset": 1793903586.0,
+          "retry_after_seconds": 15.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:50.591338+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.33,
+        "quota": {}
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:54.229241+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.188,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:32:56.483271+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.911,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 22.0,
+          "X-RateLimit-Reset": 1793903586.0,
+          "retry_after_seconds": 9.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:33:00.736487+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.982,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9880.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19619.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:00.736661+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.435,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 21.0,
+          "X-RateLimit-Reset": 1793903586.0,
+          "retry_after_seconds": 4.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:07.085906+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.814,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 21.0,
+          "X-RateLimit-Reset": 1793903593.0,
+          "retry_after_seconds": 5.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:12.887773+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.782,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:12.889058+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.78,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 21.0,
+          "X-RateLimit-Reset": 1793903608.0,
+          "retry_after_seconds": 14.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:12.890134+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.285,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793903652.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:19.304139+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.324,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 20.0,
+          "X-RateLimit-Reset": 1793903608.0,
+          "retry_after_seconds": 7.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:20.460382+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.67,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:24.662468+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.098,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 19.0,
+          "X-RateLimit-Reset": 1793903608.0,
+          "retry_after_seconds": 2.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:27.429281+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.185,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:29.843787+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.433,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 19.0,
+          "X-RateLimit-Reset": 1793903614.0,
+          "retry_after_seconds": 2.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:30.958879+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.829,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:35.092802+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.02,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 19.0,
+          "X-RateLimit-Reset": 1793903619.0,
+          "retry_after_seconds": 3.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:37.963957+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.172,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:40.669121+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.503,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 19.0,
+          "X-RateLimit-Reset": 1793903625.0,
+          "retry_after_seconds": 3.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:41.864147+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.932,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:46.114173+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.031,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 19.0,
+          "X-RateLimit-Reset": 1793903630.0,
+          "retry_after_seconds": 3.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:49.061523+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.491,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:51.992510+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.234,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 19.0,
+          "X-RateLimit-Reset": 1793903637.0,
+          "retry_after_seconds": 3.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:55.301309+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.233,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:33:57.900882+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.031,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 19.0,
+          "X-RateLimit-Reset": 1793903641.0,
+          "retry_after_seconds": 2.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:34:00.478974+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.354,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9870.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19559.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:34:01.098378+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.203,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:34:04.323220+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.359,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 19.0,
+          "X-RateLimit-Reset": 1793903648.0,
+          "retry_after_seconds": 2.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:34:06.825978+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.466,
+        "quota": {}
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:35:00.463802+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.202,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9860.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19499.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:36:00.463879+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.176,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9850.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19439.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:37:00.464054+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.918,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9840.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19379.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:38:00.464187+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 2.193,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9830.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19318.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:39:00.464278+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.902,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9820.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19259.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:40:00.464393+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.671,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9810.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19199.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "search",
+        "started_at": "2026-11-05T18:41:00.464547+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.506,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 9800.0,
+          "X-RateLimit-Credits-Used": 10.0,
+          "X-RateLimit-Reset": 19139.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:20.840947+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.048,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:20.841216+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.075,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793904142.0,
+          "retry_after_seconds": 60.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:20.842786+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.388,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793904141.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:29.982596+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.211,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:33.182870+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.194,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 28.0,
+          "X-RateLimit-Reset": 1793904142.0,
+          "retry_after_seconds": 48.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:37.087500+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.236,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:40.401498+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.574,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 27.0,
+          "X-RateLimit-Reset": 1793904142.0,
+          "retry_after_seconds": 40.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:41.848907+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.783,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:47.306641+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 2.343,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793904142.0,
+          "retry_after_seconds": 33.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:48.776530+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.166,
+        "quota": {}
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:54.387737+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.164,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:41:57.712908+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.212,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904142.0,
+          "retry_after_seconds": 23.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:01.514517+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.22,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:05.273274+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.214,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904142.0,
+          "retry_after_seconds": 16.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:09.121818+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.26,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:12.560634+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.181,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 23.0,
+          "X-RateLimit-Reset": 1793904142.0,
+          "retry_after_seconds": 8.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:16.592304+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.193,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:20.012063+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.223,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 22.0,
+          "X-RateLimit-Reset": 1793904142.0,
+          "retry_after_seconds": 1.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:23.980788+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.322,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:27.652419+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 2.171,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 22.0,
+          "X-RateLimit-Reset": 1793904154.0,
+          "retry_after_seconds": 4.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:34.071877+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.045,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 22.0,
+          "X-RateLimit-Reset": 1793904161.0,
+          "retry_after_seconds": 6.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:42.163787+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.166,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:42.164805+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.93,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 22.0,
+          "X-RateLimit-Reset": 1793904168.0,
+          "retry_after_seconds": 5.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:42.166011+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.841,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793904222.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:52.568520+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.212,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:42:56.285749+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.299,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 22.0,
+          "X-RateLimit-Reset": 1793904178.0,
+          "retry_after_seconds": 1.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:00.498969+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.21,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:04.178094+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.412,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 23.0,
+          "X-RateLimit-Reset": 1793904193.0,
+          "retry_after_seconds": 7.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:08.390642+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.144,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:12.133677+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.749,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 23.0,
+          "X-RateLimit-Reset": 1793904201.0,
+          "retry_after_seconds": 7.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:13.708077+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.981,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:35.557728+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.603,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904223.0,
+          "retry_after_seconds": 6.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:35.557841+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.167,
+        "quota": {}
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:41.982210+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.198,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:45.823829+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.325,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904237.0,
+          "retry_after_seconds": 10.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:50.189383+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.145,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:53.932468+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.325,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904237.0,
+          "retry_after_seconds": 2.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:43:58.425817+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.298,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:02.448209+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.388,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904245.0,
+          "retry_after_seconds": 2.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:06.934029+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.199,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:10.886347+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.362,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904253.0,
+          "retry_after_seconds": 1.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:18.257651+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 2.022,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904276.0,
+          "retry_after_seconds": 16.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:28.376215+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.17,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:28.376499+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.061,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 23.0,
+          "X-RateLimit-Reset": 1793904276.0,
+          "retry_after_seconds": 7.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:28.378387+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.964,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793904328.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:39.896084+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.189,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:44.254828+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.415,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 23.0,
+          "X-RateLimit-Reset": 1793904286.0,
+          "retry_after_seconds": 1.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:49.181796+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.202,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:53.550385+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.451,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 23.0,
+          "X-RateLimit-Reset": 1793904295.0,
+          "retry_after_seconds": 1.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:44:58.728531+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.2,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:45:03.137840+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.425,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904311.0,
+          "retry_after_seconds": 7.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:45:08.079509+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.351,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:45:12.643985+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.667,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904319.0,
+          "retry_after_seconds": 5.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:45:17.648679+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.201,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:45:22.014783+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.667,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904329.0,
+          "retry_after_seconds": 5.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:45:27.019913+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 2.147,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:45:28.802839+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.891,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904345.0,
+          "retry_after_seconds": 14.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:45:52.548593+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.243,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:45:52.548706+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.14,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904354.0,
+          "retry_after_seconds": 1.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:46:00.017049+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.27,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:46:04.680311+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.412,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904373.0,
+          "retry_after_seconds": 7.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:46:09.828829+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.676,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:46:15.050313+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 2.728,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904383.0,
+          "retry_after_seconds": 6.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:46:27.164270+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.209,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:46:27.164562+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 2.645,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904389.0,
+          "retry_after_seconds": 0.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:46:27.166624+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.111,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793904447.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:46:40.185967+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.508,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:46:45.609540+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.525,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904413.0,
+          "retry_after_seconds": 7.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:46:50.915102+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.162,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:46:55.574554+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.575,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904425.0,
+          "retry_after_seconds": 9.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:47:00.913842+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.239,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:47:05.668407+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.562,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904436.0,
+          "retry_after_seconds": 9.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:47:10.940743+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.124,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:47:15.755868+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.523,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904448.0,
+          "retry_after_seconds": 11.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:47:24.373490+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.923,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904448.0,
+          "retry_after_seconds": 2.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:47:30.753465+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.212,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904466.0,
+          "retry_after_seconds": 14.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:47:37.693221+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.543,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 23.0,
+          "X-RateLimit-Reset": 1793904466.0,
+          "retry_after_seconds": 7.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:47:43.935596+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.669,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 22.0,
+          "X-RateLimit-Reset": 1793904466.0,
+          "retry_after_seconds": 1.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:47:50.183500+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.659,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 22.0,
+          "X-RateLimit-Reset": 1793904476.0,
+          "retry_after_seconds": 5.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:48:17.881188+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.482,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:48:17.881457+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.482,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904505.0,
+          "retry_after_seconds": 5.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:48:17.884189+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.373,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793904558.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:48:32.147320+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.589,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904518.0,
+          "retry_after_seconds": 5.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:48:39.614008+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.119,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:48:44.758607+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.598,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793904531.0,
+          "retry_after_seconds": 4.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:48:50.618874+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.218,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:48:55.708471+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.606,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793904558.0,
+          "retry_after_seconds": 21.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:49:01.414112+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.357,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:49:06.600858+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.568,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904558.0,
+          "retry_after_seconds": 10.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:49:12.316542+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.153,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:49:18.002358+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.624,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 25.0,
+          "X-RateLimit-Reset": 1793904573.0,
+          "retry_after_seconds": 14.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:49:24.947007+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.332,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:49:30.195981+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.576,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904573.0,
+          "retry_after_seconds": 1.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:49:36.444615+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.216,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:49:41.686921+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.625,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904585.0,
+          "retry_after_seconds": 1.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:49:48.112517+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.118,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:49:53.230846+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.628,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904596.0,
+          "retry_after_seconds": 1.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:49:59.064892+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.26,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:50:04.365515+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.598,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 24.0,
+          "X-RateLimit-Reset": 1793904607.0,
+          "retry_after_seconds": 2.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:50:10.454199+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.32,
+        "quota": {}
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:50:39.691290+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.153,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:50:39.692439+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.541,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793904642.0,
+          "retry_after_seconds": 1.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:50:39.693501+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.216,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 29.0,
+          "X-RateLimit-Reset": 1793904699.0
+        }
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:50:58.281038+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.495,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 27.0,
+          "X-RateLimit-Reset": 1793904665.0,
+          "retry_after_seconds": 6.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:51:10.010855+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.265,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:51:10.012056+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.485,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 27.0,
+          "X-RateLimit-Reset": 1793904700.0,
+          "retry_after_seconds": 29.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:51:10.012744+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.354,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 28.0,
+          "X-RateLimit-Reset": 1793904699.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:51:33.739033+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.196,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:51:33.739230+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.37,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793904700.0,
+          "retry_after_seconds": 5.0
+        }
+      },
+      {
+        "host": "api.github.com",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:51:33.741061+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.238,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 27.0,
+          "X-RateLimit-Reset": 1793904699.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:51:49.274920+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.15,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:51:54.749416+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.706,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793904719.0,
+          "retry_after_seconds": 3.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:52:01.751125+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.675,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:52:08.997903+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.728,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 27.0,
+          "X-RateLimit-Reset": 1793904754.0,
+          "retry_after_seconds": 23.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:52:15.770609+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.122,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:52:21.569791+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.714,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793904754.0,
+          "retry_after_seconds": 11.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:52:28.045447+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.294,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:52:33.839367+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.751,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793904775.0,
+          "retry_after_seconds": 20.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:52:59.776171+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.24,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:53:05.476568+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.713,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793904790.0,
+          "retry_after_seconds": 4.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:53:11.889538+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.271,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:53:17.674851+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.721,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793904802.0,
+          "retry_after_seconds": 3.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:53:24.017874+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.259,
+        "quota": {}
+      },
+      {
+        "host": "zenodo.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:53:29.659256+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 1.739,
+        "quota": {
+          "X-RateLimit-Limit": 30.0,
+          "X-RateLimit-Remaining": 26.0,
+          "X-RateLimit-Reset": 1793904814.0,
+          "retry_after_seconds": 4.0
+        }
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:53:36.129762+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.323,
+        "quota": {}
+      },
+      {
+        "host": "api.crossref.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:53:45.426131+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.222,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:53:56.695166+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.647,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:54:07.078275+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.353,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:54:17.059578+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.534,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:54:27.325686+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.543,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:54:37.676177+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.75,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:54:48.331446+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.769,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:55:18.505024+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.509,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:55:28.701830+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.599,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:55:39.608615+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.335,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:55:49.834952+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.589,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:56:00.329426+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.275,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:56:10.625368+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.425,
+        "quota": {}
+      },
+      {
+        "host": "export.arxiv.org",
+        "endpoint_type": "list_filter",
+        "started_at": "2026-11-05T18:56:22.412945+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.312,
+        "quota": {}
+      }
+    ],
+    "budgets": {
+      "runtime_seconds": 2700.0,
+      "max_requests": 300,
+      "openalex_max_requests": 20
+    }
+  },
+  "job_log_confirmed_state_commit": true,
+  "downstream_jobs_skipped": true,
+  "interpretation": "243 actual requests all HTTP200. All ten deferred tasks are OpenAlex budget holds. Discovery saved3412 new candidates and40 completed tasks. This is partial coverage, not an end-to-end completed pipeline."
+}

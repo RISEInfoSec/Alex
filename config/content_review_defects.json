@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T18:54:12.472733+00:00",
+  "observed_at": "2026-11-05T19:01:39.097109+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -205,7 +205,7 @@
         "general_weekly_discovery",
         "scheduled_pipeline"
       ],
-      "status": "retry_repaired_native_child_running",
+      "status": "retry_guard_repaired_connectivity_verified_coverage_budget_deferred",
       "evidence": [
         "https://github.com/RISEInfoSec/Alex/actions/runs/36439756777",
         "https://github.com/RISEInfoSec/Alex/actions/runs/41979421841",
@@ -216,10 +216,10 @@
         "https://github.com/RISEInfoSec/Alex/actions/runs/42083423973"
       ],
       "cause": "Cancellation of a stale jobless record was wrongly required before dispatch, despite a successful nine-job same-commit replacement and later weekly successes.",
-      "next_action": "Preserve historical record and exact native supersession proof; inspect current-main child 42083423973 and its final discovery receipt. Do not claim completion while running.",
+      "next_action": "Retain historical orphan and successful replacement proof. Child42083423973 saved3412 candidates,40 completed tasks and243 HTTP200 requests; ten OpenAlex tasks remain under the20-call ceiling. Resume the saved window only through an authorized invocation and unchanged provider policy; do not report full weekly recovery.",
       "verification_criteria": "Orphan terminal or authoritatively reconciled; one intended current-main pipeline completes discovery through publication/report with canonical receipts and useful processing.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T18:38:16.568874+00:00",
+      "updated_at": "2026-11-05T19:01:39.097109+00:00",
       "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
       "history": [
         {

@@ -3,7 +3,7 @@
   "run_id": "maintenance-recovery-2026-11-05T18-08-44Z",
   "trigger": "owner_maintenance",
   "started_at": "2026-11-05T18:08:44Z",
-  "observed_at": "2026-11-05T18:54:12.472733+00:00",
+  "observed_at": "2026-11-05T19:10:04.917331+00:00",
   "status": "in_progress",
   "completed_at": null,
   "receipt_path": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
@@ -64,7 +64,7 @@
     "launcher_conclusion": "success",
     "dispatch_attempts": 1,
     "child_run": 42083423973,
-    "child_status": "in_progress",
+    "child_status": "completed",
     "historical_run_retained": 36439756777,
     "successful_same_sha_replacement": 36443867559,
     "proof": {
@@ -1465,7 +1465,17 @@
       },
       "provider_pacing_and_caps_unchanged": true,
       "scope": "Immutable in-progress checkpoint; not a terminal run receipt or proof of completed discovery."
-    }
+    },
+    "child_conclusion": "failure",
+    "discovery_status": "partial",
+    "actual_requests": 243,
+    "all_requests_http200": true,
+    "new_candidates": 3412,
+    "completed_tasks": 40,
+    "remaining_task_count": 10,
+    "remaining_reason": "openalex_request_budget",
+    "canonical_receipt": "config/content_review_weekly_recovery/42083423973.json",
+    "source_state_commit": "7c99e908c9e365b926d586119da7f8ec05967079"
   },
   "validation": {
     "main_tests_passed": 581,
@@ -1479,7 +1489,34 @@
   "schedules": {
     "paused": true,
     "restore_required": true,
-    "original_ids_and_schedules_preserved": true
+    "original_ids_and_schedules_preserved": true,
+    "reason": "Owner approved bounded recovery continuation; retain shared lease and hourly pause during work."
   },
-  "scheduled_recovery_verified": false
+  "scheduled_recovery_verified": false,
+  "self_repair_instructions_pr": "https://github.com/RISEInfoSec/Alex/pull/117",
+  "remaining_work": {
+    "window_candidates": 3412,
+    "deduplicated_doi_abstract_lookups_remaining": 1011
+  },
+  "approval_required": {
+    "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
+    "reason": "Earlier explicit owner slow-query instruction is recorded in config/openalex_request_policy.json; a faster policy is not assumed authorized.",
+    "current_policy": {
+      "min_interval_seconds": 60,
+      "openalex_max_requests_per_pass": 20
+    },
+    "proposed_policy": {
+      "min_interval_seconds": 1,
+      "openalex_max_requests_per_pass": 250,
+      "max_total_requests_per_pass": 300,
+      "runtime_seconds": 2700,
+      "request_timeout_seconds": 20,
+      "automatic_openalex_retries": 0
+    },
+    "proposal_tests_passed": 581,
+    "production_policy_changed": false,
+    "status": "approved",
+    "approved_at": "2026-11-05T19:10:04.917331+00:00",
+    "owner_reply": "Approve bounded recovery pace (recommended)"
+  }
 }

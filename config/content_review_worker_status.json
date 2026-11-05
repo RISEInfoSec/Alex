@@ -7,7 +7,7 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "Fresh weekly discovery42083423973 still running under conservative request/runtime caps; later qualifying hourly recovery not yet verified. Classification holds and five metadata routing anomalies repaired.",
+  "last_error": "Initial weekly retry partial under former diagnostic cap. Owner approved PR118 bounded recovery pace; resume saved window and verify each terminal receipt.",
   "lease": {
     "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
     "run_id": "maintenance-recovery-2026-11-05T18-08-44Z",
@@ -810,12 +810,13 @@
   "last_completed_at": "2026-11-05T14:47:27.564870+00:00",
   "maintenance_activity": {
     "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
-    "stage": "live_repairs_verified_observing_weekly_discovery",
+    "stage": "owner_approved_bounded_recovery_continuation",
     "started_at": "2026-11-05T18:08:44Z",
-    "updated_at": "2026-11-05T18:54:12.472733+00:00",
+    "updated_at": "2026-11-05T19:10:04.917331+00:00",
     "candidate_processing": true,
     "restore_automations_on_completion": true,
-    "restoration_pending": true
+    "restoration_pending": true,
+    "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118"
   },
   "derived_queue_summary": {
     "sources": {
