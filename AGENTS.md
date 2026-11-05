@@ -48,3 +48,15 @@ Each stage has a `<stage>.yml` workflow with `workflow_dispatch` only. None auto
 - Respect config/corpus_exclusions.json during intake, classification and publication. It contains content-bound human rejections/removals; do not restore these entries through a fresh discovery or rescore. DOI and source identities are strong; title fallback is scoped by recorded year to preserve distinct, valid versions.
 - config/editorial_relevance_feedback.json preserves both keep and remove labels. Consult those examples during substantive relevance assessment; audit recommendations are not user-supplied reasons. Do not infer provider bans or change global score thresholds from this release.
 - Corpus-audit keeps retain existing publications and never authorize duplicate imports. A reversal of an exclusion requires a new explicit human decision and receipt.
+
+## Standing responsibility for recovery
+
+The owner authorizes routine reversible repairs to ALEX tools and processes. On an error, identify the actual cause, make the bounded repair within existing authority, rerun the failing check, verify the intended downstream effect, and continue retained work. Do not stop at the first command failure, repeat unchanged failed actions, or ask again for the same already-authorized repair. Report remaining restrictions precisely.
+
+Preserve source/paid artifacts and inspect independently verified matching results before sending more provider requests. Install declared dependencies in a workspace-local environment when missing; use the same interpreter and verify imports. Refresh expired credentials only through supported credential tools. An auth, quota, robots or permission denial remains binding. An ambiguous write/paid outcome requires reconciliation before retry. Never fabricate missing evidence, relax quality rules or change editorial decisions to obtain a green result.
+
+Repository conflicts require rereading and reconciling the current head; never force over another writer. After fetching multiple refs, use an explicit branch or verified commit, not ambiguous FETCH_HEAD. Review-branch checkpoints require the bounded transport and exact blob/tree verification in docs/content_review_checkpoint_transport.md on codex/soups-corpus-review. The detailed worker recovery contract is docs/content_review_proactive_maintenance.md on that same branch.
+
+A successful dispatch, test, maintenance run or zero-work scheduled pass does not establish unattended recovery. Distinguish implemented, tested, live-verified and scheduled-verified results. Keep immutable historical failure evidence and record the concrete repair and verification. Honor temporary owner pauses, retain/renew the shared maintenance lease during work, and release it before restoring the existing hourly schedules upon completion.
+
+Technical metadata holds in config/corpus_metadata_holds.json are separate from editorial exclusions. Preserve the accepted source rows and original type evidence. Do not automatically release a held book by changing its title or presenting it as a paper; supported-type/content reassessment is required.
