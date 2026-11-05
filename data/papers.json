@@ -115851,5 +115851,95 @@
     "seminal": false,
     "quality_tier": "Exploratory",
     "retrieved": ""
+  },
+  {
+    "id": 3191,
+    "title": "The Human Vulnerabilities & Exploits (HVE) Framework",
+    "author": "Avichai Ben; Tom Rahav; Daniel Illaev; Aviv Nahon; Avi Grushka",
+    "year": 2026.0,
+    "apwg_year": "",
+    "publication_year_source": "",
+    "venue": "arXiv (Cornell University)",
+    "summary": "The cybersecurity community has invested over two decades in building standardized frameworks, the Common Vulnerabilities and Exposures (CVE) system, the Common Vulnerability Scoring System (CVSS), and the Common Weakness Enumeration (CWE) to identify, classify, and remediate threats to digital infrastructure. However, an emerging body of research reveals that a vast majority of successful cyberattacks exploit not software flaws, but human behavioral and psychological vulnerabilities. Social engineering, fraud, and scam attacks, which manipulate human cognition, emotion, and trust, do not have an equivalent standardized framework. Meanwhile, behavioral science and psychology research has established robust theoretical foundations, such as dual-process theory, prospect theory, social influence frameworks, and visceral state models, which explain precisely why and how these attacks succeed. This paper introduces the Human Vulnerabilities & Exploits (HVE) Framework, a structured approach for identifying, classifying, and mitigating the behavioral and psychological vulnerabilities exploited in scams, social engineering, and other human-centric fraud and attacks, analogous in concept to how CVE helps classify software vulnerabilities: it provides a shared, machine-readable taxonomy with structured identifiers, multi-dimensional severity scoring via the Human Vulnerability Severity Score (HVSS), and actionable remediation guidance through Human Vulnerability Patches (HVPs). This introduction synthesizes the relevant literature across cybersecurity standardization, behavioral science, and fraud defense to establish the theoretical and practical foundations for the HVE framework, whose architecture and technical specifications are detailed in subsequent sections.",
+    "keywords": [],
+    "osint_source": [],
+    "category": "Vulnerability Research",
+    "collection_source": "ALEX regular weekly discovery review queue",
+    "collection_url": "https://github.com/RISEInfoSec/Alex",
+    "apwg_source_url": "",
+    "investigation_type": "Other",
+    "tags": [],
+    "link": "https://arxiv.org/abs/2606.10083",
+    "source_url": "https://arxiv.org/abs/2606.10083",
+    "doi": "",
+    "seminal": false,
+    "quality_tier": "Exploratory",
+    "retrieved": ""
+  },
+  {
+    "id": 3192,
+    "title": "M3AAWG Best Practices for Sending Legally Mandated Emails to Large Audiences",
+    "author": "M3AAWG",
+    "year": 2026,
+    "apwg_year": "",
+    "publication_year_source": "",
+    "venue": "M3AAWG",
+    "summary": "This version 2.0 best-practice guide sets out responsibilities for brand owners, email infrastructure operators and deliverability consultants when sending legally mandated bulk notifications, including breach notices. It addresses domain authentication, recognizable sending domains, DNS configuration, recipient ordering, restrained message content, accessibility, proof of sending, and coordination with service and mailbox providers. It also describes alternatives to email. This is operational industry guidance; its relevance is primarily incident-response communications rather than evidence collection.",
+    "keywords": [],
+    "osint_source": [
+      "DNS/WHOIS"
+    ],
+    "category": "Network & Infrastructure Security",
+    "collection_source": "M3AAWG",
+    "collection_url": "https://www.m3aawg.org/published-documents",
+    "apwg_source_url": "",
+    "investigation_type": "Incident Response",
+    "tags": [],
+    "link": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
+    "source_url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
+    "doi": "",
+    "seminal": null,
+    "quality_tier": "Qualitative assessment",
+    "retrieved": "",
+    "publication_date": "2026-09",
+    "resource_schema_version": 1,
+    "document_type": "best_practice_guide",
+    "summary_kind": "editorial_synopsis",
+    "publication_version": "2.0",
+    "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+    "quality_assessment": {
+      "method": "qualitative",
+      "policy": "manual-text-resources-v1",
+      "limitations": "Industry best-practice guidance without an empirical evaluation. It does not determine legal obligations. Primary utility is breach-response communications; it is not a general investigative method.",
+      "assessment_limits": "All five extracted PDF pages assessed. Referenced external guidance was not revalidated.",
+      "criteria": {
+        "accountability": {
+          "evidence": "M3AAWG identified as issuing organization on the source title page.",
+          "status": "passed"
+        },
+        "actionable_scope": {
+          "evidence": "Separates brand owner, infrastructure operator and deliverability consultant tasks for mandated notices, with alternative contact options.",
+          "status": "passed"
+        },
+        "evidence_or_guidance": {
+          "evidence": "Specific instructions cover SPF/DKIM/DMARC, FCrDNS, sending-domain recognition, staged recipients and evidence of sending.",
+          "status": "passed"
+        },
+        "investigative_relevance": {
+          "evidence": "Concrete supporting use in cybercrime incident response and breach-victim communications; limited direct evidence-collection utility is disclosed.",
+          "status": "passed"
+        },
+        "substantive_material": {
+          "evidence": "All five PDF pages retained and inspected, including roles, technical considerations, audience, message structure and postmaster coordination.",
+          "status": "passed"
+        },
+        "version": {
+          "evidence": "Title page explicitly identifies version 2.0 September 2026 and original version 1.0 December 2020.",
+          "status": "passed"
+        }
+      },
+      "assessed_at": "2026-11-05T00:10:10.738257+00:00"
+    },
+    "original_publication_date": "2020-12"
   }
 ]
