@@ -8,13 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "Historical scheduled heartbeat gaps remain non-qualifying. Runtime dependencies repaired and local preparation verified under owner-authorized maintenance; one candidate still lacks venue. See maintenance_recovery.",
-  "lease": {
-    "owner": "maintenance-pipeline-2026-11-05T16-12-23Z",
-    "run_id": "maintenance-pipeline-2026-11-05T16-12-23Z",
-    "acquired_at": "2026-11-05T16:12:23Z",
-    "expires_at": "2026-11-05T16:42:23.000Z",
-    "purpose": "Owner-authorized full pipeline repairs; no scheduled processing claim"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -792,9 +786,12 @@
   },
   "last_completed_at": "2026-11-05T14:47:27.564870+00:00",
   "maintenance_activity": {
-    "observed_at": "2026-11-05T16:25:45Z",
+    "observed_at": "2026-11-05T16:38:54Z",
     "run_id": "maintenance-pipeline-2026-11-05T16-12-23Z",
-    "stage": "verifying_release_and_weekly_blockers",
-    "candidate_processing": false
+    "stage": "stopped_for_owner_requested_handoff",
+    "candidate_processing": false,
+    "lease_released": true,
+    "handoff": "docs/alex_pipeline_handoff_2026-11-05.md",
+    "scheduled_recovery_verified": false
   }
 }
