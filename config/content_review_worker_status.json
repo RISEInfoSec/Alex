@@ -8,13 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "Remaining: orphaned GitHub weekly run; two semantic investigation-type holds; future scheduled heartbeat/progress verification pending. Runtime dependency and retained venue/affiliation defects repaired.",
-  "lease": {
-    "owner": "maintenance-end-to-end-2026-11-05T17-00-01-000Z",
-    "run_id": "maintenance-end-to-end-2026-11-05T17-00-01-000Z",
-    "acquired_at": "2026-11-05T17:00:01.000Z",
-    "expires_at": "2026-11-05T18:15:00Z",
-    "purpose": "Owner-requested full ALEX repair; both hourly automations temporarily paused"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "weekly": 3,
@@ -810,14 +804,17 @@
   "maintenance_activity": {
     "run_id": "maintenance-end-to-end-2026-11-05T17-00-01-000Z",
     "observed_at": "2026-11-05T17:00:01.000Z",
-    "stage": "verified_repairs_checkpoint",
+    "stage": "completed_repairs_with_documented_limits",
     "candidate_processing": true,
     "scheduled_recovery_verified": false,
     "restore_automations_on_completion": true,
-    "updated_at": "2026-11-05T17:53:09.792274+00:00",
+    "updated_at": "2026-11-05T17:58:09Z",
     "tests_passed": 645,
     "receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
-    "scheduled_recovery_proven": false
+    "scheduled_recovery_proven": false,
+    "completed_at": "2026-11-05T17:58:09Z",
+    "final_repair_commit": "a0187a9512840399241943739c19bba2fbf0730a",
+    "checkpoint_readback_verified": true
   },
   "derived_queue_summary": {
     "observed_at": "2026-11-05T17:53:09.792274+00:00",
@@ -905,5 +902,16 @@
         "automatic_publication_pending": 0
       }
     }
-  }
+  },
+  "lease_history": [
+    {
+      "owner": "maintenance-end-to-end-2026-11-05T17-00-01-000Z",
+      "run_id": "maintenance-end-to-end-2026-11-05T17-00-01-000Z",
+      "acquired_at": "2026-11-05T17:00:01.000Z",
+      "expires_at": "2026-11-05T18:15:00Z",
+      "purpose": "Owner-requested full ALEX repair; both hourly automations temporarily paused",
+      "released_at": "2026-11-05T17:58:09Z",
+      "release_reason": "Owner maintenance repair checkpoint verified; restore existing hourly schedules."
+    }
+  ]
 }
