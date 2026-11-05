@@ -39,3 +39,35 @@ def test_request_expiry_and_provider_hold():
     with pytest.raises(ValueError): validate_request(request,policy,datetime(2026,11,6,1,tzinfo=timezone.utc))
     policy['retry_not_before']='2026-11-06T12:00:00Z'
     with pytest.raises(ValueError): validate_request(request,policy,datetime(2026,11,5,19,tzinfo=timezone.utc))
+
+
+@pytest.mark.parametrize('hold,eligible', [(1793911539.224652, False), (0, True)])
+def test_shared_provider_cooldown_is_verified_before_dispatch(hold, eligible):
+    import base64, gzip, hashlib, json
+    from scripts.weekly_retry import provider_state_proof
+    raw = gzip.compress(json.dumps({'retry_not_before': hold}).encode())
+    sha = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+    responses = {'git/ref/heads/pipeline-state': {'object': {'sha': 'state'}},
+        'git/trees/state': {'tree': [{'path': 'discovery_openalex_state.json.gz',
+                                    'type': 'blob', 'sha': sha, 'size': len(raw)}]},
+        'git/blobs/' + sha: {'encoding': 'base64', 'content': base64.b64encode(raw).decode()}}
+    proof = provider_state_proof(responses.__getitem__, datetime(2026, 11, 5, 20, tzinfo=timezone.utc))
+    assert proof['eligible'] is eligible
+    assert proof['blob_sha'] == sha
+    responses['git/blobs/' + sha]['content'] = base64.b64encode(raw + b'corruption').decode()
+    with pytest.raises(ValueError, match='integrity'):
+        provider_state_proof(responses.__getitem__, datetime.now(timezone.utc))
+
+
+@pytest.mark.parametrize('hold', [None, 'bad', float('nan'), float('inf'), -1, True])
+def test_malformed_shared_cooldown_fails_closed(hold):
+    import base64, gzip, hashlib, json
+    from scripts.weekly_retry import provider_state_proof
+    raw = gzip.compress(json.dumps({'retry_not_before': hold}).encode())
+    sha = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+    responses = {'git/ref/heads/pipeline-state': {'object': {'sha': 'state'}},
+        'git/trees/state': {'tree': [{'path': 'discovery_openalex_state.json.gz',
+                                    'type': 'blob', 'sha': sha, 'size': len(raw)}]},
+        'git/blobs/' + sha: {'encoding': 'base64', 'content': base64.b64encode(raw).decode()}}
+    with pytest.raises(ValueError, match='Invalid persisted'):
+        provider_state_proof(responses.__getitem__, datetime.now(timezone.utc))

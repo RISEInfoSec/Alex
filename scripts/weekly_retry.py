@@ -1,5 +1,9 @@
 """One authorized dispatch; quarantine only a verified superseded jobless record."""
 import json
+import base64
+import gzip
+import hashlib
+import math
 import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -48,6 +52,33 @@ def superseded_jobless(orphan, jobs, replacement, replacement_jobs):
                     for j in replacement_jobs['jobs']))
 
 
+def provider_state_proof(api, now):
+    """Read the shared cooldown from verified immutable pipeline-state bytes."""
+    state_sha = api('git/ref/heads/pipeline-state')['object']['sha']
+    tree = api('git/trees/' + state_sha)
+    if tree.get('truncated'):
+        raise ValueError('Incomplete pipeline-state tree')
+    entry = next((item for item in tree['tree']
+                  if item['path'] == 'discovery_openalex_state.json.gz'), None)
+    if not entry or entry.get('type') != 'blob':
+        raise ValueError('Missing persisted provider state')
+    blob = api('git/blobs/' + entry['sha'])
+    if blob.get('encoding') != 'base64':
+        raise ValueError('Unexpected provider-state encoding')
+    raw = base64.b64decode(''.join(blob['content'].split()), validate=True)
+    digest = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+    if len(raw) != entry['size'] or digest != entry['sha']:
+        raise ValueError('Provider-state blob integrity failed')
+    state = json.loads(gzip.decompress(raw))
+    hold = state.get('retry_not_before')
+    if isinstance(hold, bool) or not isinstance(hold, (int, float)) or not math.isfinite(hold) or hold < 0:
+        raise ValueError('Invalid persisted provider cooldown')
+    return {'state_sha': state_sha, 'blob_sha': entry['sha'],
+            'observed_at': now.isoformat(), 'retry_not_before_epoch': hold,
+            'retry_not_before': datetime.fromtimestamp(hold, timezone.utc).isoformat(),
+            'eligible': now.timestamp() >= hold}
+
+
 def main():
     repo = os.environ['GH_REPO']
     def api(path, method='GET'):
@@ -65,6 +96,10 @@ def main():
     def save():
         output.write_text(json.dumps(receipt, indent=2) + '\n')
     try:
+        receipt['provider_state'] = provider_state_proof(api, datetime.now(timezone.utc))
+        if not receipt['provider_state']['eligible']:
+            receipt['status'] = 'provider_cooldown_no_dispatch'
+            raise ValueError('Persisted provider cooldown remains active')
         orphan = api(f'actions/runs/{ORPHAN}')
         if orphan['status'] != 'completed':
             proof = dict(orphan=orphan, jobs=api(f'actions/runs/{ORPHAN}/jobs?per_page=100'),
@@ -95,6 +130,10 @@ def main():
                 proof['jobs'] = api(f'actions/runs/{ORPHAN}/jobs?per_page=100')
                 if not superseded_jobless(**proof):
                     raise ValueError('Historical record changed during check')
+            receipt['provider_state'] = provider_state_proof(api, datetime.now(timezone.utc))
+            if not receipt['provider_state']['eligible']:
+                receipt['status'] = 'provider_cooldown_no_dispatch'
+                raise ValueError('Persisted provider cooldown changed before dispatch')
             receipt.update(status='dispatch_attempt_started', dispatch_attempts=1)
             save()  # On timeout, preserve ambiguity; never retry a potentially accepted POST.
             api('actions/workflows/pipeline.yml/dispatches', method='POST')
