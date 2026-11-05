@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "Paid runner input validation failed before provider sends; source results preserved.",
-  "lease": {
-    "owner": "maintenance-ci-repair-2026-11-05T00:33:32.521Z",
-    "acquired_at": "2026-11-05T00:33:32.521Z",
-    "expires_at": "2026-11-05T00:43:32.521Z",
-    "purpose": "Verify backlog repairs and repair CI/promotion reporting; no candidate processing"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
@@ -779,5 +774,17 @@
     "newly_ready": 1,
     "weekly_batch": 26,
     "receipt": "config/content_review_maintenance_receipts/2026-11-04-source-recovery.json"
+  },
+  "ci_repair_maintenance": {
+    "completed_at": "2026-11-05T00:35:08.265Z",
+    "commit": "5af37c21f3273d12d9f94ea46a12c81829b9b682",
+    "previous_expired_lease": {
+      "owner": "maintenance-nonpaper-2026-11-04T23:58:43.966Z",
+      "acquired_at": "2026-11-04T23:58:43.966Z",
+      "expires_at": "2026-11-05T00:28:43.966Z",
+      "purpose": "Implement owner-approved manual-only non-paper route"
+    },
+    "candidate_processing": false,
+    "note": "Checkpoint repair verified; corrected scheduled receipt excluded from promotion. Public route PR checks remain in progress."
   }
 }
