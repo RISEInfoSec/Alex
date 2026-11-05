@@ -97,6 +97,18 @@ def test_retired_lifecycle_prevents_paid_request_and_replay(setup):
         worker.checked_row(root,request['records'][0])
 
 
+def test_readiness_keeps_valid_peer_when_another_has_missing_venue(setup):
+    from tools.content_review.runtime_guard import candidate_readiness
+    root,row,request,path=setup
+    incomplete=copy.deepcopy(row)
+    incomplete.update(candidate_id='soups-incomplete',venue='')
+    (root/worker.MANIFESTS['soups']).write_text(json.dumps({'preflight_records':[row,incomplete]}))
+    result=candidate_readiness(root,[('soups','soups-incomplete'),('soups','soups-test')])
+    assert result['eligible_for_handoff']==[{'collection':'soups','candidate_id':'soups-test'}]
+    assert result['held'][0]['reason']=='Incomplete classification evidence'
+    assert result['provider_requests']==0 and result['request_published'] is False
+
+
 def test_missing_key_never_calls_or_falls_back(setup, monkeypatch):
     root, row, req, path = setup
     monkeypatch.delenv("OPENAI_API_KEY")
@@ -251,3 +263,4 @@ def test_http_contract_preserves_model_schema_and_has_bounded_output(setup):
     assert captured["json"]["model"] == "gpt-4o-mini"
     assert captured["json"]["text"]["format"]["schema"] == worker.classify.CLASSIFICATION_SCHEMA
     assert captured["json"]["store"] is False
+

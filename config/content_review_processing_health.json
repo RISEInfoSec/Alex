@@ -1,10 +1,9 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T14:45:49.680669+00:00",
-  "trigger": "schedule",
-  "native_run_id": "632603a3-e58c-832e-aba4-f32087ee94c4",
-  "local_candidates": 0,
-  "local_audits": 200,
+  "observed_at": "2026-11-05T15:23:32.046Z",
+  "trigger": "maintenance",
+  "native_run_id": null,
+  "local_candidates": null,
   "source_requests": 0,
   "source_gate_passes": {
     "format": 0,
@@ -20,14 +19,12 @@
   "publications": 0,
   "blockers": [
     {
-      "stage": "classification_and_serialization",
+      "stage": "metadata",
       "candidate_ids": [
-        "weekly-5119ae5a98d80e9ef5d2544b",
-        "weekly-56fec07c6bb5ce26240c614e",
-        "weekly-580cbf65ba78205f3b91860e"
+        "weekly-56fec07c6bb5ce26240c614e"
       ],
-      "reason": "Supported paid/source handoff imports requests; paid validation also imports jsonschema. Both are absent locally. Automatic review rejected dependency installation under stale monitor-only scope; subsequent escalation was denied by approval policy. No provider calls or new candidate attempts occurred.",
-      "corrective_action": "Provide the declared requests/jsonschema dependencies through an authorized runtime setup, then inspect prior exact-hash paid results and resume current-contract handoff with retained source evidence."
+      "reason": "Venue is empty. Per-candidate preparation rejects it; two other retained candidates passed local request preparation.",
+      "corrective_action": "Reconcile venue from retained verified source evidence before classification; process eligible peers independently."
     },
     {
       "stage": "publication_full_corpus_serialization",
@@ -35,8 +32,20 @@
       "corrective_action": "Verify current main serializer and exact assessment/content binding before retry."
     }
   ],
-  "scope_note": "Lifecycle evaluation and current input verification only; no candidate processing occurred.",
-  "corrective_action": "Provide the declared requests/jsonschema dependencies through an authorized runtime setup, then inspect prior exact-hash paid results and resume current-contract handoff with retained source evidence.",
+  "scope_note": "Owner-authorized maintenance repaired local runtime capability. No candidate/provider/admission/publication work occurred; this is not an unattended scheduled recovery.",
+  "corrective_action": "Use runtime_guard on the next existing scheduled pass; refresh current decisions, inspect exact-hash paid results, then resume eligible handoffs with real heartbeat publication.",
+  "runtime_capabilities": {
+    "observed_at": "2026-11-05T15:23:32.046Z",
+    "paid_handoff_import": true,
+    "source_handoff_import": true,
+    "tests_passed": 73,
+    "receipt_path": "config/content_review_maintenance_receipts/maintenance-runtime-repair-2026-11-05T15-19-51-174Z.json"
+  },
+  "prior_scheduled_observation": {
+    "observed_at": "2026-11-05T14:45:49.680669+00:00",
+    "native_run_id": "632603a3-e58c-832e-aba4-f32087ee94c4",
+    "canonical_receipt": "config/content_review_run_receipts/632603a3-e58c-832e-aba4-f32087ee94c4.json"
+  },
   "processing_progress": {
     "runs": [
       {
@@ -201,3 +210,4 @@
     "scheduler_success_is_processing_recovery": false
   }
 }
+

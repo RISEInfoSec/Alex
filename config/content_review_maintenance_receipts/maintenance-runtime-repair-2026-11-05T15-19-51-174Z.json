@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "maintenance_id": "maintenance-runtime-repair-2026-11-05T15-19-51-174Z",
+  "trigger": "owner_authorized_maintenance",
+  "observed_at": "2026-11-05T15:23:32.046Z",
+  "status": "complete",
+  "lease": {
+    "owner": "maintenance-runtime-repair-2026-11-05T15-19-51-174Z",
+    "run_id": "maintenance-runtime-repair-2026-11-05T15-19-51-174Z",
+    "purpose": "owner-authorized runtime/heartbeat repair; no candidate processing",
+    "acquired_at": "2026-11-05T15:19:51.174Z",
+    "expires_at": "2026-11-05T15:49:51.174Z"
+  },
+  "scope": "Runtime dependencies, pre-execution readiness and heartbeat work-window repair. No candidate mutations or provider calls.",
+  "changes": [
+    "Installed declared requests/jsonschema/beautifulsoup4 and pytest in the worker runtime",
+    "Added runtime_guard dependency and bounded work-window checks",
+    "Added per-candidate preparation checks to isolate incomplete peers",
+    "Added regression workflow coverage and current operating instructions"
+  ],
+  "validation": {
+    "targeted_tests_passed": 73,
+    "actual_handoff_imports": true,
+    "provider_requests": 0,
+    "eligible_for_handoff": [
+      "weekly-5119ae5a98d80e9ef5d2544b",
+      "weekly-580cbf65ba78205f3b91860e"
+    ],
+    "held": [
+      {
+        "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
+        "reason": "Required venue is empty; current paid contract correctly rejects incomplete classification evidence"
+      }
+    ]
+  },
+  "native_completion_verified": {
+    "run_id": "632603a3-e58c-832e-aba4-f32087ee94c4",
+    "completed_at": "2026-11-05T14:47:48.147752Z",
+    "canonical_receipt": "config/content_review_run_receipts/632603a3-e58c-832e-aba4-f32087ee94c4.json",
+    "evidence": "Fresh supported automations.peek plus operations.verified_completion matching receipt/time bounds"
+  },
+  "original_receipt_modified": false,
+  "scheduled_recovery_proven": false,
+  "promotion_claimed": false,
+  "remaining": [
+    "A later scheduled run must demonstrate actual heartbeat compliance and processing progress",
+    "One candidate needs evidence-backed venue reconciliation",
+    "Existing publication serializer hold was not repaired by this runtime maintenance"
+  ],
+  "receipt_path": "config/content_review_maintenance_receipts/maintenance-runtime-repair-2026-11-05T15-19-51-174Z.json"
+}
+

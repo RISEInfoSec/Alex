@@ -1,0 +1,44 @@
+import json
+from datetime import datetime, timezone, timedelta
+import pytest
+from tools.content_review.runtime_guard import before_work, dependencies, MODULES
+
+AT=datetime(2026,11,5,15,0,tzinfo=timezone.utc)
+
+def setup_state(root, age=0, elapsed=100, expiry=1000, status='running', run_id='run'):
+    (root/'config').mkdir(exist_ok=True)
+    state={'lease':{'run_id':'run','expires_at':(AT+timedelta(seconds=expiry)).isoformat()},
+           'current_run':{'run_id':run_id,'application_status':status,
+               'started_at':(AT-timedelta(seconds=elapsed)).isoformat(),
+               'observed_at':(AT-timedelta(seconds=age)).isoformat()}}
+    (root/'config/content_review_worker_status.json').write_text(json.dumps(state))
+    (root/'config/content_review_workflow.json').write_text(json.dumps({'bounded_processing_pilot':{
+        'total_runtime_seconds':720,'checkpoint_reserve_seconds':120}}))
+    return state
+
+def test_dependency_check_does_not_claim_ready_on_failed_transitive_import():
+    def importer(name):
+        if name=='tools.content_review.paid_handoff':raise ModuleNotFoundError('private path')
+    result=dependencies(importer)
+    assert not result['ready'] and result['provider_requests']==0
+    assert 'private path' not in json.dumps(result)
+    assert result['failures'][0]['module']=='tools.content_review.paid_handoff'
+    assert dependencies(lambda _:None)['ready']
+
+def test_window_leaves_time_to_publish_and_never_writes_status(tmp_path):
+    original=setup_state(tmp_path,age=20)
+    assert before_work(tmp_path,'run',20,AT)['allowed']
+    assert json.loads((tmp_path/'config/content_review_worker_status.json').read_text())==original
+    with pytest.raises(ValueError,match='publish/read back'):
+        before_work(tmp_path,'run',20,AT+timedelta(seconds=1))
+
+@pytest.mark.parametrize('kwargs', [{'elapsed':580},{'expiry':20},{'expiry':-1},
+                                  {'status':'complete'},{'run_id':'other'},{'age':-1}])
+def test_reserve_lease_identity_and_future_timestamps_fail_closed(tmp_path,kwargs):
+    setup_state(tmp_path,**kwargs)
+    with pytest.raises(ValueError):before_work(tmp_path,'run',20,AT)
+
+@pytest.mark.parametrize('seconds',[0,-1,21,float('nan'),float('inf')])
+def test_invalid_unbounded_work_rejected(tmp_path,seconds):
+    setup_state(tmp_path)
+    with pytest.raises(ValueError):before_work(tmp_path,'run',seconds,AT)
