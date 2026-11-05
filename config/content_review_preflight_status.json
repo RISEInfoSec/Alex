@@ -44758,7 +44758,7 @@
         },
         "metadata": {
           "status": "passed",
-          "checked_at": "2026-11-05T12:49:26.143423+00:00",
+          "checked_at": "2026-11-05T16:14:37Z",
           "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
           "evidence": {
             "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
@@ -44773,7 +44773,12 @@
             "year": 2026,
             "doi": "10.64643/jatirv2i6-140529",
             "date_precision": "publisher date distinct from printed month/year",
-            "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
+            "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred.",
+            "venue": "Journal of Academic Trends & Innovative Research",
+            "venue_source_url": "https://jatir.org/article.php?paperid=140529",
+            "venue_source_body_sha256": "d1381a1c9577d5232103260d30c7b53f92be7ba9c37d5b284cb1de0325e0c9cb",
+            "venue_source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+            "venue_verification_basis": "Publisher citation_journal_title corroborated by matching DOI/title/byline and PDF front matter."
           },
           "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
           "rebound_at": "2026-11-05T13:48:13.546750+00:00",
@@ -44797,30 +44802,37 @@
           "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
         },
         "quality": {
-          "status": "passed",
-          "checked_at": "2026-10-27T23:05:42.201570+00:00",
+          "status": "held",
+          "checked_at": "2026-11-05T16:14:37Z",
           "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
-          "evidence": {
-            "quality_score": 25.82,
-            "quality_venue_score": 20,
-            "quality_citation_score": 0,
-            "quality_relevance_score": 35.29,
-            "quality_institution_score": 80,
-            "quality_institution_bonus": 10,
-            "quality_title_bonus": 0,
-            "quality_auto_threshold": 35,
-            "quality_review_threshold": 20,
-            "quality_core_term_gate": "pass",
-            "quality_relevance_gate": "pass",
-            "citation_count_known": true,
-            "quality_review_status": "human_quality_review",
-            "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-            "quality_requires_review": true
+          "evidence": "Venue is now recovered. Re-evaluate the venue-dependent quality component under the existing weights before current-input classification; prior numeric result is retained, not silently rebound.",
+          "prior_evidence": {
+            "status": "passed",
+            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+            "evidence": {
+              "quality_score": 25.82,
+              "quality_venue_score": 20,
+              "quality_citation_score": 0,
+              "quality_relevance_score": 35.29,
+              "quality_institution_score": 80,
+              "quality_institution_bonus": 10,
+              "quality_title_bonus": 0,
+              "quality_auto_threshold": 35,
+              "quality_review_threshold": 20,
+              "quality_core_term_gate": "pass",
+              "quality_relevance_gate": "pass",
+              "citation_count_known": true,
+              "quality_review_status": "human_quality_review",
+              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+              "quality_requires_review": true
+            },
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
           },
-          "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
-          "rebound_from_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
-          "rebound_at": "2026-11-05T13:48:13.546750+00:00",
-          "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          "input_revision": "venue-recovery-2026-11-05"
         },
         "schema": {
           "status": "held",
@@ -44838,6 +44850,7 @@
         }
       },
       "blockers": [
+        "quality",
         "schema"
       ],
       "verified_document_type": "research_paper"
@@ -61560,7 +61573,7 @@
       }
     }
   },
-  "updated_at": "2026-11-05T06:54:19.676229+00:00",
+  "updated_at": "2026-11-05T16:14:37Z",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,

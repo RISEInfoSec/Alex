@@ -30,3 +30,8 @@ Native observer cadence: hourly, offset from the processing worker. Site refresh
 
 ## Candidate processing evidence — 4 November 2026
 Read the processing-health snapshot and last three completed scheduled pilot receipts. Evaluate `work_plan.processing_progress` and write the result only into this observer’s existing snapshot as `processing`, with observed_at and examined run IDs. Report source sends, newly passed gates, full preflights, manual admissions and publications separately. Two repeated non-progress passes must identify the missing stage/capability and corrective action. Missing counters remain unknown; legitimate documented access/policy holds are distinct from due resolvable work. Maintenance progress is not an unattended scheduled recovery.
+
+
+## Persistent actionable defects
+
+Read `config/content_review_defects.json` and the current work_plan.processing_progress rules. Zero-attempt passes do not clear an unresolved resolvable-gate stall. Include unresolved_stall_run_ids and concrete actionable_blockers in your own processing snapshot; report whether the worker performed the required diagnostic/repair or escalated the exact constraint. Read the per-collection progress/deferrals to detect starvation. Preserve your existing observer-only write scope and never modify candidates, the defect registry, schedules or worker state. Report repair implementation and CI separately from subsequent scheduled evidence.

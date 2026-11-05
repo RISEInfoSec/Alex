@@ -155,3 +155,8 @@ On any integrity/access/lease/budget violation, retain/revert the five-candidate
 
 Read `docs/content_review_manual_resources.md` and `docs/content_review_checkpoint_transport.md`. The owner approved manual-only best-practice guides, technical reports and investigative journalism. Those three types are no longer parked for policy approval; use their qualitative route, never paper bibliometrics or automatic acceptance. Other non-paper types retain their existing holds. Exact blob-SHA comparison before the atomic tree write is mandatory; validate stage JSON as well as manifests. A whole-file tool response is not safe checkpoint transport. Preserve the hourly schedule and pilot limits.
 
+
+
+## Standing proactive maintenance — 5 November 2026
+
+Read `docs/content_review_proactive_maintenance.md` and `config/content_review_defects.json` every pass. Routine reversible tool/process repairs are part of the existing worker responsibility across all collections, weekly discovery and corpus maintenance. Repeated actionable failures require a concrete repair, bounded diagnostic result, or actionable escalation with exact decision and verification criteria. Preserve the separate independent observer role, actual denials, current authorization and all budgets/leases/checkpoint rules. Zero-attempt passes do not establish recovery. Record each collection's useful progress or evidence-backed deferral.

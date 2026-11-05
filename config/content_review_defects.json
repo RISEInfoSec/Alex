@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-11-05T16:14:37Z",
+  "scope": "Entire ALEX pipeline; branch name is not scope",
+  "defects": [
+    {
+      "id": "publication-mixed-csv-binding",
+      "affected_collections": [
+        "weekly",
+        "m3aawg",
+        "bellingcat",
+        "first",
+        "sans",
+        "soups",
+        "virusbulletin",
+        "apwg"
+      ],
+      "routes": [
+        "shared_publication",
+        "approved_manual_resources",
+        "existing_corpus_export"
+      ],
+      "status": "implemented_ci_tested_pending_main_merge",
+      "evidence": [
+        "https://github.com/RISEInfoSec/Alex/actions/runs/41945055902",
+        "https://github.com/RISEInfoSec/Alex/pull/112",
+        "https://github.com/RISEInfoSec/Alex/actions/runs/42061457801"
+      ],
+      "cause": "Mixed CSV inference changes bound resource scalar/text values; one-row tests missed it.",
+      "next_action": "Merge exact tested PR112 through supported GitHub operation; current connector merge returns internal errors. Follow existing controlled release and Pages, then verify deployed fields and receipt-bound hashes.",
+      "verification_criteria": "55 controlled release tests passed; require main merge, successful existing release, Pages, exact live content and intact immutable release receipts.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-05T16:14:37Z"
+    },
+    {
+      "id": "retained-venue",
+      "affected_collections": [
+        "weekly"
+      ],
+      "routes": [
+        "metadata",
+        "quality",
+        "classification"
+      ],
+      "status": "metadata_repaired_quality_reassessment_required",
+      "candidate_ids": [
+        "weekly-56fec07c6bb5ce26240c614e"
+      ],
+      "evidence": [
+        "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json"
+      ],
+      "cause": "Publisher citation_journal_title and PDF front matter were retained but canonical venue stayed empty while metadata was marked passed.",
+      "next_action": "Re-evaluate venue-dependent quality with existing unchanged scoring policy, then build current-contract paid request only if eligible. Do not refetch source or reuse stale classification input.",
+      "verification_criteria": "Exact venue retained with previous full record, candidate hash/identity/decision preserved, manifest/stage agree; quality and current-input classification/serialization must actually complete.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-05T16:14:37Z"
+    },
+    {
+      "id": "downstream-runtime",
+      "affected_collections": [
+        "weekly",
+        "soups",
+        "first",
+        "m3aawg",
+        "bellingcat",
+        "sans"
+      ],
+      "routes": [
+        "paid_handoff",
+        "source_handoff"
+      ],
+      "status": "prior_runtime_repair_scheduled_recovery_unverified",
+      "evidence": [
+        "config/content_review_run_receipts/632603a3-e58c-832e-aba4-f32087ee94c4.json",
+        "config/content_review_maintenance_receipts/maintenance-runtime-repair-2026-11-05T15-19-51-174Z.json"
+      ],
+      "cause": "Missing requests/jsonschema plus a recorded installation denial under stale monitor-only scope; later owner-authorized dependency repair did not yet establish sustained scheduled progress.",
+      "next_action": "Use verified runtime_guard; inspect/reuse exact-hash paid results before new work; process eligible peers independently. This maintenance session's cloud executor failed before shell access.",
+      "verification_criteria": "Subsequent existing scheduled receipts show classification/schema passes, complete gates and admissions with independent native proof, compliant heartbeats and intact checkpoints.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-05T16:14:37Z"
+    },
+    {
+      "id": "zero-attempt-masks-stall",
+      "affected_collections": [
+        "all"
+      ],
+      "routes": [
+        "worker_health",
+        "independent_monitor"
+      ],
+      "status": "implemented_pending_ci",
+      "evidence": [
+        "tools/content_review/work_plan.py",
+        "config/content_review_processing_health.json"
+      ],
+      "cause": "All recent runs were required to have nonzero local candidates before flagging stalls.",
+      "next_action": "Run recovery regressions; independently observe next worker and monitor snapshots retain unresolved stalls across no-work passes.",
+      "verification_criteria": "Regression includes zero-attempt passes and real downstream recovery; both scheduled consumers use current code and report exact corrective actions.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-05T16:14:37Z"
+    },
+    {
+      "id": "source-starvation",
+      "affected_collections": [
+        "weekly",
+        "soups",
+        "first",
+        "m3aawg",
+        "bellingcat",
+        "sans",
+        "virusbulletin"
+      ],
+      "routes": [
+        "candidate_selection"
+      ],
+      "status": "implemented_pending_ci",
+      "evidence": [
+        "tools/content_review/work_plan.py",
+        "docs/content_review_proactive_maintenance.md"
+      ],
+      "cause": "Weekly ranked ahead of source waiting history, with no per-collection round robin among comparable candidates.",
+      "next_action": "Use source last actual progress before weekly tie preference; persist per-collection selections and legitimate deferrals each pass.",
+      "verification_criteria": "Successive-pass regression covers every comparable collection; subsequent existing scheduled receipts demonstrate useful processing or precise legitimate holds.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-05T16:14:37Z"
+    },
+    {
+      "id": "distinct-route-coverage",
+      "affected_collections": [
+        "apwg",
+        "virusbulletin",
+        "corpus-audit",
+        "consensus"
+      ],
+      "routes": [
+        "legacy_import",
+        "corpus_maintenance",
+        "provider_activation"
+      ],
+      "status": "audit_incomplete",
+      "evidence": [
+        "config/review_console.json",
+        "config/discovery_sources.json",
+        "tools/content_review/paid_worker.py"
+      ],
+      "cause": "Different adapters are outside the six shared paid manifest contracts; Consensus intentionally disabled.",
+      "next_action": "Audit distinct APWG/Virus Bulletin executors and actual corpus keep/removal/reclassification routes with real retained evidence. Preserve Consensus credential/Free-account enablement gate.",
+      "verification_criteria": "Representative real candidates/decisions per distinct route; no generic claim that normalized-paper tests cover these adapters.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-05T16:14:37Z"
+    },
+    {
+      "id": "console-and-scheduled-proof",
+      "affected_collections": [
+        "all"
+      ],
+      "routes": [
+        "console",
+        "monitor",
+        "scheduled_execution",
+        "live_publication"
+      ],
+      "status": "verification_incomplete",
+      "evidence": [
+        "config/content_review_run_receipts/d1dc75a7-415c-832e-b4bb-d84e802cc9a8.json"
+      ],
+      "cause": "Latest scheduled pass was owner-redirected and has heartbeat gaps; runtime unavailable for this maintenance's live UI verification.",
+      "next_action": "Restore attached runtime; inspect Site v31 source and live selected-collection states; watch existing subsequent worker and observer runs without duplicate schedules.",
+      "verification_criteria": "All ten pools show correct data and freshness; at least two later qualifying scheduled runs with independent receipts and collection progress; live release matches exact approved content.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-05T16:14:37Z"
+    }
+  ]
+}

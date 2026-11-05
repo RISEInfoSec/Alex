@@ -5548,6 +5548,12 @@
           "previous_evidence_key": "c7e4da695aa90c18a85ce411a15b49e4449d9e8e627de662522acafe3b80c5ef",
           "previous_state": "awaiting_initial_checks",
           "reason": "Relevant content, verified evidence, policy, capability or permission revision changed."
+        },
+        {
+          "at": "2026-11-05T16:14:37Z",
+          "event": "metadata_repair_checkpoint",
+          "evidence": "config/content_review_maintenance_receipts/2026-11-05-pipeline-repair.json",
+          "attempt_recorded": false
         }
       ],
       "historical_attempt_count_unknown": true,
@@ -5565,13 +5571,14 @@
       "last_attempt_at": null,
       "last_check_at": "2026-11-05T13:48:13.546750+00:00",
       "outstanding_checks": [
+        "quality",
         "schema"
       ],
       "initial_checks_overdue": false,
       "state_changed_at": "2026-11-02T21:46:58.757259+00:00",
       "state": "awaiting_initial_checks",
       "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
-      "next_action": "Complete missing initial stages.",
+      "next_action": "Re-evaluate recovered venue quality under current policy, then classification/serialization; run lifecycle.sync before selection.",
       "reconsideration_condition": null,
       "next_retry_at": null,
       "active": true,
@@ -5588,11 +5595,15 @@
         "format",
         "access",
         "metadata",
-        "duplicates",
-        "quality"
+        "duplicates"
       ],
       "initial_check_status": "partially_checked",
-      "reconsidered_at": "2026-11-05T13:48:13.546750+00:00"
+      "reconsidered_at": "2026-11-05T13:48:13.546750+00:00",
+      "maintenance_pending_evaluation": {
+        "at": "2026-11-05T16:14:37Z",
+        "receipt": "config/content_review_maintenance_receipts/2026-11-05-pipeline-repair.json",
+        "reason": "Canonical venue and quality input revision changed; existing lifecycle evaluator must refresh evidence key before candidate attempt."
+      }
     },
     "weekly:weekly-e922c25d5af5066aae59fa07": {
       "candidate_id": "weekly-e922c25d5af5066aae59fa07",
