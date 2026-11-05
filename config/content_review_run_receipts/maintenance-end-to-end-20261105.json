@@ -4,7 +4,7 @@
   "maintenance_id": "maintenance-end-to-end-2026-11-05T17-00-01-000Z",
   "started_at": "2026-11-05T17:00:01Z",
   "checked_at": "2026-11-05T17:53:09.792274+00:00",
-  "status": "repairs_verified_completion_in_progress",
+  "status": "completed_with_documented_remaining_limits",
   "qualifying_scheduled_pass": false,
   "environment": {
     "running": true,
@@ -220,8 +220,39 @@
   },
   "schedules": {
     "temporarily_paused_per_owner": true,
-    "restore_required": true,
-    "restore_after_lease_release": true,
-    "original_ids_and_schedules_preserved": true
-  }
+    "restore_required": false,
+    "restored_and_readback_verified_at": "2026-11-05T18:01:33Z",
+    "original_ids_and_schedules_preserved": true,
+    "automations": [
+      {
+        "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+        "timezone": "America/Toronto",
+        "native_next_run_time": null,
+        "last_observed_run_id": "715ebf8c-ec08-832e-b282-d98919e80fd8"
+      },
+      {
+        "id": "Automation_88611f57231c81918d7ee01f7cd59c42",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+        "timezone": "America/Toronto",
+        "native_next_run_time": null,
+        "last_observed_run_id": "d9e1e0fb-c7a4-832f-9304-5d6cbef6ab8c"
+      }
+    ],
+    "future_scheduled_execution_verified": false
+  },
+  "completed_at": "2026-11-05T18:01:33Z",
+  "final_checkpoint": {
+    "commit": "a0187a9512840399241943739c19bba2fbf0730a",
+    "files": 17,
+    "all_git_sha_size_sha256_and_json_verified": true
+  },
+  "lease_release": {
+    "commit_sha": "61612fb2e61b376e7faaf5bb89cbc21c56fe0ef8",
+    "content_sha": "723e8d35db03c616065a2fb6609a2620169406c5",
+    "released_at": "2026-11-05T17:58:09Z"
+  },
+  "completion_operations_commit": "51420c28903ccd0f0e75f086e886c0e6b82dc609"
 }
