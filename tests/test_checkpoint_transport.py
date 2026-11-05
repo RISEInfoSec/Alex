@@ -35,6 +35,7 @@ def test_corrected_checkpoint_failure_cannot_promote_pilot_or_claim_recovery():
         'native_terminal_verified':True,'status':'complete','pilot':{
         'pilot_id':'pilot','integrity_passed':True,'budget_compliant':True,
         'access_rules_preserved':True,'lease_conflicts':0,'checkpoint_failures':0,
+        'heartbeat_interval_compliant':True,
         'attempted_candidate_ids':['candidate'],'requests':{'source':5},
         'newly_passed_checks':{'access':['candidate']}}} for i in range(2)]
     repairs=[{'affected_run_id':'1','prior_integrity_claim_corrected':True}]
@@ -50,3 +51,21 @@ def test_corrected_checkpoint_failure_cannot_promote_pilot_or_claim_recovery():
     # the correction in historical evidence.
     later={**receipts[0],'run_id':'2','started_at':'2'}
     assert processing_progress(receipts+[later],repairs)['status']!='checkpoint_integrity_failed'
+
+
+def test_idle_or_heartbeat_noncompliant_passes_never_expand_pilot():
+    from tools.content_review.pilot_budget import candidate_limit
+    import copy
+    policy={'id':'pilot','initial_candidate_limit':5,'subsequent_candidate_limit':10,'initial_successful_passes':2}
+    good={'trigger':'schedule','native_terminal_verified':True,'status':'complete','pilot':{
+        'pilot_id':'pilot','integrity_passed':True,'budget_compliant':True,'access_rules_preserved':True,
+        'lease_conflicts':0,'checkpoint_failures':0,'heartbeat_interval_compliant':True,
+        'attempted_candidate_ids':['candidate'],'newly_passed_checks':{'schema':['candidate']}}}
+    receipts=[dict(copy.deepcopy(good),run_id=str(i)) for i in range(2)]
+    assert candidate_limit(policy,receipts)==10
+    for value in (False,None):
+        broken=copy.deepcopy(receipts);broken[-1]['pilot']['heartbeat_interval_compliant']=value
+        assert candidate_limit(policy,broken)==5
+    for gates in ({},{'duplicates':['candidate']},{'schema':2}):
+        broken=copy.deepcopy(receipts);broken[-1]['pilot']['newly_passed_checks']=gates
+        assert candidate_limit(policy,broken)==5

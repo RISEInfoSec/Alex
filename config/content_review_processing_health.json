@@ -15,9 +15,16 @@
   "publications": 0,
   "blockers": [
     {
-      "stage": "candidate_execution_window",
-      "reason": "Complete immutable input refresh and validated shared stage-summary repair consumed this pass's preparation window. Two retained weekly peers passed local handoff preparation; no current-main corpus refresh, paid dispatch, source dispatch or new gate completion was performed.",
-      "corrective_action": "Reuse verified retained inputs; refresh current main corpus/exclusions and exact-hash paid results, then execute selected missing gates with heartbeat groups below 40 seconds. Do not repeat completed source checks."
+      "stage": "weekly_discovery",
+      "reason": "Fresh current-main run42083423973 still running; awaiting canonical terminal receipt."
+    },
+    {
+      "stage": "metadata_publication",
+      "reason": "Exact five-DOI hold prepared; PR116 browser CI/deployment verification pending."
+    },
+    {
+      "stage": "scheduled_recovery",
+      "reason": "Existing worker and monitor intentionally paused under owner maintenance; future qualifying runs not yet observed."
     }
   ],
   "scope_note": "Current owner recovery: two source-backed semantic corrections and batch31 admission, seven read-only metadata requests including robots, no new paid calls. Five Book records verified; technical publication hold prepared. Not scheduled recovery.",
@@ -2291,16 +2298,30 @@
     }
   },
   "owner_maintenance": {
-    "observed_at": "2026-11-05T17:53:09.792274+00:00",
+    "observed_at": "2026-11-05T18:45:46.962056+00:00",
     "trigger": "owner_maintenance",
-    "newly_review_ready": 1,
-    "publications": 2,
-    "paid_requests": 3,
+    "newly_review_ready": 2,
+    "paid_requests": 0,
+    "source_requests": 7,
     "downstream_gate_passes": {
-      "quality": 2,
-      "schema_serialization": 3
+      "schema": 2
     },
-    "receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
-    "qualifying_scheduled_pass": false
-  }
+    "qualifying_scheduled_pass": false,
+    "receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json"
+  },
+  "owner_maintenance_history": [
+    {
+      "observed_at": "2026-11-05T17:53:09.792274+00:00",
+      "trigger": "owner_maintenance",
+      "newly_review_ready": 1,
+      "publications": 2,
+      "paid_requests": 3,
+      "downstream_gate_passes": {
+        "quality": 2,
+        "schema_serialization": 3
+      },
+      "receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
+      "qualifying_scheduled_pass": false
+    }
+  ]
 }

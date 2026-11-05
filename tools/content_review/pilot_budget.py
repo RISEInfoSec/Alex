@@ -11,11 +11,17 @@ def candidate_limit(policy, qualifying_receipts, checkpoint_repairs=()):
     seen = set()
     for r in qualifying_receipts:
         p = r.get('pilot', {})
+        gates=p.get('newly_passed_checks') or {}
+        useful_progress=(any(isinstance(gates.get(g),list) and gates[g]
+                             for g in ('format','access','metadata','quality','schema'))
+                         or any(isinstance(p.get(k),list) and p[k]
+                                for k in ('all_six_completed','manual_admitted','actual_publications')))
         if (p.get('pilot_id') == policy['id'] and r.get('trigger') == 'schedule'
             and r.get('run_id') not in invalid_runs and p.get('promotion_eligible') is not False
             and r.get('native_terminal_verified') is True and r.get('status') == 'complete'
             and p.get('integrity_passed') is True and p.get('budget_compliant') is True
             and p.get('access_rules_preserved') is True and p.get('lease_conflicts') == 0
+            and p.get('heartbeat_interval_compliant') is True and useful_progress
             and p.get('checkpoint_failures') == 0 and p.get('attempted_candidate_ids')
             and r.get('run_id')):
             seen.add(r['run_id'])

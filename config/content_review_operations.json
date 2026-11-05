@@ -149,16 +149,13 @@
     }
   ],
   "owner_maintenance": {
-    "observed_at": "2026-11-05T17:53:09.792274+00:00",
-    "receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
+    "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
+    "observed_at": "2026-11-05T18:45:46.962056+00:00",
+    "status": "in_progress",
+    "schedules_restored": false,
     "scheduled_recovery_proven": false,
-    "completed_at": "2026-11-05T18:01:33Z",
-    "schedules_restored": true,
-    "lease_release": {
-      "commit_sha": "61612fb2e61b376e7faaf5bb89cbc21c56fe0ef8",
-      "content_sha": "723e8d35db03c616065a2fb6609a2620169406c5",
-      "released_at": "2026-11-05T17:58:09Z"
-    }
+    "restore_required": true,
+    "receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json"
   },
   "owner_pause_intervals": [
     {
@@ -196,6 +193,20 @@
       "pause_readback_verified": true,
       "resume_readback_verified": false,
       "evidence": "Owner-requested current recovery; native readback 2026-11-05"
+    }
+  ],
+  "owner_maintenance_history": [
+    {
+      "observed_at": "2026-11-05T17:53:09.792274+00:00",
+      "receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
+      "scheduled_recovery_proven": false,
+      "completed_at": "2026-11-05T18:01:33Z",
+      "schedules_restored": true,
+      "lease_release": {
+        "commit_sha": "61612fb2e61b376e7faaf5bb89cbc21c56fe0ef8",
+        "content_sha": "723e8d35db03c616065a2fb6609a2620169406c5",
+        "released_at": "2026-11-05T17:58:09Z"
+      }
     }
   ]
 }
