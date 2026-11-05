@@ -1181,10 +1181,12 @@ class TestHarvest:
             "reference_count": 0,
         }])
         (tmp_path / "data").mkdir(parents=True)
-        # Write with empty-string preservation to avoid NaN round-trip issues
+        # Exercise the production CSV reader, including NaN empty cells.
         accepted.to_csv(tmp_path / "data" / "accepted_candidates.csv", index=False)
 
         mock_oa_work = {
+            "title": "Test Paper No DOI",
+            "abstract_inverted_index": {"Recovered": [0], "abstract": [1]},
             "primary_location": {
                 "source": {"display_name": "OpenAlex Venue"},
                 "landing_page_url": "https://openalex.org/W123",
@@ -1194,15 +1196,10 @@ class TestHarvest:
             "referenced_works": ["W1", "W2"],
         }
 
-        def _load_accepted(path):
-            """Read CSV preserving empty strings instead of NaN."""
-            return pd.read_csv(path, keep_default_na=False)
-
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
              patch("alex.pipelines.harvest.connector_config.load", return_value={}), \
-             patch("alex.pipelines.harvest.load_df", side_effect=_load_accepted), \
              patch("alex.connectors.crossref.get_by_doi", return_value=None), \
              patch("alex.connectors.openalex.search", return_value=[mock_oa_work]), \
              patch("alex.connectors.semantic_scholar.search", return_value=[]), \
@@ -1214,6 +1211,7 @@ class TestHarvest:
         assert len(result) == 1
         assert result.iloc[0]["venue"] == "OpenAlex Venue"
         assert result.iloc[0]["citation_count"] == 42
+        assert result.iloc[0]["abstract"] == "Recovered abstract"
 
     def test_harvest_missing_columns_raises(self, tmp_path):
         """Missing required columns should raise ValueError."""
@@ -2235,3 +2233,28 @@ def test_publish_preserves_optional_metadata_without_age_classification(tmp_path
     assert papers[0]['publication_date'] == '1990-11-02'
     assert 'historical_only' not in papers[0]
     assert papers[1]['historical_only'] is True
+
+
+@pytest.mark.parametrize("input_doi,returned_doi,returned_title,accepted", [
+    ("10.1/original", "10.1/other", "OSINT Investigation", False),
+    ("", "10.1/other", "Unrelated chemistry", False),
+    ("https://doi.org/10.1/ORIGINAL", "10.1/original", "Alternate title", True),
+    ("", "10.1/original", "OSINT: Investigation", True),
+])
+def test_harvest_openalex_search_requires_identity(input_doi, returned_doi, returned_title, accepted):
+    from alex.pipelines.harvest import _harvest_one
+    row = {"title": "OSINT Investigation", "doi": input_doi, "abstract": float("nan"),
+           "source_url": "https://original.example/item", "venue": "Original venue"}
+    work = {"title": returned_title, "ids": {"doi": "https://doi.org/" + returned_doi},
+            "abstract_inverted_index": {"Evidence": [0], "supported": [1]},
+            "primary_location": {"landing_page_url": "https://result.example/item"}}
+    with patch("alex.connectors.crossref.get_by_doi", return_value=None), \
+         patch("alex.connectors.openalex.search", return_value=[work]), \
+         patch("alex.connectors.semantic_scholar.search") as s2:
+        result = _harvest_one(None, row, "", False, "")
+    assert result["abstract"] == ("Evidence supported" if accepted else "")
+    if not accepted:
+        assert result["doi"] == input_doi
+        assert result["source_url"] == row["source_url"]
+        assert result["venue"] == row["venue"]
+    s2.assert_not_called()
