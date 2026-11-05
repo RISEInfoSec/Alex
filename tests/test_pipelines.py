@@ -2233,3 +2233,76 @@ def test_publish_preserves_optional_metadata_without_age_classification(tmp_path
     assert papers[0]['publication_date'] == '1990-11-02'
     assert 'historical_only' not in papers[0]
     assert papers[1]['historical_only'] is True
+
+
+def test_publish_approved_mixed_corpus_preserves_bindings_and_replay(tmp_path, monkeypatch):
+    """Reproduce the production release with its immutable request and full corpus."""
+    import csv
+    import shutil
+    from pathlib import Path
+    from scripts import release_discovery_backlog as release
+    from alex.resource_types import dry_run, digest
+
+    root = Path(__file__).resolve().parents[1]
+    data = tmp_path / 'data'
+    data.mkdir()
+    corpus = data / 'accepted_classified.csv'
+    shutil.copyfile(root / 'data/accepted_classified.csv', corpus)
+    original = list(csv.DictReader(corpus.open()))
+    manifest = root / 'config/content_review_releases/approved-2026-11-05-0045.json'
+    request_bytes = manifest.read_bytes()
+    request = json.loads(request_bytes)
+    receipt = data / 'receipt.json'
+    exclusions = root / 'config/corpus_exclusions.json'
+    weights = json.loads((root / 'config/quality_weights.json').read_text())
+    # Network/source freshness is deliberately outside this serialization test.
+    monkeypatch.setattr(release, 'source_check', lambda *a: {'synthetic_test': True})
+    monkeypatch.setattr(publish, 'root_file', lambda *p: tmp_path.joinpath(*p))
+    monkeypatch.setattr(publish, 'generate', lambda *a: None)
+    result = release.release(manifest, corpus, receipt, exclusions, weights, write=True)
+    assert result['records_added'] == 2
+    combined = list(csv.DictReader(corpus.open()))
+    assert [{k: r[k] for k in original[0]} for r in combined[:-2]] == original
+    # Missing historical years cause the old reader to infer float years.
+    assert pd.read_csv(corpus).iloc[-1]['year'] == 2026.0
+    publish.run()
+    output = json.loads((data / 'papers.json').read_text())
+    guide = request['records'][1]
+    actual = {**output[-1], 'id': 1}
+    assert actual == dry_run(guide)
+    assert digest(actual) == guide['target_schema']['evidence']['target_record_sha256']
+    assert type(output[-1]['year']) is int
+    snapshots = {p: p.read_bytes() for p in (corpus, receipt, data / 'papers.json', data / 'osint_cyber_papers.csv')}
+    assert release.release(manifest, corpus, receipt, exclusions, weights, write=True)['already_applied']
+    publish.run()
+    assert all(p.read_bytes() == value for p, value in snapshots.items())
+    assert manifest.read_bytes() == request_bytes
+
+
+@pytest.mark.parametrize('field,value', [
+    ('title', 'Changed title'), ('year', '2025'), ('year', '2026.0'),
+    ('abstract', 'Changed synopsis'), ('resource_assessment_sha256', '0' * 64),
+    ('review_content_sha256', '0' * 64), ('publication_version', '3.0'),
+])
+def test_mixed_resource_mutation_rejected_before_public_output(tmp_path, monkeypatch, field, value):
+    import csv
+    from alex.resource_types import corpus_value
+    from tests.test_manual_resources import ROWS
+
+    data = tmp_path / 'data'
+    data.mkdir()
+    resource = corpus_value(ROWS[0])
+    resource[field] = value
+    corpus = data / 'accepted_classified.csv'
+    with corpus.open('w', newline='') as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(resource))
+        writer.writeheader()
+        writer.writerows([{'title': 'Legacy paper', 'year': ''}, resource])
+    outputs = [data / 'papers.json', data / 'osint_cyber_papers.csv']
+    for path in outputs:
+        path.write_text('previous output')
+    monkeypatch.setattr(publish, 'root_file', lambda *p: tmp_path.joinpath(*p))
+    monkeypatch.setattr(publish, 'generate', lambda *a: None)
+    with pytest.raises(ValueError):
+        publish.run()
+    assert all(p.read_text() == 'previous output' for p in outputs)

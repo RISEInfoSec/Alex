@@ -1,9 +1,10 @@
 from __future__ import annotations
-from alex.resource_types import public_fields
+from alex.resource_types import TYPES, public_fields
 import pandas as pd
 from alex.editorial_exclusions import filter_frame
 import json
 import os
+import re
 from datetime import datetime, timezone
 from alex.utils.io import load_df, save_df, save_json, root_file
 from alex.utils.text import split_multi
@@ -41,13 +42,38 @@ def _paper_keys(paper: dict) -> set[str]:
     return keys
 
 
+def _load_publication_corpus(path):
+    """Keep legacy paper inference, but decode the typed resource CSV contract.
+
+    Resource text must not acquire pandas NA/numeric/boolean coercions from
+    neighbouring papers. Resource years use the integer representation already
+    used by the single-row publisher proof. The unchanged validator checks the
+    resulting content against the stored approval; no hashes are regenerated.
+    """
+    df = load_df(path)
+    if df.empty or 'document_type' not in df:
+        return df
+    raw = pd.read_csv(path, dtype=str, keep_default_na=False)
+    resources = raw['document_type'].isin(TYPES)
+    if not resources.any():
+        return df
+    df = df.astype(object)
+    for index in raw.index[resources]:
+        row = raw.loc[index].astype(object)
+        if not re.fullmatch(r'[0-9]{4}', row['year']):
+            raise ValueError('Invalid resource CSV year')
+        row['year'] = int(row['year'])
+        df.loc[index] = row
+    return df
+
+
 def run(record_collection: bool = False) -> None:
     public_csv = root_file("data", "osint_cyber_papers.csv")
     papers_json = root_file("data", "papers.json")
     status_path = root_file("data", "collection_status.json")
     previous = json.loads(papers_json.read_text()) if papers_json.exists() else []
     previous_keys = set().union(*(_paper_keys(p) for p in previous)) if previous else set()
-    df = load_df(root_file("data", "accepted_classified.csv"))
+    df = _load_publication_corpus(root_file("data", "accepted_classified.csv"))
     if df.empty:
         print("No classified accepted corpus to publish.")
         # Write empty outputs so downstream workflows can `git add` without
@@ -66,7 +92,6 @@ def run(record_collection: bool = False) -> None:
     df = df.astype(object).where(df.notna(), "")
 
     public = df.copy()
-    save_df(public_csv, public)
 
     papers = []
     for i, (_, row) in enumerate(public.iterrows()):
@@ -105,6 +130,8 @@ def run(record_collection: bool = False) -> None:
     for paper, (_, row) in zip(papers, public.iterrows()):
         paper.update(row_publication_fields(row))
         paper.update(public_fields(dict(row)))
+    # Validate every resource before replacing either public data output.
+    save_df(public_csv, public)
     save_json(papers_json, papers)
     generate(root_file(), papers)
     if record_collection:
