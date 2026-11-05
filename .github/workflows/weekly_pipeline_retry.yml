@@ -55,7 +55,7 @@ jobs:
             gh api "repos/$GH_REPO/actions/runs/$stale" --jq 'select(.status == "queued" and .head_branch == "main" and .path == ".github/workflows/pipeline.yml" and .created_at == "2026-09-28T14:56:22Z") | .id' | grep -qx "$stale"
             jobs=$(gh api "repos/$GH_REPO/actions/runs/$stale/jobs" --jq .total_count)
             test "$jobs" -eq 0
-            gh api --method POST "repos/$GH_REPO/actions/runs/$stale/cancel"
+            gh api --method POST "repos/$GH_REPO/actions/runs/$stale/cancel" || gh api --method POST "repos/$GH_REPO/actions/runs/$stale/force-cancel"
             for attempt in $(seq 1 6); do
               state=$(gh api "repos/$GH_REPO/actions/runs/$stale" --jq .status)
               [ "$state" = completed ] && break
