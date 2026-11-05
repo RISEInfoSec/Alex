@@ -9,7 +9,7 @@ from alex.utils.http import HttpClient
 from alex.utils import connector_config
 from alex.connectors import crossref, openalex, semantic_scholar
 from alex.publication_dates import crossref_publication_fields
-from alex.utils.text import clean
+from alex.utils.text import clean, normalize_title
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +36,17 @@ def _is_crossref_indexed_doi(doi: str) -> bool:
     return not any(lo.startswith(p) for p in _NON_CROSSREF_DOI_PREFIXES)
 
 
+def _same_openalex_work(row: dict, work: dict) -> bool:
+    """A title-search hit needs identity support before enriching a row."""
+    def bare_doi(value):
+        return clean(value).lower().removeprefix("https://doi.org/").removeprefix("http://doi.org/")
+    expected, returned = bare_doi(row.get("doi")), bare_doi(openalex.doi(work))
+    if expected and returned:
+        return expected == returned
+    title = normalize_title(clean(row.get("title")))
+    return bool(title and title == normalize_title(clean(work.get("title"))))
+
+
 def _harvest_one(
     client: HttpClient,
     row: dict | pd.Series,
@@ -51,6 +62,8 @@ def _harvest_one(
     title = clean(row.get("title"))
     doi = clean(row.get("doi"))
     best = dict(row)
+    # Empty CSV cells arrive as NaN, which is truthy and used to skip fallbacks.
+    best["abstract"] = clean(best.get("abstract"))
 
     if _is_crossref_indexed_doi(doi):
         cr = crossref.get_by_doi(client, doi)
@@ -69,8 +82,9 @@ def _harvest_one(
 
     if not best.get("abstract"):
         oa = openalex.search(client, title, mailto, per_page=1)
-        if oa:
+        if oa and _same_openalex_work(best, oa[0]):
             work = oa[0]
+            best["abstract"] = openalex.abstract(work) or best["abstract"]
             best["doi"] = clean(openalex.doi(work)) or best.get("doi", "")
             best["venue"] = openalex.venue_name(work) or best.get("venue", "")
             best["source_url"] = openalex.landing_url(work) or best.get("source_url", "")
