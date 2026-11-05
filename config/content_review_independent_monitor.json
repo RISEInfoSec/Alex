@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T11:33:35.836Z",
+  "observed_at": "2026-11-05T12:32:26.896Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "cca74867-a36c-832f-a3b4-17aa0918696b",
-    "scheduled_for": "2026-11-05T11:32:00Z",
-    "started_at": "2026-11-05T11:29:58.933014Z",
+    "run_id": "0e6df00e-d1b8-832f-a149-7cf771870aaf",
+    "scheduled_for": "2026-11-05T12:32:00Z",
+    "started_at": "2026-11-05T12:30:26.329584Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,111 +14,43 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-05T11:33:35.836Z",
+    "observed_at": "2026-11-05T12:31:26.782Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "06e2604a-928c-832e-93d7-b3e1702c73ba",
+      "id": "151949cc-5180-832e-856e-7f03240012d6",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-05T10:45:00Z",
-      "started_at": "2026-11-05T10:47:22.111041Z",
-      "completed_at": "2026-11-05T10:59:54.938225Z"
+      "scheduled_for": "2026-11-05T11:45:00Z",
+      "started_at": "2026-11-05T11:41:32.193163Z",
+      "completed_at": "2026-11-05T11:51:23.493062Z"
     }
   },
   "receipt_check": {
-    "run_id": "06e2604a-928c-832e-93d7-b3e1702c73ba",
-    "path": "config/content_review_run_receipts/06e2604a-928c-832e-93d7-b3e1702c73ba.json",
+    "run_id": "151949cc-5180-832e-856e-7f03240012d6",
+    "path": "config/content_review_run_receipts/151949cc-5180-832e-856e-7f03240012d6.json",
     "verified": true,
     "reason": "The canonical scheduled receipt matches the native run identity and scheduled time, contains completed application actions, reports complete, and its completion time falls within the native run interval."
   },
-  "checkpoint_observed_at": "2026-11-05T10:59:06.014195+00:00",
+  "checkpoint_observed_at": "2026-11-05T11:50:59.378794+00:00",
   "processing": {
-    "observed_at": "2026-11-05T11:33:35.836Z",
-    "evidence_tree_sha": "9fc4dd0e6d13c1160a62dff37c181368762c83d3",
+    "observed_at": "2026-11-05T12:32:26.896Z",
+    "evidence_tree_sha": "9832e8fc9baaad509f43b80ec8aa6724fe44caec",
     "examined_run_ids": [
-      "6518a129-da24-8332-a08d-d53e3ce3eb56",
       "b0118d73-fbd8-8332-bd8d-261c5a2ce052",
-      "06e2604a-928c-832e-93d7-b3e1702c73ba"
+      "06e2604a-928c-832e-93d7-b3e1702c73ba",
+      "151949cc-5180-832e-856e-7f03240012d6"
     ],
     "totals": {
-      "local_candidates": 15,
-      "actual_source_requests": 58,
-      "new_source_gate_passes": 16,
+      "local_candidates": 10,
+      "actual_source_requests": 41,
+      "new_source_gate_passes": 14,
       "new_downstream_gate_passes": 0,
       "all_six_completions": 0,
       "newly_manual_ready": 0,
       "publications": 0
     },
     "runs": [
-      {
-        "run_id": "6518a129-da24-8332-a08d-d53e3ce3eb56",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "weekly-2527e09d730dd8e2b15cb6d8",
-          "weekly-26b3719a7cdde3455962fdfa",
-          "weekly-26e0bf60c0b553b19739cc91",
-          "weekly-27cbe4630996d447436a64dd",
-          "weekly-2fb8d1268a016d82ab42dd40"
-        ],
-        "actual_source_requests": 17,
-        "new_source_gate_passes": 2,
-        "new_downstream_gate_passes": 0,
-        "per_gate_passes": {
-          "format": [
-            "weekly-26e0bf60c0b553b19739cc91"
-          ],
-          "access": [
-            "weekly-26e0bf60c0b553b19739cc91"
-          ]
-        },
-        "all_six_completions": 0,
-        "all_six_candidate_ids": [],
-        "newly_manual_ready": 0,
-        "manual_ready_candidate_ids": [],
-        "publications": 0,
-        "publication_ids": [],
-        "resolvable_gates": 1,
-        "legitimate_holds_only": false,
-        "blockers": [
-          {
-            "candidate_id": "weekly-2527e09d730dd8e2b15cb6d8",
-            "stage": "source_access",
-            "reason": "robots_unavailable_http_403",
-            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
-          },
-          {
-            "candidate_id": "weekly-26b3719a7cdde3455962fdfa",
-            "stage": "source_access",
-            "reason": "robots_unavailable_http_403",
-            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
-          },
-          {
-            "candidate_id": "weekly-26e0bf60c0b553b19739cc91",
-            "stage": "metadata",
-            "reason": "Inspected matching written journal paper front matter and body. Zenodo current version DOI 10.5281/zenodo.20267496 differs from discovery DOI 10.5281/zenodo.20267495; reconcile concept/version identifier and date before classification.",
-            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
-          },
-          {
-            "candidate_id": "weekly-27cbe4630996d447436a64dd",
-            "stage": "source_access",
-            "reason": "source_http_403",
-            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
-          },
-          {
-            "candidate_id": "weekly-2fb8d1268a016d82ab42dd40",
-            "stage": "source_document",
-            "reason": "Publisher page matches title and Syed Mudassir Shah byline but retained material is abstract/landing page only; actual intended full document remains uninspected. Resume only a bound permitted original from retained links.",
-            "corrective_action": "Reuse retained source evidence; resolve only missing permitted content or authoritative metadata, preserving access holds."
-          },
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains unchanged corpus/exclusion/upstream blobs; prior release41945055902 failed exact assessment binding.",
-            "corrective_action": "Repair controlled full-corpus serialization preserving assessment/content binding before retry."
-          }
-        ]
-      },
       {
         "run_id": "b0118d73-fbd8-8332-bd8d-261c5a2ce052",
         "checkpoint_integrity": "reported_passed",
@@ -264,70 +196,94 @@
             "corrective_action": "Repair exact full-corpus serialization preserving assessment binding before retry."
           }
         ]
+      },
+      {
+        "run_id": "151949cc-5180-832e-856e-7f03240012d6",
+        "checkpoint_integrity": "reported_passed",
+        "local_candidates": 0,
+        "candidate_ids": [],
+        "actual_source_requests": 0,
+        "new_source_gate_passes": 0,
+        "new_downstream_gate_passes": 0,
+        "per_gate_passes": {},
+        "all_six_completions": 0,
+        "all_six_candidate_ids": [],
+        "newly_manual_ready": 0,
+        "manual_ready_candidate_ids": [],
+        "publications": 0,
+        "publication_ids": [],
+        "resolvable_gates": null,
+        "legitimate_holds_only": false,
+        "blockers": [
+          {
+            "stage": "candidate_preparation",
+            "reason": "Complete immutable input transfer, byte/SHA verification and current decision refresh consumed the candidate execution window; no candidate resolution or provider request was performed. Remaining gate execution was not started with incomplete corpus/source/decision prerequisites.",
+            "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline."
+          },
+          {
+            "stage": "metadata_and_type_versioning",
+            "candidate_ids": [
+              "weekly-3edc6db58d7fb63369f1382a",
+              "weekly-3f202ca007a2c04f9672c7d9",
+              "weekly-45dd07b0aa7eb7dec470f1dd",
+              "weekly-4b38dda890565d1ac84397c0"
+            ],
+            "reason": "Retained paper inputs remain parked as provisional research_paper_candidate. Existing normalize_record requires current first-five gates including metadata; authoritative date/byline/version conflicts remain. No relevant capability revision or current metadata pass was established.",
+            "corrective_action": "Resolve authoritative metadata with retained content, then use explicit full-version type normalization and rebind only unchanged valid evidence. Preserve parked suppression until the evidence changes."
+          },
+          {
+            "stage": "publication_full_corpus_serialization",
+            "reason": "Prior release41945055902 failed assessment/content binding; full current public target was not independently revalidated in this pass.",
+            "corrective_action": "Validate the current exact mixed-corpus assessment binding through the existing controlled release; do not repeat the unchanged failed release."
+          }
+        ]
       }
     ],
-    "status": "checkpoint_integrity_failed",
+    "status": "progress_requires_gate_evidence",
     "stalled_local_only": false,
-    "stalled_resolvable_gates": true,
+    "stalled_resolvable_gates": false,
     "repeated_attempts_without_progress": false,
-    "missing_stage_or_capability": "The latest pass recovered from a checkpoint transport validation rejection but records one checkpoint failure; four retained papers remain at authoritative metadata/type reconciliation before quality, classification and schema completion. One access hold is documented separately.",
-    "corrective_action": "Verify the restored checkpoint and use lossless blob-verified transport. Preserve actual source progress, exclude the failed pass from promotion, and require a later intact scheduled checkpoint to establish recovery. Reuse retained paper content to complete metadata/type reconciliation and downstream gates without refetching.",
+    "stalled_downstream_gates": true,
+    "missing_stage_or_capability": "The latest pass performed no candidate work because immutable-input preparation consumed its execution window. The preceding two work-bearing passes produced 14 source-gate passes but no quality/schema, six-gate, manual-ready or publication progress. Four retained papers still require authoritative metadata and type versioning; the controlled full-corpus assessment/content serializer remains unresolved.",
+    "corrective_action": "Reuse the already verified immutable inputs incrementally, resolve authoritative metadata for retained papers, then execute quality, classification and schema gates without repeating source retrieval. Validate the controlled mixed-corpus assessment binding separately before release.",
     "scheduler_success_is_processing_recovery": false,
     "sustained_throughput_verified": false,
     "processing_health": {
-      "native_run_id": "06e2604a-928c-832e-93d7-b3e1702c73ba",
+      "native_run_id": "151949cc-5180-832e-856e-7f03240012d6",
       "application_status": "complete",
-      "local_candidates": 5,
-      "local_audits": 200,
-      "actual_source_requests": 22,
-      "source_gate_passes": 8,
+      "local_candidates": 0,
+      "local_audits": 102,
+      "actual_source_requests": 0,
+      "source_gate_passes": 0,
       "downstream_gate_passes": 0,
       "six_gate_completions": 0,
       "newly_review_ready": 0,
       "publications": 0,
-      "scope_note": "Five source dispositions; four real written papers inspected. Metadata/type reconciliation remains; one access hold. No paid/registry calls.",
+      "scope_note": "Lifecycle/complete-input preparation only. No candidate attempt, source request, paid call, gate pass, admission or publication.",
       "blockers": [
         {
-          "candidate_id": "weekly-3ca57cf58ab7d8c4da4e219b",
-          "stage": "source_access",
-          "reason": "robots_unavailable_http_403",
-          "corrective_action": "Preserve access hold; no unchanged retry or bypass."
+          "stage": "candidate_preparation",
+          "reason": "Complete immutable input transfer, byte/SHA verification and current decision refresh consumed the candidate execution window; no candidate resolution or provider request was performed. Remaining gate execution was not started with incomplete corpus/source/decision prerequisites.",
+          "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline."
         },
         {
-          "candidate_id": "weekly-3edc6db58d7fb63369f1382a",
           "stage": "metadata_and_type_versioning",
-          "reason": "Matching paper and DOI inspected. PDF published7October versus publisher10October/date-issued17October conflict; expanded author initials also require reconciliation.",
-          "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
-        },
-        {
-          "candidate_id": "weekly-3f202ca007a2c04f9672c7d9",
-          "stage": "metadata_and_type_versioning",
-          "reason": "Matching original written paper, Karishma R and DOI inspected. Publication verified at June2026 precision; exact metadata/type versioning and downstream classification remain.",
-          "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
-        },
-        {
-          "candidate_id": "weekly-45dd07b0aa7eb7dec470f1dd",
-          "stage": "metadata_and_type_versioning",
-          "reason": "Matching written paper/DOI inspected. PDF has Nicholas Muriuki Muriithi, Ephantus Mwangi and Kennedy Malanga; discovery lists Nicholas Muriuki only. Reconcile full author list and publication version.",
-          "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
-        },
-        {
-          "candidate_id": "weekly-4b38dda890565d1ac84397c0",
-          "stage": "metadata_and_type_versioning",
-          "reason": "Matching Ukrainian research paper, DOI and ORCIDs inspected. Publisher visible and PDF publication1June2026 differ from HTML citation meta18May; reconcile authoritative date and author transliteration before downstream classification.",
-          "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
+          "candidate_ids": [
+            "weekly-3edc6db58d7fb63369f1382a",
+            "weekly-3f202ca007a2c04f9672c7d9",
+            "weekly-45dd07b0aa7eb7dec470f1dd",
+            "weekly-4b38dda890565d1ac84397c0"
+          ],
+          "reason": "Retained paper inputs remain parked as provisional research_paper_candidate. Existing normalize_record requires current first-five gates including metadata; authoritative date/byline/version conflicts remain. No relevant capability revision or current metadata pass was established.",
+          "corrective_action": "Resolve authoritative metadata with retained content, then use explicit full-version type normalization and rebind only unchanged valid evidence. Preserve parked suppression until the evidence changes."
         },
         {
           "stage": "publication_full_corpus_serialization",
-          "reason": "Current main6899fc7f unchanged; existing release41945055902 failed exact assessment/content binding. Complete66-submission signature unchanged.",
-          "corrective_action": "Repair exact full-corpus serialization preserving assessment binding before retry."
-        },
-        {
-          "stage": "checkpoint_transport",
-          "reason": "Bounded chunk response was incomplete; length validation rejected it before tree/branch update. No new requests after failure."
+          "reason": "Prior release41945055902 failed assessment/content binding; full current public target was not independently revalidated in this pass.",
+          "corrective_action": "Validate the current exact mixed-corpus assessment binding through the existing controlled release; do not repeat the unchanged failed release."
         }
       ],
-      "corrective_action": "Reuse retained papers, resolve authoritative metadata and type versioning, then downstream gates. Investigate provisional-type lifecycle parking blocking resolvable work."
+      "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline."
     },
     "checkpoint_corrections": [
       {
@@ -342,15 +298,15 @@
         "repair_tree_sha": "bc24b5105351025f6f012c3681c500f97ebb7906",
         "verified_files": [
           {
-            "path": "config/content_review_preflight_status.json",
-            "restored_blob": "572c3cca9b55d3f147db29c9f0ce5867d335e7dd",
-            "size": 3302143,
-            "immutable_tree_sha_and_size_verified": true
-          },
-          {
             "path": "config/weekly_review_manifest.json",
             "restored_blob": "d01ceb748d0f957eba8521caaaee75d8aefe787e",
             "size": 4627376,
+            "immutable_tree_sha_and_size_verified": true
+          },
+          {
+            "path": "config/content_review_preflight_status.json",
+            "restored_blob": "572c3cca9b55d3f147db29c9f0ce5867d335e7dd",
+            "size": 3302143,
             "immutable_tree_sha_and_size_verified": true
           }
         ]
@@ -371,15 +327,15 @@
   "findings": [
     {
       "code": "native_completion_verified",
-      "message": "Worker run 06e2604a-928c-832e-93d7-b3e1702c73ba completed natively and its identity/time-bound canonical receipt verifies completed application work."
+      "message": "Worker run 151949cc-5180-832e-856e-7f03240012d6 completed natively and its identity/time-bound canonical receipt verifies completed application work."
     },
     {
-      "code": "checkpoint_integrity_failed",
-      "message": "The latest work-bearing scheduled receipt records one recovered checkpoint transport failure. Actual source progress is preserved, but this pass cannot establish checkpoint recovery or qualify for promotion until a later independently verified intact scheduled pass."
+      "code": "processing_progress_not_sustained_recovery",
+      "message": "The last three completed scheduled pilot receipts contain 10 candidate dispositions, 41 source requests, 14 new source-gate passes, 0 downstream-gate passes, 0 six-gate completions, 0 manual-ready admissions and 0 publications. The latest pass was no-execution, so sustained recovery is not established."
     },
     {
-      "code": "processing_downstream_stall",
-      "message": "The last three completed scheduled pilots contain 15 candidate dispositions, 58 source requests, 16 new source-gate passes, 0 downstream-gate passes, 0 six-gate completions, 0 manual-ready admissions and 0 publications. Resolvable metadata/type and downstream work remains."
+      "code": "downstream_progress_stalled",
+      "message": "The two preceding work-bearing passes advanced source gates but no downstream gate or readiness. The latest health record identifies retained-paper metadata/type versioning and controlled publication serialization as the missing stages."
     },
     {
       "code": "heartbeat_gaps_recorded",
@@ -387,11 +343,11 @@
     },
     {
       "code": "no_scheduler_incident",
-      "message": "Worker dispatch offset 2.369 minutes and observer dispatch offset -2.018 minutes were within the 15-minute grace. No missed start or active scheduler stall was observed."
+      "message": "Worker dispatch offset -3.463 minutes and observer dispatch offset -1.561 minutes were within the 15-minute grace. No missed start or active scheduler stall was observed."
     },
     {
       "code": "checkpoint_correction_preserved",
-      "message": "Corrected run fe4875f6-dc78-8332-8c50-fe0d998ea688 remains promotion-ineligible; the correction blob and restored repair-tree blobs were verified by immutable SHA and size."
+      "message": "Corrected run fe4875f6-dc78-8332-8c50-fe0d998ea688 remains promotion-ineligible; the correction blob and restored repair-tree blobs were verified by immutable SHA and size. A later intact scheduled checkpoint exists, but the latest pass performed no candidate work."
     }
   ],
   "access_error": null
