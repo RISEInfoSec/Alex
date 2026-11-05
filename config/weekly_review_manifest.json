@@ -54156,7 +54156,19 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "7e88f9fade2ac077db8eb43ec1f2f3003293de62a9e07c0c008b671f58c37c0d",
+        "retrieval_status": "held",
+        "receipt": "config/content_review_source_receipts/12f321685f90696e3d6c0750c09b9c6879ce63a6133445991fc99c1a96aae2de.json",
+        "reason": "source_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval.",
+        "evidence_sha256": [],
+        "inspection_reason": "source_http_403"
+      }
     },
     {
       "candidate_id": "weekly-e41b1e4a4efdbef08566aadf",
@@ -54442,18 +54454,32 @@
             "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
           },
           "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T09:48:43.971977+00:00",
             "content_sha256": "36ffa302d8468e74ebefde7b5b66122e1289bf3fa253b7421f90efd254c7822d",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/12f321685f90696e3d6c0750c09b9c6879ce63a6133445991fc99c1a96aae2de.json",
+              "body_sha256": "ae0a6ea15f8a5195226b81bbf49e6ab886af5bb7eaed135495d937252f24a13b",
+              "text_sha256": "65af17fdfba0133286bc19eb969ef36e7666a0a38a1f4da1a6cfad7103357e41",
+              "page_count": 17,
+              "pages_inspected": 6,
+              "actual_document_type": "research_paper",
+              "inspection": "Research review paper front matter and methodology verified, matching Sami Syed and DOI. Resolve publication date separately from received/accepted dates and version the provisional research_paper_candidate type before downstream classification."
+            }
           },
           "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T09:48:43.971977+00:00",
             "content_sha256": "36ffa302d8468e74ebefde7b5b66122e1289bf3fa253b7421f90efd254c7822d",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/12f321685f90696e3d6c0750c09b9c6879ce63a6133445991fc99c1a96aae2de.json",
+              "body_sha256": "ae0a6ea15f8a5195226b81bbf49e6ab886af5bb7eaed135495d937252f24a13b",
+              "text_sha256": "65af17fdfba0133286bc19eb969ef36e7666a0a38a1f4da1a6cfad7103357e41",
+              "page_count": 17,
+              "pages_inspected": 6,
+              "actual_document_type": "research_paper",
+              "inspection": "Research review paper front matter and methodology verified, matching Sami Syed and DOI. Resolve publication date separately from received/accepted dates and version the provisional research_paper_candidate type before downstream classification."
+            }
           },
           "metadata": {
             "status": "held",
@@ -54472,7 +54498,22 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "36ffa302d8468e74ebefde7b5b66122e1289bf3fa253b7421f90efd254c7822d",
+        "retrieval_status": "retrieved",
+        "receipt": "config/content_review_source_receipts/12f321685f90696e3d6c0750c09b9c6879ce63a6133445991fc99c1a96aae2de.json",
+        "reason": null,
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+        "evidence_sha256": [
+          "27a4e4d1e94f835571fb23ac9fa2b441b0c58f4c3c6fe41f3a2ae585a74802da",
+          "ae0a6ea15f8a5195226b81bbf49e6ab886af5bb7eaed135495d937252f24a13b"
+        ],
+        "inspection_reason": "Research review paper front matter and methodology verified, matching Sami Syed and DOI. Resolve publication date separately from received/accepted dates and version the provisional research_paper_candidate type before downstream classification."
+      }
     },
     {
       "candidate_id": "weekly-e43a1359e32afeaedc812211",
@@ -59446,18 +59487,32 @@
             "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
           },
           "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T09:48:43.971977+00:00",
             "content_sha256": "441104e20678b546ac692d0afb73e72f974cb675b44bbf0f33323ad3c60e510c",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/12f321685f90696e3d6c0750c09b9c6879ce63a6133445991fc99c1a96aae2de.json",
+              "body_sha256": "6bd265d53ef4e83e65291ecee66dc2a446ab6a95a8f24bc0a048220779bcbc24",
+              "text_sha256": "c4f0514ebf6eec6ebb7f669df1227bf78ea6a596d42abf4d42579c5b097e76b9",
+              "page_count": 24,
+              "pages_inspected": 6,
+              "actual_document_type": "research_paper",
+              "inspection": "Research paper front matter and abstract verified. PDF second author Mukosi Mashudu Lucky differs in ordering from publisher Mukosi Lucky Mashudu; ORCID and publication/version metadata require reconciliation before classification."
+            }
           },
           "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T09:48:43.971977+00:00",
             "content_sha256": "441104e20678b546ac692d0afb73e72f974cb675b44bbf0f33323ad3c60e510c",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/12f321685f90696e3d6c0750c09b9c6879ce63a6133445991fc99c1a96aae2de.json",
+              "body_sha256": "6bd265d53ef4e83e65291ecee66dc2a446ab6a95a8f24bc0a048220779bcbc24",
+              "text_sha256": "c4f0514ebf6eec6ebb7f669df1227bf78ea6a596d42abf4d42579c5b097e76b9",
+              "page_count": 24,
+              "pages_inspected": 6,
+              "actual_document_type": "research_paper",
+              "inspection": "Research paper front matter and abstract verified. PDF second author Mukosi Mashudu Lucky differs in ordering from publisher Mukosi Lucky Mashudu; ORCID and publication/version metadata require reconciliation before classification."
+            }
           },
           "metadata": {
             "status": "held",
@@ -59476,7 +59531,22 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "441104e20678b546ac692d0afb73e72f974cb675b44bbf0f33323ad3c60e510c",
+        "retrieval_status": "retrieved",
+        "receipt": "config/content_review_source_receipts/12f321685f90696e3d6c0750c09b9c6879ce63a6133445991fc99c1a96aae2de.json",
+        "reason": null,
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+        "evidence_sha256": [
+          "05c4375ae5ed6c0a37d2aafb6bf0756892a0d4534a2c6de773c3f284e0505a8e",
+          "6bd265d53ef4e83e65291ecee66dc2a446ab6a95a8f24bc0a048220779bcbc24"
+        ],
+        "inspection_reason": "Research paper front matter and abstract verified. PDF second author Mukosi Mashudu Lucky differs in ordering from publisher Mukosi Lucky Mashudu; ORCID and publication/version metadata require reconciliation before classification."
+      }
     },
     {
       "candidate_id": "weekly-85e6d336ebc6e83583d95c96",
@@ -59920,18 +59990,32 @@
             "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
           },
           "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T09:48:43.971977+00:00",
             "content_sha256": "4ce2e7a03de3ccacb6aff8e581469f9f0acde41269ae104a69ac1a4a9777fffd",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/12f321685f90696e3d6c0750c09b9c6879ce63a6133445991fc99c1a96aae2de.json",
+              "body_sha256": "3d47f6de07ef6861fb14e029efaed2824770cc4f1a6b91f3e255834fc146ae3e",
+              "text_sha256": "3d3367e2dd82cebf5184ea609c96e13a3aec91030949695b3e0c5fad34cc5550",
+              "page_count": 11,
+              "pages_inspected": 6,
+              "actual_document_type": "research_paper",
+              "inspection": "Research paper front matter and body verified. Publisher and PDF title/DOI/date agree, but PDF autogenerated citations use Boniphace while the byline/publisher use Boniface; reconcile exact author metadata before classification."
+            }
           },
           "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T09:48:43.971977+00:00",
             "content_sha256": "4ce2e7a03de3ccacb6aff8e581469f9f0acde41269ae104a69ac1a4a9777fffd",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/12f321685f90696e3d6c0750c09b9c6879ce63a6133445991fc99c1a96aae2de.json",
+              "body_sha256": "3d47f6de07ef6861fb14e029efaed2824770cc4f1a6b91f3e255834fc146ae3e",
+              "text_sha256": "3d3367e2dd82cebf5184ea609c96e13a3aec91030949695b3e0c5fad34cc5550",
+              "page_count": 11,
+              "pages_inspected": 6,
+              "actual_document_type": "research_paper",
+              "inspection": "Research paper front matter and body verified. Publisher and PDF title/DOI/date agree, but PDF autogenerated citations use Boniphace while the byline/publisher use Boniface; reconcile exact author metadata before classification."
+            }
           },
           "metadata": {
             "status": "held",
@@ -59950,7 +60034,22 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "4ce2e7a03de3ccacb6aff8e581469f9f0acde41269ae104a69ac1a4a9777fffd",
+        "retrieval_status": "retrieved",
+        "receipt": "config/content_review_source_receipts/12f321685f90696e3d6c0750c09b9c6879ce63a6133445991fc99c1a96aae2de.json",
+        "reason": null,
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+        "evidence_sha256": [
+          "3d4ce8eefff709cbc15e9f67ca95332f63d34fcf3453ec12dee184a3cb04bc37",
+          "3d47f6de07ef6861fb14e029efaed2824770cc4f1a6b91f3e255834fc146ae3e"
+        ],
+        "inspection_reason": "Research paper front matter and body verified. Publisher and PDF title/DOI/date agree, but PDF autogenerated citations use Boniphace while the byline/publisher use Boniface; reconcile exact author metadata before classification."
+      }
     },
     {
       "candidate_id": "weekly-329702d8ba40bd7d92d1f60a",
@@ -60108,7 +60207,19 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "637d80025210ba3c24215d10ee43230aa8fba28d76be5af9d4e325c74f6393f9",
+        "retrieval_status": "held",
+        "receipt": "config/content_review_source_receipts/12f321685f90696e3d6c0750c09b9c6879ce63a6133445991fc99c1a96aae2de.json",
+        "reason": "robots_disallow",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval.",
+        "evidence_sha256": [],
+        "inspection_reason": "robots_disallow"
+      }
     },
     {
       "candidate_id": "weekly-bc15efba65977a61efc76d6a",
