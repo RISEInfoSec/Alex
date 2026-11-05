@@ -282,7 +282,7 @@ def target_dry_run(row, tags):
             writer = csv.DictWriter(stream, fieldnames=list(value))
             writer.writeheader()
             writer.writerow(value)
-        with patch.object(publish, "root_file", lambda *parts: root.joinpath(*parts)):
+        with patch.object(publish, "root_file", lambda *parts: root.joinpath(*parts)), patch.object(publish, "generate", lambda *args: None):
             with contextlib.redirect_stdout(io.StringIO()):
                 publish.run()
         exported = json.loads((root / "data/papers.json").read_text())
@@ -339,6 +339,10 @@ def execute(root, path, output, post=None):
         result["status"] = "complete" if all(r["schema"]["status"] == "passed" for r in result["records"]) else "partial"
     except (PaidStageError, ValueError, KeyError, OSError) as exc:
         result["error"] = str(exc) if isinstance(exc, PaidStageError) else "Request/input integrity validation failed"
+        if not isinstance(exc, PaidStageError):
+            result['validation_failure']={'exception_type':type(exc).__name__,
+                'cause':'malformed_input_json' if isinstance(exc,json.JSONDecodeError) else 'missing_input' if isinstance(exc,(KeyError,OSError)) else 'request_contract_or_candidate_precondition',
+                'corrective_action':'Validate complete immutable input JSON and blob sizes/hashes before dispatch; compare current request contract and gate digests. Reuse successful source evidence. No provider recovery is inferred.'}
     finally:
         result["completed_at"] = now()
         save_checkpoint(output, result)

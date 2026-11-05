@@ -124,3 +124,8 @@ A separate one-candidate continuation reused HVE's existing source evidence. It 
 102 targeted Python checks and 92 console checks passed. The first manifest-integrity CI attempt exposed an accidental optional dependency in the validator; it was removed so the checksum/version guard remains standard-library-only. Exact native tree/blob readback verified the final candidate, stage and lifecycle checkpoint. Both the manifest-integrity and recovery-regression workflows subsequently passed; batch 26 was observed in the live console.
 
 The named-source text-resource policy decision is concrete in `content_review_nonpaper_admission_proposal.md`. The proposal is inactive. This maintenance evidence demonstrates one end-to-end path; sustained hourly recovery must be established by later independently observed scheduled receipts.
+
+
+## Approved text resources and checkpoint transport (5 November 2026 UTC)
+
+Read `docs/content_review_manual_resources.md` and `docs/content_review_checkpoint_transport.md`. The owner approved manual-only best-practice guides, technical reports and investigative journalism. Those three types are no longer parked for policy approval; use their qualitative route, never paper bibliometrics or automatic acceptance. Other non-paper types retain their existing holds. Exact blob-SHA comparison before the atomic tree write is mandatory; validate stage JSON as well as manifests. A whole-file tool response is not safe checkpoint transport. Preserve the hourly schedule and pilot limits.

@@ -101,6 +101,20 @@ def bind_record(row: dict, stage_row: dict, assessed_at: str | None = None) -> d
     row["editorial_queue_eligible"] = False
     row["admission_hold"] = "Await immediate admission to a stable batch of1–20; never wait for20"
 
+    from alex.resource_types import TYPES, validate_assessment, validate_taxonomy
+    if row.get('document_type') in TYPES:
+        assessment=validate_assessment(row)
+        validate_taxonomy(row)
+        row.update(recommendation_status='current_substantive_resource_assessment_after_preflight',
+            assessment_depth='retained_source_text_with_explicit_limits',
+            assessment_basis='Retained source text assessed using the approved qualitative resource criteria; see limitations.',
+            screening_status='current_resource_recommendation_complete_after_preflight',
+            manual_vote_required=True,automatic_acceptance_eligible=False,automatic_route_eligible=False)
+        row['recommendation_evidence'].update(assessment_depth=row['assessment_depth'],
+            method=row['assessment_basis'],limitations=assessment['limitations'],
+            source_text_sha256=assessment['text_sha256'],
+            resource_assessment_sha256=row['resource_assessment_sha256'])
+
     stage_row["recommendation_content_sha256"] = content_hash
     stage_row["recommendation_status"] = row["recommendation_status"]
     stage_row["recommendation_assessed_at"] = stamp

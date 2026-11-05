@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "detected_at": "2026-11-05T00:18:17.581571+00:00",
+  "affected_run_id": "fe4875f6-dc78-8332-8c50-fe0d998ea688",
+  "cause": "Execution-tool response truncation was committed as file content; API write/readback success was not payload validation.",
+  "repair_commit": "3fea1236cfee84e5390f5f17e392b1e4a2e2aebd",
+  "recovery_basis": "Complete original local files exactly matched canonical receipt SHA-256 values.",
+  "source_checks_repeated": false,
+  "prior_integrity_claim_corrected": true,
+  "files": [
+    {
+      "path": "config/weekly_review_manifest.json",
+      "bad_blob": "8e37ef2983d5c9c4d75dae6cd0c01e35231799c1",
+      "restored_blob": "d01ceb748d0f957eba8521caaaee75d8aefe787e",
+      "size": 4627376
+    },
+    {
+      "path": "config/content_review_preflight_status.json",
+      "bad_blob": "ded9b93a3306d4d58b9b5a7d21c4a15bd61b0a19",
+      "restored_blob": "572c3cca9b55d3f147db29c9f0ce5867d335e7dd",
+      "size": 3302143
+    }
+  ],
+  "corrective_action": "Bounded chunk transport, exact returned blob SHA comparison before tree update, committed tree size/SHA readback and JSON validation; stage CI added."
+}

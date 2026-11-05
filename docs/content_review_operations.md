@@ -139,3 +139,8 @@ Use tools/content_review/pilot_budget.py Budget for elapsed-time and candidate/r
 On any integrity/access/lease/budget violation, retain/revert the five-candidate ceiling, record the exact issue and stop the affected work. Never infer software-capability or permission changes. Unsupported guides/journalism/reports remain explicit holds pending separately verified compatible executors.
 
 > Source recovery execution update (4 November 2026): follow `docs/content_review_source_recovery.md` for the tested source runner, complete blob retrieval, next-gate selection, atomic checkpoints and processing-yield evidence. This is an implementation continuation of the existing hourly bounded pilot, not a new schedule or relaxed admission policy.
+
+
+## Approved text resources and checkpoint transport (5 November 2026 UTC)
+
+Read `docs/content_review_manual_resources.md` and `docs/content_review_checkpoint_transport.md`. The owner approved manual-only best-practice guides, technical reports and investigative journalism. Those three types are no longer parked for policy approval; use their qualitative route, never paper bibliometrics or automatic acceptance. Other non-paper types retain their existing holds. Exact blob-SHA comparison before the atomic tree write is mandatory; validate stage JSON as well as manifests. A whole-file tool response is not safe checkpoint transport. Preserve the hourly schedule and pilot limits.

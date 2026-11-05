@@ -40,6 +40,12 @@ def admit(manifest, stage, collection, submitted_batches=(), decided_ids=(), sta
                 or row['candidate_id'] in decided_ids):
             continue
         h = row['content_sha256']
+        from alex.resource_types import TYPES, validate_assessment, validate_taxonomy
+        if row.get('document_type') in TYPES:
+            validate_assessment(row)
+            validate_taxonomy(row)
+            if not row.get('manual_vote_required'):
+                raise ValueError('Non-paper admission requires a manual vote')
         z = stages.get((collection, row['candidate_id']))
         if (not z or reviewed_digest(row) != h or z['content_sha256'] != h
                 or row.get('recommendation_content_sha256') != h

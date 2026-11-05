@@ -1,3 +1,9 @@
+# Non-paper admission decision — approved; manual review required
+
+Owner approved this route on 4 November 2026 (America/Toronto). The active implementation contract is `config/content_review_resource_policy.json` and `alex/resource_types.py`. Approval does not accept any individual candidate.
+
+## Original proposal retained
+
 # Non-paper admission decision — proposed, not active
 
 Cause: the source system can retrieve and identify guides, reports and investigative journalism, but ALEX's production quality/admission contract and publisher currently support research papers. Applying paper bibliometrics or relabelling these resources would produce unsupported quality claims.

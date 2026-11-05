@@ -54,7 +54,7 @@ def evidence_key(row, policy):
     return digest(dict(content=row.get('content_sha256'), source=row.get('source_record_sha256'),
         source_revision=row.get('lifecycle_evidence_revision'),
         access_revision=row.get('access_decision', {}).get('evidence_revision'),
-        policy=policy['version'], capability=policy['capability_revision'],
+        policy=policy['version'], capability=policy.get('type_capability_revisions',{}).get(row.get('verified_document_type') or row.get('document_type'),policy['capability_revision']),
         permission=policy['permission_revision'],
         quality_input_revision=checks.get('quality', {}).get('input_revision')))
 

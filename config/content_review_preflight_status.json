@@ -51046,15 +51046,15 @@
     {
       "collection": "m3aawg",
       "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
-      "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+      "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
       "review_number": 178,
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "status": "passed",
           "checked_at": "2026-11-04T22:57:38.943199+00:00",
-          "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
           "evidence": {
             "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
             "actual_type": "best_practice_guide",
@@ -51067,12 +51067,15 @@
             "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
             "checked_at": null,
             "evidence": "Source observation only; existing mechanical gate pending"
-          }
+          },
+          "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+          "reused_from_content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
         },
         "access": {
           "status": "passed",
           "checked_at": "2026-11-04T22:57:38.943199+00:00",
-          "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
           "evidence": {
             "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
             "http_status": 200,
@@ -51084,82 +51087,97 @@
             "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
             "checked_at": null,
             "evidence": "Source observation only; existing mechanical gate pending"
-          }
+          },
+          "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+          "reused_from_content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
         },
         "metadata": {
-          "status": "held",
-          "checked_at": "2026-11-04T22:57:38.943199+00:00",
-          "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "status": "passed",
+          "checked_at": "2026-11-05T00:10:10.738257+00:00",
+          "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
           "evidence": {
-            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
-            "verified_fields": {
-              "schema_version": 1,
-              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-              "actual_type": "best_practice_guide",
-              "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
-              "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
-              "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
-              "text_complete": true,
-              "publication_date": "2026-09",
-              "author": "M3AAWG",
-              "publication_version": "2.0",
-              "publication_ready": false
-            },
-            "result": "Verified source metadata retained in typed staging. Reviewed-content metadata/abstract version and non-paper export contract remain to be completed; original reviewed hash retained."
-          },
-          "prior_evidence": {
-            "status": "not_checked",
-            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "method": "Verified retained original source metadata",
+            "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+            "author": "M3AAWG",
+            "publication_date": "2026-09",
+            "publication_version": "2.0",
+            "summary_kind": "editorial_synopsis",
+            "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038"
           }
         },
         "duplicates": {
           "status": "passed",
           "checked_at": "2026-11-04T17:53:04.154707+00:00",
-          "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
           "evidence": {
             "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
             "matches": 0,
             "exclusions": []
-          }
+          },
+          "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+          "reused_from_content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
         },
         "quality": {
-          "status": "held",
-          "checked_at": "2026-11-04T22:57:38.943199+00:00",
-          "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "status": "passed",
+          "checked_at": "2026-11-05T00:10:10.738257+00:00",
+          "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
           "evidence": {
-            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
-            "result": "Type-appropriate quality rubric is not approved. Do not apply bibliometric paper scoring or invent a numeric media deduction."
-          },
-          "prior_evidence": {
-            "status": "not_checked",
-            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "policy": "manual-text-resources-v1",
+            "quality_method": "qualitative",
+            "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+            "criteria": {
+              "accountability": {
+                "status": "passed",
+                "evidence": "M3AAWG identified as issuing organization on the source title page."
+              },
+              "substantive_material": {
+                "status": "passed",
+                "evidence": "All five PDF pages retained and inspected, including roles, technical considerations, audience, message structure and postmaster coordination."
+              },
+              "investigative_relevance": {
+                "status": "passed",
+                "evidence": "Concrete supporting use in cybercrime incident response and breach-victim communications; limited direct evidence-collection utility is disclosed."
+              },
+              "evidence_or_guidance": {
+                "status": "passed",
+                "evidence": "Specific instructions cover SPF/DKIM/DMARC, FCrDNS, sending-domain recognition, staged recipients and evidence of sending."
+              },
+              "version": {
+                "status": "passed",
+                "evidence": "Title page explicitly identifies version 2.0 September 2026 and original version 1.0 December 2020."
+              },
+              "actionable_scope": {
+                "status": "passed",
+                "evidence": "Separates brand owner, infrastructure operator and deliverability consultant tasks for mandated notices, with alternative contact options."
+              }
+            },
+            "limitations": "Industry best-practice guidance without an empirical evaluation. It does not determine legal obligations. Primary utility is breach-response communications; it is not a general investigative method.",
+            "manual_only": true
           }
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-11-04T22:57:38.943199+00:00",
-          "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "status": "passed",
+          "checked_at": "2026-11-05T00:10:10.738257+00:00",
+          "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
           "evidence": {
-            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
-            "result": "Typed staging is available; public non-paper target/classifier/export adapter is not yet supported."
-          },
-          "prior_evidence": {
-            "status": "not_checked",
-            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "method": "Production publisher on disposable one-record fixture",
+            "document_type": "best_practice_guide",
+            "target_record_sha256": "f4ab7bf1be6d73a52a57dab907e5edc03f5dc84b13d48f299bf18e596ef9180d",
+            "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+            "corpus_modified": false,
+            "publication_approved": false
           }
         }
       },
-      "blockers": [
-        "metadata",
-        "quality",
-        "schema"
-      ]
+      "blockers": [],
+      "recommendation_content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+      "recommendation_status": "current_substantive_resource_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-11-05T00:10:10.738257+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-11-05T00:10:10.738257+00:00",
+      "review_batch": 34
     },
     {
       "collection": "bellingcat",
@@ -52784,15 +52802,15 @@
     {
       "collection": "bellingcat",
       "candidate_id": "bellingcat-url-9f54d33c3cf8890621564927",
-      "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+      "content_sha256": "74adb27d216e0ba0141eb31f0611c87b265bb1a880c1cac63a3da1feee9d5e8c",
       "review_number": 209,
-      "status": "held",
-      "review_ready": false,
+      "status": "passed",
+      "review_ready": true,
       "checks": {
         "format": {
           "status": "passed",
           "checked_at": "2026-11-04T22:57:38.943199+00:00",
-          "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+          "content_sha256": "74adb27d216e0ba0141eb31f0611c87b265bb1a880c1cac63a3da1feee9d5e8c",
           "evidence": {
             "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
             "actual_type": "investigative_journalism",
@@ -52805,12 +52823,15 @@
             "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
             "checked_at": null,
             "evidence": "Source observation only; existing mechanical gate pending"
-          }
+          },
+          "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+          "reused_from_content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+          "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
         },
         "access": {
           "status": "passed",
           "checked_at": "2026-11-04T22:57:38.943199+00:00",
-          "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+          "content_sha256": "74adb27d216e0ba0141eb31f0611c87b265bb1a880c1cac63a3da1feee9d5e8c",
           "evidence": {
             "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
             "http_status": 200,
@@ -52822,40 +52843,29 @@
             "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
             "checked_at": null,
             "evidence": "Source observation only; existing mechanical gate pending"
-          }
+          },
+          "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+          "reused_from_content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+          "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
         },
         "metadata": {
-          "status": "held",
-          "checked_at": "2026-11-04T22:57:38.943199+00:00",
-          "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+          "status": "passed",
+          "checked_at": "2026-11-05T00:10:10.738257+00:00",
+          "content_sha256": "74adb27d216e0ba0141eb31f0611c87b265bb1a880c1cac63a3da1feee9d5e8c",
           "evidence": {
-            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
-            "verified_fields": {
-              "schema_version": 1,
-              "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
-              "actual_type": "investigative_journalism",
-              "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
-              "source_sha256": "40655352bfaf766dcd70edce9d48efc45d9b0ee66eadc3a649adb5d1e3df29c6",
-              "text_sha256": "a8d79d97a63fc6f29e68842930d51630f5d095af8766490d9d7bb295eb06c875",
-              "text_complete": true,
-              "publication_date": "2026-09-16",
-              "author": "Sebastian Vandermeersch, Conflict and Human Rights Team",
-              "publication_version": null,
-              "publication_ready": false
-            },
-            "result": "Verified source metadata retained in typed staging. Reviewed-content metadata/abstract version and non-paper export contract remain to be completed; original reviewed hash retained."
-          },
-          "prior_evidence": {
-            "status": "not_checked",
-            "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "method": "Verified retained original source metadata",
+            "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+            "author": "Sebastian Vandermeersch, Conflict and Human Rights Team",
+            "publication_date": "2026-09-16",
+            "publication_version": null,
+            "summary_kind": "editorial_synopsis",
+            "source_sha256": "40655352bfaf766dcd70edce9d48efc45d9b0ee66eadc3a649adb5d1e3df29c6"
           }
         },
         "duplicates": {
           "status": "passed",
           "checked_at": "2026-11-04T22:57:38.943199+00:00",
-          "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+          "content_sha256": "74adb27d216e0ba0141eb31f0611c87b265bb1a880c1cac63a3da1feee9d5e8c",
           "evidence": {
             "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
             "status": "passed",
@@ -52868,44 +52878,70 @@
             "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
             "checked_at": null,
             "evidence": "Source observation only; existing mechanical gate pending"
-          }
+          },
+          "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+          "reused_from_content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+          "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
         },
         "quality": {
-          "status": "held",
-          "checked_at": "2026-11-04T22:57:38.943199+00:00",
-          "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+          "status": "passed",
+          "checked_at": "2026-11-05T00:10:10.738257+00:00",
+          "content_sha256": "74adb27d216e0ba0141eb31f0611c87b265bb1a880c1cac63a3da1feee9d5e8c",
           "evidence": {
-            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
-            "result": "Type-appropriate quality rubric is not approved. Do not apply bibliometric paper scoring or invent a numeric media deduction."
-          },
-          "prior_evidence": {
-            "status": "not_checked",
-            "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "policy": "manual-text-resources-v1",
+            "quality_method": "qualitative",
+            "resource_assessment_sha256": "afd4ccf29814c9e4860266ca0dcfc7c4a34e4be048ff49758aaafa4b39cfd99f",
+            "criteria": {
+              "accountability": {
+                "status": "passed",
+                "evidence": "Named author Sebastian Vandermeersch and Conflict and Human Rights Team; Bellingcat publication in collaboration with Jeune Afrique."
+              },
+              "substantive_material": {
+                "status": "passed",
+                "evidence": "Full retained article includes worked strike-site examples, coordinates, comparative image captions, sourcing, expert context and limitations."
+              },
+              "investigative_relevance": {
+                "status": "passed",
+                "evidence": "Directly demonstrates transferable geolocation and corroboration methods for open-source evidence investigations."
+              },
+              "evidence_or_guidance": {
+                "status": "passed",
+                "evidence": "Compares broadcast strike footage, aftermath footage, satellite imagery and external reporting; distinguishes observed location evidence from uncertain casualty status."
+              },
+              "sourcing": {
+                "status": "passed",
+                "evidence": "Identifies ORTM footage, humanitarian accounts, satellite imagery, social media sources and Jeune Afrique testimony; attributes partisan statements and notes unanswered military inquiries."
+              },
+              "investigative_method": {
+                "status": "passed",
+                "evidence": "Explains landmark matching, coordinates and before/after imagery across several sites. Explicitly states which further strikes and casualty identities could not be confirmed."
+              }
+            },
+            "limitations": "Conflict reporting includes partisan primary sources and incomplete casualty verification. Military responses were unavailable at publication. The article links to graphic material. This assessment evaluates its documented OSINT methods, not the truth of every incident claim or legal conclusion.",
+            "manual_only": true
           }
         },
         "schema": {
-          "status": "held",
-          "checked_at": "2026-11-04T22:57:38.943199+00:00",
-          "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
+          "status": "passed",
+          "checked_at": "2026-11-05T00:10:10.738257+00:00",
+          "content_sha256": "74adb27d216e0ba0141eb31f0611c87b265bb1a880c1cac63a3da1feee9d5e8c",
           "evidence": {
-            "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
-            "result": "Typed staging is available; public non-paper target/classifier/export adapter is not yet supported."
-          },
-          "prior_evidence": {
-            "status": "not_checked",
-            "content_sha256": "d897f6624d9d389722bf6d6a72a76f7fe17c5c884b10a4a5782440908e752f70",
-            "checked_at": null,
-            "evidence": "Source observation only; existing mechanical gate pending"
+            "method": "Production publisher on disposable one-record fixture",
+            "document_type": "investigative_journalism",
+            "target_record_sha256": "89ccbf86ce5f4839a71476bf33793788605c3d9a3b876b9833c3deb7e3e0ce7d",
+            "resource_assessment_sha256": "afd4ccf29814c9e4860266ca0dcfc7c4a34e4be048ff49758aaafa4b39cfd99f",
+            "corpus_modified": false,
+            "publication_approved": false
           }
         }
       },
-      "blockers": [
-        "metadata",
-        "quality",
-        "schema"
-      ]
+      "blockers": [],
+      "recommendation_content_sha256": "74adb27d216e0ba0141eb31f0611c87b265bb1a880c1cac63a3da1feee9d5e8c",
+      "recommendation_status": "current_substantive_resource_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-11-05T00:10:10.738257+00:00",
+      "batch_admission_eligible": true,
+      "admitted_at": "2026-11-05T00:10:10.738257+00:00",
+      "review_batch": 27
     },
     {
       "collection": "first",
@@ -60905,7 +60941,7 @@
       }
     }
   },
-  "updated_at": "2026-11-04T23:53:13.711749+00:00",
+  "updated_at": "2026-11-05T00:10:10.738257+00:00",
   "network_checkpoint": {
     "weekly_registry_requests": 20,
     "weekly_resource_requests": 16,

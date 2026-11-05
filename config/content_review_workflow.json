@@ -533,5 +533,16 @@
     "single_writer_lease_preserved": true,
     "source_runner_read_only": true,
     "main_provider_policy_required": true
+  },
+  "manual_resource_policy": {
+    "policy": "manual-text-resources-v1",
+    "config": "config/content_review_resource_policy.json",
+    "runbook": "docs/content_review_manual_resources.md",
+    "manual_only": true
+  },
+  "checkpoint_transport": {
+    "runbook": "docs/content_review_checkpoint_transport.md",
+    "module": "tools/content_review/checkpoint_transport.py",
+    "verify_created_blob_sha_before_tree": true
   }
 }

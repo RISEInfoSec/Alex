@@ -4,7 +4,9 @@ on:
     branches: [codex/soups-corpus-review]
     paths:
       - 'config/*_review_manifest.json'
+      - 'config/content_review_preflight_status.json'
       - 'tools/content_review/manifest_integrity.py'
+      - 'tools/content_review/checkpoint_transport.py'
       - '.github/workflows/content_review_manifest_integrity.yml'
 permissions:
   contents: read
@@ -24,3 +26,5 @@ jobs:
         env:
           BEFORE_SHA: ${{ github.event.before }}
         run: python -m tools.content_review.manifest_integrity --before "$BEFORE_SHA"
+      - name: Validate the shared stage checkpoint
+        run: python -m tools.content_review.checkpoint_transport config/content_review_preflight_status.json

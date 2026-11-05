@@ -1,10 +1,15 @@
 from __future__ import annotations
+from alex.resource_types import public_fields
 import pandas as pd
+from alex.editorial_exclusions import filter_frame
 import json
 import os
 from datetime import datetime, timezone
 from alex.utils.io import load_df, save_df, save_json, root_file
 from alex.utils.text import split_multi
+from alex.collections import generate
+from alex.publication_dates import row_publication_fields
+from alex.research_context import historical_only
 
 
 def _quality_tier(score: object) -> str:
@@ -51,7 +56,10 @@ def run(record_collection: bool = False) -> None:
         if not papers_json.exists():
             save_df(public_csv, pd.DataFrame())
             save_json(papers_json, [])
+        generate(root_file(), previous)
         return
+
+    df = filter_frame(df, root_file("config", "corpus_exclusions.json"))
 
     # Pandas reads empty CSV cells as NaN, which json.dumps would emit as
     # literal `NaN` (invalid JSON). Coerce to empty strings before export.
@@ -89,7 +97,16 @@ def run(record_collection: bool = False) -> None:
             "quality_tier": _quality_tier(row.get("total_quality_score", 0)),
             "retrieved": row.get("retrieved_at", ""),
         })
+        # Preserve explicit optional editorial metadata without classifying by age.
+        if row.get("publication_date", ""):
+            papers[-1]["publication_date"] = str(row["publication_date"])
+        if str(row.get("historical_only", "")).strip():
+            papers[-1]["historical_only"] = historical_only(dict(row))
+    for paper, (_, row) in zip(papers, public.iterrows()):
+        paper.update(row_publication_fields(row))
+        paper.update(public_fields(dict(row)))
     save_json(papers_json, papers)
+    generate(root_file(), papers)
     if record_collection:
         run_id = os.environ.get("GITHUB_RUN_ID", "")
         old_status = json.loads(status_path.read_text()) if status_path.exists() else {}

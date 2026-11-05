@@ -17,4 +17,4 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt pypdf beautifulsoup4
-      - run: python -m pytest -q tests/test_content_review_source_worker.py tests/test_source_recovery_integrity.py tests/test_content_review_registry_worker.py tests/test_candidate_lifecycle.py tests/test_manifest_integrity.py tests/test_duplicate_evidence.py tests/test_checkpoint.py tests/test_content_review_paid_worker.py tests/test_content_review_admit_cleared.py tests/test_content_review_bind_recommendations.py tests/test_typed_resource.py
+      - run: python -m pytest -q tests/test_content_review_source_worker.py tests/test_source_recovery_integrity.py tests/test_content_review_registry_worker.py tests/test_candidate_lifecycle.py tests/test_manifest_integrity.py tests/test_duplicate_evidence.py tests/test_checkpoint.py tests/test_content_review_paid_worker.py tests/test_content_review_admit_cleared.py tests/test_content_review_bind_recommendations.py tests/test_typed_resource.py tests/test_manual_resources.py tests/test_checkpoint_transport.py

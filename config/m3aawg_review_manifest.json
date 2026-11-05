@@ -4,16 +4,15 @@
   "collection_source": "M3AAWG",
   "publication_approved": false,
   "status": "source_intake_preflight_pending",
-  "records": [],
-  "preflight_records": [
+  "records": [
     {
       "title": "M3AAWG Best Practices for Sending Legally Mandated Emails to Large Audiences",
-      "authors": "",
+      "authors": "M3AAWG",
       "year": 2026,
       "doi": "",
       "source_url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
-      "abstract": "",
-      "document_type": "format_unverified",
+      "abstract": "This version 2.0 best-practice guide sets out responsibilities for brand owners, email infrastructure operators and deliverability consultants when sending legally mandated bulk notifications, including breach notices. It addresses domain authentication, recognizable sending domains, DNS configuration, recipient ordering, restrained message content, accessibility, proof of sending, and coordination with service and mailbox providers. It also describes alternatives to email. This is operational industry guidance; its relevance is primarily incident-response communications rather than evidence collection.",
+      "document_type": "best_practice_guide",
       "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
       "collection_id": "m3aawg",
       "collection_source": "M3AAWG",
@@ -27,15 +26,11 @@
       "source_record_sha256": "eea58c781b15b81a068c66393f43d7e99c14e91cf5727dbff9ca4a9e16c97b4a",
       "reserved_review_number": 178,
       "decision": "pending",
-      "review_ready": false,
-      "editorial_queue_eligible": false,
-      "recommendation": null,
+      "review_ready": true,
+      "editorial_queue_eligible": true,
+      "recommendation": "discuss",
       "publication_approved": false,
-      "preflight_blockers": [
-        "metadata",
-        "quality",
-        "schema"
-      ],
+      "preflight_blockers": [],
       "source_observation": {
         "discovery_identity": "m3aawg-url-75aa6fb2c156539547d27ab8",
         "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
@@ -83,15 +78,15 @@
           "schema"
         ]
       },
-      "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+      "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
       "preflight": {
-        "status": "held",
-        "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+        "status": "passed",
+        "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
         "checks": {
           "format": {
             "status": "passed",
             "checked_at": "2026-11-04T22:57:38.943199+00:00",
-            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
             "evidence": {
               "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
               "actual_type": "best_practice_guide",
@@ -104,12 +99,15 @@
               "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
               "checked_at": null,
               "evidence": "Source observation only; existing mechanical gate pending"
-            }
+            },
+            "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+            "reused_from_content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
           },
           "access": {
             "status": "passed",
             "checked_at": "2026-11-04T22:57:38.943199+00:00",
-            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
             "evidence": {
               "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
               "http_status": 200,
@@ -121,82 +119,95 @@
               "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
               "checked_at": null,
               "evidence": "Source observation only; existing mechanical gate pending"
-            }
+            },
+            "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+            "reused_from_content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
           },
           "metadata": {
-            "status": "held",
-            "checked_at": "2026-11-04T22:57:38.943199+00:00",
-            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "status": "passed",
+            "checked_at": "2026-11-05T00:10:10.738257+00:00",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
             "evidence": {
-              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
-              "verified_fields": {
-                "schema_version": 1,
-                "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-                "actual_type": "best_practice_guide",
-                "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
-                "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
-                "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
-                "text_complete": true,
-                "publication_date": "2026-09",
-                "author": "M3AAWG",
-                "publication_version": "2.0",
-                "publication_ready": false
-              },
-              "result": "Verified source metadata retained in typed staging. Reviewed-content metadata/abstract version and non-paper export contract remain to be completed; original reviewed hash retained."
-            },
-            "prior_evidence": {
-              "status": "not_checked",
-              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-              "checked_at": null,
-              "evidence": "Source observation only; existing mechanical gate pending"
+              "method": "Verified retained original source metadata",
+              "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+              "author": "M3AAWG",
+              "publication_date": "2026-09",
+              "publication_version": "2.0",
+              "summary_kind": "editorial_synopsis",
+              "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038"
             }
           },
           "duplicates": {
             "status": "passed",
             "checked_at": "2026-11-04T17:53:04.154707+00:00",
-            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
             "evidence": {
               "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
               "matches": 0,
               "exclusions": []
-            }
+            },
+            "evidence_rebound_at": "2026-11-05T00:10:10.738257+00:00",
+            "reused_from_content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "rebinding_reason": "Same source bytes, title and canonical URL; reviewed type/metadata/synopsis versioned. No repeat retrieval."
           },
           "quality": {
-            "status": "held",
-            "checked_at": "2026-11-04T22:57:38.943199+00:00",
-            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "status": "passed",
+            "checked_at": "2026-11-05T00:10:10.738257+00:00",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
             "evidence": {
-              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
-              "result": "Type-appropriate quality rubric is not approved. Do not apply bibliometric paper scoring or invent a numeric media deduction."
-            },
-            "prior_evidence": {
-              "status": "not_checked",
-              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-              "checked_at": null,
-              "evidence": "Source observation only; existing mechanical gate pending"
+              "policy": "manual-text-resources-v1",
+              "quality_method": "qualitative",
+              "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+              "criteria": {
+                "accountability": {
+                  "status": "passed",
+                  "evidence": "M3AAWG identified as issuing organization on the source title page."
+                },
+                "substantive_material": {
+                  "status": "passed",
+                  "evidence": "All five PDF pages retained and inspected, including roles, technical considerations, audience, message structure and postmaster coordination."
+                },
+                "investigative_relevance": {
+                  "status": "passed",
+                  "evidence": "Concrete supporting use in cybercrime incident response and breach-victim communications; limited direct evidence-collection utility is disclosed."
+                },
+                "evidence_or_guidance": {
+                  "status": "passed",
+                  "evidence": "Specific instructions cover SPF/DKIM/DMARC, FCrDNS, sending-domain recognition, staged recipients and evidence of sending."
+                },
+                "version": {
+                  "status": "passed",
+                  "evidence": "Title page explicitly identifies version 2.0 September 2026 and original version 1.0 December 2020."
+                },
+                "actionable_scope": {
+                  "status": "passed",
+                  "evidence": "Separates brand owner, infrastructure operator and deliverability consultant tasks for mandated notices, with alternative contact options."
+                }
+              },
+              "limitations": "Industry best-practice guidance without an empirical evaluation. It does not determine legal obligations. Primary utility is breach-response communications; it is not a general investigative method.",
+              "manual_only": true
             }
           },
           "schema": {
-            "status": "held",
-            "checked_at": "2026-11-04T22:57:38.943199+00:00",
-            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "status": "passed",
+            "checked_at": "2026-11-05T00:10:10.738257+00:00",
+            "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
             "evidence": {
-              "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
-              "result": "Typed staging is available; public non-paper target/classifier/export adapter is not yet supported."
-            },
-            "prior_evidence": {
-              "status": "not_checked",
-              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
-              "checked_at": null,
-              "evidence": "Source observation only; existing mechanical gate pending"
+              "method": "Production publisher on disposable one-record fixture",
+              "document_type": "best_practice_guide",
+              "target_record_sha256": "f4ab7bf1be6d73a52a57dab907e5edc03f5dc84b13d48f299bf18e596ef9180d",
+              "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+              "corpus_modified": false,
+              "publication_approved": false
             }
           }
         }
       },
       "review_number": 178,
       "reserved_review_batch": 25,
-      "review_batch": 25,
-      "batch": 25,
+      "review_batch": 34,
+      "batch": 34,
       "mechanical_provenance_checks": [
         {
           "checked_at": "2026-11-04T17:53:04.154707+00:00",
@@ -228,8 +239,394 @@
         "author": "M3AAWG",
         "publication_version": "2.0",
         "publication_ready": false
-      }
-    },
+      },
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+          "record": {
+            "title": "M3AAWG Best Practices for Sending Legally Mandated Emails to Large Audiences",
+            "authors": "",
+            "year": 2026,
+            "doi": "",
+            "source_url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
+            "abstract": "",
+            "document_type": "format_unverified",
+            "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+            "collection_id": "m3aawg",
+            "collection_source": "M3AAWG",
+            "discovery_source": "m3aawg",
+            "collection_url": "https://www.m3aawg.org/published-documents",
+            "venue": "M3AAWG",
+            "publisher": "M3AAWG",
+            "discovery_intermediary": "",
+            "citation_count": null,
+            "observed_document_type": "best_practice_guide_candidate",
+            "source_record_sha256": "eea58c781b15b81a068c66393f43d7e99c14e91cf5727dbff9ca4a9e16c97b4a",
+            "reserved_review_number": 178,
+            "decision": "pending",
+            "review_ready": false,
+            "editorial_queue_eligible": false,
+            "recommendation": null,
+            "publication_approved": false,
+            "preflight_blockers": [
+              "metadata",
+              "quality",
+              "schema"
+            ],
+            "source_observation": {
+              "discovery_identity": "m3aawg-url-75aa6fb2c156539547d27ab8",
+              "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+              "collection": "weekly",
+              "discovery_source": "m3aawg",
+              "source_url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
+              "title": "M3AAWG Best Practices for Sending Legally Mandated Emails to Large Audiences",
+              "authors": "",
+              "year": 2026,
+              "doi": "",
+              "abstract": "",
+              "publication_date_observed": "2026-09-14",
+              "publisher": "M3AAWG",
+              "observed_document_type": "best_practice_guide_candidate",
+              "language": "unverified",
+              "related_version_urls": [],
+              "edition_note": "Reconcile latest edition and translations before creating a public record",
+              "provenance": [
+                {
+                  "discovery_url": "https://www.m3aawg.org/published-documents",
+                  "checked_at": "2026-11-02T11:07:07.651841+00:00",
+                  "resource_sha256": "7680caf90adb1070dd6969991eed46b71705ab9d69f832ba37354f3703a97f12"
+                },
+                {
+                  "discovery_url": "https://www.m3aawg.org/published-documents?page=0",
+                  "checked_at": "2026-11-02T11:07:14.519103+00:00",
+                  "resource_sha256": "62e197bca212a3c05f47a20fcefb7f3c16e6791e95142458f230e95ad2307e80"
+                }
+              ],
+              "source_fingerprint": "eea58c781b15b81a068c66393f43d7e99c14e91cf5727dbff9ca4a9e16c97b4a",
+              "first_seen_at": "2026-11-02T11:08:00.965663+00:00",
+              "last_seen_at": "2026-11-02T11:08:00.965663+00:00",
+              "disposition": "unprocessed_discovery",
+              "duplicate_matches": [],
+              "possible_version_matches": [],
+              "document_type": "format_unverified",
+              "review_ready": false,
+              "recommendation": null,
+              "preflight_blockers": [
+                "format",
+                "access",
+                "metadata",
+                "duplicates",
+                "quality",
+                "schema"
+              ]
+            },
+            "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+            "preflight": {
+              "status": "held",
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "checks": {
+                "format": {
+                  "status": "passed",
+                  "checked_at": "2026-11-04T22:57:38.943199+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+                    "actual_type": "best_practice_guide",
+                    "container": "pdf",
+                    "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+                    "result": "Inspected actual matching text; research-paper status is not asserted."
+                  },
+                  "prior_evidence": {
+                    "status": "not_checked",
+                    "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                    "checked_at": null,
+                    "evidence": "Source observation only; existing mechanical gate pending"
+                  }
+                },
+                "access": {
+                  "status": "passed",
+                  "checked_at": "2026-11-04T22:57:38.943199+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+                    "http_status": 200,
+                    "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+                    "result": "Permitted original resource retrieved with usable text."
+                  },
+                  "prior_evidence": {
+                    "status": "not_checked",
+                    "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                    "checked_at": null,
+                    "evidence": "Source observation only; existing mechanical gate pending"
+                  }
+                },
+                "metadata": {
+                  "status": "held",
+                  "checked_at": "2026-11-04T22:57:38.943199+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+                    "verified_fields": {
+                      "schema_version": 1,
+                      "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                      "actual_type": "best_practice_guide",
+                      "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+                      "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+                      "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+                      "text_complete": true,
+                      "publication_date": "2026-09",
+                      "author": "M3AAWG",
+                      "publication_version": "2.0",
+                      "publication_ready": false
+                    },
+                    "result": "Verified source metadata retained in typed staging. Reviewed-content metadata/abstract version and non-paper export contract remain to be completed; original reviewed hash retained."
+                  },
+                  "prior_evidence": {
+                    "status": "not_checked",
+                    "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                    "checked_at": null,
+                    "evidence": "Source observation only; existing mechanical gate pending"
+                  }
+                },
+                "duplicates": {
+                  "status": "passed",
+                  "checked_at": "2026-11-04T17:53:04.154707+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+                    "matches": 0,
+                    "exclusions": []
+                  }
+                },
+                "quality": {
+                  "status": "held",
+                  "checked_at": "2026-11-04T22:57:38.943199+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+                    "result": "Type-appropriate quality rubric is not approved. Do not apply bibliometric paper scoring or invent a numeric media deduction."
+                  },
+                  "prior_evidence": {
+                    "status": "not_checked",
+                    "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                    "checked_at": null,
+                    "evidence": "Source observation only; existing mechanical gate pending"
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-11-04T22:57:38.943199+00:00",
+                  "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                  "evidence": {
+                    "checkpoint": "config/content_review_mechanical_checkpoints/2026-11-04-source-recovery.json",
+                    "result": "Typed staging is available; public non-paper target/classifier/export adapter is not yet supported."
+                  },
+                  "prior_evidence": {
+                    "status": "not_checked",
+                    "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                    "checked_at": null,
+                    "evidence": "Source observation only; existing mechanical gate pending"
+                  }
+                }
+              }
+            },
+            "review_number": 178,
+            "reserved_review_batch": 25,
+            "review_batch": 25,
+            "batch": 25,
+            "mechanical_provenance_checks": [
+              {
+                "checked_at": "2026-11-04T17:53:04.154707+00:00",
+                "checkpoint": "config/content_review_mechanical_checkpoints/m3aawg-url-75aa6fb2c156539547d27ab8-8ae66d30-a85c-8322-bfeb-1ca3bd162e7d.json",
+                "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+                "stage": "duplicates"
+              }
+            ],
+            "source_processing": {
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "retrieval_status": "retrieved",
+              "receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+              "checked_at": "2026-11-04T22:57:38.943199+00:00",
+              "reason": null,
+              "evidence_sha256": [
+                "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038"
+              ]
+            },
+            "verified_document_type": "best_practice_guide",
+            "typed_resource_staging": {
+              "schema_version": 1,
+              "content_sha256": "9c45c853431d5d71268e6558f933c565410c85879e8b1df2f9a77b366980a7e4",
+              "actual_type": "best_practice_guide",
+              "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+              "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+              "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+              "text_complete": true,
+              "publication_date": "2026-09",
+              "author": "M3AAWG",
+              "publication_version": "2.0",
+              "publication_ready": false
+            }
+          },
+          "reason": "Owner-approved typed resource schema: verified type/metadata and explicitly editorial synopsis.",
+          "superseded_at": "2026-11-05T00:10:10.738257+00:00"
+        }
+      ],
+      "summary_kind": "editorial_synopsis",
+      "publication_date": "2026-09",
+      "publication_version": "2.0",
+      "abstract_truncated": false,
+      "abstract_integrity_status": "editorial_synopsis_not_source_abstract",
+      "manual_vote_required": true,
+      "automatic_acceptance_eligible": false,
+      "automatic_route_eligible": false,
+      "automatic_handoff_pending": false,
+      "lifecycle_evidence_revision": "manual-text-resources-v1",
+      "resource_assessment": {
+        "assessor": "ALEX assistant substantive source assessment; pending human editorial decision",
+        "original_publication_date": "2020-12",
+        "date_note": "The assessed edition is version 2.0, September 2026; version 1.0 was originally published December 2020. No day is inferred.",
+        "assessment_limits": "All five extracted PDF pages assessed. Referenced external guidance was not revalidated.",
+        "limitations": "Industry best-practice guidance without an empirical evaluation. It does not determine legal obligations. Primary utility is breach-response communications; it is not a general investigative method.",
+        "criteria": {
+          "accountability": {
+            "status": "passed",
+            "evidence": "M3AAWG identified as issuing organization on the source title page."
+          },
+          "substantive_material": {
+            "status": "passed",
+            "evidence": "All five PDF pages retained and inspected, including roles, technical considerations, audience, message structure and postmaster coordination."
+          },
+          "investigative_relevance": {
+            "status": "passed",
+            "evidence": "Concrete supporting use in cybercrime incident response and breach-victim communications; limited direct evidence-collection utility is disclosed."
+          },
+          "evidence_or_guidance": {
+            "status": "passed",
+            "evidence": "Specific instructions cover SPF/DKIM/DMARC, FCrDNS, sending-domain recognition, staged recipients and evidence of sending."
+          },
+          "version": {
+            "status": "passed",
+            "evidence": "Title page explicitly identifies version 2.0 September 2026 and original version 1.0 December 2020."
+          },
+          "actionable_scope": {
+            "status": "passed",
+            "evidence": "Separates brand owner, infrastructure operator and deliverability consultant tasks for mandated notices, with alternative contact options."
+          }
+        },
+        "schema_version": 1,
+        "policy": "manual-text-resources-v1",
+        "actual_type": "best_practice_guide",
+        "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "quality_method": "qualitative",
+        "manual_only": true,
+        "summary_kind": "editorial_synopsis",
+        "assessed_at": "2026-11-05T00:10:10.738257+00:00",
+        "source_receipt": "config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json",
+        "source_sha256": "afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038",
+        "text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+        "text_complete": true,
+        "publication_date": "2026-09",
+        "publication_version": "2.0"
+      },
+      "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+      "taxonomy": {
+        "status": "passed",
+        "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "checked_at": "2026-11-05T00:10:10.738257+00:00",
+        "evidence": {
+          "contract": "manual-text-resources-v1",
+          "method": "substantive_resource_assessment",
+          "classification": {
+            "Category": "Network & Infrastructure Security",
+            "Investigation_Type": "Incident Response",
+            "OSINT_Source_Types": [
+              "DNS/WHOIS"
+            ]
+          },
+          "rationale": "Operational breach notification and email infrastructure/authentication guidance. DNS/WHOIS denotes the DNS configuration material; no scholarly-paper or citation classification is implied.",
+          "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+          "provider_requests": 0
+        }
+      },
+      "target": {
+        "title": "M3AAWG Best Practices for Sending Legally Mandated Emails to Large Audiences",
+        "authors": "M3AAWG",
+        "year": 2026,
+        "doi": "",
+        "source_url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-best-practices-for-sending-legally-mandated-emails-to-large-audiences.pdf",
+        "abstract": "This version 2.0 best-practice guide sets out responsibilities for brand owners, email infrastructure operators and deliverability consultants when sending legally mandated bulk notifications, including breach notices. It addresses domain authentication, recognizable sending domains, DNS configuration, recipient ordering, restrained message content, accessibility, proof of sending, and coordination with service and mailbox providers. It also describes alternatives to email. This is operational industry guidance; its relevance is primarily incident-response communications rather than evidence collection.",
+        "document_type": "best_practice_guide",
+        "venue": "M3AAWG",
+        "collection_source": "M3AAWG",
+        "collection_url": "https://www.m3aawg.org/published-documents",
+        "retrieved_at": "",
+        "publication_date": "2026-09",
+        "publication_version": "2.0",
+        "Category": "Network & Infrastructure Security",
+        "Investigation_Type": "Incident Response",
+        "OSINT_Source_Types": "DNS/WHOIS",
+        "citation_count": "",
+        "total_quality_score": "",
+        "Seminal_Flag": "FALSE",
+        "resource_schema_version": 1,
+        "summary_kind": "editorial_synopsis",
+        "resource_assessment": "{\"actual_type\": \"best_practice_guide\", \"assessed_at\": \"2026-11-05T00:10:10.738257+00:00\", \"assessment_limits\": \"All five extracted PDF pages assessed. Referenced external guidance was not revalidated.\", \"assessor\": \"ALEX assistant substantive source assessment; pending human editorial decision\", \"content_sha256\": \"deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137\", \"criteria\": {\"accountability\": {\"evidence\": \"M3AAWG identified as issuing organization on the source title page.\", \"status\": \"passed\"}, \"actionable_scope\": {\"evidence\": \"Separates brand owner, infrastructure operator and deliverability consultant tasks for mandated notices, with alternative contact options.\", \"status\": \"passed\"}, \"evidence_or_guidance\": {\"evidence\": \"Specific instructions cover SPF/DKIM/DMARC, FCrDNS, sending-domain recognition, staged recipients and evidence of sending.\", \"status\": \"passed\"}, \"investigative_relevance\": {\"evidence\": \"Concrete supporting use in cybercrime incident response and breach-victim communications; limited direct evidence-collection utility is disclosed.\", \"status\": \"passed\"}, \"substantive_material\": {\"evidence\": \"All five PDF pages retained and inspected, including roles, technical considerations, audience, message structure and postmaster coordination.\", \"status\": \"passed\"}, \"version\": {\"evidence\": \"Title page explicitly identifies version 2.0 September 2026 and original version 1.0 December 2020.\", \"status\": \"passed\"}}, \"date_note\": \"The assessed edition is version 2.0, September 2026; version 1.0 was originally published December 2020. No day is inferred.\", \"limitations\": \"Industry best-practice guidance without an empirical evaluation. It does not determine legal obligations. Primary utility is breach-response communications; it is not a general investigative method.\", \"manual_only\": true, \"original_publication_date\": \"2020-12\", \"policy\": \"manual-text-resources-v1\", \"publication_date\": \"2026-09\", \"publication_version\": \"2.0\", \"quality_method\": \"qualitative\", \"schema_version\": 1, \"source_receipt\": \"config/content_review_source_receipts/87d9580c3337a32dbe77f5ef6c9f2f14dd477acc17a6a711ab758b18307407e0.json\", \"source_sha256\": \"afbf8659ad0acdffce09524f28d6e7704cffb53641cb5ebb9534ff7782fed038\", \"summary_kind\": \"editorial_synopsis\", \"text_complete\": true, \"text_sha256\": \"1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a\"}",
+        "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+        "review_candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+        "review_content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "inclusion_path": "manual-text-resources-v1"
+      },
+      "target_schema": {
+        "status": "passed",
+        "checked_at": "2026-11-05T00:10:10.738257+00:00",
+        "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "evidence": {
+          "method": "Production publisher on disposable one-record fixture",
+          "document_type": "best_practice_guide",
+          "target_record_sha256": "f4ab7bf1be6d73a52a57dab907e5edc03f5dc84b13d48f299bf18e596ef9180d",
+          "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5",
+          "corpus_modified": false,
+          "publication_approved": false
+        }
+      },
+      "schema_retrieved_at": "",
+      "preflight_status": "passed",
+      "relevance": "supporting",
+      "review_reason": "A useful operational reference for breach-response teams: it connects authenticated notifications, recipient handling and proof-of-send requirements to concrete responsibilities. Its direct investigative value is limited, so manual review should decide whether supporting incident-response guidance belongs in this collection.",
+      "recommendation_content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+      "recommendation_status": "current_substantive_resource_assessment_after_preflight",
+      "recommendation_assessed_at": "2026-11-05T00:10:10.738257+00:00",
+      "recommendation_evidence": {
+        "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137",
+        "abstract_sha256": "f78128a8d54decb1b8b9ac87b436c96366559da12cf5eeda692ef4ca46dda1fd",
+        "assessment_depth": "retained_source_text_with_explicit_limits",
+        "method": "Retained source text assessed using the approved qualitative resource criteria; see limitations.",
+        "source_provenance": [],
+        "format_checked_at": "2026-11-04T22:57:38.943199+00:00",
+        "access_checked_at": "2026-11-04T22:57:38.943199+00:00",
+        "limitations": "Industry best-practice guidance without an empirical evaluation. It does not determine legal obligations. Primary utility is breach-response communications; it is not a general investigative method.",
+        "recommendation": "discuss",
+        "relevance": "supporting",
+        "basis": "A useful operational reference for breach-response teams: it connects authenticated notifications, recipient handling and proof-of-send requirements to concrete responsibilities. Its direct investigative value is limited, so manual review should decide whether supporting incident-response guidance belongs in this collection.",
+        "assessed_at": "2026-11-05T00:10:10.738257+00:00",
+        "source_text_sha256": "1be1d1d1828a39c935991d4c40091f62befd4df180c644832a345261adb2649a",
+        "resource_assessment_sha256": "80a883f9a84b62f6be1d72e168ec8a11b6b0de53f71bdfc2afa9b051294b9cd5"
+      },
+      "assessment_basis": "Retained source text assessed using the approved qualitative resource criteria; see limitations.",
+      "assessment_depth": "retained_source_text_with_explicit_limits",
+      "assessment_date": "2026-11-05",
+      "screening_status": "current_resource_recommendation_complete_after_preflight",
+      "batch_admission_eligible": true,
+      "admission_hold": null,
+      "preflight_reservation": {
+        "review_number": 178,
+        "review_batch": 25
+      },
+      "readiness_status": "passed",
+      "admitted_at": "2026-11-05T00:10:10.738257+00:00"
+    }
+  ],
+  "preflight_records": [
     {
       "title": "M3AAWG Sender Best Common Practices",
       "authors": "",
@@ -10558,8 +10955,27 @@
       "batch": 33
     }
   ],
-  "ready_count": 0,
-  "preflight_held_count": 83,
+  "ready_count": 1,
+  "preflight_held_count": 82,
   "shared_workflow": "config/content_review_workflow.json",
-  "original_intake": "weekly; relocated without changing candidate identity, content hashes or decisions"
+  "original_intake": "weekly; relocated without changing candidate identity, content hashes or decisions",
+  "new_batches_must_be_full": false,
+  "sealed_review_batches": [
+    {
+      "batch": 34,
+      "sealed_at": "2026-11-05T00:10:10.738257+00:00",
+      "count": 1,
+      "members": [
+        {
+          "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+          "review_number": 178,
+          "content_sha256": "deb029bd203e9d7c69d6f8088b7cbc67f0aaf129dbd61956ee4866dc1ae89137"
+        }
+      ],
+      "policy": "Cleared candidates sealed independently of held inventory; never append."
+    }
+  ],
+  "prepared_count": 1,
+  "mechanical_passed_awaiting_batch_admission": 0,
+  "preflight_policy": "Admit only six current hash-bound gate passes and current substantive recommendations. Seal batches of1–20 cleared candidates immediately;20 is the maximum, never a minimum. Never wait for20 or append to sealed batches."
 }

@@ -5,6 +5,7 @@ from pathlib import Path
 from tools.content_review.lifecycle import instant
 from tools.content_review.manifest_integrity import validate_update
 from tools.content_review.snapshot_integrity import verify_bytes
+from tools.content_review.checkpoint_transport import validate
 
 def prepare(root,paths,base_blobs,lease,owner,at=None):
     now=at or datetime.now(timezone.utc)
@@ -15,6 +16,7 @@ def prepare(root,paths,base_blobs,lease,owner,at=None):
         p=Path(name)
         if p.is_absolute() or '..' in p.parts:raise ValueError('Repository-relative path required')
         after=(Path(root)/p).read_text()
+        validate(after, name)
         if name in base_blobs:
             old=base_blobs[name];verify_bytes(old['content'],old['sha'],old['size'])
             if name.endswith('_review_manifest.json'):validate_update(old['content'],after)

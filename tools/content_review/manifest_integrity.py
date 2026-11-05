@@ -18,6 +18,8 @@ def validate_hashes(manifest):
 
 def parse(content):
     if isinstance(content,bytes):content=content.decode('utf8')
+    from tools.content_review.checkpoint_transport import validate
+    validate(content, '.json')
     if re.search(r'\[(?:\.{3})?truncated\]|\d+ chars truncated|\.\.\. \[omitted\]',content,re.I):raise ValueError('Literal connector truncation marker; complete immutable input required')
     data=json.loads(content)
     if not isinstance(data,dict):raise ValueError('Complete manifest object required')
