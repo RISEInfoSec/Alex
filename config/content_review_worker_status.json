@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "phase": "idle",
-  "ready_total": 2,
+  "ready_total": 0,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "Native scheduler recorded this run failed at 2026-11-05T01:48:47.894727Z while application checkpoint work continued. Application receipt was saved later and cannot satisfy native time-bound completion proof; two admitted candidates remain durably verified. No promotion.",
+  "last_error": "Heartbeat gaps and recovered Unicode character-count transport interruption before tree creation; pilot promotion ineligible.",
   "lease": {
     "run_id": "e54c6b4b-7010-8332-a843-733bf4f11d21",
     "owner": "e54c6b4b-7010-8332-a843-733bf4f11d21",
@@ -18,7 +18,7 @@
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
-    "weekly": 2,
+    "weekly": 0,
     "virusbulletin": 0,
     "apwg": 0,
     "first": 0,
@@ -38,8 +38,8 @@
   },
   "global_deficit": 249,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-05T01:49:22.210342+00:00",
-  "last_action": "Two retained classifications durably admitted in Weekly batch27; three decisions reconciled.",
+  "last_completed_at": "2026-11-05T02:59:34.142950+00:00",
+  "last_action": "Five source attempts,18 sends,four format/access gates;two authenticated approvals reconciled;no new admissions/publications.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -720,13 +720,13 @@
   },
   "current_run": {
     "run_id": "e54c6b4b-7010-8332-a843-733bf4f11d21",
-    "observed_at": "2026-11-05T02:57:30.132187+00:00",
+    "observed_at": "2026-11-05T02:59:34.142950+00:00",
     "started_at": "2026-11-05T02:47:41.123781Z",
     "scheduled_for": "2026-11-05T02:45:00Z",
-    "application_status": "running",
+    "application_status": "complete",
     "scheduler": {
       "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-      "observed_at": "2026-11-05T02:57:30.132187+00:00",
+      "observed_at": "2026-11-05T02:59:34.142950+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "next_run_time": null,
@@ -746,9 +746,10 @@
         "evidence_verified": true,
         "receipt": "config/content_review_run_receipts/eead75f7-ee28-8332-b856-3826d290c229.json"
       }
-    }
+    },
+    "application_completed_at": "2026-11-05T02:59:34.142950+00:00"
   },
-  "last_heartbeat_at": "2026-11-05T02:57:30.132187+00:00",
+  "last_heartbeat_at": "2026-11-05T02:59:34.142950+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
