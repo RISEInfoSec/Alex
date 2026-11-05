@@ -96,3 +96,13 @@ def test_corpus_metadata_route_binds_full_record_and_authoritative_url(tmp_path)
     req['records'][0]['url']='https://zenodo.org/api/records/123'
     req['records'][0]['content_sha256']='c'*64
     with pytest.raises(ValueError,match='record'):s.validate_corpus_snapshot(tmp_path,req)
+
+
+def test_datacite_metadata_stays_full_and_is_not_treated_as_document_text():
+    body={'data':{'id':'10.5281/zenodo.123','attributes':{'doi':'10.5281/zenodo.123',
+          'titles':[{'title':'a'*70000}],'types':{'resourceTypeGeneral':'Text','resourceType':'Report'}}}}
+    raw=response(json.dumps(body).encode());raw.update(final_url='https://api.datacite.org/dois/10.5281/zenodo.123',headers={'content-type':'application/json; charset=utf-8'})
+    result=s.extract(raw)
+    assert result['metadata']['titles'][0]['title']=='a'*70000
+    assert result['repository_doi']=='10.5281/zenodo.123'
+    assert result['document_type']=='unverified' and s.linked_pdf(result) is None

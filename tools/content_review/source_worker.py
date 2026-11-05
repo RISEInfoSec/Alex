@@ -131,10 +131,18 @@ def extract(response, fragment=''):
         try: data=json.loads(body)
         except (ValueError,UnicodeDecodeError): raise Hold('invalid_source_json') from None
         # Full authoritative metadata remains intact, even when its title is anomalously long.
-        if not isinstance(data,dict) or not isinstance(data.get('metadata'),dict):raise Hold('unsupported_metadata_json')
-        text=json.dumps(data['metadata'],ensure_ascii=False)
-        out.update(container_type='json',metadata=data['metadata'],repository_record_id=data.get('id'),
-                   repository_doi=data.get('doi'),files=data.get('files',[]),links=data.get('links',{}),
+        if not isinstance(data,dict):raise Hold('unsupported_metadata_json')
+        datacite=data.get('data',{})
+        if urlsplit(response['final_url']).hostname=='api.datacite.org' and isinstance(datacite,dict):
+            metadata=datacite.get('attributes')
+            if not isinstance(metadata,dict):raise Hold('unsupported_metadata_json')
+            record_id,doi=datacite.get('id'),metadata.get('doi')
+        else:
+            metadata=data.get('metadata');record_id,doi=data.get('id'),data.get('doi')
+            if not isinstance(metadata,dict):raise Hold('unsupported_metadata_json')
+        text=json.dumps(metadata,ensure_ascii=False)
+        out.update(container_type='json',metadata=metadata,repository_record_id=record_id,
+                   repository_doi=doi,files=data.get('files',[]),links=data.get('links',{}),
                    text=text[:36000],text_complete=len(text)<=36000,metadata_complete=True,document_type='unverified')
     elif body.startswith(b'%PDF-'):
         try:
@@ -204,7 +212,8 @@ def validate_corpus_snapshot(root,req):
             raise ValueError('Changed corpus record')
         doi=str(matches[0].get('doi','')).lower()
         match=re.fullmatch(r'10\.5281/zenodo\.(\d+)',doi)
-        if not match or item['url']!='https://zenodo.org/api/records/'+match.group(1):
+        permitted={'https://zenodo.org/api/records/'+match.group(1), 'https://api.datacite.org/dois/'+doi} if match else set()
+        if item['url'] not in permitted:
             raise ValueError('Corpus URL does not match DOI')
 
 
