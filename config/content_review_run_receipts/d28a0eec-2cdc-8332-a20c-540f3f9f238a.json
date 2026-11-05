@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "run_id": "d28a0eec-2cdc-8332-a20c-540f3f9f238a",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T07:45:00Z",
+  "started_at": "2026-11-05T07:44:46.523660Z",
+  "completed_at": "2026-11-05T07:52:35.093821+00:00",
+  "status": "failed",
+  "receipt_path": "config/content_review_run_receipts/d28a0eec-2cdc-8332-a20c-540f3f9f238a.json",
+  "completed_actions": [
+    "Verified shared lease and published/read back start and running records with current operations.py",
+    "Refreshed all66 complete submissions; exact complete snapshot unchanged from preceding verified pass",
+    "Verified immutable manifests/corrections and current main corpus/exclusion/upstream blob identities",
+    "Prepared one bounded five-candidate source request; independently inspected actual failed runner and precise pre-send lease rejection",
+    "Corrected lease owner field; no failed work replayed",
+    "Evaluated200 lifecycle records preserving385 identities and all historical attempts"
+  ],
+  "candidate_ids": [],
+  "candidate_check_count": 0,
+  "request_counts": {
+    "source": 0,
+    "paid": 0,
+    "openalex": 0
+  },
+  "errors": [
+    {
+      "stage": "source_runner_lease_validation",
+      "reason": "Actions41989955836 rejected request before execute constructed transport: immutable request commit270faa4bb36f0a9f5596cde62b5a94852425f636 had run_id lease but omitted owner. No source HTTP calls or candidate work occurred. Owner field was subsequently corrected and read back; failed request was not replayed.",
+      "corrective_action": "Next pass verify BOTH lease.owner and lease.run_id before preparing a fresh immutable source request. Reuse retained artifacts; preserve original failure."
+    },
+    {
+      "stage": "heartbeat",
+      "reason": "Actual startup and running observation intervals exceeded60seconds; no backfilled heartbeat."
+    }
+  ],
+  "native_terminal_success": null,
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-2527e09d730dd8e2b15cb6d8",
+      "weekly-26b3719a7cdde3455962fdfa",
+      "weekly-26e0bf60c0b553b19739cc91",
+      "weekly-27cbe4630996d447436a64dd",
+      "weekly-2fb8d1268a016d82ab42dd40"
+    ],
+    "attempted_candidate_ids": [],
+    "completed_candidate_ids": [],
+    "genuinely_first_checked": [],
+    "next_dispositions": [],
+    "newly_passed_checks": {},
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "stage": "source_runner_lease_validation",
+        "reason": "Actions41989955836 rejected request before execute constructed transport: immutable request commit270faa4bb36f0a9f5596cde62b5a94852425f636 had run_id lease but omitted owner. No source HTTP calls or candidate work occurred. Owner field was subsequently corrected and read back; failed request was not replayed.",
+        "corrective_action": "Next pass verify BOTH lease.owner and lease.run_id before preparing a fresh immutable source request. Reuse retained artifacts; preserve original failure."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains prior corpus/exclusion blobs. Existing release41945055902 failed exact assessment/content binding. No unchanged release replayed.",
+        "corrective_action": "Repair exact full-corpus assessment/content serialization through existing controlled release."
+      }
+    ],
+    "remaining_blockers": [
+      {
+        "stage": "source_runner_lease_validation",
+        "reason": "Actions41989955836 rejected request before execute constructed transport: immutable request commit270faa4bb36f0a9f5596cde62b5a94852425f636 had run_id lease but omitted owner. No source HTTP calls or candidate work occurred. Owner field was subsequently corrected and read back; failed request was not replayed.",
+        "corrective_action": "Next pass verify BOTH lease.owner and lease.run_id before preparing a fresh immutable source request. Reuse retained artifacts; preserve original failure."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains prior corpus/exclusion blobs. Existing release41945055902 failed exact assessment/content binding. No unchanged release replayed.",
+        "corrective_action": "Repair exact full-corpus assessment/content serialization through existing controlled release."
+      }
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "cache_reuse": [
+      "Unchanged complete66-submission snapshot",
+      "Complete immutable manifests and previous source/paid receipts retained",
+      "Previously completed HVE and admitted papers skipped"
+    ],
+    "stage_elapsed_seconds": {
+      "to_receipt": 468.83626
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "Source runner failed lease validation before candidate execution; heartbeat gaps.",
+    "resolvable_gate_count": null,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {},
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "lifecycle_identities": 385,
+      "weekly_ready": 2
+    },
+    "after_counts": {
+      "lifecycle_identities": 385,
+      "weekly_ready": 2
+    },
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "checkpoint_paths": [
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_lifecycle_audits/d28a0eec-2cdc-8332-a20c-540f3f9f238a.json",
+    "config/content_review_source_failures/d28a0eec-2cdc-8332-a20c-540f3f9f238a.json",
+    "config/content_review_processing_health.json",
+    "config/content_review_run_receipts/d28a0eec-2cdc-8332-a20c-540f3f9f238a.json"
+  ]
+}
