@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "run_id": "a89a024b-85d0-8332-93ff-1877c4129fef",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T00:45:00Z",
+  "started_at": "2026-11-05T00:48:09.777946Z",
+  "completed_at": "2026-11-05T00:58:43.403318+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/a89a024b-85d0-8332-93ff-1877c4129fef.json",
+  "completed_actions": [
+    "Published and read back immediate native start and running status with verified Git blob transport",
+    "Read65 complete D1 submissions and930 decisions; reconciled2 human approvals and1 rejection",
+    "Validated restored complete inputs and all checkpoint-repair records; excluded corrected23:45 pass from promotion",
+    "Reused existing source checks; independently verified paid run41944513536 with2 requests and1222 tokens",
+    "Applied2 exact-hash schema passes and admitted2 papers immediately in Weekly batch27",
+    "Prepared existing-route release PR111 for2 authenticated approvals;9 local release tests passed",
+    "Candidate tree was not advanced after character-count validation failure; local batch27 is not claimed durably admitted. Retain successful paid evidence to avoid repeated calls.",
+    "PR111 merged; full corpus publication failed at resource assessment hash validation; zero publication claimed."
+  ],
+  "candidate_ids": [
+    "weekly-09d2d4f0bfbb0771930884fd",
+    "weekly-0a59e535bcac3620fc21829c"
+  ],
+  "candidate_check_count": 2,
+  "request_counts": {
+    "source": 0,
+    "paid": 2,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/weekly_review_manifest.json",
+    "config/m3aawg_review_manifest.json",
+    "config/bellingcat_review_manifest.json",
+    "config/content_review_preflight_status.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_paid_receipts/0ea859576ebebecaff29a052cfa478b2107e0f04f02aa99c4445276843243ab0.json",
+    "config/content_review_processing_health.json"
+  ],
+  "ready_total": 3,
+  "newly_review_ready": 0,
+  "publication_pr": 111,
+  "publications": 0,
+  "errors": [
+    {
+      "stage": "checkpoint_transport",
+      "message": "Chunk assembly character-count check failed before creating any candidate tree. Candidate checkpoint stopped; paid evidence retained for reuse."
+    },
+    {
+      "stage": "publication_full_corpus_serialization",
+      "run_id": 41945055902,
+      "message": "Reviewed resource content changed; durable save skipped."
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_version": 20,
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c"
+    ],
+    "completed_candidate_ids": [
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c"
+    ],
+    "genuinely_first_checked": [],
+    "next_dispositions": [
+      "weekly-09d2d4f0bfbb0771930884fd",
+      "weekly-0a59e535bcac3620fc21829c"
+    ],
+    "newly_passed_checks": {
+      "schema": [
+        "weekly-09d2d4f0bfbb0771930884fd",
+        "weekly-0a59e535bcac3620fc21829c"
+      ]
+    },
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "stage": "publication_full_corpus_serialization",
+        "candidate_ids": [
+          "weekly-250dd6cfa359991d1db168d1",
+          "m3aawg-url-75aa6fb2c156539547d27ab8"
+        ],
+        "reason": "PR111 merged after validation. Release run41945055902 verified exact source bytes and staged2 additions, then failed full-corpus publish: alex.resource_types.public_fields -> validate_assessment -> Reviewed resource content changed. Save-corpus/receipt step skipped; zero durable or live publications claimed.",
+        "corrective_action": "Reproduce mixed-corpus CSV serialization for the approved guide; reconcile exact hash/type values through public_fields without weakening assessment binding, then resume the immutable existing release request."
+      },
+      {
+        "stage": "source_metadata",
+        "reason": "Other prior source/type/DOI/byline holds preserved; no repeated download."
+      }
+    ],
+    "cache_reuse": [
+      "Verified retained source/PDF/metadata and quality evidence; no source refetch.",
+      "Corrected original checkpoint bytes and complete immutable versions preserved.",
+      "Full65 submissions and930 decisions read; prior snapshot not reused after signature changed."
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 2,
+      "openalex": 0
+    },
+    "paid_tokens": 1222,
+    "local_audits": 0,
+    "stage_elapsed_seconds": {
+      "total_to_receipt": 633.767807
+    },
+    "integrity_passed": false,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 1,
+    "heartbeat_interval_compliant": null,
+    "remaining_blockers": [
+      {
+        "stage": "publication_full_corpus_serialization",
+        "candidate_ids": [
+          "weekly-250dd6cfa359991d1db168d1",
+          "m3aawg-url-75aa6fb2c156539547d27ab8"
+        ],
+        "reason": "PR111 merged after validation. Release run41945055902 verified exact source bytes and staged2 additions, then failed full-corpus publish: alex.resource_types.public_fields -> validate_assessment -> Reviewed resource content changed. Save-corpus/receipt step skipped; zero durable or live publications claimed.",
+        "corrective_action": "Reproduce mixed-corpus CSV serialization for the approved guide; reconcile exact hash/type values through public_fields without weakening assessment binding, then resume the immutable existing release request."
+      },
+      {
+        "stage": "source_metadata",
+        "reason": "Other prior source/type/DOI/byline holds preserved; no repeated download."
+      }
+    ],
+    "resolvable_gate_count": 0,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-05T00:58:43.403318+00:00",
+        "stage": "admitted",
+        "candidate_ids": [
+          "weekly-09d2d4f0bfbb0771930884fd",
+          "weekly-0a59e535bcac3620fc21829c"
+        ]
+      }
+    },
+    "before_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 3
+    },
+    "after_counts": {
+      "candidate_identities": 1260,
+      "lifecycle_identities": 385,
+      "ready": 3
+    },
+    "promotion_eligible": false,
+    "promotion_reason": "Independent native terminal proof pending; corrected prior run excluded; heartbeat maximum not independently computed.",
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": [],
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "candidate_checkpoint_digests": [
+      {
+        "path": "config/weekly_review_manifest.json",
+        "sha256": "5563f3eb7b81d1823d9a8704660cc4103852a03447f4abcb3f3c071408d5e30a"
+      },
+      {
+        "path": "config/m3aawg_review_manifest.json",
+        "sha256": "646e72ecbb08180d989a31e17a2fa3e962ac205250d6290785a06ab527a4ca0c"
+      },
+      {
+        "path": "config/bellingcat_review_manifest.json",
+        "sha256": "4bfff822f205290d99436029446610a1f498f397dfffafb0ca3e0ecc0e63f467"
+      },
+      {
+        "path": "config/content_review_preflight_status.json",
+        "sha256": "f990c5bcb73ce2e03052ec2399fd11632470fe93c3fc1d56841150c48a26af6a"
+      },
+      {
+        "path": "config/content_review_candidate_lifecycle.json",
+        "sha256": "dc1e8fa2d4bc57547ff7d6ee920b55dbf2083463f106fb176928f0242845ad3b"
+      },
+      {
+        "path": "config/content_review_paid_receipts/0ea859576ebebecaff29a052cfa478b2107e0f04f02aa99c4445276843243ab0.json",
+        "sha256": "2e1d8e249edffea59cd9f4a467667edc4a6271038a9c761d5ab8e8b9cf8e5eac"
+      },
+      {
+        "path": "config/content_review_processing_health.json",
+        "sha256": "b35810a4586e0501a3a5bad20196b6cdcec5ae0a6a0e65806b98f1be936c496c"
+      }
+    ]
+  },
+  "native_terminal_success": null
+}
