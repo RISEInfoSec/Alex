@@ -7,7 +7,7 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "Actual heartbeat intervals exceeded60seconds and recovered local baseline validation failed before candidate writes; pass is promotion-ineligible. Publication serializer remains held.",
+  "last_error": "Preparation overhead prevented candidate execution; actual heartbeat gaps exceed60seconds. Pass is not promotion eligible.",
   "lease": {
     "run_id": "6f97ac53-d43c-8332-818a-312850747391",
     "owner": "Content Review scheduled worker",
@@ -37,8 +37,8 @@
   },
   "global_deficit": 249,
   "soups_batch_deficit": 0,
-  "last_completed_at": "2026-11-05T04:59:49.562645+00:00",
-  "last_action": "One retained-source paper completed paid classification and serializer checks; Weekly batch28 contains one cleared Discuss recommendation. Atomic checkpoint and canonical receipt verified.",
+  "last_completed_at": "2026-11-05T05:51:06.500688+00:00",
+  "last_action": "Audited200 lifecycle records;385 identities preserved. No candidate attempts, provider requests, new ready candidates or publications.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -690,7 +690,7 @@
       "access_restricted": 11,
       "stable_quality_failure": 67
     },
-    "updated_at": "2026-11-05T04:58:09.495581+00:00",
+    "updated_at": "2026-11-05T05:49:01.967728+00:00",
     "ledger": "config/content_review_candidate_lifecycle.json"
   },
   "manual_status_recovery": {
@@ -719,13 +719,13 @@
   },
   "current_run": {
     "run_id": "6f97ac53-d43c-8332-818a-312850747391",
-    "observed_at": "2026-11-05T05:49:38.847764+00:00",
+    "observed_at": "2026-11-05T05:51:06.500688+00:00",
     "started_at": "2026-11-05T05:43:27.423411Z",
     "scheduled_for": "2026-11-05T05:45:00Z",
-    "application_status": "running",
+    "application_status": "complete",
     "scheduler": {
       "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-      "observed_at": "2026-11-05T05:49:38.847764+00:00",
+      "observed_at": "2026-11-05T05:51:06.500688+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "next_run_time": null,
@@ -745,9 +745,10 @@
         "evidence_verified": true,
         "receipt": "config/content_review_run_receipts/eead75f7-ee28-8332-b856-3826d290c229.json"
       }
-    }
+    },
+    "application_completed_at": "2026-11-05T05:51:06.500688+00:00"
   },
-  "last_heartbeat_at": "2026-11-05T05:49:38.847764+00:00",
+  "last_heartbeat_at": "2026-11-05T05:51:06.500688+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
