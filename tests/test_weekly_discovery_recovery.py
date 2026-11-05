@@ -244,3 +244,23 @@ def test_invalid_arxiv_xml_is_failed_coverage_not_an_empty_success(setup):
     report = json.loads((setup / 'receipt.json').read_text())
     assert report['status'] == 'failed'
     assert report['deferred_tasks']['arXiv:q'] == 'invalid_xml_response'
+
+
+def test_discovery_uses_only_durable_cache_and_replays_after_restart(setup):
+    legacy=setup/'cache.json'
+    legacy.write_text(json.dumps({'obsolete':None,'unrelated':{'value':'preserve'}}))
+    original=legacy.read_bytes()
+    c=client(setup)
+    c.session.get=MagicMock(return_value=response(body={'results':[{'title':'Retained source result'}]}))
+    url='https://api.crossref.org/works'
+    value=c.get_json(url)
+    assert c.session.get.call_count==1 and legacy.read_bytes()==original
+    checkpoint=json.loads((setup/'checkpoint.json').read_text())
+    assert list(checkpoint['responses'].values())==[value]
+    assert len(checkpoint['last_attempt_requests'])==1
+    assert checkpoint['last_attempt_requests'][0]['http_status']==200
+    resumed=client(setup)
+    resumed.session.get=MagicMock(side_effect=AssertionError('Completed response must not be fetched again'))
+    assert resumed.get_json(url)==value
+    resumed.session.get.assert_not_called()
+    assert resumed.requests==[] and legacy.read_bytes()==original
