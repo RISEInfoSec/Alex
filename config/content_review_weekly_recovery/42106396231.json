@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "native": {
+    "id": 42106396231,
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "cf497a3cce0b85290dc94aa7902ff5a253617630",
+    "created_at": "2026-11-05T20:45:53Z",
+    "updated_at": "2026-11-05T21:26:38Z",
+    "html_url": "https://github.com/RISEInfoSec/Alex/actions/runs/42106396231"
+  },
+  "jobs": [
+    {
+      "id": 127522252897,
+      "name": "discover",
+      "conclusion": "failure"
+    },
+    {
+      "id": 127543968456,
+      "name": "chain",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 127543969538,
+      "name": "score",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 127543970663,
+      "name": "harvest",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 127543971874,
+      "name": "rescore",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 127543972408,
+      "name": "classify",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 127543972709,
+      "name": "apwg",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 127543973964,
+      "name": "publish",
+      "conclusion": "skipped"
+    },
+    {
+      "id": 127543974012,
+      "name": "report",
+      "conclusion": "success"
+    },
+    {
+      "id": 127543975416,
+      "name": "deploy",
+      "conclusion": "skipped"
+    }
+  ],
+  "state_sha": "f0f01deba4c4a1cead2c7dc4c79dd3d5d8194b84",
+  "state_at": "2026-11-05T21:26:12Z",
+  "receipt_blob": {
+    "path": "discovery_run_receipt.json.gz",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "e180ddbadd7a7986b870647f7b76d1d593d6982d",
+    "size": 4357
+  },
+  "receipt_sha256": "ed1f3f3d31eb6107e66b50308ae84ae00a0c86637c791bf81c44394d62e3e30e",
+  "checkpoint_blob": {
+    "path": "discovery_checkpoint.json.gz",
+    "sha": "10e943fc973feddac09cab5329d06695bebd943f",
+    "size": 42977626,
+    "sha256": "34f73b6a1726b6c6c6889e9ebee75df934e73f6d604c8216b1e72739735ce3d4"
+  },
+  "discovery_receipt": {
+    "schema_version": 1,
+    "status": "partial",
+    "completed_at": "2026-11-05T21:25:44.545919+00:00",
+    "elapsed_seconds": 2348.823,
+    "completed_tasks": 49,
+    "replayed_tasks": 49,
+    "deferred_tasks": {
+      "OpenAlex:abstract_enrichment:61ceafa0dddbabd0821939d87efd3f3b26f5cccb3b78ffdcc09bb1052ba258c8": "openalex_request_budget"
+    },
+    "new_candidates": 0,
+    "actual_request_count": 250,
+    "openalex_request_count": 250,
+    "checkpoint_cache_hits": 121,
+    "http_status_counts": {
+      "200": 246,
+      "404": 4
+    },
+    "error_types": {},
+    "last_quota": {
+      "X-RateLimit-Limit": 10000,
+      "X-RateLimit-Remaining": 9090,
+      "X-RateLimit-Credits-Used": 0,
+      "X-RateLimit-Reset": 9275
+    }
+  },
+  "provider_state": {
+    "last_request_at": 1793913925.4551923,
+    "retry_not_before": 1793911539.2246518,
+    "retry_not_before_iso": "2026-11-05T20:45:39.224652+00:00",
+    "eligible_at_receipt": true,
+    "last_failure": "network_or_timeout",
+    "note": "last_failure is retained historical state; this pass recorded no request error"
+  },
+  "integrity": {
+    "state_head_verified": true,
+    "receipt_blob_verified": true,
+    "checkpoint_blob_verified": true,
+    "request_budget_compliant": true,
+    "provider_hold_respected": true
+  }
+}

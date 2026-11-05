@@ -1458,10 +1458,10 @@
         "200": 20
       },
       "last_openalex_quota_headers": {
-        "X-RateLimit-Limit": 10000.0,
-        "X-RateLimit-Remaining": 9800.0,
-        "X-RateLimit-Credits-Used": 10.0,
-        "X-RateLimit-Reset": 19139.0
+        "X-RateLimit-Limit": 10000,
+        "X-RateLimit-Remaining": 9800,
+        "X-RateLimit-Credits-Used": 10,
+        "X-RateLimit-Reset": 19139
       },
       "provider_pacing_and_caps_unchanged": true,
       "scope": "Immutable in-progress checkpoint; not a terminal run receipt or proof of completed discovery."
@@ -1498,10 +1498,10 @@
     "window_candidates": 4672,
     "completed_search_tasks": 49,
     "deduplicated_doi_abstract_lookups_total": 1072,
-    "cached_doi_results": 121,
-    "deduplicated_doi_abstract_lookups_remaining": 951,
-    "state_commit": "e91f30917343219ae4acabf20e6d793e0c8df12e",
-    "retry_not_before": "2026-11-05T20:45:39.224652+00:00"
+    "cached_doi_results": 371,
+    "deduplicated_doi_abstract_lookups_remaining": 701,
+    "state_commit": "f0f01deba4c4a1cead2c7dc4c79dd3d5d8194b84",
+    "retry_not_before": null
   },
   "approval_required": {
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
@@ -1544,6 +1544,29 @@
       "conclusion": "failure",
       "canonical_receipt": "config/content_review_weekly_recovery/42091428591.json",
       "retry_not_before": "2026-11-05T20:45:39.224652+00:00"
+    },
+    {
+      "schema_version": 1,
+      "continuation": 2,
+      "owner_authorization": "Explicit owner approval of PR118 bounded recovery pace and resumption, 2026-11-05",
+      "previous_run": 42091428591,
+      "expected_main_sha": "cf497a3cce0b85290dc94aa7902ff5a253617630",
+      "started_at": "2026-11-05T20:45:53Z",
+      "quarantined_historical_run": 36439756777,
+      "verified_successful_replacement": 36443867559,
+      "active_runs": [],
+      "dispatch_attempts": 1,
+      "status": "completed_partial_request_budget",
+      "child_run": 42106396231,
+      "child_head_sha": "cf497a3cce0b85290dc94aa7902ff5a253617630",
+      "child_created_at": "2026-11-05T20:45:53Z",
+      "conclusion": "failure",
+      "canonical_receipt": "config/content_review_weekly_recovery/42106396231.json",
+      "actual_requests": 250,
+      "http200": 246,
+      "http404": 4,
+      "request_errors": 0,
+      "state_commit": "f0f01deba4c4a1cead2c7dc4c79dd3d5d8194b84"
     }
   ],
   "latest_weekly_checkpoint": {
@@ -1576,10 +1599,10 @@
       "api.openalex.org": 113
     },
     "last_openalex_quota": {
-      "X-RateLimit-Limit": 10000.0,
-      "X-RateLimit-Remaining": 9090.0,
-      "X-RateLimit-Credits-Used": 0.0,
-      "X-RateLimit-Reset": 16150.0
+      "X-RateLimit-Limit": 10000,
+      "X-RateLimit-Remaining": 9090,
+      "X-RateLimit-Credits-Used": 0,
+      "X-RateLimit-Reset": 16150
     },
     "last_request": {
       "host": "api.openalex.org",
@@ -1598,7 +1621,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-05T19:55:04.918276+00:00",
+  "updated_at": "2026-11-05T21:33:12.260Z",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1611,18 +1634,19 @@
     "merge_commit": "5b2f1b13646bcfba342e8e0437c17e81f6b38a84"
   },
   "latest_weekly_terminal": {
-    "run_id": 42091428591,
+    "run_id": 42106396231,
     "native_conclusion": "failure",
     "discovery_status": "partial",
-    "actual_requests": 193,
-    "http200": 180,
-    "http404": 12,
-    "connection_failure": 1,
-    "new_candidates": 1260,
-    "source_state_commit": "e91f30917343219ae4acabf20e6d793e0c8df12e",
-    "canonical_receipt": "config/content_review_weekly_recovery/42091428591.json"
+    "actual_requests": 250,
+    "http200": 246,
+    "http404": 4,
+    "connection_failure": 0,
+    "new_candidates": 0,
+    "source_state_commit": "f0f01deba4c4a1cead2c7dc4c79dd3d5d8194b84",
+    "canonical_receipt": "config/content_review_weekly_recovery/42106396231.json",
+    "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "After persisted provider hold expires, re-read native state, provider cooldown and current main; dispatch one bounded continuation with no active pipeline, retain cached responses, and independently verify its terminal receipt. Do not restore hourly checks or claim recovery while this owner maintenance remains unfinished.",
+  "next_action": "No active current pipeline and no live provider hold. Dispatch one further bounded continuation, reuse all 371 cached DOI results, and independently verify its terminal receipt. Keep hourly checks paused and retain the maintenance lease.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -1632,5 +1656,12 @@
     "actual_entrypoint_read_only_hold_verification": "config/content_review_weekly_recovery/provider-hold-launcher-verification.json",
     "dispatch_attempts": 0
   },
-  "next_continuation_base_at_observation": "b033740a6e8ed2a398b320a2c120592ae06c6df0"
+  "next_continuation_base_at_observation": "cf497a3cce0b85290dc94aa7902ff5a253617630",
+  "maintenance_lease": {
+    "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
+    "verified_owner": true,
+    "renewed_at": "2026-11-05T21:33:12.260Z",
+    "expires_at": "2026-11-05T23:33:12.260Z",
+    "purpose": "Owner-authorized ALEX end-to-end recovery; hourly worker and monitor remain paused."
+  }
 }
