@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T12:32:26.896Z",
+  "observed_at": "2026-11-05T13:34:37.457Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "0e6df00e-d1b8-832f-a149-7cf771870aaf",
-    "scheduled_for": "2026-11-05T12:32:00Z",
-    "started_at": "2026-11-05T12:30:26.329584Z",
+    "run_id": "2a12fe43-4780-832f-bc45-1392bfe13376",
+    "scheduled_for": "2026-11-05T13:32:00Z",
+    "started_at": "2026-11-05T13:30:28.517190Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,115 +14,43 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-05T12:31:26.782Z",
+    "observed_at": "2026-11-05T13:32:38.435Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "151949cc-5180-832e-856e-7f03240012d6",
+      "id": "da45ceb2-82f4-832e-9025-098f80cb3919",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-05T11:45:00Z",
-      "started_at": "2026-11-05T11:41:32.193163Z",
-      "completed_at": "2026-11-05T11:51:23.493062Z"
+      "scheduled_for": "2026-11-05T12:45:00Z",
+      "started_at": "2026-11-05T12:40:57.617427Z",
+      "completed_at": "2026-11-05T12:52:59.851693Z"
     }
   },
   "receipt_check": {
-    "run_id": "151949cc-5180-832e-856e-7f03240012d6",
-    "path": "config/content_review_run_receipts/151949cc-5180-832e-856e-7f03240012d6.json",
+    "run_id": "da45ceb2-82f4-832e-9025-098f80cb3919",
+    "path": "config/content_review_run_receipts/da45ceb2-82f4-832e-9025-098f80cb3919.json",
     "verified": true,
-    "reason": "The canonical scheduled receipt matches the native run identity and scheduled time, contains completed application actions, reports complete, and its completion time falls within the native run interval."
+    "reason": "Native terminal completion matches the canonical scheduled receipt identity, schedule, nonempty actions, path and completion time bounds."
   },
-  "checkpoint_observed_at": "2026-11-05T11:50:59.378794+00:00",
+  "checkpoint_observed_at": "2026-11-05T12:52:22.239561+00:00",
   "processing": {
-    "observed_at": "2026-11-05T12:32:26.896Z",
-    "evidence_tree_sha": "9832e8fc9baaad509f43b80ec8aa6724fe44caec",
+    "observed_at": "2026-11-05T13:34:37.457Z",
+    "evidence_tree_sha": "243a99e7d890133fc1716c0789eecd0ba1d7ec48",
     "examined_run_ids": [
-      "b0118d73-fbd8-8332-bd8d-261c5a2ce052",
       "06e2604a-928c-832e-93d7-b3e1702c73ba",
-      "151949cc-5180-832e-856e-7f03240012d6"
+      "151949cc-5180-832e-856e-7f03240012d6",
+      "da45ceb2-82f4-832e-9025-098f80cb3919"
     ],
     "totals": {
       "local_candidates": 10,
-      "actual_source_requests": 41,
-      "new_source_gate_passes": 14,
+      "actual_source_requests": 46,
+      "new_source_gate_passes": 17,
       "new_downstream_gate_passes": 0,
       "all_six_completions": 0,
       "newly_manual_ready": 0,
       "publications": 0
     },
     "runs": [
-      {
-        "run_id": "b0118d73-fbd8-8332-bd8d-261c5a2ce052",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "weekly-328f6ec95bbfcadaaa853928",
-          "weekly-329702d8ba40bd7d92d1f60a",
-          "weekly-36e8099cc6628dcd94b4d43c",
-          "weekly-38472eee4022e096fd8e9c71",
-          "weekly-388340f7d9bd8ceeaca2a20b"
-        ],
-        "actual_source_requests": 19,
-        "new_source_gate_passes": 6,
-        "new_downstream_gate_passes": 0,
-        "per_gate_passes": {
-          "format": [
-            "weekly-36e8099cc6628dcd94b4d43c",
-            "weekly-38472eee4022e096fd8e9c71",
-            "weekly-388340f7d9bd8ceeaca2a20b"
-          ],
-          "access": [
-            "weekly-36e8099cc6628dcd94b4d43c",
-            "weekly-38472eee4022e096fd8e9c71",
-            "weekly-388340f7d9bd8ceeaca2a20b"
-          ]
-        },
-        "all_six_completions": 0,
-        "all_six_candidate_ids": [],
-        "newly_manual_ready": 0,
-        "manual_ready_candidate_ids": [],
-        "publications": 0,
-        "publication_ids": [],
-        "resolvable_gates": 3,
-        "legitimate_holds_only": false,
-        "blockers": [
-          {
-            "candidate_id": "weekly-328f6ec95bbfcadaaa853928",
-            "stage": "source_access",
-            "reason": "source_http_403",
-            "corrective_action": "Preserve access restriction; no unchanged retry or bypass."
-          },
-          {
-            "candidate_id": "weekly-329702d8ba40bd7d92d1f60a",
-            "stage": "source_access",
-            "reason": "robots_disallow",
-            "corrective_action": "Preserve access restriction; no unchanged retry or bypass."
-          },
-          {
-            "candidate_id": "weekly-36e8099cc6628dcd94b4d43c",
-            "stage": "metadata_and_type_versioning",
-            "reason": "Research paper front matter and body verified. Publisher and PDF title/DOI/date agree, but PDF autogenerated citations use Boniphace while the byline/publisher use Boniface; reconcile exact author metadata before classification.",
-            "corrective_action": "Reuse retained complete source evidence and resolve only the missing metadata/type versioning, then existing downstream quality/classification/serialization gates."
-          },
-          {
-            "candidate_id": "weekly-38472eee4022e096fd8e9c71",
-            "stage": "metadata_and_type_versioning",
-            "reason": "Research paper front matter and abstract verified. PDF second author Mukosi Mashudu Lucky differs in ordering from publisher Mukosi Lucky Mashudu; ORCID and publication/version metadata require reconciliation before classification.",
-            "corrective_action": "Reuse retained complete source evidence and resolve only the missing metadata/type versioning, then existing downstream quality/classification/serialization gates."
-          },
-          {
-            "candidate_id": "weekly-388340f7d9bd8ceeaca2a20b",
-            "stage": "metadata_and_type_versioning",
-            "reason": "Research review paper front matter and methodology verified, matching Sami Syed and DOI. Resolve publication date separately from received/accepted dates and version the provisional research_paper_candidate type before downstream classification.",
-            "corrective_action": "Reuse retained complete source evidence and resolve only the missing metadata/type versioning, then existing downstream quality/classification/serialization gates."
-          },
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Existing release41945055902 failed exact assessment/content binding; main6899fc7f retains unchanged corpus. No unchanged failed release replayed.",
-            "corrective_action": "Repair controlled full-corpus serialization while preserving assessment/content binding."
-          }
-        ]
-      },
       {
         "run_id": "06e2604a-928c-832e-93d7-b3e1702c73ba",
         "checkpoint_integrity": "failed",
@@ -138,18 +66,11 @@
         "new_source_gate_passes": 8,
         "new_downstream_gate_passes": 0,
         "per_gate_passes": {
-          "format": [
-            "weekly-3edc6db58d7fb63369f1382a",
-            "weekly-3f202ca007a2c04f9672c7d9",
-            "weekly-45dd07b0aa7eb7dec470f1dd",
-            "weekly-4b38dda890565d1ac84397c0"
-          ],
-          "access": [
-            "weekly-3edc6db58d7fb63369f1382a",
-            "weekly-3f202ca007a2c04f9672c7d9",
-            "weekly-45dd07b0aa7eb7dec470f1dd",
-            "weekly-4b38dda890565d1ac84397c0"
-          ]
+          "format": 4,
+          "access": 4,
+          "metadata": 0,
+          "quality": 0,
+          "schema": 0
         },
         "all_six_completions": 0,
         "all_six_candidate_ids": [],
@@ -205,7 +126,13 @@
         "actual_source_requests": 0,
         "new_source_gate_passes": 0,
         "new_downstream_gate_passes": 0,
-        "per_gate_passes": {},
+        "per_gate_passes": {
+          "format": 0,
+          "access": 0,
+          "metadata": 0,
+          "quality": 0,
+          "schema": 0
+        },
         "all_six_completions": 0,
         "all_six_candidate_ids": [],
         "newly_manual_ready": 0,
@@ -237,6 +164,73 @@
             "corrective_action": "Validate the current exact mixed-corpus assessment binding through the existing controlled release; do not repeat the unchanged failed release."
           }
         ]
+      },
+      {
+        "run_id": "da45ceb2-82f4-832e-9025-098f80cb3919",
+        "checkpoint_integrity": "reported_passed",
+        "local_candidates": 5,
+        "candidate_ids": [
+          "weekly-4c965b0ec0c5b5cb9145ad85",
+          "weekly-5119ae5a98d80e9ef5d2544b",
+          "weekly-52701703a3ce1a9eaef90f2c",
+          "weekly-56fec07c6bb5ce26240c614e",
+          "weekly-580cbf65ba78205f3b91860e"
+        ],
+        "actual_source_requests": 24,
+        "new_source_gate_passes": 9,
+        "new_downstream_gate_passes": 0,
+        "per_gate_passes": {
+          "format": 3,
+          "access": 3,
+          "metadata": 3,
+          "quality": 0,
+          "schema": 0
+        },
+        "all_six_completions": 0,
+        "all_six_candidate_ids": [],
+        "newly_manual_ready": 0,
+        "manual_ready_candidate_ids": [],
+        "publications": 0,
+        "publication_ids": [],
+        "resolvable_gates": 3,
+        "legitimate_holds_only": false,
+        "blockers": [
+          {
+            "candidate_id": "weekly-4c965b0ec0c5b5cb9145ad85",
+            "stage": "source_access",
+            "reason": "Verified bot challenge HTML, not intended material; no bypass or gate pass.",
+            "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
+          },
+          {
+            "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+            "stage": "verified_type_and_downstream",
+            "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+            "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+          },
+          {
+            "candidate_id": "weekly-52701703a3ce1a9eaef90f2c",
+            "stage": "source_access",
+            "reason": "ReadTimeout",
+            "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
+          },
+          {
+            "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
+            "stage": "verified_type_and_downstream",
+            "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+            "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+          },
+          {
+            "candidate_id": "weekly-580cbf65ba78205f3b91860e",
+            "stage": "verified_type_and_downstream",
+            "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+            "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+          },
+          {
+            "stage": "publication_full_corpus_serialization",
+            "reason": "Main corpus/exclusions remain exact verified blobs056f6e/69ef4577; prior41945055902 failed exact full-corpus assessment binding. No unchanged release replayed.",
+            "corrective_action": "Repair and validate the existing controlled serializer while preserving assessment/content binding."
+          }
+        ]
       }
     ],
     "status": "progress_requires_gate_evidence",
@@ -244,46 +238,60 @@
     "stalled_resolvable_gates": false,
     "repeated_attempts_without_progress": false,
     "stalled_downstream_gates": true,
-    "missing_stage_or_capability": "The latest pass performed no candidate work because immutable-input preparation consumed its execution window. The preceding two work-bearing passes produced 14 source-gate passes but no quality/schema, six-gate, manual-ready or publication progress. Four retained papers still require authoritative metadata and type versioning; the controlled full-corpus assessment/content serializer remains unresolved.",
-    "corrective_action": "Reuse the already verified immutable inputs incrementally, resolve authoritative metadata for retained papers, then execute quality, classification and schema gates without repeating source retrieval. Validate the controlled mixed-corpus assessment binding separately before release.",
+    "missing_stage_or_capability": "The two work-bearing passes among the last three produced 17 source-gate passes but no quality/schema, six-gate, manual-ready or publication progress. Three newly source-qualified papers require explicit type normalization, exact-hash classification and target serialization; older retained papers still require authoritative metadata/type reconciliation. The controlled full-corpus assessment/content serializer also remains unresolved.",
+    "corrective_action": "Reuse retained source artifacts without refetching. Normalize verified paper types, execute current-contract exact-hash classification and quality/schema serialization for due candidates, and validate the controlled mixed-corpus assessment binding separately before release. Preserve the bot-challenge and timeout holds.",
     "scheduler_success_is_processing_recovery": false,
     "sustained_throughput_verified": false,
     "processing_health": {
-      "native_run_id": "151949cc-5180-832e-856e-7f03240012d6",
+      "native_run_id": "da45ceb2-82f4-832e-9025-098f80cb3919",
       "application_status": "complete",
-      "local_candidates": 0,
-      "local_audits": 102,
-      "actual_source_requests": 0,
-      "source_gate_passes": 0,
+      "local_candidates": 5,
+      "local_audits": 200,
+      "actual_source_requests": 24,
+      "source_gate_passes": 9,
       "downstream_gate_passes": 0,
       "six_gate_completions": 0,
       "newly_review_ready": 0,
       "publications": 0,
-      "scope_note": "Lifecycle/complete-input preparation only. No candidate attempt, source request, paid call, gate pass, admission or publication.",
+      "scope_note": "Three matching papers verified; challenge and timeout remain distinct holds. No paid/registry calls or publication.",
       "blockers": [
         {
-          "stage": "candidate_preparation",
-          "reason": "Complete immutable input transfer, byte/SHA verification and current decision refresh consumed the candidate execution window; no candidate resolution or provider request was performed. Remaining gate execution was not started with incomplete corpus/source/decision prerequisites.",
-          "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline."
+          "candidate_id": "weekly-4c965b0ec0c5b5cb9145ad85",
+          "stage": "source_access",
+          "reason": "Verified bot challenge HTML, not intended material; no bypass or gate pass.",
+          "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
         },
         {
-          "stage": "metadata_and_type_versioning",
-          "candidate_ids": [
-            "weekly-3edc6db58d7fb63369f1382a",
-            "weekly-3f202ca007a2c04f9672c7d9",
-            "weekly-45dd07b0aa7eb7dec470f1dd",
-            "weekly-4b38dda890565d1ac84397c0"
-          ],
-          "reason": "Retained paper inputs remain parked as provisional research_paper_candidate. Existing normalize_record requires current first-five gates including metadata; authoritative date/byline/version conflicts remain. No relevant capability revision or current metadata pass was established.",
-          "corrective_action": "Resolve authoritative metadata with retained content, then use explicit full-version type normalization and rebind only unchanged valid evidence. Preserve parked suppression until the evidence changes."
+          "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+          "stage": "verified_type_and_downstream",
+          "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+          "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+        },
+        {
+          "candidate_id": "weekly-52701703a3ce1a9eaef90f2c",
+          "stage": "source_access",
+          "reason": "ReadTimeout",
+          "corrective_action": "Preserve challenge/timeout backoff; do not replay unchanged source access."
+        },
+        {
+          "candidate_id": "weekly-56fec07c6bb5ce26240c614e",
+          "stage": "verified_type_and_downstream",
+          "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+          "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
+        },
+        {
+          "candidate_id": "weekly-580cbf65ba78205f3b91860e",
+          "stage": "verified_type_and_downstream",
+          "reason": "Actual paper format/access/metadata verified; exact-hash classification and serialization remain.",
+          "corrective_action": "Use existing explicit normalization after current first-five gates, then current-contract paid taxonomy and real target serialization; reuse retained sources."
         },
         {
           "stage": "publication_full_corpus_serialization",
-          "reason": "Prior release41945055902 failed assessment/content binding; full current public target was not independently revalidated in this pass.",
-          "corrective_action": "Validate the current exact mixed-corpus assessment binding through the existing controlled release; do not repeat the unchanged failed release."
+          "reason": "Main corpus/exclusions remain exact verified blobs056f6e/69ef4577; prior41945055902 failed exact full-corpus assessment binding. No unchanged release replayed.",
+          "corrective_action": "Repair and validate the existing controlled serializer while preserving assessment/content binding."
         }
       ],
-      "corrective_action": "Reuse verified immutable inputs incrementally, refresh only changed blobs, then execute work_plan next missing gates within the original deadline."
+      "corrective_action": "Reuse retained matching sources, finish current type normalization and remaining downstream gates; preserve challenge/timeout holds."
     },
     "checkpoint_corrections": [
       {
@@ -326,28 +334,24 @@
   },
   "findings": [
     {
-      "code": "native_completion_verified",
-      "message": "Worker run 151949cc-5180-832e-856e-7f03240012d6 completed natively and its identity/time-bound canonical receipt verifies completed application work."
+      "code": "native_run_verified",
+      "message": "Worker run da45ceb2-82f4-832e-9025-098f80cb3919 started within the 15-minute dispatch grace, completed natively, and has a matching identity/time-bound canonical receipt."
     },
     {
-      "code": "processing_progress_not_sustained_recovery",
-      "message": "The last three completed scheduled pilot receipts contain 10 candidate dispositions, 41 source requests, 14 new source-gate passes, 0 downstream-gate passes, 0 six-gate completions, 0 manual-ready admissions and 0 publications. The latest pass was no-execution, so sustained recovery is not established."
+      "code": "no_active_scheduler_or_heartbeat_incident",
+      "message": "No missed scheduled start, active heartbeat stall, receipt mismatch, lease deferral or access failure was observed. The worker application completed before native termination."
     },
     {
-      "code": "downstream_progress_stalled",
-      "message": "The two preceding work-bearing passes advanced source gates but no downstream gate or readiness. The latest health record identifies retained-paper metadata/type versioning and controlled publication serialization as the missing stages."
+      "code": "downstream_progress_not_established",
+      "message": "The last three scheduled pilot receipts contain 10 candidate attempts, 46 source requests and 17 new source-gate passes, but no downstream gate pass, all-six completion, manual admission or publication. Sustained unattended recovery is not verified."
     },
     {
-      "code": "heartbeat_gaps_recorded",
-      "message": "The latest receipt records noncompliant heartbeat intervals. The native run is terminal, so no active heartbeat stall is inferred; the pass remains promotion-ineligible."
-    },
-    {
-      "code": "no_scheduler_incident",
-      "message": "Worker dispatch offset -3.463 minutes and observer dispatch offset -1.561 minutes were within the 15-minute grace. No missed start or active scheduler stall was observed."
+      "code": "promotion_ineligible_heartbeat_gaps",
+      "message": "The latest intact work-bearing pass reports heartbeat_interval_compliant=false, so native completion and source progress do not qualify it for promotion."
     },
     {
       "code": "checkpoint_correction_preserved",
-      "message": "Corrected run fe4875f6-dc78-8332-8c50-fe0d998ea688 remains promotion-ineligible; the correction blob and restored repair-tree blobs were verified by immutable SHA and size. A later intact scheduled checkpoint exists, but the latest pass performed no candidate work."
+      "message": "Corrected run fe4875f6-dc78-8332-8c50-fe0d998ea688 remains excluded from promotion; the correction blob and repair-tree restored blob SHA/size pairs were verified."
     }
   ],
   "access_error": null
