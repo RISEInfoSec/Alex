@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T04:29:17.203Z",
+  "observed_at": "2026-11-05T05:37:56.690Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "55d1e6e6-1450-8333-bf3a-b94d365f877e",
-    "scheduled_for": "2026-11-05T04:32:00Z",
-    "started_at": "2026-11-05T04:28:48.445575Z",
+    "run_id": "220d44aa-4b1c-8333-bf6d-b251e77ebd56",
+    "scheduled_for": "2026-11-05T05:32:00Z",
+    "started_at": "2026-11-05T05:36:43.235177Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,93 +14,46 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-05T04:29:17.203Z",
+    "observed_at": "2026-11-05T05:37:54.993Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "01a60396-1168-8332-b1ab-e722c9c1d79a",
+      "id": "57dd42d5-24e0-8332-a7b5-ee830d411cd9",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-05T03:45:00Z",
-      "started_at": "2026-11-05T03:49:58.730520Z",
-      "completed_at": "2026-11-05T04:00:07.312706Z"
+      "scheduled_for": "2026-11-05T04:45:00Z",
+      "started_at": "2026-11-05T04:49:54.541761Z",
+      "completed_at": "2026-11-05T05:00:37.101142Z"
     }
   },
   "receipt_check": {
-    "run_id": "01a60396-1168-8332-b1ab-e722c9c1d79a",
-    "path": "config/content_review_run_receipts/01a60396-1168-8332-b1ab-e722c9c1d79a.json",
+    "run_id": "57dd42d5-24e0-8332-a7b5-ee830d411cd9",
+    "path": "config/content_review_run_receipts/57dd42d5-24e0-8332-a7b5-ee830d411cd9.json",
     "verified": true,
-    "reason": "Canonical receipt run_id, trigger=schedule, status=complete, nonempty completed_actions and receipt_path match the native run; receipt completed_at 2026-11-05T03:58:42.081989Z is within native bounds 2026-11-05T03:49:58.730520Z–2026-11-05T04:00:07.312706Z."
+    "reason": "Canonical receipt run_id, trigger=schedule, status=complete, nonempty completed_actions and receipt_path match the native run; receipt completed_at 2026-11-05T04:59:04.298778+00:00 is within native bounds 2026-11-05T04:49:54.541761Z–2026-11-05T05:00:37.101142Z."
   },
-  "checkpoint_observed_at": "2026-11-05T03:59:15.067346+00:00",
+  "checkpoint_observed_at": "2026-11-05T04:59:49.562645+00:00",
   "processing": {
-    "observed_at": "2026-11-05T04:29:17.203Z",
-    "evidence_observed_at": "2026-11-05T03:58:42.081989+00:00",
+    "observed_at": "2026-11-05T05:37:56.690Z",
+    "evidence_observed_at": "2026-11-05T04:59:04.298778+00:00",
     "evidence_fresh": true,
-    "immutable_tree_sha": {
-      "title": "soups-corpus-review",
-      "content": "{\"ref\":\"refs/heads/codex/soups-corpus-review\",\"node_id\":\"REF_kwDOR7aH8toAJHJlZnMvaGVhZHMvY29kZXgvc291cHMtY29ycHVzLXJldmlldw\",\"url\":\"https://api.github.com/repos/RISEInfoSec/Alex/git/refs/heads/codex/soups-corpus-review\",\"object\":{\"sha\":\"9d72c5c43da7a15cf2cc60c12a894b8dbdebaaae\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/RISEInfoSec/Alex/git/commits/9d72c5c43da7a15cf2cc60c12a894b8dbdebaaae\"}}",
-      "display_url": "https://api.github.com/repos/RISEInfoSec/Alex/git/refs/heads/codex/soups-corpus-review"
-    },
+    "immutable_tree_sha": "270abb515cb5ecd2cf5b1cc6c7709aea03b4ee50",
     "examined_run_ids": [
-      "aab6f7c4-9964-8332-a6a7-ec3c50c631fb",
       "e54c6b4b-7010-8332-a843-733bf4f11d21",
-      "01a60396-1168-8332-b1ab-e722c9c1d79a"
+      "01a60396-1168-8332-b1ab-e722c9c1d79a",
+      "57dd42d5-24e0-8332-a7b5-ee830d411cd9"
     ],
     "runs": [
-      {
-        "run_id": "aab6f7c4-9964-8332-a6a7-ec3c50c631fb",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 2,
-        "candidate_ids": [
-          "weekly-09d2d4f0bfbb0771930884fd",
-          "weekly-0a59e535bcac3620fc21829c"
-        ],
-        "actual_source_requests": 0,
-        "new_source_gate_passes": 0,
-        "new_downstream_gate_passes": 2,
-        "per_gate_passes": {
-          "schema": [
-            "weekly-09d2d4f0bfbb0771930884fd",
-            "weekly-0a59e535bcac3620fc21829c"
-          ]
-        },
-        "all_six_completions": 2,
-        "all_six_candidate_ids": [
-          "weekly-09d2d4f0bfbb0771930884fd",
-          "weekly-0a59e535bcac3620fc21829c"
-        ],
-        "newly_manual_ready": 2,
-        "manual_ready_candidate_ids": [
-          "weekly-09d2d4f0bfbb0771930884fd",
-          "weekly-0a59e535bcac3620fc21829c"
-        ],
-        "publications": 0,
-        "publication_ids": [],
-        "resolvable_gates": 0,
-        "legitimate_holds_only": false,
-        "blockers": [
-          {
-            "stage": "publication_full_corpus_serialization",
-            "candidate_ids": [
-              "weekly-250dd6cfa359991d1db168d1",
-              "m3aawg-url-75aa6fb2c156539547d27ab8"
-            ],
-            "reason": "Existing release PR111 merged, but release run41945055902 failed full-corpus assessment-hash validation. Current main remains1c3633d145a2cddcd2d504d0a1b89d15c34f00c8 with no durable additions. No unchanged failed release replayed.",
-            "corrective_action": "Reproduce and correct mixed-corpus CSV serialization while preserving exact resource assessment binding, then resume the existing immutable release."
-          }
-        ]
-      },
       {
         "run_id": "e54c6b4b-7010-8332-a843-733bf4f11d21",
         "checkpoint_integrity": "failed",
         "local_candidates": 5,
         "candidate_ids": [
-          "weekly-10bf6841abc6f36147d952f0",
-          "weekly-140a482ff1be3eb40a9ddfad",
-          "weekly-18d5465ae2e817495b96b772",
           "weekly-1ea0d5996c905cf07960fb8e",
-          "weekly-2096e9686479ceda7cc35242"
+          "weekly-18d5465ae2e817495b96b772",
+          "weekly-2096e9686479ceda7cc35242",
+          "weekly-10bf6841abc6f36147d952f0",
+          "weekly-140a482ff1be3eb40a9ddfad"
         ],
         "actual_source_requests": 18,
         "new_source_gate_passes": 4,
@@ -204,43 +157,78 @@
             "corrective_action": "Correct full-corpus resource serialization while preserving exact assessment/content binding, then resume existing controlled release."
           }
         ]
+      },
+      {
+        "run_id": "57dd42d5-24e0-8332-a7b5-ee830d411cd9",
+        "checkpoint_integrity": "failed",
+        "local_candidates": 1,
+        "candidate_ids": [
+          "weekly-10bf6841abc6f36147d952f0"
+        ],
+        "actual_source_requests": 0,
+        "new_source_gate_passes": 0,
+        "new_downstream_gate_passes": 1,
+        "per_gate_passes": {
+          "schema": [
+            "weekly-10bf6841abc6f36147d952f0"
+          ]
+        },
+        "all_six_completions": 1,
+        "all_six_candidate_ids": [
+          "weekly-10bf6841abc6f36147d952f0"
+        ],
+        "newly_manual_ready": 1,
+        "manual_ready_candidate_ids": [
+          "weekly-10bf6841abc6f36147d952f0"
+        ],
+        "publications": 0,
+        "publication_ids": [],
+        "resolvable_gates": 1,
+        "legitimate_holds_only": false,
+        "blockers": [
+          {
+            "stage": "publication_full_corpus_serialization",
+            "reason": "Current main1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; release41945055902 remains failed at assessment-hash binding.",
+            "corrective_action": "Repair full-corpus exact assessment/content serialization through existing controlled release."
+          },
+          {
+            "candidate_id": "weekly-2096e9686479ceda7cc35242",
+            "stage": "metadata",
+            "reason": "Retained publisher June22 versus PDF June30 date conflict.",
+            "corrective_action": "Resolve authoritative date/version without repeating unchanged retrieval."
+          }
+        ]
       }
     ],
     "status": "checkpoint_integrity_failed",
     "stalled_local_only": false,
     "stalled_resolvable_gates": false,
     "repeated_attempts_without_progress": false,
-    "missing_stage_or_capability": "The latest work-bearing scheduled run advanced one metadata gate from retained evidence, but classification/serialization remains due for weekly-10bf6841abc6f36147d952f0. A separate authoritative date/version conflict holds weekly-2096e9686479ceda7cc35242, and full-corpus assessment-hash serialization still blocks publication. The latest run also records a recovered local checkpoint validation failure and heartbeat gaps.",
-    "corrective_action": "Submit the current immutable exact-hash paid handoff for weekly-10bf6841abc6f36147d952f0 after rechecking current decisions and gates, reusing its retained PDF; resolve the second paper’s date conflict independently; repair full-corpus assessment binding. Require a later independently verified scheduled pass with zero checkpoint failures before recovery or promotion.",
+    "missing_stage_or_capability": "The latest scheduled run advanced one schema gate, completed all six gates and newly admitted one paper, but published nothing. Full-corpus assessment/content serialization remains unresolved, a second retained paper has a documented authoritative date conflict, and the latest receipt records checkpoint_failures=1 plus heartbeat gaps.",
+    "corrective_action": "Require a later independently verified scheduled pass with zero checkpoint failures and intact heartbeat/checkpoint evidence before recovery or promotion. Separately repair full-corpus exact assessment/content serialization and resolve the retained paper’s authoritative date/version conflict without repeating completed source work.",
     "scheduler_success_is_processing_recovery": false,
     "sustained_throughput_verified": false,
     "processing_health": {
-      "native_run_id": "01a60396-1168-8332-b1ab-e722c9c1d79a",
-      "local_candidates": 2,
+      "native_run_id": "57dd42d5-24e0-8332-a7b5-ee830d411cd9",
+      "local_candidates": 1,
       "actual_source_requests": 0,
-      "source_gate_passes": 1,
-      "downstream_gate_passes": 0,
-      "six_gate_completions": 0,
-      "newly_review_ready": 0,
+      "source_gate_passes": 0,
+      "downstream_gate_passes": 1,
+      "six_gate_completions": 1,
+      "newly_review_ready": 1,
       "publications": 0,
-      "scope_note": "Two due retained-source candidates advanced; one new metadata pass and two refreshed duplicate passes. Verified type version retains full originals. No provider sends. Prior publication failure preserved.",
+      "scope_note": "Retained ransomware paper completed current-contract paid classification/serialization and six-gate admission to Weekly28; one paid call664tokens; no source or OpenAlex sends. Further requests stopped after local baseline guard failure.",
       "blockers": [
         {
-          "candidate_id": "weekly-10bf6841abc6f36147d952f0",
-          "stage": "classification_and_serialization",
-          "reason": "Metadata and verified paper type now reconciled; fresh current-contract paid request prepared locally but not submitted because result/checkpoint consumption would consume completion reserve. No paid calls made.",
-          "corrective_action": "Generate/submit current immutable paid handoff after rechecking current decisions/gates; reuse retained PDF."
+          "stage": "publication_full_corpus_serialization",
+          "reason": "Current main1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; release41945055902 remains failed at assessment-hash binding.",
+          "corrective_action": "Repair full-corpus exact assessment/content serialization through existing controlled release."
         },
         {
           "candidate_id": "weekly-2096e9686479ceda7cc35242",
           "stage": "metadata",
-          "reason": "Publisher June22 publication date conflicts with PDF June30; retained genuine metadata hold.",
-          "corrective_action": "Resolve exact date/version from independent authoritative retained evidence without repeating unchanged source retrieval."
-        },
-        {
-          "stage": "publication_full_corpus_serialization",
-          "reason": "Main unchanged at1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; prior release41945055902 failed assessment-hash binding. No unchanged failed release replayed.",
-          "corrective_action": "Correct full-corpus resource serialization while preserving exact assessment/content binding, then resume existing controlled release."
+          "reason": "Retained publisher June22 versus PDF June30 date conflict.",
+          "corrective_action": "Resolve authoritative date/version without repeating unchanged retrieval."
         }
       ]
     },
@@ -282,7 +270,7 @@
   "findings": [
     {
       "code": "scheduled_run_verified",
-      "message": "Worker run 01a60396-1168-8332-b1ab-e722c9c1d79a completed natively and has a matching identity/time-bound canonical receipt."
+      "message": "Worker run 57dd42d5-24e0-8332-a7b5-ee830d411cd9 completed natively and has a matching identity/time-bound canonical receipt."
     },
     {
       "code": "worker_heartbeat_interval_breach",
@@ -290,19 +278,19 @@
     },
     {
       "code": "processing_checkpoint_integrity_failed",
-      "message": "The latest work-bearing receipt reports checkpoint_failures=1 despite a recovered final atomic checkpoint; native completion does not make this pass promotion-eligible."
+      "message": "The latest work-bearing receipt reports checkpoint_failures=1 despite a verified final atomic checkpoint; native completion does not make this pass promotion-eligible."
     },
     {
-      "code": "resolvable_classification_gate_due",
-      "message": "One candidate advanced through metadata using retained evidence but still requires its current immutable paid classification/serialization handoff; the other retained paper has a documented authoritative date conflict."
+      "code": "downstream_progress_without_sustained_recovery",
+      "message": "The latest run made one schema pass, one all-six completion and one new manual admission, with zero source requests and zero publications. One ready paper is not sustained unattended throughput."
     },
     {
       "code": "processing_evidence_fresh",
-      "message": "Processing-health evidence observed at 2026-11-05T03:58:42.081989+00:00 is within the 75-minute freshness window at 2026-11-05T04:29:17.203Z."
+      "message": "Processing-health evidence observed at 2026-11-05T04:59:04.298778+00:00 is within the 75-minute freshness window at 2026-11-05T05:37:56.690Z."
     },
     {
       "code": "observer_scheduled_start_verified",
-      "message": "Observer run 55d1e6e6-1450-8333-bf3a-b94d365f877e started at 2026-11-05T04:28:48.445575Z for scheduled_for 2026-11-05T04:32:00Z, within 15-minute dispatch grace, and remains in progress."
+      "message": "Observer run 220d44aa-4b1c-8333-bf6d-b251e77ebd56 started at 2026-11-05T05:36:43.235177Z for scheduled_for 2026-11-05T05:32:00Z, within 15-minute dispatch grace, and remains in progress."
     },
     {
       "code": "native_next_run_time_unavailable",
