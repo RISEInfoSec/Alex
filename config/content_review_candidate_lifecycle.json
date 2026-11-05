@@ -1028,7 +1028,18 @@
       "candidate_id": "weekly-3f202ca007a2c04f9672c7d9",
       "first_seen_at": "2026-10-27T00:00:00+00:00",
       "cycle": 1,
-      "attempts": [],
+      "attempts": [
+        {
+          "attempt_id": "06e2604a-928c-832e-93d7-b3e1702c73ba:weekly-3f202ca007a2c04f9672c7d9:source",
+          "at": "2026-11-05T10:56:11.522784+00:00",
+          "stage": "source_format_access",
+          "outcome": "success",
+          "reason": "Matching original written paper, Karishma R and DOI inspected. Publication verified at June2026 precision; exact metadata/type versioning and downstream classification remain.",
+          "evidence_ref": "config/content_review_source_receipts/7fcf24f161718c81437b9dda4e2fb508e8e3d1f1b6b8ae7caaea55efeda9e330.json",
+          "cycle": 1,
+          "retry_not_before": null
+        }
+      ],
       "history": [
         {
           "at": "2026-11-02T21:46:58.757259+00:00",
@@ -1036,6 +1047,14 @@
           "previous": null,
           "state": "awaiting_initial_checks",
           "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
+          "cycle": 1
+        },
+        {
+          "at": "2026-11-05T10:56:11.618544+00:00",
+          "event": "state_changed",
+          "previous": "awaiting_initial_checks",
+          "state": "awaiting_software_support",
+          "reason": "Verified resource type has no supported export path: research_paper_candidate",
           "cycle": 1
         }
       ],
@@ -1049,24 +1068,22 @@
         "source_url": "https://doi.org/10.22214/ijraset.2026.79933",
         "candidate_id": "weekly-3f202ca007a2c04f9672c7d9"
       },
-      "last_evaluated_at": "2026-11-05T10:52:07.460928+00:00",
-      "attempt_count": 0,
-      "last_attempt_at": null,
-      "last_check_at": "2026-10-28T03:50:34.934054+00:00",
+      "last_evaluated_at": "2026-11-05T10:56:11.618544+00:00",
+      "attempt_count": 1,
+      "last_attempt_at": "2026-11-05T10:56:11.522784+00:00",
+      "last_check_at": "2026-11-05T10:56:11.522784+00:00",
       "outstanding_checks": [
-        "format",
-        "access",
         "metadata",
         "schema"
       ],
       "initial_checks_overdue": false,
-      "state_changed_at": "2026-11-02T21:46:58.757259+00:00",
-      "state": "awaiting_initial_checks",
-      "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
-      "next_action": "Complete missing initial stages.",
-      "reconsideration_condition": null,
+      "state_changed_at": "2026-11-05T10:56:11.618544+00:00",
+      "state": "awaiting_software_support",
+      "reason": "Verified resource type has no supported export path: research_paper_candidate",
+      "next_action": "Retain the actual resource type; do not spend on repeated downloads or paper-only classification.",
+      "reconsideration_condition": "A compatible classifier/export capability revision becomes available.",
       "next_retry_at": null,
-      "active": true,
+      "active": false,
       "collection": "weekly",
       "evidence_location": "config/weekly_review_manifest.json#weekly-3f202ca007a2c04f9672c7d9",
       "first_seen_date": "2026-10-27",
@@ -1077,10 +1094,13 @@
       },
       "evaluated_at": "2026-11-04T14:45:53.286843+00:00",
       "completed_checks": [
+        "format",
+        "access",
         "duplicates",
         "quality"
       ],
-      "initial_check_status": "partially_checked"
+      "initial_check_status": "partially_checked",
+      "last_progress_at": "2026-11-05T10:56:11.522784+00:00"
     },
     "weekly:weekly-328f6ec95bbfcadaaa853928": {
       "candidate_id": "weekly-328f6ec95bbfcadaaa853928",
@@ -2003,7 +2023,18 @@
       "candidate_id": "weekly-3edc6db58d7fb63369f1382a",
       "first_seen_at": "2026-10-27T00:00:00+00:00",
       "cycle": 1,
-      "attempts": [],
+      "attempts": [
+        {
+          "attempt_id": "06e2604a-928c-832e-93d7-b3e1702c73ba:weekly-3edc6db58d7fb63369f1382a:source",
+          "at": "2026-11-05T10:56:11.522784+00:00",
+          "stage": "source_format_access",
+          "outcome": "success",
+          "reason": "Matching paper and DOI inspected. PDF published7October versus publisher10October/date-issued17October conflict; expanded author initials also require reconciliation.",
+          "evidence_ref": "config/content_review_source_receipts/7fcf24f161718c81437b9dda4e2fb508e8e3d1f1b6b8ae7caaea55efeda9e330.json",
+          "cycle": 1,
+          "retry_not_before": null
+        }
+      ],
       "history": [
         {
           "at": "2026-11-02T21:46:58.757259+00:00",
@@ -2011,6 +2042,14 @@
           "previous": null,
           "state": "awaiting_initial_checks",
           "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
+          "cycle": 1
+        },
+        {
+          "at": "2026-11-05T10:56:11.618315+00:00",
+          "event": "state_changed",
+          "previous": "awaiting_initial_checks",
+          "state": "awaiting_software_support",
+          "reason": "Verified resource type has no supported export path: research_paper_candidate",
           "cycle": 1
         }
       ],
@@ -2024,24 +2063,22 @@
         "source_url": "https://doi.org/10.15849/ijasca.125",
         "candidate_id": "weekly-3edc6db58d7fb63369f1382a"
       },
-      "last_evaluated_at": "2026-11-05T10:52:07.461784+00:00",
-      "attempt_count": 0,
-      "last_attempt_at": null,
-      "last_check_at": "2026-10-28T03:50:34.934054+00:00",
+      "last_evaluated_at": "2026-11-05T10:56:11.618315+00:00",
+      "attempt_count": 1,
+      "last_attempt_at": "2026-11-05T10:56:11.522784+00:00",
+      "last_check_at": "2026-11-05T10:56:11.522784+00:00",
       "outstanding_checks": [
-        "format",
-        "access",
         "metadata",
         "schema"
       ],
       "initial_checks_overdue": false,
-      "state_changed_at": "2026-11-02T21:46:58.757259+00:00",
-      "state": "awaiting_initial_checks",
-      "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
-      "next_action": "Complete missing initial stages.",
-      "reconsideration_condition": null,
+      "state_changed_at": "2026-11-05T10:56:11.618315+00:00",
+      "state": "awaiting_software_support",
+      "reason": "Verified resource type has no supported export path: research_paper_candidate",
+      "next_action": "Retain the actual resource type; do not spend on repeated downloads or paper-only classification.",
+      "reconsideration_condition": "A compatible classifier/export capability revision becomes available.",
       "next_retry_at": null,
-      "active": true,
+      "active": false,
       "collection": "weekly",
       "evidence_location": "config/weekly_review_manifest.json#weekly-3edc6db58d7fb63369f1382a",
       "first_seen_date": "2026-10-27",
@@ -2052,10 +2089,13 @@
       },
       "evaluated_at": "2026-11-04T14:45:53.286843+00:00",
       "completed_checks": [
+        "format",
+        "access",
         "duplicates",
         "quality"
       ],
-      "initial_check_status": "partially_checked"
+      "initial_check_status": "partially_checked",
+      "last_progress_at": "2026-11-05T10:56:11.522784+00:00"
     },
     "weekly:weekly-dde7659f795f81b38ce9c7ae": {
       "candidate_id": "weekly-dde7659f795f81b38ce9c7ae",
@@ -2487,7 +2527,18 @@
       "candidate_id": "weekly-3ca57cf58ab7d8c4da4e219b",
       "first_seen_at": "2026-10-27T00:00:00+00:00",
       "cycle": 1,
-      "attempts": [],
+      "attempts": [
+        {
+          "attempt_id": "06e2604a-928c-832e-93d7-b3e1702c73ba:weekly-3ca57cf58ab7d8c4da4e219b:source",
+          "at": "2026-11-05T10:56:11.522784+00:00",
+          "stage": "source_format_access",
+          "outcome": "temporary_failure",
+          "reason": "robots_unavailable_http_403",
+          "evidence_ref": "config/content_review_source_receipts/7fcf24f161718c81437b9dda4e2fb508e8e3d1f1b6b8ae7caaea55efeda9e330.json",
+          "cycle": 1,
+          "retry_not_before": null
+        }
+      ],
       "history": [
         {
           "at": "2026-11-02T21:46:58.757259+00:00",
@@ -2495,6 +2546,14 @@
           "previous": null,
           "state": "awaiting_initial_checks",
           "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
+          "cycle": 1
+        },
+        {
+          "at": "2026-11-05T10:56:11.617928+00:00",
+          "event": "state_changed",
+          "previous": "awaiting_initial_checks",
+          "state": "retry_scheduled",
+          "reason": "robots_unavailable_http_403",
           "cycle": 1
         }
       ],
@@ -2508,9 +2567,9 @@
         "source_url": "https://doi.org/10.64898/2026.10.04.26364617",
         "candidate_id": "weekly-3ca57cf58ab7d8c4da4e219b"
       },
-      "last_evaluated_at": "2026-11-05T10:52:07.462182+00:00",
-      "attempt_count": 0,
-      "last_attempt_at": null,
+      "last_evaluated_at": "2026-11-05T10:56:11.617928+00:00",
+      "attempt_count": 1,
+      "last_attempt_at": "2026-11-05T10:56:11.522784+00:00",
       "last_check_at": "2026-10-28T03:50:34.934054+00:00",
       "outstanding_checks": [
         "format",
@@ -2519,12 +2578,12 @@
         "schema"
       ],
       "initial_checks_overdue": false,
-      "state_changed_at": "2026-11-02T21:46:58.757259+00:00",
-      "state": "awaiting_initial_checks",
-      "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
-      "next_action": "Complete missing initial stages.",
+      "state_changed_at": "2026-11-05T10:56:11.617928+00:00",
+      "state": "retry_scheduled",
+      "reason": "robots_unavailable_http_403",
+      "next_action": "Retry only the unresolved stage when due; reuse unchanged successful checks.",
       "reconsideration_condition": null,
-      "next_retry_at": null,
+      "next_retry_at": "2026-11-06T10:56:11.522784+00:00",
       "active": true,
       "collection": "weekly",
       "evidence_location": "config/weekly_review_manifest.json#weekly-3ca57cf58ab7d8c4da4e219b",
@@ -2539,7 +2598,8 @@
         "duplicates",
         "quality"
       ],
-      "initial_check_status": "partially_checked"
+      "initial_check_status": "partially_checked",
+      "first_failure_at": "2026-11-05T10:56:11.522784+00:00"
     },
     "weekly:weekly-7d75141b3fb37caf8e28b137": {
       "candidate_id": "weekly-7d75141b3fb37caf8e28b137",
@@ -2797,7 +2857,18 @@
       "candidate_id": "weekly-4b38dda890565d1ac84397c0",
       "first_seen_at": "2026-10-27T00:00:00+00:00",
       "cycle": 1,
-      "attempts": [],
+      "attempts": [
+        {
+          "attempt_id": "06e2604a-928c-832e-93d7-b3e1702c73ba:weekly-4b38dda890565d1ac84397c0:source",
+          "at": "2026-11-05T10:56:11.522784+00:00",
+          "stage": "source_format_access",
+          "outcome": "success",
+          "reason": "Matching Ukrainian research paper, DOI and ORCIDs inspected. Publisher visible and PDF publication1June2026 differ from HTML citation meta18May; reconcile authoritative date and author transliteration before downstream classification.",
+          "evidence_ref": "config/content_review_source_receipts/7fcf24f161718c81437b9dda4e2fb508e8e3d1f1b6b8ae7caaea55efeda9e330.json",
+          "cycle": 1,
+          "retry_not_before": null
+        }
+      ],
       "history": [
         {
           "at": "2026-11-02T21:46:58.757259+00:00",
@@ -2805,6 +2876,14 @@
           "previous": null,
           "state": "awaiting_initial_checks",
           "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
+          "cycle": 1
+        },
+        {
+          "at": "2026-11-05T10:56:11.618992+00:00",
+          "event": "state_changed",
+          "previous": "awaiting_initial_checks",
+          "state": "awaiting_software_support",
+          "reason": "Verified resource type has no supported export path: research_paper_candidate",
           "cycle": 1
         }
       ],
@@ -2818,24 +2897,22 @@
         "source_url": "https://doi.org/10.23939/csn2026.01.068",
         "candidate_id": "weekly-4b38dda890565d1ac84397c0"
       },
-      "last_evaluated_at": "2026-11-05T10:52:07.462595+00:00",
-      "attempt_count": 0,
-      "last_attempt_at": null,
-      "last_check_at": "2026-10-28T03:50:34.934054+00:00",
+      "last_evaluated_at": "2026-11-05T10:56:11.618992+00:00",
+      "attempt_count": 1,
+      "last_attempt_at": "2026-11-05T10:56:11.522784+00:00",
+      "last_check_at": "2026-11-05T10:56:11.522784+00:00",
       "outstanding_checks": [
-        "format",
-        "access",
         "metadata",
         "schema"
       ],
       "initial_checks_overdue": false,
-      "state_changed_at": "2026-11-02T21:46:58.757259+00:00",
-      "state": "awaiting_initial_checks",
-      "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
-      "next_action": "Complete missing initial stages.",
-      "reconsideration_condition": null,
+      "state_changed_at": "2026-11-05T10:56:11.618992+00:00",
+      "state": "awaiting_software_support",
+      "reason": "Verified resource type has no supported export path: research_paper_candidate",
+      "next_action": "Retain the actual resource type; do not spend on repeated downloads or paper-only classification.",
+      "reconsideration_condition": "A compatible classifier/export capability revision becomes available.",
       "next_retry_at": null,
-      "active": true,
+      "active": false,
       "collection": "weekly",
       "evidence_location": "config/weekly_review_manifest.json#weekly-4b38dda890565d1ac84397c0",
       "first_seen_date": "2026-10-27",
@@ -2846,10 +2923,13 @@
       },
       "evaluated_at": "2026-11-04T14:45:53.286843+00:00",
       "completed_checks": [
+        "format",
+        "access",
         "duplicates",
         "quality"
       ],
-      "initial_check_status": "partially_checked"
+      "initial_check_status": "partially_checked",
+      "last_progress_at": "2026-11-05T10:56:11.522784+00:00"
     },
     "weekly:weekly-040edeb033e8ee41aeb9433a": {
       "candidate_id": "weekly-040edeb033e8ee41aeb9433a",
@@ -3041,7 +3121,18 @@
       "candidate_id": "weekly-45dd07b0aa7eb7dec470f1dd",
       "first_seen_at": "2026-10-27T00:00:00+00:00",
       "cycle": 1,
-      "attempts": [],
+      "attempts": [
+        {
+          "attempt_id": "06e2604a-928c-832e-93d7-b3e1702c73ba:weekly-45dd07b0aa7eb7dec470f1dd:source",
+          "at": "2026-11-05T10:56:11.522784+00:00",
+          "stage": "source_format_access",
+          "outcome": "success",
+          "reason": "Matching written paper/DOI inspected. PDF has Nicholas Muriuki Muriithi, Ephantus Mwangi and Kennedy Malanga; discovery lists Nicholas Muriuki only. Reconcile full author list and publication version.",
+          "evidence_ref": "config/content_review_source_receipts/7fcf24f161718c81437b9dda4e2fb508e8e3d1f1b6b8ae7caaea55efeda9e330.json",
+          "cycle": 1,
+          "retry_not_before": null
+        }
+      ],
       "history": [
         {
           "at": "2026-11-02T21:46:58.757259+00:00",
@@ -3049,6 +3140,14 @@
           "previous": null,
           "state": "awaiting_initial_checks",
           "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
+          "cycle": 1
+        },
+        {
+          "at": "2026-11-05T10:56:11.618782+00:00",
+          "event": "state_changed",
+          "previous": "awaiting_initial_checks",
+          "state": "awaiting_software_support",
+          "reason": "Verified resource type has no supported export path: research_paper_candidate",
           "cycle": 1
         }
       ],
@@ -3062,24 +3161,22 @@
         "source_url": "https://doi.org/10.64680/jisads.v4i1.67",
         "candidate_id": "weekly-45dd07b0aa7eb7dec470f1dd"
       },
-      "last_evaluated_at": "2026-11-05T10:52:07.464803+00:00",
-      "attempt_count": 0,
-      "last_attempt_at": null,
-      "last_check_at": "2026-10-28T03:50:34.934054+00:00",
+      "last_evaluated_at": "2026-11-05T10:56:11.618782+00:00",
+      "attempt_count": 1,
+      "last_attempt_at": "2026-11-05T10:56:11.522784+00:00",
+      "last_check_at": "2026-11-05T10:56:11.522784+00:00",
       "outstanding_checks": [
-        "format",
-        "access",
         "metadata",
         "schema"
       ],
       "initial_checks_overdue": false,
-      "state_changed_at": "2026-11-02T21:46:58.757259+00:00",
-      "state": "awaiting_initial_checks",
-      "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
-      "next_action": "Complete missing initial stages.",
-      "reconsideration_condition": null,
+      "state_changed_at": "2026-11-05T10:56:11.618782+00:00",
+      "state": "awaiting_software_support",
+      "reason": "Verified resource type has no supported export path: research_paper_candidate",
+      "next_action": "Retain the actual resource type; do not spend on repeated downloads or paper-only classification.",
+      "reconsideration_condition": "A compatible classifier/export capability revision becomes available.",
       "next_retry_at": null,
-      "active": true,
+      "active": false,
       "collection": "weekly",
       "evidence_location": "config/weekly_review_manifest.json#weekly-45dd07b0aa7eb7dec470f1dd",
       "first_seen_date": "2026-10-27",
@@ -3090,10 +3187,13 @@
       },
       "evaluated_at": "2026-11-04T14:45:53.286843+00:00",
       "completed_checks": [
+        "format",
+        "access",
         "duplicates",
         "quality"
       ],
-      "initial_check_status": "partially_checked"
+      "initial_check_status": "partially_checked",
+      "last_progress_at": "2026-11-05T10:56:11.522784+00:00"
     },
     "weekly:weekly-1ea0d5996c905cf07960fb8e": {
       "candidate_id": "weekly-1ea0d5996c905cf07960fb8e",
@@ -23303,13 +23403,13 @@
       "initial_check_status": "partially_checked"
     }
   },
-  "updated_at": "2026-11-05T10:52:07.474328+00:00",
+  "updated_at": "2026-11-05T10:56:11.522784+00:00",
   "policy_version": 1,
   "counts": {
     "completed": 13,
-    "awaiting_initial_checks": 268,
-    "awaiting_software_support": 13,
-    "retry_scheduled": 11,
+    "awaiting_initial_checks": 263,
+    "awaiting_software_support": 17,
+    "retry_scheduled": 12,
     "ready": 2,
     "access_restricted": 11,
     "stable_quality_failure": 67

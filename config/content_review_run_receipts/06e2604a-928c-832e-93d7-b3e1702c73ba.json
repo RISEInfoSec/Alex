@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "run_id": "06e2604a-928c-832e-93d7-b3e1702c73ba",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T10:45:00Z",
+  "started_at": "2026-11-05T10:47:22.111041Z",
+  "completed_at": "2026-11-05T10:56:11.522784+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/06e2604a-928c-832e-93d7-b3e1702c73ba.json",
+  "completed_actions": [
+    "Published/read back actual native start and running checkpoints",
+    "Refreshed all66 D1 submissions; complete signature unchanged; reused decisions",
+    "Verified immutable current manifests and main corpus/exclusion/provider-policy inputs",
+    "Audited200 lifecycle records preserving385 identities and all prior attempts",
+    "Verified Actions42014339372, immutable source request and artifact SHA; inspected four actual matching paper PDFs; eight format/access gates passed"
+  ],
+  "candidate_ids": [
+    "weekly-3ca57cf58ab7d8c4da4e219b",
+    "weekly-3edc6db58d7fb63369f1382a",
+    "weekly-3f202ca007a2c04f9672c7d9",
+    "weekly-45dd07b0aa7eb7dec470f1dd",
+    "weekly-4b38dda890565d1ac84397c0"
+  ],
+  "request_counts": {
+    "source": 22,
+    "paid": 0,
+    "openalex": 0
+  },
+  "native_terminal_success": null,
+  "errors": [
+    {
+      "stage": "heartbeat",
+      "reason": "Startup/preparation observation gaps exceeded60seconds; actual timestamps retained."
+    },
+    {
+      "stage": "local_baseline_validation",
+      "reason": "Stale local HEAD comparison rejected preparation; replaced with current immutable tree SHA/size verification before source request."
+    },
+    {
+      "stage": "checkpoint_transport",
+      "reason": "Bounded chunk response was incomplete; length validation rejected it before tree/branch update. No new requests after failure."
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-3ca57cf58ab7d8c4da4e219b",
+      "weekly-3edc6db58d7fb63369f1382a",
+      "weekly-3f202ca007a2c04f9672c7d9",
+      "weekly-45dd07b0aa7eb7dec470f1dd",
+      "weekly-4b38dda890565d1ac84397c0"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-3ca57cf58ab7d8c4da4e219b",
+      "weekly-3edc6db58d7fb63369f1382a",
+      "weekly-3f202ca007a2c04f9672c7d9",
+      "weekly-45dd07b0aa7eb7dec470f1dd",
+      "weekly-4b38dda890565d1ac84397c0"
+    ],
+    "completed_candidate_ids": [
+      "weekly-3ca57cf58ab7d8c4da4e219b",
+      "weekly-3edc6db58d7fb63369f1382a",
+      "weekly-3f202ca007a2c04f9672c7d9",
+      "weekly-45dd07b0aa7eb7dec470f1dd",
+      "weekly-4b38dda890565d1ac84397c0"
+    ],
+    "genuinely_first_checked": [
+      "weekly-3ca57cf58ab7d8c4da4e219b",
+      "weekly-3edc6db58d7fb63369f1382a",
+      "weekly-3f202ca007a2c04f9672c7d9",
+      "weekly-45dd07b0aa7eb7dec470f1dd",
+      "weekly-4b38dda890565d1ac84397c0"
+    ],
+    "next_dispositions": [],
+    "newly_passed_checks": {
+      "format": [
+        "weekly-3edc6db58d7fb63369f1382a",
+        "weekly-3f202ca007a2c04f9672c7d9",
+        "weekly-45dd07b0aa7eb7dec470f1dd",
+        "weekly-4b38dda890565d1ac84397c0"
+      ],
+      "access": [
+        "weekly-3edc6db58d7fb63369f1382a",
+        "weekly-3f202ca007a2c04f9672c7d9",
+        "weekly-45dd07b0aa7eb7dec470f1dd",
+        "weekly-4b38dda890565d1ac84397c0"
+      ]
+    },
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "candidate_id": "weekly-3ca57cf58ab7d8c4da4e219b",
+        "stage": "source_access",
+        "reason": "robots_unavailable_http_403",
+        "corrective_action": "Preserve access hold; no unchanged retry or bypass."
+      },
+      {
+        "candidate_id": "weekly-3edc6db58d7fb63369f1382a",
+        "stage": "metadata_and_type_versioning",
+        "reason": "Matching paper and DOI inspected. PDF published7October versus publisher10October/date-issued17October conflict; expanded author initials also require reconciliation.",
+        "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
+      },
+      {
+        "candidate_id": "weekly-3f202ca007a2c04f9672c7d9",
+        "stage": "metadata_and_type_versioning",
+        "reason": "Matching original written paper, Karishma R and DOI inspected. Publication verified at June2026 precision; exact metadata/type versioning and downstream classification remain.",
+        "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
+      },
+      {
+        "candidate_id": "weekly-45dd07b0aa7eb7dec470f1dd",
+        "stage": "metadata_and_type_versioning",
+        "reason": "Matching written paper/DOI inspected. PDF has Nicholas Muriuki Muriithi, Ephantus Mwangi and Kennedy Malanga; discovery lists Nicholas Muriuki only. Reconcile full author list and publication version.",
+        "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
+      },
+      {
+        "candidate_id": "weekly-4b38dda890565d1ac84397c0",
+        "stage": "metadata_and_type_versioning",
+        "reason": "Matching Ukrainian research paper, DOI and ORCIDs inspected. Publisher visible and PDF publication1June2026 differ from HTML citation meta18May; reconcile authoritative date and author transliteration before downstream classification.",
+        "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Current main6899fc7f unchanged; existing release41945055902 failed exact assessment/content binding. Complete66-submission signature unchanged.",
+        "corrective_action": "Repair exact full-corpus serialization preserving assessment binding before retry."
+      }
+    ],
+    "remaining_blockers": [
+      {
+        "candidate_id": "weekly-3ca57cf58ab7d8c4da4e219b",
+        "stage": "source_access",
+        "reason": "robots_unavailable_http_403",
+        "corrective_action": "Preserve access hold; no unchanged retry or bypass."
+      },
+      {
+        "candidate_id": "weekly-3edc6db58d7fb63369f1382a",
+        "stage": "metadata_and_type_versioning",
+        "reason": "Matching paper and DOI inspected. PDF published7October versus publisher10October/date-issued17October conflict; expanded author initials also require reconciliation.",
+        "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
+      },
+      {
+        "candidate_id": "weekly-3f202ca007a2c04f9672c7d9",
+        "stage": "metadata_and_type_versioning",
+        "reason": "Matching original written paper, Karishma R and DOI inspected. Publication verified at June2026 precision; exact metadata/type versioning and downstream classification remain.",
+        "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
+      },
+      {
+        "candidate_id": "weekly-45dd07b0aa7eb7dec470f1dd",
+        "stage": "metadata_and_type_versioning",
+        "reason": "Matching written paper/DOI inspected. PDF has Nicholas Muriuki Muriithi, Ephantus Mwangi and Kennedy Malanga; discovery lists Nicholas Muriuki only. Reconcile full author list and publication version.",
+        "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
+      },
+      {
+        "candidate_id": "weekly-4b38dda890565d1ac84397c0",
+        "stage": "metadata_and_type_versioning",
+        "reason": "Matching Ukrainian research paper, DOI and ORCIDs inspected. Publisher visible and PDF publication1June2026 differ from HTML citation meta18May; reconcile authoritative date and author transliteration before downstream classification.",
+        "corrective_action": "Reuse retained actual source content; reconcile exact metadata/type and finish downstream gates."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Current main6899fc7f unchanged; existing release41945055902 failed exact assessment/content binding. Complete66-submission signature unchanged.",
+        "corrective_action": "Repair exact full-corpus serialization preserving assessment binding before retry."
+      }
+    ],
+    "requests": {
+      "source": 22,
+      "paid": 0,
+      "openalex": 0
+    },
+    "paid_tokens": 0,
+    "local_audits": 200,
+    "stage_elapsed_seconds": {
+      "to_receipt": 529.508355
+    },
+    "cache_reuse": [
+      "Complete66-submission signature unchanged",
+      "Prior source/paid results and approvals preserved"
+    ],
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 1,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "Recovered checkpoint transport rejection and actual heartbeat gaps; no promotion.",
+    "resolvable_gate_count": 4,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-05T10:56:11.522784+00:00",
+        "stage": "format/access",
+        "candidate_ids": [
+          "weekly-3edc6db58d7fb63369f1382a",
+          "weekly-3f202ca007a2c04f9672c7d9",
+          "weekly-45dd07b0aa7eb7dec470f1dd",
+          "weekly-4b38dda890565d1ac84397c0"
+        ]
+      }
+    },
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "lifecycle_identities": 385
+    },
+    "after_counts": {
+      "lifecycle_identities": 385
+    },
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  },
+  "checkpoint_paths": [
+    "config/weekly_review_manifest.json",
+    "config/content_review_preflight_status.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_source_receipts/7fcf24f161718c81437b9dda4e2fb508e8e3d1f1b6b8ae7caaea55efeda9e330.json",
+    "config/content_review_processing_health.json",
+    "config/content_review_run_receipts/06e2604a-928c-832e-93d7-b3e1702c73ba.json"
+  ]
+}

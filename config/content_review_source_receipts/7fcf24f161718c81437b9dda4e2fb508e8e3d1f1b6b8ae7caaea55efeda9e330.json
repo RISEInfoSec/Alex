@@ -1,0 +1,1510 @@
+{
+  "schema_version": 1,
+  "independently_verified": true,
+  "request": {
+    "schema_version": 1,
+    "started_at": "2026-11-05T10:47:22.111041+00:00",
+    "work_deadline": "2026-11-05T10:57:22.111041+00:00",
+    "lease_owner": "06e2604a-928c-832e-93d7-b3e1702c73ba",
+    "source_request_limit": 30,
+    "records": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-3ca57cf58ab7d8c4da4e219b",
+        "content_sha256": "fa2aafeb8046cefe47b465a568ded4f6a4511d177b6464c82aea50cc2792b5eb",
+        "manifest_sha256": "74527f70f64c641c3af0112f727d1ff789f0577ffb4003c72831143e3c6d5dbd",
+        "url": "https://doi.org/10.64898/2026.10.04.26364617"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-3edc6db58d7fb63369f1382a",
+        "content_sha256": "95e03f8611f2f9dee01054be80ae6f4dc8896e4ee72b8b525851c5dd0ddde2e8",
+        "manifest_sha256": "74527f70f64c641c3af0112f727d1ff789f0577ffb4003c72831143e3c6d5dbd",
+        "url": "https://doi.org/10.15849/ijasca.125"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-3f202ca007a2c04f9672c7d9",
+        "content_sha256": "759827a481e7eec44ef32bbe624369c070fd13dab6d8d182aa733f42436f7bf9",
+        "manifest_sha256": "74527f70f64c641c3af0112f727d1ff789f0577ffb4003c72831143e3c6d5dbd",
+        "url": "https://doi.org/10.22214/ijraset.2026.79933"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-45dd07b0aa7eb7dec470f1dd",
+        "content_sha256": "8276e203ee02e97386f769e7c99bf670f489fc818240878020ee053bf9deb20d",
+        "manifest_sha256": "74527f70f64c641c3af0112f727d1ff789f0577ffb4003c72831143e3c6d5dbd",
+        "url": "https://doi.org/10.64680/jisads.v4i1.67"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-4b38dda890565d1ac84397c0",
+        "content_sha256": "7f1c4f420cfffb1a2ab0d32679ec0439ff9d4b60b90091e85bff622dda9a5e81",
+        "manifest_sha256": "74527f70f64c641c3af0112f727d1ff789f0577ffb4003c72831143e3c6d5dbd",
+        "url": "https://doi.org/10.23939/csn2026.01.068"
+      }
+    ],
+    "request_id": "7fcf24f161718c81437b9dda4e2fb508e8e3d1f1b6b8ae7caaea55efeda9e330"
+  },
+  "native_run": {
+    "id": 42014339372,
+    "event": "push",
+    "head_branch": "codex/soups-corpus-review",
+    "path": ".github/workflows/content_review_sources.yml",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c8b6914861a97d6ab28ae40a74eaf7609097992d",
+    "run_attempt": 1
+  },
+  "artifact_id": 13408651252,
+  "artifact_sha256": "8cf19670e81be78265cb8b821f2f09039e43ad11e88cbd229067633840cef76c",
+  "result": {
+    "schema_version": 1,
+    "request_id": "7fcf24f161718c81437b9dda4e2fb508e8e3d1f1b6b8ae7caaea55efeda9e330",
+    "status": "complete",
+    "records": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-3ca57cf58ab7d8c4da4e219b",
+        "content_sha256": "fa2aafeb8046cefe47b465a568ded4f6a4511d177b6464c82aea50cc2792b5eb",
+        "status": "held",
+        "evidence": [],
+        "reason": "robots_unavailable_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-3edc6db58d7fb63369f1382a",
+        "content_sha256": "95e03f8611f2f9dee01054be80ae6f4dc8896e4ee72b8b525851c5dd0ddde2e8",
+        "status": "retrieved",
+        "evidence": [
+          {
+            "requested_url": "https://doi.org/10.15849/ijasca.125",
+            "final_url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/125",
+            "http_status": 200,
+            "headers": {
+              "content-type": "text/html; charset=utf-8"
+            },
+            "redirects": [
+              {
+                "url": "https://doi.org/10.15849/ijasca.125",
+                "http_status": 302
+              },
+              {
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/125",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "41ce52adcf00667e12b9604c5e279d5bc54b4ffe0a6145340022ecdea5f3331c",
+            "retrieved_at": "2026-11-05T10:53:28.855947+00:00",
+            "byte_count": 70619,
+            "container_type": "html",
+            "metadata": {
+              "viewport": [
+                "width=device-width, initial-scale=1.0"
+              ],
+              "generator": [
+                "Open Journal Systems 3.4.0.9"
+              ],
+              "keywords": [
+                "Soft Computing, Artificial Intelligence, Machine Learning, Deep Learning, Data Science, Optimization, Computational Intelligence, Fuzzy Logic, Neural Networks, Evolutionary Computing, Computer Science, Information Systems, Pattern Recognition, Intelligent Systems, Open Access Journal, Scopus Journal, IJASCA"
+              ],
+              "description": [
+                "International Journal of Advances in Soft Computing and its Applications (IJASCA) is an international peer-reviewed open access journal publishing high-quality research in artificial intelligence, soft computing, machine learning, optimization, and computational intelligence."
+              ],
+              "robots": [
+                "index,follow"
+              ],
+              "author": [
+                "International Journal of Advances in Soft Computing and its Applications"
+              ],
+              "dc.creator.personalname": [
+                "Hanadi Alsheyab",
+                "mosleh abualhaj",
+                "Mahran Al Zyoud",
+                "Mohamed  Yousif",
+                "Mohammad Daoud"
+              ],
+              "dc.date.created": [
+                "2026-10-10"
+              ],
+              "dc.date.datesubmitted": [
+                "2026-05-23"
+              ],
+              "dc.date.issued": [
+                "2026-10-17"
+              ],
+              "dc.date.modified": [
+                "2026-10-18"
+              ],
+              "dc.description": [
+                "In today's digital age, technology is both a powerful tool and a potential threat, with its widespread adoption bringing significant advancements as well as new vulnerabilities. As we increasingly rely on digital solutions for everyday tasks, the importance of safeguarding against cyber threats has become paramount. This is particularly true in the context of web security, where cybercriminals are continuously developing more sophisticated methods to exploit online systems. Given the increasing sophistication and frequency of phishing attacks, traditional phishing detection methods remain necessary. However, more advanced methods are needed to detect new attacks. This study presents a web phishing detection approach using machine learning (ML) algorithms and an enhanced feature selection (FS) through the modified Spider Monkey Optimization (SMO) algorithm. The SMO algorithm was modified by adding an effective crossover function to improve the algorithm's performance. The study employs Mendeley phishing datasets containing features extracted from both phishing and legitimate web pages. In binary classification, the proposed detection model consistently demonstrated strong performance using XGBoost, LightGBM, and Random Forest."
+              ],
+              "dc.format": [
+                "application/pdf"
+              ],
+              "dc.identifier": [
+                "125"
+              ],
+              "dc.identifier.pagenumber": [
+                "317–334"
+              ],
+              "dc.identifier.doi": [
+                "10.15849/ijasca.125"
+              ],
+              "dc.identifier.uri": [
+                "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/125"
+              ],
+              "dc.language": [
+                "en"
+              ],
+              "dc.rights": [
+                "Copyright (c) 2026 Hanadi Alsheyab, mosleh abualhaj, Mahran Al Zyoud, Mohamed  Yousif, Mohammad Daoud",
+                "https://zuj.edu.jo/"
+              ],
+              "dc.source": [
+                "International Journal of Advances in Soft Computing and its Applications "
+              ],
+              "dc.source.issn": [
+                "2074-8523"
+              ],
+              "dc.source.issue": [
+                "3"
+              ],
+              "dc.source.volume": [
+                "18"
+              ],
+              "dc.source.uri": [
+                "https://ijasca.zuj.edu.jo/index.php/IJASCA"
+              ],
+              "dc.subject": [
+                "ML",
+                "FS",
+                "SMO",
+                "metaheuristic algorithm"
+              ],
+              "dc.title": [
+                "Web Phishing Detection Using a Modified Spider Monkey Optimization Algorithm"
+              ],
+              "dc.type": [
+                "Text.Serial.Journal"
+              ],
+              "dc.type.articletype": [
+                "Articles"
+              ],
+              "gs_meta_revision": [
+                "1.1"
+              ],
+              "citation_journal_title": [
+                "International Journal of Advances in Soft Computing and its Applications "
+              ],
+              "citation_journal_abbrev": [
+                "Int. J. Adv. Soft Comput. Appl."
+              ],
+              "citation_issn": [
+                "2074-8523"
+              ],
+              "citation_author": [
+                "Hanadi Alsheyab",
+                "mosleh abualhaj",
+                "Mahran Al Zyoud",
+                "Mohamed  Yousif",
+                "Mohammad Daoud"
+              ],
+              "citation_author_institution": [
+                "Department of Networks and Cybersecurity, Faculty of Information Technology, Al-Ahliyya Amman University, Amman, Jordan.",
+                "Department of Networks and Cybersecurity, Faculty of Information Technology, Al-Ahliyya Amman University, Amman, Jordan.",
+                "Department of Networks and Cybersecurity, Faculty of Information Technology, Al-Ahliyya Amman University, Amman, Jordan.",
+                "School of Technologies, Cardiff Metropolitan University, Cardiff, UK.",
+                "College of Engineering, Al Ain University, Abu Dhabi, United Arab Emirates."
+              ],
+              "citation_title": [
+                "Web Phishing Detection Using a Modified Spider Monkey Optimization Algorithm"
+              ],
+              "citation_language": [
+                "en"
+              ],
+              "citation_date": [
+                "2026/10/10"
+              ],
+              "citation_volume": [
+                "18"
+              ],
+              "citation_issue": [
+                "3"
+              ],
+              "citation_firstpage": [
+                "317"
+              ],
+              "citation_lastpage": [
+                "334"
+              ],
+              "citation_doi": [
+                "10.15849/ijasca.125"
+              ],
+              "citation_abstract_html_url": [
+                "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/125"
+              ],
+              "citation_abstract": [
+                "In today's digital age, technology is both a powerful tool and a potential threat, with its widespread adoption bringing significant advancements as well as new vulnerabilities. As we increasingly rely on digital solutions for everyday tasks, the importance of safeguarding against cyber threats has become paramount. This is particularly true in the context of web security, where cybercriminals are continuously developing more sophisticated methods to exploit online systems. Given the increasing sophistication and frequency of phishing attacks, traditional phishing detection methods remain necessary. However, more advanced methods are needed to detect new attacks. This study presents a web phishing detection approach using machine learning (ML) algorithms and an enhanced feature selection (FS) through the modified Spider Monkey Optimization (SMO) algorithm. The SMO algorithm was modified by adding an effective crossover function to improve the algorithm's performance. The study employs Mendeley phishing datasets containing features extracted from both phishing and legitimate web pages. In binary classification, the proposed detection model consistently demonstrated strong performance using XGBoost, LightGBM, and Random Forest."
+              ],
+              "citation_keywords": [
+                "ML",
+                "FS",
+                "SMO",
+                "metaheuristic algorithm"
+              ],
+              "citation_pdf_url": [
+                "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/download/125/82"
+              ]
+            },
+            "title": "Web Phishing Detection Using a Modified Spider Monkey Optimization Algorithm\n\t\t\t\t\t\t\t| International Journal of Advances in Soft Computing and its Applications",
+            "links": [
+              {
+                "text": "Skip to main content",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/125#pkp_content_main"
+              },
+              {
+                "text": "Skip to main navigation menu",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/125#siteNav"
+              },
+              {
+                "text": "Skip to site footer",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/125#pkp_content_footer"
+              },
+              {
+                "text": "",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/index"
+              },
+              {
+                "text": "Home",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA"
+              },
+              {
+                "text": "About",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/about"
+              },
+              {
+                "text": "Editorial Team",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/about/editorialTeam"
+              },
+              {
+                "text": "Submissions",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/about/submissions"
+              },
+              {
+                "text": "Privacy Statement",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/about/privacy"
+              },
+              {
+                "text": "Current",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/current"
+              },
+              {
+                "text": "Volumes",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/archive"
+              },
+              {
+                "text": "Contact",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/about/contact"
+              },
+              {
+                "text": "Search",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/search"
+              },
+              {
+                "text": "Register",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/user/register"
+              },
+              {
+                "text": "Login",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/login"
+              },
+              {
+                "text": "Home",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/index"
+              },
+              {
+                "text": "Archives",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/archive"
+              },
+              {
+                "text": "Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/4"
+              },
+              {
+                "text": "https://doi.org/10.15849/ijasca.125",
+                "url": "https://doi.org/10.15849/ijasca.125"
+              },
+              {
+                "text": "",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/4"
+              },
+              {
+                "text": "PDF",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/125/82"
+              },
+              {
+                "text": "Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/4"
+              },
+              {
+                "text": "Machine and Deep learning Applications",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/catalog/category/Machine"
+              },
+              {
+                "text": "Optimization and Evolutionary Algorithms",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/catalog/category/Optimization"
+              },
+              {
+                "text": "Copyright (c) 2026 Hanadi Alsheyab, mosleh abualhaj, Mahran Al Zyoud, Mohamed  Yousif, Mohammad Daoud",
+                "url": "https://zuj.edu.jo/"
+              },
+              {
+                "text": "https://doi.org/10.15849/ijasca.125",
+                "url": "https://doi.org/10.15849/ijasca.125"
+              },
+              {
+                "text": "ACM",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/get/acm-sig-proceedings?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "ACS",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/get/acs-nano?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "APA",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/get/apa?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "ABNT",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/get/associacao-brasileira-de-normas-tecnicas?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "Chicago",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/get/chicago-author-date?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "Harvard",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/get/harvard-cite-them-right?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "IEEE",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/get/ieee?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "MLA",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/get/modern-language-association?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "Turabian",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/get/turabian-fullnote-bibliography?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "Vancouver",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/get/vancouver?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "Endnote/Zotero/Mendeley (RIS)",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/download/ris?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "BibTeX",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/citationstylelanguage/download/bibtex?submissionId=125&publicationId=126&issueId=4"
+              },
+              {
+                "text": "Link",
+                "url": "https://scholar.google.com/scholar?q=Web%20Phishing%20Detection%20Using%20a%20Modified%20Spider%20Monkey%20Optimization%20Algorithm"
+              },
+              {
+                "text": "Bombardier Beetle Optimizer (BBO) for Optimizing Engineering Design Problems",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/168"
+              },
+              {
+                "text": "International Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/4"
+              },
+              {
+                "text": "Enhanced Data Embedding Using Adaptive Neural Networks with Modified Whale Optimization Algorithm",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/10"
+              },
+              {
+                "text": "International Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 1 (2026):  Int. J. Advance Soft Compu. Appl, Vol. 18, No. 1, March 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/2"
+              },
+              {
+                "text": "Protein Tertiary Structure Prediction using a β-Hill Climbing Optimizer",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/66"
+              },
+              {
+                "text": "International Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 2 (2026): Vol. 18 No. 2 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 2, July 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/3"
+              },
+              {
+                "text": "Genetic-Algorithm Feature Selection for Evaluating Self-Supervised Transformers and Gradient-Boosted Trees in Flow-Based Intrusion Detection",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/166"
+              },
+              {
+                "text": "International Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/4"
+              },
+              {
+                "text": "A Clustering and Convex hull-based approach for Vehicle Bounding Box Localization in LiDAR Images for Advanced Driving Assistance System",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/49"
+              },
+              {
+                "text": "International Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 2 (2026): Vol. 18 No. 2 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 2, July 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/3"
+              },
+              {
+                "text": "Enhanced Intrusion Detection Systems Dataset Synthesis Using Conditional Generative Adversarial Networks with the Adaptive Whale Optimization Algorithm",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/71"
+              },
+              {
+                "text": "International Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 1 (2026):  Int. J. Advance Soft Compu. Appl, Vol. 18, No. 1, March 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/2"
+              },
+              {
+                "text": "A Robust Smart Grid-Aware Cloud Computing Framework for Sustainable Energy Management",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/63"
+              },
+              {
+                "text": "International Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 1 (2026):  Int. J. Advance Soft Compu. Appl, Vol. 18, No. 1, March 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/2"
+              },
+              {
+                "text": "ViXNet: Vision Transformer with Xception Network for Facial Expression Recognition",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/147"
+              },
+              {
+                "text": "International Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/4"
+              },
+              {
+                "text": "V2I-Enhanced State Representation for Adaptive Traffic Signal Control Using Deep Q-Networks",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/164"
+              },
+              {
+                "text": "International Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/4"
+              },
+              {
+                "text": "An Intelligent Entity Resolution at Scale: A Graph-Based Social Network Framework",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/169"
+              },
+              {
+                "text": "International Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/issue/view/4"
+              },
+              {
+                "text": "Next",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/125?articlesBySimilarityPage=2"
+              },
+              {
+                "text": "start an advanced similarity search",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/search/search?query=ML%20FS%20SMO%20metaheuristic%20algorithm"
+              },
+              {
+                "text": "Call for Papers",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/Call_for_Papers"
+              },
+              {
+                "text": "IJASCA Copyright",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/Copyright"
+              },
+              {
+                "text": "Publication Ethics",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/Publication_Ethics"
+              },
+              {
+                "text": "Author Self Archiving",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/Author_Self_Archiving"
+              },
+              {
+                "text": "Articles in Press",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/Articles_in_Press"
+              },
+              {
+                "text": "Processing Charges",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/Processin_Charges"
+              },
+              {
+                "text": "Submission",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/Submission"
+              },
+              {
+                "text": "Aim and Scope",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/Aim_and_Scope"
+              },
+              {
+                "text": "Make a Submission",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/about/submissions"
+              },
+              {
+                "text": "For Readers",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/information/readers"
+              },
+              {
+                "text": "For Authors",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/information/authors"
+              },
+              {
+                "text": "For Librarians",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/information/librarians"
+              },
+              {
+                "text": "Genetic-Algorithm Feature Selection for Evaluating Self-Supervised Transformers and Gradient-Boosted Trees in Flow-Based Intrusion Detection",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/166"
+              },
+              {
+                "text": "Deep Multimodal Purchase Decision Modeling for E-Commerce Recommendation",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/81"
+              },
+              {
+                "text": "Emotion-Aware Adaptive User Interfaces for Enhanced User Experience Using Multi-Modal Deep Learning",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/31"
+              },
+              {
+                "text": "Generating Natural Language from AAC Cards for Children with Autism using a Sequence-to-Sequence System",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/37"
+              },
+              {
+                "text": "Automated Auditing Framework for Detecting Overfitting and Data Leakage in Machine Learning Models",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/99"
+              },
+              {
+                "text": "View full diversity →",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/diversity"
+              },
+              {
+                "text": "",
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/about/aboutThisPublishingSystem"
+              }
+            ],
+            "text": "Web Phishing Detection Using a Modified Spider Monkey Optimization Algorithm\n\t\t\t\t\t\t\t| International Journal of Advances in Soft Computing and its Applications\nWeb Phishing Detection Using a Modified Spider Monkey Optimization Algorithm\nAuthors\nHanadi Alsheyab\nDepartment of Networks and Cybersecurity, Faculty of Information Technology, Al-Ahliyya Amman University, Amman, Jordan.\nmosleh abualhaj\nDepartment of Networks and Cybersecurity, Faculty of Information Technology, Al-Ahliyya Amman University, Amman, Jordan.\nMahran Al Zyoud\nDepartment of Networks and Cybersecurity, Faculty of Information Technology, Al-Ahliyya Amman University, Amman, Jordan.\nMohamed  Yousif\nSchool of Technologies, Cardiff Metropolitan University, Cardiff, UK.\nMohammad Daoud\nCollege of Engineering, Al Ain University, Abu Dhabi, United Arab Emirates.\nDOI:\nhttps://doi.org/10.15849/ijasca.125\nKeywords:\nML, \t\t\t\t\t\t\t\t\t\t\tFS, \t\t\t\t\t\t\t\t\t\t\tSMO, \t\t\t\t\t\t\t\t\t\t\tmetaheuristic algorithm\nAbstract\nIn today's digital age, technology is both a powerful tool and a potential threat, with its widespread adoption bringing significant advancements as well as new vulnerabilities. As we increasingly rely on digital solutions for everyday tasks, the importance of safeguarding against cyber threats has become paramount. This is particularly true in the context of web security, where cybercriminals are continuously developing more sophisticated methods to exploit online systems. Given the increasing sophistication and frequency of phishing attacks, traditional phishing detection methods remain necessary. However, more advanced methods are needed to detect new attacks. This study presents a web phishing detection approach using machine learning (ML) algorithms and an enhanced feature selection (FS) through the modified Spider Monkey Optimization (SMO) algorithm. The SMO algorithm was modified by adding an effective crossover function to improve the algorithm's performance. The study employs Mendeley phishing datasets containing features extracted from both phishing and legitimate web pages. In binary classification, the proposed detection model consistently demonstrated strong performance using XGBoost, LightGBM, and Random Forest.\nDownloads\nDownload data is not yet available.\nDownloads\nPDF\nPublished\n2026-10-10\nIssue\nVol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026\nSection\nArticles\nCategories\nMachine and Deep learning Applications\nOptimization and Evolutionary Algorithms\nLicense\nCopyright (c) 2026 Hanadi Alsheyab, mosleh abualhaj, Mahran Al Zyoud, Mohamed  Yousif, Mohammad Daoud\nCopyright © The Author(s).\nArticles published in the International Journal of Advances in Soft Computing and its Applications (IJASCA) are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) license.\nThis license permits anyone to copy, redistribute, remix, transform, and build upon the material for any purpose, including commercial use, provided appropriate credit is given to the original author(s), a link to the license is provided, and any modifications are indicated.\nAuthors retain the copyright of their published work and grant the journal right of first publication, with the work simultaneously licensed under the terms above.\nHow to Cite\nWeb Phishing Detection Using a Modified Spider Monkey Optimization Algorithm (H. Alsheyab, mosleh abualhaj, M. Al Zyoud, M. . Yousif, & M. Daoud, Trans.). (2026).\nInternational Journal of Advances in Soft Computing and Its Applications\n,\n18\n(3), 317–334.\nhttps://doi.org/10.15849/ijasca.125\nMore Citation Formats\nACM\nACS\nAPA\nABNT\nChicago\nHarvard\nIEEE\nMLA\nTurabian\nVancouver\nDownload Citation\nEndnote/Zotero/Mendeley (RIS)\nBibTeX\nTotal Downloads: 69\nLink\nSimilar Articles\nHisham A.  Shehadeh,\n\t\t\t\t\t\t\t\t\t\t\tWidi  Aribowo,\nBombardier Beetle Optimizer (BBO) for Optimizing Engineering Design Problems\n,\nInternational Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026\nNameer El Emam,\n\t\t\t\t\t\t\t\t\t\t\tKefaya Qaddoum,\nEnhanced Data Embedding Using Adaptive Neural Networks with Modified Whale Optimization Algorithm\n,\nInternational Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 1 (2026):  Int. J. Advance Soft Compu. Appl, Vol. 18, No. 1, March 2026\nMohammed AbualRub,\nProtein Tertiary Structure Prediction using a β-Hill Climbing Optimizer\n,\nInternational Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 2 (2026): Vol. 18 No. 2 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 2, July 2026\nMohammad F. Al-hammouri,\n\t\t\t\t\t\t\t\t\t\t\tBandi Vamsi,\n\t\t\t\t\t\t\t\t\t\t\tMuder M.  AlMi'ani,\n\t\t\t\t\t\t\t\t\t\t\tElvira  Al Bataineh,\n\t\t\t\t\t\t\t\t\t\t\tAli Al Bataineh,\nGenetic-Algorithm Feature Selection for Evaluating Self-Supervised Transformers and Gradient-Boosted Trees in Flow-Based Intrusion Detection\n,\nInternational Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026\nShilpa Ankalaki,\n\t\t\t\t\t\t\t\t\t\t\tGeetabai S Hukkeri,\n\t\t\t\t\t\t\t\t\t\t\tShaleen Bhatnagar,\nA Clustering and Convex hull-based approach for Vehicle Bounding Box Localization in LiDAR Images for Advanced Driving Assistance System\n,\nInternational Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 2 (2026): Vol. 18 No. 2 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 2, July 2026\nAteka Hani,\n\t\t\t\t\t\t\t\t\t\t\tNameer N.  El-Emam,\nEnhanced Intrusion Detection Systems Dataset Synthesis Using Conditional Generative Adversarial Networks with the Adaptive Whale Optimization Algorithm\n,\nInternational Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 1 (2026):  Int. J. Advance Soft Compu. Appl, Vol. 18, No. 1, March 2026\nUdit Mamodiya,\n\t\t\t\t\t\t\t\t\t\t\tIndra  Kishor,\n\t\t\t\t\t\t\t\t\t\t\tPankaj Mudholkar,\n\t\t\t\t\t\t\t\t\t\t\tAmer  Alqutaish,\n\t\t\t\t\t\t\t\t\t\t\tGhada Alradwan,\n\t\t\t\t\t\t\t\t\t\t\tMansour  Obeidat,\nA Robust Smart Grid-Aware Cloud Computing Framework for Sustainable Energy Management\n,\nInternational Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 1 (2026):  Int. J. Advance Soft Compu. Appl, Vol. 18, No. 1, March 2026\nMohamed Ouhammou,\n\t\t\t\t\t\t\t\t\t\t\tNabil Ababou,\n\t\t\t\t\t\t\t\t\t\t\tMohamed  Baslam,\nViXNet: Vision Transformer with Xception Network for Facial Expression Recognition\n,\nInternational Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026\nLeila Madi,\n\t\t\t\t\t\t\t\t\t\t\tAhcene Youcef  Benabdallah ,\n\t\t\t\t\t\t\t\t\t\t\tGuersi Nourddine,\nV2I-Enhanced State Representation for Adaptive Traffic Signal Control Using Deep Q-Networks\n,\nInternational Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026\nMohammad Sh. Daoud,\n\t\t\t\t\t\t\t\t\t\t\tHussain  Al-Aqrabi,\n\t\t\t\t\t\t\t\t\t\t\tYousef Q Saadeh,\n\t\t\t\t\t\t\t\t\t\t\tBayan  AbuShawar,\n\t\t\t\t\t\t\t\t\t\t\t Samer  Aoudi,\nAn Intelligent Entity Resolution at Scale: A Graph-Based Social Network Framework\n,\nInternational Journal of Advances in Soft Computing and its Applications : Vol. 18 No. 3 (2026): Int. J. Advance Soft Compu. Appl, Vol. 18, No. 3, November 2026\n1-10 of 15\nNext\nYou may also\nstart an advanced similarity search\nfor this article.\nCover\nIJASCA  Menu\nCall for Papers\nIJASCA Copyright\nPublication Ethics\nAuthor Self Archiving\nArticles in Press\nProcessing Charges\nSubmission\nAim and Scope\nMake a Submission\nMake a Submission\nInformation\nFor Readers\nFor Authors\nFor Librarians\nMost Read Papers\nGenetic-Algorithm Feature Selection for Evaluating Self-Supervised Transformers and Gradient-Boosted Trees in Flow-Based Intrusion Detection\n373\nDeep Multimodal Purchase Decision Modeling for E-Commerce Recommendation\n170\nEmotion-Aware Adaptive User Interfaces for Enhanced User Experience Using Multi-Modal Deep Learning\n141\nGenerating Natural Language from AAC Cards for Children with Autism using a Sequence-to-Sequence System\n138\nAutomated Auditing Framework for Detecting Overfitting and Data Leakage in Machine Learning Models\n127\nKeywords\nEditorial Statistics — 2026\nYear to date · Decision times in days\nDays to Accept\n62\nDays to Reject\n9\nAcceptance Rate\n17%\nRejection Rate\n83%\nDesk Reject Rate\n51%\nAfter Review Reject Rate\n32%\n🌍\nGeographic Diversity\nAuthors' Countries\n##plugins.block.participantDiversity.acrossCountries##\n232\nJordan\n37.5%\nMorocco\n14.2%\nSaudi Arabia\n10.8%\nIndia\n9.5%\nIraq\n9.1%\nIndonesia\n3.4%\nUnited States\n3.4%\nUnited Arab Emirates\n2.6%\nKuwait\n1.7%\nAlgeria\n1.3%\nReviewers' Countries\n##plugins.block.participantDiversity.acrossCountries##\n146\nJordan\n30.8%\nIndia\n19.9%\nMorocco\n8.2%\nSaudi Arabia\n6.8%\nUnited States\n6.8%\nIndonesia\n6.2%\nIraq\n6.2%\nAlgeria\n2.1%\nEgypt\n2.1%\nFrance\n1.4%\nEditors' Countries\nAcross {$count} countries\n4\nJordan\n100%\nView full diversity\n→\nJournal Statistics\n📄\n71\nPublished Articles\n👥\n232\nAuthors\n🌍\n18\nCountries\n👁\n11,027\nAbstract Views\n⬇\n6,664\nDownloads\n© International Journal of Advances in Soft Computing and its Applications (IJASCA). Published by Al-Zaytoonah University of Jordan.\nOpen Access (CC BY 4.0). Authors retain copyright. Online ISSN: 2074-8523 | Print ISSN: 2710-1274.",
+            "text_complete": true,
+            "document_type": "unverified",
+            "fragment": "",
+            "resource_unavailable": false,
+            "text_sha256": "1755d831311a02f0100e2a80d952e1f45a08e45a972f7aa0d3e91e177360495c"
+          },
+          {
+            "requested_url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/download/125/82",
+            "final_url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/download/125/82",
+            "http_status": 200,
+            "headers": {
+              "content-type": "application/pdf"
+            },
+            "redirects": [
+              {
+                "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/download/125/82",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "3007776a3e75c3a1b5f63006502c138b69f035372d74a79deb7403e8f597fc09",
+            "retrieved_at": "2026-11-05T10:53:31.195142+00:00",
+            "byte_count": 1120829,
+            "container_type": "pdf",
+            "page_count": 18,
+            "pages_inspected": 6,
+            "pdf_metadata": {
+              "/Title": "IJASCA Author Template 2026",
+              "/Author": "Al-Zaytoonah University of Jordan",
+              "/Creator": "Microsoft® Word LTSC",
+              "/CreationDate": "D:20261010224817+03'00'",
+              "/ModDate": "D:20261010224817+03'00'",
+              "/Producer": "Microsoft® Word LTSC"
+            },
+            "text": "Int. J. Advance Soft Compu. Appl. Vol. 18, No. 3, November 2026 \nISSN 2710-1274 (Print) · 2074-8523 (Online)  ·  Published by Al-Zaytoonah University of Jordan (ZUJ) 317 \nWeb Phishing Detection Using a Modified Spider Monkey \nOptimization Algorithm \nHanadi G. ALsheyab1,*, Mosleh M. Abualhaj2, Mahran Al Zyoud3, Mohamed Yousif4, and \nMohammad Sh. Daoud5 \n1,2,3 Department of Networks and Cybersecurity, Faculty of Information Technology, Al-Ahliyya Amman University, Amman, Jordan. \n4 School of Technologies, Cardiff Metropolitan University, Cardiff, UK. \n5 College of Engineering, Al Ain University, Abu Dhabi, United Arab Emirates. \n* Corresponding author: handi.alshyab@hotmail.com \n \nReceived: 13 May 2026    Accepted: 20 August 2026    Published: 7 October 2026 \nDOI: 10.15849/ijasca.125        License: Open access under CC BY 4.0. Authors retain copyright. \nPublisher: Al-Zaytoonah University of Jordan (ZUJ), Amman, Jordan. \nCite this article: H. G. ALsheyab, M. M. Abualhaj, M. Al Zyoud, M. Yousif, and M. Sh. Daoud, “Web phishing detection using a modified \nspider monkey optimization algorithm,” Int. J. Advance Soft Compu. Appl., vol. 18, no. 3, pp. 317–334, 2026, doi: \nhttps://doi.org/10.15849/ijasca.125. \nABSTRACT \nIn today's digital age, technology is both a powerful tool and a potential threat, with its widespread adoption \nbringing significant advancements as well as new vulnerabilities. As we increasingly rely on digital solutions for \neveryday tasks, the importance of safeguarding against cyber threats has become paramount. This is particularly \ntrue in the context of web security, where cybercriminals are continuously developing more sophisticated methods \nto exploit online systems. Given the increasing sophisticati on and frequency of phishing attacks, traditional \nphishing detection methods remain necessary. However, more advanced methods are needed to detect new attacks. \nThis study presents a web phishing detection approach using machine learning (ML) algorithms and an enhanced \nfeature selection (FS) through the modified Spider Monkey Optimization (SMO) algorithm. The SMO algorithm \nwas modified by adding an effective crossover function to improve the algorithm's performance. The study \nemploys Mendeley phishing datasets containing features extracted from both phishing and legitimate web pages. \nIn binary classification, the proposed detection model consistently demonstrated strong performance using \nXGBoost, LightGBM, and Random Forest. \nKeywords: ML; FS; SMO; metaheuristic algorithm. \n1   Introduction \nPhishing websites are designed to device users into revealing their personal, financial, or login details. \nPhishing sites are designed to imitate legitimate and well -known websites such as banks, social media \nplatforms, and email services. The goal of the attackers is to steal personal information and login \ncredential details from users who interact with these services regularly. This leads to accounts being \ntaken, financial losses, and identity theft [1]. There are many types of phishing, including email phishing, \nweb phishing, and spear phishing. Email phishing involves sending malicious messages or links via \nemail. Meanwhile, web phishing involves creating websites imitate legitime ones that are designed to \nsteal user's login credentials and information, while spear phishing targets a specific individual with the \nphishing attack. In short, each type of phishing attack has its own characteristics, but the goal is always \nmalicious, such as stealing information, infecting users' systems, or gaining unauthoriz ed access. \nAwareness is the first and one of the most effective lines of defense against these attacks [2,3]. Phishing \nwebsites are a serious and growing threat online, deceiving users by impersonating legitimate \norganizations. The APWG Phishing Activity T rends Report illustrates the increase in phishing attacks \nfrom 2015 to 2020 on a quarterly basis, as shown in Fig. 1; during the third quarter of 2019, phishing \nattacks increased to 266,387, marking the highest point in three years since late 2016. This increased by \n46% from 182,465 in the second quarter and was nearly double the 138,328 recorded in the fourth \nquarter of 2018. During that quarter, there were 118,260 distinct phishing emails reported to APWG. \nAdditionally, it was discovered that 1,283 brands were targeted by phishing campaigns [4,5]. \nInt. J. Advance Soft Compu. Appl. Vol. 18, No. 3, November 2026 \nISSN 2710-1274 (Print) · 2074-8523 (Online)  ·  Published by Al-Zaytoonah University of Jordan (ZUJ) 318 \n \nFig. 1. The growth in phishing attacks 2015–2020 by quarters based on data collected from APWG annual reports \n[4,5]. \nSince phishing attacks are always increasing, this demands more effort and tools to combat these attacks \nand spread more awareness [6]. There are many methods for detecting phishing websites. The most \nblacklists, content analysis, heuristic-based analysis, and ML. One of the basic methods is the blacklist, \nwhich is a regularly updated database of known phishing URLs. It has the lowest real -time accuracy \namong all methods used [7,8]. The heuristic method uses some website characteristics, such as HTTPS, \ndomain age, usage of certain words in URLs, offering a better but still not real -time response to new \nphishing sites. It relies on certain strategies and predefined rules [9]. Content analysis leverages natural \nlanguage processing to inspect webpage text, look ing for linguistic characteristics associated with \nphishing. This method analyses semantics and syntax to search for irregularities, which are commonly \nfound in phishing websites, for example, urgency in language or grammatical mistakes not found in \nlegitimate pages [10]. \nML is used in phishing detection by analyzing large data stores called datasets. ML models are then \nused to predict whether the websites are phishing or legitimate [11]. There are three primary categories \nof ML: supervised learning, unsupervised learning, and reinforcement learning [12,13]. Supervised \nlearning is the most common form of ML in which algorithms are trained on labeled datasets to \naccurately classify data or predict outcomes [14]. Models learn by taking input data and mapping it to \nthe correct output; common examples include credit scoring and image recognition [15,16]. FS involves \nthe selection of a subset of relevant features, referred to as predictors, that is necessary for creating a \nmodel [17]. The FS process removes irrelevant, redundant, or noisy data that does not contribute to \nbuilding the model, hence making the model less inefficient and less accurate [18,19]. Metaheuristic \nalgorithms have demonstrated their efficiency in FS [20,21]; among these, the SMO is effective in FS \nbecause it s elects the best subset of features for the models [22]. The study evaluates the model \nperformance on multiple web phishing datasets utilizing the Mendeley web phishing dataset. \n2   Literature Review \nThe following literature explores the usage of the Mendeley phishing dataset; authors have used ML \nalgorithms to make robust ML models for phishing detection. \nSarma et al. [23] also proposed a robust detection framework that uses various ML algorithms to enhance \nsecurity against phishing attacks. Focusing on classifiers such as KNN, RF, SVM, and LR, the study \nuses the Mendeley phishing dataset. The performance o f these classifiers was tested with metrics like \nprecision, recall, and F1 scores to accurately identify phishing threats. The results pointed out RF as the \nbest classifier with the highest performance scores, while 98% was a notable accuracy. \n\nInt. J. Advance Soft Compu. Appl. Vol. 18, No. 3, November 2026 \nISSN 2710-1274 (Print) · 2074-8523 (Online)  ·  Published by Al-Zaytoonah University of Jordan (ZUJ) 319 \nAl-Sarem et al. [24] discussed the use of GA to perform FS in web phishing detection. Some of the main \nclassifiers that were studied are RFs, AdaBoost, XGBoost, Bagging, GradientBoost, and LightGBM. \nThis technique was applied to three datasets containing f eatures of phishing and legitimate websites, a \ncomprehensive approach toward identifying harmful and safe internet entities. These classifiers \noptimized the performance immensely on the task of phishing detection on all datasets. The best \nperformance was on Dataset 2, the Mendeley phishing dataset, with the LightGBM classifier reporting \nan impressive 98.65% accuracy, high precision, and F-score metrics. \nJayaprakash et al. [25] aimed to identify and mitigate phishing threats across different platforms, \nincluding URLs, emails, and websites using ML. The ML models are trained on the datasets used, \nincluding URL Phishing, Email Phishing, and Web phishing data sets. The highest accuracy for URL \nPhishing Detection is 97.2%, and for Email Phishing Detection is 97.4%. On the other hand, the results \nfor the Mendeley phishing dataset used RF, SVM, and NB. The highest results for the ML model were \nachieved using the RF with an accuracy of 95.3, precision of 0.95, recall of 0.96, and F1-score of 0.96. \nThe authors of Newaz et al. [26] have also presented a framework for web phishing detection that would \ncorrectly identify phishing websites from non-phishing websites. The authors used various datasets for \ntheir framework: Dataset-1 (UCI Phishing Websites Dataset), Dataset-2 (Mendeley Phishing Dataset), \nDataset-3 (Phishing Websites Dataset), and Dataset -4 (Web page phishing detection). The authors did \nFS using RFE to find the best subset of features for the ML algorithms. The classification was done with \nseveral classifiers such as SVM, KNN, NB, LR, RF, AdaBoost, ET, GBM, LGBM, and XGBoost. The \nhighest accuracies on Dataset -2 for the XGBoost, LGBM, and RF were 98.15, 98.02, and 97.72, \nrespectively. Precision scores were 98.46, 98.32, and 98.22, respectively.  F1-scores were 98.14, 98.02, \nand 97.71, respectively. \nOn the other hand, Calzarossa & Zieni [27] compared different ML methods for phishing detection on \nthe Mendeley phishing dataset. Focusing on understanding the explanations provided by ML models for \ndetecting phishing websites, the study examined several classifiers, including KNN, LR, RF, SVM, and \nXGBoost, with an accuracy of 0.639, 0.933, 0.965, 0.934, and 0.965, respectively. \nThese studies have shown that ML can improve web security by making it easier to spot phishing attacks. \nUsing datasets like Mendeley, researchers have used different ML classifiers to identify phishing \nwebsites from normal ones. These studies show the scar city of using metaheuristics like SMO in FS in \nweb phishing detection on the Mendeley dataset, which could be an area for future work. \n3   Proposed SMO Phishing Website Detection \nFS is the process of identifying the important features that affect the performance of the ML -based \ndetection model; by removing irrelevant or redundant features from the data, the model’s accuracy is \nimproved in detecting phishing websites. Metaheuristic algorithms have demon strated their efficiency \nin FS. Among these is the SMO algorithm, as it is effective in navigating the complex search space for \nFS. SMO is a metaheuristic algorithm used to solve optimization problems and perform FS. It was \ninspired by the behavior of spider monkeys. Here are the steps of the SMO algorithm: \n1. Initializing the Population: The SMO starts by initializing a population of potential solutions, \nrepresented by “spider monkeys.” Each monkey represents a potential solution to the optimization \nproblem. \n2. Computing Solution Fitness: The algorithm evaluates the fitness of each solution; the fitness \nevaluation helps in identifying the most promising solutions. \n3. Selecting the Local and Global Leader: The algorithm selects a local leader for each subgroup of \nmonkeys and a global leader for the entire population. The local leader is the best solution within its \nsubgroup, and the global leader is the best solution among all subgroups. These leaders play a  crucial \nrole in guiding the algorithm’s process. \n4. Update the Solutions of Both the Local and Global Leaders: The entire population of solutions is \nupdated based on local leaders and the global leader using the algorithm’s mathematical operations. \nInt. J. Advance Soft Compu. Appl. Vol. 18, No. 3, November 2026 \nISSN 2710-1274 (Print) · 2074-8523 (Online)  ·  Published by Al-Zaytoonah University of Jordan (ZUJ) 320 \n5. Update Local and Global Leader Decision Stage: The algorithm enters a decision stage for these \nleaders, allowing them to explore the solution space for different possible solutions (exploration) and \nexploit the solution space by searching for better solutions. \n6. Stopping Criteria Met: The algorithm continuously runs until a stopping criterion is reached, such \nas a maximum number of iterations. If the criteria is met, then the algorithm terminates and returns the \nbest solution found so far. The flowchart for the SMO is outlined in Fig. 2. \n \nFig. 2. Flowchart of the spider monkey optimization algorithm. \nThe aim of this research is to develop an ML model for phishing website detection. The steps for the \nproposed web phishing detection model are shown in Fig. 3. The Phishing Dataset for Machine Learning \n(Mendeley) is used for training and evaluation of the model. The dataset undergoes preprocessing steps \nto improve the performance of the ML classification algorithms. Data normalization and FS are the \npreprocessing steps applied to the dataset. Normalization was performed using the MinMaxScaler to \ntransform the numerical values into a common range, as most classification algorithms and the SMO \nrequire all input variables to be on the same scale (range). FS is the second and an important step in data \npreprocessing since the irrelevant features used in the ML model for detection can negatively affect the \nperformance of the ML model in identifying phishing websites. The SMO is used for FS to help \neliminate the irrelevant features from the model, improving its performance. The last step in the model \nis classification, where the best subset of features will be applied along with several ML techniques to \nevaluate the model performance. \n\nInt. J. Advance Soft Compu. Appl. Vol. 18, No. 3, November 2026 \nISSN 2710-1274 (Print) · 2074-8523 (Online)  ·  Published by Al-Zaytoonah University of Jordan (ZUJ) 321 \n \nFig. 3. The proposed web phishing detection model. \n3.1 Mendeley Dataset \nThe Phishing Dataset for Machine Learning: Feature Evaluation, also called the Mendeley phishing \ndataset, contains 48 features extracted from 5000 phishing webpages and 5000  legitimate webpages, \nwhich were downloaded from January to May 2015 and from May to June 2017. The dataset balance of \nphishing and legitimate websites ensures a realistic evaluation of phishing detection models. The authors \nof the dataset automated the col lection of the webpages using the GNU Wget tool and a Python script, \nwith the comp lete HTML documents downloaded with their related resources (e.g., images, CSS, \nJavaScript) to ensure all downloaded webpages can be rendered properly in the browser. The dataset \nphishing webpage sources were collected as follows: 5000 phishing webpages fr om PhishTank and \nOpenPhish and another 5000 legitimate webpages from Alexa and the Common Crawl archive [28]. \nTable 1 describes the features of the Phishing Dataset for ML. \nTable 1. Phishing dataset for ML feature description. \n# Feature # Feature # Feature # Feature \n1 NumDots 13 NumHash 25 NumSensitiveWords 37 RightClickDisabled \n2 SubdomainLevel 14 NumNumericChars 26 EmbeddedBrandName 38 PopUpWindow \n3 PathLevel 15 NoHttps 27 PctExtHyperlinks 39 SubmitInfoToEmail \n4 UrlLength 16 RandomString 28 PctExtResourceUrls 40 IframeOrFrame \n5 NumDash 17 IpAddress 29 ExtFavicon 41 MissingTitle \n6 NumDashInHostname 18 DomainInSubdomains 30 InsecureForms 42 ImagesOnlyInForm \n7 AtSymbol 19 DomainInPaths 31 RelativeFormAction 43 SubdomainLevelRT \n8 TildeSymbol 20 HttpsInHostname 32 ExtFormAction 44 UrlLengthRT \n9 NumUnderscore 21 HostnameLength 33 AbnormalFormAction 45 PctExtResourceUrlsRT \n10 NumPercent 22 PathLength 34 PctNullSelfRedirectHyperlinks 46 AbnormalExtFormActionR \n11 NumQueryComponents 23 QueryLength 35 FrequentDomainNameMismatch 47 ExtMetaScriptLinkRT \n12 NumAmpersand 24 DoubleSlashInPath 36 FakeLinkInStatusBar 48 PctExtNullSelfRedirectHyperlinksRT \n\nInt. J. Advance Soft Compu. Appl. Vol. 18, No. 3, November 2026 \nISSN 2710-1274 (Print) · 2074-8523 (Online)  ·  Published by Al-Zaytoonah University of Jordan (ZUJ) 322 \n3.2 Implementation Operations \nThe phishing detection model was implemented using a high-performance Microsoft computer running \nWindows. The Visual Studio Code IDE was used to implement and edit the code. The experiment was \nconducted using Python (v3.11) with the Anaconda Python package. Anaconda comes with many \npopular data science and ML libraries. \nThe implementation required multiple ML libraries to develop the ML model. These some of the \nlibraries are outlined in Table 2. \nTable 2. ML libraries used for model implementation. \nLibrary Name Description and Use \nnumpy A library for numerical computing with arrays and matrices used for \nmathematical operations and array manipulations. \npandas Data manipulation and analysis library, used for data handling and \nreading/writing CSV files. \nsklearn.ensemble Ensemble methods module from scikit-learn, used for classification using RF and \nET. \nsklearn.tree Decision Tree (DT) module from scikit-learn, used for classification using DT. \nsklearn.inspection Model inspection module from scikit-learn, used for determining permutation \nimportance. \nsklearn.metrics Metrics module from scikit-learn, used for evaluation metrics like accuracy, \nROC AUC, etc. \nsklearn.preprocessing Preprocessing module from scikit-learn, used for Label Encoding and \nMinMaxScaler. \nsklearn.pipeline Pipeline module from scikit-learn, used for building a pipeline for preprocessing. \nThe implementation of the proposed phishing detection ML model using the Modified SMO consisted \nof three main steps: data normalization, FS using the modified SMO, and ML classification. \n3.3.1 Data Normalization \nNormalization rescales features to fall within a certain range, typically between 0 and 1. The \nMinMaxScaler is one of the most used techniques for normalization. Many classification algorithms, as \nwell as optimization methods like SMO, assume that the inpu t variables are on the same scale, so this \nstep is critical. If the inputs are not on the same scale, the performance of the model can be negatively \naffected. The MinMaxScaler is necessary to ensure that every feature is on the same scale for the \ndetection model. The MinMaxScaler was utilized to normalize the features (NumDots, \nSubdomainLevel, PathLevel, UrlLength, NumDash, NumDashInHostname, NumUnderscore, \nNumPercent, NumQueryComponents, NumAmpersand, NumNumericChars, HostnameLength, \nPathLength, QueryLength, NumSensitiveWords). \nThe MinMaxScaler is used with the equation (1): \n 𝑋𝑆𝑐𝑎𝑙𝑒𝑑 =\n𝑋−𝑋𝑀𝑖𝑛\n𝑋𝑀𝑎𝑥−𝑋𝑀𝑖𝑛\n (1) \nWhere XScaled is the result of the MinMaxScaler, X is the original value, XMin is the minimum value \nin the column, and XMax is the maximum value in the column.  The MinMaxScaler was used for the \nfeatures in the dataset. \n3.3.2 FS Using the Modified SMO \nThe second stage of the web phishing detection ML model implementation is FS using the modified \nSMO. The population size for the modified SMO was set to 10, and the maximum number of iterations \nwas 100. The number of iterations and population size are often sufficient for the algorithm to efficiently \nreach an optimal solution [29,30]. These parameters strike a balance between computational efficiency \nand the evaluation of the solution to find the error rate. The fitness function is based on the accuracy of \nthe solutions, as well as the number of selected features. The fitness function gives more importance to ",
+            "text_complete": false,
+            "document_type": "unverified",
+            "text_sha256": "40074923acce9708effc7fcacd291030ead672c469d8b5b1c549244c42fd5b5b"
+          }
+        ],
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-3f202ca007a2c04f9672c7d9",
+        "content_sha256": "759827a481e7eec44ef32bbe624369c070fd13dab6d8d182aa733f42436f7bf9",
+        "status": "retrieved",
+        "evidence": [
+          {
+            "requested_url": "https://doi.org/10.22214/ijraset.2026.79933",
+            "final_url": "https://www.ijraset.com/best-journal/fraud-detection-anomaly-detection-for-unusual-transations",
+            "http_status": 200,
+            "headers": {
+              "content-type": "application/pdf"
+            },
+            "redirects": [
+              {
+                "url": "https://doi.org/10.22214/ijraset.2026.79933",
+                "http_status": 302
+              },
+              {
+                "url": "https://www.ijraset.com/best-journal/fraud-detection-anomaly-detection-for-unusual-transations",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "27e1659b27410e23abe95780484e564518de490cd7c7b6643201411b161efcab",
+            "retrieved_at": "2026-11-05T10:53:36.718945+00:00",
+            "byte_count": 1709179,
+            "container_type": "pdf",
+            "page_count": 13,
+            "pages_inspected": 6,
+            "pdf_metadata": {
+              "/Producer": "FPDF 1.82",
+              "/CreationDate": "D:20261105055335"
+            },
+            "text": " \n14 VI June 2026\nhttps://doi.org/10.22214/ijraset.2026.79933\nInternational Journal for Research in Applied Science & Engineering Technology (IJRASET) \n                                                                                           ISSN: 2321-9653; IC V alue: 45.98; SJ Impact Factor: 7.538 \n                                                                                                                V olume 14 Issue VI June 2026- Available at www.ijraset.com \n     \n©IJRASET: All Rights are Reserved | SJ Impact Factor 7.538 | ISRA Journal Impact Factor 7.894 | \n 277 \nFraud Detection: Anomaly Detection for Unusual \nTransactions  \n \nKarishma R \nV elammal Engineering College, India \n \nAbstract:  The rapid expansion of digital financial transactions through online banking, e -commerce platforms, and mobile \npayment systems has significantly increased the risk of fraudulent activities, making detection a cr itical challenge due to t he \nevolving nature of  cyber threats and the rarity of fraudulent transactions. Traditional rule -based systems often struggle to \nidentify new and unknown fraud patterns, leading to inefficiencies and high false -positive rates. This project presents an \nintelligent fraud detection system using anomaly detection techniques to identify unusual and suspicious transaction behavior by \nleveraging machine learning algorithms such as Isolation Forest, Autoencoders, and One -Class Support V ector Machines to \nmodel normal transaction patterns and detect deviations that may indicate fraud. By focusing on anomalies rather than relying \nsolely on labeled data, the system can effectively identify previously unseen fraud attempts. The pr oposed model analyzes \nmultiple transaction features, including transaction amount, time, frequency, and user behavior, to detect irregularities, while \nalso supporting real -time analysis for immediate detection and response to suspicious activities. This approach improves \ndetection accuracy while minimizing false alarm s, and the system is designed to be scalable, efficient, and suitable for large \nfinancial datasets. Overall, this project demonstrates how artificial intelligence and anomaly detec tion can be used to build  a \nrobust, adaptive, and reliable fraud detection system that helps financial institutions reduce losses and enhance user trust.   \nKeywords: Fraud Detection, Anomaly Detection, Machine Learning, Isolation Forest, Financial Security, Artificial Intelligence, \nOutlier Detection, Cybersecurity.  \n  \nI. INTRODUCTION \nThe increasing reliance on digital financial transactions through online banking, e -commerce platforms, and mobile payment \nsystems has made financial activities faster and more convenient, but it has also significantly incr eased the risk of fraudul ent \nactivities. Fraud detection has become a major challenge for financial institutions due to the constant ly evolving nature of cyb er \nthreats and the difficulty in identifying rare and unpredictable fraudulent transactions. Traditiona l fraud detection methods , which \nare mainly rule-based, are limited in their ability to detect new and unknown fraud patterns and often result in hig h false-positive \nrates, affecting both operational efficiency and user experience. With the advancement of artificial  intelligence and machine \nlearning, more intelligent and adaptive approaches have emerged to address these challenges. In part icular, anomaly detection has \nproven to be an effective technique for identifying unusual patterns in transaction data by learning  normal behavior a nd detecting \ndeviations that may indicate fraud. This project aims to develop a fraud detection system using anom aly detection techniques such \nas Isolation Forest, Autoencoders, and One -Class Support V ector Machines to analyze transaction data and identify  suspicious \nactivities. The system focuses on key transaction features such as amount, time, frequency, and user  behavior, and is designe d to \nsupport real-time detection, improving accuracy while reducing false alarms. By providing a scalable and efficien t solution, this \nproject enhances financial security and helps in building a reliable and adaptive fraud detection system.  \n  \nII. FEATURES AND CITATION \n The proposed fraud detection system using anomaly detection is based on several research studies tha t address the challenges of \nidentifying fraudulent activities in large-scale financial systems. Research shows that detecting fraud is particularly difficu lt due to \nthe highly imbalanced nature of transaction data, where fraudulent activities are rare and often hid den within normal behavior. This \nhighlights the need for advanced techniques like anomaly detection that focus on identifying unusual  patterns rat her than relying \nsolely on labeled datasets [1]. Machine learning algorithms such as Isolation Forest have been widel y used for detecting outl iers \nefficiently by isolating anomalies in large datasets, making them suitable for real -time fraud detection syst ems [2]. Similarly, deep \nlearning approaches like Autoencoders have demonstrated strong performance in learning normal transa ction behavior and \nidentifying deviations through reconstruction errors [3]. One -Class Support V ector Machines further contribute b y creating \nboundaries around normal data points and flagging anything outside as suspicious [4].  \nInternational Journal for Research in Applied Science & Engineering Technology (IJRASET) \n                                                                                           ISSN: 2321-9653; IC V alue: 45.98; SJ Impact Factor: 7.538 \n                                                                                                                V olume 14 Issue VI June 2026- Available at www.ijraset.com \n     \n©IJRASET: All Rights are Reserved | SJ Impact Factor 7.538 | ISRA Journal Impact Factor 7.894 | \n 278 \nBehavioral analysis techniques, which consider factors such as transaction amount, frequency, locati on, and user activity pat terns, \nhave been shown to signifi cantly improve detection accuracy while reducing false positives [5]. Additionally, real -time fraud \ndetection systems using AI and data -driven models enhance financial security by providing instant alerts and adaptive learning \ncapabilities [6]. These advancements collectively emphasize the growing importance of anomaly detection and artificial intelligence \nin building scalable, efficient, and reliable fraud detection systems.  \n  \nIII. RELATED WORKS \nSeveral researchers have explored fraud detection using machine learning and anomaly detection techn iques to address the \nlimitations of traditional systems. Abidi et al. [7] provide a comprehensive review of fraud detecti on methods, highlighting the \ntransition from rule-based systems to advanced machine learning approaches capable of handling large-scale and complex financial \ndata. The study categorizes techniques into supervised, unsupervised, and hybrid models, emphasizing  the importance of anomal y \ndetection in identifying rare and unknown fraud patterns. Chaccour et al. [8] propose a real -time fraud detection framework using \ndata-driven models that analyze transaction streams and detect suspicious activities instantly, demonstra ting improved \nresponsiveness and reduced financial risk. Rathnayake et al. [9] introduce a context -aware fraud detection approach that \nincorporates user behavior, transaction history, and environmental factors to improve detection accu racy, showing that combin ing \ncontextual information significantly reduces false positives. Nair et al. [10] present a hybrid fraud detection system that integrates \nmultiple machine learning algorithms, including decision trees and anomaly detection models, to enha nce detection performance  \nand adaptability across different datasets. Wold et al. [11] conduct a systematic review of fraud detection techni ques, identifying \nanomaly detection as a key solution for handling imbalanced datasets where fraudulent transactions a re minimal compared to \nnormal ones. Pl ikynas et al. [12] propose a distributed fraud detection system that leverages cloud computing and d ata sharing to \nimprove scalability and detection efficiency across financial platforms. Okolo et al. [13] develop an AI-based fraud detection model \nusing deep learning techniques such as Autoencoders, achieving high accuracy in identifying abnormal transac tion patterns through \nreconstruction errors. De Faria et al. [14] introduce a mobile -based fraud monitoring system that provides real -time alerts for \nsuspicious transactions, improving user awareness and response time. Khan et al. [15] present a detailed s urvey of anomaly \ndetection algorithms, comparing their effectiveness in fraud detection scenarios and highlighting Is olation Forest and One -Class \nSupport V ector Machines as efficient techniques for large datasets. Jeamwatthanachai et al. [16] analyze user behavior patterns in \nfinancial systems and emphasize the importance of behavioral analytics in detecting fraud more accur ately. Rituerto et al. [1 7] \npropose a lightweight fraud detection model using statistical and machine learning techniques that can opera te without heavy \ninfrastructure, making it suitable for practical deployment. Riehle et al. [18] develop a high -precision fraud detection system using \nadvanced data analytics and pattern recognition, showing improved detection rates compared to traditiona l approaches. Chelladurai \net al. [19] evaluate existing fraud detection systems and identify common challenges such as high fa lse positives, lack of \nadaptability, and scalability issues, providing recommendations for improving real -world implementations. Overall, these studies \nhighlight the growing importance of anomaly detection and artificial intelligence in developing robu st, scalable, and efficient fraud \ndetection systems capable of addressing modern financial security challenges.  \n  \nTable.1. Summary Of Related Works \nReference \nNo.  \nMerits  Demerits  \n[7]  Provides a clear classification of fraud \ndetection techniques such as supervised, \nunsupervised, and hybrid models, helping \nre-searchers understand different \napproaches.  \nBeing a review paper, it lacks practical \nimplementation and experimental validation on \nreal-world datasets.  \n[8]  Being a review paper, it lacks practical \nimplementation and experimental \nvalidation on real-world datasets.  \nRequires high computational resources and \nmay face scalability issues in large financial \nsystems.  \nInternational Journal for Research in Applied Science & Engineering Technology (IJRASET) \n                                                                                           ISSN: 2321-9653; IC V alue: 45.98; SJ Impact Factor: 7.538 \n                                                                                                                V olume 14 Issue VI June 2026- Available at www.ijraset.com \n     \n©IJRASET: All Rights are Reserved | SJ Impact Factor 7.538 | ISRA Journal Impact Factor 7.894 | \n 279 \n[9]  Incorporates user behavior and contextual \ndata to improve fraud detection accuracy \nand reduce false positives.  \nDepends heavily on data quality and may \nstruggle with incomplete or noisy datasets.  \n[10]  Combines multiple machine learning \nmodels to enhance  detection performance \nand adaptability across datasets.  \nIncreased model complexity leads to higher \ntraining time and difficulty in model \ninterpretation.  \n[11]  Highlights the effectiveness of anomaly \ndetection in handling imbalanced datasets \nwhere fraud cases are rare.  \nLimited real -time implementation and lacks \ndetailed comparison with modern deep learning \ntechniques.  \n[12]  Utilizes distributed and cloud -based \nsystems to improve scalability and \nprocessing efficiency for fraud detection.  \nRaises concerns related to data privacy, \nsecurity, and dependency on network \ninfrastructure.  \n[13]  Uses deep learning models like \nAutoencoders to achieve high accuracy in \ndetecting abnormal transaction patterns.  \nRequires large amounts of training data and \nhigh computational power for model training.  \n[14]  Provides real -time fraud alerts through \nmobile-based systems, improving user \nawareness and quick response.  \nLimited evaluation in large -scale environments \nand may generate false alarms in dynamic \nconditions.  \n[15]  Offers a comprehensive survey of anomaly \ndetection algorithms and compares their \neffectiveness in fraud detection.  \nDoes not provide implementation results and \nmay overlook hybrid or emerging techniques.  \n[16]  Emphasizes the importance of behavioral \nanalytics in detecting fraud more \naccurately.  \nBehavioral patterns may change over time, \nrequiring continuous model updates and \nretraining.  \n[17]  Proposes a lightweight fraud detection \nmodel suitable for systems with limited \nresources.  \nMay compromise accuracy compared to more \ncomplex and resource-intensive models.  \n[18]  Demonstrates high detection accuracy \nusing advanced data analytics and pattern \nrecognition techniques.  \nRequires complex infrastructure and may not \nbe suitable for small-scale applications.  \n[19]  Identifies practical challenges such as false \npositives an d scalability issues in existing \nfraud detection systems  \nLacks detailed quantitative evaluation and does \nnot propose a concrete implementation model.  \n  \n \n \nInternational Journal for Research in Applied Science & Engineering Technology (IJRASET) \n                                                                                           ISSN: 2321-9653; IC V alue: 45.98; SJ Impact Factor: 7.538 \n                                                                                                                V olume 14 Issue VI June 2026- Available at www.ijraset.com \n     \n©IJRASET: All Rights are Reserved | SJ Impact Factor 7.538 | ISRA Journal Impact Factor 7.894 | \n 280 \nIV. PROPOSED WORK \nThe proposed system presents an intelligent fraud detection framework based on anomaly detection tec hniques to identify \nsuspicious financial transactions in large -scale datasets. The architecture integrates data preprocessing, anomaly detection \nalgorithms, behavioral analysis, and real -time monitoring to ensure accurate and adaptive fraud detection. Unlike traditional rule -\nbased systems that rely on predefined fraud patterns, the proposed model learns normal transaction b ehavior and detects deviations, \nmaking it effective against unknown and evolving fraud strategies. The system operates using a data-driven approach that combines \nstatistical analysis with machine learning models such as Isolation Forest, Autoencoders, and One-Class Support V ector Machines.  \nThe transaction dataset is represented as a feature space where each transaction is defined by attri butes such as transaction amount, \ntime, frequency, location, and user behavior. The fraud detection process consists of data preproces sing, anomaly scoring,  model \ntraining, evaluation, and real-time detection.  \n1) Data Preprocessing And Feature Engineering: Raw transaction data is cleaned, normalized, and transformed into a structured \nformat suitable for analysis. Missing values are handled, categorical variables are encoded, and num erical features are scaled. \nFeature engineering is applied to derive meaningf ul attributes such as transaction frequency, average spending behavior, and \ntime-based patterns, which help improve detection accuracy.  \n2) Anomaly Detection Using Isolation Forest:   The Isolation Forest algorithm is used to detect anomalies by isolating rare  data \npoints. It works by randomly selecting features and split values to construct decision trees. Transactions that require fewer splits \nto isolate are considered anomalies. Each transaction is assigned an anomaly score, and those exceed ing a predefined threshold \nare flagged as potential fraud.  \n3) Deep Learning With Autoencoders:  Autoencoders are used to learn compressed representations of normal transaction behavior. \nThe model is trained to reconstruct input data, and reconstruction error is calculated for each transaction. Transactions with high \nreconstruction error indicate deviation from normal patterns and are classified as anomalies.  \n4) One-Class Support V ector Machine (OC-SVM):  The One-Class SVM model is applied to define a boundary around normal \ntransaction data. Transactions that fall outside this boundary are considered suspicious. This method is particularly useful when \nlabeled fraud data is limited.  \n5) Behavioral Analysis And Feature Evaluation:  The system incorporates user behavior analysis by eval uating patterns such as \ntransaction frequency, spending habits, and time intervals. Sudden deviations from established behav ior increase the anomaly \nscore, improving the accuracy of fraud detection while reducing false positives.  \n6) Hybrid Model And Decision Strategy:  To enhance robustness, the outputs of Isolation Forest, Autoencoder, and OC -SVM are \ncombined using a weighted decision mechanism. Each model contributes to the final fraud score, and transactions are classified \nbased on a combined threshold. This hybrid approach improves reliability and minimizes misclassification.  \n7) Real-Time Fraud Detection And Alerts:   The system supports real -time transaction monitoring by analyzing incoming data \nstreams and instantly detecting anomalies. Suspicious transactions trigger alerts for further verification, enabling quick response \nand preventing financial losses.  \n \nV. DYNAMIC MODEL ADAPTATION MECHANISM  \nWhen a suspicious transaction pattern is detected, the system dynamically adjusts its anomaly detect ion thresholds and model \nparameters to improve detection accuracy. Instead of relying on static rules, the anomaly score thre shold is updated based on recent \ntransaction trends and detected anomalies. The model can be retrained periodically using new transac tion data, allowing it to  adapt \nto evolving fraud patterns without rebuilding the entire system. This ensures continuous learn ing and improves the system’s ability \nto detect newly emerging fraud techniques in real time.  \n \nVI. HYBRID MODEL FUSION STRATEGY  \nTo enhance robustness and accuracy, multiple anomaly detection models are combined using a weighted fusion approach. The \noutputs from Isolation Forest (C_i), Autoencoder reconstruction error (C_a), and One -Class SVM (C_s) are integrated into a single \nfraud score:  \nFraud Score = w₁C_i + w₂C_a + w₃C_s  \nSubject to:  \nw₁ + w₂ + w₃ = 1  \nIf the aggregated fraud score exceeds a predefined th reshold (τ_f), the transaction is classified as fraudulent. This hybrid strategy \nreduces false positives and improves detection reliability by leveraging the strengths of multiple models.  \nInternational Journal for Research in Applied Science & Engineering Technology (IJRASET) \n                                                                                           ISSN: 2321-9653; IC V alue: 45.98; SJ Impact Factor: 7.538 \n                                                                                                                V olume 14 Issue VI June 2026- Available at www.ijraset.com \n     \n©IJRASET: All Rights are Reserved | SJ Impact Factor 7.538 | ISRA Journal Impact Factor 7.894 | \n 281 \nVII. REAL-TIME PROCESSING AND OPTIMIZATION  \nThe system is designed for r eal-time fraud detection using efficient and lightweight machine learning models. Techniques such as \nmodel optimization and data sampling are applied to reduce computational overhead and ensure fast pr ocessing. The workflow \nincludes data collection, preprocessing, feature extraction, anomaly detection, score aggregation, and alert generation. This pipeli ne \nenables immediate identification of suspicious transactions, making the system suitable for deployme nt in real -world financial \nenvironments.  \n \nVIII. PERFORMANCE EV ALUATION METRICS  \nThe performance of the fraud detection system is evaluated using standard classification metrics:  \n Accuracy = (TP + TN) / (TP + TN + FP + FN)  \n Precision = TP / (TP + FP)  \n Recall (Detection Rate) = TP / (TP + FN)  \n F1-Score = 2 × (Precision × Recall) / (Precision + Recall)  \nWhere:  \n TP = True Positives, TN = True Negatives, FP = False Positives, FN = False Negatives  \n \nA. Workflow \nThe proposed fraud detection system using anomaly detection follows a structured workflow to identif y suspicious financial \ntransactions efficiently and in real time. The process begins with collecting transaction data from various sources such as o nline \nbanking systems, e -commerce platforms, and payment gateways. This raw data is then preprocessed by handl ing missing values, \nencoding categorical features, and normalizing numerical attributes to ensure consistency and accura cy. Once the data is prep ared, \nfeature engineering is applied to extract meaningful patterns such as transaction frequency, spendin g beh avior, and time -based \nactivity. The processed data is then passed into anomaly detection models such as Isolation Forest, Autoencoders, and One-Class \nSupport V ector Machines, which learn the normal behavior of transactions and assign anomaly scores to detect deviations. As new \ntransactions occur, the system continuously monitors and analyzes them in real time, comparing them against learned patterns. The \ndecision engine evaluates the anomaly scores and determines whether a transaction is normal or poten tially fraudulent based on a \npredefined threshold. If a suspicious transaction is detected, the system immediately triggers alerts or flags it for further verification. \nIf the transaction is normal, it is processed without interruption. This continuous cycle o f data collection, analysis, anomaly \ndetection, and decision-making ensures accurate, scalable, and adaptive fraud detection, helping financial systems reduce ri sks and \nrespond quickly to emerging threats.  \n \nB. Requirements  \n1) Development Environment: Python-based development environments such as Jupyter Notebook or Visual Studio Code are used \nto design, develop, and test the fraud detection system in an efficient and structured manner.  \n2) Machine Learning Framework:  Libraries such as TensorFlow and Scik it-learn are used to build and train anomaly detection \nmodels, including Isolation Forest, Autoencoders, and One-Class Support V ector Machines.  \n3) Data Processing Library: Pandas and NumPy are used for data preprocessing, cleaning, transformation, and feature engineering \nto prepare transaction data for analysis.  \n4) Visualization Tools: Matplotlib and Seaborn are used to visualize transaction patterns, anomaly distributions, and model \nperformance metrics for better understanding and evaluation.  \n5) Anomaly Detection Models:  Machine learning algorithms such as Isolation Forest, Autoencoders, and One -Class SVM are \nimplemented to identify unusual patterns and detect fraudulent transactions effectively.  \n6) Dataset Requirement: A structured transaction dataset containing features such as transaction amount, time, user behavior, and \nlocation is required to train and evaluate the fraud detection model.  \n7) Deployment Environment: The system can be deployed as a web application using frameworks like Flask or Streamlit, enabling \nreal-time fraud detection and user interaction.  \n8) Hardware Requirements: A standard computer system with sufficient processing power and memory is required for model \ntraining and execution, while GPU support can be used for faster computation in deep learning models.  \n  ",
+            "text_complete": false,
+            "document_type": "unverified",
+            "text_sha256": "59848e5c06beb7472b3e8f002025c9c795f56d84460cb28aebb27444072706da"
+          }
+        ],
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-45dd07b0aa7eb7dec470f1dd",
+        "content_sha256": "8276e203ee02e97386f769e7c99bf670f489fc818240878020ee053bf9deb20d",
+        "status": "retrieved",
+        "evidence": [
+          {
+            "requested_url": "https://doi.org/10.64680/jisads.v4i1.67",
+            "final_url": "https://jisads.com/index.php/1/en/article/view/67",
+            "http_status": 200,
+            "headers": {
+              "content-type": "text/html; charset=utf-8"
+            },
+            "redirects": [
+              {
+                "url": "https://doi.org/10.64680/jisads.v4i1.67",
+                "http_status": 302
+              },
+              {
+                "url": "https://jisads.com/index.php/1/article/view/67",
+                "http_status": 302
+              },
+              {
+                "url": "https://jisads.com/index.php/1/en/article/view/67",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "76ec2a3600416b175612cb4fd6379bb9f9b94e1d4b753f561edda1c52663aa88",
+            "retrieved_at": "2026-11-05T10:53:43.582966+00:00",
+            "byte_count": 26538,
+            "container_type": "html",
+            "metadata": {
+              "viewport": [
+                "width=device-width, initial-scale=1.0"
+              ],
+              "csrf-token": [
+                "irD33fw6pXiXgqW2qq4BDpKaXJRbQgNUARz8vGC6"
+              ],
+              "generator": [
+                "Open Journal Systems 3.5.0.4"
+              ],
+              "gs_meta_revision": [
+                "1.1"
+              ],
+              "citation_journal_title": [
+                "Journal of Intelligent Systems and Applied Data Science"
+              ],
+              "citation_journal_abbrev": [
+                "JISADS"
+              ],
+              "citation_issn": [
+                "2974-9840"
+              ],
+              "citation_author": [
+                "Nicholas Muriuki",
+                "Dr.Ephantus Mwangi",
+                "Dr.Kennedy Malanga"
+              ],
+              "citation_author_institution": [
+                "School of Pure and Applied Sciences, Kirinyaga University, Kerugoya"
+              ],
+              "citation_title": [
+                "A CNN–BiLSTM Hybrid Model for Email Phishing Detection"
+              ],
+              "citation_language": [
+                "en"
+              ],
+              "citation_date": [
+                "2026/06/30"
+              ],
+              "citation_volume": [
+                "4"
+              ],
+              "citation_issue": [
+                "1"
+              ],
+              "citation_doi": [
+                "10.64680/jisads.v4i1.67"
+              ],
+              "citation_abstract_html_url": [
+                "https://jisads.com/index.php/1/article/view/67"
+              ],
+              "citation_abstract": [
+                "Email phishing is by far one of the most common and harmful cybersecurity risks that make use of misguided communication methods to breach sensitive user data. Phishing attacks keep changing, which greatly constrains the performance of conventional rule-based and classical machine-learning methods of detection. The proposed study will introduce a hybrid deep learning model that combines Convolutional Neural Networks (CNN) and Bidirectional Long Short-term Memory (Bi-LSTM) networks to detect emails with high phishing accuracy. The model proposed examines various elements of email, such as, email headers, subject lines, message bodies and embedded URLs, in the form of a rich feature representation that represents structural and contextual features. The datasets collected in the real world, PhishTank and Mendeley repositories, were preprocessed by feature binning, redundancy reduction as well as class balancing to improve the quality of data and generalization. The experimental findings indicate that CNNBILSTM model has a high accuracy (96), precision (95.9), recall (96) and ROC-AUC (0.99), which is better than a number of baseline models, including Support Vector Machines (SVM), Decision Trees, K-Nearest Neighbors (KNN) and individual neural networks. The statistical analysis also verifies that the performance improvements are substantial (p &lt; 0.05) and the confidence intervals are not wide which means the study is very consistent and reliable. Based on the findings, it is possible to note that the CNN-BiLSTM model represents a reliable, scalable, and high-performance solution that can be applied to real-time email phishing detection in the contemporary cybersecurity settings."
+              ],
+              "citation_pdf_url": [
+                "https://jisads.com/index.php/1/article/download/67/58"
+              ]
+            },
+            "title": "A CNN–BiLSTM Hybrid Model for Email Phishing Detection\n\t\t\t\t\t\t\t| Journal of Intelligent Systems and Applied Data Science",
+            "links": [
+              {
+                "text": "Skip to main content",
+                "url": "https://jisads.com/index.php/1/en/article/view/67#pkp_content_main"
+              },
+              {
+                "text": "Skip to main navigation menu",
+                "url": "https://jisads.com/index.php/1/en/article/view/67#siteNav"
+              },
+              {
+                "text": "Skip to site footer",
+                "url": "https://jisads.com/index.php/1/en/article/view/67#pkp_content_footer"
+              },
+              {
+                "text": "",
+                "url": "https://jisads.com/index.php/1/en/index"
+              },
+              {
+                "text": "Home",
+                "url": "https://jisads.com/"
+              },
+              {
+                "text": "Archives",
+                "url": "https://jisads.com/index.php/1/en/issue/archive"
+              },
+              {
+                "text": "Announcements",
+                "url": "https://jisads.com/index.php/1/en/announcement"
+              },
+              {
+                "text": "Current",
+                "url": "https://jisads.com/index.php/1/en/issue/current"
+              },
+              {
+                "text": "Previous Issues",
+                "url": "https://jisads.com/index.php/1/en/issue/archive"
+              },
+              {
+                "text": "For Authors",
+                "url": "https://jisads.com/index.php/1/en/For-Authors"
+              },
+              {
+                "text": "Editorial Team",
+                "url": "https://jisads.com/index.php/1/en/editorial-team"
+              },
+              {
+                "text": "Peer-Review Policy",
+                "url": "https://jisads.com/index.php/1/en/Peer-Review-Policy"
+              },
+              {
+                "text": "About Journal",
+                "url": "https://jisads.com/index.php/1/en/about"
+              },
+              {
+                "text": "Journal of Intelligent Systems and applied data science",
+                "url": "https://jisads.com/index.php/1/en/about"
+              },
+              {
+                "text": "Copyright and Licensing",
+                "url": "https://jisads.com/index.php/1/en/Copyright-Licensing"
+              },
+              {
+                "text": "Journal Policy",
+                "url": "https://jisads.com/index.php/1/en/about/privacy"
+              },
+              {
+                "text": "Contact Us",
+                "url": "https://jisads.com/index.php/1/en/about/contact"
+              },
+              {
+                "text": "Open Access Statement",
+                "url": "https://jisads.com/index.php/1/en/open-access"
+              },
+              {
+                "text": "IASRD",
+                "url": "https://jisads.com/index.php/1/en/IASRD"
+              },
+              {
+                "text": "Search",
+                "url": "https://jisads.com/index.php/1/en/search"
+              },
+              {
+                "text": "Register",
+                "url": "https://jisads.com/index.php/1/en/user/register"
+              },
+              {
+                "text": "Search",
+                "url": "https://jisads.com/index.php/1/en/search"
+              },
+              {
+                "text": "Login",
+                "url": "https://jisads.com/index.php/1/en/login"
+              },
+              {
+                "text": "Contact Us",
+                "url": "https://jisads.com/index.php/1/en/about/contact"
+              },
+              {
+                "text": "Home",
+                "url": "https://jisads.com/index.php/1/en/index"
+              },
+              {
+                "text": "Archives",
+                "url": "https://jisads.com/index.php/1/en/issue/archive"
+              },
+              {
+                "text": "Vol. 4 No. 1 (2026): Vol. 4 No. 1 (2026): Journal of Intelligent Systems and applied data science (JISADS)",
+                "url": "https://jisads.com/index.php/1/en/issue/view/10"
+              },
+              {
+                "text": "https://orcid.org/0009-0007-8328-7105",
+                "url": "https://orcid.org/0009-0007-8328-7105"
+              },
+              {
+                "text": "https://doi.org/10.64680/jisads.v4i1.67",
+                "url": "https://doi.org/10.64680/jisads.v4i1.67"
+              },
+              {
+                "text": "",
+                "url": "https://jisads.com/index.php/1/en/issue/view/10"
+              },
+              {
+                "text": "Vol. 4 Issue No.1 2026 pp 107-115",
+                "url": "https://jisads.com/index.php/1/en/article/view/67/58"
+              },
+              {
+                "text": "Vol. 4 No. 1 (2026): Vol. 4 No. 1 (2026): Journal of Intelligent Systems and applied data science (JISADS)",
+                "url": "https://jisads.com/index.php/1/en/issue/view/10"
+              },
+              {
+                "text": "",
+                "url": "https://creativecommons.org/licenses/by/4.0/"
+              },
+              {
+                "text": "Creative Commons Attribution 4.0 International License",
+                "url": "https://creativecommons.org/licenses/by/4.0/"
+              },
+              {
+                "text": "appropriate credit",
+                "url": "https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1#ref-appropriate-credit"
+              },
+              {
+                "text": "indicate if changes were made",
+                "url": "https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1#ref-indicate-changes"
+              },
+              {
+                "text": "technological measures",
+                "url": "https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1#ref-technological-measures"
+              },
+              {
+                "text": "exception or limitation",
+                "url": "https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1#ref-exception-or-limitation"
+              },
+              {
+                "text": "publicity, privacy, or moral rights",
+                "url": "https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1#ref-publicity-privacy-or-moral-rights"
+              },
+              {
+                "text": "Cultural Association IASRD",
+                "url": "https://jisads.com/index.php/1/IASRD"
+              },
+              {
+                "text": "Make a Submission",
+                "url": "https://jisads.com/index.php/1/en/about/submissions"
+              },
+              {
+                "text": "here",
+                "url": "https://jisads.com/public/journals/1/New-paper-format-JISADS.docx"
+              },
+              {
+                "text": "IASRD",
+                "url": "http://www.iasrd.eu/"
+              },
+              {
+                "text": "This work",
+                "url": "https://jisads.com/index.php/1"
+              },
+              {
+                "text": "Journal of Intelligent Systems and Applied Data Science",
+                "url": "https://jisads.com/index.php/1"
+              },
+              {
+                "text": "CC BY 4.0",
+                "url": "http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1"
+              },
+              {
+                "text": "",
+                "url": "https://scholar.google.com/citations?user=fSubuKgAAAAJ&hl=en&authuser=8"
+              },
+              {
+                "text": "Google Scholar",
+                "url": "https://scholar.google.com/citations?user=fSubuKgAAAAJ&hl=en&authuser=8"
+              },
+              {
+                "text": "",
+                "url": "https://doaj.org/toc/2974-9840"
+              },
+              {
+                "text": "Directory of Open Access Journals",
+                "url": "https://doaj.org/toc/2974-9840"
+              },
+              {
+                "text": "For Readers",
+                "url": "https://jisads.com/index.php/1/en/information/readers"
+              },
+              {
+                "text": "For Authors",
+                "url": "https://jisads.com/index.php/1/en/information/authors"
+              },
+              {
+                "text": "For Librarians",
+                "url": "https://jisads.com/index.php/1/en/information/librarians"
+              },
+              {
+                "text": "",
+                "url": "https://jisads.com/index.php/1/en/article/view/67"
+              },
+              {
+                "text": "HOME",
+                "url": "https://jisads.com/"
+              },
+              {
+                "text": "MANAGEMENT",
+                "url": "https://jisads.com/index.php/1/en/article/view/67"
+              },
+              {
+                "text": "PUBLICATIONS",
+                "url": "https://jisads.com/index.php/1/en/article/view/67"
+              },
+              {
+                "text": "BOOKS",
+                "url": "https://jisads.com/index.php/1/en/article/view/67"
+              },
+              {
+                "text": "CONSULTATION",
+                "url": "https://jisads.com/index.php/1/en/article/view/67"
+              },
+              {
+                "text": "OPERA AI",
+                "url": "https://jisads.com/index.php/1/en/article/view/67"
+              },
+              {
+                "text": "CONTACT US",
+                "url": "https://jisads.com/index.php/1/about/contact"
+              },
+              {
+                "text": "",
+                "url": "https://www.facebook.com/profile.php?id=61575282284369"
+              },
+              {
+                "text": "",
+                "url": "https://jisads.com/index.php/1/en/article/view/67"
+              },
+              {
+                "text": "",
+                "url": "https://jisads.com/index.php/1/en/article/view/67"
+              },
+              {
+                "text": "",
+                "url": "https://jisads.com/index.php/1/about/aboutThisPublishingSystem"
+              }
+            ],
+            "text": "A CNN–BiLSTM Hybrid Model for Email Phishing Detection\n\t\t\t\t\t\t\t| Journal of Intelligent Systems and Applied Data Science\nA CNN–BiLSTM Hybrid Model for Email Phishing Detection\nAuthors\nNicholas Muriuki\nSchool of Pure and Applied Sciences, Kirinyaga University, Kerugoya\nhttps://orcid.org/0009-0007-8328-7105\nDr.Ephantus Mwangi\nDr.Kennedy Malanga\nDOI:\nhttps://doi.org/10.64680/jisads.v4i1.67\nAbstract\nEmail phishing is by far one of the most common and harmful cybersecurity risks that make use of misguided communication methods to breach sensitive user data. Phishing attacks keep changing, which greatly constrains the performance of conventional rule-based and classical machine-learning methods of detection. The proposed study will introduce a hybrid deep learning model that combines Convolutional Neural Networks (CNN) and Bidirectional Long Short-term Memory (Bi-LSTM) networks to detect emails with high phishing accuracy. The model proposed examines various elements of email, such as, email headers, subject lines, message bodies and embedded URLs, in the form of a rich feature representation that represents structural and contextual features. The datasets collected in the real world, PhishTank and Mendeley repositories, were preprocessed by feature binning, redundancy reduction as well as class balancing to improve the quality of data and generalization. The experimental findings indicate that CNNBILSTM model has a high accuracy (96), precision (95.9), recall (96) and ROC-AUC (0.99), which is better than a number of baseline models, including Support Vector Machines (SVM), Decision Trees, K-Nearest Neighbors (KNN) and individual neural networks. The statistical analysis also verifies that the performance improvements are substantial (p < 0.05) and the confidence intervals are not wide which means the study is very consistent and reliable. Based on the findings, it is possible to note that the CNN-BiLSTM model represents a reliable, scalable, and high-performance solution that can be applied to real-time email phishing detection in the contemporary cybersecurity settings.\nDownloads\nVol. 4 Issue No.1 2026 pp 107-115\nPublished\n2026-06-30\nIssue\nVol. 4 No. 1 (2026): Vol. 4 No. 1 (2026): Journal of Intelligent Systems and applied data science (JISADS)\nSection\nResearch and Review articles\nLicense\nCopyright (c) 2026 Nicholas Muriuki\nThis work is licensed under a\nCreative Commons Attribution 4.0 International License\n.\nYou are free to:\nShare\n— copy and redistribute the material in any medium or format for any purpose, even commercially.\nAdapt\n— remix, transform, and build upon the material for any purpose, even commercially.\nThe licensor cannot revoke these freedoms as long as you follow the license terms.\nUnder the following terms:\nAttribution\n— You must give\nappropriate credit\n, provide a link to the license, and\nindicate if changes were made\n. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.\nNo additional restrictions\n— You may not apply legal terms or\ntechnological measures\nthat legally restrict others from doing anything the license permits.\nNotices:\nYou do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable\nexception or limitation\n.\nNo warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as\npublicity, privacy, or moral rights\nmay limit how you use the material.\nInternational Association of Scintific Research and Development (IASRD)\nCultural Association IASRD\nMake a Submission\nMake a Submission\nManuscript Template\nDownload the paper format\nhere\nAbout The Journal\n- An\nOpen Access Journal\n.\n- Freely available online to anyone.\n- Peer-Reviewed Journal.\n- Issues will be published\nHalf-Yearly\n-International Journal published by\nIASRD\n.\n-\nISSN (2974-9840)\nOnline.\nThis work\nby\nJournal of Intelligent Systems and Applied Data Science\nis licensed under\nCC BY 4.0\nIndexed in\nGoogle Scholar\nDirectory of Open Access Journals\nIndexed in Semantic Scholar\nDirectory of Open Access Scholarly Resources\nBASE: Bielefeld Academic Search Engine\nInformation\nFor Readers\nFor Authors\nFor Librarians\nKeywords\nJournal of Intelligent Systems and\nApplied Data Science (JISADS)\nISSN (2974-9840) Online\nVia Roma, 24\nTriggiano, Italy\nPostal code: 70019\nJISADS\nHOME\nMANAGEMENT\nPUBLICATIONS\nBOOKS\nCONSULTATION\nOPERA AI\nCONTACT US\nJournals\nConferences\nConnect Us",
+            "text_complete": true,
+            "document_type": "unverified",
+            "fragment": "",
+            "resource_unavailable": false,
+            "text_sha256": "dbaa9de98b8e7099dd2402e46a95823aaa06f93527831a123794a60cd4fe17fd"
+          },
+          {
+            "requested_url": "https://jisads.com/index.php/1/article/download/67/58",
+            "final_url": "https://jisads.com/index.php/1/en/article/download/67/58",
+            "http_status": 200,
+            "headers": {
+              "content-type": "application/pdf"
+            },
+            "redirects": [
+              {
+                "url": "https://jisads.com/index.php/1/article/download/67/58",
+                "http_status": 302
+              },
+              {
+                "url": "https://jisads.com/index.php/1/en/article/download/67/58",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "a1a1b006391c5bd38ce1b593a4def498c820fae216dcbdd1d7369c0241c5eb2a",
+            "retrieved_at": "2026-11-05T10:53:48.536012+00:00",
+            "byte_count": 925985,
+            "container_type": "pdf",
+            "page_count": 9,
+            "pages_inspected": 6,
+            "pdf_metadata": {
+              "/Author": "WASIM ALI",
+              "/Creator": "Microsoft® Word for Microsoft 365",
+              "/CreationDate": "D:20260703140525+02'00'",
+              "/ModDate": "D:20260703140525+02'00'",
+              "/Producer": "Microsoft® Word for Microsoft 365"
+            },
+            "text": "Journal of Intelligent Systems and Applied Data Science (JISADS), Vol.4, Issue.1, (2026) PP. 107-115                        107 \n \n \n______________________________________________________________________  \n \nDOI: https://doi.org/10.64680/jisads.v4i1.67  \n \n A CNN–BILSTM HYBRID MODEL FOR EMAIL PHISHING DETECTION \nNicholas Muriuki Muriithi1*, Dr.Ephantus Mwangi1, Dr.Kennedy Malanga2 \nSchool of Pure and Applied Sciences, Kirinyaga University, Kerugoya, 143 -10300, Kenya \nnickmuri123@gmail.com, emwangi@kyu.ac.ke, kmalanga@kyu.ac.ke \nABSTRACT \nEmail phishing is one of the most common and harmful cybersecurity risks , using misdirected  communication methods to \nbreach sensitive user data. Phishing attacks keep evolving, which greatly constrains the performance of conventional rule -\nbased and classical machine-learning detection methods. The proposed study will introduce a hybrid deep learning model that \ncombines Convolutional Neural Networks (CNN) and Bidirectional Long Short-term Memory (Bi-LSTM) networks to detect \nemails with high phishing accuracy. The model proposed examines various elements of email, such as, email headers, subject \nlines, message bodies , and embedded URLs, in the form of a rich feature representation that represents structural and \ncontextual features. The datasets collected in the real world, PhishTank and Mendeley repositories, were preprocessed by \nfeature binning, redundancy reduction, and class balancing to improve the quality of data and generalization. The experimental \nfindings indicate that the CNN-BILSTM model has a high accuracy (96), precision (95.9), recall (96), and ROC-AUC (0.99), \nwhich is better than several baseline models, including Support Vector Machines (SVM), Decision Trees, K -Nearest \nNeighbors (KNN), and individual neural networks. The statistical analysis also verifies that the performance improvements \nare substantial (p < 0.05) and the confidence intervals are not wide , which means the study i s very consistent and reliable.  \nBased on the findings, it is possible to note that the CNN-BiLSTM model represents a reliable, scalable, and high-performance \nsolution that can be applied to real-time email phishing detection in contemporary cybersecurity settings. \nKeywords: Bi-directional Neural Networks (Bi -LSTM), Convolution al Neural Networks (CNN), Cyber Security, Deep \nLearning, Email Security, Phishing detection \n \n1. INTRODUCTION \n Phishing attacks are one of the most pernicious . \nCybersecurity is the protection of Internet -connected \nsystems, including data (information), software, and \nhardware, from cyberattacks (adversaries). Cybersecurity \nregulations are necessary to protect computer systems and \ninformation technology, as well as to force companies and \nother organizations to protect their data and systems \nagainst cyberattacks. Potential cyberattacks include \nviruses, phishing, Trojan horses, worms, Denial -of-\nService (DoS) attacks, unauthorized access (such as \nstealing private information or intellectual property), and \ncontrol system attacks [1]. \nAccording to the study of [2], phishing  attempts have \nincreased by 59% since the outbreak of COVID-19. \nFurthermore, 21% of Peruvian organizations polled by the \nState of Cyber Risk in Latin America study say that social \nengineering, also known as phishing, is the cyberattack  \nthat has grown the most, with 49% of them saying that the \nepidemic has caused an increase in cyberattacks. \nAccording to the research done by the Anti-Phishing \nWorking Group (APWG), it discovered 180,768 phishing \nsites in the first quarter (Q) of 2019, and phishing attacks \ncause the US economy to lose between 61 million and 3 \nbillion dollars  every year. Compared to the  138,328 \nAPWG recorded in  the fourth  quarter of 2018 and the  \n151,014 APWG recorded in the third quarter [3Q] of \n2018, according to the study of [3] , this is a notable \nincrease. Some online scams are quite convincing and \nsuccessful. The alarming part is that there are more and \nmore of these scammers every day, since they are so hard \n\nJournal of Intelligent Systems and Applied Data Science (JISADS), Vol.4, Issue.1, (2026) PP. 107-115                        108 \n \n \n______________________________________________________________________  \n \nDOI: https://doi.org/10.64680/jisads.v4i1.67  \nto spot. According to the  researcher [4], India is ranked third \nin the world for the frequency of cybercrimes. According to a \nreview of sev eral articles, the groups most  impacted by \ncybercrimes include women, children, and older citizens, as \nstated by the author [5]. In order to determine the extent to \nwhich cybercrimes have permeated society, research  on the \nsubject is steadily growing. Studies indicated that women \nbetween the ages of 16 and 35 were most susceptible to \ncybercrimes in the study [12] . Big Data security and privacy \nare also critical to preventing cybercrimes in society. \nThe author [13]  acknowledged the report issued by \nThreatLabz, 58.2 percent more phishing attempts were \nwitnessed all over the world  between January and December \nof 2023, mainly on online security clouds, and it was predicted \nthat the phishing threat would be 2 billion phishi ng \ntransactions. The scenario was the same in India because India \nranked third in the world when it comes to phishing attacks in \n2003, where the first-ranked nation was the United States and \nthe second-ranked nation was the United Kingdom, in regard \nto the phishing attack by the researcher [6] . About 3.5 billion \ndollars were lost to cybercrime in Kenya and other African \ncountries in the year 2017, says Serianu, an IT and business \nadvisory firm based in Kenya. In the same year, Kenya lost \n210 million dollars a year to cybercrimes, whereas Nigeria lost \n649 million dollars a year. \nKenya-based IT and business advisory firm Serianu indicates \nthat cybercrimes cost the African economies $3.5bn in 2017. \nIn the same year, it was reported that losses in Nigeria due to \ncybercrimes amounted to $649 million, and Kenya \nexperienced losses to the tune of $210 million on the \nresearcher done by the researcher [7] . This is about $157 \nmillion that South Africa loses per annum due to cyberattacks \n(Kshetri, 2019). Because the original means of URL \nblacklisting could not detect newly created URLs as a result of \nthe induction of phishing threats, heuristic detection \ntechniques tend to generate alerts to assign the right signature \nto the phishing URLs. Their false positive rate is lower in \ncomparison with blacklisting methods and can cope with new \nphishing URLs according to the researcher [8] \nThe study by the author [14] stated that , Communication \nAuthority (CA) of Kenya reported 860 million cyberattacks in \n2023, with 79% attributed to criminals exploiting system flaws \nand weak internal controls, placing Kenya among the top three \nmost affected African nations. \nIn January of that year, CA designated several industries to be \ntargeted, including government agencies, utilities, financial \nservices, healthcare, education, and energy. In July of that \nyear, hackers using the alias \"Anonymous Sudan\" launched a \ncyberattack that left over 5,000 government services via e -\ncitizen unavailable; fortunately, no data loss was reported by \nthe researcher [9] \nThe efficacy of integrating Convolutional Neural Networks \n(CNNs) with Bi -directional Long Short -Term Memory (Bi -\nLSTM) networks in phishing detection serves as justification \nfor pursuing this objective. Bi -LSTMs capture contextual \nlinkages and sequential dependencies, while CNNs are adept \nat collecting local and geographical information from URLs. \nThe shortcomings of conventional models that rely on manual \nfeature extraction or crude character -level analysis are \naddressed by this hybrid technique, which improves detection \naccuracy by utili zing both structural patterns and contextual \nmeaning. \nThis study aims to enhance detection performance, \nparticularly in a variety of linguistic and structural contexts. \ncontexts [15]. By combining CNNs and Bi -LSTMs, phishing \npatterns can be more successfully identified across a variety of \nURLs, enhancing the model's comprehension of both local \nstructures and more general contextual cues. By examining \nstructural and content -based marker s in emails and URLs, \ndeep learning techniques such as CNNs and Bi -LSTMs have \ncontinuously demonstrated increased accuracy in phishing \ndetection by the researcher [10]. \nStrong performance is provided by bi-LSTM networks, which \nprocess input sequences both forward and backward. Bi -\nLSTMs are particularly useful for natural language processing \n(NLP) tasks where meaning frequently depends on \nsurrounding words or tokens, in co ntrast to regular LSTM \nmodels that only capture context in one direction. The study \nby [11], this bidirectional context makes it possible to detect \ntiny anomalies that are typical of phishing attempts with more \nprecision. \n2. LITERATURE REVIEW \nAccording to author [16 ], Phishing attacks, especially \nsocially focused and more targeted attacks, remain one of the \nmost commonly used forms of attack vectors by actors within \nthe contemporar y environment, which presents a security \ndilemma. Malicious threats attacks URLs, domains and also \nemails addresses. The study proposed hybrid models namely \nBi-Directional long short term memory ( Bi-LSTM) and \nconvolutional neural networks (CNN). \n \n2.1 CNN and Bi-LSTM email phishing algorithms  \nIn order to overcome the constraints of phishing attacks, CNN-\nBiLSTM hybrid model was suggested. CNNs capture d \nobfuscation or shortened link tactics by extracting localized \ncharacteristics and spatial patterns from raw URLs. Deeper \ncontextual knowledge of the tokens within the URL was made \npossible by the bidirectional process ing of these URL \nsequences by Bi -LSTM networks. By efficiently capturing \nboth character-level and word-level semantics, this dual-layer \ndesign enhances the identification of phishing URLs, \nparticularly in real -time and across a variety of formats, \nincluding multimedia connections. \nJournal of Intelligent Systems and Applied Data Science (JISADS), Vol.4, Issue.1, (2026) PP. 107-115                        109 \n \n \n______________________________________________________________________  \n \nDOI: https://doi.org/10.64680/jisads.v4i1.67 \nTo evaluate the performance of the CNN -BiLSTM model \nrelative to the other more standard models (including \ndecision tree models and random forest models), emphasis \nwas placed on threats in shortened URLs and obfuscated \nURIs. The final goal was to develop a convolutional neural \nnetwork model, a bi -directional long, short -term memory \nthat can recognize and respond to modifications in phishing \nthreats contained in emails. \n \nThe study of [17], hybrid deep learning models which consist \nof CNN -BiLSTM proved quite useful in the process of \nphishing detection. The structural patterns of input data are \nobtained with the assistance of CNN part of the model , and \nsequential associations between the elements of input data \nare obtained with the help of the BiLSTM part of the model. \nThis type of combination allows the model to analyze \nstructural and semantic data of phishing emails and URLs. \n \nThe property of CNNs is highly efficient in local trends of \ninformation identification. In the case of phishing, CNNs can \nfind the irregular patterns in URLs, email headings, or email \nbody texts automatically. Unlike traditional methods of \nmachine learning, CNNs do not require manual feature \nengineering because they also discover the features of \ninterest automatically with the aid of the raw input data. This \ncapability makes t hem quite suitable as far as analyzing a \nlarge and complex data is concerned. \nConversely, bidirectional Long Short -Term Memory \nnetworks are networks that are intended to identify temporal, \nor sequential links in data. The sequence of words or \ncharacters in the spam mail can be the context to determine \nthe spam or a genuine email. Bi LSTM is bi-directional, and \ntherefore, it enables the model to consider both forward and \nbackward directions of the sequence to enable the model to \ncapture a more detailed contextual information. \n \n2.2 CNN Model \nThe CNN architecture: Feature extraction layer is in charge \nof extracting meaningful groups of data provided in the input \nlayer; for example, URLs, Domain name, and so on. All the \nretrieved features are mapped to the appropriate group by \nusing classification layer  eg as phished text/URLs or \nlegitimate text /URLs. To make the data more compact, a \npooling layer is frequently added to decrease complexity and \nspeed up processing. The pooling layer helps in preventing \noverfitting by removing unnecessary details and noise \nallowing the model to generalize better to new data. The \noutput is then produced by feeding the final filtered data as \nshown in Figure 1 \n \nFigure 1 CNN Model \n3. METHODOLOGY \nThe study successfully fulfills its aims by using a \nmixed-methods strategy that incorporates both experimental \nand qualitative research design. The experimental approach \nallows for a structured analysis of existing phishing detection \nsystems, which aids in the identification of crucial \nparameters to improve the proposed CNN -BiLSTM model. \nThe model development consisted of the following steps.  \n \nFigure 2 Data Processing Steps \n3.1  Data Préparation \nThe model was trained using the dataset from Phish Tank \nand Mendeley data, which was a real -time data distribution. \nThe original dataset consisted of 15000 samples containing \nboth the legitimate and phished emails which was generated \n\nJournal of Intelligent Systems and Applied Data Science (JISADS), Vol.4, Issue.1, (2026) PP. 107-115                        110 \n \n \n______________________________________________________________________  \n \nDOI: https://doi.org/10.64680/jisads.v4i1.67 \nfrom the link \nprovidedhttps://data.mendeley.com/datasets/h3cgnj8hft/1 . \nAfter analyzing the dataset to reduce redundancies and thus \nimproving the quality of the data, binning was done on \ncontinuous and highly variable numerical features, which \nincluded URL length, number of dots, subject length, \nentropy of the URL string, and ratio of the uppercase to \nlowercase letters, where most of the attributes had a lot of \nrepetitions. \n \n3.2 Data binning /Data cleaning \n  \nThe process of binning grouped continuous values into \ndiscrete categories, which comprised short, medium, and \nlong lengths , using predefined intervals. All URLs with a \nlength less than 50 characters were grouped as short, \nbetween 51 -100 as medium, and above 100 as long.  \nSimilarly, the entropy and number of dots in the URL were \ndivided into low, medium, and high bins. The proc ess of \nbinning reduced the noise, and it also standardized input \nvalues, allowing the deep learning model to better generalize \nduring the time of training data. After binning and removing \nredundant or highly  correlated features, the dataset was \nbalanced to 10,000 records, comprising 5000 legitimate \ndatasets and 5000 phished datasets. The selected dataset was \nsplit into two section as 7000 training dataset , which \ncomprised of 70% , and a 3000 testing dataset , which \ncomprised of 30% and also the data was tested on whether it \nhad leakage, but the dataset had no leakage. The purpose of \nhaving equal data was to reduce false negatives and \noverfitting of the model when run. \n3.3 Model Development  \nThe   model was tested in a desktop -based application to \nprove its real -life practicality. The system was written in \nsuch a way that a URL was typed in by the user and it was \nsubjected to the trained CNN –BiLSTM model to be \nprocessed. The model used the acquired patterns and \ncharacteristics to categorize the URL as being a phishing or \nlegit site and given the outcome to the user in real time. The \nsame implementation supported the idea that the model was \nnot only theoretical but also practically deployable, which \nmade it appropriate to apply to real -life cybersecurity \nenvironments and be used to effectively detect phishing. \n \n4. RESULT AND DISCUSSION  \n 4.1. Epoch Analysis \nThe model was run on 5 trials (5 Epochs) and the first \ndistribution achieved an accuracy of 0.8691 that resulted to \n87%, second pass recorded a percentage accuracy of \n0.9435(94%), third an accuracy of 0.9535(95%) which \nshows a tramedious improvement as pas ses /trials were \nincreased thus resulting to a more accurate model The \nobjective of passing the model on several pass was to get \nmore accuracy on the dataset provided from phish tank \ndatabase. The trials were passed on a CNN and Bi -LSTM \nalgorithm, which depicted the accuracy percentage, training \nloss, validation loss , and validation accuracy as shown in \nFigure 3. \n \nFigure 3. Epoch analysis \n4.2 CONFUSION MATRIX ANALYSIS  \nThe performance of the developed phishing detection model \nwas further evaluated using a confusion ma trix presented \nbelow in Table 1 \nTable  1 confusion matrix \n Predicted Negative  Predicted positive  \nActual \nNegative \n946(True Negative) 42(false Positive) \nActual Positive  40(False Negative) 972(True Positive) \n \nThe developed model was having a good performance with \nminimal misclassification of 42 false positives and 40 false \nnegatives, as provided on the Table 1, with ROC-AUC of \n99.3%, which means that  the model had a  high capacity of \ndistinguishing between phishing and genuine emails. The \ndeveloped model recorded a clear low number of case s of \nfalse positives (FP) and false negatives (FN) which clearly \nstated that the model was operating at a high level of \naccuracy in detecting threats on emails addresses and \ndomains in real time. To make reference to the formula \n\nJournal of Intelligent Systems and Applied Data Science (JISADS), Vol.4, Issue.1, (2026) PP. 107-115                        111 \n \n \n______________________________________________________________________  \n \nDOI: https://doi.org/10.64680/jisads.v4i1.67 \npresented below as 1 and 2 where TP stands as True Positive \nand FP stands as false positive. \n \nPrecision equation  \n \nPrecision= \n𝑻𝑷\n𝑻𝑷 + 𝑭𝑷 =\n𝟗𝟕𝟐\n𝟗𝟕𝟐 + 𝟒𝟐 = 𝟎. 𝟗𝟓𝟗𝟖. ..  (1)The \nprecision defined in equation 1 was 0.9598 which measured \nthe proportion of true positive predictions out of all positive \npredictions made by the model. Precision is the key \nperformance metric that was used to evaluate the accuracy of \na classification model, particularly in identifying positive \ninstances correctly on the email phishing model. \n \nRecall Equation \n \nRecall=\n𝑻𝑷\n𝑻𝑷 + 𝑭𝑵 =\n𝟗𝟕𝟐\n𝟗𝟕𝟐 + 𝟒𝟎 = 𝟎. 𝟗𝟔𝟎𝟒 …. (2) \n \nRecall as defined in equation 2 above, is an evaluation metric \nthat measures a model’s ability to correctly identify all actual \npositive instances. According to the email detection model it \nreflects how well the model was able to capture true positives \namong all actual positives in the dataset. The model correctly \nidentified approximate 96.4% of all actual positive case and \nthus it was able to show strong sensitivity in classification \nand thus minimizing false negatives. \n \nF1 Score Equation \n \nF1-Score=𝟐 ∗ 𝒑𝒓𝒆𝒄𝒊𝒔𝒊𝒐𝒏 ∗\n𝑹𝒆𝒄𝒂𝒍𝒍\n𝑷𝒓𝒆𝒄𝒊𝒔𝒊𝒐𝒏 + 𝒓𝒆𝒄𝒂𝒍𝒍 =\n𝟎. 𝟗𝟓𝟗𝟓….. (3) \nOne significant assessment measure is the F1-score which \noffers a balance between the precision and recall. The model \nattained F1 -Score of 0.9595 (95.95%) , which  indicated a \ngood balance between precision and recall , accurately \nrecognizing any positive instance that reduces the number of \nfalse positives and false negatives.  \nThe model showed great predictive power with \nminimal overfitting, and excellent generalization to make it \nhighly applicable in real world applications in detecting \nphishing email or any other binary classification models.  \nThe confusion matrix obtained a high accuracy \nphishing detection model whereby a  balanced precision of \n96 clearly indicated that the model worked well in avoiding \nfalse alarms, which is highly prevalent in emails and also in \nthe detection of true phishing emails. \nOn the matrix table computing th e ROC-AUC values \nthat determined the comparison between the legitimate and \nphished emails. The first process was to compute the true \npositive rate (TPR) and false positive rates (FTR)  \n \n \nTrue Positive Rate  \n \nTPR=\n𝑇𝑃\n𝑇𝑃 + 𝐹𝑁 =\n972\n972 + 40 = 0.960…(4)  \n \nTPR is True Positive Rate, TP is True Positive and FT is false \npositive. \n \nFalse Positive Rate \n \nFPR=\n𝑭𝑷\n𝑭𝑷 + 𝑻𝑵 =\n𝟒𝟐\n𝟒𝟐 + 𝟗𝟒𝟔 = 𝟎. 𝟎𝟒𝟐𝟕... (5) \n \nFPR is False Positive Rate, FP is false positive and TN is \nTrue Negative  \nGiven   the computations of TPR and FPR the \napproximate ROC-AUC value was computed as follows.  \n \nROC-AUC Equation  \n \nAUC=𝟏 + 𝑻𝑷𝑹 −\n𝑭𝑻𝑹\n𝟐 = (𝟏 + 𝟎. 𝟗𝟔𝟎𝟒 −\n𝟎.𝟎𝟒𝟐𝟕\n𝟐 =\n𝟎. 𝟗𝟓𝟖𝟗 )…… (6) \nThe last approximation was 0.96 that was recorded by t he \ndeveloped model , which had a great discriminating ability \nthat was capable of correctly identifying between a phishing \nemail and a legitimate email. On the analysis, the developed \nmodel fits properly by other established metrics like \naccuracy, precision, and recall that are set in Table 1, which \ncapture true positives among all actual positives in the \ndataset. The model correctly identified approximate 96.4% \nof all actual positive case and thus it was able to show strong \nsensitivity in classification and thus minimizing false \nnegatives. \n \nF1-Score=𝟐 ∗ 𝒑𝒓𝒆𝒄𝒊𝒔𝒊𝒐𝒏 ∗\n𝑹𝒆𝒄𝒂𝒍𝒍\n𝑷𝒓𝒆𝒄𝒊𝒔𝒊𝒐𝒏 + 𝒓𝒆𝒄𝒂𝒍𝒍 =\n𝟎. 𝟗𝟓𝟗𝟓….. (7) \n \nOne significant assessment measure is F1-score which offers \na balance between precision and recall. The model attained \nan F1 -score of 0.9595 (95.95%) , which  predicted a good \nbalance between the precision and recall that accurately \nrecognized any positive instance, which reduced the number \nof false positives and false negatives.  \nThe model depicted  great predictive power with minimal \noverfitting, and excellent generalization to make it highly \napplicable in real world applications in detecting phishing \nemail or any other binary classification models.  \nThe confusion matrix obtained a high accuracy phishing \ndetection model whereby a balanced precision of 96 showed \nclearly that the model worked well in avoiding false alarms \nwhich is highly prevalent in emails, and also in the detection \nof true phishing emails. \n \nJournal of Intelligent Systems and Applied Data Science (JISADS), Vol.4, Issue.1, (2026) PP. 107-115                        112 \n \n \n______________________________________________________________________  \n \nDOI: https://doi.org/10.64680/jisads.v4i1.67 \n5 MODEL ALGORITHMS SNIPPETS \n5.1 Dataset Loading  \nimport os \nimport pickle \nimport pandas as pd \nimport numpy as np \nfrom sklearn.model_selection import train_test_split \nfrom sklearn.metrics import accuracy_score, \nroc_auc_score, confusion_matrix, roc_curve, auc \nfrom sklearn.feature_extraction.text import \nTfidfVectorizer \nfrom flask import Flask, request, \nrender_template_string \nimport tensorflow as tf \nfrom tensorflow.keras.models import Sequential \nfrom tensorflow.keras.layers import Dense, Conv1D, \nMaxPooling1D, Bidirectional, LSTM, Dropout, Flatten \nimport matplotlib.pyplot as plt \n \n# ==================== \n# Load Dataset \n# ==================== \ndf = pd.read_csv(r\"D:\\PHISHED_CLEAN.csv\") \n \n# Combine all non -label text columns into one string \nper row \ntext_data = df.drop(\"CLASS_LABEL\", \naxis=1).apply(lambda x: ' '.join(x.astype(str)), axis=1) \ny = df[\"CLASS_LABEL\"].values \n \n5.2. Model training and Model Evaluation \n# ==================== \n# Build CNN + BiLSTM Model \n# ==================== \nmodel = Sequential([ \n    Conv1D(filters=64, kernel_size=3, \nactivation=\"relu\", input_shape=(X_train.shape[1], 1)), \n    MaxPooling1D(pool_size=2), \n    Bidirectional(LSTM(64, return_sequences=True)), \n    Dropout(0.3), \n    Flatten(), \n    Dense(64, activation=\"relu\"), \n    Dropout(0.3), \n    Dense(1, activation=\"sigmoid\") \n]) \nmodel.compile ( optimizer=\"adam\", \nloss=\"binary_crossentropy\", metrics=[\"accuracy\"]) \n# ==================== \n# Train Model \n# ==================== \nmodel.fit(X_train, y_train, epochs=5, batch_size=32, \nvalidation_data=(X_test, y_test), verbose=1) \n \n# ==================== \n# Evaluate Model \n# ==================== \ny_pred_probs = model.predict(X_test) \ny_pred = (y_pred_probs > 0.5).astype(int) \naccuracy = accuracy_score(y_test, y_pred) \nroc = roc_auc_score(y_test, y_pred_probs) \ncm = confusion_matrix(y_test, y_pred) \nprint(\"\\nModel Evaluation Results\") \nprint(\"Model Accuracy:\", round(accuracy, 4)) \nprint(\"ROC-AUC:\", round(roc, 4)) \nprint(\"Confusion Matrix:\\n\", cm) \n \n6. DISCUSSION \nThe developed CNN+Bi -LSTM models on email phishing \ndetection achieved an accuracy of 96%, ROC_AUC of 0.99, \nand a precision of 0.96 after training the model , which \nindicated the possibility of reliability and discriminative \nclassifications. The model effectively minimized both false \npositives and false negatives which ensured fewer missed \nthreats and fewer incorrect alerts as compared to the existing \nmodels, as discussed in Table 2. The CNN + Bi -LSTM \nmodel compared to other models had a faster convergence \nand fewer computational resources, as well as was more \naccurate in detecting phishing attempts. Its email threat \ndetection capabilities include the analysis of email headers, \nemail content, and email URLs; hence it is a good candidate \nin real-time email threat detection. Altogether, the model that \nhas been developed has a better predictive power, great \nstability, and an ability to adapt to dynamic phishing \npatterns, so it may be regarded as an important addition to \nthe contemporary cybersecurity defense frameworks. \nBoth the Developed Model (CNN+Bi -LSTM) and the \nRandom Forest (RF) had a precision score of  \n \n0.96, which means that these two models are equally \neffective in correctly identifying phishing emails  among all \nissued emails that are phishing. This similarity indicates that \nthe two models are highly capable of reducing false \npositives, in other words, genuine emails are not often \nlabeled as phishing. Precision indicates the ability of the \nmodel to make accurate positive detections, and the similar \nvalues show that both methods are calibrated in this aspect. \nNevertheless, the Developed Model is overall better than the \nRandom Forest because although both models are equally \nprecise, Developed Model has a higher ROC -AUC (0.99) \nthan that of the Random Forest (0.97). The larger ROC-AUC \nis an indication that the Developed Model is more effective \nin classifying between phishing and true emails at various \nclassification levels. \nThe findings depicted that the developed CNN -Bi-LSTM \nhybrid model presented a significant significance in \naccuracy and F1 -score of classification over all other ",
+            "text_complete": false,
+            "document_type": "unverified",
+            "text_sha256": "17192e6c85f2c1646266fd707caf222e7adf24987c896a0bb9655fd24edda0b6"
+          }
+        ],
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-4b38dda890565d1ac84397c0",
+        "content_sha256": "7f1c4f420cfffb1a2ab0d32679ec0439ff9d4b60b90091e85bff622dda9a5e81",
+        "status": "retrieved",
+        "evidence": [
+          {
+            "requested_url": "https://doi.org/10.23939/csn2026.01.068",
+            "final_url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-ransomware-spread-corporate-networks-impact",
+            "http_status": 200,
+            "headers": {
+              "content-type": "text/html; charset=utf-8",
+              "last-modified": "Thu, 05 Nov 2026 10:55:41 GMT"
+            },
+            "redirects": [
+              {
+                "url": "https://doi.org/10.23939/csn2026.01.068",
+                "http_status": 302
+              },
+              {
+                "url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-of-ransomware-spread-in-corporate-networks-the-impact-of-segmentation-and-zero-trust-on-the-speed-of-compromise",
+                "http_status": 301
+              },
+              {
+                "url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-ransomware-spread-corporate-networks-impact",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "88707e2e7deaf1077bd79d8fafca1279654be87748f536f44bf5a04cd60fbd93",
+            "retrieved_at": "2026-11-05T10:53:56.060987+00:00",
+            "byte_count": 43485,
+            "container_type": "html",
+            "metadata": {
+              "viewport": [
+                "width=device-width, initial-scale=1.0"
+              ],
+              "abstract": [
+                "The basis of the work is the study of the influence of corporate network architecture and internal security policies on the dynamics of ransomware spread, in particular, an assessment of the effectiveness of network segmentation and the Zero Trust concept as mechanisms for limiting lateral movement. To this end, a theoretical analysis of modern attacks was conducted and a simulation model of malware spread in a corporate network was developed. The network was formalized in the form of a graph, and the spread process was described using the SIR model. The implementation was performed in Python using the networkx library, which made it possible to conduct a series of experiments for different scenarios: a flat, segmented network, and a network with Zero Trust principles. The modeling results showed that in flat networks ransomware attacks are characterized by high speed and scale even with a single penetration. Segmentation significantly reduces the infection rate and localizes the attack within segments, while Zero Trust additionally limits the spread due to access control and node isolation. The results obtained confirm the decisive role of lateral movement and the feasibility of using architectural mechanisms for managing internal trust. The practical value lies in the possibility of using the model to analyze the effectiveness of architectural solutions in the field of cybersecurity and in the educational process of training information security specialists."
+              ],
+              "description": [
+                "The basis of the work is the study of the influence of corporate network architecture and internal security policies on the dynamics of ransomware spread, in particular, an assessment of the effectiveness of network segmentation and the Zero Trust concept as mechanisms for limiting lateral movement. To this end, a theoretical analysis of modern attacks was conducted and a"
+              ],
+              "keywords": [
+                "ransomware, corporate network, lateral movement, network segmentation, zero trust, propagation modeling, SIR model, cybersecurity, attack, malware, network node"
+              ],
+              "robots": [
+                "follow, index"
+              ],
+              "generator": [
+                "Drupal 7 (https://www.drupal.org)"
+              ],
+              "citation_title": [
+                "Model of Ransomware Spread in Corporate Networks: The Impact of Segmentation and Zero Trust on the Speed of Compromise"
+              ],
+              "citation_author": [
+                "O. I. Harasymchuk",
+                "Y. M. Kasatkin"
+              ],
+              "citation_publication_date": [
+                "Mon, 05/18/2026 - 13:45"
+              ],
+              "citation_journal_title": [
+                "Scientific journal \"Computer Systems and Networks\""
+              ],
+              "citation_issn": [
+                "2707-2371"
+              ],
+              "citation_volume": [
+                "8"
+              ],
+              "citation_firstpage": [
+                "pp. 68 - 79"
+              ],
+              "citation_pdf_url": [
+                "https://science.lpnu.ua/sites/default/files/journal-paper/2026/may/42690/vse-70-81.pdf"
+              ]
+            },
+            "title": "Model of Ransomware Spread in Corporate Networks: The Impact of Segmentation and Zero Trust on the Speed of Compromise | Academic Journals and Conferences",
+            "links": [
+              {
+                "text": "Skip to main content",
+                "url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-ransomware-spread-corporate-networks-impact#main-content"
+              },
+              {
+                "text": "Academic Journals and Conferences",
+                "url": "https://science.lpnu.ua/"
+              },
+              {
+                "text": "Login",
+                "url": "https://science.lpnu.ua/user"
+              },
+              {
+                "text": "Eng",
+                "url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-ransomware-spread-corporate-networks-impact"
+              },
+              {
+                "text": "Укр",
+                "url": "https://science.lpnu.ua/uk/csn/vsi-vypusky/vypusk-8-nomer-1-2026/model-poshyrennya-ransomware-u-korporatyvnyh-merezhah-vplyv"
+              },
+              {
+                "text": "CSN",
+                "url": "https://science.lpnu.ua/csn"
+              },
+              {
+                "text": "All Volumes and Issues",
+                "url": "https://science.lpnu.ua/csn/all-volumes-and-issues"
+              },
+              {
+                "text": "Volume 8, Number 1, 2026",
+                "url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026"
+              },
+              {
+                "text": "CSN.",
+                "url": "https://science.lpnu.ua/csn"
+              },
+              {
+                "text": "Volume 8, Number 1",
+                "url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026"
+              },
+              {
+                "text": "https://doi.org/10.23939/csn2026.01.068",
+                "url": "https://doi.org/10.23939/csn2026.01.068"
+              },
+              {
+                "text": "O. I. Harasymchuk",
+                "url": "https://science.lpnu.ua/all-authors-journals/o-i-harasymchuk"
+              },
+              {
+                "text": "Y. M. Kasatkin",
+                "url": "https://science.lpnu.ua/all-authors-journals/y-m-kasatkin"
+              },
+              {
+                "text": "0000-0002-8742-8872",
+                "url": "https://orcid.org/0000-0002-8742-8872"
+              },
+              {
+                "text": "0009-0009-2131-6104",
+                "url": "https://orcid.org/0009-0009-2131-6104"
+              },
+              {
+                "text": "ransomware",
+                "url": "https://science.lpnu.ua/keywords-paper/ransomware"
+              },
+              {
+                "text": "corporate network",
+                "url": "https://science.lpnu.ua/keywords-paper/corporate-network"
+              },
+              {
+                "text": "lateral movement",
+                "url": "https://science.lpnu.ua/keywords-paper/lateral-movement"
+              },
+              {
+                "text": "network segmentation",
+                "url": "https://science.lpnu.ua/keywords-paper/network-segmentation"
+              },
+              {
+                "text": "zero trust",
+                "url": "https://science.lpnu.ua/keywords-paper/zero-trust"
+              },
+              {
+                "text": "propagation modeling",
+                "url": "https://science.lpnu.ua/keywords-paper/propagation-modeling"
+              },
+              {
+                "text": "SIR model",
+                "url": "https://science.lpnu.ua/keywords-paper/sir-model"
+              },
+              {
+                "text": "cybersecurity",
+                "url": "https://science.lpnu.ua/keywords-paper/cybersecurity"
+              },
+              {
+                "text": "attack",
+                "url": "https://science.lpnu.ua/keywords-paper/attack"
+              },
+              {
+                "text": "malware",
+                "url": "https://science.lpnu.ua/keywords-paper/malware"
+              },
+              {
+                "text": "network node",
+                "url": "https://science.lpnu.ua/keywords-paper/network-node"
+              },
+              {
+                "text": "Share on Facebook",
+                "url": "http://www.facebook.com/sharer.php"
+              },
+              {
+                "text": "Tweet Widget",
+                "url": "http://twitter.com/share?url=https%3A//science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-ransomware-spread-corporate-networks-impact&count=horizontal&via=&text=Model%20of%20Ransomware%20Spread%20in%20Corporate%20Networks%3A%20The%20Impact%20of%20Segmentation%20and%20Zero%20Trust%20on%20the%20Speed%20of%20Compromise&counturl=https%3A//science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-ransomware-spread-corporate-networks-impact"
+              },
+              {
+                "text": "Linkedin Share Button",
+                "url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-ransomware-spread-corporate-networks-impact"
+              },
+              {
+                "text": "Google Plus One",
+                "url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-ransomware-spread-corporate-networks-impact"
+              },
+              {
+                "text": "This Issue Volume 8, Number 1, 2026",
+                "url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026"
+              },
+              {
+                "text": "Download article",
+                "url": "https://science.lpnu.ua/sites/default/files/journal-paper/2026/may/42690/vse-70-81.pdf"
+              },
+              {
+                "text": "",
+                "url": "https://creativecommons.org/licenses/by/4.0/"
+              },
+              {
+                "text": "Analysis and Improvement of Information Security Technologies in Distributed and Asymmetric Systems",
+                "url": "https://science.lpnu.ua/acps/all-volumes-and-issues/volume-10-number-2-2025/analysis-and-improvement-information-security"
+              },
+              {
+                "text": "Legal Framework for Ensuring Information Security in Ukraine Under Martial Law: Problems and Prospects for Improvement",
+                "url": "https://science.lpnu.ua/law/all-volumes-and-issues/volume-13-number-2-50-2026/legal-framework-ensuring-information-security"
+              },
+              {
+                "text": "Diagnosis and adjustment of units of business network of cyber physical systems",
+                "url": "https://science.lpnu.ua/sisn/all-volumes-and-issues/volume-872-2017/diagnosis-and-adjustment-units-business-network-cyber"
+              },
+              {
+                "text": "",
+                "url": "http://www.lp.edu.ua/en"
+              }
+            ],
+            "text": "Model of Ransomware Spread in Corporate Networks: The Impact of Segmentation and Zero Trust on the Speed of Compromise | Academic Journals and Conferences\nSkip to main content\nCSN\nAll Volumes and Issues\nVolume 8, Number 1, 2026\nModel of Ransomware Spread in Corporate Networks: The Impact of Segmentation and Zero Trust on the Speed of Compromise\nModel of Ransomware Spread in Corporate Networks: The Impact of Segmentation and Zero Trust on the Speed of Compromise\nCSN.\n2026;\nVolume 8, Number 1\n: pp. 68 - 79\nISSN:\n2707-2371\nhttps://doi.org/10.23939/csn2026.01.068\nReceived:\nApril 06, 2026\nAccepted:\nApril 23, 2026\nPublished:\nJune 01, 2026\nAuthors:\nO. I. Harasymchuk\nY. M. Kasatkin\n1\nLviv Polytechnic National University, Information Protection Department, Ukraine\nORCID:\n0000-0002-8742-8872\n2\nLviv Polytechnic National University, Department of Information Protection, Ukraine\nORCID:\n0009-0009-2131-6104\nThe basis of the work is the study of the influence of corporate network architecture and internal security policies on the dynamics of ransomware spread, in particular, an assessment of the effectiveness of network segmentation and the Zero Trust concept as mechanisms for limiting lateral movement. To this end, a theoretical analysis of modern attacks was conducted and a simulation model of malware spread in a corporate network was developed. The network was formalized in the form of a graph, and the spread process was described using the SIR model. The implementation was performed in Python using the networkx library, which made it possible to conduct a series of experiments for different scenarios: a flat, segmented network, and a network with Zero Trust principles. The modeling results showed that in flat networks ransomware attacks are characterized by high speed and scale even with a single penetration. Segmentation significantly reduces the infection rate and localizes the attack within segments, while Zero Trust additionally limits the spread due to access control and node isolation. The results obtained confirm the decisive role of lateral movement and the feasibility of using architectural mechanisms for managing internal trust. The practical value lies in the possibility of using the model to analyze the effectiveness of architectural solutions in the field of cybersecurity and in the educational process of training information security specialists.\nransomware\ncorporate network\nlateral movement\nnetwork segmentation\nzero trust\npropagation modeling\nSIR model\ncybersecurity\nattack\nmalware\nnetwork node\nA.\nKharraz,\nW.\nRobertson,\nD.\nBalzarotti,\nL.\nBilge,\nand\nE.\nKirda,\n“Cutting\nthe\nGordian\nKnot:\nA Look Under the Hood of Ransomware Attacks,” Proceedings of the 12th International Conference on Detection of Intrusions and Malware, and Vulnerability Assessment (DIMVA), 2015, pp. 3–24. DOI: 10.1007/978-3-319-20550-2_1.\nО.\nГарасимчук,\nА.\nПартика,\nО.\nНємкова.,\nЯ.\nСовин.\n(2023).\nІнтегрований\nпідхід\nдо\nзабезпечення\nкібербезпеки\nта\nдослідження\nкібезлочинів\nкритичної\nінфраструктури\nза\nдопомогою\nсистеми\nмоніторингу\nінцидентів\nвірусів-вимагачів.\nЕлектронне\nфахове\nнаукове\nвидання\n«Кібербезпека:\nосвіта,\nнаука,\nтехніка»,\n1(21),\n286–296.\ndoi\n:\n10.28925/2663-4023.2023.21.286296.\nI.\nOpirskyy,\nO.\nHarasymchuk,\nO.\nMykhaylova,\nY.\nSovyn,\nI.\nTyshyk, “Detection of Network Attacks Based on the RedHunt Virtual Machine” Advancements in Cybersecurity, 2025, pp. 310-330/ DOI: 10.1201/9781003546153-14.\nS.\nMorgan,\n“Ransomware:\nA Research and a Few Suggestions,” Cybersecurity Ventures, 2019.\nMITRE\nCorporation,\n“ATT&CK®\nFramework\n– Enterprise Matrix,” 2023.\nN.\nGrimes,\n“Ransomware:\nPrevention, Detection\nand\nResponse,”\nSANS\nInstitute, 2017.\nC.\nTankard,\n“Advanced\nPersistent Threats\nand\nhow\nto\nmonitor\nand\ndeter\nthem,”\nNetwork\nSecurity,\nvol.\n2011,\nno.\n8,\npp.\n16–19,\n2011.\nDOI:\n10.1016/S1353-4858(11)70086-1.\nA.\nScaife, P. Carter, J. Traynor, and K. R. B. Butler, “CryptoLock (and Drop It): Stopping Ransomware Attacks on User Data,” IEEE International Conference on Distributed Computing Systems (ICDCS), 2016, pp. 303–312. DOI: 10.1109/ICDCS.2016.46.\nW. Stallings,\n“Network\nSecurity\nEssentials:\nApplications\nand\nStandards,”\nPearson\nEducation,\n6th\ned.,\n2017.\nE.\nSantoso, “Comparative Analysis of Network Segmentation Strategies to Counter Targeted Attacks in Global E-Commerce Cloud Infrastructures,” Journal of Advances in Cybersecurity Science, Threat Intelligence, and Countermeasures, vol. 6, no. 12, pp. 1–6, 2022.\nMITRE\nCorporation,\n“ATT&CK®\nfor\nEnterprise\n– Lateral Movement Tactics,” 2023.\nC.\nTankard,\n“Advanced\nPersistent\nThreats\nand\nhow\nto\nmonitor\nand\ndeter\nthem,”\nNetwork\nSecurity,\nvol.\n2011,\nno.\n8,\npp.\n16–19, 2011. DOI:\n10.1016/S1353-4858(11)70086-1.\nA.\nBehl\nand\nK.\nBehl,\n“Cyberwar:\nThe\nNext\nThreat\nto\nNational\nSecurity\nand\nWhat\nto\nDo\nAbout\nIt,”\nOxford\nUniversity\nPress,\n2017.\nW. Stallings,\n“Network\nSecurity\nEssentials:\nApplications\nand\nStandards,”\nPearson\nEducation,\n6th\ned., 2017.\nО.\nГарасимчук,\nЮ.\nКасаткін.\n(2025).\nРозмежування\nелектронної\nкомунікаційної\nсистеми\nмережі\nта\nелектронної\nінформаційної\nсистеми\nв умовах забезпечення кібербезпеки організацій. Електронне фахове наукове видання «Кібербезпека: освіта, наука, техніка», 3(31), 367–385. doi: 10.28925/2663-4023.2025.31.1030.\nN.\nR.\nKotha,\n“Network\nSegmentation\nas\na Defense Mechanism for Securing Enterprise Networks,” Turkish Journal of Computer and Mathematics Education (TURCOMAT), vol. 11, no. 3, pp. 3023–3030, Jan. 2020. DOI: 10.61841/turcomat.v11i3.14942.\nP.\nKaur\nand\nM.\nSingh,\n“Network\nSegmentation\nand\nMicro-Segmentation\nin\nEnterprise\nSecurity\nArchitecture,”\nInternational\nJournal\nof\nComputer\nApplications,\nvol.\n183,\nno.\n47,\npp.\n22–28,\n2022.\nDOI:\n10.5120/ijca2022922120.\nE.\nSantoso, “Comparative Analysis of Network Segmentation Strategies to Counter Targeted Attacks in Global E-Commerce Cloud Infrastructures,” Journal of Advances in Cybersecurity Science, Threat Intelligence, and Countermeasures, vol. 6, no. 12, pp. 1–6, 2022.\nS.\nBondhala,\n“Modern\nDefense\nParadigms:\nZero\nTrust\nArchitecture,\nNetwork\nSegmentation,\nand\nMicro-\nSegmentation,”\nInternational\nJournal\nof\nScientific\nResearch\nin\nComputer\nScience,\nEngineering\nand\nInformation\nTechnology,\n2025.\nDOI:\n10.32628/CSEIT25112714.\nJ.\nKindervag,\n“Build\nSecurity\nInto\nYour\nNetwork’s\nDNA:\nThe\nZero\nTrust\nNetwork\nArchitecture,”\nForrester\nResearch, 2010.\nS.\nBondhala,\n“Modern\nDefense\nParadigms:\nZero\nTrust\nArchitecture,\nNetwork\nSegmentation,\nand\nMicro-\nSegmentation,”\nInternational\nJournal\nof\nScientific\nResearch\nin\nComputer\nScience,\nEngineering\nand\nInformation\nTechnology,\n2025.\nDOI:\n10.32628/CSEIT25112714.\nM.\nShastri,\n“Understanding\nZero-Trust\nArchitecture\nfor\nDeveloping\nComprehensive\nCybersecurity\nProtocols,”\nInternational\nJournal\nof\nAdvanced\nResearch\nin\nCyber\nSecurity,\n2025.\nNational\nInstitute\nof\nStandards\nand\nTechnology\n(NIST),\n“Zero\nTrust\nArchitecture\n(SP\n800-207),”\n2020.\nE.\nCole,\nR.\nKrutz,\nand\nJ.\nW.\nConley,\n“Zero\nTrust\nNetworks:\nBuilding\nSecure\nSystems\nin\nUntrusted\nNetworks,”\nO’Reilly\nMedia,\n2017.\nM.\nNewman,\n“Networks:\nAn\nIntroduction,”\nOxford\nUniversity\nPress,\n2nd\ned., 2018.\nC.\nTankard,\n“Advanced\nPersistent\nThreats\nand\nhow\nto\nmonitor\nand\ndeter\nthem,”\nNetwork\nSecurity,\nvol.\n2011,\nno.\n8,\npp.\n16–19, 2011. DOI:\n10.1016/S1353-4858(11)70086-1.\nM.\nKephart\nand\nS.\nWhite,\n“Directed-graph\nepidemiological\nmodels\nof\ncomputer\nviruses,”IEEE\nComputer\nSociety\nSymposium\non\nResearch\nin\nSecurity\nand\nPrivacy, 1991,\npp.\n343–359.\nDOI:\n10.1109/SECPRI.1991.219986.\nN.\nR.\nKotha,\n“Network\nSegmentation\nas\na Defense Mechanism for Securing Enterprise Networks,” Turkish Journal of Computer and Mathematics Education (TURCOMAT), vol. 11, no. 3, pp. 3023–3030, Jan. 2020. DOI: 10.61841/turcomat.v11i3.14942.\nS.\nBondhala,\n“Modern\nDefense\nParadigms:\nZero\nTrust\nArchitecture,\nNetwork\nSegmentation,\nand\nMicro-\nSegmentation,”\nInternational\nJournal\nof\nScientific\nResearch\nin\nComputer\nScience,\nEngineering\nand\nInformation\nTechnology,\n2025.\nDOI:\n10.32628/CSEIT25112714.\nhttps://science.lpnu.ua/sites/default/files/journal-paper/2026/may/42690/vse-70-81.pdf\nThis Issue\nVolume 8, Number 1, 2026\nDownload article\nViews\n213\nRelated\nAnalysis and Improvement of Information Security Technologies in Distributed and Asymmetric Systems\nLegal Framework for Ensuring Information Security in Ukraine Under Martial Law: Problems and Prospects for Improvement\nDiagnosis and adjustment of units of business network of cyber physical systems",
+            "text_complete": true,
+            "document_type": "unverified",
+            "fragment": "",
+            "resource_unavailable": false,
+            "text_sha256": "ac3c256603f3d8870639dde0926e1cd71733096ea36e197222f85d9f8c552038"
+          },
+          {
+            "requested_url": "https://science.lpnu.ua/sites/default/files/journal-paper/2026/may/42690/vse-70-81.pdf",
+            "final_url": "https://science.lpnu.ua/sites/default/files/journal-paper/2026/may/42690/vse-70-81.pdf",
+            "http_status": 200,
+            "headers": {
+              "content-type": "application/pdf",
+              "last-modified": "Mon, 15 Jun 2026 08:35:27 GMT",
+              "etag": "\"6a2fb94f-71864\""
+            },
+            "redirects": [
+              {
+                "url": "https://science.lpnu.ua/sites/default/files/journal-paper/2026/may/42690/vse-70-81.pdf",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "45cf0632c0ee91e5979f06810d707599e57b3b6fd1b60402975a2c020e78350d",
+            "retrieved_at": "2026-11-05T10:53:59.089252+00:00",
+            "byte_count": 464996,
+            "container_type": "pdf",
+            "page_count": 12,
+            "pages_inspected": 6,
+            "pdf_metadata": {
+              "/Producer": "iLovePDF",
+              "/ModDate": "D:20260615081321Z"
+            },
+            "text": "COMPUTER SYSTEMS AND NETWORKS \nVol. 8, No. 1, 2026  ISSN: 2707-2371 (print)  \n \n 68 \nDOI: https://doi.org/10.23939/csn2026.01.068 \n УДК 004.056  \n \nМОДЕЛЬ ПОШИРЕННЯ RANSOMWARE  \nУ КОРПОРАТИВНИХ МЕРЕЖАХ: ВПЛИВ СЕГМЕНТАЦІЇ  \nТА ZERO TRUST НА ШВИДКІСТЬ КОМПРОМЕТАЦІЇ \n \nО. І. Гарасимчук, Ю. М. Касаткін \n \nНаціональний університет «Львівська політехніка», \nкафедра захисту інформації \nЕ-mail: oleh.i.harasymchuk@lpnu.ua, yurii.kasatkin.mkbur.2025@lpnu.ua \nORCID: 0000-0002-8742-8872, 0009-0009-2131-6104 \n \nНадійшла до редакції: 06.04.2026 \nПрийнята до друку: 23.04.2026 \nОпубліковано: 01.06.2026 \n \n© Гарасимчук О. І., Касаткін Ю. М., 2026 \n \nОсновою роботи є дослідження впливу архітектури корпоративної мережі та \nполітик внутрішньої безпеки на динаміку поширення ransomware, зокрема оцінка \nефективності сегментації мережі й концепції Zero Trust як механізмів обмеження \nлатерального руху. Для цього проведено теоретичний аналіз сучасних атак і розроблено \nімітаційну модель поширення шкідливого ПЗ у корпоративній мережі. Мережу форма-\nлізовано у вигляді графа, а процес поширення описано за допомогою SIR- моделі. \nРеалізацію виконано мовою Python із використанням бібліотеки networkx, що дало змогу \nпровести серію експериментів для різних сценаріїв: плоскої, сегментованої мережі та \nмережі з принципами Zero Trust.  \nРезультати моделювання показали, що у плоских мережах ransomware-атаки \nхарактеризуються високою швидкістю й масштабністю навіть за одиничного проник-\nнення. Сегментація суттєво знижує швидкість зараження та локалізує атаку в межах \nсегментів, тоді як Zero Trust додатково обмежує поширення завдяки контролю доступу й \nізоляції вузлів. Отримані результати підтверджують визначальну роль латерального руху \nта доцільність застосування архітектурних механізмів управління внутрішньою довірою. \nПрактична цінність полягає у можливості використання моделі для аналізу ефективності \nархітектурних рішень у сфері кібербезпеки та в навчальному процесі підготовки фахівців \nз інформаційної безпеки. \nКлючові слова: ransomware, корпоративна мережа, латеральний рух, сегментація \nмережі, Zero Trust, моделювання поширення, SIR-модель, кібербезпека, атака, шкідливе \nПЗ, вузол мережі. \n \nВступ \nСучасний інформаційний простір характеризується постійним зростанням кількості кіберзагроз, \nзокрема, таких як ransomware-атаки, що ставлять під загрозу цілі корпоративні мережі. Атаки цього \nтипу можуть призвести до значних економічних збитків, втрати репутації та конфіденційності даних. \nОстаннім часом ransomware все частіше використовуються кіберзлочинцями для проникнення в \nкритичні інфраструктури, що змушує організації переглядати свої стратегії кібербезпеки. \n \n© The Author(s). This is an open access article distributed under the terms of the Creative Commons Attribution 4.0 \nInternational (CC BY 4,0). https://creativecommons.org/licenses/by/4.0/ \n \nМодель поширення ransomware у корпоративних мережах: вплив сегментації та Zero Trust… \n 69 \nУ зв’язку з цим особливу увагу приділяють методам захисту, таким як сегментація мережі та \nZero Trust. Сегментація, як підхід до розподілу мережі на окремі ізольовані сегменти, дозволяє \nобмежити поширення шкідливого коду у разі компрометації одного з вузлів. Zero Trust, у свою чергу, \nприпускає, що жоден пристрій чи користувач не може бути автоматично довіреним і вимагає \nпостійної перевірки і моніторингу на всіх етапах доступу до ресурсів мережі. \n \nОгляд літературних джерел \nRansomware є одним із найбільш небезпечних різновидів шкідливого програмного забезпе-\nчення, що активно використовується для атак на корпоративні мережі. Основною метою ransomware є \nблокування доступу до даних шляхом їх шифрування з подальшою вимогою викупу за відновлення \nдоступу. На відміну від класичних форм шкідливого ПЗ, ransоmware-aтaки орієнтовані не лише на \nпорушення роботи окремих систем, а й на масове ураження мережевої інфраструктури організації, що \nзначно підвищує рівень завданих збитків [1–3]. \nУ сучасних корпоративних середовищах ransоmware розглядається як комплексна багато-\nступенева загроза, яка поєднує методи соціальної інженерії, експлуатації вразливостей та зло-\nвживання легітимними мережевими механізмами. Особливу небезпеку становить здатність такого \nшкідливого ПЗ швидко поширюватися мережею, використовуючи внутрішні канали зв’язку між \nвузлами [4]. \nБільшість сучасних ransomware-атак реалізуються відповідно до типової моделі, яка включає \nкілька основних етапів [5]: \n1. Initial access. Етап initial access передбачає отримання зловмисником первинного доступу до \nкорпоративної мережі або окремого її вузла. Найбільш поширеними методами є фішингові атаки, \nексплуатація вразливостей у програмному забезпеченні використання скомпрометованих облікових \nданих та неправильно налаштованих сервісів віддаленого доступу. Саме на цьому етапі формується \nпочаткова точка проникнення, яка згодом використовується для подальшого розвитку атаки [6]. \n2. Lateral movement. Після успішного проникнення в систему зловмисники переходять до етапу \n«lateral movement», метою якого є поширення контролю на інші вузли корпоративної мережі. Для \nцього використовуються як спеціалізовані інструменти, так і легітимні адміністративні засоби, що \nускладнює виявлення атаки засобами захисту. Lateral movement є критичним компонентом \nransomware-атак, оскільки саме на цьому етапі відбувається масова компрометація мережі перед \nшифруванням даних [7]. \n3. Encryption. Фінальною стадією ransomware-атаки є етап шифрування, під час якого шкідливе \nпрограмне забезпечення застосовує криптографічні алгоритми для блокування доступу до файлів і \nресурсів на заражених системах. Після завершення шифрування користувачам відображається \nповідомлення з вимогою викупу та інструкціями щодо подальших дій. У сучасних атаках дедалі \nчастіше використовується підхід подвійного вимагання, коли, окрім шифрування, зловмисники по-\nгрожують публікацією викрадених даних [8]. \nОтже, ransomware становить серйозну загрозу для корпоративних мереж, особливо у випадках \nвідсутності належних механізмів сегментації та контролю доступу, що створює передумови для \nшвидкого та масштабного поширення атаки. \n \nПостановка задачі \nМета роботи полягає у дослідженні впливу сегментації мережі та Zero Trust на швидкість \nпоширення ransomware в корпоративних мережах. Для досягнення цієї мети була розроблена модель, \nщо симулює поширення шкідливого ПЗ в мережі за допомогою математичних методів та алгоритмів. \nМодель передбачає три основні сценарії: відсутність захисту, сегментація мережі і застосування \nпринципів Zero Trust. \nЗавдання дослідження: \n– розроблення математичної моделі поширення ransomware в корпоративних мережах; \n– аналіз впливу сегментації на швидкість зараження мережі; \nО. І. Гарасимчук, Ю. М. Касаткін \n 70 \n– оцінка ефективності впровадження принципів Zero Trust в контексті боротьби з ransomware; \n– проведення серії експериментів для порівняння результатів за різними сценаріями. \nРезультати дослідження дозволяють зрозуміти важливість застосування сучасних методів \nзахисту в корпоративних мережах і можуть бути корисними для практичної реалізації стратегій \nбезпеки у реальних компаніях. \n \nВплив архітектури корпоративних мереж на поширення ransomware \nКорпоративна мережа є сукупністю взаємопов’язаних обчислювальних вузлів, серверів, \nмережевих пристроїв та сервісів, об’єднаних для забезпечення спільного доступу до ресурсів і даних \nорганізації. Традиційно такі мережі проєктували з акцентом на продуктивність і зручність \nадміністрування, що часто призводило до формування плоскої мережевої архітектури, у якій \nбільшість вузлів мають високий рівень взаємної довіри [9]. \nУ плоских корпоративних мережах після компрометації одного вузла зловмисник отримує \nможливість майже безперешкодно взаємодіяти з іншими системами. Це створює сприятливі умови \nдля латерального поширення атак, зокрема ransomware, оскільки відсутні ефективні механізми \nізоляції та контролю внутрішнього трафіку [10]. \nLateral movement визначають як процес, за допомогою якого зловмисник переміщується \nвсередині мережі, поступово розширюючи зону контролю після початкового проникнення. Такий \nпідхід дозволяє атакуючому отримувати доступ до критичних ресурсів, серверів та облікових записів \nз підвищеними привілеями до моменту виявлення атаки [11]. \nОднією з ключових причин ефективності латерального поширення є використання легітимних \nінструментів і протоколів, таких як Remote Desktop Protocol – RDP, Windows Management \nInstrumentation – WMI або PowerShell. Через це активність зловмисника часто виглядає як звичайна \nадміністративна діяльність, що значно ускладнює і виявлення традиційними засобами захисту [12]. \nОсобливо небезпечним є той факт, що сучасні ransomware-атаки рідко обмежуються одним \nпристроєм. Натомість вони спрямовані на масове поширення в межах корпоративної мережі, що \nдозволяє максимізувати шкоду та підвищити тиск на організацію з метою сплати викупу. За \nвідсутності сегментації або суворого контролю доступу швидкість компрометації мережі може \nзростати експоненційно [13]. \nОтже, архітектурні особливості корпоративних мереж та надмірна внутрішня довіра між \nвузлами створюють передумови для швидкого латерального поширення ransomware. Це обґрунтовує \nнеобхідність застосування сегментації мережі та принципів Zero Trust, які розглянуто як ключові \nмеханізми зниження швидкості та масштабу компрометації. \n \nСегментація мережі як механізм обмеження поширення ransomware \nСегментація мережі є одним із базових підходів до підвищення рівня безпеки корпоративних \nінформаційних систем. Вона полягає у поділі мережевої інфраструктури на окремі логічні або фізичні \nсегменти, між якими встановлюються контрольовані правила взаємодій. Основною метою сегментації \nє обмеження надмірної довіри між вузлами мережі та зменшення потенційної зони ураження у разі \nкомпрометації одного із сегментів [14–15]. \nУ контексті протидії ransomware сегментація відіграє критичну роль, оскільки більшість таких \nатак розраховані на швидке латеральне поширення після початкового проникнення. За відсутності \nсегментації заражений вузол може безперешкодно ініціювати з’єднання з іншими системами мережі, \nщо значно прискорює компрометацію всієї інфраструктури [16] \nНайбільш поширеними формами сегментації в корпоративних мережах є: \n– логічна сегментація за допомогою VLAN; \n– поділ мережі на підмережі; \n– використання міжмережевих екранів і списків контролю доступу; \n– ізоляція критичних серверів у окремих зонах безпеки. \nМодель поширення ransomware у корпоративних мережах: вплив сегментації та Zero Trust… \n 71 \nЗастосування таких механізмів дозволяє контролювати та фільтрувати внутрішній мережевий \nтрафік, що значно ускладнює використання стандартних методів латерального переміщення, \nхарактерних для ransomware-атак [17]. \nДослідження показують, що навіть базова сегментація може суттєво зменшити швидкість \nпоширення атақ, оскільки зловмиснику необхідно долати додаткові бар’єри доступу між сегментами. \nУ разі правильної конфігурацій сегментації компрометація одного сегмента не призводить \nавтоматично до компрометації всієї мережі, що знижує загальний ризик для організації [18]. \nВодночас традиційна сегментація має певні обмеження. Зокрема, надмірно статичні правила \nдоступу та складність адміністрування можуть призводити до помилок конфігурації або надмірних \nдозволів. У таких умовах ефективність сегментації знижується, що створює передумови для \nподальшого розвитку атак. Саме ці недоліки стали передумовою для розвитку більш сучасних \nпідходів, зокрема концепції Zero Trust [19]. Саме тому cегментація мережі є важливим, але не \nуніверсальним механізмом захисту від ransomware. Вона значно ускладнює латеральне поширення \nатак, проте потребує доповнення більш гнучкими та адаптивними моделями контролю доступу. \nКонцепція Zero Trust та її вплив на обмеження поширення ransomware \nКонцепція Zero Trust є сучасною моделлю кібербезпеки, яка грунтується на принципі «never \ntrust, always verify» – відсутності автоматичної довіри до будь-якого користувача, пристрою чи \nмережевого з’єднання, незалежно від їхнього розташування відносно периметра мережі. На відміну \nвід традиційних підходів, де внутрішня мережа вважається довіреною, Zero Trust передбачає \nпостійний контроль і перевірку доступу до ресурсів на кожному етапі взаємодії  [20]. \nОсновною ідеєю Zero Trust є мінімізація можливостей зловмисника після початкового проник-\nнення. Навіть у разі компрометації одного вузла мережі атакуючий не отримує автоматичного досту-\nпу до інших ресурсів, що суттєво знижує ефективність латерального поширення ransomware [21]. \nZero Trust базується на кількох ключових принципах: \n– автентифікація та авторизація кожного запиту доступу; \n– принцип найменших привілеїв; \n– мікросегментація мережі; \n– постійний моніторинг поведінки користувачів пристроїв. \nЗастосування цих принципів дозволяє динамічно обмежувати взаємодію між вузлами, що є \nкритично важливим для протидії ransomware-атакам, які значною мірою залежать від можливості \nвільного переміщення мережею [22]. \nНа відміну від традиційної сегментації, Zero Trust не обмежується статичним поділом мережі. \nНатомість він використовує контекстні фактори, такі як ідентичність користувача, стан пристрою, час \nдоступу та тип запиту, для прийняття рішень щодо дозволу або блокування з’єднань. Такий підхід \nзначно ускладнює використання скомпрометованих облікових даних зменшує швидкість поширення \nшкідливого ПЗ [23]. \nДослідження показують, що впровадження Zero Trust істотно знижує ризики масової ком-\nпрометації корпоративних мереж, навіть у разі успішного initial access. Для ransomware це означає обме-\nження масштабу ураження, зменшення кількості зашифрованих систем та збільшення часу, необхідного \nзловмиснику для розвитку атаки, що підвищує ймовірність її виявлення та нейтралізації [24]. \nОтже, концепція Zero Trust є ефективним доповненням до традиційної сегментації мережі та \nрозглядається як один із найбільш перспективних підходів до захисту корпоративних мереж від \nсучасних ransomware- атак. Її принципи безпосередньо впливають на швидкість і масштаб \nкомпрометації, що робить Zero Trust доцільним об’єктом подальшого моделювання та практичного \nдослідження в межах цієї роботи. \n \nПрактична реалізація моделі поширення ransomware  \nу корпоративних мережах та аналіз результатів \nДля моделювання поширення ransomware корпоративну мережу можна представити у вигляді \nграфа: G = (V, E), де V = { 12 nv,v,...,v } – множина вершин, що відповідають окремим пристроям, \nсерверам або обліковим записам, а E ˝  V×V – множина ребер, які відображають наявність \nмережевих з’єднань між ними. Така формалізація дозволяє математично описати внутрішню \nО. І. Гарасимчук, Ю. М. Касаткін \n 72 \nструктуру мережі та кількісно оцінити потенціал поширення шкідливого програмного забезпечення \n[26].  \nНаявність ребра ( ijv,v ) ˛ E означає можливість безпосередньої взаємодії між вузлами  та , \nотже, потенційну можливість передачі шкідливого коду. Для кількісного аналізу структури мережі \nвикористовується матриця суміжності A = [ ija ], де \n1\n0\nij\nij\n,якщоміж v та v існуєз 'єднанняa\n,інакше.\nì= í\nî\n           (1) \nУ межах такої моделі латеральний рух атакуючого можливий лише між вузлами, для яких  \nija  = 1, що дозволяє формалізувати процес поширення ransomware в термінах теорії графів. \nУ випадку плоскої корпоративної мережі граф характеризується високою щільністю з’єднань \nміж вершинами та значним середнім ступенем вузлів. Це відповідає великій кількості ненульових \nелементів у матриці суміжності та наявності багатьох альтернативних шляхів поширення атаки. За \nтаких умов компрометація одного вузла забезпечує швидкий доступ до значної частини мережі, що \nстворює сприятливі умови для реалізації механізмів lateral movement [26]. \nДля відображення різних рівнів безпеки та складності мережевої архітектури в межах моделі \nрозглядаються три основні конфігурації:  \n1. Плоска мережа, у якій усі вузли мають прямі або опосередковані з’єднання без суттєвих \nобмежень доступу. \n2. Сегментована мережа, у якій вузли поділяються на логічні або фізичні сегменти з \nконтрольованим міжсегментним трафіком. \n3. Сегментована мережа з елементами Zero Trust, у якій кожен запит доступу додатково \nперевіряється відповідно до принципу найменших привілеїв та контекстних політик безпеки. \nДля опису поширення ransomwarе використовується модель SIR: Susceptible-Infected-Removed, \nяка традиційно застосовуєть в епідеміології [27]. У цьому контексті: \nS – Susceptible – це вузли, що потенційно можуть бути заражені; \nI – Infected – це вузли, які вже заражені та здатні інфікувати інших; \nR - Removed/Isolated – це вузли, що були ізольовані або відновлені після атаки. \nПеревага моделі SIR у тому, що вона дозволяє кількісно оцінювати динаміку зараження та \nпорівнювати вплив різних архітектур мережі на швидкість компрометації. Для ransomwarе важливим \nпараметром є ймовірність зараження P_infect, яка відображає ефективність атаки при контакті із \nсусідніми вузлами, а також ймовірність виявлення P_detect – ефективність захисних механізмів. \nОсобливий акцент у моделюванні робиться на латеральне поширення, яке визначає, як швидко \nатака поширюється мережею після початкового проникнення. Дослідження показують, що навіть \nневелика ізоляція сегментів або контроль доступу за принципом Zero Trust суттєво уповільнює \nпроцес компрометації [28–29]. \nПісля формалізації корпоративної мережі як графу та визначення ролей вузлів наступним \nкроком є побудова моделі поширення ransomware. Для цього використовують ітераційні процеси, які \nописують перехід вузлів між станами S, I та R [26]. \nМодель передбачає такі етапи: \n1. Initial access: визначається початковий заражений вузол, який є джерелом інфекції. Його \nвибір може бути випадковим або орієнтованим на критичні вузли [26]. \n2. Lateral movement: на кожній ітерації заражені вузли намагаються інфікувати сусідні за \nребрами графу вузли з ймовірністю P_infect. Цей параметр відображає ефективність атаки та враховує \nфактори безпеки, такі як сегментація чи політики Zero Trust [28–29] \n3. Detection and isolation: частина заражених вузлів може бути виявлена та ізольована – стан R з \nймовірністю Р_detect, що моделює роботу засобів захисту і політик контролю доступу [29]. \nМодель поширення ransomware у корпоративних мережах: вплив сегментації та Zero Trust… \n 73 \n4. Iteration and measurement: ітерації повторюються до досягнення стабілізації, тобто коли нові \nвузли перестають заражатися. Підраховується кількість заражених, здорових та ізольованих вузлів на \nкожному кроці, що дозволяє оцінити швидкість компрометації мережі. \nДля моделювання різних сценаріїв важливе значення мають такі параметри:  \n– розмір мережі (N): кількість вузлів 60; \n– топологія: плоска, сегментована, сегментована з Zero Trust; \n– P_infect: ймовірність зараження сусіднього вузла на ітерацію; \n– P_detect: ймовірність виявлення зараженого вузла та його ізоляції; \n– кількість початкових заражених вузлів (I0): 2 вузли; \n– кількість ітерацій (Т): достатньо для того, щоб інфекція поширилася по мережі. \nВибір різних топологій дозволяє порівняти ефективність захисних механізмів: плоска мережа \nдемонструє швидку компрометацію, сегментована мережа уповільнює поширення, а Zero Trust \nзабезпечує максимальне обмеження латерального руху [28–29]. \nДля реалізації моделі поширення ransomware у корпоративних мережах була розроблена \nпрограмна модель на мові Python із використанням бібліотеки networkx. Корпоративна мережа  у \nпрограмній реалізації представлялася у вигляді графа, де вузли відповідають окремим хостам, а ребра \n– мережевим з’єднанням між ними. \nУ межах програмної моделі використовують такі елементи: \n– мережа: граф, створений за допомогою бібліотеки networkx. Кожному вузлу графа \nприсвоюються атрибути status та role. Атрибут status визначає поточний стан вузла відповідно до SIR-\nмоделі (S, I або R), а role описує функціональне призначення вузла: клієнт, сервер або критичний \nресурс. \n– ітерації: на кожному кроці заражені вузли перевіряють сусідів і заражають їх з ймовірністю \nP_infect. Виявлення та ізоляція відбуваються з ймовірністю P_detect. \n– візуалізація: кількість вузлів у станах S, I, R по ітераціях виводиться графіком за допомогою \nmatplotlib, що забезпечує наочне порівняння різних сценаріїв. \n– сценарії: програмна реалізація дозволяє змінювати топологію мережі та параметри моделі без \nзміни базової логіки алгоритму, що дає змогу порівнювати ефективність різних архітектурних рішень \nі політик безпеки. Усі сценарії моделювалися за однакових початкових умов та відрізнялися лише \nтопологією мережі та значеннями параметрів зараження й виявлення. \nМодель передбачає три сценарії мережі: \n1. Плоска мережа. Плоска мережа реалізується як граф без сегментації, у якому всі вузли \nналежать до одного логічного сегмента. У цьому сценарії відсутні обмеження на латеральний рух та \nмеханізми виявлення заражених вузлів. Ймовірність зараження задається підвищеним значенням \nпараметра P_infect.; \n2. Сегментована мережа. У сценарії сегментованої мережі вузли поділяють на окремі сегменти, \nміж якими зараження не поширюється. Це реалізується шляхом заборони передачі інфекції між \nвузлами з різними значеннями атрибута сегмента. Механізми активного виявлення та ізоляції \nзаражених вузлів у цьому сценарії не застосовуються; \n3. Zero Trust. Сценарій поєднує сегментацію мережі з додатковим механізмом імовірнісного \nвиявлення та ізоляції заражених вузлів. У разі виявлення вузол переводиться в ізольований стан і \nбільше не бере участі у поширенні інфекції. \nОтже, модель забезпечує гнучкий та наочний інструмент для оцінки впливу різних заходів \nбезпеки на швидкість компрометації корпоративної мережі. На основі цих підходів можна проводити \nексперименти та отримувати результати, які будуть використані далі для аналізу та порівняння \nефективності захисних механізмів. \nПеред побудовою графіків результатів моделювання були задані однакові початкові умови для \nвсіх сценаріїв, що забезпечує можливість відтворення експерименту та коректного порівняння \nотриманих результатів. Зокрема, фіксувалися кількість вузлів мережі, початкова кількість заражених \nвузлів, значення параметрів P_infect та P_detect, а також кількість ітерацій моделювання. ",
+            "text_complete": false,
+            "document_type": "unverified",
+            "text_sha256": "1ad1429eedb6cd881dcfa30dbb4ba739ecb055fedd5283a5e25922865717f231"
+          }
+        ],
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate."
+      }
+    ],
+    "requests": 22,
+    "read_only": true,
+    "provenance": {
+      "GITHUB_SHA": "c8b6914861a97d6ab28ae40a74eaf7609097992d",
+      "GITHUB_RUN_ID": "42014339372",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+      "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_sources.yml@refs/heads/codex/soups-corpus-review"
+    },
+    "request_log": [
+      {
+        "url": "https://doi.org/robots.txt",
+        "started_at": "2026-11-05T10:53:21.297978+00:00",
+        "http_status": 301,
+        "redirect_location": "https://www.doi.org/robots.txt",
+        "retry_not_before": null,
+        "bytes": 0
+      },
+      {
+        "url": "https://www.doi.org/robots.txt",
+        "started_at": "2026-11-05T10:53:21.512801+00:00",
+        "http_status": 404,
+        "retry_not_before": null,
+        "bytes": 7625
+      },
+      {
+        "url": "https://doi.org/10.64898/2026.10.04.26364617",
+        "started_at": "2026-11-05T10:53:23.359456+00:00",
+        "http_status": 302,
+        "redirect_location": "http://medrxiv.org/lookup/doi/10.64898/2026.10.04.26364617",
+        "retry_not_before": null,
+        "bytes": 201
+      },
+      {
+        "url": "http://medrxiv.org/robots.txt",
+        "started_at": "2026-11-05T10:53:23.561045+00:00",
+        "http_status": 403,
+        "retry_not_before": null,
+        "bytes": 5506
+      },
+      {
+        "url": "https://doi.org/10.15849/ijasca.125",
+        "started_at": "2026-11-05T10:53:25.412736+00:00",
+        "http_status": 302,
+        "redirect_location": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/125",
+        "retry_not_before": null,
+        "bytes": 203
+      },
+      {
+        "url": "https://ijasca.zuj.edu.jo/robots.txt",
+        "started_at": "2026-11-05T10:53:25.784214+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 32
+      },
+      {
+        "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/view/125",
+        "started_at": "2026-11-05T10:53:27.992518+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 70619
+      },
+      {
+        "url": "https://ijasca.zuj.edu.jo/index.php/IJASCA/article/download/125/82",
+        "started_at": "2026-11-05T10:53:30.855941+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 1120829
+      },
+      {
+        "url": "https://doi.org/10.22214/ijraset.2026.79933",
+        "started_at": "2026-11-05T10:53:31.417163+00:00",
+        "http_status": 302,
+        "redirect_location": "https://www.ijraset.com/best-journal/fraud-detection-anomaly-detection-for-unusual-transations",
+        "retry_not_before": null,
+        "bytes": 273
+      },
+      {
+        "url": "https://www.ijraset.com/robots.txt",
+        "started_at": "2026-11-05T10:53:31.745150+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 99
+      },
+      {
+        "url": "https://www.ijraset.com/best-journal/fraud-detection-anomaly-detection-for-unusual-transations",
+        "started_at": "2026-11-05T10:53:34.602846+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 1709179
+      },
+      {
+        "url": "https://doi.org/10.64680/jisads.v4i1.67",
+        "started_at": "2026-11-05T10:53:37.072918+00:00",
+        "http_status": 302,
+        "redirect_location": "https://jisads.com/index.php/1/article/view/67",
+        "retry_not_before": null,
+        "bytes": 177
+      },
+      {
+        "url": "https://jisads.com/robots.txt",
+        "started_at": "2026-11-05T10:53:37.377626+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 2708
+      },
+      {
+        "url": "https://jisads.com/index.php/1/article/view/67",
+        "started_at": "2026-11-05T10:53:40.034052+00:00",
+        "http_status": 302,
+        "redirect_location": "https://jisads.com/index.php/1/en/article/view/67",
+        "retry_not_before": null,
+        "bytes": 0
+      },
+      {
+        "url": "https://jisads.com/index.php/1/en/article/view/67",
+        "started_at": "2026-11-05T10:53:42.719723+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 26538
+      },
+      {
+        "url": "https://jisads.com/index.php/1/article/download/67/58",
+        "started_at": "2026-11-05T10:53:45.583179+00:00",
+        "http_status": 302,
+        "redirect_location": "https://jisads.com/index.php/1/en/article/download/67/58",
+        "retry_not_before": null,
+        "bytes": 0
+      },
+      {
+        "url": "https://jisads.com/index.php/1/en/article/download/67/58",
+        "started_at": "2026-11-05T10:53:47.774065+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 925985
+      },
+      {
+        "url": "https://doi.org/10.23939/csn2026.01.068",
+        "started_at": "2026-11-05T10:53:48.929737+00:00",
+        "http_status": 302,
+        "redirect_location": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-of-ransomware-spread-in-corporate-networks-the-impact-of-segmentation-and-zero-trust-on-the-speed-of-compromise",
+        "retry_not_before": null,
+        "bytes": 467
+      },
+      {
+        "url": "https://science.lpnu.ua/robots.txt",
+        "started_at": "2026-11-05T10:53:49.340325+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 4871
+      },
+      {
+        "url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-of-ransomware-spread-in-corporate-networks-the-impact-of-segmentation-and-zero-trust-on-the-speed-of-compromise",
+        "started_at": "2026-11-05T10:53:51.917711+00:00",
+        "http_status": 301,
+        "redirect_location": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-ransomware-spread-corporate-networks-impact",
+        "retry_not_before": null,
+        "bytes": 13
+      },
+      {
+        "url": "https://science.lpnu.ua/csn/all-volumes-and-issues/volume-8-number-1-2026/model-ransomware-spread-corporate-networks-impact",
+        "started_at": "2026-11-05T10:53:54.148783+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 43485
+      },
+      {
+        "url": "https://science.lpnu.ua/sites/default/files/journal-paper/2026/may/42690/vse-70-81.pdf",
+        "started_at": "2026-11-05T10:53:58.061005+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 464996
+      }
+    ],
+    "origin_backoff": {},
+    "updated_at": "2026-11-05T10:53:59.548088+00:00"
+  }
+}
