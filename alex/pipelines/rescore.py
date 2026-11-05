@@ -22,6 +22,7 @@ import pandas as pd
 
 from alex.utils.io import load_df, save_df, load_json, root_file
 from alex.utils.text import clean
+from alex.discovery_types import paper_route_hold
 from alex.utils.scoring import (
     venue_score,
     citation_score,
@@ -118,6 +119,7 @@ def run() -> None:
         out["title_anchor_bonus"] = round(title_bonus, 2)
         out["relevance_score"] = round(r * 100, 2)
         out["total_quality_score"] = round(total, 2)
+        out["document_type_hold"] = paper_route_hold(row) or ""
         rescored_rows.append(out)
 
     rescored = pd.DataFrame(rescored_rows)
@@ -132,6 +134,8 @@ def run() -> None:
     # no summary. Drop here, post-harvest, where we know the gap couldn't
     # be filled by Crossref/OpenAlex/S2.
     def _passes(row) -> bool:
+        if paper_route_hold(row):
+            return False
         if not (clean(row.get("abstract", ""))):
             return False
         # Trust signals: whitelisted venue (venue_score == 100), trusted-

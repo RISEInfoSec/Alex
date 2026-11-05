@@ -206,6 +206,24 @@ def test_corrupt_checkpoint_fails_closed(setup):
         client(setup)
 
 
+def test_discovery_preserves_declared_zenodo_types_and_crossref_types(setup, monkeypatch):
+    from alex.pipelines import discovery
+    from alex.utils import io
+    import pandas as pd
+    monkeypatch.setattr(io, 'ROOT', setup)
+    (setup/'config').mkdir();(setup/'data').mkdir()
+    registry={'queries':['cybercrime'],'connectors':{k:{'enabled':k in ('crossref','zenodo')} for k in ('openalex','crossref','arxiv_rss','zenodo','github','core','semantic_scholar')}}
+    (setup/'config/query_registry.json').write_text(json.dumps(registry))
+    monkeypatch.setattr(discovery.crossref,'search',lambda *a,**k:[{'title':['Cybercrime journal paper'],'type':'journal-article','DOI':'10.1/paper'}])
+    monkeypatch.setattr(discovery.zenodo,'search',lambda *a,**k:[{'metadata':{'title':'Cybercrime observations','resource_type':{'type':'dataset'},'doi':'10.1/data'}},{'metadata':{'title':'Cybercrime technical report','resource_type':{'type':'publication','subtype':'report'},'doi':'10.1/report'}}])
+    monkeypatch.setattr(discovery.openalex,'get_many_by_doi',lambda *a,**k:{})
+    discovery.run()
+    rows=pd.read_csv(setup/'data/discovery_candidates.csv',keep_default_na=False).set_index('doi')
+    assert rows.loc['10.1/paper','discovery_resource_type']=='journal-article'
+    assert rows.loc['10.1/data','discovery_resource_type']=='dataset'
+    assert rows.loc['10.1/report','discovery_resource_subtype']=='report'
+
+
 def test_other_source_failure_is_not_mislabelled_openalex_cooldown(setup):
     c = client(setup)
     c._openalex_hold = True

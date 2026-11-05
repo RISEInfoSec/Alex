@@ -127,6 +127,8 @@ def _run(client: DiscoveryClient) -> int:
             "abstract": clean(kwargs.get("abstract")),
             "source_url": clean(kwargs.get("source_url")),
             "discovery_source": source,
+            "discovery_resource_type": clean(kwargs.get("discovery_resource_type")),
+            "discovery_resource_subtype": clean(kwargs.get("discovery_resource_subtype")),
             "discovery_query": clean(kwargs.get("discovery_query")),
             "inclusion_path": "discovery",
             "citation_count": kwargs.get("citation_count", ""),
@@ -238,6 +240,7 @@ def _run(client: DiscoveryClient) -> int:
             add_row(
                 item.get("title", ""),
                 "OpenAlex",
+                discovery_resource_type=item.get("type", ""),
                 authors=openalex.author_names(item),
                 affiliations=openalex.author_institutions(item),
                 year=item.get("publication_year", ""),
@@ -258,6 +261,7 @@ def _run(client: DiscoveryClient) -> int:
             add_row(
                 title_list[0],
                 "Crossref",
+                discovery_resource_type=item.get("type", ""),
                 authors=authors,
                 year=((item.get("published-print") or item.get("published-online") or item.get("created") or {}).get("date-parts", [[None]])[0][0] or ""),
                 venue=crossref.venue(item),
@@ -298,6 +302,8 @@ def _run(client: DiscoveryClient) -> int:
             add_row(
                 meta.get("title", ""),
                 "Zenodo",
+                discovery_resource_type=(meta.get("resource_type") or {}).get("type", ""),
+                discovery_resource_subtype=(meta.get("resource_type") or {}).get("subtype", ""),
                 authors=creators,
                 year=meta.get("publication_date", "")[:4] if meta.get("publication_date") else "",
                 doi=meta.get("doi", ""),
@@ -309,6 +315,7 @@ def _run(client: DiscoveryClient) -> int:
             add_row(
                 item.get("full_name", ""),
                 "GitHub",
+                discovery_resource_type="repository",
                 year=(item.get("created_at") or "")[:4],
                 venue="GitHub repository",
                 source_url=item.get("html_url", ""),
