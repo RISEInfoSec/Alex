@@ -1,19 +1,18 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T17:53:09.792274+00:00",
+  "observed_at": "2026-11-05T18:38:16.568874+00:00",
   "trigger": "owner_maintenance",
   "native_run_id": null,
-  "local_candidates": 3,
-  "local_audits": 200,
-  "source_requests": 2,
+  "local_candidates": 2,
+  "local_audits": 0,
+  "source_requests": 7,
   "source_gate_passes": 0,
   "downstream_gate_passes": {
-    "quality": 2,
-    "schema": 1
+    "schema": 2
   },
-  "six_gate_completions": 1,
-  "newly_review_ready": 1,
-  "publications": 2,
+  "six_gate_completions": 2,
+  "newly_review_ready": 2,
+  "publications": 0,
   "blockers": [
     {
       "stage": "candidate_execution_window",
@@ -21,8 +20,8 @@
       "corrective_action": "Reuse verified retained inputs; refresh current main corpus/exclusions and exact-hash paid results, then execute selected missing gates with heartbeat groups below 40 seconds. Do not repeat completed source checks."
     }
   ],
-  "scope_note": "Owner maintenance evidence. Two source requests belong to final publication validation. Three paid exports passed; two semantic taxonomy holds remain. This does not establish autonomous scheduled recovery.",
-  "corrective_action": "Resume original schedules after lease release; independently verify subsequent native worker/monitor receipts and heartbeat compliance.",
+  "scope_note": "Current owner recovery: two source-backed semantic corrections and batch31 admission, seven read-only metadata requests including robots, no new paid calls. Five Book records verified; technical publication hold prepared. Not scheduled recovery.",
+  "corrective_action": "Finish publication/live verification, then release lease and restore both original hourly automations; verify later actual scheduled runs.",
   "processing_progress": {
     "runs": [
       {

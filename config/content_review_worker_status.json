@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "phase": "idle",
-  "ready_total": 3,
+  "ready_total": 5,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
@@ -33,7 +33,7 @@
   "pending_mechanical_jobs": 31,
   "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
   "workflow": "preflight_first",
-  "preflight_pending": 888,
+  "preflight_pending": 886,
   "preflight_source_counts": {
     "weekly": 88,
     "corpus-audit": 0,
@@ -45,7 +45,7 @@
     "soups": 607,
     "virusbulletin": 0
   },
-  "global_deficit": 247,
+  "global_deficit": 245,
   "soups_batch_deficit": 0,
   "last_action": "Owner maintenance: reconciled four publication flags, published two approved papers, verified three paid results, admitted one source-corrected paper; two semantic taxonomy holds parked without replay.",
   "mechanical_result_totals": {
@@ -809,22 +809,21 @@
   "last_completed_at": "2026-11-05T14:47:27.564870+00:00",
   "maintenance_activity": {
     "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
-    "stage": "remaining_failure_recovery_started",
+    "stage": "classification_holds_resolved_metadata_evidence_verified_publication_repair_in_progress",
     "started_at": "2026-11-05T18:08:44Z",
-    "updated_at": "2026-11-05T18:08:44Z",
-    "candidate_processing": false,
-    "restore_automations_on_completion": true
+    "updated_at": "2026-11-05T18:38:16.568874+00:00",
+    "candidate_processing": true,
+    "restore_automations_on_completion": true,
+    "restoration_pending": true
   },
   "derived_queue_summary": {
-    "observed_at": "2026-11-05T17:53:09.792274+00:00",
-    "method": "tools.content_review.queue_summary.summarize",
     "sources": {
       "weekly": {
         "records": 176,
         "pending": 91,
-        "ready": 3,
-        "ready_batches": 3,
-        "preflight_incomplete": 88,
+        "ready": 5,
+        "ready_batches": 4,
+        "preflight_incomplete": 86,
         "awaiting_recommendation_or_admission": 0,
         "automatic_publication_pending": 0
       },
@@ -900,7 +899,10 @@
         "awaiting_recommendation_or_admission": 0,
         "automatic_publication_pending": 0
       }
-    }
+    },
+    "ready_total": 5,
+    "preflight_pending": 886,
+    "observed_at": "2026-11-05T18:38:16.568874+00:00"
   },
   "lease_history": [
     {

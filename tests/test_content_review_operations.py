@@ -42,3 +42,17 @@ class OperationsTests(unittest.TestCase):
                 with self.assertRaises(ValueError):runtime_checkpoint(root,native,owner,'start',at)
 
 if __name__=='__main__':unittest.main()
+
+
+def test_verified_owner_pause_skips_only_intentionally_suspended_slots():
+    a={'id':AUTOMATION,'is_enabled':True,'schedule':'BEGIN:VEVENT\nDTSTART:20261105T164500Z\nRRULE:FREQ=HOURLY\nEND:VEVENT',
+       'run_details':{'last_run':{'scheduled_for':'2026-11-05T16:45:00Z'}}}
+    pause={'automation_id':AUTOMATION,'paused_at':'2026-11-05T16:55:52Z','resumed_at':'2026-11-05T17:58:09Z',
+           'owner_authorized':True,'pause_readback_verified':True,'resume_readback_verified':True}
+    assert expected_next(a,[pause])=='2026-11-05T18:45:00+00:00'
+    later={**pause,'paused_at':'2026-11-05T18:08:44Z','resumed_at':'2026-11-05T19:00:00Z'}
+    assert expected_next(a,[pause,later])=='2026-11-05T19:45:00+00:00'
+    assert expected_next(a,[later])=='2026-11-05T17:45:00+00:00' # Genuine earlier miss remains visible.
+    assert expected_next(a,[{**pause,'resume_readback_verified':False}])=='2026-11-05T17:45:00+00:00'
+    assert expected_next(a,[{**pause,'automation_id':'other'}])=='2026-11-05T17:45:00+00:00'
+    assert expected_next({**a,'is_enabled':False},[pause]) is None

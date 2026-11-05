@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T17:53:09.792274+00:00",
+  "observed_at": "2026-11-05T18:38:16.568874+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -47,19 +47,33 @@
         "quality",
         "classification"
       ],
-      "status": "metadata_quality_repaired_paid_results_verified",
+      "status": "resolved_all_six_gates_manual_batch31_sealed",
       "candidate_ids": [
         "weekly-56fec07c6bb5ce26240c614e"
       ],
       "evidence": [
-        "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json"
+        "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+        "config/content_review_batch_admission_receipts/recovery-20261105.json"
       ],
       "cause": "Publisher citation_journal_title and PDF front matter were retained but canonical venue stayed empty while metadata was marked passed.",
-      "next_action": "Two peers now have explicit semantic investigation-type holds; do not repeat source/paid work.",
+      "next_action": "Two documented semantic holds corrected from retained documents, with original paid evidence preserved and zero new source/paid calls; await manual editorial decision.",
       "verification_criteria": "Exact venue retained with previous full record, candidate hash/identity/decision preserved, manifest/stage agree; quality and current-input classification/serialization must actually complete.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:35:36Z",
-      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+      "updated_at": "2026-11-05T18:38:16.568874+00:00",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
+      "history": [
+        {
+          "recorded_at": "2026-11-05T18:38:16.568874+00:00",
+          "prior": {
+            "status": "metadata_quality_repaired_paid_results_verified",
+            "cause": "Publisher citation_journal_title and PDF front matter were retained but canonical venue stayed empty while metadata was marked passed.",
+            "next_action": "Two peers now have explicit semantic investigation-type holds; do not repeat source/paid work.",
+            "evidence": [
+              "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "downstream-runtime",
@@ -191,18 +205,37 @@
         "general_weekly_discovery",
         "scheduled_pipeline"
       ],
-      "status": "github_platform_block_confirmed",
+      "status": "retry_repaired_native_child_running",
       "evidence": [
         "https://github.com/RISEInfoSec/Alex/actions/runs/36439756777",
         "https://github.com/RISEInfoSec/Alex/actions/runs/41979421841",
-        "config/weekly_pipeline_retry_request.json"
+        "config/weekly_pipeline_retry_request.json",
+        "https://github.com/RISEInfoSec/Alex/pull/115",
+        "https://github.com/RISEInfoSec/Alex/actions/runs/36443867559",
+        "https://github.com/RISEInfoSec/Alex/actions/runs/42083378760",
+        "https://github.com/RISEInfoSec/Alex/actions/runs/42083423973"
       ],
-      "cause": "September 28 run remains queued with zero jobs; normal and force cancellation returned HTTP409 saying run had not been queued. One-off retry stopped. Existing retry window has elapsed.",
-      "next_action": "Support/state reconciliation required; no duplicate dispatch or evidence deletion.",
+      "cause": "Cancellation of a stale jobless record was wrongly required before dispatch, despite a successful nine-job same-commit replacement and later weekly successes.",
+      "next_action": "Preserve historical record and exact native supersession proof; inspect current-main child 42083423973 and its final discovery receipt. Do not claim completion while running.",
       "verification_criteria": "Orphan terminal or authoritatively reconciled; one intended current-main pipeline completes discovery through publication/report with canonical receipts and useful processing.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:35:36Z",
-      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+      "updated_at": "2026-11-05T18:38:16.568874+00:00",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
+      "history": [
+        {
+          "recorded_at": "2026-11-05T18:38:16.568874+00:00",
+          "prior": {
+            "status": "github_platform_block_confirmed",
+            "cause": "September 28 run remains queued with zero jobs; normal and force cancellation returned HTTP409 saying run had not been queued. One-off retry stopped. Existing retry window has elapsed.",
+            "next_action": "Support/state reconciliation required; no duplicate dispatch or evidence deletion.",
+            "evidence": [
+              "https://github.com/RISEInfoSec/Alex/actions/runs/36439756777",
+              "https://github.com/RISEInfoSec/Alex/actions/runs/41979421841",
+              "config/weekly_pipeline_retry_request.json"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "stale-derived-stage-summary",
@@ -240,16 +273,31 @@
       "routes": [
         "existing_corpus_maintenance"
       ],
-      "status": "five_exact_anomalies_retained_prevention_fix_merged",
+      "status": "authoritative_book_evidence_verified_reversible_publication_hold_prepared",
       "evidence": [
-        "https://alex.riseinfosec.org/research/bibliography/"
+        "https://alex.riseinfosec.org/research/bibliography/",
+        "config/content_review_source_receipts/402fd00b610f0913ba71b086f02a2438279583feb53343af2bc8ba3a5462824f.json",
+        "config/content_review_corpus_metadata_retained_rows.json"
       ],
-      "cause": "Public bibliography inspection found a long title containing monograph text and apparent dataset entries typed as papers; record-level authoritative reconciliation is not complete.",
-      "next_action": "PR114 preserves source-declared types and blocks non-paper automatic promotion. Five existing long titles require authoritative metadata review.",
+      "cause": "All five DOIs are registered as Book; giant titles contain document bodies upstream. Two entries are a concept/version pair. They entered the paper-only route.",
+      "next_action": "Deploy exact five-DOI technical publication hold, retain original source rows, verify live JSON/CSV/site and prevent re-export. No editorial rejection inferred.",
       "verification_criteria": "Each confirmed defect has authoritative evidence and regression coverage, correct actual document type, and any required content-bound reassessment before republication.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:35:36Z",
-      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+      "updated_at": "2026-11-05T18:38:16.568874+00:00",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
+      "history": [
+        {
+          "recorded_at": "2026-11-05T18:38:16.568874+00:00",
+          "prior": {
+            "status": "five_exact_anomalies_retained_prevention_fix_merged",
+            "cause": "Public bibliography inspection found a long title containing monograph text and apparent dataset entries typed as papers; record-level authoritative reconciliation is not complete.",
+            "next_action": "PR114 preserves source-declared types and blocks non-paper automatic promotion. Five existing long titles require authoritative metadata review.",
+            "evidence": [
+              "https://alex.riseinfosec.org/research/bibliography/"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "paid-handoff-named-collections",

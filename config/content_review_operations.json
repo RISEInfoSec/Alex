@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T18:01:33Z",
+  "observed_at": "2026-11-05T18:38:16.568874+00:00",
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-05T18:01:33Z",
-    "is_enabled": true,
+    "observed_at": "2026-11-05T18:38:16.568874+00:00",
+    "is_enabled": false,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
-    "expected_next_run_at": "2026-11-05T18:45:00.000Z",
+    "expected_next_run_at": null,
     "last_run": {
       "id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
       "recorded_status": "completed",
@@ -22,13 +22,6 @@
       "trigger": "schedule",
       "evidence_verified": true,
       "receipt": "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json"
-    },
-    "authorized_maintenance_pause": {
-      "paused_at": "2026-11-05T16:55:52Z",
-      "restored_and_verified_at": "2026-11-05T18:01:33Z",
-      "original_schedule_unchanged": true,
-      "missed_slots_during_pause_are_not_failures": true,
-      "expected_next_basis": "First saved hourly slot after verified owner-authorized restoration; not a native next-run guarantee."
     }
   },
   "source_discovery": {
@@ -166,5 +159,43 @@
       "content_sha": "723e8d35db03c616065a2fb6609a2620169406c5",
       "released_at": "2026-11-05T17:58:09Z"
     }
-  }
+  },
+  "owner_pause_intervals": [
+    {
+      "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+      "paused_at": "2026-11-05T16:55:52Z",
+      "resumed_at": "2026-11-05T18:01:33Z",
+      "owner_authorized": true,
+      "pause_readback_verified": true,
+      "resume_readback_verified": true,
+      "evidence": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+    },
+    {
+      "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+      "paused_at": "2026-11-05T18:08:44Z",
+      "resumed_at": null,
+      "owner_authorized": true,
+      "pause_readback_verified": true,
+      "resume_readback_verified": false,
+      "evidence": "Owner-requested current recovery; native readback 2026-11-05"
+    },
+    {
+      "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
+      "paused_at": "2026-11-05T16:55:52Z",
+      "resumed_at": "2026-11-05T18:01:33Z",
+      "owner_authorized": true,
+      "pause_readback_verified": true,
+      "resume_readback_verified": true,
+      "evidence": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+    },
+    {
+      "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
+      "paused_at": "2026-11-05T18:08:44Z",
+      "resumed_at": null,
+      "owner_authorized": true,
+      "pause_readback_verified": true,
+      "resume_readback_verified": false,
+      "evidence": "Owner-requested current recovery; native readback 2026-11-05"
+    }
+  ]
 }

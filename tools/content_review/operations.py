@@ -35,15 +35,31 @@ def hourly_anchor(schedule):
         return datetime.strptime(value,'%Y%m%dT%H%M%S').replace(tzinfo=ZoneInfo(header.split('TZID=',1)[1])).astimezone(timezone.utc)
     except (ValueError,IndexError,KeyError):return None
 
-def expected_next(automation):
+def expected_next(automation, pauses=()):
     """Keep a missed due time visible; never roll the clock forward on a read."""
     if not automation.get('is_enabled'):return None
     anchor=hourly_anchor(automation.get('schedule',''))
     if not anchor:return None
     previous=instant(((automation.get('run_details') or {}).get('last_run') or {}).get('scheduled_for'))
     if previous and previous>=anchor and int((previous-anchor).total_seconds())%3600==0:
-        return stamp(previous+timedelta(hours=1))
-    return stamp(anchor)
+        candidate=previous+timedelta(hours=1)
+    else:
+        candidate=anchor
+    # Only native-confirmed owner pauses can exempt an expected start. Never
+    # advance past a genuine missed slot simply because wall time has passed.
+    intervals=[]
+    for pause in pauses:
+        if pause.get('automation_id')!=automation.get('id'):continue
+        start,end=instant(pause.get('paused_at')),instant(pause.get('resumed_at'))
+        if not pause.get('owner_authorized') or not pause.get('pause_readback_verified'):
+            continue
+        if start and end and end>=start and pause.get('resume_readback_verified'):
+            intervals.append((start,end))
+    for start,end in sorted(intervals):
+        if start<=candidate<end:
+            candidate+=timedelta(hours=int((end-candidate).total_seconds()//3600))
+            if candidate<end:candidate+=timedelta(hours=1)
+    return stamp(candidate)
 
 def verified_completion(automation,receipt):
     run=automation.get('run_details',{}).get('last_run') or {}
@@ -69,7 +85,7 @@ def observe(root,native,at=None):
     last=(a.get('run_details') or {}).get('last_run') or {}
     latest=(a.get('run_details') or {}).get('latest_result') or {}
     s=dict(id=AUTOMATION,observed_at=at,is_enabled=a['is_enabled'],schedule=a.get('schedule'),
-        next_run_time=a.get('next_run_time'),expected_next_run_at=expected_next(a),last_run={k:last.get(k) for k in
+        next_run_time=a.get('next_run_time'),expected_next_run_at=expected_next(a, data.get('owner_pause_intervals',[])),last_run={k:last.get(k) for k in
             ('id','recorded_status','scheduled_for','started_at','completed_at')},
         requires_user_action=bool(latest.get('requires_user_action')) if latest.get('run_id')==last.get('id') else False,
         last_verified_scheduled_success=data.get('scheduler',{}).get('last_verified_scheduled_success'))
