@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T16:50:00.779567+00:00",
+  "observed_at": "2026-11-05T17:53:09.792274+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -20,7 +20,7 @@
         "approved_manual_resources",
         "existing_corpus_export"
       ],
-      "status": "merged_release_published_live_html_seen_exact_live_reconciliation_pending",
+      "status": "resolved_live_exact_reconciliation_verified",
       "evidence": [
         "https://github.com/RISEInfoSec/Alex/actions/runs/41945055902",
         "https://github.com/RISEInfoSec/Alex/pull/112",
@@ -31,10 +31,11 @@
         "data/content_review_release_receipts/approved-2026-11-05-0045.json"
       ],
       "cause": "Mixed CSV inference changes bound resource scalar/text values; one-row tests missed it.",
-      "next_action": "Verify deployed JSON fields and exact receipt-bound content for both published records; no new editorial approval needed for unchanged approved content.",
+      "next_action": "No replay; live corpus3194 and four review flags verified.",
       "verification_criteria": "55 controlled release tests passed; require main merge, successful existing release, Pages, exact live content and intact immutable release receipts.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:35:36Z"
+      "updated_at": "2026-11-05T16:35:36Z",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
     },
     {
       "id": "retained-venue",
@@ -46,7 +47,7 @@
         "quality",
         "classification"
       ],
-      "status": "metadata_repaired_quality_reassessment_required",
+      "status": "metadata_quality_repaired_paid_results_verified",
       "candidate_ids": [
         "weekly-56fec07c6bb5ce26240c614e"
       ],
@@ -54,10 +55,11 @@
         "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json"
       ],
       "cause": "Publisher citation_journal_title and PDF front matter were retained but canonical venue stayed empty while metadata was marked passed.",
-      "next_action": "Re-evaluate venue-dependent quality with existing unchanged scoring policy, then build current-contract paid request only if eligible. Do not refetch source or reuse stale classification input.",
+      "next_action": "Two peers now have explicit semantic investigation-type holds; do not repeat source/paid work.",
       "verification_criteria": "Exact venue retained with previous full record, candidate hash/identity/decision preserved, manifest/stage agree; quality and current-input classification/serialization must actually complete.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:35:36Z"
+      "updated_at": "2026-11-05T16:35:36Z",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
     },
     {
       "id": "downstream-runtime",
@@ -73,17 +75,18 @@
         "paid_handoff",
         "source_handoff"
       ],
-      "status": "scheduled_imports_verified_downstream_recovery_pending",
+      "status": "repaired_actual_paid_execution_verified",
       "evidence": [
         "config/content_review_run_receipts/632603a3-e58c-832e-aba4-f32087ee94c4.json",
         "config/content_review_maintenance_receipts/maintenance-runtime-repair-2026-11-05T15-19-51-174Z.json",
         "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json"
       ],
       "cause": "Missing requests/jsonschema plus a recorded installation denial under stale monitor-only scope; later owner-authorized dependency repair did not yet establish sustained scheduled progress.",
-      "next_action": "Dependencies pass in this scheduled interpreter. Resume retained exact-hash paid preparation after current main corpus/decision prerequisites, with bounded heartbeat groups.",
+      "next_action": "Three calls/2081 tokens; scheduled autonomy remains independently unproven.",
       "verification_criteria": "Subsequent existing scheduled receipts show classification/schema passes, complete gates and admissions with independent native proof, compliant heartbeats and intact checkpoints.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:50:00.779567+00:00"
+      "updated_at": "2026-11-05T16:50:00.779567+00:00",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
     },
     {
       "id": "zero-attempt-masks-stall",
@@ -144,17 +147,18 @@
         "corpus_maintenance",
         "provider_activation"
       ],
-      "status": "audit_incomplete",
+      "status": "route_audit_completed_existing_holds_preserved",
       "evidence": [
         "config/review_console.json",
         "config/discovery_sources.json",
         "tools/content_review/paid_worker.py"
       ],
       "cause": "APWG, Virus Bulletin and corpus audit require distinct adapters. Consensus is a disabled general weekly provider, not a named collection.",
-      "next_action": "Audit distinct APWG/Virus Bulletin executors and actual corpus keep/removal/reclassification routes with real retained evidence. Preserve Consensus credential/Free-account enablement gate.",
+      "next_action": "See maintenance receipt for APWG, legacy Virus Bulletin, qualitative resources and keep/removal paths.",
       "verification_criteria": "Representative real candidates/decisions per distinct route; no generic claim that normalized-paper tests cover these adapters.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:35:36Z"
+      "updated_at": "2026-11-05T16:35:36Z",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
     },
     {
       "id": "console-and-scheduled-proof",
@@ -167,15 +171,16 @@
         "scheduled_execution",
         "live_publication"
       ],
-      "status": "verification_incomplete",
+      "status": "console_v32_deployed_scheduled_verification_pending",
       "evidence": [
         "config/content_review_run_receipts/d1dc75a7-415c-832e-b4bb-d84e802cc9a8.json"
       ],
       "cause": "Latest scheduled pass was owner-redirected and has heartbeat gaps; runtime unavailable for this maintenance's live UI verification.",
-      "next_action": "Restore attached runtime; inspect Site v31 source and live selected-collection states; watch existing subsequent worker and observer runs without duplicate schedules.",
+      "next_action": "97 console tests/build pass; future worker/observer runs and browser interaction remain unverified.",
       "verification_criteria": "All nine current registered collections/routes show correct data and freshness; at least two later qualifying scheduled runs with independent receipts and collection progress; live release matches exact approved content.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:35:36Z"
+      "updated_at": "2026-11-05T16:35:36Z",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
     },
     {
       "id": "weekly-orphaned-dispatch",
@@ -186,17 +191,18 @@
         "general_weekly_discovery",
         "scheduled_pipeline"
       ],
-      "status": "github_state_reconciliation_required",
+      "status": "github_platform_block_confirmed",
       "evidence": [
         "https://github.com/RISEInfoSec/Alex/actions/runs/36439756777",
         "https://github.com/RISEInfoSec/Alex/actions/runs/41979421841",
         "config/weekly_pipeline_retry_request.json"
       ],
       "cause": "September 28 run remains queued with zero jobs; normal and force cancellation returned HTTP409 saying run had not been queued. One-off retry stopped. Existing retry window has elapsed.",
-      "next_action": "Inspect current GitHub run state and immutable retry evidence. Prepare GitHub support/state-reconciliation escalation; only use the existing owner-authorized single retry once stale-run resolution and a valid launch window are established. Do not create duplicate dispatches or delete evidence.",
+      "next_action": "Support/state reconciliation required; no duplicate dispatch or evidence deletion.",
       "verification_criteria": "Orphan terminal or authoritatively reconciled; one intended current-main pipeline completes discovery through publication/report with canonical receipts and useful processing.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:35:36Z"
+      "updated_at": "2026-11-05T16:35:36Z",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
     },
     {
       "id": "stale-derived-stage-summary",
@@ -212,7 +218,7 @@
         "console",
         "monitor"
       ],
-      "status": "implemented_local_regression_verified",
+      "status": "repaired_actual_paid_checkpoint_verified",
       "evidence": [
         "config/content_review_preflight_status.json",
         "tools/content_review/stage_summary.py",
@@ -220,10 +226,11 @@
         "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json"
       ],
       "cause": "Stage summary omits FIRST/M3AAWG/Bellingcat and has outdated SOUPS/weekly gate totals; actual records total456. Venue repair correctly holds quality but aggregate summary is stale.",
-      "next_action": "Verify push CI and console Refresh against regenerated counts; checkpoint guard rejects future stale summaries.",
+      "next_action": "All registered stage records preserved; all-collection queue summaries now derived from current gates and dispositions.",
       "verification_criteria": "Every summary gate count equals its actual rows; unknown/not_checked preserved; console and monitor show reconciled counts and historical timestamps accurately.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:50:00.779567+00:00"
+      "updated_at": "2026-11-05T16:50:00.779567+00:00",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
     },
     {
       "id": "existing-corpus-metadata-type-audit",
@@ -233,15 +240,40 @@
       "routes": [
         "existing_corpus_maintenance"
       ],
-      "status": "observed_requires_record_level_investigation",
+      "status": "five_exact_anomalies_retained_prevention_fix_merged",
       "evidence": [
         "https://alex.riseinfosec.org/research/bibliography/"
       ],
       "cause": "Public bibliography inspection found a long title containing monograph text and apparent dataset entries typed as papers; record-level authoritative reconciliation is not complete.",
-      "next_action": "Identify exact records and provenance; distinguish extraction defects from legitimate metadata/types, prepare evidence-based corrections preserving identities, decisions, exclusions and approval binding.",
+      "next_action": "PR114 preserves source-declared types and blocks non-paper automatic promotion. Five existing long titles require authoritative metadata review.",
       "verification_criteria": "Each confirmed defect has authoritative evidence and regression coverage, correct actual document type, and any required content-bound reassessment before republication.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T16:35:36Z"
+      "updated_at": "2026-11-05T16:35:36Z",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+    },
+    {
+      "id": "paid-handoff-named-collections",
+      "status": "repaired_tested",
+      "next_action": "Shared stage-summary derivation fixes checkpoint rejection after named-collection paid work.",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+    },
+    {
+      "id": "manual-resource-publication-reconciliation",
+      "status": "repaired_tested",
+      "next_action": "Resource request target is validated and exported before comparison; manual reconciliation is idempotent.",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+    },
+    {
+      "id": "weekly-affiliation-loss",
+      "status": "repaired_tested",
+      "next_action": "Builder preserves original affiliations and declared resource types; exact-source recovery helper rejects changed identity/content or decided records.",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+    },
+    {
+      "id": "console-gate-map-progress",
+      "status": "repaired_tested",
+      "next_action": "Version32 recognizes per-gate objects and publication evidence; owner maintenance explicitly distinguished.",
+      "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
     }
   ]
 }

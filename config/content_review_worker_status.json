@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "phase": "idle",
-  "ready_total": 2,
+  "ready_total": 3,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "Historical scheduled heartbeat gaps remain non-qualifying. Runtime dependencies repaired and local preparation verified under owner-authorized maintenance; one candidate still lacks venue. See maintenance_recovery.",
+  "last_error": "Remaining: orphaned GitHub weekly run; two semantic investigation-type holds; future scheduled heartbeat/progress verification pending. Runtime dependency and retained venue/affiliation defects repaired.",
   "lease": {
     "owner": "maintenance-end-to-end-2026-11-05T17-00-01-000Z",
     "run_id": "maintenance-end-to-end-2026-11-05T17-00-01-000Z",
@@ -17,28 +17,37 @@
   },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
-    "soups": 0,
-    "weekly": 2,
-    "virusbulletin": 0,
+    "weekly": 3,
+    "corpus-audit": 0,
     "apwg": 0,
+    "bellingcat": 0,
     "first": 0,
     "m3aawg": 0,
-    "bellingcat": 0
+    "sans": 0,
+    "soups": 0,
+    "virusbulletin": 0
   },
   "unattended_access_verified_at": "2026-10-27T22:40:36Z",
   "verification_result": "Unattended access verified: production D1 binding DB exposes review_decisions, review_drafts, review_jobs and review_submissions; review_jobs read succeeded (empty). Branch source registry config/review_console.json read successfully (SOUPS, APWG, Virus Bulletin; weekly not yet registered). Initial-fill lease and all counts preserved; no candidate or assessment mutation.",
-  "weekly_prepared_batches": 1,
+  "weekly_prepared_batches": 3,
   "pending_mechanical_jobs": 31,
   "completed_batch_handoff_verified_at": "2026-10-27T22:46:32.658Z",
   "workflow": "preflight_first",
-  "preflight_pending": 182,
+  "preflight_pending": 888,
   "preflight_source_counts": {
-    "soups": 88,
-    "weekly": 94
+    "weekly": 88,
+    "corpus-audit": 0,
+    "apwg": 0,
+    "bellingcat": 12,
+    "first": 84,
+    "m3aawg": 82,
+    "sans": 15,
+    "soups": 607,
+    "virusbulletin": 0
   },
-  "global_deficit": 248,
+  "global_deficit": 247,
   "soups_batch_deficit": 0,
-  "last_action": "Five source dispositions;24 actual HTTP sends;three matching papers passed format/access/metadata. Challenge and timeout holds preserved. No new ready papers or publications.",
+  "last_action": "Owner maintenance: reconciled four publication flags, published two approved papers, verified three paid results, admitted one source-corrected paper; two semantic taxonomy holds parked without replay.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -294,8 +303,15 @@
     "source_correction_tests_passed": 131
   },
   "mechanical_passed_awaiting_batch_admission": {
+    "weekly": 0,
+    "corpus-audit": 0,
+    "apwg": 0,
+    "bellingcat": 0,
+    "first": 0,
+    "m3aawg": 0,
+    "sans": 0,
     "soups": 0,
-    "weekly": 0
+    "virusbulletin": 0
   },
   "preflight_hold_counts": {
     "soups": 88,
@@ -794,11 +810,100 @@
   "maintenance_activity": {
     "run_id": "maintenance-end-to-end-2026-11-05T17-00-01-000Z",
     "observed_at": "2026-11-05T17:00:01.000Z",
-    "stage": "validated_repairs_and_three_paper_handoff",
-    "candidate_processing": false,
+    "stage": "verified_repairs_checkpoint",
+    "candidate_processing": true,
     "scheduled_recovery_verified": false,
     "restore_automations_on_completion": true,
-    "updated_at": "2026-11-05T17:24:36.685098+00:00",
-    "tests_passed": 645
+    "updated_at": "2026-11-05T17:53:09.792274+00:00",
+    "tests_passed": 645,
+    "receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
+    "scheduled_recovery_proven": false
+  },
+  "derived_queue_summary": {
+    "observed_at": "2026-11-05T17:53:09.792274+00:00",
+    "method": "tools.content_review.queue_summary.summarize",
+    "sources": {
+      "weekly": {
+        "records": 176,
+        "pending": 91,
+        "ready": 3,
+        "ready_batches": 3,
+        "preflight_incomplete": 88,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "corpus-audit": {
+        "records": 714,
+        "pending": 0,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 0,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "apwg": {
+        "records": 1,
+        "pending": 0,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 0,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "bellingcat": {
+        "records": 13,
+        "pending": 12,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 12,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "first": {
+        "records": 84,
+        "pending": 84,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 84,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "m3aawg": {
+        "records": 83,
+        "pending": 82,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 82,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "sans": {
+        "records": 15,
+        "pending": 15,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 15,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "soups": {
+        "records": 797,
+        "pending": 607,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 607,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "virusbulletin": {
+        "records": 92,
+        "pending": 0,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 0,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      }
+    }
   }
 }

@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "trigger": "owner_maintenance",
+  "maintenance_id": "maintenance-end-to-end-2026-11-05T17-00-01-000Z",
+  "started_at": "2026-11-05T17:00:01Z",
+  "checked_at": "2026-11-05T17:53:09.792274+00:00",
+  "status": "repairs_verified_completion_in_progress",
+  "qualifying_scheduled_pass": false,
+  "environment": {
+    "running": true,
+    "connectivity": "connected",
+    "network_policy": "restricted_enforced",
+    "github_git_and_connector": "verified",
+    "python_dependencies": "installed_and_imported",
+    "npm_cache_repair": "npm_config_cache=/workspace/work/npm-cache; package integrity checks preserved",
+    "private_site_browser_verification": "not_available: deployed site domain absent from environment allowlist; no browser-control tool available",
+    "automation_environment_metadata": "inherited selection; resolved environment details unavailable from automation lookup, so future-run attachment is not inferred"
+  },
+  "validation": {
+    "review_suite_passed": 646,
+    "main_suite_passed": 562,
+    "console_tests_passed": 97,
+    "console_build": "passed",
+    "immutable_preflight_git_blobs": 494,
+    "preflight_json_files": 434,
+    "d1_complete_submissions": 66,
+    "d1_decision_rows": 932,
+    "submission_refresh": "All 66 complete submission objects unchanged on final reread; joins and counts match all decisions; batch27 canonical payload hash verified"
+  },
+  "repairs": {
+    "review_commit": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+    "approved_release_pr": 113,
+    "discovery_type_pr": 114,
+    "discovery_type_merge": "cd51e17ac374777a9c879a695498bbacefd41019",
+    "existing_policy_thresholds_changed": false,
+    "new_paper_source_requests": 0
+  },
+  "paid": {
+    "run_id": 42074896351,
+    "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356",
+    "requests": 3,
+    "tokens": 2081,
+    "serialization_passed": 3,
+    "source_tag_corrections": 1,
+    "newly_admitted": 1,
+    "new_batch": 30,
+    "semantic_taxonomy_holds": 2,
+    "repeat_paid_requests": 0
+  },
+  "publication": {
+    "release_run": 42075586897,
+    "pages_run": 42075728321,
+    "published_records_added": 2,
+    "existing_records_modified": 0,
+    "fresh_pdf_revalidations_passed": 2,
+    "deployed_records": 3194,
+    "deployed_sha256": "12e74cce3dff2c654bcf2ef5112a1005f0797bd9dacaee811ca718b34d42914a",
+    "review_publication_flags_reconciled": 4,
+    "receipt": "main/data/content_review_release_receipts/approved-2026-11-05-maintenance-weekly27.json"
+  },
+  "console": {
+    "version": 32,
+    "source_commit": "0c4b565dcce3be5a7e0236cc5e3050602006c3ff",
+    "deployment_id": "appgdep_6aecc142388081918453545a98d5a841",
+    "status": "succeeded",
+    "audience": "unchanged",
+    "url": "https://alex-research-review.neil-schwartzm917549.chatgpt.site"
+  },
+  "queue_summary": {
+    "sources": {
+      "weekly": {
+        "records": 176,
+        "pending": 91,
+        "ready": 3,
+        "ready_batches": 3,
+        "preflight_incomplete": 88,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "corpus-audit": {
+        "records": 714,
+        "pending": 0,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 0,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "apwg": {
+        "records": 1,
+        "pending": 0,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 0,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "bellingcat": {
+        "records": 13,
+        "pending": 12,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 12,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "first": {
+        "records": 84,
+        "pending": 84,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 84,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "m3aawg": {
+        "records": 83,
+        "pending": 82,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 82,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "sans": {
+        "records": 15,
+        "pending": 15,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 15,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "soups": {
+        "records": 797,
+        "pending": 607,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 607,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      },
+      "virusbulletin": {
+        "records": 92,
+        "pending": 0,
+        "ready": 0,
+        "ready_batches": 0,
+        "preflight_incomplete": 0,
+        "awaiting_recommendation_or_admission": 0,
+        "automatic_publication_pending": 0
+      }
+    },
+    "ready_total": 3,
+    "preflight_pending": 888
+  },
+  "corpus_decisions": {
+    "removals": 490,
+    "keeps": 224,
+    "policy_identity_conflicts": 0,
+    "note": "Year-scoped fallback correctly removes malformed 2024 GELSI placeholder while preserving authentic 2023 DOI record."
+  },
+  "distinct_routes": {
+    "apwg": "Dedicated executor and tests reviewed; 65 earlier releases,12 exclusions,1 approved_quality_hold; annual December discovery cadence does not defer ingested work. Existing hold not overridden.",
+    "virusbulletin": "92 records:89 approvals and3 rejections.12 verified papers retain supplemental source/abstract evidence and distinct legacy reviewed-hash contract.11 paper quality checks below unchanged review threshold;1 core-term hold.77 approved non-papers retain type-appropriate holds. No paper-only paid adapter forced onto legacy hashes.",
+    "manual_resources": "Approved guide exact CSV-to-public serialization reconciled; investigative journalism rejection preserved; existing qualitative gates unchanged.",
+    "corpus_audit": "All36 completed batches checked against current public corpus and identity/year-scoped exclusions. No keep decision treated as new intake.",
+    "weekly_and_named_sources": "All9 registered collection manifests inspected with current D1 decisions and console partition logic; raw inventories and reservations retained; future source-type metadata now preserved through discovery and manifest building."
+  },
+  "remaining": {
+    "weekly_orphan": {
+      "run_id": 36439756777,
+      "status": "queued",
+      "jobs": 0,
+      "unchanged_since": "2026-09-28T14:56:22Z",
+      "failed_retry": 41979421841,
+      "verified_failure": "Both cancel and force-cancel returned HTTP409: Cannot cancel a workflow run that has not been queued yet.",
+      "remedy": "GitHub support must reconcile orphaned run state. Preserve evidence, do not duplicate dispatch. Existing six-hour one-off launch window is stale; establish a valid fresh authorized launch window after the orphan is resolved.",
+      "support_contacted": false
+    },
+    "scheduled_recovery": "Owner maintenance is not proof of autonomous recovery. Independently verify subsequent existing hourly worker and monitor runs, exact receipts, <=60-second heartbeats, intact checkpoints and actual downstream progress. Pilot remains five until two qualifying scheduled passes.",
+    "taxonomy": "Two papers parked as operator_action_required: current approved source-backed correction only supports OSINT_Source_Types; their unsupported Investigation_Type labels require a supported evidence-bound amendment. Retain original paid outputs; no blind replay.",
+    "public_metadata": [
+      {
+        "public_id": 555,
+        "doi": "10.5281/zenodo.20019655",
+        "title_characters": 15749,
+        "title_prefix": "# OMEGA SABRINAL ELRAKHAVI ## A Conceptual Framework for Mathematically Stable and Verifiably Safe Super-Intelligence **",
+        "finding": "Exact stored CSV title also appears in deployed JSON; no exporter truncation/concatenation inferred. Authoritative source metadata/type review required before a content change."
+      },
+      {
+        "public_id": 1108,
+        "doi": "10.5281/zenodo.20397169",
+        "title_characters": 67683,
+        "title_prefix": "THE ENCYCLOPEDIA OF BIO-LEGAL-AI CONVERGENCE, SYNTHETIC BIOLOGY GOVERNANCE, AND COMPUTATIONAL GENOMIC JUSTICE A Unified ",
+        "finding": "Exact stored CSV title also appears in deployed JSON; no exporter truncation/concatenation inferred. Authoritative source metadata/type review required before a content change."
+      },
+      {
+        "public_id": 1386,
+        "doi": "10.5281/zenodo.20666247",
+        "title_characters": 4983,
+        "title_prefix": "The Quantum Citadel for AI: A Theoretical Framework for Near-Absolute Security Against Cyber Intrusion Author: Dr. Moham",
+        "finding": "Exact stored CSV title also appears in deployed JSON; no exporter truncation/concatenation inferred. Authoritative source metadata/type review required before a content change."
+      },
+      {
+        "public_id": 1402,
+        "doi": "10.5281/zenodo.20666248",
+        "title_characters": 13906,
+        "title_prefix": "The Quantum Citadel for AI: A Theoretical Framework for Near-Absolute Security Against Cyber Intrusion Author: Dr. Moham",
+        "finding": "Exact stored CSV title also appears in deployed JSON; no exporter truncation/concatenation inferred. Authoritative source metadata/type review required before a content change."
+      },
+      {
+        "public_id": 1403,
+        "doi": "10.5281/zenodo.20664393",
+        "title_characters": 18368,
+        "title_prefix": "THE CHARTER OF ALGORITHMIC CRIMINAL DYNAMICS A Global Academic Framework for the Physics of Crime and Justice Author: Dr",
+        "finding": "Exact stored CSV title also appears in deployed JSON; no exporter truncation/concatenation inferred. Authoritative source metadata/type review required before a content change."
+      }
+    ],
+    "private_ui": "Deployment, D1 and97 behavior tests verified; authenticated browser interaction not verified under available network/tools."
+  },
+  "schedules": {
+    "temporarily_paused_per_owner": true,
+    "restore_required": true,
+    "restore_after_lease_release": true,
+    "original_ids_and_schedules_preserved": true
+  }
+}

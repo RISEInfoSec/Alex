@@ -46503,7 +46503,7 @@
         "basis": "Assesses Tanzanian mobile-money and computer-fraud enforcement through statutory analysis and a leading constitutional case.",
         "assessed_at": "2026-11-05T01:43:21.020239+00:00"
       },
-      "batch_admission_eligible": true,
+      "batch_admission_eligible": false,
       "preflight_reservation": {
         "review_number": 117,
         "review_batch": 6
@@ -46512,7 +46512,18 @@
       "admitted_at": "2026-11-05T01:43:20.910369+00:00",
       "decision_content_sha256": "3deebec0b92873215468c4fe86a78f366fd87b04afe12c5bd6b759e3fb7d80d2",
       "decision_submission_revision": 1,
-      "decision_submission_id": "974cdf19-39f8-4e6f-a3b8-66c6220d1210"
+      "decision_submission_id": "974cdf19-39f8-4e6f-a3b8-66c6220d1210",
+      "publication_status": "published_live_verified",
+      "publication_receipt": "main/data/content_review_release_receipts/approved-2026-11-05-maintenance-weekly27.json",
+      "published_at": "2026-11-05T17:32:46.622189+00:00",
+      "public_verification": {
+        "checked_at": "2026-11-05T17:45:49.386545+00:00",
+        "url": "https://alex.riseinfosec.org/data/papers.json",
+        "public_records": 3194,
+        "public_record_id": 3193,
+        "public_sha256": "12e74cce3dff2c654bcf2ef5112a1005f0797bd9dacaee811ca718b34d42914a",
+        "method": "Exactly one deployed record equals every public field of the immutable release target; current reviewed hash matches request and successful receipt."
+      }
     },
     {
       "candidate_id": "weekly-09d2d4f0bfbb0771930884fd",
@@ -47212,7 +47223,7 @@
         "basis": "Derives influential URL features from offline classifiers and translates them into lightweight weighted rules for a local browser phishing extension.",
         "assessed_at": "2026-11-05T01:43:21.020302+00:00"
       },
-      "batch_admission_eligible": true,
+      "batch_admission_eligible": false,
       "preflight_reservation": {
         "review_number": 126,
         "review_batch": 7
@@ -47221,7 +47232,18 @@
       "admitted_at": "2026-11-05T01:43:20.910369+00:00",
       "decision_content_sha256": "119453df1ff3e0ba2de2c6bb3f05b48ab73c8cbd6bd7bfd5008c1f3e9c16e621",
       "decision_submission_revision": 1,
-      "decision_submission_id": "974cdf19-39f8-4e6f-a3b8-66c6220d1210"
+      "decision_submission_id": "974cdf19-39f8-4e6f-a3b8-66c6220d1210",
+      "publication_status": "published_live_verified",
+      "publication_receipt": "main/data/content_review_release_receipts/approved-2026-11-05-maintenance-weekly27.json",
+      "published_at": "2026-11-05T17:32:46.622189+00:00",
+      "public_verification": {
+        "checked_at": "2026-11-05T17:45:49.386545+00:00",
+        "url": "https://alex.riseinfosec.org/data/papers.json",
+        "public_records": 3194,
+        "public_record_id": 3194,
+        "public_sha256": "12e74cce3dff2c654bcf2ef5112a1005f0797bd9dacaee811ca718b34d42914a",
+        "method": "Exactly one deployed record equals every public field of the immutable release target; current reviewed hash matches request and successful receipt."
+      }
     },
     {
       "candidate_id": "weekly-10bf6841abc6f36147d952f0",
@@ -49086,9 +49108,839 @@
       },
       "readiness_status": "passed",
       "admitted_at": "2026-11-05T06:54:19.676229+00:00"
+    },
+    {
+      "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+      "upstream_candidate_id": "25977",
+      "upstream_stable_identity": "10.64388/irev9i11-1718132",
+      "source_row": 1115,
+      "review_number": 74,
+      "review_batch": 30,
+      "batch": 30,
+      "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
+      "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
+      "year": 2026,
+      "doi": "10.64388/irev9i11-1718132",
+      "source_url": "https://doi.org/10.64388/irev9i11-1718132",
+      "document_type": "research_paper",
+      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
+      "format_verification_status": "verified_written_research_paper",
+      "abstract": "In today’s enterprise landscape, the top method for credential theft, ransomware delivery and business email compromise (BEC) is phishing. Highly targeted social-engineering attacks are outsmarting traditional, rule-based email security filters and signature-matching anti-virus tools, thanks to the use of legitimate cloud systems, obfuscated redirect chains and polymorphic file attachments. In this paper, we present the design and implementation of a fully automated pipeline for phishing detection and incident response (IDIR) using the n8n open-source workflow automation platform, and empirically test the system’s performance. It is integrated with Gmail as the (monitored) email surface, VirusTotal’s threat intelligence API to analyze file attachments as well as URLs (including over 70 antivirus engines), urlscan.io for URL behavior sandboxing and Groq-hosted LLaMA 3 large language models for AI-driven structured incident reports. A 41-node directed acyclic graph (DAG) workflow ensures a sender allowlist, categorizes incoming email messages into 4 threat scenarios, carries out multiple queries on threat intelligence with various APIs, produces HTML-based email phishing reports per branch via LLM inference, and sends automated Gmail notifications with quarantine labelling. Empirical testing has shown that the system is able to detect an incident after about 5 seconds and respond after 20–35 seconds, orders of magnitude quicker than the manual workflow for an analyst to respond. It is a modular, extensible and immediate use for SOC automation deployment and Security Orchestration, Automation and Response (SOAR) deployments.",
+      "abstract_source": "https://doi.org/10.64388/irev9i11-1718132",
+      "assessment_basis": "Substantive reread of the complete current abstract after exact-hash mechanical preflight; actual source access and written-paper type were independently verified. Full paper not assessed.",
+      "review_evidence": [
+        "https://doi.org/10.64388/irev9i11-1718132",
+        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+      ],
+      "collection_id": "weekly",
+      "collection_source": "ALEX regular weekly discovery review queue",
+      "collection_url": "https://github.com/RISEInfoSec/Alex",
+      "recommendation": "include",
+      "relevance": "direct",
+      "review_reason": "Describes a 41-node email-phishing response workflow integrating Gmail, VirusTotal, urlscan.io and an LLM for analyst reports and quarantine labels. The reported latency supports practical SOC/SOAR relevance; the abstract alone does not establish detection accuracy, false-positive performance or a representative evaluation, so those claims require cautious reading.",
+      "metadata_issue": "Reported latency does not establish classification accuracy or safe autonomous action; test scale and independent ground truth are unspecified. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 31.65; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+      "screening_status": "current_abstract_recommendation_complete_after_preflight",
+      "assessment_depth": "complete_current_abstract_after_preflight",
+      "assessment_date": "2026-11-05",
+      "full_paper_reviewed": false,
+      "paper_format_verified": true,
+      "source_verification_status": "publisher_resource_and_written_paper_verified",
+      "quality_status": "existing_human_quality_review_required",
+      "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+      "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+      "manual_review_required": true,
+      "total_quality_score": 31.65,
+      "quality_score": 31.65,
+      "quality_auto_threshold": 35,
+      "quality_review_threshold": 20,
+      "relevance_score": 70.59,
+      "is_preprint": false,
+      "venue": "Iconic Research and Engineering Journals",
+      "citation_count": 0,
+      "citation_status": "upstream_value_not_independently_verified",
+      "doi_status": "upstream_identifier_not_independently_verified",
+      "source_recommended_action": "human review",
+      "source_review_reason": "Quality uncertain or moderate",
+      "discovery_source": "OpenAlex",
+      "discovery_query": "open source intelligence",
+      "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+      "decision": "pending",
+      "publication_approved": false,
+      "duplicate_check": {
+        "status": "no_match_found",
+        "matches": [],
+        "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+      },
+      "source_record_sha256": "5cfb8957de2d104e55e0eac96b5363ddf210255e1ce1b7dade79c87541862d4f",
+      "assessed_text_sha256": "5260482f4bca9b6726d5d252581ba97bbec867f18b0b6ab876401bc2764f7294",
+      "venue_score": 40,
+      "citation_score": 0,
+      "institution_score": 20,
+      "institution_bonus": 0,
+      "title_anchor_bonus": 0,
+      "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+      "review_ready": true,
+      "preflight_status": "passed",
+      "preflight_blockers": [],
+      "preflight": {
+        "status": "passed",
+        "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+        "checks": {
+          "format": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+              "pages_inspected": 6,
+              "page_count": 10,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+            },
+            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "access": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+              "pages_inspected": 6,
+              "page_count": 10,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+            },
+            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "metadata": {
+            "status": "passed",
+            "checked_at": "2026-11-05T12:49:26.143423+00:00",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+              "pages_inspected": 6,
+              "page_count": 10,
+              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
+              "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
+              "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
+              "year": 2026,
+              "doi": "10.64388/irev9i11-1718132",
+              "date_precision": "publisher date distinct from printed month/year",
+              "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
+            },
+            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "duplicates": {
+            "status": "passed",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "checked_at": "2026-11-05T17:23:51.625323+00:00",
+            "evidence": {
+              "status": "passed",
+              "matches": [],
+              "upstream_aliases": [],
+              "exclusions": [],
+              "public_sha256": "e5e4468362358ca46662d1aea8abcfba29623aa1494f860bf9d06e73f970cfbc",
+              "d1_submissions": 66,
+              "d1_decisions": 932,
+              "main_commit": "1bfd96fb2101a5549797a8af17e5ab63eccccdf0"
+            },
+            "prior_evidence": {
+              "status": "passed",
+              "checked_at": "2026-11-05T12:49:26.143423+00:00",
+              "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+              "evidence": {
+                "status": "passed",
+                "matches": [],
+                "upstream_aliases": [],
+                "exclusions": [],
+                "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+                "upstream_count": 4041,
+                "source_manifest_count": 7
+              },
+              "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+              "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+              "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            }
+          },
+          "quality": {
+            "status": "passed",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "checked_at": "2026-11-05T17:23:51.625323+00:00",
+            "evidence": {
+              "quality_score": 31.65,
+              "quality_venue_score": 40.0,
+              "quality_citation_score": 0.0,
+              "quality_relevance_score": 70.59,
+              "quality_institution_score": 40.0,
+              "quality_institution_bonus": 0.0,
+              "quality_title_bonus": 0.0,
+              "quality_auto_threshold": 35.0,
+              "quality_review_threshold": 20.0,
+              "quality_core_term_gate": "pass",
+              "quality_relevance_gate": "pass",
+              "citation_count_known": true,
+              "quality_review_status": "human_quality_review",
+              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+              "quality_requires_review": true
+            },
+            "input_revision": "4304ed93d729e92d8bdf4257f995e2a9e26f38d513573ba4485a1deeead2d343",
+            "limitations": "Existing unchanged quality weights and thresholds. Upstream citation input is unverified; no claim of verified zero. Restored affiliation corroborated against retained original-document evidence where present.",
+            "prior_evidence": {
+              "status": "passed",
+              "checked_at": "2026-10-27T23:05:42.201570+00:00",
+              "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+              "evidence": {
+                "quality_score": 31.65,
+                "quality_venue_score": 40,
+                "quality_citation_score": 0,
+                "quality_relevance_score": 70.59,
+                "quality_institution_score": 40,
+                "quality_institution_bonus": 0,
+                "quality_title_bonus": 0,
+                "quality_auto_threshold": 35,
+                "quality_review_threshold": 20,
+                "quality_core_term_gate": "pass",
+                "quality_relevance_gate": "pass",
+                "citation_count_known": true,
+                "quality_review_status": "human_quality_review",
+                "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                "quality_requires_review": true
+              },
+              "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+              "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+              "rebound_at": "2026-11-05T13:48:13.546750+00:00",
+              "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+            }
+          },
+          "schema": {
+            "status": "passed",
+            "checked_at": "2026-11-05T17:36:23.059739+00:00",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "161634100cfb037d33e1500fb677234238cb08e5d9da14890939ab3a018e5cd5",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-11-05T17:28:46.331018+00:00",
+                "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+                "evidence": {
+                  "classification": {
+                    "Category": "Cyber Threat Intelligence",
+                    "Investigation_Type": "Phishing Analysis",
+                    "OSINT_Source_Types": [
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_076d585b97382cac016aecbccc9c0487d1a0a5e7c04ab137da",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 709,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 31,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 740
+                  },
+                  "uncertainty_flags": [],
+                  "classification_origin": "source_evidence_correction",
+                  "original_paid_classification": {
+                    "Category": "Cyber Threat Intelligence",
+                    "Investigation_Type": "Phishing Analysis",
+                    "OSINT_Source_Types": [
+                      "Public Records",
+                      "News Media",
+                      "Other"
+                    ]
+                  },
+                  "correction_id": "e84cee12f1c46fc5c10d96d90b38544904fe7af9c5e8297d867bfd5e3f4b362f"
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "42074896351",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356",
+                "source_correction_applied_at": "2026-11-05T17:36:23.059739+00:00"
+              },
+              "source_correction_id": "e84cee12f1c46fc5c10d96d90b38544904fe7af9c5e8297d867bfd5e3f4b362f",
+              "source_document_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+              "original_paid_target_sha256": "3560a086c84ce8d88e9fdb40e2eabb1c5f215c36fa482c12290a0d3d7fe470bb",
+              "source_correction_scope": "Only OSINT source tags amended; original paid artifact retained verbatim."
+            }
+          }
+        }
+      },
+      "editorial_queue_eligible": true,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+        "retrieval_status": "retrieved",
+        "receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+        "reason": null,
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+        "evidence_sha256": [
+          "7e2e62a04871da041121e8654300278df0ce18c6c922647a94938f74379836e1",
+          "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc"
+        ]
+      },
+      "verified_document_type": "research_paper",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+          "superseded_at": "2026-11-05T13:48:13.546750+00:00",
+          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
+          "record": {
+            "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+            "upstream_candidate_id": "25977",
+            "upstream_stable_identity": "10.64388/irev9i11-1718132",
+            "source_row": 1115,
+            "review_number": 74,
+            "review_batch": 4,
+            "batch": 4,
+            "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
+            "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
+            "year": 2026,
+            "doi": "10.64388/irev9i11-1718132",
+            "source_url": "https://doi.org/10.64388/irev9i11-1718132",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "In today’s enterprise landscape, the top method for credential theft, ransomware delivery and business email compromise (BEC) is phishing. Highly targeted social-engineering attacks are outsmarting traditional, rule-based email security filters and signature-matching anti-virus tools, thanks to the use of legitimate cloud systems, obfuscated redirect chains and polymorphic file attachments. In this paper, we present the design and implementation of a fully automated pipeline for phishing detection and incident response (IDIR) using the n8n open-source workflow automation platform, and empirically test the system’s performance. It is integrated with Gmail as the (monitored) email surface, VirusTotal’s threat intelligence API to analyze file attachments as well as URLs (including over 70 antivirus engines), urlscan.io for URL behavior sandboxing and Groq-hosted LLaMA 3 large language models for AI-driven structured incident reports. A 41-node directed acyclic graph (DAG) workflow ensures a sender allowlist, categorizes incoming email messages into 4 threat scenarios, carries out multiple queries on threat intelligence with various APIs, produces HTML-based email phishing reports per branch via LLM inference, and sends automated Gmail notifications with quarantine labelling. Empirical testing has shown that the system is able to detect an incident after about 5 seconds and respond after 20–35 seconds, orders of magnitude quicker than the manual workflow for an analyst to respond. It is a modular, extensible and immediate use for SOC automation deployment and Security Orchestration, Automation and Response (SOAR) deployments.",
+            "abstract_source": "https://doi.org/10.64388/irev9i11-1718132",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              "https://doi.org/10.64388/irev9i11-1718132",
+              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "include",
+            "relevance": "direct",
+            "review_reason": "Describes a 41-node email-phishing response workflow linking Gmail, URL reputation services and an LLM to structured reports and quarantine actions.",
+            "metadata_issue": "Reported latency does not establish classification accuracy or safe autonomous action; test scale and independent ground truth are unspecified. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 31.65; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 31.65,
+            "quality_score": 31.65,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 70.59,
+            "is_preprint": false,
+            "venue": "Iconic Research and Engineering Journals",
+            "citation_count": 0,
+            "citation_status": "upstream_value_not_independently_verified",
+            "doi_status": "upstream_identifier_not_independently_verified",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "OpenAlex",
+            "discovery_query": "open source intelligence",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "5cfb8957de2d104e55e0eac96b5363ddf210255e1ce1b7dade79c87541862d4f",
+            "assessed_text_sha256": "5260482f4bca9b6726d5d252581ba97bbec867f18b0b6ab876401bc2764f7294",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 20,
+            "institution_bonus": 0,
+            "title_anchor_bonus": 0,
+            "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+              "checks": {
+                "duplicates": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": {
+                    "status": "passed",
+                    "matches": [],
+                    "upstream_aliases": [],
+                    "exclusions": [],
+                    "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
+                    "upstream_count": 4041,
+                    "source_manifest_count": 7
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": {
+                    "quality_score": 31.65,
+                    "quality_venue_score": 40,
+                    "quality_citation_score": 0,
+                    "quality_relevance_score": 70.59,
+                    "quality_institution_score": 40,
+                    "quality_institution_bonus": 0,
+                    "quality_title_bonus": 0,
+                    "quality_auto_threshold": 35,
+                    "quality_review_threshold": 20,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": true,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+                    "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+                    "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 10,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+                  }
+                },
+                "access": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+                    "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+                    "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 10,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
+                  }
+                },
+                "metadata": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+                    "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+                    "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
+                    "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+                    "pages_inspected": 6,
+                    "page_count": 10,
+                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
+                    "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
+                    "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
+                    "year": 2026,
+                    "doi": "10.64388/irev9i11-1718132",
+                    "date_precision": "publisher date distinct from printed month/year",
+                    "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "source_processing_history": [
+              {}
+            ],
+            "source_processing": {
+              "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+              "retrieval_status": "retrieved",
+              "receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "reason": null,
+              "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+              "evidence_sha256": [
+                "7e2e62a04871da041121e8654300278df0ce18c6c922647a94938f74379836e1",
+                "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc"
+              ]
+            },
+            "verified_document_type": "research_paper"
+          }
+        }
+      ],
+      "recommendation_content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "admission_hold": null,
+      "taxonomy_verification": {
+        "status": "passed",
+        "checked_at": "2026-11-05T17:28:46.331018+00:00",
+        "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+        "evidence": {
+          "classification": {
+            "Category": "Cyber Threat Intelligence",
+            "Investigation_Type": "Phishing Analysis",
+            "OSINT_Source_Types": [
+              "Other"
+            ]
+          },
+          "response_id": "resp_076d585b97382cac016aecbccc9c0487d1a0a5e7c04ab137da",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 709,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 31,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 740
+          },
+          "uncertainty_flags": [],
+          "classification_origin": "source_evidence_correction",
+          "original_paid_classification": {
+            "Category": "Cyber Threat Intelligence",
+            "Investigation_Type": "Phishing Analysis",
+            "OSINT_Source_Types": [
+              "Public Records",
+              "News Media",
+              "Other"
+            ]
+          },
+          "correction_id": "e84cee12f1c46fc5c10d96d90b38544904fe7af9c5e8297d867bfd5e3f4b362f"
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "42074896351",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356",
+        "source_correction_applied_at": "2026-11-05T17:36:23.059739+00:00"
+      },
+      "taxonomy_source_correction": {
+        "correction": {
+          "schema_version": 1,
+          "created_at": "2026-11-05T17:36:23.164414+00:00",
+          "collection": "weekly",
+          "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+          "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+          "paid_request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356",
+          "paid_response_id": "resp_076d585b97382cac016aecbccc9c0487d1a0a5e7c04ab137da",
+          "original_classification": {
+            "Category": "Cyber Threat Intelligence",
+            "Investigation_Type": "Phishing Analysis",
+            "OSINT_Source_Types": [
+              "Public Records",
+              "News Media",
+              "Other"
+            ]
+          },
+          "source_document_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+          "source_document_url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+          "proposed_source_types": [
+            "Other"
+          ],
+          "supported_tags": {
+            "Other": {
+              "section": "Technology Stack and Node Inventory; System Modules and Implementation, Multi-API Threat Analysis (retained PDF pages 4-6)",
+              "evidence": "The actual workflow ingests private Gmail messages and uses VirusTotal file/URL analyses and urlscan.io sandbox verdicts. The fixed source-type enum has no specific threat-reputation/sandbox telemetry label; Other represents these named inputs."
+            }
+          },
+          "removed_tag_reasons": {
+            "Public Records": "The implementation consumes inbox content and threat-analysis APIs; it does not identify public-record databases as investigative inputs.",
+            "News Media": "No news-media collection appears in the inspected workflow node inventory or multi-API threat-analysis methods."
+          },
+          "material_inspected": "Retained matching PDF first six pages, especially workflow node inventory and sections IV.A-IV.C; abstract reread separately. No full-paper critique claimed.",
+          "no_source_type_basis": null,
+          "evidence_status": "verified",
+          "scope": "OSINT_Source_Types only; source-content correction, not another paid response",
+          "correction_id": "e84cee12f1c46fc5c10d96d90b38544904fe7af9c5e8297d867bfd5e3f4b362f"
+        },
+        "original_paid_taxonomy": {
+          "status": "passed",
+          "checked_at": "2026-11-05T17:28:46.331018+00:00",
+          "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+          "evidence": {
+            "classification": {
+              "Category": "Cyber Threat Intelligence",
+              "Investigation_Type": "Phishing Analysis",
+              "OSINT_Source_Types": [
+                "Public Records",
+                "News Media",
+                "Other"
+              ]
+            },
+            "response_id": "resp_076d585b97382cac016aecbccc9c0487d1a0a5e7c04ab137da",
+            "model": "gpt-4o-mini-2024-07-18",
+            "reported_usage": {
+              "input_tokens": 709,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 31,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 740
+            },
+            "uncertainty_flags": []
+          },
+          "provenance": {
+            "GITHUB_RUN_ID": "42074896351",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+            "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+            "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+          },
+          "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356"
+        },
+        "original_paid_schema": {
+          "status": "passed",
+          "checked_at": "2026-11-05T17:28:46.337132+00:00",
+          "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "3560a086c84ce8d88e9fdb40e2eabb1c5f215c36fa482c12290a0d3d7fe470bb",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-11-05T17:28:46.331018+00:00",
+              "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+              "evidence": {
+                "classification": {
+                  "Category": "Cyber Threat Intelligence",
+                  "Investigation_Type": "Phishing Analysis",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "News Media",
+                    "Other"
+                  ]
+                },
+                "response_id": "resp_076d585b97382cac016aecbccc9c0487d1a0a5e7c04ab137da",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 709,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 31,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 740
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "42074896351",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "d162ba76e1dba67f447494b04e6b6d7fc876662c2b675e244954ab4d437386d7",
+              "workflow_sha256": "17625572aa76ac38bec3f25510bc8bd2496989de8e33e713f38280e7f74cdff2",
+              "publisher_sha256": "435e346a6b9d2d69c037e11f27998078186bde9235ac3da10f32b05ea93b4c4b",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 42074896351
+          },
+          "revalidated_at": "2026-11-05T17:36:23.150930+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-11-05T13:48:13.546750+00:00",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
+          }
+        },
+        "prior_schema_hold": {
+          "status": "passed",
+          "checked_at": "2026-11-05T17:28:46.337132+00:00",
+          "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+          "evidence": {
+            "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+            "target_record_sha256": "3560a086c84ce8d88e9fdb40e2eabb1c5f215c36fa482c12290a0d3d7fe470bb",
+            "document_type": "research_paper",
+            "corpus_modified": false,
+            "publication_approved": false,
+            "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+            "taxonomy": {
+              "status": "passed",
+              "checked_at": "2026-11-05T17:28:46.331018+00:00",
+              "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+              "evidence": {
+                "classification": {
+                  "Category": "Cyber Threat Intelligence",
+                  "Investigation_Type": "Phishing Analysis",
+                  "OSINT_Source_Types": [
+                    "Public Records",
+                    "News Media",
+                    "Other"
+                  ]
+                },
+                "response_id": "resp_076d585b97382cac016aecbccc9c0487d1a0a5e7c04ab137da",
+                "model": "gpt-4o-mini-2024-07-18",
+                "reported_usage": {
+                  "input_tokens": 709,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 31,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 740
+                },
+                "uncertainty_flags": []
+              },
+              "provenance": {
+                "GITHUB_RUN_ID": "42074896351",
+                "GITHUB_RUN_ATTEMPT": "1",
+                "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+                "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+              },
+              "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356"
+            },
+            "contract": {
+              "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+              "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+              "runner_sha256": "d162ba76e1dba67f447494b04e6b6d7fc876662c2b675e244954ab4d437386d7",
+              "workflow_sha256": "17625572aa76ac38bec3f25510bc8bd2496989de8e33e713f38280e7f74cdff2",
+              "publisher_sha256": "435e346a6b9d2d69c037e11f27998078186bde9235ac3da10f32b05ea93b4c4b",
+              "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+            },
+            "workflow_run_id": 42074896351
+          },
+          "revalidated_at": "2026-11-05T17:36:23.150930+00:00",
+          "prior_evidence": {
+            "status": "held",
+            "checked_at": "2026-11-05T13:48:13.546750+00:00",
+            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-10-27T23:05:43.163744+00:00",
+              "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            }
+          }
+        },
+        "applied_at": "2026-11-05T17:36:23.059739+00:00"
+      },
+      "recommendation_versions": [
+        {
+          "recommendation": "include",
+          "relevance": "direct",
+          "review_reason": "Describes a 41-node email-phishing response workflow linking Gmail, URL reputation services and an LLM to structured reports and quarantine actions.",
+          "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+          "assessment_depth": "cached_abstract",
+          "assessment_date": "2026-10-27",
+          "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065"
+        },
+        {
+          "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
+          "recommendation": "include",
+          "relevance": "direct",
+          "review_reason": "Describes a 41-node email-phishing response workflow integrating Gmail, VirusTotal, urlscan.io and an LLM for analyst reports and quarantine labels. The reported latency supports practical SOC/SOAR relevance; the abstract alone does not establish detection accuracy, false-positive performance or a representative evaluation, so those claims require cautious reading.",
+          "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+          "assessment_depth": "cached_abstract",
+          "assessment_date": "2026-10-27",
+          "status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+          "superseded_at": "2026-11-05T17:36:23.059739+00:00"
+        }
+      ],
+      "recommendation_assessed_at": "2026-11-05T17:36:23.059739+00:00",
+      "recommendation_evidence": {
+        "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+        "abstract_sha256": "5260482f4bca9b6726d5d252581ba97bbec867f18b0b6ab876401bc2764f7294",
+        "assessment_depth": "complete_current_abstract",
+        "method": "Direct substantive reread of the complete current abstract after all six mechanical gates passed; recommendation and reason checked against the described methods/findings.",
+        "source_provenance": [
+          "https://doi.org/10.64388/irev9i11-1718132",
+          "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+        ],
+        "format_checked_at": "2026-11-05T12:49:26.143423+00:00",
+        "access_checked_at": "2026-11-05T12:49:26.143423+00:00",
+        "limitations": "Full paper not assessed for this recommendation. Mechanical source/type evidence is separate; this assessment does not waive quality, batch, decision, or release controls.",
+        "recommendation": "include",
+        "relevance": "direct",
+        "basis": "Describes a 41-node email-phishing response workflow integrating Gmail, VirusTotal, urlscan.io and an LLM for analyst reports and quarantine labels. The reported latency supports practical SOC/SOAR relevance; the abstract alone does not establish detection accuracy, false-positive performance or a representative evaluation, so those claims require cautious reading.",
+        "assessed_at": "2026-11-05T17:36:23.059739+00:00"
+      },
+      "batch_admission_eligible": true,
+      "preflight_reservation": {
+        "review_number": 74,
+        "review_batch": 4
+      },
+      "readiness_status": "passed",
+      "admitted_at": "2026-11-05T17:36:23.059739+00:00"
     }
   ],
-  "prepared_count": 2,
+  "prepared_count": 3,
   "assessment_count": 151,
   "duplicate_holds": [
     {
@@ -55691,458 +56543,6 @@
       "editorial_queue_eligible": false
     },
     {
-      "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
-      "upstream_candidate_id": "25977",
-      "upstream_stable_identity": "10.64388/irev9i11-1718132",
-      "source_row": 1115,
-      "review_number": 74,
-      "review_batch": 4,
-      "batch": 4,
-      "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
-      "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
-      "year": 2026,
-      "doi": "10.64388/irev9i11-1718132",
-      "source_url": "https://doi.org/10.64388/irev9i11-1718132",
-      "document_type": "research_paper",
-      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
-      "format_verification_status": "verified_written_research_paper",
-      "abstract": "In today’s enterprise landscape, the top method for credential theft, ransomware delivery and business email compromise (BEC) is phishing. Highly targeted social-engineering attacks are outsmarting traditional, rule-based email security filters and signature-matching anti-virus tools, thanks to the use of legitimate cloud systems, obfuscated redirect chains and polymorphic file attachments. In this paper, we present the design and implementation of a fully automated pipeline for phishing detection and incident response (IDIR) using the n8n open-source workflow automation platform, and empirically test the system’s performance. It is integrated with Gmail as the (monitored) email surface, VirusTotal’s threat intelligence API to analyze file attachments as well as URLs (including over 70 antivirus engines), urlscan.io for URL behavior sandboxing and Groq-hosted LLaMA 3 large language models for AI-driven structured incident reports. A 41-node directed acyclic graph (DAG) workflow ensures a sender allowlist, categorizes incoming email messages into 4 threat scenarios, carries out multiple queries on threat intelligence with various APIs, produces HTML-based email phishing reports per branch via LLM inference, and sends automated Gmail notifications with quarantine labelling. Empirical testing has shown that the system is able to detect an incident after about 5 seconds and respond after 20–35 seconds, orders of magnitude quicker than the manual workflow for an analyst to respond. It is a modular, extensible and immediate use for SOC automation deployment and Security Orchestration, Automation and Response (SOAR) deployments.",
-      "abstract_source": "https://doi.org/10.64388/irev9i11-1718132",
-      "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
-      "review_evidence": [
-        "https://doi.org/10.64388/irev9i11-1718132",
-        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
-      ],
-      "collection_id": "weekly",
-      "collection_source": "ALEX regular weekly discovery review queue",
-      "collection_url": "https://github.com/RISEInfoSec/Alex",
-      "recommendation": "include",
-      "relevance": "direct",
-      "review_reason": "Describes a 41-node email-phishing response workflow linking Gmail, URL reputation services and an LLM to structured reports and quarantine actions.",
-      "metadata_issue": "Reported latency does not establish classification accuracy or safe autonomous action; test scale and independent ground truth are unspecified. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 31.65; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
-      "screening_status": "cached_abstract_review_complete",
-      "assessment_depth": "cached_abstract",
-      "assessment_date": "2026-10-27",
-      "full_paper_reviewed": false,
-      "paper_format_verified": true,
-      "source_verification_status": "publisher_resource_and_written_paper_verified",
-      "quality_status": "existing_human_quality_review_required",
-      "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
-      "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
-      "manual_review_required": true,
-      "total_quality_score": 31.65,
-      "quality_score": 31.65,
-      "quality_auto_threshold": 35,
-      "quality_review_threshold": 20,
-      "relevance_score": 70.59,
-      "is_preprint": false,
-      "venue": "Iconic Research and Engineering Journals",
-      "citation_count": 0,
-      "citation_status": "upstream_value_not_independently_verified",
-      "doi_status": "upstream_identifier_not_independently_verified",
-      "source_recommended_action": "human review",
-      "source_review_reason": "Quality uncertain or moderate",
-      "discovery_source": "OpenAlex",
-      "discovery_query": "open source intelligence",
-      "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
-      "decision": "pending",
-      "publication_approved": false,
-      "duplicate_check": {
-        "status": "no_match_found",
-        "matches": [],
-        "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
-      },
-      "source_record_sha256": "5cfb8957de2d104e55e0eac96b5363ddf210255e1ce1b7dade79c87541862d4f",
-      "assessed_text_sha256": "5260482f4bca9b6726d5d252581ba97bbec867f18b0b6ab876401bc2764f7294",
-      "venue_score": 40,
-      "citation_score": 0,
-      "institution_score": 20,
-      "institution_bonus": 0,
-      "title_anchor_bonus": 0,
-      "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
-      "review_ready": false,
-      "preflight_status": "held",
-      "preflight_blockers": [
-        "schema"
-      ],
-      "preflight": {
-        "status": "held",
-        "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
-        "checks": {
-          "format": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
-              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
-              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
-              "pages_inspected": 6,
-              "page_count": 10,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
-            },
-            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
-          },
-          "access": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
-              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
-              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
-              "pages_inspected": 6,
-              "page_count": 10,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
-            },
-            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
-          },
-          "metadata": {
-            "status": "passed",
-            "checked_at": "2026-11-05T12:49:26.143423+00:00",
-            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
-              "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
-              "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
-              "pages_inspected": 6,
-              "page_count": 10,
-              "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
-              "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
-              "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
-              "year": 2026,
-              "doi": "10.64388/irev9i11-1718132",
-              "date_precision": "publisher date distinct from printed month/year",
-              "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
-            },
-            "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-            "rebound_at": "2026-11-05T13:48:13.546750+00:00",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
-          },
-          "duplicates": {
-            "status": "passed",
-            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
-            "checked_at": "2026-11-05T17:23:51.625323+00:00",
-            "evidence": {
-              "status": "passed",
-              "matches": [],
-              "upstream_aliases": [],
-              "exclusions": [],
-              "public_sha256": "e5e4468362358ca46662d1aea8abcfba29623aa1494f860bf9d06e73f970cfbc",
-              "d1_submissions": 66,
-              "d1_decisions": 932,
-              "main_commit": "1bfd96fb2101a5549797a8af17e5ab63eccccdf0"
-            },
-            "prior_evidence": {
-              "status": "passed",
-              "checked_at": "2026-11-05T12:49:26.143423+00:00",
-              "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
-              "evidence": {
-                "status": "passed",
-                "matches": [],
-                "upstream_aliases": [],
-                "exclusions": [],
-                "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
-                "upstream_count": 4041,
-                "source_manifest_count": 7
-              },
-              "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-              "rebound_at": "2026-11-05T13:48:13.546750+00:00",
-              "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
-            }
-          },
-          "quality": {
-            "status": "passed",
-            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
-            "checked_at": "2026-11-05T17:23:51.625323+00:00",
-            "evidence": {
-              "quality_score": 31.65,
-              "quality_venue_score": 40.0,
-              "quality_citation_score": 0.0,
-              "quality_relevance_score": 70.59,
-              "quality_institution_score": 40.0,
-              "quality_institution_bonus": 0.0,
-              "quality_title_bonus": 0.0,
-              "quality_auto_threshold": 35.0,
-              "quality_review_threshold": 20.0,
-              "quality_core_term_gate": "pass",
-              "quality_relevance_gate": "pass",
-              "citation_count_known": true,
-              "quality_review_status": "human_quality_review",
-              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-              "quality_requires_review": true
-            },
-            "input_revision": "4304ed93d729e92d8bdf4257f995e2a9e26f38d513573ba4485a1deeead2d343",
-            "limitations": "Existing unchanged quality weights and thresholds. Upstream citation input is unverified; no claim of verified zero. Restored affiliation corroborated against retained original-document evidence where present.",
-            "prior_evidence": {
-              "status": "passed",
-              "checked_at": "2026-10-27T23:05:42.201570+00:00",
-              "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
-              "evidence": {
-                "quality_score": 31.65,
-                "quality_venue_score": 40,
-                "quality_citation_score": 0,
-                "quality_relevance_score": 70.59,
-                "quality_institution_score": 40,
-                "quality_institution_bonus": 0,
-                "quality_title_bonus": 0,
-                "quality_auto_threshold": 35,
-                "quality_review_threshold": 20,
-                "quality_core_term_gate": "pass",
-                "quality_relevance_gate": "pass",
-                "citation_count_known": true,
-                "quality_review_status": "human_quality_review",
-                "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-                "quality_requires_review": true
-              },
-              "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
-              "rebound_from_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-              "rebound_at": "2026-11-05T13:48:13.546750+00:00",
-              "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
-            }
-          },
-          "schema": {
-            "status": "held",
-            "checked_at": "2026-11-05T13:48:13.546750+00:00",
-            "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
-            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
-            "prior_evidence": {
-              "status": "held",
-              "checked_at": "2026-10-27T23:05:43.163744+00:00",
-              "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
-            }
-          }
-        }
-      },
-      "editorial_queue_eligible": false,
-      "source_processing_history": [
-        {}
-      ],
-      "source_processing": {
-        "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-        "retrieval_status": "retrieved",
-        "receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-        "reason": null,
-        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
-        "evidence_sha256": [
-          "7e2e62a04871da041121e8654300278df0ce18c6c922647a94938f74379836e1",
-          "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc"
-        ]
-      },
-      "verified_document_type": "research_paper",
-      "reviewed_content_versions": [
-        {
-          "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-          "superseded_at": "2026-11-05T13:48:13.546750+00:00",
-          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
-          "record": {
-            "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
-            "upstream_candidate_id": "25977",
-            "upstream_stable_identity": "10.64388/irev9i11-1718132",
-            "source_row": 1115,
-            "review_number": 74,
-            "review_batch": 4,
-            "batch": 4,
-            "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
-            "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
-            "year": 2026,
-            "doi": "10.64388/irev9i11-1718132",
-            "source_url": "https://doi.org/10.64388/irev9i11-1718132",
-            "document_type": "research_paper_candidate",
-            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-            "format_verification_status": "hold_original_document_type_unverified",
-            "abstract": "In today’s enterprise landscape, the top method for credential theft, ransomware delivery and business email compromise (BEC) is phishing. Highly targeted social-engineering attacks are outsmarting traditional, rule-based email security filters and signature-matching anti-virus tools, thanks to the use of legitimate cloud systems, obfuscated redirect chains and polymorphic file attachments. In this paper, we present the design and implementation of a fully automated pipeline for phishing detection and incident response (IDIR) using the n8n open-source workflow automation platform, and empirically test the system’s performance. It is integrated with Gmail as the (monitored) email surface, VirusTotal’s threat intelligence API to analyze file attachments as well as URLs (including over 70 antivirus engines), urlscan.io for URL behavior sandboxing and Groq-hosted LLaMA 3 large language models for AI-driven structured incident reports. A 41-node directed acyclic graph (DAG) workflow ensures a sender allowlist, categorizes incoming email messages into 4 threat scenarios, carries out multiple queries on threat intelligence with various APIs, produces HTML-based email phishing reports per branch via LLM inference, and sends automated Gmail notifications with quarantine labelling. Empirical testing has shown that the system is able to detect an incident after about 5 seconds and respond after 20–35 seconds, orders of magnitude quicker than the manual workflow for an analyst to respond. It is a modular, extensible and immediate use for SOC automation deployment and Security Orchestration, Automation and Response (SOAR) deployments.",
-            "abstract_source": "https://doi.org/10.64388/irev9i11-1718132",
-            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
-            "review_evidence": [
-              "https://doi.org/10.64388/irev9i11-1718132",
-              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
-            ],
-            "collection_id": "weekly",
-            "collection_source": "ALEX regular weekly discovery review queue",
-            "collection_url": "https://github.com/RISEInfoSec/Alex",
-            "recommendation": "include",
-            "relevance": "direct",
-            "review_reason": "Describes a 41-node email-phishing response workflow linking Gmail, URL reputation services and an LLM to structured reports and quarantine actions.",
-            "metadata_issue": "Reported latency does not establish classification accuracy or safe autonomous action; test scale and independent ground truth are unspecified. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 31.65; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
-            "screening_status": "cached_abstract_review_complete",
-            "assessment_depth": "cached_abstract",
-            "assessment_date": "2026-10-27",
-            "full_paper_reviewed": false,
-            "paper_format_verified": false,
-            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
-            "quality_status": "existing_human_quality_review_required",
-            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
-            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
-            "manual_review_required": true,
-            "total_quality_score": 31.65,
-            "quality_score": 31.65,
-            "quality_auto_threshold": 35,
-            "quality_review_threshold": 20,
-            "relevance_score": 70.59,
-            "is_preprint": false,
-            "venue": "Iconic Research and Engineering Journals",
-            "citation_count": 0,
-            "citation_status": "upstream_value_not_independently_verified",
-            "doi_status": "upstream_identifier_not_independently_verified",
-            "source_recommended_action": "human review",
-            "source_review_reason": "Quality uncertain or moderate",
-            "discovery_source": "OpenAlex",
-            "discovery_query": "open source intelligence",
-            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
-            "decision": "pending",
-            "publication_approved": false,
-            "duplicate_check": {
-              "status": "no_match_found",
-              "matches": [],
-              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
-            },
-            "source_record_sha256": "5cfb8957de2d104e55e0eac96b5363ddf210255e1ce1b7dade79c87541862d4f",
-            "assessed_text_sha256": "5260482f4bca9b6726d5d252581ba97bbec867f18b0b6ab876401bc2764f7294",
-            "venue_score": 40,
-            "citation_score": 0,
-            "institution_score": 20,
-            "institution_bonus": 0,
-            "title_anchor_bonus": 0,
-            "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-            "review_ready": false,
-            "preflight_status": "held",
-            "preflight_blockers": [
-              "schema"
-            ],
-            "preflight": {
-              "status": "held",
-              "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-              "checks": {
-                "duplicates": {
-                  "status": "passed",
-                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
-                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-                  "evidence": {
-                    "status": "passed",
-                    "matches": [],
-                    "upstream_aliases": [],
-                    "exclusions": [],
-                    "main_corpus_blob": "056f6e000e0398a6a57bb493f63971b584d7f2d6",
-                    "upstream_count": 4041,
-                    "source_manifest_count": 7
-                  }
-                },
-                "quality": {
-                  "status": "passed",
-                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
-                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-                  "evidence": {
-                    "quality_score": 31.65,
-                    "quality_venue_score": 40,
-                    "quality_citation_score": 0,
-                    "quality_relevance_score": 70.59,
-                    "quality_institution_score": 40,
-                    "quality_institution_bonus": 0,
-                    "quality_title_bonus": 0,
-                    "quality_auto_threshold": 35,
-                    "quality_review_threshold": 20,
-                    "quality_core_term_gate": "pass",
-                    "quality_relevance_gate": "pass",
-                    "citation_count_known": true,
-                    "quality_review_status": "human_quality_review",
-                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-                    "quality_requires_review": true
-                  },
-                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-                },
-                "format": {
-                  "status": "passed",
-                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
-                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-                  "evidence": {
-                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-                    "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
-                    "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
-                    "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
-                    "pages_inspected": 6,
-                    "page_count": 10,
-                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
-                  }
-                },
-                "access": {
-                  "status": "passed",
-                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
-                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-                  "evidence": {
-                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-                    "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
-                    "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
-                    "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
-                    "pages_inspected": 6,
-                    "page_count": 10,
-                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate."
-                  }
-                },
-                "metadata": {
-                  "status": "passed",
-                  "checked_at": "2026-11-05T12:49:26.143423+00:00",
-                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-                  "evidence": {
-                    "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-                    "body_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
-                    "text_sha256": "3c9b159d2613eb063ca7b01590e7a34834f07a9d828506715b45fe9b15396418",
-                    "url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
-                    "pages_inspected": 6,
-                    "page_count": 10,
-                    "inspection": "Actual matching title/byline, DOI, abstract and original research opening inspected; written research paper verified. Scientific quality remains separate.",
-                    "title": "AI-Integrated Phishing Detection and Automated Incident Response System Using n8n, VirusTotal, urlscan.io, and Large Language Models",
-                    "authors": "Rohit Chaudhary; Shubham Mahajan; Shiksha Panday",
-                    "year": 2026,
-                    "doi": "10.64388/irev9i11-1718132",
-                    "date_precision": "publisher date distinct from printed month/year",
-                    "basis": "Publisher citation metadata and actual PDF title/byline/DOI/year agree; no new canonical field or day precision inferred."
-                  }
-                },
-                "schema": {
-                  "status": "held",
-                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
-                  "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
-                }
-              }
-            },
-            "editorial_queue_eligible": false,
-            "source_processing_history": [
-              {}
-            ],
-            "source_processing": {
-              "content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-              "retrieval_status": "retrieved",
-              "receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
-              "reason": null,
-              "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
-              "evidence_sha256": [
-                "7e2e62a04871da041121e8654300278df0ce18c6c922647a94938f74379836e1",
-                "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc"
-              ]
-            },
-            "verified_document_type": "research_paper"
-          }
-        }
-      ],
-      "recommendation_content_sha256": "0bc77c4ccf3b63dce613559af018b1b3b4e418412d5f7ed6c693b6494830a103",
-      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
-      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
-    },
-    {
       "candidate_id": "weekly-140a482ff1be3eb40a9ddfad",
       "upstream_candidate_id": "40428",
       "upstream_stable_identity": "10.18623/rvd.v23.6690",
@@ -59213,16 +59613,87 @@
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-11-05T13:48:13.546750+00:00",
             "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
-            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
-            "prior_evidence": {
-              "status": "held",
-              "checked_at": "2026-10-27T23:05:43.163744+00:00",
-              "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
-              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-11-05T17:36:23.059739+00:00",
+            "evidence": {
+              "reason": "The inspected abstract and written-paper opening describe federated network-traffic malware/botnet detection on IoT-23 and N-BaIoT, not a demonstrated vulnerability assessment. The paid Investigation_Type=Vulnerability Assessment is not sufficiently supported by the inspected methods.",
+              "paid_taxonomy_and_serialization": {
+                "status": "passed",
+                "checked_at": "2026-11-05T17:28:47.566321+00:00",
+                "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+                "evidence": {
+                  "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+                  "target_record_sha256": "ee02ae5b011920edefa9c30815debbc38dbc705b2fc2f8015bc29cf51a9c596b",
+                  "document_type": "research_paper",
+                  "corpus_modified": false,
+                  "publication_approved": false,
+                  "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+                  "taxonomy": {
+                    "status": "passed",
+                    "checked_at": "2026-11-05T17:28:47.561793+00:00",
+                    "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+                    "evidence": {
+                      "classification": {
+                        "Category": "IoT & CPS Security",
+                        "Investigation_Type": "Vulnerability Assessment",
+                        "OSINT_Source_Types": [
+                          "Other"
+                        ]
+                      },
+                      "response_id": "resp_0eae14f953497c7b016aecbcce862c87d1b073d6ddbb355a66",
+                      "model": "gpt-4o-mini-2024-07-18",
+                      "reported_usage": {
+                        "input_tokens": 710,
+                        "input_tokens_details": {
+                          "cache_write_tokens": 0,
+                          "cached_tokens": 0
+                        },
+                        "output_tokens": 27,
+                        "output_tokens_details": {
+                          "reasoning_tokens": 0
+                        },
+                        "total_tokens": 737
+                      },
+                      "uncertainty_flags": []
+                    },
+                    "provenance": {
+                      "GITHUB_RUN_ID": "42074896351",
+                      "GITHUB_RUN_ATTEMPT": "1",
+                      "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+                      "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                      "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                    },
+                    "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356"
+                  },
+                  "contract": {
+                    "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                    "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                    "runner_sha256": "d162ba76e1dba67f447494b04e6b6d7fc876662c2b675e244954ab4d437386d7",
+                    "workflow_sha256": "17625572aa76ac38bec3f25510bc8bd2496989de8e33e713f38280e7f74cdff2",
+                    "publisher_sha256": "435e346a6b9d2d69c037e11f27998078186bde9235ac3da10f32b05ea93b4c4b",
+                    "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+                  },
+                  "workflow_run_id": 42074896351
+                },
+                "revalidated_at": "2026-11-05T17:36:23.156434+00:00",
+                "prior_evidence": {
+                  "status": "held",
+                  "checked_at": "2026-11-05T13:48:13.546750+00:00",
+                  "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+                  "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+                  "prior_evidence": {
+                    "status": "held",
+                    "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                    "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+                    "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                    "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                    "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                  }
+                }
+              },
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "source_body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
+              "next_action": "Retain original paid evidence. A supported evidence-bound Investigation_Type amendment is required; the current approved correction helper only changes OSINT_Source_Types. Do not repeat identical paid classification or source downloads."
             }
           }
         }
@@ -59443,7 +59914,7 @@
       ],
       "recommendation_content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
       "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
-      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch",
+      "admission_hold": "Publish only after current recommendation evidence and complete stable batch are verified",
       "quality_input_versions": [
         {
           "checked_at": "2026-11-05T17:23:51.625323+00:00",
@@ -59483,7 +59954,131 @@
           "reason": "Restore original scoring input omitted by weekly manifest builder; original document corroborates affiliation."
         }
       ],
-      "affiliations": "University of Jeddah; Air University"
+      "affiliations": "University of Jeddah; Air University",
+      "taxonomy_verification": {
+        "status": "passed",
+        "checked_at": "2026-11-05T17:28:47.561793+00:00",
+        "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+        "evidence": {
+          "classification": {
+            "Category": "IoT & CPS Security",
+            "Investigation_Type": "Vulnerability Assessment",
+            "OSINT_Source_Types": [
+              "Other"
+            ]
+          },
+          "response_id": "resp_0eae14f953497c7b016aecbcce862c87d1b073d6ddbb355a66",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 710,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 27,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 737
+          },
+          "uncertainty_flags": []
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "42074896351",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356"
+      },
+      "batch_admission_eligible": false,
+      "taxonomy_semantic_review": {
+        "status": "held",
+        "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+        "checked_at": "2026-11-05T17:36:23.059739+00:00",
+        "evidence": {
+          "reason": "The inspected abstract and written-paper opening describe federated network-traffic malware/botnet detection on IoT-23 and N-BaIoT, not a demonstrated vulnerability assessment. The paid Investigation_Type=Vulnerability Assessment is not sufficiently supported by the inspected methods.",
+          "paid_taxonomy_and_serialization": {
+            "status": "passed",
+            "checked_at": "2026-11-05T17:28:47.566321+00:00",
+            "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "ee02ae5b011920edefa9c30815debbc38dbc705b2fc2f8015bc29cf51a9c596b",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-11-05T17:28:47.561793+00:00",
+                "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+                "evidence": {
+                  "classification": {
+                    "Category": "IoT & CPS Security",
+                    "Investigation_Type": "Vulnerability Assessment",
+                    "OSINT_Source_Types": [
+                      "Other"
+                    ]
+                  },
+                  "response_id": "resp_0eae14f953497c7b016aecbcce862c87d1b073d6ddbb355a66",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 710,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 27,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 737
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "42074896351",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "d162ba76e1dba67f447494b04e6b6d7fc876662c2b675e244954ab4d437386d7",
+                "workflow_sha256": "17625572aa76ac38bec3f25510bc8bd2496989de8e33e713f38280e7f74cdff2",
+                "publisher_sha256": "435e346a6b9d2d69c037e11f27998078186bde9235ac3da10f32b05ea93b4c4b",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 42074896351
+            },
+            "revalidated_at": "2026-11-05T17:36:23.156434+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-11-05T13:48:13.546750+00:00",
+              "content_sha256": "d5a3336bc3c11620828048e6b66ad7dff2f7b057d42b76b8923f382e5ee16196",
+              "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+              "prior_evidence": {
+                "status": "held",
+                "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                "content_sha256": "2c80d66ef1ee47867a307feca982dde5d76a18acf6c07be3c21a64845fc0afe8",
+                "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              }
+            }
+          },
+          "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+          "source_body_sha256": "dc2254fd11aa5b356e53a09ebb2e4aae8c3e7fdf8655ab715a7b90a593497416",
+          "next_action": "Retain original paid evidence. A supported evidence-bound Investigation_Type amendment is required; the current approved correction helper only changes OSINT_Source_Types. Do not repeat identical paid classification or source downloads."
+        }
+      },
+      "lifecycle_evidence_revision": "3eb1c058d8184334feb3786440440d5ac333b75ef1530271cd7af51a9aecbe3a"
     },
     {
       "candidate_id": "weekly-91d7bab72e8b83aa104b6b72",
@@ -65275,16 +65870,87 @@
           },
           "schema": {
             "status": "held",
-            "checked_at": "2026-11-05T13:48:13.546750+00:00",
             "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
-            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
-            "prior_evidence": {
-              "status": "held",
-              "checked_at": "2026-10-27T23:05:43.163744+00:00",
-              "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
-              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+            "checked_at": "2026-11-05T17:36:23.059739+00:00",
+            "evidence": {
+              "reason": "The inspected methodology describes a purposive questionnaire of 130 students about internship-scam victimization, not analysis of phishing messages. The paid Investigation_Type=Phishing Analysis is not sufficiently supported; Social Media is described as an exposure channel, not the collected primary data.",
+              "paid_taxonomy_and_serialization": {
+                "status": "passed",
+                "checked_at": "2026-11-05T17:28:48.928330+00:00",
+                "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+                "evidence": {
+                  "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+                  "target_record_sha256": "e55f433cd9887a9fcc8864d31a0d916fc0c92d973c5ddff8045b14938428a5b7",
+                  "document_type": "research_paper",
+                  "corpus_modified": false,
+                  "publication_approved": false,
+                  "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+                  "taxonomy": {
+                    "status": "passed",
+                    "checked_at": "2026-11-05T17:28:48.923637+00:00",
+                    "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+                    "evidence": {
+                      "classification": {
+                        "Category": "Cybercrime & Fraud",
+                        "Investigation_Type": "Phishing Analysis",
+                        "OSINT_Source_Types": [
+                          "Social Media"
+                        ]
+                      },
+                      "response_id": "resp_0737d52a237fc4f6016aecbccfc4b887d1aa9e1b767b083e53",
+                      "model": "gpt-4o-mini-2024-07-18",
+                      "reported_usage": {
+                        "input_tokens": 577,
+                        "input_tokens_details": {
+                          "cache_write_tokens": 0,
+                          "cached_tokens": 0
+                        },
+                        "output_tokens": 27,
+                        "output_tokens_details": {
+                          "reasoning_tokens": 0
+                        },
+                        "total_tokens": 604
+                      },
+                      "uncertainty_flags": []
+                    },
+                    "provenance": {
+                      "GITHUB_RUN_ID": "42074896351",
+                      "GITHUB_RUN_ATTEMPT": "1",
+                      "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+                      "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                      "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                    },
+                    "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356"
+                  },
+                  "contract": {
+                    "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                    "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                    "runner_sha256": "d162ba76e1dba67f447494b04e6b6d7fc876662c2b675e244954ab4d437386d7",
+                    "workflow_sha256": "17625572aa76ac38bec3f25510bc8bd2496989de8e33e713f38280e7f74cdff2",
+                    "publisher_sha256": "435e346a6b9d2d69c037e11f27998078186bde9235ac3da10f32b05ea93b4c4b",
+                    "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+                  },
+                  "workflow_run_id": 42074896351
+                },
+                "revalidated_at": "2026-11-05T17:36:23.162082+00:00",
+                "prior_evidence": {
+                  "status": "held",
+                  "checked_at": "2026-11-05T13:48:13.546750+00:00",
+                  "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+                  "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+                  "prior_evidence": {
+                    "status": "held",
+                    "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                    "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+                    "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                    "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                    "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                  }
+                }
+              },
+              "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+              "source_body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
+              "next_action": "Retain original paid evidence. A supported evidence-bound Investigation_Type amendment is required; the current approved correction helper only changes OSINT_Source_Types. Do not repeat identical paid classification or source downloads."
             }
           }
         }
@@ -65505,7 +66171,7 @@
       ],
       "recommendation_content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
       "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
-      "admission_hold": "Re-evaluate venue-dependent quality, then exact-input taxonomy/serialization and recommendation. No new source retrieval required.",
+      "admission_hold": "Publish only after current recommendation evidence and complete stable batch are verified",
       "metadata_repair_versions": [
         {
           "reason": "Recover omitted publication venue from retained publisher citation metadata and matching PDF front matter; complete prior record retained.",
@@ -65926,7 +66592,7 @@
           "evidence": "config/content_review_maintenance_receipts/2026-11-05-pipeline-repair.json"
         }
       ],
-      "lifecycle_evidence_revision": "venue-recovery-2026-11-05",
+      "lifecycle_evidence_revision": "611ce422560d6ade4fbe1dc94a5e3452967d07a56cd6b90c2210c226dd0a3f16",
       "quality_input_versions": [
         {
           "checked_at": "2026-11-05T17:23:51.625323+00:00",
@@ -65973,7 +66639,130 @@
           "reason": "Restore original scoring input omitted by weekly manifest builder; original document corroborates affiliation."
         }
       ],
-      "affiliations": "Dr. M.G.R. Educational and Research Institute"
+      "affiliations": "Dr. M.G.R. Educational and Research Institute",
+      "taxonomy_verification": {
+        "status": "passed",
+        "checked_at": "2026-11-05T17:28:48.923637+00:00",
+        "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+        "evidence": {
+          "classification": {
+            "Category": "Cybercrime & Fraud",
+            "Investigation_Type": "Phishing Analysis",
+            "OSINT_Source_Types": [
+              "Social Media"
+            ]
+          },
+          "response_id": "resp_0737d52a237fc4f6016aecbccfc4b887d1aa9e1b767b083e53",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 577,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 27,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 604
+          },
+          "uncertainty_flags": []
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "42074896351",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356"
+      },
+      "batch_admission_eligible": false,
+      "taxonomy_semantic_review": {
+        "status": "held",
+        "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+        "checked_at": "2026-11-05T17:36:23.059739+00:00",
+        "evidence": {
+          "reason": "The inspected methodology describes a purposive questionnaire of 130 students about internship-scam victimization, not analysis of phishing messages. The paid Investigation_Type=Phishing Analysis is not sufficiently supported; Social Media is described as an exposure channel, not the collected primary data.",
+          "paid_taxonomy_and_serialization": {
+            "status": "passed",
+            "checked_at": "2026-11-05T17:28:48.928330+00:00",
+            "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "e55f433cd9887a9fcc8864d31a0d916fc0c92d973c5ddff8045b14938428a5b7",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-11-05T17:28:48.923637+00:00",
+                "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+                "evidence": {
+                  "classification": {
+                    "Category": "Cybercrime & Fraud",
+                    "Investigation_Type": "Phishing Analysis",
+                    "OSINT_Source_Types": [
+                      "Social Media"
+                    ]
+                  },
+                  "response_id": "resp_0737d52a237fc4f6016aecbccfc4b887d1aa9e1b767b083e53",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 577,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 27,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 604
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "42074896351",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "15b0b097bcdb7704d29e639d40a9242d62780c85",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "d162ba76e1dba67f447494b04e6b6d7fc876662c2b675e244954ab4d437386d7",
+                "workflow_sha256": "17625572aa76ac38bec3f25510bc8bd2496989de8e33e713f38280e7f74cdff2",
+                "publisher_sha256": "435e346a6b9d2d69c037e11f27998078186bde9235ac3da10f32b05ea93b4c4b",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 42074896351
+            },
+            "revalidated_at": "2026-11-05T17:36:23.162082+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-11-05T13:48:13.546750+00:00",
+              "content_sha256": "a90997d1337cc872c9c948d1512c659dc2ad07495afad80c542d68b425f392fd",
+              "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+              "prior_evidence": {
+                "status": "held",
+                "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                "content_sha256": "aa40ed1529f7c08b396d3f8fb3224de5fbb8658affe19956c2d740d818d58a6e",
+                "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+              }
+            }
+          },
+          "source_receipt": "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json",
+          "source_body_sha256": "460156484ee76b2891aac03589cab29c16e73debc923157a6edead7c8e7bdf86",
+          "next_action": "Retain original paid evidence. A supported evidence-bound Investigation_Type amendment is required; the current approved correction helper only changes OSINT_Source_Types. Do not repeat identical paid classification or source downloads."
+        }
+      }
     },
     {
       "candidate_id": "weekly-0ea84d001099ee3ab328c37d",
@@ -74092,11 +74881,11 @@
       "manual_review_required": false
     }
   ],
-  "ready_count": 2,
+  "ready_count": 3,
   "abstract_assessed_count": 150,
   "preflight_policy": "Admit only six current hash-bound gate passes and current substantive recommendations. Seal batches of1–20 cleared candidates immediately;20 is the maximum, never a minimum. Never wait for20 or append to sealed batches.",
   "mechanical_passed_awaiting_batch_admission": 0,
-  "preflight_held_count": 89,
+  "preflight_held_count": 88,
   "recommendation_current_count": 64,
   "batch_admission_eligible_count": 0,
   "sealed_review_batches": [
@@ -74637,6 +75426,19 @@
         }
       ],
       "policy": "Cleared candidates sealed independently of held inventory; never append."
+    },
+    {
+      "batch": 30,
+      "sealed_at": "2026-11-05T17:36:23.059739+00:00",
+      "count": 1,
+      "members": [
+        {
+          "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+          "review_number": 74,
+          "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065"
+        }
+      ],
+      "policy": "Cleared candidates sealed independently of held inventory; never append."
     }
   ],
   "last_preflight_update": "2026-11-02T20:12:00.000Z",
@@ -74654,13 +75456,15 @@
     "source": "Latest completed native D1 submission; exact candidate/content identity verified."
   },
   "last_publication_reconciliation": {
-    "checked_at": "2026-11-05T17:23:51.625323+00:00",
-    "receipt": "main/data/content_review_release_receipts/approved-2026-11-05-0045.json",
+    "checked_at": "2026-11-05T17:45:49.386545+00:00",
+    "receipt": "main/data/content_review_release_receipts/approved-2026-11-05-maintenance-weekly27.json",
     "verified_candidates": [
-      "weekly-250dd6cfa359991d1db168d1"
+      "weekly-0a59e535bcac3620fc21829c",
+      "weekly-09d2d4f0bfbb0771930884fd"
     ],
     "changed_candidates": [
-      "weekly-250dd6cfa359991d1db168d1"
+      "weekly-0a59e535bcac3620fc21829c",
+      "weekly-09d2d4f0bfbb0771930884fd"
     ]
   }
 }

@@ -3,6 +3,16 @@
 The owner approved this policy and implementation. Preserve every editorial decision,
 candidate identity, content version and prior source/paid result. No score threshold changes.
 
+## Maintenance handoff, 5 November 2026
+
+Read `docs/alex_end_to_end_review_2026-11-05.md` and its maintenance receipt before resuming unresolved work. Owner maintenance is not a qualifying scheduled pilot pass. Preserve the real native run and heartbeat history; never backfill it from maintenance activity.
+
+Derive current intake totals with `tools.content_review.queue_summary.summarize` over every registered collection, using current decision overlays. Do not carry forward old worker ready/preflight counts or count corpus-audit keeps as new intake. Named collections and unknown gate statuses must also remain in the shared stage summary.
+
+The three-paper paid request `c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356` completed. Reuse its immutable receipt. Weekly batch 30 contains one newly cleared paper; two peers have explicit semantic taxonomy holds and parked lifecycle entries. Do not repeat their paid calls or source downloads. Four publication-state gaps were reconciled, including the two batch-27 approvals released by PR113. Do not republish these items.
+
+Use the attached managed environment and a project-local Python environment when available. Verify the actual interpreter imports before candidate work; reuse installed dependencies and verified Git objects. Refresh changed immutable inputs and current decisions rather than spending the entire bounded pass repeatedly reconstructing unchanged source. All existing lease, checkpoint, heartbeat, source and paid budgets still apply. A temporary owner-requested schedule pause is restored at maintenance completion, with original IDs and schedules.
+
 ## Single existing hourly worker
 
 Use Automation_4eb2dd829aa88191b542d57f7008ebe3 linked to Site

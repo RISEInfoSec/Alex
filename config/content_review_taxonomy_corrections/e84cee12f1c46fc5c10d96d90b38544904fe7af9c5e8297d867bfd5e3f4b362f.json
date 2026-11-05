@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-11-05T17:36:23.164414+00:00",
+  "collection": "weekly",
+  "candidate_id": "weekly-5119ae5a98d80e9ef5d2544b",
+  "content_sha256": "f68975a4bc9026de1db1490597e0d602936c90f228f030e42e8fad4b1ad9b065",
+  "paid_request_id": "c9a2bf9dd2d94715ca859f88156347f885155efda4a34c4e32a846f420589356",
+  "paid_response_id": "resp_076d585b97382cac016aecbccc9c0487d1a0a5e7c04ab137da",
+  "original_classification": {
+    "Category": "Cyber Threat Intelligence",
+    "Investigation_Type": "Phishing Analysis",
+    "OSINT_Source_Types": [
+      "Public Records",
+      "News Media",
+      "Other"
+    ]
+  },
+  "source_document_sha256": "76a28ca7de21332d29ef8e2ebc353f11bf99821684958c026a7e80632587c8dc",
+  "source_document_url": "https://www.irejournals.com/formatedpaper/1718132.pdf",
+  "proposed_source_types": [
+    "Other"
+  ],
+  "supported_tags": {
+    "Other": {
+      "section": "Technology Stack and Node Inventory; System Modules and Implementation, Multi-API Threat Analysis (retained PDF pages 4-6)",
+      "evidence": "The actual workflow ingests private Gmail messages and uses VirusTotal file/URL analyses and urlscan.io sandbox verdicts. The fixed source-type enum has no specific threat-reputation/sandbox telemetry label; Other represents these named inputs."
+    }
+  },
+  "removed_tag_reasons": {
+    "Public Records": "The implementation consumes inbox content and threat-analysis APIs; it does not identify public-record databases as investigative inputs.",
+    "News Media": "No news-media collection appears in the inspected workflow node inventory or multi-API threat-analysis methods."
+  },
+  "material_inspected": "Retained matching PDF first six pages, especially workflow node inventory and sections IV.A-IV.C; abstract reread separately. No full-paper critique claimed.",
+  "no_source_type_basis": null,
+  "evidence_status": "verified",
+  "scope": "OSINT_Source_Types only; source-content correction, not another paid response",
+  "correction_id": "e84cee12f1c46fc5c10d96d90b38544904fe7af9c5e8297d867bfd5e3f4b362f"
+}
