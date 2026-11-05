@@ -1,5 +1,6 @@
 from __future__ import annotations
 from alex.resource_types import public_fields
+import csv
 import pandas as pd
 from alex.editorial_exclusions import filter_frame
 import json
@@ -65,8 +66,12 @@ def run(record_collection: bool = False) -> None:
     # literal `NaN` (invalid JSON). Coerce to empty strings before export.
     df = df.astype(object).where(df.notna(), "")
 
+    # Keep exact CSV text for content-bound resources. Pandas inference can
+    # turn an integer year into a float in a mixed corpus or treat "NA" as null.
+    with root_file("data", "accepted_classified.csv").open(newline="", encoding="utf-8") as stream:
+        csv.field_size_limit(100000000)
+        raw_rows = list(csv.DictReader(stream))
     public = df.copy()
-    save_df(public_csv, public)
 
     papers = []
     for i, (_, row) in enumerate(public.iterrows()):
@@ -102,9 +107,23 @@ def run(record_collection: bool = False) -> None:
             papers[-1]["publication_date"] = str(row["publication_date"])
         if str(row.get("historical_only", "")).strip():
             papers[-1]["historical_only"] = historical_only(dict(row))
-    for paper, (_, row) in zip(papers, public.iterrows()):
+    for paper, (index, row) in zip(papers, public.iterrows()):
         paper.update(row_publication_fields(row))
-        paper.update(public_fields(dict(row)))
+        raw = raw_rows[index]
+        fields = public_fields(raw)
+        if fields:
+            # Public content must be the same values whose binding was checked.
+            for source, target in (("title", "title"), ("authors", "author"),
+                                   ("abstract", "summary"), ("source_url", "source_url"),
+                                   ("doi", "doi"), ("venue", "venue")):
+                paper[target] = raw.get(source, "")
+            paper["year"] = int(raw["year"]) if raw["year"].isdigit() else raw["year"]
+            paper["link"] = "https://doi.org/" + raw["doi"] if raw.get("doi") else raw["source_url"]
+            for key, value in raw.items():
+                public.at[index, key] = value
+        paper.update(fields)
+    # Validate every resource before replacing either public output.
+    save_df(public_csv, public)
     save_json(papers_json, papers)
     generate(root_file(), papers)
     if record_collection:
