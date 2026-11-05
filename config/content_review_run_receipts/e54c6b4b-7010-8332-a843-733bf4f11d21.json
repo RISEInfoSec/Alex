@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "run_id": "e54c6b4b-7010-8332-a843-733bf4f11d21",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T02:45:00Z",
+  "started_at": "2026-11-05T02:47:41.123781Z",
+  "completed_at": "2026-11-05T02:57:06.220618+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/e54c6b4b-7010-8332-a843-733bf4f11d21.json",
+  "completed_actions": [
+    "Published/read back immediate start and real running observations",
+    "Read66 complete submissions and932 decisions; reconciled two authenticated approvals",
+    "Verified immutable input Git sizes/SHAs; evaluated lifecycle and overdue flags",
+    "Verified source Actions41958066753, request commit, artifact SHA and candidate/text provenance;18 actual sends",
+    "Inspected two bound PDFs and cleared four format/access gates; retained404,403 and robots holds",
+    "Saved atomic candidate,stage,lifecycle,source evidence and processing counters"
+  ],
+  "candidate_ids": [
+    "weekly-10bf6841abc6f36147d952f0",
+    "weekly-140a482ff1be3eb40a9ddfad",
+    "weekly-18d5465ae2e817495b96b772",
+    "weekly-1ea0d5996c905cf07960fb8e",
+    "weekly-2096e9686479ceda7cc35242"
+  ],
+  "candidate_check_count": 5,
+  "request_counts": {
+    "source": 18,
+    "paid": 0,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/weekly_review_manifest.json",
+    "config/content_review_preflight_status.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+    "config/content_review_processing_health.json"
+  ],
+  "errors": [
+    {
+      "stage": "heartbeat",
+      "reason": "Actual early heartbeat gaps exceeded60seconds; no backfill."
+    }
+  ],
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "candidate_limit": 5,
+    "attempted_candidate_ids": [
+      "weekly-1ea0d5996c905cf07960fb8e",
+      "weekly-18d5465ae2e817495b96b772",
+      "weekly-2096e9686479ceda7cc35242",
+      "weekly-10bf6841abc6f36147d952f0",
+      "weekly-140a482ff1be3eb40a9ddfad"
+    ],
+    "selected_candidate_ids": [
+      "weekly-10bf6841abc6f36147d952f0",
+      "weekly-140a482ff1be3eb40a9ddfad",
+      "weekly-18d5465ae2e817495b96b772",
+      "weekly-1ea0d5996c905cf07960fb8e",
+      "weekly-2096e9686479ceda7cc35242"
+    ],
+    "completed_candidate_ids": [
+      "weekly-10bf6841abc6f36147d952f0",
+      "weekly-140a482ff1be3eb40a9ddfad",
+      "weekly-18d5465ae2e817495b96b772",
+      "weekly-1ea0d5996c905cf07960fb8e",
+      "weekly-2096e9686479ceda7cc35242"
+    ],
+    "genuinely_first_checked": [
+      "weekly-10bf6841abc6f36147d952f0",
+      "weekly-140a482ff1be3eb40a9ddfad",
+      "weekly-18d5465ae2e817495b96b772",
+      "weekly-1ea0d5996c905cf07960fb8e",
+      "weekly-2096e9686479ceda7cc35242"
+    ],
+    "next_dispositions": [],
+    "newly_passed_checks": {
+      "format": [
+        "weekly-10bf6841abc6f36147d952f0",
+        "weekly-2096e9686479ceda7cc35242"
+      ],
+      "access": [
+        "weekly-10bf6841abc6f36147d952f0",
+        "weekly-2096e9686479ceda7cc35242"
+      ]
+    },
+    "all_six_completed": [],
+    "manual_admitted": [],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "requests": {
+      "source": 18,
+      "paid": 0,
+      "openalex": 0
+    },
+    "local_audits": 0,
+    "paid_tokens": 0,
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 1,
+    "heartbeat_interval_compliant": false,
+    "remaining_blockers": [
+      {
+        "candidate_id": "weekly-10bf6841abc6f36147d952f0",
+        "stage": "metadata_duplicates_and_classification",
+        "reason": "Actual publisher-bound written paper inspected; format/access passed. Refresh duplicates, reconcile exact author/date metadata, normalize type with retained version and complete current-contract downstream classification.",
+        "corrective_action": "Reuse retained PDF; finish missing independent gates before paid handoff."
+      },
+      {
+        "candidate_id": "weekly-140a482ff1be3eb40a9ddfad",
+        "stage": "source_access",
+        "reason": "source_http_404",
+        "corrective_action": "Honor access restrictions and bounded lifecycle retry; do not bypass or repeat unchanged denial."
+      },
+      {
+        "candidate_id": "weekly-18d5465ae2e817495b96b772",
+        "stage": "source_access",
+        "reason": "robots_disallow",
+        "corrective_action": "Honor access restrictions and bounded lifecycle retry; do not bypass or repeat unchanged denial."
+      },
+      {
+        "candidate_id": "weekly-1ea0d5996c905cf07960fb8e",
+        "stage": "source_access",
+        "reason": "source_http_403",
+        "corrective_action": "Honor access restrictions and bounded lifecycle retry; do not bypass or repeat unchanged denial."
+      },
+      {
+        "candidate_id": "weekly-2096e9686479ceda7cc35242",
+        "stage": "metadata_duplicates_and_classification",
+        "reason": "Actual publisher-bound written paper inspected; format/access passed. Refresh duplicates, reconcile exact author/date metadata, normalize type with retained version and complete current-contract downstream classification. Publisher page date June22 conflicts with PDF online June30; retain metadata hold.",
+        "corrective_action": "Reuse retained PDF; finish missing independent gates before paid handoff."
+      },
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Current main remains1c3633d145a2cddcd2d504d0a1b89d15c34f00c8; existing release41945055902 failed assessment-hash validation. Two newly authenticated approvals persisted; no unchanged failed release replayed.",
+        "corrective_action": "Repair full-corpus assessment binding through existing controlled publication path, preserving approvals and hashes."
+      }
+    ],
+    "resolvable_gate_count": 2,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-05T02:57:06.220618+00:00",
+        "stage": "format_access",
+        "candidate_ids": [
+          "weekly-10bf6841abc6f36147d952f0",
+          "weekly-2096e9686479ceda7cc35242"
+        ]
+      }
+    },
+    "promotion_eligible": false,
+    "promotion_reason": "Heartbeat gaps and recovered Unicode character-count transport interruption before tree creation; independent native terminal proof unavailable.",
+    "cache_reuse": [
+      "Completed paid/source evidence for batch27 retained; no replay",
+      "Current main unchanged; prior failed release retained"
+    ],
+    "stage_elapsed_seconds": {
+      "to_receipt": 565.699188
+    },
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ]
+  },
+  "native_terminal_success": null
+}

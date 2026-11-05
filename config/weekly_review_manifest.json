@@ -45841,8 +45841,8 @@
       "discovery_source": "OpenAlex",
       "discovery_query": "cybercrime research",
       "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
-      "decision": "pending",
-      "publication_approved": false,
+      "decision": "approved",
+      "publication_approved": true,
       "duplicate_check": {
         "status": "no_match_found",
         "matches": [],
@@ -45856,7 +45856,7 @@
       "institution_bonus": 0,
       "title_anchor_bonus": 5,
       "content_sha256": "3deebec0b92873215468c4fe86a78f366fd87b04afe12c5bd6b759e3fb7d80d2",
-      "review_ready": true,
+      "review_ready": false,
       "preflight_status": "passed",
       "preflight_blockers": [],
       "preflight": {
@@ -46027,7 +46027,7 @@
           }
         }
       },
-      "editorial_queue_eligible": true,
+      "editorial_queue_eligible": false,
       "source_processing_history": [
         {}
       ],
@@ -46498,7 +46498,10 @@
         "review_batch": 6
       },
       "readiness_status": "passed",
-      "admitted_at": "2026-11-05T01:43:20.910369+00:00"
+      "admitted_at": "2026-11-05T01:43:20.910369+00:00",
+      "decision_content_sha256": "3deebec0b92873215468c4fe86a78f366fd87b04afe12c5bd6b759e3fb7d80d2",
+      "decision_submission_revision": 1,
+      "decision_submission_id": "974cdf19-39f8-4e6f-a3b8-66c6220d1210"
     },
     {
       "candidate_id": "weekly-09d2d4f0bfbb0771930884fd",
@@ -46555,8 +46558,8 @@
       "discovery_source": "OpenAlex",
       "discovery_query": "threat intelligence collection",
       "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
-      "decision": "pending",
-      "publication_approved": false,
+      "decision": "approved",
+      "publication_approved": true,
       "duplicate_check": {
         "status": "no_match_found",
         "matches": [],
@@ -46570,7 +46573,7 @@
       "institution_bonus": 0,
       "title_anchor_bonus": 0,
       "content_sha256": "119453df1ff3e0ba2de2c6bb3f05b48ab73c8cbd6bd7bfd5008c1f3e9c16e621",
-      "review_ready": true,
+      "review_ready": false,
       "preflight_status": "passed",
       "preflight_blockers": [],
       "preflight": {
@@ -46737,7 +46740,7 @@
           }
         }
       },
-      "editorial_queue_eligible": true,
+      "editorial_queue_eligible": false,
       "source_processing_history": [
         {}
       ],
@@ -47204,7 +47207,10 @@
         "review_batch": 7
       },
       "readiness_status": "passed",
-      "admitted_at": "2026-11-05T01:43:20.910369+00:00"
+      "admitted_at": "2026-11-05T01:43:20.910369+00:00",
+      "decision_content_sha256": "119453df1ff3e0ba2de2c6bb3f05b48ab73c8cbd6bd7bfd5008c1f3e9c16e621",
+      "decision_submission_revision": 1,
+      "decision_submission_id": "974cdf19-39f8-4e6f-a3b8-66c6220d1210"
     }
   ],
   "prepared_count": 2,
@@ -54024,7 +54030,18 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "b9f01ab051bec1447eafa7ec0131a121b87346f90151098424c87130c702154b",
+        "retrieval_status": "held",
+        "receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+        "reason": "source_http_404",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval.",
+        "evidence_sha256": []
+      }
     },
     {
       "candidate_id": "weekly-f072cc2adc282ab72b0b9697",
@@ -56271,7 +56288,18 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "2d80b5cce24389cb7785cb827cc9d38b8885bcf37d2c34fd62bde2cf9e16a4e3",
+        "retrieval_status": "held",
+        "receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+        "reason": "robots_disallow",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval.",
+        "evidence_sha256": []
+      }
     },
     {
       "candidate_id": "weekly-4b38dda890565d1ac84397c0",
@@ -57245,7 +57273,18 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "b11e25a5537e202043f254353adddbfa2996696ccebe2fccb2050169a95dc113",
+        "retrieval_status": "held",
+        "receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+        "reason": "source_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval.",
+        "evidence_sha256": []
+      }
     },
     {
       "candidate_id": "weekly-c339e29c01ba6e327be23b92",
@@ -59374,8 +59413,6 @@
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
-        "format",
-        "access",
         "metadata",
         "schema"
       ],
@@ -59427,18 +59464,34 @@
             "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
           },
           "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T02:57:06.220618+00:00",
             "content_sha256": "97263f56af4ac45fe6d103a0cd715dfe235cda062c7fae45e78366d048ab3deb",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+              "url": "https://law-vestnik.buketov.edu.kz/law/article/download/1172/682",
+              "body_sha256": "a41b6d641eb2146a91cd3e568ec6b1f5b22e37a73f098c0c549c14c00554a351",
+              "text_sha256": "4b45e0f1385f9ce5df81cde6d1323b83a369cbd10b5c8e36816b500639051602",
+              "page_count": 11,
+              "pages_inspected": 6,
+              "scope": "Inspected actual bound PDF front matter and substantive methods/body: research paper; title, byline and DOI match the candidate. Scientific quality and downstream classification remain separate.",
+              "actual_document_type": "research_paper"
+            }
           },
           "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T02:57:06.220618+00:00",
             "content_sha256": "97263f56af4ac45fe6d103a0cd715dfe235cda062c7fae45e78366d048ab3deb",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+              "url": "https://law-vestnik.buketov.edu.kz/law/article/download/1172/682",
+              "body_sha256": "a41b6d641eb2146a91cd3e568ec6b1f5b22e37a73f098c0c549c14c00554a351",
+              "text_sha256": "4b45e0f1385f9ce5df81cde6d1323b83a369cbd10b5c8e36816b500639051602",
+              "page_count": 11,
+              "pages_inspected": 6,
+              "scope": "Inspected actual bound PDF front matter and substantive methods/body: research paper; title, byline and DOI match the candidate. Scientific quality and downstream classification remain separate.",
+              "actual_document_type": "research_paper"
+            }
           },
           "metadata": {
             "status": "held",
@@ -59457,7 +59510,22 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "97263f56af4ac45fe6d103a0cd715dfe235cda062c7fae45e78366d048ab3deb",
+        "retrieval_status": "retrieved",
+        "receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+        "reason": null,
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+        "evidence_sha256": [
+          "be6525fc88bd9473b863d59ed73dcef75f99bbbb7bcc27a2d82ee5bd9ebdbace",
+          "a41b6d641eb2146a91cd3e568ec6b1f5b22e37a73f098c0c549c14c00554a351"
+        ]
+      },
+      "verified_document_type": "research_paper"
     },
     {
       "candidate_id": "weekly-c0696d804468d502083f4777",
@@ -60006,8 +60074,6 @@
       "review_ready": false,
       "preflight_status": "held",
       "preflight_blockers": [
-        "format",
-        "access",
         "metadata",
         "schema"
       ],
@@ -60059,18 +60125,34 @@
             "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
           },
           "format": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T02:57:06.220618+00:00",
             "content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+              "url": "https://www.ijsr.net/archive/v15i4/SR26420051813.pdf",
+              "body_sha256": "0e0550124620be875079ee5c409ef65a313ac32cf40ebc7b3f3e45842b7c322a",
+              "text_sha256": "bcdf6e018c49e24543654ce32492fafe5bd3fa2b29555f7ea759947731592d54",
+              "page_count": 6,
+              "pages_inspected": 6,
+              "scope": "Inspected actual bound PDF front matter and substantive methods/body: research paper; title, byline and DOI match the candidate. Scientific quality and downstream classification remain separate.",
+              "actual_document_type": "research_paper"
+            }
           },
           "access": {
-            "status": "held",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "status": "passed",
+            "checked_at": "2026-11-05T02:57:06.220618+00:00",
             "content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
-            "evidence": "Not yet completed; not a pass.",
-            "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+              "url": "https://www.ijsr.net/archive/v15i4/SR26420051813.pdf",
+              "body_sha256": "0e0550124620be875079ee5c409ef65a313ac32cf40ebc7b3f3e45842b7c322a",
+              "text_sha256": "bcdf6e018c49e24543654ce32492fafe5bd3fa2b29555f7ea759947731592d54",
+              "page_count": 6,
+              "pages_inspected": 6,
+              "scope": "Inspected actual bound PDF front matter and substantive methods/body: research paper; title, byline and DOI match the candidate. Scientific quality and downstream classification remain separate.",
+              "actual_document_type": "research_paper"
+            }
           },
           "metadata": {
             "status": "held",
@@ -60089,7 +60171,22 @@
           }
         }
       },
-      "editorial_queue_eligible": false
+      "editorial_queue_eligible": false,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "0538d859e319b9c0a1379f22a861d36af09c8a2716568b2a82a1cb7af6222638",
+        "retrieval_status": "retrieved",
+        "receipt": "config/content_review_source_receipts/4ef17a1cfc5d6354956849c07b0d05f45c1ecdc64e22bad5187e79cf9ed50827.json",
+        "reason": null,
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+        "evidence_sha256": [
+          "81c30efea13eb58a1cc132999c7336abed170bff3e6544b22457b3116fe5a4ca",
+          "0e0550124620be875079ee5c409ef65a313ac32cf40ebc7b3f3e45842b7c322a"
+        ]
+      },
+      "verified_document_type": "research_paper"
     },
     {
       "candidate_id": "weekly-d66897c457868c8b69cc1923",
