@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T18:38:16.568874+00:00",
+  "observed_at": "2026-11-05T19:52:24.240859+00:00",
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
     "observed_at": "2026-11-05T18:38:16.568874+00:00",
@@ -151,13 +151,18 @@
   "owner_maintenance": {
     "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
     "observed_at": "2026-11-05T19:10:04.917331+00:00",
-    "status": "in_progress",
+    "status": "waiting_provider_cooldown",
     "schedules_restored": false,
     "scheduled_recovery_proven": false,
     "restore_required": true,
     "receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
-    "pacing_approved": true
+    "pacing_approved": true,
+    "updated_at": "2026-11-05T19:52:24.240859+00:00",
+    "retry_not_before": "2026-11-05T20:45:39.224652+00:00",
+    "last_weekly_run": 42091428591,
+    "scheduled_recovery_verified": false,
+    "remaining_doi_lookups": 951
   },
   "owner_pause_intervals": [
     {

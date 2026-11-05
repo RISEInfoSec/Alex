@@ -7,14 +7,14 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "Initial weekly retry partial under former diagnostic cap. Owner approved PR118 bounded recovery pace; resume saved window and verify each terminal receipt.",
+  "last_error": "OpenAlex remote connection closed without response; existing cooldown until 2026-11-05T20:45:39.224652+00:00;951 DOI lookups remain.",
   "lease": {
     "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
     "run_id": "maintenance-recovery-2026-11-05T18-08-44Z",
     "acquired_at": "2026-11-05T18:08:44Z",
-    "expires_at": "2026-11-05T20:35:47.429210+00:00",
+    "expires_at": "2026-11-05T21:52:24.240859+00:00",
     "purpose": "Owner authorized resolving outstanding failures and self-repair implementation; hourly checks paused",
-    "renewed_at": "2026-11-05T19:35:47.429210+00:00"
+    "renewed_at": "2026-11-05T19:52:24.240859+00:00"
   },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
@@ -48,7 +48,7 @@
   },
   "global_deficit": 245,
   "soups_batch_deficit": 0,
-  "last_action": "Approved recovery pass42091428591 has completed49 source searches and is enriching abstracts; cache repair PR119 merged for next pass.",
+  "last_action": "Recovery pass42091428591 retained49 completed searches and121 DOI results; OpenAlex remote disconnect activated the one-hour shared hold. PR119 cache repair and PR120 harvest repair merged.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -810,14 +810,15 @@
   "last_completed_at": "2026-11-05T14:47:27.564870+00:00",
   "maintenance_activity": {
     "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
-    "stage": "bounded_discovery_continuation_running",
+    "stage": "waiting_provider_cooldown",
     "started_at": "2026-11-05T18:08:44Z",
-    "updated_at": "2026-11-05T19:35:47.429210+00:00",
-    "candidate_processing": true,
+    "updated_at": "2026-11-05T19:52:24.240859+00:00",
+    "candidate_processing": false,
     "restore_automations_on_completion": true,
     "restoration_pending": true,
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
-    "run_id": 42091428591
+    "run_id": 42091428591,
+    "retry_not_before": "2026-11-05T20:45:39.224652+00:00"
   },
   "derived_queue_summary": {
     "sources": {

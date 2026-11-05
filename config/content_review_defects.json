@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T19:01:39.097109+00:00",
+  "observed_at": "2026-11-05T19:52:24.240859+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -205,7 +205,7 @@
         "general_weekly_discovery",
         "scheduled_pipeline"
       ],
-      "status": "retry_guard_repaired_connectivity_verified_coverage_budget_deferred",
+      "status": "dispatch_guard_repaired_partial_coverage_provider_cooldown",
       "evidence": [
         "https://github.com/RISEInfoSec/Alex/actions/runs/36439756777",
         "https://github.com/RISEInfoSec/Alex/actions/runs/41979421841",
@@ -235,7 +235,11 @@
             ]
           }
         }
-      ]
+      ],
+      "latest_run": 42091428591,
+      "retry_not_before": "2026-11-05T20:45:39.224652+00:00",
+      "remaining_doi_lookups": 951,
+      "receipt": "config/content_review_weekly_recovery/42091428591.json"
     },
     {
       "id": "stale-derived-stage-summary",
@@ -325,6 +329,14 @@
       "status": "repaired_tested",
       "next_action": "Version32 recognizes per-gate objects and publication evidence; owner maintenance explicitly distinguished.",
       "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+    },
+    {
+      "id": "harvest-abstract-fallback",
+      "status": "repaired_ci_tested_live_stage_verification_pending",
+      "pr": 120,
+      "cause": "CSV NaN skipped missing-abstract fallback and OpenAlex text was not copied.",
+      "merge_commit": "5b2f1b13646bcfba342e8e0437c17e81f6b38a84",
+      "tests_passed": 586
     }
   ]
 }

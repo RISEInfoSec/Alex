@@ -4,7 +4,7 @@
   "trigger": "owner_maintenance",
   "started_at": "2026-11-05T18:08:44Z",
   "observed_at": "2026-11-05T19:26:13.412050+00:00",
-  "status": "in_progress",
+  "status": "waiting_provider_cooldown",
   "completed_at": null,
   "receipt_path": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
   "completed_actions": [
@@ -1495,8 +1495,13 @@
   "scheduled_recovery_verified": false,
   "self_repair_instructions_pr": "https://github.com/RISEInfoSec/Alex/pull/117",
   "remaining_work": {
-    "window_candidates": 3412,
-    "deduplicated_doi_abstract_lookups_remaining": 1011
+    "window_candidates": 4672,
+    "completed_search_tasks": 49,
+    "deduplicated_doi_abstract_lookups_total": 1072,
+    "cached_doi_results": 121,
+    "deduplicated_doi_abstract_lookups_remaining": 951,
+    "state_commit": "e91f30917343219ae4acabf20e6d793e0c8df12e",
+    "retry_not_before": "2026-11-05T20:45:39.224652+00:00"
   },
   "approval_required": {
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
@@ -1532,10 +1537,13 @@
       "verified_successful_replacement": 36443867559,
       "active_runs": [],
       "dispatch_attempts": 1,
-      "status": "child_running_verified",
+      "status": "completed_partial_provider_cooldown",
       "child_run": 42091428591,
       "child_head_sha": "c31135d143bd707d369a326a71c9ac58a95c62e3",
-      "child_created_at": "2026-11-05T19:11:00Z"
+      "child_created_at": "2026-11-05T19:11:00Z",
+      "conclusion": "failure",
+      "canonical_receipt": "config/content_review_weekly_recovery/42091428591.json",
+      "retry_not_before": "2026-11-05T20:45:39.224652+00:00"
     }
   ],
   "latest_weekly_checkpoint": {
@@ -1590,5 +1598,29 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-05T19:35:47.429210+00:00"
+  "updated_at": "2026-11-05T19:52:24.240859+00:00",
+  "harvest_abstract_repair": {
+    "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
+    "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
+    "change": "Normalize missing abstracts, reconstruct matching OpenAlex abstracts, reject title-search metadata when DOI or normalized-title identity does not support it.",
+    "tests_passed": 586,
+    "ci_pending": false,
+    "live_verified": false,
+    "ci_tests": 42096193971,
+    "ci_browser_validation": 42096193972,
+    "merge_commit": "5b2f1b13646bcfba342e8e0437c17e81f6b38a84"
+  },
+  "latest_weekly_terminal": {
+    "run_id": 42091428591,
+    "native_conclusion": "failure",
+    "discovery_status": "partial",
+    "actual_requests": 193,
+    "http200": 180,
+    "http404": 12,
+    "connection_failure": 1,
+    "new_candidates": 1260,
+    "source_state_commit": "e91f30917343219ae4acabf20e6d793e0c8df12e",
+    "canonical_receipt": "config/content_review_weekly_recovery/42091428591.json"
+  },
+  "next_action": "After persisted provider hold expires, re-read native state, provider cooldown and current main; dispatch one bounded continuation with no active pipeline, retain cached responses, and independently verify its terminal receipt. Do not restore hourly checks or claim recovery while this owner maintenance remains unfinished."
 }
