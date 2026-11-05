@@ -93,6 +93,13 @@ def public_fields(row):
     # The full prepublication contract is enforced by release. Recheck the
     # content/assessment binding on every later corpus export as well.
     value=dict(row);value.update(content_sha256=row.get('review_content_sha256'),resource_assessment=a)
+    # CSV has no JSON scalar types. Recover an integer year only when that
+    # exact reconstruction matches the immutable reviewed-content digest.
+    # Never recompute or replace the accepted digest to make a row pass.
+    if digest({k:value.get(k,'') for k in HASH_FIELDS}) != value['content_sha256']:
+        year=value.get('year')
+        if isinstance(year,str) and re.fullmatch(r'0|[1-9][0-9]*',year):
+            value['year']=int(year)
     validate_assessment(value)
     require(row.get('total_quality_score') in ('',None), 'Non-paper cannot carry a paper quality score')
     result=dict(resource_schema_version=1,document_type=kind,summary_kind='editorial_synopsis',
