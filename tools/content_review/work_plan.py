@@ -44,26 +44,34 @@ def select(manifests, ledger, limit=5, source_progress=None):
 def processing_progress(receipts, checkpoint_repairs=()):
     invalid_runs={r.get('affected_run_id') for r in checkpoint_repairs
                   if r.get('prior_integrity_claim_corrected') is True}
+    def list_count(value):
+        return len(value) if isinstance(value,list) else None
+    def gate_count(p, gates):
+        checks=p.get('newly_passed_checks')
+        if not isinstance(checks,dict):return None
+        values=[v for k,v in checks.items() if k in gates]
+        return sum(len(v) for v in values) if all(isinstance(v,list) for v in values) else None
     runs=[]
     for receipt in sorted(receipts,key=lambda r:r.get('started_at','')):
         p=receipt.get('pilot',{});counts=p.get('requests',receipt.get('request_counts',{}))
         if not p or receipt.get('trigger')!='schedule':continue
-        source_checks=sum(len(v) for k,v in p.get('newly_passed_checks',{}).items() if k in ('format','access','metadata'))
-        downstream_checks=sum(len(v) for k,v in p.get('newly_passed_checks',{}).items() if k in ('quality','schema'))
+        source_checks=gate_count(p, ('format','access','metadata'))
+        downstream_checks=gate_count(p, ('quality','schema'))
         runs.append({'run_id':receipt.get('run_id'),
                      'checkpoint_integrity':'failed_corrected' if receipt.get('run_id') in invalid_runs else 'failed' if p.get('integrity_passed') is False or (p.get('checkpoint_failures') or 0)>0 else 'reported_passed' if p.get('integrity_passed') is True else 'unknown',
-                     'local_candidates':len(p.get('attempted_candidate_ids',[])),
+                     'local_candidates':list_count(p.get('attempted_candidate_ids')),
                      'candidate_ids':p.get('attempted_candidate_ids',[]),'resolvable_gates':p.get('resolvable_gate_count'),
                      'legitimate_holds_only':p.get('all_candidates_legitimately_held') is True,
                      'source_requests':counts.get('source'),'source_gate_passes':source_checks,'downstream_gate_passes':downstream_checks,
-                     'review_ready':len(p.get('manual_admitted',[])), 'six_gate_completions':len(p.get('all_six_completed',[])),
+                     'review_ready':list_count(p.get('manual_admitted')), 'six_gate_completions':list_count(p.get('all_six_completed')),
+                     'publications':list_count(p.get('actual_publications')),
                      'blockers':p.get('remaining_blockers',receipt.get('remaining_blockers',[]))})
     recent=runs[-3:]
     # A zero-attempt pass is not recovery. Look back across idle/blocked
     # observations until real downstream progress, preserving unknown counters.
     stalled_tail=[]
     for run in reversed(runs):
-        if run['downstream_gate_passes'] or run['six_gate_completions'] or run['review_ready']:
+        if run['downstream_gate_passes'] or run['six_gate_completions'] or run['review_ready'] or run['publications']:
             break
         stalled_tail.append(run)
     pending_stall=(len(stalled_tail)>=2
