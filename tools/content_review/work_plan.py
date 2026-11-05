@@ -78,11 +78,18 @@ def processing_progress(receipts, checkpoint_repairs=()):
                    and any((r['resolvable_gates'] or 0)>0 for r in stalled_tail)
                    and not all(r['legitimate_holds_only'] for r in stalled_tail))
 
-    stalled=len(recent)>=2 and all(r['local_candidates'] and r['source_requests']==0 and r['source_gate_passes']==0 and r['downstream_gate_passes']==0 and r['six_gate_completions']==0 and r['review_ready']==0 for r in recent)
-    no_progress=len(recent)>=2 and all(r['local_candidates'] and r['source_gate_passes']==0 and r['review_ready']==0 for r in recent)
+    def has_output(run):
+        return any((run[k] or 0)>0 for k in
+                   ('downstream_gate_passes','six_gate_completions','review_ready','publications'))
+    quiet=len(recent)>=2 and not any(has_output(r) for r in recent)
+    # Unknown outcomes stay null in the report. These diagnoses describe
+    # missing progress evidence, never proof that an unreported count is zero.
+    stalled=quiet and all(r['local_candidates'] and r['source_requests']==0
+                         and r['source_gate_passes']==0 for r in recent)
+    no_progress=quiet and all(r['local_candidates'] and r['source_gate_passes']==0 for r in recent)
     resolvable=no_progress and any((r['resolvable_gates'] or 0)>0 for r in recent)
     repeated=no_progress and bool(set(recent[-1]['candidate_ids'])&set(recent[-2]['candidate_ids'])) and not all(r['legitimate_holds_only'] for r in recent)
-    downstream_stall=len(recent)>=2 and all(r['local_candidates'] and r['downstream_gate_passes']==0 and r['six_gate_completions']==0 and r['review_ready']==0 for r in recent) and any((r['resolvable_gates'] or 0)>0 for r in recent) and not all(r['legitimate_holds_only'] for r in recent)
+    downstream_stall=quiet and all(r['local_candidates'] and r['downstream_gate_passes']==0 for r in recent) and any((r['resolvable_gates'] or 0)>0 for r in recent) and not all(r['legitimate_holds_only'] for r in recent)
     checkpoint_failed=bool(recent and recent[-1]['checkpoint_integrity'] in ('failed','failed_corrected'))
     status='checkpoint_integrity_failed' if checkpoint_failed else 'stalled_resolvable_gates' if resolvable else 'stalled_local_only' if stalled else 'stalled_downstream_gates' if downstream_stall else 'repeated_attempts_without_progress' if repeated else 'stalled_resolvable_gates' if pending_stall else 'progress_requires_gate_evidence'
     return {'runs':runs,'status':status,
