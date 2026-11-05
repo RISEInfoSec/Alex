@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T01:35:38.060Z",
+  "observed_at": "2026-11-05T02:31:33.379Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "dc3f6d71-7b44-8333-9302-f36f585a9227",
-    "scheduled_for": "2026-11-05T01:32:00Z",
-    "started_at": "2026-11-05T01:31:49.671385Z",
+    "run_id": "7b89442c-b150-8333-a963-67fe624e9824",
+    "scheduled_for": "2026-11-05T02:32:00Z",
+    "started_at": "2026-11-05T02:28:25.039510Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,60 +14,36 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-05T01:35:38.060Z",
+    "observed_at": "2026-11-05T02:31:33.379Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "a89a024b-85d0-8332-93ff-1877c4129fef",
+      "id": "aab6f7c4-9964-8332-a6a7-ec3c50c631fb",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-05T00:45:00Z",
-      "started_at": "2026-11-05T00:48:09.777946Z",
-      "completed_at": "2026-11-05T01:00:38.859577Z"
+      "scheduled_for": "2026-11-05T01:45:00Z",
+      "started_at": "2026-11-05T01:51:42.554337Z",
+      "completed_at": "2026-11-05T01:52:32.105199Z"
     }
   },
   "receipt_check": {
-    "run_id": "a89a024b-85d0-8332-93ff-1877c4129fef",
-    "path": "config/content_review_run_receipts/a89a024b-85d0-8332-93ff-1877c4129fef.json",
-    "verified": true,
-    "reason": "Canonical scheduled receipt matches native run identity and schedule, records status=complete with nonempty completed_actions and canonical receipt_path, and completed_at falls within native started/completed bounds. The receipt separately records application checkpoint and publication failures; native scheduler completion does not erase them."
+    "run_id": "aab6f7c4-9964-8332-a6a7-ec3c50c631fb",
+    "path": "config/content_review_run_receipts/aab6f7c4-9964-8332-a6a7-ec3c50c631fb.json",
+    "verified": false,
+    "reason": "A canonical receipt exists with matching run_id and scheduled_for, trigger=schedule, status=complete, nonempty completed_actions and canonical receipt_path, but it belongs to the earlier attempt: receipt.started_at=2026-11-05T01:40:23.586889Z differs from native restarted started_at=2026-11-05T01:51:42.554337Z, and receipt.completed_at=2026-11-05T01:49:22.210342+00:00 precedes the restarted native start. It cannot satisfy identity/time-bound verification for this native attempt."
   },
-  "checkpoint_observed_at": "2026-11-05T00:59:42.962541+00:00",
+  "checkpoint_observed_at": "2026-11-05T01:49:49.760208+00:00",
   "processing": {
-    "observed_at": "2026-11-05T01:35:38.060Z",
-    "evidence_observed_at": "2026-11-05T00:58:43.403318+00:00",
+    "observed_at": "2026-11-05T02:31:33.379Z",
+    "evidence_observed_at": "2026-11-05T01:49:22.210342+00:00",
     "evidence_fresh": true,
-    "immutable_tree_sha": "48304bad7cbba00e3d1bfb45d6e8c9b962e75a15",
+    "immutable_tree_sha": "c7acb1fdba2c4a7a94aa415714b55b875e8b44d0",
     "examined_run_ids": [
-      "d91a87a0-2bdc-8332-8696-79081556d1bd",
       "fe4875f6-dc78-8332-8c50-fe0d998ea688",
-      "a89a024b-85d0-8332-93ff-1877c4129fef"
+      "a89a024b-85d0-8332-93ff-1877c4129fef",
+      "aab6f7c4-9964-8332-a6a7-ec3c50c631fb"
     ],
     "runs": [
-      {
-        "run_id": "d91a87a0-2bdc-8332-8696-79081556d1bd",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 5,
-        "candidate_ids": [
-          "m3aawg-url-759dd5b0fd3c0145b73d24a7",
-          "m3aawg-url-7461f1af4e7d136e2d833f84",
-          "m3aawg-url-14536f3e06c8f39154218296",
-          "m3aawg-url-cc47571e309bbceb2cf387cd",
-          "m3aawg-url-c8441b726dbfcc4aa5fa86d6"
-        ],
-        "actual_source_requests": 0,
-        "new_source_gate_passes": 0,
-        "new_downstream_gate_passes": 0,
-        "all_six_completions": 0,
-        "newly_manual_ready": 0,
-        "publications": 0,
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
-        "blockers": [
-          "All remaining format/access/metadata/quality/schema gates retained; no fully cleared candidate.",
-          "OpenAlex unresolved main/review hold conflict: longest deadline 2026-11-05T01:15:38Z preserved; no request or recovery claim."
-        ]
-      },
       {
         "run_id": "fe4875f6-dc78-8332-8c50-fe0d998ea688",
         "checkpoint_integrity": "failed_corrected",
@@ -82,9 +58,30 @@
         "actual_source_requests": 22,
         "new_source_gate_passes": 10,
         "new_downstream_gate_passes": 0,
+        "per_gate_passes": {
+          "format": [
+            "weekly-040edeb033e8ee41aeb9433a",
+            "weekly-09d2d4f0bfbb0771930884fd",
+            "weekly-0a59e535bcac3620fc21829c",
+            "weekly-0c62bfc049ea611ecb965fc6"
+          ],
+          "access": [
+            "weekly-040edeb033e8ee41aeb9433a",
+            "weekly-09d2d4f0bfbb0771930884fd",
+            "weekly-0a59e535bcac3620fc21829c",
+            "weekly-0c62bfc049ea611ecb965fc6"
+          ],
+          "metadata": [
+            "weekly-09d2d4f0bfbb0771930884fd",
+            "weekly-0a59e535bcac3620fc21829c"
+          ]
+        },
         "all_six_completions": 0,
+        "all_six_candidate_ids": [],
         "newly_manual_ready": 0,
+        "manual_ready_candidate_ids": [],
         "publications": 0,
+        "publication_ids": [],
         "resolvable_gates": 2,
         "legitimate_holds_only": false,
         "blockers": [
@@ -125,9 +122,18 @@
         "actual_source_requests": 0,
         "new_source_gate_passes": 0,
         "new_downstream_gate_passes": 2,
+        "per_gate_passes": {
+          "schema": [
+            "weekly-09d2d4f0bfbb0771930884fd",
+            "weekly-0a59e535bcac3620fc21829c"
+          ]
+        },
         "all_six_completions": 0,
+        "all_six_candidate_ids": [],
         "newly_manual_ready": 0,
+        "manual_ready_candidate_ids": [],
         "publications": 0,
+        "publication_ids": [],
         "resolvable_gates": 0,
         "legitimate_holds_only": false,
         "blockers": [
@@ -145,19 +151,87 @@
             "reason": "Other prior source/type/DOI/byline holds preserved; no repeated download."
           }
         ]
+      },
+      {
+        "run_id": "aab6f7c4-9964-8332-a6a7-ec3c50c631fb",
+        "checkpoint_integrity": "reported_passed",
+        "local_candidates": 2,
+        "candidate_ids": [
+          "weekly-09d2d4f0bfbb0771930884fd",
+          "weekly-0a59e535bcac3620fc21829c"
+        ],
+        "actual_source_requests": 0,
+        "new_source_gate_passes": 0,
+        "new_downstream_gate_passes": 2,
+        "per_gate_passes": {
+          "schema": [
+            "weekly-09d2d4f0bfbb0771930884fd",
+            "weekly-0a59e535bcac3620fc21829c"
+          ]
+        },
+        "all_six_completions": 2,
+        "all_six_candidate_ids": [
+          "weekly-09d2d4f0bfbb0771930884fd",
+          "weekly-0a59e535bcac3620fc21829c"
+        ],
+        "newly_manual_ready": 2,
+        "manual_ready_candidate_ids": [
+          "weekly-09d2d4f0bfbb0771930884fd",
+          "weekly-0a59e535bcac3620fc21829c"
+        ],
+        "publications": 0,
+        "publication_ids": [],
+        "resolvable_gates": 0,
+        "legitimate_holds_only": false,
+        "blockers": [
+          {
+            "stage": "publication_full_corpus_serialization",
+            "candidate_ids": [
+              "weekly-250dd6cfa359991d1db168d1",
+              "m3aawg-url-75aa6fb2c156539547d27ab8"
+            ],
+            "reason": "Existing release PR111 merged, but release run41945055902 failed full-corpus assessment-hash validation. Current main remains1c3633d145a2cddcd2d504d0a1b89d15c34f00c8 with no durable additions. No unchanged failed release replayed.",
+            "corrective_action": "Reproduce and correct mixed-corpus CSV serialization while preserving exact resource assessment binding, then resume the existing immutable release."
+          }
+        ]
       }
     ],
-    "status": "checkpoint_integrity_failed",
+    "status": "progress_requires_gate_evidence",
     "stalled_local_only": false,
     "stalled_resolvable_gates": false,
     "repeated_attempts_without_progress": false,
-    "missing_stage_or_capability": "The latest scheduled pass completed two downstream schema classifications from retained source evidence, but Unicode character-count validation stopped the candidate checkpoint before tree creation. Its approved release then failed full-corpus assessment-hash validation; no durable admission or publication was established.",
-    "corrective_action": "Verify the restored checkpoint and use lossless blob-verified transport. Preserve actual source progress, exclude the failed pass from promotion, and require a later intact scheduled checkpoint to establish recovery.",
+    "missing_stage_or_capability": "The latest intact application checkpoint durably establishes two six-gate/manual-ready admissions, but the restarted native attempt reused the same run ID and has no identity/time-bound canonical receipt. Publication is still blocked at publication_full_corpus_serialization by assessment-hash validation; zero publications are established.",
+    "corrective_action": "Require a fresh unique native run identity and a canonical receipt completed within that native start/terminal window. Preserve the two admitted candidates, repair the existing full-corpus serializer without replaying them, and require another intact independently verified scheduled pass before claiming sustained unattended recovery.",
+    "scheduler_success_is_processing_recovery": false,
+    "sustained_throughput_verified": false,
+    "processing_health": {
+      "native_run_id": "aab6f7c4-9964-8332-a6a7-ec3c50c631fb",
+      "local_candidates": 2,
+      "actual_source_requests": 0,
+      "source_gate_passes": 0,
+      "downstream_gate_passes": 2,
+      "six_gate_completions": 2,
+      "newly_review_ready": 2,
+      "publications": 0,
+      "scope_note": "Two retained successful paid results reverified against current contracts and serialized, admitted to sealed Weekly batch27, and checkpointed with exact native blob/tree/readback proof. Zero new source/paid/OpenAlex calls. Three current D1 decisions reconciled. Prior failed publication remains held.",
+      "blockers": [
+        {
+          "stage": "publication_full_corpus_serialization",
+          "candidate_ids": [
+            "weekly-250dd6cfa359991d1db168d1",
+            "m3aawg-url-75aa6fb2c156539547d27ab8"
+          ],
+          "reason": "Existing release PR111 merged, but release run41945055902 failed full-corpus assessment-hash validation. Current main remains1c3633d145a2cddcd2d504d0a1b89d15c34f00c8 with no durable additions. No unchanged failed release replayed.",
+          "corrective_action": "Reproduce and correct mixed-corpus CSV serialization while preserving exact resource assessment binding, then resume the existing immutable release."
+        }
+      ]
+    },
     "checkpoint_corrections": [
       {
         "affected_run_id": "fe4875f6-dc78-8332-8c50-fe0d998ea688",
         "path": "config/content_review_checkpoint_repairs/2026-11-05-truncated-write.json",
         "blob_sha": "d7f88dda85f4036ff6cba25b35fd7606889c8104",
+        "blob_size": 1153,
         "prior_integrity_claim_corrected": true,
         "repair_commit": "3fea1236cfee84e5390f5f17e392b1e4a2e2aebd",
         "verified_files": [
@@ -188,40 +262,44 @@
   },
   "findings": [
     {
-      "code": "native_terminal_observed",
-      "message": "Worker run a89a024b-85d0-8332-93ff-1877c4129fef was observed natively completed at 2026-11-05T01:00:38.859577Z; application outcome is evaluated separately."
+      "code": "native_run_id_reused",
+      "message": "Native worker run aab6f7c4-9964-8332-a6a7-ec3c50c631fb was restarted at 2026-11-05T01:51:42.554337Z under the same run ID after an earlier attempt and receipt. Native result explicitly reports no repeated candidate work and no file changes."
     },
     {
-      "code": "receipt_verified_with_application_failures",
-      "message": "The canonical receipt for a89a024b-85d0-8332-93ff-1877c4129fef passed identity, schedule, action, path and native time-bound checks, while recording checkpoint_failures=1 and integrity_passed=false."
+      "code": "receipt_time_bound_mismatch",
+      "message": "The existing aab6f7c4-9964-8332-a6a7-ec3c50c631fb receipt completed before the restarted native attempt began and therefore does not verify that attempt; no native scheduled success or promotion is claimed."
     },
     {
       "code": "no_missed_start",
-      "message": "The 2026-11-05T00:45:00Z worker start was served at 2026-11-05T00:48:09.777946Z, within dispatch grace; the next expected 2026-11-05T01:45:00Z start is not yet due."
+      "message": "The 2026-11-05T01:45:00Z worker slot restarted at 2026-11-05T01:51:42.554337Z, within the 15-minute dispatch grace. The next expected hourly slot at 2026-11-05T02:45:00Z is not yet due."
     },
     {
       "code": "no_current_stall",
-      "message": "The latest worker run is terminal; no active worker heartbeat is expected. Its final checkpoint observation is preserved without inventing later activity."
+      "message": "The latest native worker attempt is terminal completed. Worker checkpoint activity ended at 2026-11-05T01:49:49.760208+00:00; no later heartbeat is invented."
     },
     {
-      "code": "processing_checkpoint_integrity_failed",
-      "message": "The latest scheduled pass classified two retained paper inputs and recorded two downstream schema passes, but its candidate checkpoint failed before tree creation; zero all-six completions, manual-ready admissions and publications are independently established."
+      "code": "processing_checkpoint_recovered",
+      "message": "A later intact work-bearing application checkpoint for aab6f7c4-9964-8332-a6a7-ec3c50c631fb records two downstream schema passes, two all-six completions and two manual-ready admissions with exact checkpoint readback. This supersedes checkpoint_integrity_failed as the current application processing status, but does not prove the restarted native attempt."
     },
     {
       "code": "publication_not_recovered",
-      "message": "The latest receipt records that PR #111 merged but full-corpus assessment-hash validation failed; save/receipt publication steps did not run and zero publications are counted."
+      "message": "The last three scheduled pilot receipts establish zero publications. The remaining precise blocker is publication_full_corpus_serialization assessment-hash validation."
+    },
+    {
+      "code": "sustained_throughput_unverified",
+      "message": "Two durable admissions in one application pass are real progress, but the native receipt mismatch and lack of a second intact independently verified scheduled pass prevent a sustained unattended throughput claim."
     },
     {
       "code": "checkpoint_correction_applied",
-      "message": "Correction config/content_review_checkpoint_repairs/2026-11-05-truncated-write.json overrides run fe4875f6-dc78-8332-8c50-fe0d998ea688's original integrity claim while preserving 22 source requests and 10 source-gate passes; that run remains promotion-ineligible."
+      "message": "Correction config/content_review_checkpoint_repairs/2026-11-05-truncated-write.json overrides run fe4875f6-dc78-8332-8c50-fe0d998ea688's original integrity claim while preserving its 22 source requests and 10 source-gate passes; aab6f7c4-9964-8332-a6a7-ec3c50c631fb supplies later intact application checkpoint evidence."
     },
     {
       "code": "processing_evidence_fresh",
-      "message": "Processing-health evidence observed at 2026-11-05T00:58:43.403318+00:00 was fresh at 2026-11-05T01:35:38.060Z."
+      "message": "Processing-health evidence observed at 2026-11-05T01:49:22.210342+00:00 was within the 75-minute freshness window at 2026-11-05T02:31:33.379Z."
     },
     {
       "code": "observer_scheduled_start_verified",
-      "message": "Observer run dc3f6d71-7b44-8333-9302-f36f585a9227 started at 2026-11-05T01:31:49.671385Z for scheduled_for 2026-11-05T01:32:00Z, within dispatch grace, and remains in progress."
+      "message": "Observer run 7b89442c-b150-8333-a963-67fe624e9824 started at 2026-11-05T02:28:25.039510Z for scheduled_for 2026-11-05T02:32:00Z, within dispatch grace, and remains in progress."
     },
     {
       "code": "native_next_run_time_unavailable",
