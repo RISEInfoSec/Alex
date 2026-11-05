@@ -30,7 +30,7 @@ jobs:
           python-version: '3.11'
           cache: pip
       - run: pip install -r requirements.txt
-      - run: python -m pytest -q tests/test_content_review_release.py tests/test_discovery_backlog_release.py tests/test_approved_publication.py
+      - run: python -m pytest -q tests/test_content_review_release.py tests/test_discovery_backlog_release.py tests/test_approved_publication.py tests/test_manual_resources.py tests/test_manual_resource_release.py
   release:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
@@ -44,7 +44,7 @@ jobs:
           python-version: '3.11'
           cache: pip
       - run: pip install -r requirements.txt
-      - run: python -m pytest -q tests/test_content_review_release.py tests/test_discovery_backlog_release.py tests/test_approved_publication.py
+      - run: python -m pytest -q tests/test_content_review_release.py tests/test_discovery_backlog_release.py tests/test_approved_publication.py tests/test_manual_resources.py tests/test_manual_resource_release.py
       - name: Apply approved requests with independent source holds
         env:
           PYTHONPATH: .
