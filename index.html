@@ -230,6 +230,7 @@
         <label for="investigationFilter">Investigation type</label>
         <select id="investigationFilter"><option value="">All types</option></select>
       </div>
+      <div><label for="resourceFilter">Resource type</label><select id="resourceFilter"><option value="">All resources</option><option value="research_paper">Research papers</option><option value="best_practice_guide">Best-practice guides</option><option value="technical_report">Technical reports</option><option value="investigative_journalism">Investigative journalism</option></select></div>
     </div>
     <div class="filter-actions">
       <button id="clearBtn" class="text-button" type="button">Clear filters</button>
@@ -279,6 +280,8 @@ const latestNote = document.getElementById('latestNote');
 const browseBtn = document.getElementById('browseBtn');
 const searchEl = document.getElementById('search');
 const sourceEl = document.getElementById('sourceFilter');
+const resourceEl = document.getElementById('resourceFilter');
+const resourceLabels = {research_paper:'Research paper',best_practice_guide:'Best-practice guide',technical_report:'Technical report',investigative_journalism:'Investigative journalism'};
 const categoryEl = document.getElementById('categoryFilter');
 const yearEl = document.getElementById('yearFilter');
 const investigationEl = document.getElementById('investigationFilter');
@@ -321,7 +324,7 @@ fetch('data/papers.json', {cache: 'no-cache'})
       keywords: flattenMulti(p.keywords),
       osint_source: flattenMulti(p.osint_source),
     }));
-    document.getElementById('paperCount').textContent = `${papers.length.toLocaleString('en-CA')} papers`;
+    document.getElementById('paperCount').textContent = `${papers.length.toLocaleString('en-CA')} resources`;
     populateFilters(papers);
     if (!showRequestedRecord()) applyFilters();
   })
@@ -366,6 +369,7 @@ function paperMatches(p) {
     (p.osint_source || []).join(' '), p.category, p.investigation_type, p.venue
   ].join(' ').toLowerCase();
 
+  if (resourceEl.value && (p.document_type || 'research_paper') !== resourceEl.value) return false;
   if (term && !haystack.includes(term)) return false;
   if (sourceEl.value && !(p.osint_source || []).includes(sourceEl.value)) return false;
   if (categoryEl.value && p.category !== categoryEl.value) return false;
@@ -376,7 +380,7 @@ function paperMatches(p) {
 
 function displayPapers(list) {
   resultsEl.innerHTML = '';
-  summaryEl.textContent = `${list.length} paper${list.length === 1 ? '' : 's'} shown`;
+  summaryEl.textContent = `${list.length} resource${list.length === 1 ? '' : 's'} shown`;
 
   list.forEach(p => {
     const div = document.createElement('div');
@@ -386,7 +390,7 @@ function displayPapers(list) {
     const doiHref = p.doi ? safeHref(`https://doi.org/${p.doi}`) : '';
 
     const links = [
-      paperHref ? `<a href="${paperHref}" target="_blank" rel="noopener">View Paper</a>` : '',
+      paperHref ? `<a href="${paperHref}" target="_blank" rel="noopener">${p.document_type && p.document_type!=='research_paper' ? 'View resource' : 'View Paper'}</a>` : '',
       sourceHref && sourceHref !== paperHref ? `<a href="${sourceHref}" target="_blank" rel="noopener">Source Page</a>` : '',
       doiHref ? `<a href="${doiHref}" target="_blank" rel="noopener">DOI</a>` : ''
     ].filter(Boolean).join(' | ');
@@ -396,8 +400,9 @@ function displayPapers(list) {
       <p class="meta"><strong>${escapeHtml(p.author || 'Author metadata incomplete')}</strong> (${escapeHtml(p.year || '')})${p.venue ? ' · ' + escapeHtml(p.venue) : ''}${p.retrieved ? ' · Retrieved ' + escapeHtml(p.retrieved) : ''}</p>
       <p><strong>Research category:</strong> ${escapeHtml(p.category || 'Not specified')}</p>
       ${p.collection_source ? `<p class="meta"><strong>Collection:</strong> ${safeHref(p.collection_url) ? `<a href="${safeHref(p.collection_url)}" target="_blank" rel="noopener">${escapeHtml(p.collection_source)}</a>` : escapeHtml(p.collection_source)}</p>` : ''}
-      <details class="paper-details"><summary>Abstract &amp; details</summary>
+      <details class="paper-details"><summary>${p.summary_kind==='editorial_synopsis'?'Editorial synopsis &amp; details':'Abstract &amp; details'}</summary>
         ${ResearchContext.detail(p)}
+        ${p.quality_assessment?`<p><strong>${escapeHtml(resourceLabels[p.document_type]||p.document_type)} · Qualitative assessment</strong></p><p>${escapeHtml(p.quality_assessment.limitations)}</p>`:''}
         <p>${escapeHtml(p.summary || 'Abstract not recorded.')}</p>
         <p>${links}</p>
       </details>
@@ -407,7 +412,7 @@ function displayPapers(list) {
   });
 
   if (!list.length) {
-    resultsEl.innerHTML = '<div class="section"><h3>No matching papers</h3><p>Try clearing one or more filters.</p></div>';
+    resultsEl.innerHTML = '<div class="section"><h3>No matching resources</h3><p>Try clearing one or more filters.</p></div>';
   }
 }
 
@@ -446,7 +451,7 @@ function applyFilters() {
   }
   document.title = libraryTitle;
   historicalEl.parentElement.hidden = false;
-  const filtered = [searchEl, sourceEl, categoryEl, yearEl, investigationEl].some(el => el.value.trim());
+  const filtered = [searchEl, sourceEl, categoryEl, yearEl, investigationEl, resourceEl].some(el => el.value.trim());
   const latest = !browseAll && !filtered;
   const list = latest
     ? papers.filter(paperMatches).map((paper, index) => ({paper, index}))
@@ -454,7 +459,7 @@ function applyFilters() {
         .slice(0, 5).map(item => item.paper)
     : papers.filter(paperMatches);
   displayPapers(list);
-  if (latest) summaryEl.textContent = `${list.length} latest additions shown · ${papers.length.toLocaleString('en-CA')} papers in the library`;
+  if (latest) summaryEl.textContent = `${list.length} latest additions shown · ${papers.length.toLocaleString('en-CA')} resources in the library`;
   latestNote.hidden = !latest;
   browseBtn.hidden = filtered;
   browseBtn.textContent = browseAll ? 'Show latest additions' : 'Browse the full library';
@@ -472,7 +477,7 @@ browseBtn.addEventListener('click', () => {
   applyFilters();
 });
 
-[searchEl, sourceEl, categoryEl, yearEl, investigationEl].forEach(el => {
+[searchEl, sourceEl, categoryEl, yearEl, investigationEl, resourceEl].forEach(el => {
   el.addEventListener(el.tagName === 'INPUT' ? 'input' : 'change', applyFilters);
 });
 
@@ -481,6 +486,7 @@ document.getElementById('clearBtn').addEventListener('click', () => {
   historicalEl.checked = false;
   searchEl.value = '';
   sourceEl.value = '';
+  resourceEl.value = '';
   categoryEl.value = '';
   yearEl.value = '';
   investigationEl.value = '';

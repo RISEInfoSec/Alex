@@ -57,6 +57,10 @@ def corpus_target(row):
     }
 
 def check_record(row,weights):
+    from alex.resource_types import TYPES, validate_release
+    if row.get('document_type') in TYPES:
+        validate_release(row)
+        return
     h=row['content_sha256'];t=row['target']
     require(row['document_type']=='research_paper','Unsupported resource type')
     reviewed={k:row['document_type'] if k=='document_type' else target_value(t,k) for k in HASH_FIELDS}
@@ -84,6 +88,10 @@ def check_record(row,weights):
     require(row['target_schema']['status']=='passed' and row['target_schema']['content_sha256']==h,'Missing target proof')
 
 def check_target(row):
+    from alex.resource_types import TYPES, validate_release
+    if row.get('document_type') in TYPES:
+        validate_release(row)
+        return
     t=dict(row['target']);h=row['content_sha256'];tags=row['taxonomy']['evidence']['classification']
     # Rebuild the current publisher input from either the classified-row shape
     # used by earlier requests or the publisher's supported public-paper shape.
@@ -124,6 +132,9 @@ def source_check(row,get,origins):
     actual=hashlib.sha256(body).hexdigest()
     if src.get('kind','exact_pdf')=='exact_pdf':
         require(body.startswith(b'%PDF') and actual==src['expected_sha256'],'Approved PDF unavailable or changed')
+    elif src['kind']=='exact_resource_html':
+        require(actual==src['expected_sha256'],'Assessed resource changed; reconcile a new version before release')
+        require(len(BeautifulSoup(body,'html.parser').get_text(' ',strip=True))>=200,'Substantive resource text unavailable')
     elif src['kind']=='verified_fulltext_html':
         text=BeautifulSoup(body,'html.parser').get_text(' ',strip=True)
         def normal(s):return re.sub(r'[^a-z0-9]+','',unicodedata.normalize('NFKC',s).casefold())

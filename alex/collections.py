@@ -290,9 +290,12 @@ def bibliography_item(paper: dict, taxonomy_routes: dict | None = None, source_r
             target = taxonomy_routes.get((dimension, value))
             labels.append(f'{label}: {anchor(target, value) if target else escape(value)}')
         assignments = '<p class="meta">' + ' · '.join(labels) + '</p>'
+    resource_kind=paper.get('document_type','research_paper')
+    resource_label={'best_practice_guide':'Best-practice guide','technical_report':'Technical report','investigative_journalism':'Investigative journalism'}.get(resource_kind,'Research paper')
+    resource_note=f'<p><strong>{escape(resource_label)}</strong></p>' if resource_kind!='research_paper' else ''
     if url:
-        links.insert(0, f'<a href="{escape(url, quote=True)}">View paper</a>')
-    details = f'<details class="paper-details"><summary>Paper details</summary>{notice(paper, as_of)}{availability}{"<p>" + " · ".join(links) + "</p>" if links else ""}</details>'
+        links.insert(0, f'<a href="{escape(url, quote=True)}">{"View paper" if resource_kind=="research_paper" else "View resource"}</a>')
+    details = f'<details class="paper-details"><summary>{"Paper details" if resource_kind=="research_paper" else "Resource details"}</summary>{resource_note}{notice(paper, as_of)}{availability}{"<p>" + " · ".join(links) + "</p>" if links else ""}</details>'
     return f'<li class="paper"><div class="paper-heading"><h3>{title}</h3>{marker(paper, as_of)}</div><p>{author} ({year}){venue}</p>{assignments}{attribution}{details}</li>'
 
 

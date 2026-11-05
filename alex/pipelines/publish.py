@@ -1,4 +1,5 @@
 from __future__ import annotations
+from alex.resource_types import public_fields
 import pandas as pd
 from alex.editorial_exclusions import filter_frame
 import json
@@ -103,6 +104,7 @@ def run(record_collection: bool = False) -> None:
             papers[-1]["historical_only"] = historical_only(dict(row))
     for paper, (_, row) in zip(papers, public.iterrows()):
         paper.update(row_publication_fields(row))
+        paper.update(public_fields(dict(row)))
     save_json(papers_json, papers)
     generate(root_file(), papers)
     if record_collection:
