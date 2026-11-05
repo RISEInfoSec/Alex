@@ -5538,6 +5538,16 @@
           "evidence_ref": "config/content_review_mechanical_checkpoints/4be13912-2f88-8332-8d0d-04893f4b6cf5.json",
           "cycle": 1,
           "retry_not_before": null
+        },
+        {
+          "attempt_id": "4be13912-2f88-8332-8d0d-04893f4b6cf5/weekly-0c62bfc049ea611ecb965fc6/classification",
+          "at": "2026-11-05T06:54:19.869614+00:00",
+          "stage": "classification_and_serialization",
+          "outcome": "success",
+          "reason": "Independent current-contract paid result and disposable target serialization passed; substantive recommendation bound and immediate batch admission.",
+          "evidence_ref": "config/content_review_paid_receipts/f9d6725f2ab563e5c849f833820efc1f74e6ad3e5f0755c19ccfeac937a0a7c1.json",
+          "cycle": 2,
+          "retry_not_before": null
         }
       ],
       "history": [
@@ -5555,6 +5565,14 @@
           "previous_evidence_key": "b987d57dc373e985c98f1818449a20d5cfdea36feb5b03100f7d99f954fb0067",
           "previous_state": "awaiting_initial_checks",
           "reason": "Relevant content, verified evidence, policy, capability or permission revision changed."
+        },
+        {
+          "at": "2026-11-05T06:54:19.869614+00:00",
+          "event": "state_changed",
+          "previous": "awaiting_initial_checks",
+          "state": "ready",
+          "reason": "All six current evidence-bound gates passed.",
+          "cycle": 2
         }
       ],
       "historical_attempt_count_unknown": true,
@@ -5567,24 +5585,22 @@
         "source_url": "https://doi.org/10.59256/indjcst.20260502031",
         "candidate_id": "weekly-0c62bfc049ea611ecb965fc6"
       },
-      "last_evaluated_at": "2026-11-05T06:49:10.888255+00:00",
-      "attempt_count": 0,
-      "last_attempt_at": "2026-11-05T06:49:10.888255+00:00",
-      "last_check_at": "2026-11-05T06:49:10.888255+00:00",
-      "outstanding_checks": [
-        "schema"
-      ],
+      "last_evaluated_at": "2026-11-05T06:54:19.869614+00:00",
+      "attempt_count": 1,
+      "last_attempt_at": "2026-11-05T06:54:19.869614+00:00",
+      "last_check_at": "2026-11-05T06:52:37.003115+00:00",
+      "outstanding_checks": [],
       "initial_checks_overdue": false,
-      "state_changed_at": "2026-11-02T21:46:58.757259+00:00",
-      "state": "awaiting_initial_checks",
-      "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
-      "next_action": "Complete missing initial stages.",
+      "state_changed_at": "2026-11-05T06:54:19.869614+00:00",
+      "state": "ready",
+      "reason": "All six current evidence-bound gates passed.",
+      "next_action": "Prepare recommendation and admit 1–20 cleared candidates.",
       "reconsideration_condition": null,
       "next_retry_at": null,
       "active": true,
       "collection": "weekly",
       "evidence_location": "config/weekly_review_manifest.json#weekly-0c62bfc049ea611ecb965fc6",
-      "first_seen_date": "2026-10-27",
+      "first_seen_date": "2026-11-05",
       "first_seen_precision": "date_only",
       "retry_policy": {
         "maximum_total_attempts": 5,
@@ -5596,10 +5612,11 @@
         "access",
         "metadata",
         "duplicates",
-        "quality"
+        "quality",
+        "schema"
       ],
       "initial_check_status": "partially_checked",
-      "last_progress_at": "2026-11-05T06:49:10.888255+00:00",
+      "last_progress_at": "2026-11-05T06:54:19.869614+00:00",
       "reconsidered_at": "2026-11-05T06:49:10.888255+00:00"
     },
     "weekly:weekly-87461cef83ba435f528f8dc8": {
@@ -23094,14 +23111,14 @@
       "initial_check_status": "partially_checked"
     }
   },
-  "updated_at": "2026-11-05T06:49:10.888255+00:00",
+  "updated_at": "2026-11-05T06:54:19.869614+00:00",
   "policy_version": 1,
   "counts": {
     "completed": 13,
-    "awaiting_initial_checks": 278,
+    "awaiting_initial_checks": 277,
     "awaiting_software_support": 9,
     "retry_scheduled": 6,
-    "ready": 1,
+    "ready": 2,
     "access_restricted": 11,
     "stable_quality_failure": 67
   },
@@ -23130,10 +23147,10 @@
     },
     "weekly": {
       "completed": 11,
-      "awaiting_initial_checks": 83,
+      "awaiting_initial_checks": 82,
       "awaiting_software_support": 2,
       "retry_scheduled": 5,
-      "ready": 1
+      "ready": 2
     }
   }
 }

@@ -48148,9 +48148,936 @@
       },
       "readiness_status": "passed",
       "admitted_at": "2026-11-05T04:56:11.798935+00:00"
+    },
+    {
+      "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
+      "upstream_candidate_id": "23725",
+      "upstream_stable_identity": "10.59256/indjcst.20260502031",
+      "source_row": 981,
+      "review_number": 145,
+      "review_batch": 29,
+      "batch": 29,
+      "title": "Ransomware Threat Detection and Automated Response System Using Wazuh and Python",
+      "authors": "Mohan S; Pradeep G; Madhuravel P; Deepakumaar R; J. Dhivya",
+      "year": 2026,
+      "doi": "10.59256/indjcst.20260502031",
+      "source_url": "https://doi.org/10.59256/indjcst.20260502031",
+      "document_type": "research_paper",
+      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
+      "format_verification_status": "verified_written_research_paper",
+      "abstract": "The increasing evolution of ransomware attacks has created significant challenges for traditional cybersecurity systems that rely primarily on signature-based detection and manual incident response mechanisms. According to the National Institute of Standards and Technology (NIST) Special Publication 1800-26, maintaining data integrity through timely detection and response is critical for minimizing organizational downtime and preventing data corruption caused by ransomware and other destructive events. Inspired by the NIST data integrity and ransomware response framework, this paper presents an intelligent and automated Ransomware Threat Detection and Response System designed to identify ransomware behaviour in real time and minimize data loss through rapid containment actions. The proposed framework integrates Wazuh for continuous system monitoring, behavioural analysis, log correlation, and threat detection with Python-based automated response mechanisms. The system continuously monitors critical indicators such as abnormal file modifications, suspicious process execution, unusual CPU and memory utilization, and shadow copy deletion attempts. Upon detecting ransomware-like activity, automated response actions including malicious process termination, network isolation, alert generation, and system containment are executed instantly to prevent further encryption and propagation. The framework is deployed in a virtualized environment consisting of Ubuntu Server, Windows client systems, and Kali Linux attack simulation machines to evaluate real-world attack scenarios safely. Experimental results demonstrate that the proposed behaviour-based approach effectively detects ransomware activity at early stages with faster response times and reduced system impact compared to conventional reactive security solutions. The proposed system offers a scalable, lightweight, and cost-effective cybersecurity solution suitable for academic, enterprise, and small-scale organizational environments.",
+      "abstract_source": "https://doi.org/10.59256/indjcst.20260502031",
+      "assessment_basis": "Substantive reread of the complete current abstract after exact-hash mechanical preflight; actual source access and written-paper type were independently verified. Full paper not assessed.",
+      "review_evidence": [
+        "https://doi.org/10.59256/indjcst.20260502031",
+        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+      ],
+      "collection_id": "weekly",
+      "collection_source": "ALEX regular weekly discovery review queue",
+      "collection_url": "https://github.com/RISEInfoSec/Alex",
+      "recommendation": "discuss",
+      "relevance": "medium",
+      "review_reason": "The retained six-page paper describes a Wazuh and Python lab framework that correlates file, process and shadow-copy behaviour and triggers containment in Ubuntu/Windows/Kali virtual machines. It may inform ransomware threat-hunting and evidence preservation, but the inspected text does not establish a quantitative false-positive, containment-latency or data-loss comparison; automatic containment safety and investigative transferability warrant editorial review.",
+      "metadata_issue": "No numeric latency, false-positive or data-loss comparison is provided; lab simulations and automated containment do not establish production safety or effectiveness. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 22.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+      "screening_status": "current_abstract_recommendation_complete_after_preflight",
+      "assessment_depth": "complete_current_abstract_after_preflight",
+      "assessment_date": "2026-11-05",
+      "full_paper_reviewed": false,
+      "paper_format_verified": true,
+      "source_verification_status": "publisher_resource_and_written_paper_verified",
+      "quality_status": "existing_human_quality_review_required",
+      "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+      "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+      "manual_review_required": true,
+      "total_quality_score": 22.82,
+      "quality_score": 22.82,
+      "quality_auto_threshold": 35,
+      "quality_review_threshold": 20,
+      "relevance_score": 35.29,
+      "is_preprint": false,
+      "venue": "Indian Journal of Computer Science and Technology",
+      "citation_count": null,
+      "citation_status": "unknown",
+      "doi_status": "upstream_identifier_not_independently_verified",
+      "source_recommended_action": "human review",
+      "source_review_reason": "Quality uncertain or moderate",
+      "discovery_source": "Crossref",
+      "discovery_query": "threat intelligence collection",
+      "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+      "decision": "pending",
+      "publication_approved": false,
+      "duplicate_check": {
+        "status": "no_match_found",
+        "matches": [],
+        "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+      },
+      "source_record_sha256": "452eb7809a11be9d7ead4a6cbcbad2b77e9f2d7e622d31a304c5499c1b8ad7a1",
+      "assessed_text_sha256": "2f611a4c7fb22b34a5139cfd3b335cf9303d52f410da85dc1004029e05f412e8",
+      "venue_score": 40,
+      "citation_score": 0,
+      "institution_score": 20,
+      "institution_bonus": 0,
+      "title_anchor_bonus": 0,
+      "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+      "review_ready": true,
+      "preflight_status": "passed",
+      "preflight_blockers": [],
+      "preflight": {
+        "status": "passed",
+        "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+        "checks": {
+          "format": {
+            "status": "passed",
+            "checked_at": "2026-11-04T23:51:50.174309+00:00",
+            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+              "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
+              "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
+              "pages_inspected": 6,
+              "page_count": 6,
+              "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
+            },
+            "rebound_from_content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained.",
+            "rebound_at": "2026-11-05T06:49:10.888255+00:00"
+          },
+          "access": {
+            "status": "passed",
+            "checked_at": "2026-11-04T23:51:50.174309+00:00",
+            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+              "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
+              "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
+              "pages_inspected": 6,
+              "page_count": 6,
+              "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
+            },
+            "rebound_from_content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained.",
+            "rebound_at": "2026-11-05T06:49:10.888255+00:00"
+          },
+          "metadata": {
+            "status": "passed",
+            "checked_at": "2026-11-05T06:49:10.888255+00:00",
+            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+            "evidence": {
+              "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+              "publisher_authors": [
+                "Mohan S",
+                "Pradeep G",
+                "Madhuravel P",
+                "Deepakumaar R",
+                "J. Dhivya"
+              ],
+              "publication_date_precision": "month",
+              "publication_date": "2026-05",
+              "doi": "10.59256/indjcst.20260502031",
+              "pdf_text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
+              "pdf_body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
+              "scope": "Exact publisher/PDF title, byline, year and DOI agree; no day-level publication claim. Author inversion corrected with full version history."
+            },
+            "rebound_from_content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+            "rebound_at": "2026-11-05T06:49:10.888255+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "duplicates": {
+            "status": "passed",
+            "checked_at": "2026-11-05T06:49:10.888255+00:00",
+            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+            "evidence": {
+              "status": "passed",
+              "matches": [],
+              "upstream_aliases": [],
+              "exclusions": []
+            },
+            "rebound_from_content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+            "rebound_at": "2026-11-05T06:49:10.888255+00:00",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
+          },
+          "quality": {
+            "status": "passed",
+            "checked_at": "2026-10-27T23:05:42.201570+00:00",
+            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+            "evidence": {
+              "quality_score": 22.82,
+              "quality_venue_score": 40,
+              "quality_citation_score": 0,
+              "quality_relevance_score": 35.29,
+              "quality_institution_score": 40,
+              "quality_institution_bonus": 0,
+              "quality_title_bonus": 0,
+              "quality_auto_threshold": 35,
+              "quality_review_threshold": 20,
+              "quality_core_term_gate": "pass",
+              "quality_relevance_gate": "pass",
+              "citation_count_known": false,
+              "quality_review_status": "human_quality_review",
+              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+              "quality_requires_review": true
+            },
+            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+            "rebound_from_content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained.",
+            "rebound_at": "2026-11-05T06:49:10.888255+00:00"
+          },
+          "schema": {
+            "status": "passed",
+            "checked_at": "2026-11-05T06:52:37.003115+00:00",
+            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+            "evidence": {
+              "method": "Existing publish.run on disposable one-record CSV/JSON fixture",
+              "target_record_sha256": "d3cae66a99854579f0548b8b7d1b95835a6ba0cadc5d63145a7b206f7b4534f8",
+              "document_type": "research_paper",
+              "corpus_modified": false,
+              "publication_approved": false,
+              "scope": "Target serialization/schema compatibility only; all other gates and editorial decisions still govern admission/release.",
+              "taxonomy": {
+                "status": "passed",
+                "checked_at": "2026-11-05T06:52:36.994395+00:00",
+                "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+                "evidence": {
+                  "classification": {
+                    "Category": "Cyber Threat Intelligence",
+                    "Investigation_Type": "Threat Hunting",
+                    "OSINT_Source_Types": []
+                  },
+                  "response_id": "resp_0cb8272cb5cbf221016aec27b3d31487d2960ade27fea95281",
+                  "model": "gpt-4o-mini-2024-07-18",
+                  "reported_usage": {
+                    "input_tokens": 687,
+                    "input_tokens_details": {
+                      "cache_write_tokens": 0,
+                      "cached_tokens": 0
+                    },
+                    "output_tokens": 31,
+                    "output_tokens_details": {
+                      "reasoning_tokens": 0
+                    },
+                    "total_tokens": 718
+                  },
+                  "uncertainty_flags": []
+                },
+                "provenance": {
+                  "GITHUB_RUN_ID": "41983281555",
+                  "GITHUB_RUN_ATTEMPT": "1",
+                  "GITHUB_SHA": "110177d90d784fb07940d022960f0526a1973946",
+                  "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+                  "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+                },
+                "request_id": "f9d6725f2ab563e5c849f833820efc1f74e6ad3e5f0755c19ccfeac937a0a7c1"
+              },
+              "contract": {
+                "prompt_schema_sha256": "9eeba84246eb386cac9dc821b6e5008e53be44d8c013f94a2b942b9cb5a130ac",
+                "classifier_source_sha256": "defc391a2878485764e1737a3391ec2d9d6ebf1a143fcc1da345c48dff5fa63f",
+                "runner_sha256": "d162ba76e1dba67f447494b04e6b6d7fc876662c2b675e244954ab4d437386d7",
+                "workflow_sha256": "17625572aa76ac38bec3f25510bc8bd2496989de8e33e713f38280e7f74cdff2",
+                "publisher_sha256": "47e9e34178ed24073c2a4fc0da57c8cdb47c27a69f842be80316ef38fb1a9c86",
+                "quality_policy_sha256": "81da70951b01d15e8e6a85c80b3256c10efaa6cb7f13e8bf1e9663f28b45a18a"
+              },
+              "workflow_run_id": 41983281555
+            },
+            "revalidated_at": "2026-11-05T06:54:19.674391+00:00",
+            "prior_evidence": {
+              "status": "held",
+              "checked_at": "2026-11-05T06:49:10.888255+00:00",
+              "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+              "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
+              "prior_evidence": {
+                "status": "held",
+                "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+                "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00",
+                "rebound_from_content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                "rebound_basis": "Exact final-author display correction from retained matching publisher/PDF; title, year, DOI, source, abstract and quality inputs unchanged."
+              }
+            }
+          }
+        }
+      },
+      "editorial_queue_eligible": true,
+      "source_processing_history": [
+        {}
+      ],
+      "source_processing": {
+        "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+        "retrieval_status": "retrieved",
+        "receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+        "reason": null,
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+        "evidence_sha256": [
+          "a2e961c5310446a6729fb86537bd7ef86a017f755f844ae22a05c07718eeb517",
+          "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6"
+        ],
+        "inspection_reason": "Publisher/PDF metadata reconciled and verified type versioned; exact-hash current-contract classification remains."
+      },
+      "verified_document_type": "research_paper",
+      "reviewed_content_versions": [
+        {
+          "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+          "superseded_at": "2026-11-05T06:49:10.888255+00:00",
+          "reason": "Retained independently verified publisher and PDF agree on exact author display J. Dhivya; replace discovery inversion Dhivya J. Full pre-pass record retained.",
+          "record": {
+            "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
+            "upstream_candidate_id": "23725",
+            "upstream_stable_identity": "10.59256/indjcst.20260502031",
+            "source_row": 981,
+            "review_number": 145,
+            "review_batch": 8,
+            "batch": 8,
+            "title": "Ransomware Threat Detection and Automated Response System Using Wazuh and Python",
+            "authors": "Mohan S; Pradeep G; Madhuravel P; Deepakumaar R; Dhivya J",
+            "year": 2026,
+            "doi": "10.59256/indjcst.20260502031",
+            "source_url": "https://doi.org/10.59256/indjcst.20260502031",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "The increasing evolution of ransomware attacks has created significant challenges for traditional cybersecurity systems that rely primarily on signature-based detection and manual incident response mechanisms. According to the National Institute of Standards and Technology (NIST) Special Publication 1800-26, maintaining data integrity through timely detection and response is critical for minimizing organizational downtime and preventing data corruption caused by ransomware and other destructive events. Inspired by the NIST data integrity and ransomware response framework, this paper presents an intelligent and automated Ransomware Threat Detection and Response System designed to identify ransomware behaviour in real time and minimize data loss through rapid containment actions. The proposed framework integrates Wazuh for continuous system monitoring, behavioural analysis, log correlation, and threat detection with Python-based automated response mechanisms. The system continuously monitors critical indicators such as abnormal file modifications, suspicious process execution, unusual CPU and memory utilization, and shadow copy deletion attempts. Upon detecting ransomware-like activity, automated response actions including malicious process termination, network isolation, alert generation, and system containment are executed instantly to prevent further encryption and propagation. The framework is deployed in a virtualized environment consisting of Ubuntu Server, Windows client systems, and Kali Linux attack simulation machines to evaluate real-world attack scenarios safely. Experimental results demonstrate that the proposed behaviour-based approach effectively detects ransomware activity at early stages with faster response times and reduced system impact compared to conventional reactive security solutions. The proposed system offers a scalable, lightweight, and cost-effective cybersecurity solution suitable for academic, enterprise, and small-scale organizational environments.",
+            "abstract_source": "https://doi.org/10.59256/indjcst.20260502031",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              "https://doi.org/10.59256/indjcst.20260502031",
+              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "include",
+            "relevance": "direct",
+            "review_reason": "Combines Wazuh monitoring and Python containment in virtualised Windows and Linux tests to respond to ransomware-like file, process and shadow-copy behaviour.",
+            "metadata_issue": "No numeric latency, false-positive or data-loss comparison is provided; lab simulations and automated containment do not establish production safety or effectiveness. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 22.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 22.82,
+            "quality_score": 22.82,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 35.29,
+            "is_preprint": false,
+            "venue": "Indian Journal of Computer Science and Technology",
+            "citation_count": null,
+            "citation_status": "unknown",
+            "doi_status": "upstream_identifier_not_independently_verified",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "Crossref",
+            "discovery_query": "threat intelligence collection",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "452eb7809a11be9d7ead4a6cbcbad2b77e9f2d7e622d31a304c5499c1b8ad7a1",
+            "assessed_text_sha256": "2f611a4c7fb22b34a5139cfd3b335cf9303d52f410da85dc1004029e05f412e8",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 20,
+            "institution_bonus": 0,
+            "title_anchor_bonus": 0,
+            "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "metadata",
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+              "checks": {
+                "duplicates": {
+                  "status": "passed",
+                  "checked_at": "2026-10-28T03:50:34.934054+00:00",
+                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                  "evidence": {
+                    "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+                    "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+                    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                    "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                    "weekly_inventory_records": 4041,
+                    "all_prepared_collections": [
+                      "soups",
+                      "weekly",
+                      "virusbulletin",
+                      "apwg"
+                    ],
+                    "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+                    "matches": []
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                  "evidence": {
+                    "quality_score": 22.82,
+                    "quality_venue_score": 40,
+                    "quality_citation_score": 0,
+                    "quality_relevance_score": 35.29,
+                    "quality_institution_score": 40,
+                    "quality_institution_bonus": 0,
+                    "quality_title_bonus": 0,
+                    "quality_auto_threshold": 35,
+                    "quality_review_threshold": 20,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": false,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                },
+                "format": {
+                  "status": "passed",
+                  "checked_at": "2026-11-04T23:51:50.174309+00:00",
+                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+                    "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
+                    "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
+                    "pages_inspected": 6,
+                    "page_count": 6,
+                    "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
+                  }
+                },
+                "access": {
+                  "status": "passed",
+                  "checked_at": "2026-11-04T23:51:50.174309+00:00",
+                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+                    "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
+                    "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
+                    "pages_inspected": 6,
+                    "page_count": 6,
+                    "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
+                  }
+                },
+                "metadata": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                  "evidence": "Not yet completed; not a pass.",
+                  "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "source_processing_history": [
+              {}
+            ],
+            "source_processing": {
+              "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+              "retrieval_status": "retrieved",
+              "receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+              "reason": null,
+              "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+              "evidence_sha256": [
+                "a2e961c5310446a6729fb86537bd7ef86a017f755f844ae22a05c07718eeb517",
+                "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6"
+              ],
+              "inspection_reason": "Verified paper; current byline Dhivya J differs from publisher/PDF J. Dhivya; explicit metadata/version reconciliation held."
+            },
+            "verified_document_type": "research_paper"
+          }
+        },
+        {
+          "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+          "superseded_at": "2026-11-05T06:49:10.888255+00:00",
+          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
+          "record": {
+            "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
+            "upstream_candidate_id": "23725",
+            "upstream_stable_identity": "10.59256/indjcst.20260502031",
+            "source_row": 981,
+            "review_number": 145,
+            "review_batch": 8,
+            "batch": 8,
+            "title": "Ransomware Threat Detection and Automated Response System Using Wazuh and Python",
+            "authors": "Mohan S; Pradeep G; Madhuravel P; Deepakumaar R; J. Dhivya",
+            "year": 2026,
+            "doi": "10.59256/indjcst.20260502031",
+            "source_url": "https://doi.org/10.59256/indjcst.20260502031",
+            "document_type": "research_paper_candidate",
+            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+            "format_verification_status": "hold_original_document_type_unverified",
+            "abstract": "The increasing evolution of ransomware attacks has created significant challenges for traditional cybersecurity systems that rely primarily on signature-based detection and manual incident response mechanisms. According to the National Institute of Standards and Technology (NIST) Special Publication 1800-26, maintaining data integrity through timely detection and response is critical for minimizing organizational downtime and preventing data corruption caused by ransomware and other destructive events. Inspired by the NIST data integrity and ransomware response framework, this paper presents an intelligent and automated Ransomware Threat Detection and Response System designed to identify ransomware behaviour in real time and minimize data loss through rapid containment actions. The proposed framework integrates Wazuh for continuous system monitoring, behavioural analysis, log correlation, and threat detection with Python-based automated response mechanisms. The system continuously monitors critical indicators such as abnormal file modifications, suspicious process execution, unusual CPU and memory utilization, and shadow copy deletion attempts. Upon detecting ransomware-like activity, automated response actions including malicious process termination, network isolation, alert generation, and system containment are executed instantly to prevent further encryption and propagation. The framework is deployed in a virtualized environment consisting of Ubuntu Server, Windows client systems, and Kali Linux attack simulation machines to evaluate real-world attack scenarios safely. Experimental results demonstrate that the proposed behaviour-based approach effectively detects ransomware activity at early stages with faster response times and reduced system impact compared to conventional reactive security solutions. The proposed system offers a scalable, lightweight, and cost-effective cybersecurity solution suitable for academic, enterprise, and small-scale organizational environments.",
+            "abstract_source": "https://doi.org/10.59256/indjcst.20260502031",
+            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+            "review_evidence": [
+              "https://doi.org/10.59256/indjcst.20260502031",
+              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+            ],
+            "collection_id": "weekly",
+            "collection_source": "ALEX regular weekly discovery review queue",
+            "collection_url": "https://github.com/RISEInfoSec/Alex",
+            "recommendation": "include",
+            "relevance": "direct",
+            "review_reason": "Combines Wazuh monitoring and Python containment in virtualised Windows and Linux tests to respond to ransomware-like file, process and shadow-copy behaviour.",
+            "metadata_issue": "No numeric latency, false-positive or data-loss comparison is provided; lab simulations and automated containment do not establish production safety or effectiveness. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 22.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+            "screening_status": "cached_abstract_review_complete",
+            "assessment_depth": "cached_abstract",
+            "assessment_date": "2026-10-27",
+            "full_paper_reviewed": false,
+            "paper_format_verified": false,
+            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+            "quality_status": "existing_human_quality_review_required",
+            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+            "manual_review_required": true,
+            "total_quality_score": 22.82,
+            "quality_score": 22.82,
+            "quality_auto_threshold": 35,
+            "quality_review_threshold": 20,
+            "relevance_score": 35.29,
+            "is_preprint": false,
+            "venue": "Indian Journal of Computer Science and Technology",
+            "citation_count": null,
+            "citation_status": "unknown",
+            "doi_status": "upstream_identifier_not_independently_verified",
+            "source_recommended_action": "human review",
+            "source_review_reason": "Quality uncertain or moderate",
+            "discovery_source": "Crossref",
+            "discovery_query": "threat intelligence collection",
+            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+            "decision": "pending",
+            "publication_approved": false,
+            "duplicate_check": {
+              "status": "no_match_found",
+              "matches": [],
+              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+            },
+            "source_record_sha256": "452eb7809a11be9d7ead4a6cbcbad2b77e9f2d7e622d31a304c5499c1b8ad7a1",
+            "assessed_text_sha256": "2f611a4c7fb22b34a5139cfd3b335cf9303d52f410da85dc1004029e05f412e8",
+            "venue_score": 40,
+            "citation_score": 0,
+            "institution_score": 20,
+            "institution_bonus": 0,
+            "title_anchor_bonus": 0,
+            "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+            "review_ready": false,
+            "preflight_status": "held",
+            "preflight_blockers": [
+              "metadata",
+              "schema"
+            ],
+            "preflight": {
+              "status": "held",
+              "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+              "checks": {
+                "duplicates": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T06:49:10.888255+00:00",
+                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+                  "evidence": {
+                    "status": "passed",
+                    "matches": [],
+                    "upstream_aliases": [],
+                    "exclusions": []
+                  }
+                },
+                "quality": {
+                  "status": "passed",
+                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+                  "evidence": {
+                    "quality_score": 22.82,
+                    "quality_venue_score": 40,
+                    "quality_citation_score": 0,
+                    "quality_relevance_score": 35.29,
+                    "quality_institution_score": 40,
+                    "quality_institution_bonus": 0,
+                    "quality_title_bonus": 0,
+                    "quality_auto_threshold": 35,
+                    "quality_review_threshold": 20,
+                    "quality_core_term_gate": "pass",
+                    "quality_relevance_gate": "pass",
+                    "citation_count_known": false,
+                    "quality_review_status": "human_quality_review",
+                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                    "quality_requires_review": true
+                  },
+                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
+                  "rebound_from_content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                  "rebound_basis": "Exact final-author display correction from retained matching publisher/PDF; title, year, DOI, source, abstract and quality inputs unchanged."
+                },
+                "format": {
+                  "status": "passed",
+                  "checked_at": "2026-11-04T23:51:50.174309+00:00",
+                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+                    "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
+                    "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
+                    "pages_inspected": 6,
+                    "page_count": 6,
+                    "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
+                  },
+                  "rebound_from_content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                  "rebound_basis": "Exact final-author display correction from retained matching publisher/PDF; title, year, DOI, source, abstract and quality inputs unchanged."
+                },
+                "access": {
+                  "status": "passed",
+                  "checked_at": "2026-11-04T23:51:50.174309+00:00",
+                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+                    "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
+                    "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
+                    "pages_inspected": 6,
+                    "page_count": 6,
+                    "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
+                  },
+                  "rebound_from_content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                  "rebound_basis": "Exact final-author display correction from retained matching publisher/PDF; title, year, DOI, source, abstract and quality inputs unchanged."
+                },
+                "metadata": {
+                  "status": "passed",
+                  "checked_at": "2026-11-05T06:49:10.888255+00:00",
+                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+                  "evidence": {
+                    "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+                    "publisher_authors": [
+                      "Mohan S",
+                      "Pradeep G",
+                      "Madhuravel P",
+                      "Deepakumaar R",
+                      "J. Dhivya"
+                    ],
+                    "publication_date_precision": "month",
+                    "publication_date": "2026-05",
+                    "doi": "10.59256/indjcst.20260502031",
+                    "pdf_text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
+                    "pdf_body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
+                    "scope": "Exact publisher/PDF title, byline, year and DOI agree; no day-level publication claim. Author inversion corrected with full version history."
+                  }
+                },
+                "schema": {
+                  "status": "held",
+                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00",
+                  "rebound_from_content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                  "rebound_basis": "Exact final-author display correction from retained matching publisher/PDF; title, year, DOI, source, abstract and quality inputs unchanged."
+                }
+              }
+            },
+            "editorial_queue_eligible": false,
+            "source_processing_history": [
+              {}
+            ],
+            "source_processing": {
+              "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+              "retrieval_status": "retrieved",
+              "receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+              "reason": null,
+              "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+              "evidence_sha256": [
+                "a2e961c5310446a6729fb86537bd7ef86a017f755f844ae22a05c07718eeb517",
+                "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6"
+              ],
+              "inspection_reason": "Verified paper; current byline Dhivya J differs from publisher/PDF J. Dhivya; explicit metadata/version reconciliation held."
+            },
+            "verified_document_type": "research_paper",
+            "reviewed_content_versions": [
+              {
+                "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                "superseded_at": "2026-11-05T06:49:10.888255+00:00",
+                "reason": "Retained independently verified publisher and PDF agree on exact author display J. Dhivya; replace discovery inversion Dhivya J. Full pre-pass record retained.",
+                "record": {
+                  "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
+                  "upstream_candidate_id": "23725",
+                  "upstream_stable_identity": "10.59256/indjcst.20260502031",
+                  "source_row": 981,
+                  "review_number": 145,
+                  "review_batch": 8,
+                  "batch": 8,
+                  "title": "Ransomware Threat Detection and Automated Response System Using Wazuh and Python",
+                  "authors": "Mohan S; Pradeep G; Madhuravel P; Deepakumaar R; Dhivya J",
+                  "year": 2026,
+                  "doi": "10.59256/indjcst.20260502031",
+                  "source_url": "https://doi.org/10.59256/indjcst.20260502031",
+                  "document_type": "research_paper_candidate",
+                  "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
+                  "format_verification_status": "hold_original_document_type_unverified",
+                  "abstract": "The increasing evolution of ransomware attacks has created significant challenges for traditional cybersecurity systems that rely primarily on signature-based detection and manual incident response mechanisms. According to the National Institute of Standards and Technology (NIST) Special Publication 1800-26, maintaining data integrity through timely detection and response is critical for minimizing organizational downtime and preventing data corruption caused by ransomware and other destructive events. Inspired by the NIST data integrity and ransomware response framework, this paper presents an intelligent and automated Ransomware Threat Detection and Response System designed to identify ransomware behaviour in real time and minimize data loss through rapid containment actions. The proposed framework integrates Wazuh for continuous system monitoring, behavioural analysis, log correlation, and threat detection with Python-based automated response mechanisms. The system continuously monitors critical indicators such as abnormal file modifications, suspicious process execution, unusual CPU and memory utilization, and shadow copy deletion attempts. Upon detecting ransomware-like activity, automated response actions including malicious process termination, network isolation, alert generation, and system containment are executed instantly to prevent further encryption and propagation. The framework is deployed in a virtualized environment consisting of Ubuntu Server, Windows client systems, and Kali Linux attack simulation machines to evaluate real-world attack scenarios safely. Experimental results demonstrate that the proposed behaviour-based approach effectively detects ransomware activity at early stages with faster response times and reduced system impact compared to conventional reactive security solutions. The proposed system offers a scalable, lightweight, and cost-effective cybersecurity solution suitable for academic, enterprise, and small-scale organizational environments.",
+                  "abstract_source": "https://doi.org/10.59256/indjcst.20260502031",
+                  "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+                  "review_evidence": [
+                    "https://doi.org/10.59256/indjcst.20260502031",
+                    "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+                  ],
+                  "collection_id": "weekly",
+                  "collection_source": "ALEX regular weekly discovery review queue",
+                  "collection_url": "https://github.com/RISEInfoSec/Alex",
+                  "recommendation": "include",
+                  "relevance": "direct",
+                  "review_reason": "Combines Wazuh monitoring and Python containment in virtualised Windows and Linux tests to respond to ransomware-like file, process and shadow-copy behaviour.",
+                  "metadata_issue": "No numeric latency, false-positive or data-loss comparison is provided; lab simulations and automated containment do not establish production safety or effectiveness. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 22.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
+                  "screening_status": "cached_abstract_review_complete",
+                  "assessment_depth": "cached_abstract",
+                  "assessment_date": "2026-10-27",
+                  "full_paper_reviewed": false,
+                  "paper_format_verified": false,
+                  "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
+                  "quality_status": "existing_human_quality_review_required",
+                  "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
+                  "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
+                  "manual_review_required": true,
+                  "total_quality_score": 22.82,
+                  "quality_score": 22.82,
+                  "quality_auto_threshold": 35,
+                  "quality_review_threshold": 20,
+                  "relevance_score": 35.29,
+                  "is_preprint": false,
+                  "venue": "Indian Journal of Computer Science and Technology",
+                  "citation_count": null,
+                  "citation_status": "unknown",
+                  "doi_status": "upstream_identifier_not_independently_verified",
+                  "source_recommended_action": "human review",
+                  "source_review_reason": "Quality uncertain or moderate",
+                  "discovery_source": "Crossref",
+                  "discovery_query": "threat intelligence collection",
+                  "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
+                  "decision": "pending",
+                  "publication_approved": false,
+                  "duplicate_check": {
+                    "status": "no_match_found",
+                    "matches": [],
+                    "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
+                  },
+                  "source_record_sha256": "452eb7809a11be9d7ead4a6cbcbad2b77e9f2d7e622d31a304c5499c1b8ad7a1",
+                  "assessed_text_sha256": "2f611a4c7fb22b34a5139cfd3b335cf9303d52f410da85dc1004029e05f412e8",
+                  "venue_score": 40,
+                  "citation_score": 0,
+                  "institution_score": 20,
+                  "institution_bonus": 0,
+                  "title_anchor_bonus": 0,
+                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                  "review_ready": false,
+                  "preflight_status": "held",
+                  "preflight_blockers": [
+                    "metadata",
+                    "schema"
+                  ],
+                  "preflight": {
+                    "status": "held",
+                    "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                    "checks": {
+                      "duplicates": {
+                        "status": "passed",
+                        "checked_at": "2026-10-28T03:50:34.934054+00:00",
+                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                        "evidence": {
+                          "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
+                          "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
+                          "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
+                          "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
+                          "weekly_inventory_records": 4041,
+                          "all_prepared_collections": [
+                            "soups",
+                            "weekly",
+                            "virusbulletin",
+                            "apwg"
+                          ],
+                          "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
+                          "matches": []
+                        }
+                      },
+                      "quality": {
+                        "status": "passed",
+                        "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                        "evidence": {
+                          "quality_score": 22.82,
+                          "quality_venue_score": 40,
+                          "quality_citation_score": 0,
+                          "quality_relevance_score": 35.29,
+                          "quality_institution_score": 40,
+                          "quality_institution_bonus": 0,
+                          "quality_title_bonus": 0,
+                          "quality_auto_threshold": 35,
+                          "quality_review_threshold": 20,
+                          "quality_core_term_gate": "pass",
+                          "quality_relevance_gate": "pass",
+                          "citation_count_known": false,
+                          "quality_review_status": "human_quality_review",
+                          "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
+                          "quality_requires_review": true
+                        },
+                        "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
+                      },
+                      "format": {
+                        "status": "passed",
+                        "checked_at": "2026-11-04T23:51:50.174309+00:00",
+                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                        "evidence": {
+                          "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+                          "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
+                          "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
+                          "pages_inspected": 6,
+                          "page_count": 6,
+                          "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
+                        }
+                      },
+                      "access": {
+                        "status": "passed",
+                        "checked_at": "2026-11-04T23:51:50.174309+00:00",
+                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                        "evidence": {
+                          "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+                          "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
+                          "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
+                          "pages_inspected": 6,
+                          "page_count": 6,
+                          "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
+                        }
+                      },
+                      "metadata": {
+                        "status": "held",
+                        "checked_at": "2026-10-27T23:05:42.201570+00:00",
+                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                        "evidence": "Not yet completed; not a pass.",
+                        "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
+                      },
+                      "schema": {
+                        "status": "held",
+                        "checked_at": "2026-10-27T23:05:43.163744+00:00",
+                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                        "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
+                        "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
+                        "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
+                      }
+                    }
+                  },
+                  "editorial_queue_eligible": false,
+                  "source_processing_history": [
+                    {}
+                  ],
+                  "source_processing": {
+                    "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
+                    "retrieval_status": "retrieved",
+                    "receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+                    "reason": null,
+                    "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
+                    "evidence_sha256": [
+                      "a2e961c5310446a6729fb86537bd7ef86a017f755f844ae22a05c07718eeb517",
+                      "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6"
+                    ],
+                    "inspection_reason": "Verified paper; current byline Dhivya J differs from publisher/PDF J. Dhivya; explicit metadata/version reconciliation held."
+                  },
+                  "verified_document_type": "research_paper"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "recommendation_content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+      "recommendation_status": "current_substantive_abstract_assessment_after_preflight",
+      "admission_hold": null,
+      "taxonomy_verification": {
+        "status": "passed",
+        "checked_at": "2026-11-05T06:52:36.994395+00:00",
+        "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+        "evidence": {
+          "classification": {
+            "Category": "Cyber Threat Intelligence",
+            "Investigation_Type": "Threat Hunting",
+            "OSINT_Source_Types": []
+          },
+          "response_id": "resp_0cb8272cb5cbf221016aec27b3d31487d2960ade27fea95281",
+          "model": "gpt-4o-mini-2024-07-18",
+          "reported_usage": {
+            "input_tokens": 687,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens": 31,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 718
+          },
+          "uncertainty_flags": []
+        },
+        "provenance": {
+          "GITHUB_RUN_ID": "41983281555",
+          "GITHUB_RUN_ATTEMPT": "1",
+          "GITHUB_SHA": "110177d90d784fb07940d022960f0526a1973946",
+          "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+          "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_paid.yml@refs/heads/codex/soups-corpus-review"
+        },
+        "request_id": "f9d6725f2ab563e5c849f833820efc1f74e6ad3e5f0755c19ccfeac937a0a7c1"
+      },
+      "recommendation_versions": [
+        {
+          "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
+          "recommendation": "discuss",
+          "relevance": "medium",
+          "review_reason": "The retained six-page paper describes a Wazuh and Python lab framework that correlates file, process and shadow-copy behaviour and triggers containment in Ubuntu/Windows/Kali virtual machines. It may inform ransomware threat-hunting and evidence preservation, but the inspected text does not establish a quantitative false-positive, containment-latency or data-loss comparison; automatic containment safety and investigative transferability warrant editorial review.",
+          "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
+          "assessment_depth": "cached_abstract",
+          "assessment_date": "2026-10-27",
+          "status": "awaiting_reassessment_for_verified_document_type_after_preflight",
+          "superseded_at": "2026-11-05T06:54:19.676006+00:00"
+        }
+      ],
+      "recommendation_assessed_at": "2026-11-05T06:54:19.676006+00:00",
+      "recommendation_evidence": {
+        "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
+        "abstract_sha256": "2f611a4c7fb22b34a5139cfd3b335cf9303d52f410da85dc1004029e05f412e8",
+        "assessment_depth": "complete_current_abstract",
+        "method": "Direct substantive reread of the complete current abstract after all six mechanical gates passed; recommendation and reason checked against the described methods/findings.",
+        "source_provenance": [
+          "https://doi.org/10.59256/indjcst.20260502031",
+          "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
+        ],
+        "format_checked_at": "2026-11-04T23:51:50.174309+00:00",
+        "access_checked_at": "2026-11-04T23:51:50.174309+00:00",
+        "limitations": "Full paper not assessed for this recommendation. Mechanical source/type evidence is separate; this assessment does not waive quality, batch, decision, or release controls.",
+        "recommendation": "discuss",
+        "relevance": "medium",
+        "basis": "The retained six-page paper describes a Wazuh and Python lab framework that correlates file, process and shadow-copy behaviour and triggers containment in Ubuntu/Windows/Kali virtual machines. It may inform ransomware threat-hunting and evidence preservation, but the inspected text does not establish a quantitative false-positive, containment-latency or data-loss comparison; automatic containment safety and investigative transferability warrant editorial review.",
+        "assessed_at": "2026-11-05T06:54:19.676006+00:00"
+      },
+      "batch_admission_eligible": true,
+      "preflight_reservation": {
+        "review_number": 145,
+        "review_batch": 8
+      },
+      "readiness_status": "passed",
+      "admitted_at": "2026-11-05T06:54:19.676229+00:00"
     }
   ],
-  "prepared_count": 1,
+  "prepared_count": 2,
   "assessment_count": 151,
   "duplicate_holds": [
     {
@@ -64638,804 +65565,6 @@
       "editorial_queue_eligible": false
     },
     {
-      "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
-      "upstream_candidate_id": "23725",
-      "upstream_stable_identity": "10.59256/indjcst.20260502031",
-      "source_row": 981,
-      "review_number": 145,
-      "review_batch": 8,
-      "batch": 8,
-      "title": "Ransomware Threat Detection and Automated Response System Using Wazuh and Python",
-      "authors": "Mohan S; Pradeep G; Madhuravel P; Deepakumaar R; J. Dhivya",
-      "year": 2026,
-      "doi": "10.59256/indjcst.20260502031",
-      "source_url": "https://doi.org/10.59256/indjcst.20260502031",
-      "document_type": "research_paper",
-      "document_type_basis": "Actual publisher resource and title/byline/abstract or opening prose were inspected; written research paper verified without inferring peer review or scientific quality.",
-      "format_verification_status": "verified_written_research_paper",
-      "abstract": "The increasing evolution of ransomware attacks has created significant challenges for traditional cybersecurity systems that rely primarily on signature-based detection and manual incident response mechanisms. According to the National Institute of Standards and Technology (NIST) Special Publication 1800-26, maintaining data integrity through timely detection and response is critical for minimizing organizational downtime and preventing data corruption caused by ransomware and other destructive events. Inspired by the NIST data integrity and ransomware response framework, this paper presents an intelligent and automated Ransomware Threat Detection and Response System designed to identify ransomware behaviour in real time and minimize data loss through rapid containment actions. The proposed framework integrates Wazuh for continuous system monitoring, behavioural analysis, log correlation, and threat detection with Python-based automated response mechanisms. The system continuously monitors critical indicators such as abnormal file modifications, suspicious process execution, unusual CPU and memory utilization, and shadow copy deletion attempts. Upon detecting ransomware-like activity, automated response actions including malicious process termination, network isolation, alert generation, and system containment are executed instantly to prevent further encryption and propagation. The framework is deployed in a virtualized environment consisting of Ubuntu Server, Windows client systems, and Kali Linux attack simulation machines to evaluate real-world attack scenarios safely. Experimental results demonstrate that the proposed behaviour-based approach effectively detects ransomware activity at early stages with faster response times and reduced system impact compared to conventional reactive security solutions. The proposed system offers a scalable, lightweight, and cost-effective cybersecurity solution suitable for academic, enterprise, and small-scale organizational environments.",
-      "abstract_source": "https://doi.org/10.59256/indjcst.20260502031",
-      "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
-      "review_evidence": [
-        "https://doi.org/10.59256/indjcst.20260502031",
-        "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
-      ],
-      "collection_id": "weekly",
-      "collection_source": "ALEX regular weekly discovery review queue",
-      "collection_url": "https://github.com/RISEInfoSec/Alex",
-      "recommendation": "include",
-      "relevance": "direct",
-      "review_reason": "Combines Wazuh monitoring and Python containment in virtualised Windows and Linux tests to respond to ransomware-like file, process and shadow-copy behaviour.",
-      "metadata_issue": "No numeric latency, false-positive or data-loss comparison is provided; lab simulations and automated containment do not establish production safety or effectiveness. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 22.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
-      "screening_status": "cached_abstract_review_complete",
-      "assessment_depth": "cached_abstract",
-      "assessment_date": "2026-10-27",
-      "full_paper_reviewed": false,
-      "paper_format_verified": true,
-      "source_verification_status": "publisher_resource_and_written_paper_verified",
-      "quality_status": "existing_human_quality_review_required",
-      "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
-      "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
-      "manual_review_required": true,
-      "total_quality_score": 22.82,
-      "quality_score": 22.82,
-      "quality_auto_threshold": 35,
-      "quality_review_threshold": 20,
-      "relevance_score": 35.29,
-      "is_preprint": false,
-      "venue": "Indian Journal of Computer Science and Technology",
-      "citation_count": null,
-      "citation_status": "unknown",
-      "doi_status": "upstream_identifier_not_independently_verified",
-      "source_recommended_action": "human review",
-      "source_review_reason": "Quality uncertain or moderate",
-      "discovery_source": "Crossref",
-      "discovery_query": "threat intelligence collection",
-      "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
-      "decision": "pending",
-      "publication_approved": false,
-      "duplicate_check": {
-        "status": "no_match_found",
-        "matches": [],
-        "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
-      },
-      "source_record_sha256": "452eb7809a11be9d7ead4a6cbcbad2b77e9f2d7e622d31a304c5499c1b8ad7a1",
-      "assessed_text_sha256": "2f611a4c7fb22b34a5139cfd3b335cf9303d52f410da85dc1004029e05f412e8",
-      "venue_score": 40,
-      "citation_score": 0,
-      "institution_score": 20,
-      "institution_bonus": 0,
-      "title_anchor_bonus": 0,
-      "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
-      "review_ready": false,
-      "preflight_status": "held",
-      "preflight_blockers": [
-        "schema"
-      ],
-      "preflight": {
-        "status": "held",
-        "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
-        "checks": {
-          "format": {
-            "status": "passed",
-            "checked_at": "2026-11-04T23:51:50.174309+00:00",
-            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-              "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
-              "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
-              "pages_inspected": 6,
-              "page_count": 6,
-              "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
-            },
-            "rebound_from_content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained.",
-            "rebound_at": "2026-11-05T06:49:10.888255+00:00"
-          },
-          "access": {
-            "status": "passed",
-            "checked_at": "2026-11-04T23:51:50.174309+00:00",
-            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-              "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
-              "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
-              "pages_inspected": 6,
-              "page_count": 6,
-              "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
-            },
-            "rebound_from_content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained.",
-            "rebound_at": "2026-11-05T06:49:10.888255+00:00"
-          },
-          "metadata": {
-            "status": "passed",
-            "checked_at": "2026-11-05T06:49:10.888255+00:00",
-            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
-            "evidence": {
-              "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-              "publisher_authors": [
-                "Mohan S",
-                "Pradeep G",
-                "Madhuravel P",
-                "Deepakumaar R",
-                "J. Dhivya"
-              ],
-              "publication_date_precision": "month",
-              "publication_date": "2026-05",
-              "doi": "10.59256/indjcst.20260502031",
-              "pdf_text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
-              "pdf_body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
-              "scope": "Exact publisher/PDF title, byline, year and DOI agree; no day-level publication claim. Author inversion corrected with full version history."
-            },
-            "rebound_from_content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-            "rebound_at": "2026-11-05T06:49:10.888255+00:00",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
-          },
-          "duplicates": {
-            "status": "passed",
-            "checked_at": "2026-11-05T06:49:10.888255+00:00",
-            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
-            "evidence": {
-              "status": "passed",
-              "matches": [],
-              "upstream_aliases": [],
-              "exclusions": []
-            },
-            "rebound_from_content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-            "rebound_at": "2026-11-05T06:49:10.888255+00:00",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained."
-          },
-          "quality": {
-            "status": "passed",
-            "checked_at": "2026-10-27T23:05:42.201570+00:00",
-            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
-            "evidence": {
-              "quality_score": 22.82,
-              "quality_venue_score": 40,
-              "quality_citation_score": 0,
-              "quality_relevance_score": 35.29,
-              "quality_institution_score": 40,
-              "quality_institution_bonus": 0,
-              "quality_title_bonus": 0,
-              "quality_auto_threshold": 35,
-              "quality_review_threshold": 20,
-              "quality_core_term_gate": "pass",
-              "quality_relevance_gate": "pass",
-              "citation_count_known": false,
-              "quality_review_status": "human_quality_review",
-              "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-              "quality_requires_review": true
-            },
-            "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
-            "rebound_from_content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-            "rebound_basis": "Only document_type changed from an unverified candidate label to the verified written-paper type. Title, authors, year, DOI, source URL and abstract are unchanged. The same inspected resource bytes/metadata and current corpus snapshots support this gate; checked_at is retained.",
-            "rebound_at": "2026-11-05T06:49:10.888255+00:00"
-          },
-          "schema": {
-            "status": "held",
-            "checked_at": "2026-11-05T06:49:10.888255+00:00",
-            "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
-            "evidence": "Verified type changed the reviewed-content hash. Paid taxonomy and target-record dry-run must complete for this exact new hash; no prior schema result is inherited.",
-            "prior_evidence": {
-              "status": "held",
-              "checked_at": "2026-10-27T23:05:43.163744+00:00",
-              "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-              "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-              "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-              "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00",
-              "rebound_from_content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-              "rebound_basis": "Exact final-author display correction from retained matching publisher/PDF; title, year, DOI, source, abstract and quality inputs unchanged."
-            }
-          }
-        }
-      },
-      "editorial_queue_eligible": false,
-      "source_processing_history": [
-        {}
-      ],
-      "source_processing": {
-        "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4",
-        "retrieval_status": "retrieved",
-        "receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-        "reason": null,
-        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
-        "evidence_sha256": [
-          "a2e961c5310446a6729fb86537bd7ef86a017f755f844ae22a05c07718eeb517",
-          "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6"
-        ],
-        "inspection_reason": "Publisher/PDF metadata reconciled and verified type versioned; exact-hash current-contract classification remains."
-      },
-      "verified_document_type": "research_paper",
-      "reviewed_content_versions": [
-        {
-          "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-          "superseded_at": "2026-11-05T06:49:10.888255+00:00",
-          "reason": "Retained independently verified publisher and PDF agree on exact author display J. Dhivya; replace discovery inversion Dhivya J. Full pre-pass record retained.",
-          "record": {
-            "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
-            "upstream_candidate_id": "23725",
-            "upstream_stable_identity": "10.59256/indjcst.20260502031",
-            "source_row": 981,
-            "review_number": 145,
-            "review_batch": 8,
-            "batch": 8,
-            "title": "Ransomware Threat Detection and Automated Response System Using Wazuh and Python",
-            "authors": "Mohan S; Pradeep G; Madhuravel P; Deepakumaar R; Dhivya J",
-            "year": 2026,
-            "doi": "10.59256/indjcst.20260502031",
-            "source_url": "https://doi.org/10.59256/indjcst.20260502031",
-            "document_type": "research_paper_candidate",
-            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-            "format_verification_status": "hold_original_document_type_unverified",
-            "abstract": "The increasing evolution of ransomware attacks has created significant challenges for traditional cybersecurity systems that rely primarily on signature-based detection and manual incident response mechanisms. According to the National Institute of Standards and Technology (NIST) Special Publication 1800-26, maintaining data integrity through timely detection and response is critical for minimizing organizational downtime and preventing data corruption caused by ransomware and other destructive events. Inspired by the NIST data integrity and ransomware response framework, this paper presents an intelligent and automated Ransomware Threat Detection and Response System designed to identify ransomware behaviour in real time and minimize data loss through rapid containment actions. The proposed framework integrates Wazuh for continuous system monitoring, behavioural analysis, log correlation, and threat detection with Python-based automated response mechanisms. The system continuously monitors critical indicators such as abnormal file modifications, suspicious process execution, unusual CPU and memory utilization, and shadow copy deletion attempts. Upon detecting ransomware-like activity, automated response actions including malicious process termination, network isolation, alert generation, and system containment are executed instantly to prevent further encryption and propagation. The framework is deployed in a virtualized environment consisting of Ubuntu Server, Windows client systems, and Kali Linux attack simulation machines to evaluate real-world attack scenarios safely. Experimental results demonstrate that the proposed behaviour-based approach effectively detects ransomware activity at early stages with faster response times and reduced system impact compared to conventional reactive security solutions. The proposed system offers a scalable, lightweight, and cost-effective cybersecurity solution suitable for academic, enterprise, and small-scale organizational environments.",
-            "abstract_source": "https://doi.org/10.59256/indjcst.20260502031",
-            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
-            "review_evidence": [
-              "https://doi.org/10.59256/indjcst.20260502031",
-              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
-            ],
-            "collection_id": "weekly",
-            "collection_source": "ALEX regular weekly discovery review queue",
-            "collection_url": "https://github.com/RISEInfoSec/Alex",
-            "recommendation": "include",
-            "relevance": "direct",
-            "review_reason": "Combines Wazuh monitoring and Python containment in virtualised Windows and Linux tests to respond to ransomware-like file, process and shadow-copy behaviour.",
-            "metadata_issue": "No numeric latency, false-positive or data-loss comparison is provided; lab simulations and automated containment do not establish production safety or effectiveness. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 22.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
-            "screening_status": "cached_abstract_review_complete",
-            "assessment_depth": "cached_abstract",
-            "assessment_date": "2026-10-27",
-            "full_paper_reviewed": false,
-            "paper_format_verified": false,
-            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
-            "quality_status": "existing_human_quality_review_required",
-            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
-            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
-            "manual_review_required": true,
-            "total_quality_score": 22.82,
-            "quality_score": 22.82,
-            "quality_auto_threshold": 35,
-            "quality_review_threshold": 20,
-            "relevance_score": 35.29,
-            "is_preprint": false,
-            "venue": "Indian Journal of Computer Science and Technology",
-            "citation_count": null,
-            "citation_status": "unknown",
-            "doi_status": "upstream_identifier_not_independently_verified",
-            "source_recommended_action": "human review",
-            "source_review_reason": "Quality uncertain or moderate",
-            "discovery_source": "Crossref",
-            "discovery_query": "threat intelligence collection",
-            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
-            "decision": "pending",
-            "publication_approved": false,
-            "duplicate_check": {
-              "status": "no_match_found",
-              "matches": [],
-              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
-            },
-            "source_record_sha256": "452eb7809a11be9d7ead4a6cbcbad2b77e9f2d7e622d31a304c5499c1b8ad7a1",
-            "assessed_text_sha256": "2f611a4c7fb22b34a5139cfd3b335cf9303d52f410da85dc1004029e05f412e8",
-            "venue_score": 40,
-            "citation_score": 0,
-            "institution_score": 20,
-            "institution_bonus": 0,
-            "title_anchor_bonus": 0,
-            "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-            "review_ready": false,
-            "preflight_status": "held",
-            "preflight_blockers": [
-              "metadata",
-              "schema"
-            ],
-            "preflight": {
-              "status": "held",
-              "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-              "checks": {
-                "duplicates": {
-                  "status": "passed",
-                  "checked_at": "2026-10-28T03:50:34.934054+00:00",
-                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                  "evidence": {
-                    "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-                    "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
-                    "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-                    "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-                    "weekly_inventory_records": 4041,
-                    "all_prepared_collections": [
-                      "soups",
-                      "weekly",
-                      "virusbulletin",
-                      "apwg"
-                    ],
-                    "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-                    "matches": []
-                  }
-                },
-                "quality": {
-                  "status": "passed",
-                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
-                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                  "evidence": {
-                    "quality_score": 22.82,
-                    "quality_venue_score": 40,
-                    "quality_citation_score": 0,
-                    "quality_relevance_score": 35.29,
-                    "quality_institution_score": 40,
-                    "quality_institution_bonus": 0,
-                    "quality_title_bonus": 0,
-                    "quality_auto_threshold": 35,
-                    "quality_review_threshold": 20,
-                    "quality_core_term_gate": "pass",
-                    "quality_relevance_gate": "pass",
-                    "citation_count_known": false,
-                    "quality_review_status": "human_quality_review",
-                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-                    "quality_requires_review": true
-                  },
-                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-                },
-                "format": {
-                  "status": "passed",
-                  "checked_at": "2026-11-04T23:51:50.174309+00:00",
-                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                  "evidence": {
-                    "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-                    "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
-                    "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
-                    "pages_inspected": 6,
-                    "page_count": 6,
-                    "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
-                  }
-                },
-                "access": {
-                  "status": "passed",
-                  "checked_at": "2026-11-04T23:51:50.174309+00:00",
-                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                  "evidence": {
-                    "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-                    "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
-                    "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
-                    "pages_inspected": 6,
-                    "page_count": 6,
-                    "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
-                  }
-                },
-                "metadata": {
-                  "status": "held",
-                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
-                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                  "evidence": "Not yet completed; not a pass.",
-                  "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-                },
-                "schema": {
-                  "status": "held",
-                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
-                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
-                }
-              }
-            },
-            "editorial_queue_eligible": false,
-            "source_processing_history": [
-              {}
-            ],
-            "source_processing": {
-              "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-              "retrieval_status": "retrieved",
-              "receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-              "reason": null,
-              "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
-              "evidence_sha256": [
-                "a2e961c5310446a6729fb86537bd7ef86a017f755f844ae22a05c07718eeb517",
-                "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6"
-              ],
-              "inspection_reason": "Verified paper; current byline Dhivya J differs from publisher/PDF J. Dhivya; explicit metadata/version reconciliation held."
-            },
-            "verified_document_type": "research_paper"
-          }
-        },
-        {
-          "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-          "superseded_at": "2026-11-05T06:49:10.888255+00:00",
-          "reason": "Actual publisher resource establishes written-paper type. The complete previous record and hash are retained; no completed console decision exists for this candidate.",
-          "record": {
-            "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
-            "upstream_candidate_id": "23725",
-            "upstream_stable_identity": "10.59256/indjcst.20260502031",
-            "source_row": 981,
-            "review_number": 145,
-            "review_batch": 8,
-            "batch": 8,
-            "title": "Ransomware Threat Detection and Automated Response System Using Wazuh and Python",
-            "authors": "Mohan S; Pradeep G; Madhuravel P; Deepakumaar R; J. Dhivya",
-            "year": 2026,
-            "doi": "10.59256/indjcst.20260502031",
-            "source_url": "https://doi.org/10.59256/indjcst.20260502031",
-            "document_type": "research_paper_candidate",
-            "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-            "format_verification_status": "hold_original_document_type_unverified",
-            "abstract": "The increasing evolution of ransomware attacks has created significant challenges for traditional cybersecurity systems that rely primarily on signature-based detection and manual incident response mechanisms. According to the National Institute of Standards and Technology (NIST) Special Publication 1800-26, maintaining data integrity through timely detection and response is critical for minimizing organizational downtime and preventing data corruption caused by ransomware and other destructive events. Inspired by the NIST data integrity and ransomware response framework, this paper presents an intelligent and automated Ransomware Threat Detection and Response System designed to identify ransomware behaviour in real time and minimize data loss through rapid containment actions. The proposed framework integrates Wazuh for continuous system monitoring, behavioural analysis, log correlation, and threat detection with Python-based automated response mechanisms. The system continuously monitors critical indicators such as abnormal file modifications, suspicious process execution, unusual CPU and memory utilization, and shadow copy deletion attempts. Upon detecting ransomware-like activity, automated response actions including malicious process termination, network isolation, alert generation, and system containment are executed instantly to prevent further encryption and propagation. The framework is deployed in a virtualized environment consisting of Ubuntu Server, Windows client systems, and Kali Linux attack simulation machines to evaluate real-world attack scenarios safely. Experimental results demonstrate that the proposed behaviour-based approach effectively detects ransomware activity at early stages with faster response times and reduced system impact compared to conventional reactive security solutions. The proposed system offers a scalable, lightweight, and cost-effective cybersecurity solution suitable for academic, enterprise, and small-scale organizational environments.",
-            "abstract_source": "https://doi.org/10.59256/indjcst.20260502031",
-            "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
-            "review_evidence": [
-              "https://doi.org/10.59256/indjcst.20260502031",
-              "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
-            ],
-            "collection_id": "weekly",
-            "collection_source": "ALEX regular weekly discovery review queue",
-            "collection_url": "https://github.com/RISEInfoSec/Alex",
-            "recommendation": "include",
-            "relevance": "direct",
-            "review_reason": "Combines Wazuh monitoring and Python containment in virtualised Windows and Linux tests to respond to ransomware-like file, process and shadow-copy behaviour.",
-            "metadata_issue": "No numeric latency, false-positive or data-loss comparison is provided; lab simulations and automated containment do not establish production safety or effectiveness. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 22.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
-            "screening_status": "cached_abstract_review_complete",
-            "assessment_depth": "cached_abstract",
-            "assessment_date": "2026-10-27",
-            "full_paper_reviewed": false,
-            "paper_format_verified": false,
-            "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
-            "quality_status": "existing_human_quality_review_required",
-            "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
-            "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
-            "manual_review_required": true,
-            "total_quality_score": 22.82,
-            "quality_score": 22.82,
-            "quality_auto_threshold": 35,
-            "quality_review_threshold": 20,
-            "relevance_score": 35.29,
-            "is_preprint": false,
-            "venue": "Indian Journal of Computer Science and Technology",
-            "citation_count": null,
-            "citation_status": "unknown",
-            "doi_status": "upstream_identifier_not_independently_verified",
-            "source_recommended_action": "human review",
-            "source_review_reason": "Quality uncertain or moderate",
-            "discovery_source": "Crossref",
-            "discovery_query": "threat intelligence collection",
-            "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
-            "decision": "pending",
-            "publication_approved": false,
-            "duplicate_check": {
-              "status": "no_match_found",
-              "matches": [],
-              "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
-            },
-            "source_record_sha256": "452eb7809a11be9d7ead4a6cbcbad2b77e9f2d7e622d31a304c5499c1b8ad7a1",
-            "assessed_text_sha256": "2f611a4c7fb22b34a5139cfd3b335cf9303d52f410da85dc1004029e05f412e8",
-            "venue_score": 40,
-            "citation_score": 0,
-            "institution_score": 20,
-            "institution_bonus": 0,
-            "title_anchor_bonus": 0,
-            "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-            "review_ready": false,
-            "preflight_status": "held",
-            "preflight_blockers": [
-              "metadata",
-              "schema"
-            ],
-            "preflight": {
-              "status": "held",
-              "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-              "checks": {
-                "duplicates": {
-                  "status": "passed",
-                  "checked_at": "2026-11-05T06:49:10.888255+00:00",
-                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-                  "evidence": {
-                    "status": "passed",
-                    "matches": [],
-                    "upstream_aliases": [],
-                    "exclusions": []
-                  }
-                },
-                "quality": {
-                  "status": "passed",
-                  "checked_at": "2026-10-27T23:05:42.201570+00:00",
-                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-                  "evidence": {
-                    "quality_score": 22.82,
-                    "quality_venue_score": 40,
-                    "quality_citation_score": 0,
-                    "quality_relevance_score": 35.29,
-                    "quality_institution_score": 40,
-                    "quality_institution_bonus": 0,
-                    "quality_title_bonus": 0,
-                    "quality_auto_threshold": 35,
-                    "quality_review_threshold": 20,
-                    "quality_core_term_gate": "pass",
-                    "quality_relevance_gate": "pass",
-                    "citation_count_known": false,
-                    "quality_review_status": "human_quality_review",
-                    "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-                    "quality_requires_review": true
-                  },
-                  "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged.",
-                  "rebound_from_content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                  "rebound_basis": "Exact final-author display correction from retained matching publisher/PDF; title, year, DOI, source, abstract and quality inputs unchanged."
-                },
-                "format": {
-                  "status": "passed",
-                  "checked_at": "2026-11-04T23:51:50.174309+00:00",
-                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-                  "evidence": {
-                    "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-                    "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
-                    "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
-                    "pages_inspected": 6,
-                    "page_count": 6,
-                    "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
-                  },
-                  "rebound_from_content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                  "rebound_basis": "Exact final-author display correction from retained matching publisher/PDF; title, year, DOI, source, abstract and quality inputs unchanged."
-                },
-                "access": {
-                  "status": "passed",
-                  "checked_at": "2026-11-04T23:51:50.174309+00:00",
-                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-                  "evidence": {
-                    "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-                    "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
-                    "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
-                    "pages_inspected": 6,
-                    "page_count": 6,
-                    "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
-                  },
-                  "rebound_from_content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                  "rebound_basis": "Exact final-author display correction from retained matching publisher/PDF; title, year, DOI, source, abstract and quality inputs unchanged."
-                },
-                "metadata": {
-                  "status": "passed",
-                  "checked_at": "2026-11-05T06:49:10.888255+00:00",
-                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-                  "evidence": {
-                    "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-                    "publisher_authors": [
-                      "Mohan S",
-                      "Pradeep G",
-                      "Madhuravel P",
-                      "Deepakumaar R",
-                      "J. Dhivya"
-                    ],
-                    "publication_date_precision": "month",
-                    "publication_date": "2026-05",
-                    "doi": "10.59256/indjcst.20260502031",
-                    "pdf_text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
-                    "pdf_body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
-                    "scope": "Exact publisher/PDF title, byline, year and DOI agree; no day-level publication claim. Author inversion corrected with full version history."
-                  }
-                },
-                "schema": {
-                  "status": "held",
-                  "checked_at": "2026-10-27T23:05:43.163744+00:00",
-                  "content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-                  "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-                  "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-                  "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00",
-                  "rebound_from_content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                  "rebound_basis": "Exact final-author display correction from retained matching publisher/PDF; title, year, DOI, source, abstract and quality inputs unchanged."
-                }
-              }
-            },
-            "editorial_queue_eligible": false,
-            "source_processing_history": [
-              {}
-            ],
-            "source_processing": {
-              "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-              "retrieval_status": "retrieved",
-              "receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-              "reason": null,
-              "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
-              "evidence_sha256": [
-                "a2e961c5310446a6729fb86537bd7ef86a017f755f844ae22a05c07718eeb517",
-                "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6"
-              ],
-              "inspection_reason": "Verified paper; current byline Dhivya J differs from publisher/PDF J. Dhivya; explicit metadata/version reconciliation held."
-            },
-            "verified_document_type": "research_paper",
-            "reviewed_content_versions": [
-              {
-                "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                "superseded_at": "2026-11-05T06:49:10.888255+00:00",
-                "reason": "Retained independently verified publisher and PDF agree on exact author display J. Dhivya; replace discovery inversion Dhivya J. Full pre-pass record retained.",
-                "record": {
-                  "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
-                  "upstream_candidate_id": "23725",
-                  "upstream_stable_identity": "10.59256/indjcst.20260502031",
-                  "source_row": 981,
-                  "review_number": 145,
-                  "review_batch": 8,
-                  "batch": 8,
-                  "title": "Ransomware Threat Detection and Automated Response System Using Wazuh and Python",
-                  "authors": "Mohan S; Pradeep G; Madhuravel P; Deepakumaar R; Dhivya J",
-                  "year": 2026,
-                  "doi": "10.59256/indjcst.20260502031",
-                  "source_url": "https://doi.org/10.59256/indjcst.20260502031",
-                  "document_type": "research_paper_candidate",
-                  "document_type_basis": "Unconfirmed scholarly-discovery record; DOI or PDF does not verify paper format. Original publication type verification required.",
-                  "format_verification_status": "hold_original_document_type_unverified",
-                  "abstract": "The increasing evolution of ransomware attacks has created significant challenges for traditional cybersecurity systems that rely primarily on signature-based detection and manual incident response mechanisms. According to the National Institute of Standards and Technology (NIST) Special Publication 1800-26, maintaining data integrity through timely detection and response is critical for minimizing organizational downtime and preventing data corruption caused by ransomware and other destructive events. Inspired by the NIST data integrity and ransomware response framework, this paper presents an intelligent and automated Ransomware Threat Detection and Response System designed to identify ransomware behaviour in real time and minimize data loss through rapid containment actions. The proposed framework integrates Wazuh for continuous system monitoring, behavioural analysis, log correlation, and threat detection with Python-based automated response mechanisms. The system continuously monitors critical indicators such as abnormal file modifications, suspicious process execution, unusual CPU and memory utilization, and shadow copy deletion attempts. Upon detecting ransomware-like activity, automated response actions including malicious process termination, network isolation, alert generation, and system containment are executed instantly to prevent further encryption and propagation. The framework is deployed in a virtualized environment consisting of Ubuntu Server, Windows client systems, and Kali Linux attack simulation machines to evaluate real-world attack scenarios safely. Experimental results demonstrate that the proposed behaviour-based approach effectively detects ransomware activity at early stages with faster response times and reduced system impact compared to conventional reactive security solutions. The proposed system offers a scalable, lightweight, and cost-effective cybersecurity solution suitable for academic, enterprise, and small-scale organizational environments.",
-                  "abstract_source": "https://doi.org/10.59256/indjcst.20260502031",
-                  "assessment_basis": "Substantive reading of complete cached abstract carried by the weekly scholarly discovery record; not a fresh publisher-page or full-paper assessment.",
-                  "review_evidence": [
-                    "https://doi.org/10.59256/indjcst.20260502031",
-                    "https://raw.githubusercontent.com/RISEInfoSec/Alex/main/data/review_queue.csv"
-                  ],
-                  "collection_id": "weekly",
-                  "collection_source": "ALEX regular weekly discovery review queue",
-                  "collection_url": "https://github.com/RISEInfoSec/Alex",
-                  "recommendation": "include",
-                  "relevance": "direct",
-                  "review_reason": "Combines Wazuh monitoring and Python containment in virtualised Windows and Linux tests to respond to ransomware-like file, process and shadow-copy behaviour.",
-                  "metadata_issue": "No numeric latency, false-positive or data-loss comparison is provided; lab simulations and automated containment do not establish production safety or effectiveness. Cached scholarly-discovery abstract assessed. Original publisher format, metadata, DOI/citation provenance and full text require verification. Existing quality review remains; selection does not clear quality holds. Upstream quality score: 22.82; effective review threshold: 20; effective automatic-inclusion threshold: 35; quality status: existing_human_quality_review_required.",
-                  "screening_status": "cached_abstract_review_complete",
-                  "assessment_depth": "cached_abstract",
-                  "assessment_date": "2026-10-27",
-                  "full_paper_reviewed": false,
-                  "paper_format_verified": false,
-                  "source_verification_status": "cached_discovery_evidence; publisher_retrieval_pending",
-                  "quality_status": "existing_human_quality_review_required",
-                  "resource_usefulness_policy": "Across all sources, verified slides/presentations without substantive audio must receive the resource-usefulness deduction and cannot automatically qualify; a matching full recording with usable audio requires verification before removing that deduction.",
-                  "resource_usefulness_status": "document_format_unverified; no_audio_match_verified",
-                  "manual_review_required": true,
-                  "total_quality_score": 22.82,
-                  "quality_score": 22.82,
-                  "quality_auto_threshold": 35,
-                  "quality_review_threshold": 20,
-                  "relevance_score": 35.29,
-                  "is_preprint": false,
-                  "venue": "Indian Journal of Computer Science and Technology",
-                  "citation_count": null,
-                  "citation_status": "unknown",
-                  "doi_status": "upstream_identifier_not_independently_verified",
-                  "source_recommended_action": "human review",
-                  "source_review_reason": "Quality uncertain or moderate",
-                  "discovery_source": "Crossref",
-                  "discovery_query": "threat intelligence collection",
-                  "source_scored_at": "2026-10-26T09:27:50.514555+00:00",
-                  "decision": "pending",
-                  "publication_approved": false,
-                  "duplicate_check": {
-                    "status": "no_match_found",
-                    "matches": [],
-                    "basis": "DOI, normalized title and URL, fuzzy title ratio0.90 against local current corpus and curated queues; missing metadata and alternate versions remain limitations"
-                  },
-                  "source_record_sha256": "452eb7809a11be9d7ead4a6cbcbad2b77e9f2d7e622d31a304c5499c1b8ad7a1",
-                  "assessed_text_sha256": "2f611a4c7fb22b34a5139cfd3b335cf9303d52f410da85dc1004029e05f412e8",
-                  "venue_score": 40,
-                  "citation_score": 0,
-                  "institution_score": 20,
-                  "institution_bonus": 0,
-                  "title_anchor_bonus": 0,
-                  "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                  "review_ready": false,
-                  "preflight_status": "held",
-                  "preflight_blockers": [
-                    "metadata",
-                    "schema"
-                  ],
-                  "preflight": {
-                    "status": "held",
-                    "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                    "checks": {
-                      "duplicates": {
-                        "status": "passed",
-                        "checked_at": "2026-10-28T03:50:34.934054+00:00",
-                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                        "evidence": {
-                          "public_corpus_blob": "56f458e2a3476681db7fe8f2ef5014616e158214",
-                          "public_corpus_sha256": "09ea3a562a0d73fd689f78d128a9e7f06ffa21d17d82ec4c6c051e336ddf42cf",
-                          "weekly_source_blob": "32a7992a37b15d3d5f698354a0209157660a9d66",
-                          "weekly_source_sha256": "9529cfaced9dcdd47a66905b468232be467eac8ba399fa13824755182b623b63",
-                          "weekly_inventory_records": 4041,
-                          "all_prepared_collections": [
-                            "soups",
-                            "weekly",
-                            "virusbulletin",
-                            "apwg"
-                          ],
-                          "scope": "Recomputed exact DOI including verified discovered DOI, canonical source/resource URLs and normalized title against current public corpus, all prepared collections and all4041 upstream rows. Same current and upstream identities excluded.",
-                          "matches": []
-                        }
-                      },
-                      "quality": {
-                        "status": "passed",
-                        "checked_at": "2026-10-27T23:05:42.201570+00:00",
-                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                        "evidence": {
-                          "quality_score": 22.82,
-                          "quality_venue_score": 40,
-                          "quality_citation_score": 0,
-                          "quality_relevance_score": 35.29,
-                          "quality_institution_score": 40,
-                          "quality_institution_bonus": 0,
-                          "quality_title_bonus": 0,
-                          "quality_auto_threshold": 35,
-                          "quality_review_threshold": 20,
-                          "quality_core_term_gate": "pass",
-                          "quality_relevance_gate": "pass",
-                          "citation_count_known": false,
-                          "quality_review_status": "human_quality_review",
-                          "quality_score_basis": "ALEX current weights/gates; missing citations valued at zero for provisional lower-bound score",
-                          "quality_requires_review": true
-                        },
-                        "limitations": "Provisional existing-policy score; unknown citations remain null and are not verified zero. Missing venue/affiliations not invented. Existing quality scores and thresholds unchanged."
-                      },
-                      "format": {
-                        "status": "passed",
-                        "checked_at": "2026-11-04T23:51:50.174309+00:00",
-                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                        "evidence": {
-                          "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-                          "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
-                          "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
-                          "pages_inspected": 6,
-                          "page_count": 6,
-                          "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
-                        }
-                      },
-                      "access": {
-                        "status": "passed",
-                        "checked_at": "2026-11-04T23:51:50.174309+00:00",
-                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                        "evidence": {
-                          "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-                          "body_sha256": "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6",
-                          "text_sha256": "cd1d4a628d15dffd7e26b2d84ef78bcf8fe42a9f67e822de56bcdedb92f4672c",
-                          "pages_inspected": 6,
-                          "page_count": 6,
-                          "inspection": "Matching article title, scholarly byline, abstract and original research opening inspected; not inferred from PDF extension."
-                        }
-                      },
-                      "metadata": {
-                        "status": "held",
-                        "checked_at": "2026-10-27T23:05:42.201570+00:00",
-                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                        "evidence": "Not yet completed; not a pass.",
-                        "hold_reason": "Required evidence not yet obtained; unknown is not a pass."
-                      },
-                      "schema": {
-                        "status": "held",
-                        "checked_at": "2026-10-27T23:05:43.163744+00:00",
-                        "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                        "evidence": "Isolated paid route is installed and live-verified. This candidate has not completed taxonomy/target compatibility; preceding quality/source/metadata/type holds must be resolved first. No schema pass claimed.",
-                        "previous_evidence": "Final target-record dry run not completed; taxonomy classification stage requires unavailable supported paid credential. No fallback or assumed Other label used.",
-                        "execution_route_verified_at": "2026-10-28T04:43:48.448899+00:00"
-                      }
-                    }
-                  },
-                  "editorial_queue_eligible": false,
-                  "source_processing_history": [
-                    {}
-                  ],
-                  "source_processing": {
-                    "content_sha256": "e99021dd57e0a301e128259962b0057b19ba562989c3623dd7d82f0d2e7543d3",
-                    "retrieval_status": "retrieved",
-                    "receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
-                    "reason": null,
-                    "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate.",
-                    "evidence_sha256": [
-                      "a2e961c5310446a6729fb86537bd7ef86a017f755f844ae22a05c07718eeb517",
-                      "ca8ff2e9f94e1da805c0e03ed38a48194f193fefa15706bca94c26f4fbcf30d6"
-                    ],
-                    "inspection_reason": "Verified paper; current byline Dhivya J differs from publisher/PDF J. Dhivya; explicit metadata/version reconciliation held."
-                  },
-                  "verified_document_type": "research_paper"
-                }
-              }
-            ]
-          }
-        }
-      ],
-      "recommendation_content_sha256": "69903217220adaba48ccaf27fad2b7f0700756777ca8643d0a10683d9cf8854a",
-      "recommendation_status": "awaiting_reassessment_for_verified_document_type_after_preflight",
-      "admission_hold": "Await exact-hash taxonomy/schema pass, then current recommendation reassessment and complete batch"
-    },
-    {
       "candidate_id": "weekly-87461cef83ba435f528f8dc8",
       "upstream_candidate_id": "31138",
       "upstream_stable_identity": "10.59261/jequi.v8i2.320",
@@ -72205,11 +72334,11 @@
       "manual_review_required": false
     }
   ],
-  "ready_count": 1,
+  "ready_count": 2,
   "abstract_assessed_count": 150,
   "preflight_policy": "Admit only six current hash-bound gate passes and current substantive recommendations. Seal batches of1–20 cleared candidates immediately;20 is the maximum, never a minimum. Never wait for20 or append to sealed batches.",
   "mechanical_passed_awaiting_batch_admission": 0,
-  "preflight_held_count": 90,
+  "preflight_held_count": 89,
   "recommendation_current_count": 64,
   "batch_admission_eligible_count": 0,
   "sealed_review_batches": [
@@ -72734,6 +72863,19 @@
           "candidate_id": "weekly-10bf6841abc6f36147d952f0",
           "review_number": 119,
           "content_sha256": "aecb18a4c7b6e6eea3a493cee8e27bdf189446ef49741c1fe164fa91514fedbd"
+        }
+      ],
+      "policy": "Cleared candidates sealed independently of held inventory; never append."
+    },
+    {
+      "batch": 29,
+      "sealed_at": "2026-11-05T06:54:19.676229+00:00",
+      "count": 1,
+      "members": [
+        {
+          "candidate_id": "weekly-0c62bfc049ea611ecb965fc6",
+          "review_number": 145,
+          "content_sha256": "e50939fc2b37c2669d268c454fa331474cb2e0ba42bea66359266ba7d7b829b4"
         }
       ],
       "policy": "Cleared candidates sealed independently of held inventory; never append."

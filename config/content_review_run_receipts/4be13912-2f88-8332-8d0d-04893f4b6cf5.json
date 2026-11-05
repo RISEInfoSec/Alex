@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "run_id": "4be13912-2f88-8332-8d0d-04893f4b6cf5",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-05T06:45:00Z",
+  "started_at": "2026-11-05T06:44:25.291646Z",
+  "completed_at": "2026-11-05T06:55:18.652441+00:00",
+  "status": "complete",
+  "receipt_path": "config/content_review_run_receipts/4be13912-2f88-8332-8d0d-04893f4b6cf5.json",
+  "completed_actions": [
+    "Verified matching lease and published/read back immediate start plus actual running observations with current operations.py",
+    "Refreshed66 complete D1 submissions; complete identity/revision/payload signature unchanged; reused verified decisions",
+    "Verified complete review manifests, correction records and current main corpus/exclusions/upstream by immutable Git size/SHA",
+    "Reconciled retained publisher/PDF byline, versioned full prior record, passed metadata, refreshed duplicate gate and normalized verified research-paper type",
+    "Verified atomic metadata checkpoint5bfb84f8813d79667d8b5003af2f874bcf27a6ee before paid request",
+    "Verified independent Actions41983281555 exact request/contract/input/provenance/usage; one classification718tokens and actual disposable serializer passed",
+    "Bound substantive Discuss recommendation and sealed immediate Weekly batch29 with one cleared paper",
+    "Evaluated200 local lifecycle records preserving385 identities and historical attempts"
+  ],
+  "candidate_ids": [
+    "weekly-0c62bfc049ea611ecb965fc6"
+  ],
+  "candidate_check_count": 1,
+  "request_counts": {
+    "source": 0,
+    "paid": 1,
+    "openalex": 0
+  },
+  "checkpoint_paths": [
+    "config/weekly_review_manifest.json",
+    "config/content_review_preflight_status.json",
+    "config/content_review_paid_receipts/f9d6725f2ab563e5c849f833820efc1f74e6ad3e5f0755c19ccfeac937a0a7c1.json",
+    "config/content_review_candidate_lifecycle.json",
+    "config/content_review_run_receipts/4be13912-2f88-8332-8d0d-04893f4b6cf5.json",
+    "config/content_review_processing_health.json"
+  ],
+  "errors": [
+    {
+      "stage": "heartbeat",
+      "reason": "Actual startup/running observation intervals exceeded60seconds; no heartbeat backfilled."
+    }
+  ],
+  "native_terminal_success": null,
+  "pilot": {
+    "pilot_id": "initial-check-pilot-2026-11-04",
+    "policy_digest": "c1be213a5271b3c34b211b5155536adb91f1535f6b1c2b70cc1d873d909da512",
+    "candidate_limit": 5,
+    "selected_candidate_ids": [
+      "weekly-0c62bfc049ea611ecb965fc6"
+    ],
+    "attempted_candidate_ids": [
+      "weekly-0c62bfc049ea611ecb965fc6"
+    ],
+    "completed_candidate_ids": [
+      "weekly-0c62bfc049ea611ecb965fc6"
+    ],
+    "genuinely_first_checked": [],
+    "next_dispositions": [
+      "weekly-0c62bfc049ea611ecb965fc6"
+    ],
+    "newly_passed_checks": {
+      "metadata": [
+        "weekly-0c62bfc049ea611ecb965fc6"
+      ],
+      "schema": [
+        "weekly-0c62bfc049ea611ecb965fc6"
+      ]
+    },
+    "refreshed_passed_checks": {
+      "duplicates": [
+        "weekly-0c62bfc049ea611ecb965fc6"
+      ]
+    },
+    "all_six_completed": [
+      "weekly-0c62bfc049ea611ecb965fc6"
+    ],
+    "manual_admitted": [
+      "weekly-0c62bfc049ea611ecb965fc6"
+    ],
+    "automatic_survivors": [],
+    "actual_publications": [],
+    "explicit_hold_dispositions": [
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Prior authorized release41945055902 failed full-corpus assessment binding; no unchanged failed release replayed. Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains the same public corpus/exclusion blobs.",
+        "corrective_action": "Repair exact full-corpus assessment/content binding through existing controlled release."
+      },
+      {
+        "stage": "metadata",
+        "candidate_id": "weekly-2096e9686479ceda7cc35242",
+        "reason": "Retained publisher/PDF publication-date conflict persists.",
+        "corrective_action": "Resolve authoritative version/date without repeating completed source retrieval."
+      },
+      {
+        "stage": "metadata",
+        "candidate_id": "weekly-040edeb033e8ee41aeb9433a",
+        "reason": "Publisher/PDF DOI conflict persists.",
+        "corrective_action": "Reconcile authoritative DOI/version before downstream spend."
+      }
+    ],
+    "remaining_blockers": [
+      {
+        "stage": "publication_full_corpus_serialization",
+        "reason": "Prior authorized release41945055902 failed full-corpus assessment binding; no unchanged failed release replayed. Current main6899fc7f1314c61b167f2a1c0c7839b4cf73a997 retains the same public corpus/exclusion blobs.",
+        "corrective_action": "Repair exact full-corpus assessment/content binding through existing controlled release."
+      },
+      {
+        "stage": "metadata",
+        "candidate_id": "weekly-2096e9686479ceda7cc35242",
+        "reason": "Retained publisher/PDF publication-date conflict persists.",
+        "corrective_action": "Resolve authoritative version/date without repeating completed source retrieval."
+      },
+      {
+        "stage": "metadata",
+        "candidate_id": "weekly-040edeb033e8ee41aeb9433a",
+        "reason": "Publisher/PDF DOI conflict persists.",
+        "corrective_action": "Reconcile authoritative DOI/version before downstream spend."
+      }
+    ],
+    "requests": {
+      "source": 0,
+      "paid": 1,
+      "openalex": 0
+    },
+    "paid_tokens": 718,
+    "local_audits": 200,
+    "cache_reuse": [
+      "Unchanged complete66-submission signature",
+      "Retained independently verified PDF and publisher; zero source sends",
+      "Completed HVE and prior admitted paper skipped"
+    ],
+    "stage_elapsed_seconds": {
+      "to_receipt": 653.364191
+    },
+    "integrity_passed": true,
+    "budget_compliant": true,
+    "access_rules_preserved": true,
+    "lease_conflicts": 0,
+    "checkpoint_failures": 0,
+    "heartbeat_interval_compliant": false,
+    "promotion_eligible": false,
+    "promotion_reason": "Actual heartbeat gaps; independent native terminal proof unavailable until termination.",
+    "resolvable_gate_count": null,
+    "all_candidates_legitimately_held": false,
+    "source_last_progress": {
+      "weekly": {
+        "at": "2026-11-05T06:55:18.652441+00:00",
+        "candidate_ids": [
+          "weekly-0c62bfc049ea611ecb965fc6"
+        ],
+        "stage": "six-gate admission"
+      }
+    },
+    "checkpoint_repairs_applied": [
+      "fe4875f6-dc78-8332-8c50-fe0d998ea688"
+    ],
+    "before_counts": {
+      "lifecycle_identities": 385,
+      "weekly_ready": 1
+    },
+    "after_counts": {
+      "lifecycle_identities": 385,
+      "weekly_ready": 2
+    },
+    "candidate_checkpoint_digests": [
+      {
+        "path": "config/weekly_review_manifest.json",
+        "sha256": "d3dc2acd2dde479b5dc2eb64332d61d8d195ba35f7795551c11bd12b06ef2b07"
+      },
+      {
+        "path": "config/content_review_preflight_status.json",
+        "sha256": "b8fc81e9c3a2d08fd237f09ca83df9da961919197db132737005cb54103a7450"
+      },
+      {
+        "path": "config/content_review_paid_receipts/f9d6725f2ab563e5c849f833820efc1f74e6ad3e5f0755c19ccfeac937a0a7c1.json",
+        "sha256": "e1fd07f7bf25d287355a53c297cc1348d580eea64d072769d70813e0963e4f90"
+      },
+      {
+        "path": "config/content_review_candidate_lifecycle.json",
+        "sha256": "7b2eae72fad56fee37abbd2d3e6f8da6560822d9d13b76c4dbd1904b73c65b22"
+      }
+    ],
+    "observation_baseline": "2026-11-04T15:55:34.975709+00:00",
+    "milestones_due": []
+  }
+}
