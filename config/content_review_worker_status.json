@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "idle",
+  "phase": "running",
   "ready_total": 2,
   "soups_ready_batches": 0,
   "weekly_raw_inventory": 4041,
@@ -8,7 +8,12 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "Actual initial/start preparation heartbeat gaps exceeded60seconds; pass promotion ineligible. No heartbeat backfilled.",
-  "lease": null,
+  "lease": {
+    "owner": "06e2604a-928c-832e-93d7-b3e1702c73ba",
+    "run_id": "06e2604a-928c-832e-93d7-b3e1702c73ba",
+    "acquired_at": "2026-11-05T10:48:51.123Z",
+    "expires_at": "2026-11-05T10:59:22.111Z"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "soups": 0,
