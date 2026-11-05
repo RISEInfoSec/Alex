@@ -11,7 +11,11 @@ def candidate_limit(policy, qualifying_receipts, checkpoint_repairs=()):
     seen = set()
     for r in qualifying_receipts:
         p = r.get('pilot', {})
-        gates=p.get('newly_passed_checks') or {}
+        if not isinstance(p,dict):
+            continue
+        gates=p.get('newly_passed_checks')
+        if not isinstance(gates,dict):
+            gates={}
         useful_progress=(any(isinstance(gates.get(g),list) and gates[g]
                              for g in ('format','access','metadata','quality','schema'))
                          or any(isinstance(p.get(k),list) and p[k]

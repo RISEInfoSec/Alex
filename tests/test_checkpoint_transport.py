@@ -66,6 +66,6 @@ def test_idle_or_heartbeat_noncompliant_passes_never_expand_pilot():
     for value in (False,None):
         broken=copy.deepcopy(receipts);broken[-1]['pilot']['heartbeat_interval_compliant']=value
         assert candidate_limit(policy,broken)==5
-    for gates in ({},{'duplicates':['candidate']},{'schema':2}):
+    for gates in ({},{'duplicates':['candidate']},{'schema':2},['invalid gate evidence']):
         broken=copy.deepcopy(receipts);broken[-1]['pilot']['newly_passed_checks']=gates
         assert candidate_limit(policy,broken)==5
