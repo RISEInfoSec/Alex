@@ -21,4 +21,9 @@ class RecoveryIntegrity(unittest.TestCase):
  def test_verified_candidate_label_is_not_missing_export_support(self):
   r={'candidate_id':'a','content_sha256':'h','document_type':'research_paper_candidate','verified_document_type':'research_paper','preflight':{'checks':{'format':{'status':'passed','content_sha256':'h','checked_at':'2026-11-04T00:00:00Z','evidence':'actual paper'}}}}
   e=evaluate(r);self.assertNotEqual(e['state'],'awaiting_software_support');self.assertEqual(e['initial_check_status'],'partially_checked')
+ def test_unreconciled_provider_hold_does_not_expire_with_local_minimum(self):
+  p=resolve({'requests_enabled':False,'retry_not_before':'2020-01-01T00:00:00Z',
+             'reconciliation_hold':{'http_status':429}}, {}, {}, datetime.now(timezone.utc))
+  self.assertFalse(p['allowed']);self.assertEqual(p['request_limit'],0)
+  self.assertIn('reconciliation',p['reason'])
 if __name__=='__main__':unittest.main()

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-06T08:50:13.084097+00:00",
+  "observed_at": "2026-11-06T09:29:28.681554+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -343,11 +343,14 @@
     },
     {
       "id": "harvest-abstract-fallback",
-      "status": "repaired_ci_tested_live_stage_verification_pending",
+      "status": "maintenance_live_241_missing_abstracts_filled_zero_lost",
       "pr": 120,
       "cause": "CSV NaN skipped missing-abstract fallback and OpenAlex text was not copied.",
       "merge_commit": "5b2f1b13646bcfba342e8e0437c17e81f6b38a84",
-      "tests_passed": 586
+      "tests_passed": 586,
+      "observed_at": "2026-11-06T09:29:28.681554+00:00",
+      "verification_receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
+      "next_action": "Preserve retained outcomes and later verify qualifying unattended scheduled work."
     },
     {
       "id": "chatgpt-continuation-native-failure",
@@ -441,18 +444,20 @@
     },
     {
       "id": "classification-reviewed-resource-binding",
-      "status": "merged_ci_tested_live_stage_pending",
+      "status": "maintenance_live_exact_resource_preservation_verified",
       "cause": "Disposable rehearsal using actual3194-row accepted corpus showed classification changed approved guide year2026 to2026.0, breaking immutable reviewed-content hash before publication.",
       "repair_pr": 125,
       "verification": "639 local tests; all3189 public records retained in repaired disposable rehearsal;5 technical holds retained; zero provider/paid calls; actual source files byte-identical.",
-      "next_action": "Verify real classification/publication preserve reviewed bindings; no new editorial approval or synthetic publication.",
+      "next_action": "Preserve retained outcomes and later verify qualifying unattended scheduled work.",
       "owner_role": "existing_content_review_worker",
       "updated_at": "2026-11-06T05:35:43.583741+00:00",
       "merge_commit": "5680592588743ad980e7d7f525eac78c43cb32dc",
       "native_ci_runs": [
         42168038195,
         42168038203
-      ]
+      ],
+      "observed_at": "2026-11-06T09:29:28.681554+00:00",
+      "verification_receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json"
     },
     {
       "id": "openalex-literal-title-query",
@@ -473,30 +478,32 @@
     },
     {
       "id": "classification-synthetic-fallback",
-      "status": "merged_native_ci_passed_live_verification_pending",
-      "observed_at": "2026-11-06T07:05:49.137398+00:00",
+      "status": "maintenance_real_paid_responses_verified",
+      "observed_at": "2026-11-06T09:29:28.681554+00:00",
       "cause": "Local no-key reproduction returned synthetic Other with zero actual provider calls; network/HTTP/malformed-response branches also used synthetic fallback.",
       "repair_pr": 128,
       "verification": "666 local tests and all required native checks passed including exact response reuse, concurrent duplicate coalescing, quota-after-success, ambiguous send hold, invalid schema, corrupt receipts, interrupted reservations and state-write failure; no live paid diagnostics.",
-      "next_action": "Observe actual classification ledger and downstream publication; scheduled proof remains separate.",
+      "next_action": "Preserve retained outcomes and later verify qualifying unattended scheduled work.",
       "owner_role": "existing_content_review_worker",
-      "merge_sha": "96ab1e26e07fa229f050299fdf07e2c2c36cd17b"
+      "merge_sha": "96ab1e26e07fa229f050299fdf07e2c2c36cd17b",
+      "verification_receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json"
     },
     {
       "id": "classification-paid-outcome-loss",
-      "status": "merged_native_ci_passed_live_verification_pending",
-      "observed_at": "2026-11-06T07:05:49.137398+00:00",
+      "status": "maintenance_actual_checkpoint_and_zero_request_replay_verified",
+      "observed_at": "2026-11-06T09:29:28.681554+00:00",
       "cause": "Successful paid responses were kept only in memory until full classification succeeded; a later failure discarded reusable outcomes.",
       "repair_pr": 128,
       "verification": "666 local tests and all required native checks passed including exact response reuse, concurrent duplicate coalescing, quota-after-success, ambiguous send hold, invalid schema, corrupt receipts, interrupted reservations and state-write failure; no live paid diagnostics.",
-      "next_action": "Observe actual classification ledger and downstream publication; scheduled proof remains separate.",
+      "next_action": "Preserve retained outcomes and later verify qualifying unattended scheduled work.",
       "owner_role": "existing_content_review_worker",
-      "merge_sha": "96ab1e26e07fa229f050299fdf07e2c2c36cd17b"
+      "merge_sha": "96ab1e26e07fa229f050299fdf07e2c2c36cd17b",
+      "verification_receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json"
     },
     {
       "id": "harvest-response-checkpoint-loss",
-      "status": "live_remote_successful_response_checkpoints_verified",
-      "observed_at": "2026-11-06T07:25:54.454543+00:00",
+      "status": "maintenance_complete_remote_checkpoint_verified",
+      "observed_at": "2026-11-06T09:29:28.681554+00:00",
       "cause": "Successful harvest responses were kept only in a runner-local cache, rewritten in full for every response and omitted from transported state.",
       "evidence": {
         "code_revision": "96ab1e26e07fa229f050299fdf07e2c2c36cd17b",
@@ -514,53 +521,57 @@
       },
       "repair_pr": 129,
       "verification": "Native attempt2 at 2026-11-06T08:49:10.161236+00:00 retains 4773 actual successful responses and 225 not-found outcomes. Complete blob and every record digest verified. Terminal harvest and downstream completion remain pending.",
-      "next_action": "Complete native harvest, rescore, paid ledger verification, publication and deploy.",
+      "next_action": "Preserve retained outcomes and later verify qualifying unattended scheduled work.",
       "owner_role": "existing_content_review_worker",
-      "merge_sha": "76333401807fa25d2cfedb80ac77854312bb2671"
+      "merge_sha": "76333401807fa25d2cfedb80ac77854312bb2671",
+      "verification_receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json"
     },
     {
       "id": "harvest-not-found-replay",
-      "status": "merged_reconciled_native_initial_cache_verified",
-      "observed_at": "2026-11-06T08:03:59.470961+00:00",
+      "status": "maintenance_native_completed_harvest_verified",
+      "observed_at": "2026-11-06T09:29:28.681554+00:00",
       "cause": "Known Crossref404 outcomes were not cached and would be sent again after interruption.",
       "repair_pr": 130,
       "merge_sha": "51f686dbf687fb87da9932eaf3d52c5d021e58be",
       "verification": "692 local tests plus native CI;187 actual404 log events map to186 distinct exact input requests; all186 replay without source calls and appear in resumed native cache. No response body fabricated; other errors and denials remain separate.",
-      "next_action": "Verify terminal harvest counts and downstream completion; preserve exact-input scope and provider holds.",
-      "owner_role": "existing_content_review_worker"
+      "next_action": "Preserve retained outcomes and later verify qualifying unattended scheduled work.",
+      "owner_role": "existing_content_review_worker",
+      "verification_receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json"
     },
     {
       "id": "held-source-rows-reclassified",
-      "observed_at": "2026-11-06T08:50:13.084097+00:00",
+      "observed_at": "2026-11-06T09:29:28.681554+00:00",
       "owner_role": "existing_content_review_worker",
       "pr": 131,
       "head_sha": "58907d8e12c574c4480fecd670d6f02ce63c6224",
       "merge_sha": "5454f9182e62e3009e3b1fb0c9c1d3e3c313ea5a",
-      "status": "merged_native_ci_passed_live_pending",
+      "status": "maintenance_live_exact_five_rows_verified",
       "tests_passed": 695,
       "verification": "Full real accepted corpus: all five held original CSV rows preserved exactly under matching rescore and changed inputs; no paid calls for held records; ordinary unheld work continues.",
-      "next_action": "Verify actual downstream outcomes before claiming live recovery; scheduled proof remains separate."
+      "next_action": "Preserve retained outcomes and later verify qualifying unattended scheduled work.",
+      "verification_receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json"
     },
     {
       "id": "provider-document-types-discarded",
-      "observed_at": "2026-11-06T08:50:13.084097+00:00",
+      "observed_at": "2026-11-06T09:29:28.681554+00:00",
       "owner_role": "existing_content_review_worker",
       "pr": 132,
       "head_sha": "2a301dff792e7b8a85480fde49135175efc7c048",
       "merge_sha": "e521023e8bf2c803f7ecc78b1290cea8c440b17f",
-      "status": "merged_native_ci_passed_live_pending",
+      "status": "maintenance_live_rescore_type_evidence_verified",
       "tests_passed": 713,
       "cause": "Citation-chain and harvest dropped source types, allowing known book/chapter candidates to reach paper rescore.",
       "repair": "Retain both provider types; restore exact input-bound Crossref type from completed verified response cache without repeating provider requests; apply existing format-review holds.",
-      "next_action": "Verify actual downstream outcomes before claiming live recovery; scheduled proof remains separate."
+      "next_action": "Preserve retained outcomes and later verify qualifying unattended scheduled work.",
+      "verification_receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json"
     },
     {
       "id": "crossref-returned-doi-type-binding",
-      "observed_at": "2026-11-06T08:50:13.084097+00:00",
+      "observed_at": "2026-11-06T09:29:28.681554+00:00",
       "owner_role": "existing_content_review_worker",
       "pr": 133,
       "head_sha": "c0addd3a58726751ce1664fd35c7fc7ee1a7aa5b",
-      "status": "local_tests_passed_native_ci_pending",
+      "status": "maintenance_live_correlated_returned_doi_evidence_verified",
       "tests_passed": 718,
       "observed_mismatches": [
         {
@@ -583,7 +594,52 @@
         }
       ],
       "repair": "Require exact nonempty title agreement across original candidate, retained response and harvested row at returned DOI before binding retained type. No row identity rewrite, provider retry or chapter hold release.",
-      "next_action": "Verify actual downstream outcomes before claiming live recovery; scheduled proof remains separate."
+      "next_action": "Preserve retained outcomes and later verify qualifying unattended scheduled work.",
+      "verification_receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json"
+    },
+    {
+      "id": "apwg-provider-cooldown-loss",
+      "observed_at": "2026-11-06T09:07:36.5801857Z",
+      "owner_role": "existing_content_review_worker",
+      "pr": 134,
+      "merge_sha": "bdae95bc09ebedff9b84e900fd1e258d3d72bab6",
+      "status": "requests_disabled_pending_authoritative_deadline",
+      "http_status": 429,
+      "job_id": 127807852155,
+      "run_id": 42171644273,
+      "exact_provider_deadline_available": false,
+      "minimum_retry_not_before": "2026-11-06T10:07:36.5801857Z",
+      "minimum_does_not_release_hold": true,
+      "local_tests_passed": 722,
+      "native_ci": "all applicable checks passed",
+      "repair": "APWG loads shared provider state; saves it after failure only when pull succeeded; retains audit/state artifacts; reports actual deferred flag; main HTTP and launcher block disabled requests. Review resolver honors the same switch.",
+      "followup": "Authoritative account quota/reset or original response headers requested; no additional OpenAlex probes."
+    },
+    {
+      "id": "approved-paper-evidence-replaced",
+      "observed_at": "2026-11-06T09:29:28.681554+00:00",
+      "owner_role": "existing_content_review_worker",
+      "status": "prepared_tests_passed_integrated_checks_running",
+      "branch": "codex/preserve-approved-paper-evidence",
+      "cause": "Automatic current-window rescore pruned 75 previously approved/kept rows and rewrote other approved evidence. Five technical holds and manual resource remained exact.",
+      "repair": "Restore complete original accepted rows from verified immutable baseline, excluding human removals; protect existing content-review/APWG releases and explicit human keeps before paid calls and replacement-key construction.",
+      "proof": {
+        "baseline_commit": "5680592588743ad980e7d7f525eac78c43cb32dc",
+        "baseline_sha256": "1bbbcbc7e9407105f2fa4b60538e043826e9ee306413fb88584e14e9e19b54b4",
+        "prior_classified_sha256": "1bf64ddfc7644721fb9f15d6bed8211afdcdc46d492c45641273976af144df1b",
+        "repaired_classified_sha256": "96a3587e3003cc5768fa455a1875b2988ccb9ae21f755fecf29725717d1907a4",
+        "before_count": 3215,
+        "after_count": 3290,
+        "protected_original_rows": 465,
+        "current_rows_replaced": 390,
+        "unaffected_rows_preserved": 2825,
+        "reviewed_ids_restored": 85,
+        "apwg_release_rows_restored": 155,
+        "human_keeps_in_protected": 225,
+        "provider_requests": 0,
+        "paid_requests": 0
+      },
+      "local_tests_passed": 720
     }
   ]
 }

@@ -4,7 +4,7 @@
   "trigger": "owner_maintenance",
   "started_at": "2026-11-05T18:08:44Z",
   "observed_at": "2026-11-05T19:26:13.412050+00:00",
-  "status": "actions_recovery_live_verification",
+  "status": "native_pipeline_complete_postrun_reconciliation_in_progress",
   "completed_at": null,
   "receipt_path": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
   "completed_actions": [
@@ -1495,14 +1495,15 @@
   "scheduled_recovery_verified": false,
   "self_repair_instructions_pr": "https://github.com/RISEInfoSec/Alex/pull/117",
   "remaining_work": {
-    "window_candidates": 4672,
-    "completed_search_tasks": 49,
-    "deduplicated_doi_abstract_lookups_total": 1072,
-    "cached_doi_results": 997,
-    "deduplicated_doi_abstract_lookups_remaining": 75,
-    "state_commit": "aaa58017b2dbf77125d4a07dde5c4ccf590a7e4d",
-    "retry_not_before": "2026-11-06T01:46:00.000Z",
-    "observed_at": "2026-11-06T05:31:27Z"
+    "deduplicated_doi_abstract_lookups_remaining": 0,
+    "discovery_status": "complete",
+    "source": "Native retained completed-window receipt",
+    "pending": [
+      "Restore original approved/kept paper rows and verify corrected deployment",
+      "Provider HTTP429 reset evidence unavailable; OpenAlex requests disabled by PR134",
+      "Release maintenance lease and restore original hourly schedules after current repair verification",
+      "Later qualifying scheduled proof; full project QA remains a separate phase"
+    ]
   },
   "approval_required": {
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
@@ -1720,7 +1721,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T08:50:13.084097+00:00",
+  "updated_at": "2026-11-06T09:29:28.681554+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1744,7 +1745,7 @@
     "canonical_receipt": "config/content_review_weekly_recovery/42150889598.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "Verify actual remote harvest progress, complete rescore/classification/publication/deploy, compare paid ledger and live exports; release maintenance lease and restore original hourly schedules only after maintenance completion. Scheduled proof and full QA remain separate.",
+  "next_action": "Finish PR and deployment of approved-corpus restoration, verify all protected rows and public changes, then release lease and restore original hourly tasks. OpenAlex remains disabled until authoritative provider reset evidence is reconciled.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -1759,7 +1760,7 @@
     "owner": "maintenance-actions-recovery-2026-11-06",
     "run_id": "maintenance-actions-recovery-2026-11-06",
     "acquired_at": "2026-11-06T04:32:28.818852+00:00",
-    "expires_at": "2026-11-06T10:03:59.470961+00:00",
+    "expires_at": "2026-11-06T11:29:28.681554+00:00",
     "purpose": "Owner approved GitHub Actions bounded recovery orchestration and live verification before comprehensive QA"
   },
   "unattended_continuation": {
@@ -3225,6 +3226,11 @@
       "previous_expires_at": "2026-11-06T08:44:09.003316+00:00",
       "expires_at": "2026-11-06T10:03:59.470961+00:00",
       "purpose": "Retain maintenance lease during failed-harvest recovery and downstream verification; original hourly checks remain paused."
+    },
+    {
+      "observed_at": "2026-11-06T09:29:28.681554+00:00",
+      "expires_at": "2026-11-06T11:29:28.681554+00:00",
+      "purpose": "Complete approved-corpus restoration and provider hold persistence before restoring original hourly tasks"
     }
   ],
   "completed_window_replay_repair": {
@@ -3332,7 +3338,7 @@
   },
   "paid_classification_recovery_repair": {
     "pr": 128,
-    "status": "merged_native_ci_passed_live_classification_pending",
+    "status": "maintenance_live_verified_scheduled_proof_pending",
     "no_live_paid_diagnostic_requests": true,
     "defects": [
       "synthetic_Other_on_unavailable_or_invalid_response",
@@ -3348,7 +3354,7 @@
   "harvest_response_retention_repair": {
     "pr": 129,
     "head_sha": "94d2eb14933b48b8ade38c1c38b146048c5ca5e0",
-    "status": "live_remote_successful_response_checkpoints_verified",
+    "status": "maintenance_live_verified_scheduled_proof_pending",
     "observed_at": "2026-11-06T07:27:02.874568+00:00",
     "cause": "Harvest rewrote a full runner-local JSON cache per response; pipeline-state omitted it, leaving completed source responses unrecoverable after runner loss. Identified by code inspection while existing harvest remained active, not a new observed timeout.",
     "verification": [
@@ -3468,7 +3474,7 @@
     "pr": 131,
     "head_sha": "58907d8e12c574c4480fecd670d6f02ce63c6224",
     "merge_sha": "5454f9182e62e3009e3b1fb0c9c1d3e3c313ea5a",
-    "status": "merged_native_ci_passed_live_pending",
+    "status": "maintenance_live_verified_scheduled_proof_pending",
     "tests_passed": 695,
     "verification": "Full real accepted corpus: all five held original CSV rows preserved exactly under matching rescore and changed inputs; no paid calls for held records; ordinary unheld work continues."
   },
@@ -3476,7 +3482,7 @@
     "pr": 132,
     "head_sha": "2a301dff792e7b8a85480fde49135175efc7c048",
     "merge_sha": "e521023e8bf2c803f7ecc78b1290cea8c440b17f",
-    "status": "merged_native_ci_passed_live_pending",
+    "status": "maintenance_live_verified_scheduled_proof_pending",
     "tests_passed": 713,
     "cause": "Citation-chain and harvest dropped source types, allowing known book/chapter candidates to reach paper rescore.",
     "repair": "Retain both provider types; restore exact input-bound Crossref type from completed verified response cache without repeating provider requests; apply existing format-review holds."
@@ -3484,7 +3490,7 @@
   "crossref_returned_doi_type_reconciliation": {
     "pr": 133,
     "head_sha": "c0addd3a58726751ce1664fd35c7fc7ee1a7aa5b",
-    "status": "local_tests_passed_native_ci_pending",
+    "status": "merged_native_ci_and_live_rescore_verified",
     "tests_passed": 718,
     "observed_mismatches": [
       {
@@ -3506,6 +3512,321 @@
         "response_sha256": "928a64da2857845019a58efe61036bb07bf5a7a8195f21be7f69b45be68af665"
       }
     ],
-    "repair": "Require exact nonempty title agreement across original candidate, retained response and harvested row at returned DOI before binding retained type. No row identity rewrite, provider retry or chapter hold release."
+    "repair": "Require exact nonempty title agreement across original candidate, retained response and harvested row at returned DOI before binding retained type. No row identity rewrite, provider retry or chapter hold release.",
+    "merge_sha": "c751fcca2b168322ee7ee160d9240aa96255f162"
+  },
+  "native_pipeline_terminal": {
+    "native": {
+      "id": 42171644273,
+      "run_attempt": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "86a28ed580192ee56d3c58485d8f7e1252c05437",
+      "created_at": "2026-11-06T05:59:34Z",
+      "updated_at": "2026-11-06T09:14:17Z",
+      "html_url": "https://github.com/RISEInfoSec/Alex/actions/runs/42171644273"
+    },
+    "jobs": [
+      {
+        "id": 127781398915,
+        "name": "discover",
+        "conclusion": "success",
+        "started_at": "2026-11-06T05:59:40Z",
+        "completed_at": "2026-11-06T06:03:24Z"
+      },
+      {
+        "id": 127781399084,
+        "name": "harvest",
+        "conclusion": "success",
+        "started_at": "2026-11-06T07:59:12Z",
+        "completed_at": "2026-11-06T08:53:33Z"
+      },
+      {
+        "id": 127781399913,
+        "name": "chain",
+        "conclusion": "success",
+        "started_at": "2026-11-06T06:03:27Z",
+        "completed_at": "2026-11-06T06:11:04Z"
+      },
+      {
+        "id": 127781400035,
+        "name": "score",
+        "conclusion": "success",
+        "started_at": "2026-11-06T06:11:07Z",
+        "completed_at": "2026-11-06T06:12:31Z"
+      },
+      {
+        "id": 127802482285,
+        "name": "rescore",
+        "conclusion": "success",
+        "started_at": "2026-11-06T08:53:36Z",
+        "completed_at": "2026-11-06T08:54:26Z"
+      },
+      {
+        "id": 127802833044,
+        "name": "classify",
+        "conclusion": "success",
+        "started_at": "2026-11-06T08:54:30Z",
+        "completed_at": "2026-11-06T09:06:48Z"
+      },
+      {
+        "id": 127807852155,
+        "name": "apwg",
+        "conclusion": "success",
+        "started_at": "2026-11-06T09:06:51Z",
+        "completed_at": "2026-11-06T09:12:43Z"
+      },
+      {
+        "id": 127810321162,
+        "name": "publish",
+        "conclusion": "success",
+        "started_at": "2026-11-06T09:12:46Z",
+        "completed_at": "2026-11-06T09:13:17Z"
+      },
+      {
+        "id": 127810563621,
+        "name": "deploy",
+        "conclusion": "success",
+        "started_at": "2026-11-06T09:13:22Z",
+        "completed_at": "2026-11-06T09:14:07Z"
+      },
+      {
+        "id": 127810912163,
+        "name": "report",
+        "conclusion": "success",
+        "started_at": "2026-11-06T09:14:11Z",
+        "completed_at": "2026-11-06T09:14:16Z"
+      }
+    ],
+    "state_sha": "0e8ff7046995471a8fd800f6e61df5fb5cc0774a",
+    "state_at": "2026-11-06T09:06:40Z",
+    "receipt_blob": {
+      "path": "discovery_run_receipt.json.gz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6fa0a7893419acdb270e9b10b33f69bc2af1f92d",
+      "size": 308,
+      "url": "https://api.github.com/repos/RISEInfoSec/Alex/git/blobs/6fa0a7893419acdb270e9b10b33f69bc2af1f92d"
+    },
+    "receipt_sha256": "ab7739572cc8eec85c034af4294bca7162428b7b129d354c067e2635a0dbea26",
+    "discovery_receipt": {
+      "schema_version": 1,
+      "status": "complete",
+      "window": {
+        "from_date": "2026-10-29",
+        "until_date": "2026-11-05"
+      },
+      "orchestration_pass_id": "42171644273:1:1",
+      "responses_cached": 1386,
+      "completed_at": "2026-11-06T06:02:22.465791+00:00",
+      "elapsed_seconds": 88.769,
+      "completed_tasks": 51,
+      "replayed_tasks": 49,
+      "deferred_tasks": {},
+      "new_candidates": 0,
+      "actual_request_count": 0,
+      "openalex_request_count": 0,
+      "checkpoint_cache_hits": 671,
+      "requests": [],
+      "budgets": {
+        "runtime_seconds": 2700,
+        "max_requests": 0,
+        "openalex_max_requests": 0
+      }
+    }
+  },
+  "live_rescore_verification": {
+    "observed_at": "2026-11-06T08:56:00.220344+00:00",
+    "run_id": 42171644273,
+    "job_id": 127802482285,
+    "native_conclusion": "success",
+    "state_sha": "694b621be22fd3e73e34bad4d0943a2234f1bf69",
+    "rescore_commit": "14914c89d988693c128ca8593cf199476c4235b4",
+    "harvest_commit": "4b7fb1ebba79a644882f7302782946f38f5b34f2",
+    "window": "61a4fb12e1584ae2a3a698a08f856967",
+    "harvested_rows": 8292,
+    "rescored_rows": 8292,
+    "auto_include_rows": 2851,
+    "restored_type_rows": 4857,
+    "source_type_counts": {
+      "journal-article": 3728,
+      "book-chapter": 588,
+      "book": 21,
+      "monograph": 48,
+      "reference-book": 5,
+      "posted-content": 178,
+      "proceedings-article": 148,
+      "journal": 7,
+      "edited-book": 33,
+      "other": 41,
+      "peer-review": 20,
+      "component": 3,
+      "report": 24,
+      "dissertation": 3,
+      "standard": 1,
+      "dataset": 6,
+      "database": 1,
+      "reference-entry": 1,
+      "proceedings": 1
+    },
+    "nonpaper_format_hold_rows": 1625,
+    "held_format_rows_absent_from_auto_include": true,
+    "known_metadata_holds_in_auto_include_before_classification_filter": 5,
+    "corroborated_returned_dois": [
+      {
+        "doi": "10.35940/ijrte.b8366.15010526",
+        "title": "Advanced AI-Based Real-Time Industrial Safety Sentinel for Smart Hazard Detection and Workplace Safety",
+        "harvest_crossref_requested_doi": "10.35940/ijrte.b8366.15010526/",
+        "harvest_crossref_type": "journal-article",
+        "document_type_hold": ""
+      },
+      {
+        "doi": "10.4018/406039",
+        "title": "Exploring the Advances of Artificial Intelligence in Cryptocurrencies and Darknet Forensics",
+        "harvest_crossref_requested_doi": "10.4018/979-8-3693-5638-8.ch048",
+        "harvest_crossref_type": "book-chapter",
+        "document_type_hold": "Harvest source type requires separate format review: book-chapter"
+      },
+      {
+        "doi": "10.4018/406038",
+        "title": "Securing the Future",
+        "harvest_crossref_requested_doi": "10.4018/979-8-3693-5638-8.ch047",
+        "harvest_crossref_type": "book-chapter",
+        "document_type_hold": "Harvest source type requires separate format review: book-chapter"
+      }
+    ],
+    "state_files": {
+      "harvest_response_cache.jsonl": {
+        "git_blob_sha": "7b2fa0bb73107f7280da2771fcc1c7922bc5e89e",
+        "sha256": "ce84e7775c3fe73afcc4ba7a2df249d7fa0165d44c91d3a29ff57eebf37670e3"
+      },
+      "rescore_metrics.csv": {
+        "git_blob_sha": "eca102529edf92a278e8b720caca064af4542d27",
+        "sha256": "379e68d46c590553d93fd28740dfc4191c10d561d7df36f8001f40acadaf32db"
+      }
+    },
+    "provider_requests": 0
+  },
+  "live_paid_verification": {
+    "observed_at": "2026-11-06T09:08:31.421567+00:00",
+    "run_id": 42171644273,
+    "job_id": 127802833044,
+    "attempt": 2,
+    "main_sha": "5405ccd84e9965aedd3f2c5e60c097088a9bd65f",
+    "state_sha": "0e8ff7046995471a8fd800f6e61df5fb5cc0774a",
+    "ledger_git_blob_sha": "7d9898186d453f575a3317c145ecc6bb092dcb32",
+    "ledger_sha256": "7b31cefba9b9cb9dcbfd19a664f370e60f89a217f58bd79c40570688624c46d6",
+    "invocation": "42171644273:2:32bc524bb45a49d4a3e6a9d8d0b3170d",
+    "request_model": "gpt-4o-mini",
+    "input_rows": 2846,
+    "unique_requests": 2846,
+    "unique_response_ids": 2846,
+    "fresh_complete_responses": 2846,
+    "reused_complete_responses": 0,
+    "usage": {
+      "input_tokens": 2014070,
+      "output_tokens": 90185,
+      "total_tokens": 2104255,
+      "usage_reports": 2846
+    },
+    "output_classifications_verified": 2842,
+    "isolated_retained_response_replays": 2846,
+    "provider_requests_during_verification": 0,
+    "ledger_statuses": {
+      "complete": 2846
+    },
+    "input_sha256": "c9fed28dcc63d002dadfb4749273c5c163eead55e8137c44d1d9df6349f03044",
+    "output_sha256": "1bf64ddfc7644721fb9f15d6bed8211afdcdc46d492c45641273976af144df1b"
+  },
+  "protected_metadata_rows_verification": {
+    "classified_commit": "5405ccd84e9965aedd3f2c5e60c097088a9bd65f",
+    "accepted_rows": 3215,
+    "held_rows_preserved_exactly": 5,
+    "reviewed_manual_resources_preserved_exactly": 1
+  },
+  "harvest_abstract_live_verification": {
+    "input_rows": 8292,
+    "input_missing_abstracts": 804,
+    "output_missing_abstracts": 563,
+    "filled_missing_abstracts": 241,
+    "lost_abstracts": 0,
+    "unchanged_title_row_alignment_verified": true,
+    "harvest_commit": "4b7fb1ebba79a644882f7302782946f38f5b34f2"
+  },
+  "classification_reservation_verification": {
+    "observed_at": "2026-11-06T09:02:00.458258+00:00",
+    "run_id": 42171644273,
+    "attempt": 2,
+    "input_commit": "14914c89d988693c128ca8593cf199476c4235b4",
+    "input_sha256": "c9fed28dcc63d002dadfb4749273c5c163eead55e8137c44d1d9df6349f03044",
+    "state_sha": "c27335f9650fbce16c5bfba38865559e4173b69f",
+    "ledger_git_blob_sha": "288d392c65ca22c32c4221a757d7abe184c17342",
+    "ledger_sha256": "64a9377fcb94961bef051ccb07cdd9e386fb510557eaad6ea6b9bbdde2ea7c20",
+    "invocation": "42171644273:2:32bc524bb45a49d4a3e6a9d8d0b3170d",
+    "source_rows": 2851,
+    "classification_rows": 2846,
+    "reserved_unique_requests": 2846,
+    "request_model": "gpt-4o-mini",
+    "model_prompt_schema_input_verified_by_all_request_hashes": true,
+    "protected_rows_excluded": 5,
+    "protected_dois": [
+      "10.5281/zenodo.20019655",
+      "10.5281/zenodo.20397169",
+      "10.5281/zenodo.20666247",
+      "10.5281/zenodo.20666248",
+      "10.5281/zenodo.20664393"
+    ],
+    "provider_requests": 0
+  },
+  "remaining_work_history": [
+    {
+      "window_candidates": 4672,
+      "completed_search_tasks": 49,
+      "deduplicated_doi_abstract_lookups_total": 1072,
+      "cached_doi_results": 997,
+      "deduplicated_doi_abstract_lookups_remaining": 75,
+      "state_commit": "aaa58017b2dbf77125d4a07dde5c4ccf590a7e4d",
+      "retry_not_before": "2026-11-06T01:46:00.000Z",
+      "observed_at": "2026-11-06T05:31:27Z"
+    }
+  ],
+  "provider_rate_limit_reconciliation": {
+    "pr": 134,
+    "merge_sha": "bdae95bc09ebedff9b84e900fd1e258d3d72bab6",
+    "status": "requests_disabled_pending_authoritative_deadline",
+    "http_status": 429,
+    "observed_at": "2026-11-06T09:07:36.5801857Z",
+    "job_id": 127807852155,
+    "run_id": 42171644273,
+    "exact_provider_deadline_available": false,
+    "minimum_retry_not_before": "2026-11-06T10:07:36.5801857Z",
+    "minimum_does_not_release_hold": true,
+    "local_tests_passed": 722,
+    "native_ci": "all applicable checks passed",
+    "repair": "APWG loads shared provider state; saves it after failure only when pull succeeded; retains audit/state artifacts; reports actual deferred flag; main HTTP and launcher block disabled requests. Review resolver honors the same switch.",
+    "followup": "Authoritative account quota/reset or original response headers requested; no additional OpenAlex probes."
+  },
+  "approved_corpus_reconciliation": {
+    "status": "prepared_tests_passed_integrated_checks_running",
+    "branch": "codex/preserve-approved-paper-evidence",
+    "cause": "Automatic current-window rescore pruned 75 previously approved/kept rows and rewrote other approved evidence. Five technical holds and manual resource remained exact.",
+    "repair": "Restore complete original accepted rows from verified immutable baseline, excluding human removals; protect existing content-review/APWG releases and explicit human keeps before paid calls and replacement-key construction.",
+    "proof": {
+      "baseline_commit": "5680592588743ad980e7d7f525eac78c43cb32dc",
+      "baseline_sha256": "1bbbcbc7e9407105f2fa4b60538e043826e9ee306413fb88584e14e9e19b54b4",
+      "prior_classified_sha256": "1bf64ddfc7644721fb9f15d6bed8211afdcdc46d492c45641273976af144df1b",
+      "repaired_classified_sha256": "96a3587e3003cc5768fa455a1875b2988ccb9ae21f755fecf29725717d1907a4",
+      "before_count": 3215,
+      "after_count": 3290,
+      "protected_original_rows": 465,
+      "current_rows_replaced": 390,
+      "unaffected_rows_preserved": 2825,
+      "reviewed_ids_restored": 85,
+      "apwg_release_rows_restored": 155,
+      "human_keeps_in_protected": 225,
+      "provider_requests": 0,
+      "paid_requests": 0
+    },
+    "local_tests_passed": 720
   }
 }

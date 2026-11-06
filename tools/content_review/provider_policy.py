@@ -5,6 +5,11 @@ import json
 from tools.content_review.lifecycle import instant
 
 def resolve(main_policy, state, operations, at=None):
+    if main_policy.get('requests_enabled') is False:
+        return {'allowed':False,'reason':'OpenAlex provider-state reconciliation required',
+                'reconciliation_hold':main_policy.get('reconciliation_hold'),
+                'request_limit':0,'min_interval_seconds':60,'automatic_retries':0,
+                'free_singleton_is_independent_channel':False}
     at=at or datetime.now(timezone.utc);deadlines=[]
     def add(source,value):
         if value:

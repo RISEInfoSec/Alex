@@ -30,10 +30,15 @@ class PilotBudgetTests(unittest.TestCase):
         r=dict(run_id='a',trigger='schedule',native_terminal_verified=True,status='complete',
             pilot=dict(pilot_id='test',integrity_passed=True,budget_compliant=True,
                 access_rules_preserved=True,lease_conflicts=0,checkpoint_failures=0,
-                attempted_candidate_ids=['x']))
+                attempted_candidate_ids=['x'],heartbeat_interval_compliant=True,
+                newly_passed_checks={'metadata':['x']}))
         self.assertEqual(candidate_limit(P,[r,r]),5)
         self.assertEqual(candidate_limit(P,[r,dict(r,run_id='b')]),10)
         self.assertEqual(candidate_limit(P,[r,dict(r,run_id='b',native_terminal_verified=False)]),5)
         self.assertEqual(candidate_limit(P,[r,dict(r,run_id='b',trigger='manual')]),5)
+        self.assertEqual(candidate_limit(P,[r,dict(r,run_id='b',pilot={**r['pilot'],
+            'heartbeat_interval_compliant':False})]),5)
+        self.assertEqual(candidate_limit(P,[r,dict(r,run_id='b',pilot={**r['pilot'],
+            'newly_passed_checks':{}})]),5)
 
 if __name__=='__main__': unittest.main()
