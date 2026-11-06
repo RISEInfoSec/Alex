@@ -29,11 +29,13 @@ class HarvestClient(HttpClient):
         self.path = Path(path)
         self.guard = threading.RLock()
         self.request_locks = {}
+        self.local = threading.local()
         self.failed = False
         self.last_sync = time.monotonic()
         self.publish = publish or self._publish
         self.cache_hits = 0
         self.responses_added = 0
+        self.not_found_added = 0
         complete = False
         header = None
         if self.path.exists():
@@ -53,6 +55,12 @@ class HarvestClient(HttpClient):
                             if digest(payload) != record['sha256'] or record['response'] is None:
                                 raise ValueError('Invalid response digest')
                             self.cache[record['request_sha256']] = record['response']
+                            complete = False
+                        elif record.get('event') == 'not_found':
+                            payload = {k:record[k] for k in ('request_sha256','http_status','evidence')}
+                            if record['http_status'] != 404 or digest(payload) != record['sha256']:
+                                raise ValueError('Invalid not-found outcome')
+                            self.cache[record['request_sha256']] = None
                             complete = False
                         elif record.get('event') in ('begin', 'complete'):
                             complete = record['event'] == 'complete'
@@ -107,8 +115,9 @@ class HarvestClient(HttpClient):
                     self.failed = True
                     raise HarvestCheckpointError('Harvest checkpoint sync failed; no further requests') from None
                 self.last_sync = time.monotonic()
-                print(f'Harvest checkpoint: {len(self.cache)} retained responses; '
-                      f'{self.responses_added} new responses; {self.cache_hits} cache hits', flush=True)
+                print(f'Harvest checkpoint: {len(self.cache)} retained outcomes; '
+                      f'{self.responses_added} new responses; {self.not_found_added} new not-found outcomes; '
+                      f'{self.cache_hits} cache hits', flush=True)
 
     def _cache_get(self, key):
         with self.guard:
@@ -137,7 +146,30 @@ class HarvestClient(HttpClient):
         with self.guard:
             lock = self.request_locks.setdefault(key, threading.Lock())
         with lock:
-            return super().get_json(url, params, headers, timeout)
+            self.local.json_key = json.dumps({'url':url, 'params':params or {}, 'headers':headers or {}}, sort_keys=True)
+            try:
+                return super().get_json(url, params, headers, timeout)
+            finally:
+                del self.local.json_key
+
+    def _cache_not_found(self, key, evidence=None):
+        """Retain an observed HTTP404, never manufacture an empty response body."""
+        with self.guard:
+            key = digest(key)
+            payload = {'request_sha256':key, 'http_status':404,
+                       'evidence':evidence or {'source':'http_response', 'run_id':os.getenv('GITHUB_RUN_ID')}}
+            self._append({'event':'not_found', **payload, 'sha256':digest(payload)})
+            self.cache[key] = None
+            self.not_found_added += 1
+            if not self.failed:
+                self.sync()
+
+    def _request_with_retry(self, *args, **kwargs):
+        response = super()._request_with_retry(*args, **kwargs)
+        key = getattr(self.local, 'json_key', None)
+        if response is not None and response.status_code == 404 and key is not None:
+            self._cache_not_found(key)
+        return response
 
     def _send_request(self, url, **kwargs):
         with self.guard:

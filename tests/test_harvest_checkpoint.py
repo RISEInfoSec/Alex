@@ -128,15 +128,39 @@ def test_secret_headers_not_stored_and_changed_request_is_not_reused(tmp_path):
     assert 'x-api-key' not in path.read_text()
 
 
-def test_failed_response_is_not_success_cache(tmp_path):
+def test_not_found_is_retained_without_fabricating_a_response(tmp_path):
     path=tmp_path/'cache.jsonl'
     client=HarvestClient(path,('1'*64))
     failed=Mock(status_code=404)
     failed.raise_for_status.side_effect=requests.HTTPError('not found')
     client.session.get=Mock(return_value=failed)
     assert client.get_json('https://api.crossref.org/works/missing') is None
+    record=json.loads(path.read_text().splitlines()[-1])
+    assert record['event']=='not_found' and record['http_status']==404
+    assert 'response' not in record
+    restored=HarvestClient(path,('1'*64))
+    restored.session.get=Mock(side_effect=AssertionError('known404 must not be sent again'))
+    assert restored.get_json('https://api.crossref.org/works/missing') is None
+    assert restored.cache_hits==1
+
+
+@pytest.mark.parametrize('status',[400,401,403,429,500])
+def test_denials_and_other_failures_are_not_not_found(tmp_path,status):
+    client=HarvestClient(tmp_path/'cache.jsonl',('1'*64))
+    failed=Mock(status_code=status,headers={'Retry-After':'3600'})
+    failed.raise_for_status.side_effect=requests.HTTPError('failed')
+    client.session.get=Mock(return_value=failed)
+    assert client.get_json('https://api.crossref.org/works/failure') is None
     assert not client.cache
-    assert not HarvestClient(path,('1'*64)).cache
+
+
+def test_not_found_evidence_is_integrity_checked(tmp_path):
+    path=tmp_path/'cache.jsonl'
+    client=HarvestClient(path,('1'*64))
+    client._cache_not_found('request-key',{'source':'native_log','job_id':1})
+    path.write_text(path.read_text().replace('"http_status":404','"http_status":403'))
+    with pytest.raises(HarvestCheckpointError,match='Invalid harvest checkpoint'):
+        HarvestClient(path,('1'*64))
 
 
 def test_local_fsync_failure_stops_next_request(tmp_path,monkeypatch):
