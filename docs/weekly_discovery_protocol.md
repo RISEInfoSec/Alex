@@ -231,6 +231,31 @@ required to release downstream jobs. Scheduled discovery remains unchanged and
 continues to open the next window normally. This is operator reconciliation of
 completed work, not a general retry or permission to bypass provider holds.
 
+## Harvest response retention
+
+Harvest now appends each successful response to an input-bound, hash-checked
+JSONL cache instead of rewriting the entire legacy JSON cache for every call.
+The exact accepted-candidates file hash binds the cache to one input. A resumed
+harvest reuses those responses and sends only uncached requests; identical
+concurrent requests share one cache lookup/send. Provider pacing, holds, retry
+rules and the existing 90-minute job ceiling remain unchanged.
+
+Initial, periodic (120 seconds at response boundaries) and final state pushes
+transport the cache using the existing compare-and-swap pipeline-state branch.
+Local appends are flushed and fsynced. A failed append or state push stops new
+requests and fails the stage; it cannot be swallowed as a single dropped row.
+Already in-flight successful responses are still retained locally. Native
+artifacts provide a second retention path in updated workflow definitions.
+An abrupt runner loss can still lose work since the last remote checkpoint;
+this does not promise exactly-once source requests or automatic retry of a
+failed job. Failed/empty responses are not treated as successful cached work.
+
+Corrupt/truncated checkpoints and changed inputs while a harvest is unfinished
+fail before source requests. After a completed input, a new input can start a
+fresh cache while retaining the preceding completed cache for bounded rollback.
+Request keys are stored only as hashes so authentication headers cannot be
+written into checkpoint records. Stored responses remain public-source data.
+
 ## Paid classification failure and recovery
 
 Missing OpenAI credentials, network errors, non-success responses, empty output
