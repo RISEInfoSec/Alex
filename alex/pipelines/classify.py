@@ -3,6 +3,7 @@ import json
 import csv
 from alex.editorial_exclusions import filter_frame
 from alex.metadata_holds import filter_frame as filter_metadata_holds, load_holds, canonical_doi
+from alex.approved_corpus import approved_paper, keep_identities, filter_approved_inputs
 import logging
 import os
 import re
@@ -409,6 +410,7 @@ def _existing_corpus(path):
     from alex.resource_types import TYPES, public_fields
     existing = load_df(path)
     protected = set()
+    keeps = keep_identities(root_file())
     held_dois = {h['doi'] for h in load_holds(root_file('config', 'corpus_metadata_holds.json'))}
     if existing.empty:
         return existing, protected
@@ -420,7 +422,8 @@ def _existing_corpus(path):
     for index, raw in enumerate(raw_rows):
         manual_resource = raw.get('document_type') in TYPES
         metadata_held = canonical_doi(raw.get('doi', '')) in held_dois
-        if not manual_resource and not metadata_held:
+        reviewed_paper = approved_paper(raw, keeps)
+        if not manual_resource and not metadata_held and not reviewed_paper:
             continue
         # Validate the existing immutable binding, never recompute it to
         # bless a value altered by pandas (2026 -> 2026.0, or NA -> null).
@@ -465,6 +468,9 @@ def run() -> None:
     if not rescored.empty:
         rescored = filter_metadata_holds(rescored, hold_path)
     existing, protected_keys = _existing_corpus(output_path)
+    keeps = keep_identities(root_file())
+    df = filter_approved_inputs(df, existing, keeps)
+    rescored = filter_approved_inputs(rescored, existing, keeps)
     rescored_keys = set()
     if window_run_id and _rows_match_run_id(rescored, window_run_id, "rescore_metrics.csv") \
        and _rows_match_run_id(df, window_run_id, "accepted_harvested.csv"):
