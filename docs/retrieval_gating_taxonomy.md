@@ -185,7 +185,7 @@ Set independently of the LLM: `Seminal_Flag = "TRUE"` iff `citation_count >= sem
 The OpenAI Responses API returns the model's text under `data["output"][i]["content"][j]["text"]`. The top-level `output_text` convenience field was reliable through Apr 25 then started returning empty in our request shape on Apr 27 (100% empty across 519 calls — the corpus that day was 100% fallback `Other` until the parser was fixed). `_extract_response_text` prefers `output_text` when populated and falls back to walking the structured array.
 
 ### Failure semantics
-- **Transient errors** (network blip, 429 rate limit not tagged as quota, 5xx, malformed JSON): log warning, fall back to `FALLBACK` constants (`Category="Other"`, `Investigation_Type="Other"`, empty arrays for the rest), continue.
+- **Network errors, non-success HTTP responses, malformed JSON, empty or schema-invalid results**: fail classification, preserve actual outcomes in the durable request ledger, and block downstream publication. Never fabricate `Other` or other fallback labels. A valid model response may still legitimately classify a work as `Other`. Reuse only independently verified results bound to the same model, prompt, schema and input; reconcile ambiguous sends before any retry.
 - **Account-level errors** (`insufficient_quota`, `billing_hard_limit_reached`, `account_deactivated`, `invalid_api_key`, HTTP 401, HTTP 403): raise `OpenAIQuotaError` and abort the entire run. Silent fallback on these once corrupted 1,499 papers as `Category="Other"` (2026-04-25), so loud failure is now mandatory.
 
 ### Smoketest
@@ -198,7 +198,7 @@ Each run resets `_TOKEN_USAGE` and prints a summary at the end:
 OpenAI usage: <calls> calls, <input> input + <output> output = <total> total tokens
 ```
 
-Token totals are scraped from each successful response's `usage` block, so failed/fallback calls don't contribute. Pricing for `gpt-4o-mini` is bring-your-own — the doc-of-record is OpenAI's pricing page.
+Token totals come from actual response `usage` blocks; send attempts and reported usage are distinct evidence. Reusing a verified response adds no new send or token usage. An error without a usage report does not establish that a request was free or safe to repeat. Pricing for `gpt-4o-mini` is bring-your-own — the doc-of-record is OpenAI's pricing page.
 
 ---
 

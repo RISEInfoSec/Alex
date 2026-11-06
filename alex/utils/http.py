@@ -1,6 +1,7 @@
 from __future__ import annotations
 import json
 import fcntl
+from email.utils import parsedate_to_datetime
 from datetime import datetime, timezone
 import logging
 import os
@@ -34,6 +35,37 @@ _OPENALEX_POLICY_PATH = Path(__file__).resolve().parents[2] / 'config/openalex_r
 
 def _openalex_policy():
     return json.loads(_OPENALEX_POLICY_PATH.read_text())
+
+
+def _openalex_response_evidence(response):
+    """Retain quota evidence without request URLs, keys, bodies or cookies."""
+    retained, invalid = {}, []
+    for name in ('Date', 'Retry-After', 'X-RateLimit-Limit',
+                 'X-RateLimit-Remaining', 'X-RateLimit-Reset',
+                 'X-RateLimit-Credits-Used'):
+        value = response.headers.get(name)
+        if value is None:
+            continue
+        valid = False
+        if isinstance(value, str) and len(value) <= 128 and '\n' not in value and '\r' not in value:
+            numeric = re.fullmatch(r'[0-9]+(?:\.[0-9]+)?', value.strip()) is not None
+            if name != 'Date' and numeric:
+                valid = True
+            elif name in ('Date', 'Retry-After'):
+                try:
+                    parsed = parsedate_to_datetime(value)
+                    valid = (parsed.tzinfo is not None and
+                             parsed.strftime('%a, %d %b %Y %H:%M:%S GMT') == value and
+                             parsed.utcoffset().total_seconds() == 0)
+                except (TypeError, ValueError, OverflowError):
+                    pass
+        if valid:
+            retained[name] = value
+        else:
+            invalid.append(name)
+    return {'observed_at': datetime.fromtimestamp(time.time(), timezone.utc).isoformat(),
+            'http_status': response.status_code, 'headers': retained,
+            'invalid_header_names': invalid}
 
 
 # Retry only on transient failures: server-side errors and rate limits. 4xx
@@ -186,11 +218,16 @@ class HttpClient:
                 save()
                 logger.warning('OpenAlex network/timeout failure; no automatic retry: %s', _redact(exc))
                 return None
+            state['last_response'] = _openalex_response_evidence(response)
+            # Save even successful responses: remaining allowance and provider
+            # reset evidence must survive the runner that received them.
+            save()
             if response.status_code in (401, 403, 429) or response.status_code >= 500:
                 retry_after = self._parse_retry_after(response.headers.get('Retry-After'))
                 state['retry_not_before'] = time.time() + max(retry_after or 0, self._quota_reset_seconds(response), policy['failure_cooldown_seconds'])
                 self._openalex_hold = True
                 state['last_failure'] = 'HTTP' + str(response.status_code)
+                state['last_failure_response'] = state['last_response']
                 save()
                 logger.warning('OpenAlex HTTP%d; provider paused, no automatic retry', response.status_code)
             reset = self._quota_reset_seconds(response)
@@ -198,6 +235,7 @@ class HttpClient:
                 self._openalex_hold = True
                 state['retry_not_before'] = max(state.get('retry_not_before', 0), time.time() + reset)
                 state['last_failure'] = 'quota_exhausted'
+                state['last_failure_response'] = state['last_response']
                 save()
             return response
 

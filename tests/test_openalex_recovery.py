@@ -59,3 +59,58 @@ def test_concurrent_clients_never_overlap_openalex_calls(setup):
  with ThreadPoolExecutor(max_workers=2) as pool:
   list(pool.map(lambda pair:pair[1].get_json('https://api.openalex.org/works',params={'query':str(pair[0])}),enumerate(clients)))
  assert state['maximum']==1
+
+
+def test_provider_evidence_survives_cooldown_and_later_success(setup, monkeypatch):
+ now = [10000]
+ monkeypatch.setattr(http.time, 'time', lambda: now[0])
+ monkeypatch.setenv('OPENALEX_API_KEY', 'private-api-key')
+ headers = {'Retry-After': '7200', 'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': '8000', 'X-RateLimit-Limit': '10000',
+            'X-RateLimit-Credits-Used': '10',
+            'Date': 'Thu, 01 Jan 1970 02:46:40 GMT',
+            'Set-Cookie': 'private-cookie', 'Authorization': 'private-api-key'}
+ client = http.HttpClient()
+ client.session.get = MagicMock(return_value=response(429, headers))
+ assert client.get_json('https://api.openalex.org/works') is None
+ path = setup / 'cache.json.openalex-policy'
+ state = json.loads(path.read_text())
+ failure = state['last_failure_response']
+ assert failure['http_status'] == 429
+ assert failure['headers'] == {key: value for key, value in headers.items()
+                              if key not in ('Set-Cookie', 'Authorization')}
+ assert failure['observed_at'] == '1970-01-01T02:46:40+00:00'
+ assert state['retry_not_before'] == 18000
+ assert 'private-' not in path.read_text()
+ blocked = http.HttpClient()
+ blocked.session.get = MagicMock()
+ assert blocked.get_json('https://api.openalex.org/works') is None
+ blocked.session.get.assert_not_called()
+ # A later permitted response updates current allowance, retaining the failure.
+ now[0] = 18001
+ resumed = http.HttpClient()
+ resumed.session.get = MagicMock(return_value=response(200, {'X-RateLimit-Remaining': '9000'}))
+ assert resumed.get_json('https://api.openalex.org/works') == {'ok': True}
+ state = json.loads(path.read_text())
+ assert state['last_response']['http_status'] == 200
+ assert state['last_response']['headers'] == {'X-RateLimit-Remaining': '9000'}
+ assert state['last_failure_response'] == failure
+ assert client.session.get.call_count == resumed.session.get.call_count == 1
+
+
+def test_evidence_does_not_copy_arbitrary_or_malformed_header_values():
+ evidence = http._openalex_response_evidence(response(429, {
+     'Retry-After': 'Bearer secret', 'Date': 'bad\r\nsecret',
+     'X-RateLimit-Remaining': 'NaN', 'X-RateLimit-Limit': '1' * 129,
+     'X-RateLimit-Reset': 'Infinity', 'Authorization': 'private-key'}))
+ assert evidence['headers'] == {}
+ assert len(evidence['invalid_header_names']) == 5
+ assert 'secret' not in json.dumps(evidence) and 'private-key' not in json.dumps(evidence)
+
+
+def test_http_date_evidence_is_retained_verbatim():
+ value = 'Thu, 01 Jan 1970 03:00:00 GMT'
+ evidence = http._openalex_response_evidence(response(429, {'Retry-After': value}))
+ assert evidence['headers'] == {'Retry-After': value}
+ assert http._openalex_response_evidence(response(429, {
+     'Retry-After': value + ' private-token'}))['headers'] == {}

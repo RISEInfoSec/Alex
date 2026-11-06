@@ -307,6 +307,21 @@ Received failures and invalid paid responses also remain explicit holds. Never
 delete those entries or change their hashes to force a retry. Live publication
 and unattended scheduled operation remain separately verified outcomes.
 
+## Retained OpenAlex quota evidence
+
+The shared HTTP governor saves the latest response status, UTC observation time,
+and validated `Date`, `Retry-After`, and `X-RateLimit-Limit/Remaining/Reset/Credits-Used` header
+values in the existing provider-state file. It separately retains the latest
+failure response so a later successful request cannot erase that evidence.
+Missing headers remain missing; malformed values are recorded by header name
+without copying their contents. URLs, authentication, cookies and response bodies
+are excluded. Existing workflow state pushes and artifacts carry these records.
+
+These observations do not change pacing, retries or hold release rules, and a
+prior successful response cannot clear a newer provider denial. The current
+HTTP429 reconciliation hold remains active: this repair cannot reconstruct the
+headers discarded by the earlier runner or establish current account allowance.
+
 ## Retained document-type evidence
 
 Citation chaining requests and retains OpenAlex's declared work type. Harvest
