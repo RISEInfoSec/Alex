@@ -230,7 +230,8 @@ def test_bounds_cannot_be_silently_increased(setup):
     with pytest.raises(ValueError): build(setup)
 
 
-def test_real_discovery_crosses_request_cap_and_reuses_responses(setup, monkeypatch):
+@pytest.mark.parametrize('clock_start', [4.001, 10000.0])
+def test_real_discovery_crosses_request_cap_and_reuses_responses(setup, monkeypatch, clock_start):
     from unittest.mock import MagicMock
     import pandas as pd
     import requests
@@ -248,6 +249,9 @@ def test_real_discovery_crosses_request_cap_and_reuses_responses(setup, monkeypa
         'min_interval_seconds': 0, 'request_timeout_seconds': 20,
         'failure_cooldown_seconds': 3600, 'retry_not_before': None})
     monkeypatch.setattr(http.time, 'sleep', lambda _: None)
+    # Adding/subtracting a float deadline can reconstruct60 as60.00000000000001.
+    # A legitimate configured bound must not intermittently fail verification.
+    monkeypatch.setattr(http.time, 'monotonic', lambda: clock_start)
     monkeypatch.delenv('ALEX_DISCOVERY_SYNC', raising=False)
     monkeypatch.setenv('ALEX_OPENALEX_STATE_PATH', str(root / 'data/discovery_openalex_state.json'))
     search = MagicMock(return_value=[{'title': ['OSINT research ' + n], 'DOI': '10.1/' + n}
