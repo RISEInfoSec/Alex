@@ -123,7 +123,7 @@ Fetch them with `scripts/state.sh pull`; see [Pipeline state](#pipeline-state).
 - `data/accepted_classified.csv` — internal corpus with LLM tags (additive across runs)
 
 ### Governance / audit
-- `data/review_queue.csv` — Quality gate review-tier candidates
+- `data/review_queue.csv` — Quality gate review-tier candidates, generated and committed to `main`; distinct from Content Review's human-decision queue
 
 ## How to run
 
@@ -283,14 +283,18 @@ The package is designed to be **production-oriented**, but actual performance de
 ### Required GitHub repository secrets
 - `HARVEST_MAILTO` — contact email sent in the User-Agent header to academic APIs (politeness contract).
 - `OPEN_API_KEY` — OpenAI API key. Note the secret name is `OPEN_API_KEY` (not `OPENAI_API_KEY`); the workflows map it onto the `OPENAI_API_KEY` env var.
-- `OPENALEX_API_KEY` — OpenAlex API key, sent as `api_key` on every OpenAlex request. Without one, OpenAlex throttles anonymous search. The free tier is 10,000 credits/day (search = 10 credits, filter lookup = 1); a weekly run uses roughly 3–8k.
+- `OPENALEX_API_KEY` — OpenAlex API key, sent as `api_key` on authorized OpenAlex requests. Current account allowance, provider deadlines and `config/openalex_request_policy.json` govern access; a key does not override a pause. Do not infer current quota from historical credit figures.
 
 ### Optional repository variables
 - `OPENAI_MODEL` — overrides `gpt-4o-mini` for classification.
 - `SEMANTIC_SCHOLAR_API_KEY` (env / secret) — if set and `connectors.semantic_scholar.enabled=true` in `config/query_registry.json`, S2 is consulted for both discovery and backward citation chaining.
 
+See the [complete credential inventory and provisioning instructions](docs/github_actions_setup.md)
+for optional CORE access, automatic `GITHUB_TOKEN`, and the currently disabled,
+unmapped Semantic Scholar route. Optional provider keys are secrets, not Actions variables.
+
 ### Pipeline state
-Working files live on the `pipeline-state` branch as gzipped CSVs in one parentless commit; every push replaces it and moves the old one to `pipeline-state-prev`.
+Working CSVs, provider/discovery JSON checkpoints, the harvest JSONL cache and the paid response ledger live gzipped on `pipeline-state` in one parentless commit; every push replaces it and moves the old one to `pipeline-state-prev`.
 - `scripts/state.sh pull` — fetch into `data/`. Fails loudly if the branch is missing rather than starting from an empty corpus.
 - `scripts/state.sh push "msg"` — publish `data/` state; a no-op when nothing changed. Uses `--force-with-lease`, so a concurrent writer is rejected, not overwritten.
 - Rollback one step: `git push -f origin origin/pipeline-state-prev:refs/heads/pipeline-state`.

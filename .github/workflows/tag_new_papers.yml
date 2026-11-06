@@ -1,6 +1,8 @@
 name: Tag new papers with LLM classification
 on:
   workflow_dispatch:
+env:
+  ALEX_CLASSIFICATION_SYNC: '1'
 permissions:
   contents: write
 # Shares the Pipeline's group: these jobs read and write the same
@@ -14,6 +16,8 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          ref: main
       - uses: actions/setup-python@v7.1.0
         with:
           python-version: "3.11"
@@ -28,5 +32,15 @@ jobs:
         run: |
           python -m alex.cli classify
           git add data/accepted_classified.csv
+          if [ -e data/.rescore_window.json ] || git ls-files --error-unmatch data/.rescore_window.json >/dev/null 2>&1; then
+            git add -A data/.rescore_window.json
+          fi
           git diff --cached --quiet || git commit -m "Tag new papers via LLM classification"
           git push
+      - name: Retain paid request evidence
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: classification-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/classification_request_ledger.json
+          if-no-files-found: warn

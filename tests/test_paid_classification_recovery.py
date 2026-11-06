@@ -151,3 +151,38 @@ def test_corrupt_paid_result_and_failed_initial_push_stop_before_work(tmp_path):
     def fail(): raise OSError('native state conflict')
     with pytest.raises(PaidRequestHeld, match='sync'):
         Ledger(tmp_path / 'other', [digest(body)], publish=fail)
+
+
+@pytest.mark.parametrize('workflow', ['pipeline', 'classify', 'tag_new_papers'])
+def test_every_production_classification_entrypoint_stops_on_remote_reservation_failure(
+        tmp_path, monkeypatch, workflow):
+    import subprocess
+    import yaml
+    from unittest.mock import Mock
+    from pathlib import Path
+    source = yaml.safe_load((Path(__file__).parents[1] / '.github/workflows' /
+                             (workflow + '.yml')).read_text())
+    monkeypatch.delenv('ALEX_DISCOVERY_SYNC', raising=False)
+    monkeypatch.delenv('ALEX_CLASSIFICATION_SYNC', raising=False)
+    jobs = [job for job in source['jobs'].values() if any(
+        'python -m alex.cli classify' in step.get('run', '') for step in job['steps'])]
+    assert len(jobs) == 1
+    job = jobs[0]
+    step = next(step for step in job['steps'] if
+                'python -m alex.cli classify' in step.get('run', ''))
+    env = {**source.get('env', {}), **job.get('env', {}), **step.get('env', {})}
+    for name in ('ALEX_DISCOVERY_SYNC', 'ALEX_CLASSIFICATION_SYNC'):
+        if name in env:
+            monkeypatch.setenv(name, str(env[name]))
+    publish = Mock(side_effect=subprocess.CalledProcessError(1, ['state.sh', 'push']))
+    monkeypatch.setattr('alex.utils.paid_classification.subprocess.run', publish)
+    send = Mock(return_value=VALID)
+    body = {'input': 'new paid work'}
+    with pytest.raises(PaidRequestHeld, match='sync'):
+        ledger = Ledger(tmp_path, [digest(body)])
+        ledger.perform(body, send, lambda value: value)
+    publish.assert_called_once()
+    send.assert_not_called()
+    assert any(s.get('if') == 'always()' and
+               s.get('with', {}).get('path') == 'data/classification_request_ledger.json'
+               for s in job['steps'])

@@ -26,7 +26,7 @@ def test_rescore_failure_stops_before_checkpoint_or_corpus_write(tmp_path):
     assert not marker.exists()
 
 
-@pytest.mark.parametrize('workflow', ['pipeline', 'rescore', 'classify'])
+@pytest.mark.parametrize('workflow', ['pipeline', 'rescore', 'classify', 'tag_new_papers'])
 @pytest.mark.parametrize('state', ['absent', 'new', 'deleted'])
 def test_optional_rescore_token_stages_only_real_changes(tmp_path, workflow, state):
     source = (Path(__file__).parents[1] / f'.github/workflows/{workflow}.yml').read_text()
