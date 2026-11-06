@@ -32,6 +32,14 @@ checkpointing, and stop immediately on a conflict or expiration. The heartbeat
 helper rejects expired or foreign leases. The local Git compare-and-swap test
 does not prove that a live distributed coordinator is installed.
 
+`independent_monitor.py` is a read-only verifier for independently obtained
+native run and Git blob evidence. It requires a scheduled native completion,
+canonical receipt, matching times and intact, budget-compliant checkpoints;
+it reports only candidate gate transitions corroborated by before/after blobs.
+Unverified source claims, no-work runs and checkpoint changes alone do not prove
+publication or unattended recovery. It fails closed on decision changes unless
+they can be separately reconciled. It is not yet an independent scheduled job.
+
 `work_plan.select` rotates across eligible collections before revisiting a
 collection, even if another collection has stronger evidence. Within each
 collection it prefers supported, more complete evidence. The future coordinator
