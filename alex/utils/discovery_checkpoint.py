@@ -45,7 +45,8 @@ class DiscoveryClient(HttpClient):
         self.last_sync = self.started
         self.sync_failed = False
         self.sync_enabled = os.getenv("ALEX_DISCOVERY_SYNC") == "1"
-        self.deadline = self.started + budgets.get('runtime_seconds', 2700)
+        self.runtime_seconds = budgets.get('runtime_seconds', 2700)
+        self.deadline = self.started + self.runtime_seconds
         self.max_requests = budgets.get('max_requests', 300)
         self.max_openalex = budgets.get('openalex_max_requests', 20)
         self.requests = []
@@ -241,7 +242,7 @@ class DiscoveryClient(HttpClient):
                        'deferred_tasks': self.failures, 'new_candidates': new_candidates,
                        'actual_request_count': len(self.requests), 'openalex_request_count': self.openalex_count,
                        'checkpoint_cache_hits': self.cache_hits, 'requests': self.requests,
-                       'budgets': {'runtime_seconds': self.deadline - self.started,
+                       'budgets': {'runtime_seconds': self.runtime_seconds,
                                    'max_requests': self.max_requests, 'openalex_max_requests': self.max_openalex}}
             atomic_json(receipt_path, receipt)
             self.sync(force=True)
