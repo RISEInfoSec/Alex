@@ -1498,9 +1498,9 @@
     "window_candidates": 4672,
     "completed_search_tasks": 49,
     "deduplicated_doi_abstract_lookups_total": 1072,
-    "cached_doi_results": 740,
-    "deduplicated_doi_abstract_lookups_remaining": 332,
-    "state_commit": "e2840e941694240ceb27b68e6af2bd4ff9fd938a",
+    "cached_doi_results": 990,
+    "deduplicated_doi_abstract_lookups_remaining": 82,
+    "state_commit": "aaa58017b2dbf77125d4a07dde5c4ccf590a7e4d",
     "retry_not_before": "2026-11-06T01:46:00.000Z"
   },
   "approval_required": {
@@ -1719,7 +1719,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T05:23:11.520750+00:00",
+  "updated_at": "2026-11-06T05:32:20.913613+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1758,7 +1758,7 @@
     "owner": "maintenance-actions-recovery-2026-11-06",
     "run_id": "maintenance-actions-recovery-2026-11-06",
     "acquired_at": "2026-11-06T04:32:28.818852+00:00",
-    "expires_at": "2026-11-06T06:32:28.818852+00:00",
+    "expires_at": "2026-11-06T07:32:20.913613+00:00",
     "purpose": "Owner approved GitHub Actions bounded recovery orchestration and live verification before comprehensive QA"
   },
   "unattended_continuation": {
@@ -1807,10 +1807,32 @@
     "local_tests_passed": 617,
     "native_ci": "all checks passed; optional live APWG checks skipped by existing conditions",
     "run_id": 42164493659,
-    "status": "running",
+    "status": "automatic_second_pass_started",
     "automatic_handoff_verified": false,
     "full_pipeline_verified": false,
-    "scheduled_verified": false
+    "scheduled_verified": false,
+    "first_pass": {
+      "pass_id": "42164493659:1:1",
+      "number": 1,
+      "status": "partial",
+      "started_at": "2026-11-06T04:47:30.766999+00:00",
+      "returncode": 1,
+      "receipt_sha256": "046c6804429b310cf4e1cec7ed1431a6e373553a1ba3e20651ea9d8a1b8dd937",
+      "completed_at": "2026-11-06T05:27:59.200665+00:00",
+      "actual_requests": 250,
+      "openalex_requests": 250,
+      "responses_cached": 1304,
+      "made_progress": true
+    },
+    "first_pass_http200": 233,
+    "first_pass_http404": 17,
+    "first_pass_request_errors": 0,
+    "retained_window": {
+      "from_date": "2026-10-29",
+      "until_date": "2026-11-05"
+    },
+    "automatic_handoff_started": true,
+    "proof_state": "aaa58017b2dbf77125d4a07dde5c4ccf590a7e4d"
   },
   "downstream_recovery_repairs": {
     "pr": 123,
@@ -1900,5 +1922,13 @@
     },
     "repair": "Preserve and validate original CSV values for reviewed resources before automatic paper classification; hold conflicting automatic replacement/rescore before paid calls or corpus writes.",
     "live_applied": false
-  }
+  },
+  "lease_renewals": [
+    {
+      "renewed_at": "2026-11-06T05:32:20.913613+00:00",
+      "previous_expiry": "2026-11-06T06:32:28.818852+00:00",
+      "expires_at": "2026-11-06T07:32:20.913613+00:00",
+      "purpose": "Retain owner maintenance lease through native recovery, downstream repair and verification; hourly checks remain paused."
+    }
+  ]
 }
