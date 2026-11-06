@@ -113,6 +113,8 @@ class Ledger:
             with self.condition:
                 self.failed = True
                 entry.update(status='held', error_type=type(exc).__name__)
+                if type(getattr(exc, 'http_status', None)) is int:
+                    entry['http_status'] = exc.http_status
                 self.save()
             raise
         finally:

@@ -110,7 +110,7 @@ _ACTIVE_LEDGER = None
 # guards updates because run() now fans out OpenAI calls across worker
 # threads (issue #62) — without it concurrent _record_usage calls race on
 # the dict's int-add path and undercount tokens.
-_TOKEN_USAGE: dict = {"calls": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
+_TOKEN_USAGE: dict = {"calls": 0, "usage_reports": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
 _TOKEN_USAGE_LOCK = threading.Lock()
 
 # Per-run parallelism for OpenAI calls. Mirrors harvest's worker count.
@@ -152,13 +152,13 @@ def _safe_citation_count(row) -> float:
 
 
 def _record_usage(usage: dict) -> None:
-    if not usage:
+    fields = ('input_tokens', 'output_tokens', 'total_tokens')
+    if not isinstance(usage, dict) or any(type(usage.get(k)) is not int or usage[k] < 0 for k in fields):
         return
     with _TOKEN_USAGE_LOCK:
-        _TOKEN_USAGE["calls"] += 1
-        _TOKEN_USAGE["input_tokens"]  += int(usage.get("input_tokens",  0) or 0)
-        _TOKEN_USAGE["output_tokens"] += int(usage.get("output_tokens", 0) or 0)
-        _TOKEN_USAGE["total_tokens"]  += int(usage.get("total_tokens",  0) or 0)
+        _TOKEN_USAGE['usage_reports'] += 1
+        for key in fields:
+            _TOKEN_USAGE[key] += usage[key]
 
 
 def _request_body(row):
@@ -206,6 +206,8 @@ def call_openai(row: dict) -> dict:
 
 
 def _send_openai(body, headers):
+    with _TOKEN_USAGE_LOCK:
+        _TOKEN_USAGE['calls'] += 1
     try:
         r = requests.post(OPENAI_URL, headers=headers, json=body, timeout=60)
     except requests.exceptions.RequestException as exc:
@@ -221,10 +223,14 @@ def _send_openai(body, headers):
         except ValueError:
             pass
         if code in FATAL_ERROR_CODES or r.status_code in (401, 403):
-            raise OpenAIQuotaError(
+            error = OpenAIQuotaError(
                 f"OpenAI {r.status_code} (code={code or 'unknown'}) — aborting run. "
             )
-        raise OpenAIClassificationError(f'OpenAI HTTP{r.status_code}; no classification accepted')
+            error.http_status = r.status_code
+            raise error
+        error = OpenAIClassificationError(f'OpenAI HTTP{r.status_code}; no classification accepted')
+        error.http_status = r.status_code
+        raise error
 
     try:
         data = r.json()
@@ -418,7 +424,7 @@ def _existing_corpus(path):
 
 def run() -> None:
     global _ACTIVE_LEDGER
-    _TOKEN_USAGE.update({"calls": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0})
+    _TOKEN_USAGE.update({"calls": 0, "usage_reports": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0})
     output_path = root_file("data", "accepted_classified.csv")
     window_path = root_file("data", ".rescore_window.json")
     df = load_df(root_file("data", "accepted_harvested.csv"))
@@ -474,9 +480,9 @@ def run() -> None:
                 ledger.finish(failed=failed)
             finally:
                 u = _TOKEN_USAGE
-                print(f"OpenAI usage: {u['calls']} calls, "
+                print(f"OpenAI usage: {u['calls']} send attempts; {u['usage_reports']} usage reports; "
                       f"{u['input_tokens']} input + {u['output_tokens']} output = "
-                      f"{u['total_tokens']} total tokens", flush=True)
+                      f"{u['total_tokens']} reported tokens", flush=True)
 
     new_df = _drop_duplicate_papers(pd.DataFrame(rows))
 

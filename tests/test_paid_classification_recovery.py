@@ -88,7 +88,7 @@ def test_quota_failure_retains_success_and_unstarted_work(corpus, monkeypatch, c
     paid = MagicMock(side_effect=[response(), quota])
     monkeypatch.setattr(classify.requests, 'post', paid)
     with pytest.raises(classify.OpenAIQuotaError): classify.run()
-    assert 'OpenAI usage: 1 calls, 10 input + 5 output = 15 total tokens' in capsys.readouterr().out
+    assert 'OpenAI usage: 2 send attempts; 1 usage reports; 10 input + 5 output = 15 reported tokens' in capsys.readouterr().out
     assert paid.call_count == 2
     ledger = json.loads((corpus / 'data/classification_request_ledger.json').read_text())
     assert sorted(e['status'] for e in ledger['entries'].values()) == ['complete', 'held', 'not_sent']
