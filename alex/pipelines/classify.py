@@ -1,5 +1,6 @@
 from __future__ import annotations
 import json
+import csv
 from alex.editorial_exclusions import filter_frame
 import logging
 import os
@@ -275,7 +276,7 @@ def _drop_duplicate_papers(df: pd.DataFrame) -> pd.DataFrame:
         dates = df["retrieved_at"].map(clean)
         dated = dates != ""
         earliest = dates[dated].groupby(keys[dated]).min()
-        out["retrieved_at"] = keys[out.index].map(earliest).fillna("")
+        out["retrieved_at"] = keys[out.index].map(earliest).astype(object).fillna("")
     return out.reset_index(drop=True)
 
 
@@ -373,6 +374,32 @@ def _classify_one(row, seminal_threshold: float) -> dict:
     return out
 
 
+def _existing_corpus(path):
+    """Keep reviewed CSV scalars exact before the additive paper merge."""
+    from alex.resource_types import TYPES, public_fields
+    existing = load_df(path)
+    protected = set()
+    if existing.empty:
+        return existing, protected
+    with path.open(newline='', encoding='utf-8') as stream:
+        csv.field_size_limit(100000000)
+        raw_rows = list(csv.DictReader(stream))
+    if len(raw_rows) != len(existing):
+        raise ValueError('Classified CSV row alignment changed')
+    for index, raw in enumerate(raw_rows):
+        if raw.get('document_type') not in TYPES:
+            continue
+        # Validate the existing immutable binding, never recompute it to
+        # bless a value altered by pandas (2026 -> 2026.0, or NA -> null).
+        public_fields(raw)
+        if not protected:
+            existing = existing.astype(object)
+        protected.add(_dedup_key(raw))
+        for field, value in raw.items():
+            existing.at[index, field] = value
+    return existing, protected
+
+
 def run() -> None:
     _TOKEN_USAGE.update({"calls": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0})
     output_path = root_file("data", "accepted_classified.csv")
@@ -395,6 +422,14 @@ def run() -> None:
         validate_columns(df, ["title", "abstract", "venue", "authors", "citation_count"], "accepted_harvested.csv")
 
     df = filter_frame(df, root_file("config", "corpus_exclusions.json"))
+    existing, protected_keys = _existing_corpus(output_path)
+    rescored_keys = set()
+    if window_run_id and _rows_match_run_id(rescored, window_run_id, "rescore_metrics.csv") \
+       and _rows_match_run_id(df, window_run_id, "accepted_harvested.csv"):
+        rescored_keys = {_dedup_key(row) for _, row in rescored.iterrows()}
+    incoming_keys = {_dedup_key(row) for _, row in df.iterrows()}
+    if protected_keys & (incoming_keys | rescored_keys):
+        raise ValueError('Paper classification/rescore overlaps a reviewed manual resource; reconcile before proceeding')
     rows = []
     if not df.empty:
         seminal_threshold = _seminal_threshold()
@@ -426,13 +461,8 @@ def run() -> None:
     # rows reconsidered this run are removed from the existing corpus, then
     # only the surviving accepted rows are added back. Fresh rows always
     # replace their existing counterpart, in or out of the window.
-    existing = load_df(output_path)
     _stamp_retrieved_at(new_df, existing)
     _preserve_legacy_terms(new_df, existing)
-    rescored_keys = set()
-    if window_run_id and _rows_match_run_id(rescored, window_run_id, "rescore_metrics.csv") \
-       and _rows_match_run_id(df, window_run_id, "accepted_harvested.csv"):
-        rescored_keys = {_dedup_key(row) for _, row in rescored.iterrows()}
     new_keys = {_dedup_key(row) for _, row in new_df.iterrows()}
     replacement_keys = rescored_keys | new_keys
 
