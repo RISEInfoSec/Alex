@@ -65,6 +65,7 @@ def _harvest_one(
     if _is_crossref_indexed_doi(doi):
         cr = crossref.get_by_doi(client, doi)
         if cr:
+            best['harvest_crossref_type'] = clean(cr.get('type'))
             best["doi"] = clean(cr.get("DOI", doi))
             best["venue"] = crossref.venue(cr)
             authors = "; ".join(
@@ -81,6 +82,7 @@ def _harvest_one(
         oa = openalex.search(client, title, mailto, per_page=1, literal_title=True)
         if oa and _same_openalex_work(best, oa[0]):
             work = oa[0]
+            best['harvest_openalex_type'] = clean(work.get('type'))
             best["abstract"] = openalex.abstract(work) or best["abstract"]
             best["doi"] = clean(openalex.doi(work)) or best.get("doi", "")
             best["venue"] = openalex.venue_name(work) or best.get("venue", "")

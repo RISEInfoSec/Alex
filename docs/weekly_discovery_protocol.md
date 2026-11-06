@@ -306,3 +306,22 @@ checkpoint after all threads terminate can mark untouched requests `not_sent`.
 Received failures and invalid paid responses also remain explicit holds. Never
 delete those entries or change their hashes to force a retry. Live publication
 and unattended scheduled operation remain separately verified outcomes.
+
+## Retained document-type evidence
+
+Citation chaining requests and retains OpenAlex's declared work type. Harvest
+retains Crossref and identity-matched OpenAlex types separately, so one source's
+paper label cannot erase another source's declared non-paper type.
+
+Before rescore, completed harvest responses also restore Crossref type evidence
+for the exact DOI request and original input hash. This repairs already-running
+harvests whose output code predates type-field retention, without new provider
+calls. Corrupt, partial, mismatched or contradictory evidence blocks rescore.
+Each restored type carries its source URL and response-evidence digest.
+
+The existing format-review gate then holds declared non-paper works and whole
+book/journal/container records before automatic paper classification. This is
+a format-review disposition, not an editorial rejection or approval of a new
+resource route. Paper, proceedings-article, preprint and scholarly review types
+retain their existing quality rules. Exact technical publication holds continue
+to preserve their original accepted rows and exclude them from paid work.

@@ -34,7 +34,7 @@ DEFAULT_OA_CITED_BY_LIMIT = 5
 # don't pay the default ~5KB-per-result serialisation cost on fields we
 # discard. Keep this list in sync with the dict-construction below: any
 # field this list omits will read as None/empty from the response.
-_CITED_BY_FIELDS = "id,title,authorships,publication_year,primary_location,ids,cited_by_count,referenced_works"
+_CITED_BY_FIELDS = "id,title,type,authorships,publication_year,primary_location,ids,cited_by_count,referenced_works"
 
 # Same shape for S2 backward-chaining. These are only consulted when S2 is
 # enabled and keyed; the S2 gate from PR #48 short-circuits both calls.
@@ -194,6 +194,7 @@ def _chain_one_candidate(
                 "abstract": "",
                 "source_url": openalex.landing_url(cited),
                 "discovery_source": "OpenAlex citation chain",
+                "discovery_resource_type": clean(cited.get('type')),
                 "discovery_query": title,
                 "inclusion_path": "forward chaining",
                 "citation_count": cited.get("cited_by_count", 0),
