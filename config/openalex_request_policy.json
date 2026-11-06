@@ -6,9 +6,9 @@
   "doi_batch_size": 1,
   "automatic_retries": 0,
   "worker_max_requests_per_run": 1,
-  "retry_not_before": "2026-11-05T01:15:38Z",
+  "retry_not_before": "2026-11-07T13:00:00Z",
   "authorization": "Owner explicitly approved PR118 bounded recovery pace on 2026-11-05: no more than1 serial OpenAlex request/second,250 OpenAlex/300 total requests and45 minutes per pass. Preserve timeout, cooldown, quota/owner holds and zero automatic OpenAlex retries; no paid plan enabled.",
-  "owner_hold_reason": "Owner requested a 48-hour OpenAlex backoff before one authorized weekly pipeline retry; no provider ban is established.",
+  "owner_hold_reason": "Owner instructed on6 November to keep OpenAlex paused until tomorrow morning and defer remaining OpenAlex work and full-project QA. Earliest review08:00 America/Toronto on7 November; no automatic release.",
   "previous_diagnostic_authorization": "User requested very slow individual OpenAlex queries until rate limits/timeouts are understood.",
   "authorized_at": "2026-11-05T19:09:04.043800+00:00",
   "requests_enabled": false,
@@ -22,5 +22,21 @@
     "minimum_is_not_verified_provider_deadline": true,
     "release_condition": "Verify authoritative provider quota/reset or response-header evidence, preserve any later deadline, and explicitly clear this reconciliation hold. Elapsed local minimum alone does not authorize another request.",
     "authorization": "Protective reversible pause under the owner-authorized recovery and self-repair scope; no increase to approved request limits."
+  },
+  "owner_hold_history": [
+    {
+      "retry_not_before": "2026-11-05T01:15:38Z",
+      "reason": "Owner requested a 48-hour OpenAlex backoff before one authorized weekly pipeline retry; no provider ban is established.",
+      "superseded_by": "Owner instruction observed 2026-11-06T10:40:40Z"
+    }
+  ],
+  "owner_pause": {
+    "observed_at": "2026-11-06T10:40:40Z",
+    "earliest_review_at": "2026-11-07T08:00:00-05:00",
+    "timezone": "America/Toronto",
+    "automatic_release": false,
+    "continue_independent_non_openalex_work": true,
+    "full_project_qa_deferred": true,
+    "release_condition": "Owner review after the time floor plus authoritative provider reconciliation; existing requests_enabled=false remains binding."
   }
 }
