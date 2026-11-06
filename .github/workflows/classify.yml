@@ -32,6 +32,8 @@ jobs:
           # that deletion so the next standalone rescore writes a fresh
           # token instead of inheriting the previous one.
           git add data/accepted_classified.csv
-          git add -A data/.rescore_window.json
+          if [ -e data/.rescore_window.json ] || git ls-files --error-unmatch data/.rescore_window.json >/dev/null 2>&1; then
+            git add -A data/.rescore_window.json
+          fi
           git diff --cached --quiet || git commit -m "Classify accepted papers"
           git push
