@@ -1744,7 +1744,7 @@
     "canonical_receipt": "config/content_review_weekly_recovery/42150889598.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "Merge PR128 after final native checks before classification; finish pipeline and verify exports; verify queued PR127 diagnostic and merge only on matching works; release lease then restore original hourly schedules.",
+  "next_action": "Finish pipeline and verify paid ledger and public exports; verify queued PR127 diagnostic and merge only on matching works; release lease then restore original hourly schedules.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -3315,13 +3315,17 @@
   },
   "paid_classification_recovery_repair": {
     "pr": 128,
-    "status": "661_local_tests_passed_final_native_ci_pending",
+    "status": "merged_native_ci_passed_live_classification_pending",
     "no_live_paid_diagnostic_requests": true,
     "defects": [
       "synthetic_Other_on_unavailable_or_invalid_response",
       "completed_paid_outcomes_lost_on_later_failure",
       "failed_send_attempts_missing_from_usage_count"
     ],
-    "expected_live_adoption": "Classification checks out current main after harvest/rescore; ledger sync occurs in code even though this workflow lacks the new artifact step."
+    "expected_live_adoption": "Classification checks out current main after harvest/rescore; ledger sync occurs in code even though this workflow lacks the new artifact step.",
+    "tests_passed": 666,
+    "head_sha": "1e5c79e4043e0b03f90a4a9e444e524e08b4e8fe",
+    "merge_sha": "96ab1e26e07fa229f050299fdf07e2c2c36cd17b",
+    "observed_at": "2026-11-06T07:05:49.137398+00:00"
   }
 }

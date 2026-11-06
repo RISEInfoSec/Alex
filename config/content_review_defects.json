@@ -472,23 +472,25 @@
     },
     {
       "id": "classification-synthetic-fallback",
-      "status": "implemented_local_tested_final_native_ci_pending",
-      "observed_at": "2026-11-06T06:44:09.003316+00:00",
+      "status": "merged_native_ci_passed_live_verification_pending",
+      "observed_at": "2026-11-06T07:05:49.137398+00:00",
       "cause": "Local no-key reproduction returned synthetic Other with zero actual provider calls; network/HTTP/malformed-response branches also used synthetic fallback.",
       "repair_pr": 128,
-      "verification": "661 local tests including exact response reuse, concurrent duplicate coalescing, quota-after-success, ambiguous send hold, invalid schema, corrupt receipts, interrupted reservations and state-write failure; no live paid diagnostics.",
-      "next_action": "Merge after exact-head CI and observe actual classification ledger and downstream publication; scheduled proof remains separate.",
-      "owner_role": "existing_content_review_worker"
+      "verification": "666 local tests and all required native checks passed including exact response reuse, concurrent duplicate coalescing, quota-after-success, ambiguous send hold, invalid schema, corrupt receipts, interrupted reservations and state-write failure; no live paid diagnostics.",
+      "next_action": "Observe actual classification ledger and downstream publication; scheduled proof remains separate.",
+      "owner_role": "existing_content_review_worker",
+      "merge_sha": "96ab1e26e07fa229f050299fdf07e2c2c36cd17b"
     },
     {
       "id": "classification-paid-outcome-loss",
-      "status": "implemented_local_tested_final_native_ci_pending",
-      "observed_at": "2026-11-06T06:44:09.003316+00:00",
+      "status": "merged_native_ci_passed_live_verification_pending",
+      "observed_at": "2026-11-06T07:05:49.137398+00:00",
       "cause": "Successful paid responses were kept only in memory until full classification succeeded; a later failure discarded reusable outcomes.",
       "repair_pr": 128,
-      "verification": "661 local tests including exact response reuse, concurrent duplicate coalescing, quota-after-success, ambiguous send hold, invalid schema, corrupt receipts, interrupted reservations and state-write failure; no live paid diagnostics.",
-      "next_action": "Merge after exact-head CI and observe actual classification ledger and downstream publication; scheduled proof remains separate.",
-      "owner_role": "existing_content_review_worker"
+      "verification": "666 local tests and all required native checks passed including exact response reuse, concurrent duplicate coalescing, quota-after-success, ambiguous send hold, invalid schema, corrupt receipts, interrupted reservations and state-write failure; no live paid diagnostics.",
+      "next_action": "Observe actual classification ledger and downstream publication; scheduled proof remains separate.",
+      "owner_role": "existing_content_review_worker",
+      "merge_sha": "96ab1e26e07fa229f050299fdf07e2c2c36cd17b"
     }
   ]
 }
