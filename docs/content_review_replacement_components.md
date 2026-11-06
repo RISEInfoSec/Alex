@@ -47,6 +47,11 @@ prior duplicate evidence, rejects conflicting stage evidence and never writes
 the bundle. Its caller must check the receipt path is new, verify the exact
 base blobs, re-read D1 and both heads under the live lease, and publish all
 files in one expected-head commit. This is not yet a deployed writer.
+`checkpoint_guard.py` checks the proposed bundle against the actual immutable
+base blobs and tree, requires a new receipt, validates the lease observation
+and committed lifecycle policy, and rejects unrelated candidate, stage, worker
+or history changes. It still cannot make a remote lease or D1 snapshot atomic;
+the caller must perform the required live rechecks and compare-and-swap.
 
 Two matching paginated reads are not a database transaction. The coordinator
 must take complete fresh reads and recheck their fingerprint and immutable Git
@@ -57,6 +62,9 @@ final decisions. All existing publication and hash checks continue to apply.
 
 `lease.py` prepares bounded acquire, renew and release state transitions and
 preserves lease history. These pure functions do not acquire a remote lease.
+`run_state.py` prepares a run-start observation while preserving the previous
+complete current-run record; it refuses to replace a running observation
+without retained evidence that the previous lease expired. It performs no write.
 The coordinator must commit with an expected-head comparison and read back the
 winning lease before working, renew only while still owner, recheck before
 checkpointing, and stop immediately on a conflict or expiration. The heartbeat
