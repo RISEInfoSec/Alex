@@ -491,6 +491,28 @@
       "next_action": "Observe actual classification ledger and downstream publication; scheduled proof remains separate.",
       "owner_role": "existing_content_review_worker",
       "merge_sha": "96ab1e26e07fa229f050299fdf07e2c2c36cd17b"
+    },
+    {
+      "id": "harvest-response-checkpoint-loss",
+      "status": "merged_native_ci_passed_live_verification_pending",
+      "observed_at": "2026-11-06T07:25:54.454543+00:00",
+      "cause": "Successful harvest responses were kept only in a runner-local cache, rewritten in full for every response and omitted from transported state.",
+      "evidence": {
+        "code_revision": "96ab1e26e07fa229f050299fdf07e2c2c36cd17b",
+        "paths": [
+          "alex/utils/http.py",
+          "alex/pipelines/harvest.py",
+          "scripts/state.sh"
+        ],
+        "active_run": 42171644273,
+        "active_job": 127744876779,
+        "observed_terminal_failure": false
+      },
+      "repair_pr": 129,
+      "verification": "679 local tests and all native checks passed, including fresh-runner replay and real state round trips. No new source diagnostic calls.",
+      "next_action": "Verify actual cache persistence on a later eligible harvest without interrupting the active job or replaying completed discovery.",
+      "owner_role": "existing_content_review_worker",
+      "merge_sha": "76333401807fa25d2cfedb80ac77854312bb2671"
     }
   ]
 }

@@ -3327,5 +3327,24 @@
     "head_sha": "1e5c79e4043e0b03f90a4a9e444e524e08b4e8fe",
     "merge_sha": "96ab1e26e07fa229f050299fdf07e2c2c36cd17b",
     "observed_at": "2026-11-06T07:05:49.137398+00:00"
+  },
+  "harvest_response_retention_repair": {
+    "pr": 129,
+    "head_sha": "94d2eb14933b48b8ade38c1c38b146048c5ca5e0",
+    "status": "merged_native_ci_passed_live_verification_pending",
+    "observed_at": "2026-11-06T07:27:02.874568+00:00",
+    "cause": "Harvest rewrote a full runner-local JSON cache per response; pipeline-state omitted it, leaving completed source responses unrecoverable after runner loss. Identified by code inspection while existing harvest remained active, not a new observed timeout.",
+    "verification": [
+      "Fresh-runner exact response replay with only missing requests sent",
+      "Concurrent duplicate coalescing",
+      "Corrupt/truncated state rejected before requests",
+      "State and local-write failures stop new calls and block downstream",
+      "Existing harvest output preserved on checkpoint failure",
+      "Actual Git state round trip of current and prior caches"
+    ],
+    "live_verification_pending": true,
+    "active_harvest_uses_prior_code": true,
+    "no_new_provider_diagnostics": true,
+    "merge_sha": "76333401807fa25d2cfedb80ac77854312bb2671"
   }
 }
