@@ -93,6 +93,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Pull pipeline state
+        id: pipeline_state
         run: scripts/state.sh pull
       - name: Citation chain
         env:
@@ -100,7 +101,9 @@ jobs:
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
           python -m alex.cli chain
-          scripts/state.sh push "Citation chain candidates"
+      - name: Preserve candidates and provider cooldown
+        if: ${{ always() && steps.pipeline_state.outcome == 'success' }}
+        run: scripts/state.sh push "Preserve chain state and provider cooldown"
 
   score:
     needs: chain
@@ -147,6 +150,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Pull pipeline state
+        id: pipeline_state
         run: scripts/state.sh pull
       - name: Harvest
         env:
@@ -157,6 +161,9 @@ jobs:
           git add data/accepted_harvested.csv
           git diff --cached --quiet || git commit -m "Harvest metadata"
           git push || (git pull --rebase --autostash && git push)
+      - name: Preserve candidates and provider cooldown
+        if: ${{ always() && steps.pipeline_state.outcome == 'success' }}
+        run: scripts/state.sh push "Preserve harvest state and provider cooldown"
 
   rescore:
     needs: harvest

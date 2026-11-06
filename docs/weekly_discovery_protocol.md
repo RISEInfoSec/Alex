@@ -195,3 +195,20 @@ quota denials, corrupt/stale receipts, state conflicts, no progress, finite limi
 and subprocess termination. These tests establish mechanism behavior; live
 unattended evidence is reported separately. Comprehensive project QA remains a
 separate phase after recovery is established.
+
+
+## Downstream provider serialization
+
+Non-OpenAlex HTTP calls share a per-host lock across client instances in the
+same process, covering the retry sequence and half-second polite delay. This
+prevents parallel candidate workers from overlapping requests to Crossref,
+Zenodo or another single source. Independent hosts can still overlap. A queued
+worker rechecks its client's provider hold after acquiring the lock. Existing
+retry limits are unchanged; OpenAlex continues through its stricter persisted
+serial governor. This in-process lock does not coordinate unrelated runners.
+
+Citation-chain and harvest workflows persist the shared OpenAlex governor back
+to pipeline-state even if stage processing fails, provided the initial state
+pull succeeded. Standalone workflows use the same state path and concurrency
+group. A failed state push fails the stage, preventing dependent jobs from
+starting with an older hold. Forced runner termination may still prevent cleanup.

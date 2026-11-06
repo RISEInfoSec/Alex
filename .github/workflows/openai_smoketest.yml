@@ -18,6 +18,7 @@ jobs:
         run: |
           python - <<'PY'
           import os, json, requests, sys
+          from jsonschema import validate
           sys.path.insert(0, ".")
           # Import the live schema + prompt so this smoketest catches drift
           # in either the schema shape or the field path the Responses API
@@ -86,9 +87,9 @@ jobs:
           assert parsed["Category"] in CATEGORIES, f"Category not in enum: {parsed['Category']!r}"
           assert parsed["Investigation_Type"] in INVESTIGATION_TYPES, f"Investigation_Type not in enum: {parsed['Investigation_Type']!r}"
           assert isinstance(parsed.get("OSINT_Source_Types"), list)
-          assert isinstance(parsed.get("Keywords"), list)
-          assert isinstance(parsed.get("Tags"), list)
-          assert "Quality_Tier" not in parsed, "Quality_Tier should not be in schema"
+          # Validate the actual current schema. Keywords/Tags were retired;
+          # requiring them made valid paid responses fail this diagnostic.
+          validate(parsed, CLASSIFICATION_SCHEMA)
 
           print("OK: structured output round-trip validated.")
           PY

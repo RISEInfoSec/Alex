@@ -1,7 +1,88 @@
 import json
 import pytest
+import threading
+from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import patch, MagicMock
 from alex.utils.http import HttpClient
+
+
+def test_same_host_is_serial_across_clients_and_polite_delay(tmp_path, monkeypatch):
+    monkeypatch.setattr('alex.utils.http.CACHE', tmp_path / 'cache.json')
+    first_delaying = threading.Event()
+    release = threading.Event()
+    second_sent = threading.Event()
+    clients = [HttpClient(), HttpClient()]
+    response = MagicMock(status_code=200)
+    response.json.return_value = {'ok': True}
+    response.text = 'ok'
+    monkeypatch.setattr(clients[0].session, 'get', lambda *a, **k: response)
+
+    def second(*a, **k):
+        second_sent.set()
+        return response
+
+    def delay(seconds):
+        if not first_delaying.is_set():
+            first_delaying.set()
+            assert release.wait(3)
+
+    monkeypatch.setattr(clients[1].session, 'get', second)
+    monkeypatch.setattr('alex.utils.http.time.sleep', delay)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        first = pool.submit(clients[0].get_json, 'https://api.crossref.org/works/1')
+        assert first_delaying.wait(3)
+        later = pool.submit(clients[1].get_raw, 'https://api.crossref.org/works/2')
+        try:
+            assert not second_sent.wait(.1)
+        finally:
+            release.set()
+        assert first.result(timeout=3) == {'ok': True}
+        later.result(timeout=3)
+    assert second_sent.is_set()
+
+
+def test_independent_hosts_can_overlap(tmp_path, monkeypatch):
+    monkeypatch.setattr('alex.utils.http.CACHE', tmp_path / 'cache.json')
+    monkeypatch.setattr('alex.utils.http.time.sleep', lambda _: None)
+    both = threading.Barrier(2)
+    client = HttpClient()
+
+    def send(*a, **k):
+        both.wait(timeout=3)
+        response = MagicMock(status_code=200)
+        response.json.return_value = {'ok': True}
+        return response
+
+    monkeypatch.setattr(client.session, 'get', send)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        jobs = [pool.submit(client.get_json, url) for url in
+                ('https://api.crossref.org/works/1', 'https://zenodo.org/api/records/1')]
+        assert [job.result(timeout=4) for job in jobs] == [{'ok': True}] * 2
+
+
+def test_waiting_worker_rechecks_provider_hold(tmp_path, monkeypatch):
+    monkeypatch.setattr('alex.utils.http.CACHE', tmp_path / 'cache.json')
+    monkeypatch.setattr('alex.utils.http.time.sleep', lambda _: None)
+    entered = threading.Event()
+    release = threading.Event()
+    client = HttpClient()
+    calls = []
+
+    def send(*a, **k):
+        calls.append(a)
+        entered.set()
+        assert release.wait(3)
+        return MagicMock(status_code=429, headers={'Retry-After': '36000'})
+
+    monkeypatch.setattr(client.session, 'get', send)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        first = pool.submit(client.get_json, 'https://api.crossref.org/works/1')
+        assert entered.wait(3)
+        second = pool.submit(client.get_json, 'https://api.crossref.org/works/2')
+        release.set()
+        assert first.result(timeout=3) is None
+        assert second.result(timeout=3) is None
+    assert len(calls) == 1
 
 
 @pytest.fixture(autouse=True)
