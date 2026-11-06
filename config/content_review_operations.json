@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T19:52:24.240859+00:00",
+  "observed_at": "2026-11-06T09:42:25.154955+00:00",
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
     "observed_at": "2026-11-05T18:38:16.568874+00:00",
@@ -36,15 +36,15 @@
       "id": "openalex",
       "name": "OpenAlex",
       "first_failure_at": "2026-10-28T03:49:08.271259+00:00",
-      "last_failure_at": "2026-10-28T06:47:06.339996+00:00",
+      "last_failure_at": "2026-11-06T09:07:36.5801857Z",
       "last_success_at": "2026-10-29T03:00:58.152439+00:00",
-      "last_result_at": "2026-10-29T03:00:58.152439+00:00",
-      "last_http_status": 200,
-      "retry_not_before": "2026-11-05T01:15:38Z",
-      "impact": "Citation enrichment deferred under effective main/review policy; independent source preparation can continue.",
-      "operator_action": "After the latest owner/provider deadline, perform only eligible credentialed singleton lookups, one per pass with shared 60-second pacing. No endpoint bypass.",
-      "evidence_ref": "https://github.com/RISEInfoSec/Alex/actions/runs/40809670371",
-      "provider_retry_not_before": "2026-10-29T00:00:36.339996+00:00",
+      "last_result_at": "2026-11-06T09:07:36.5801857Z",
+      "last_http_status": 429,
+      "retry_not_before": null,
+      "impact": "OpenAlex only; other eligible providers and retained evidence remain available.",
+      "operator_action": "Obtain authoritative account quota/reset or original response headers. Do not infer an expired provider hold from the one-hour local minimum; main requests_enabled=false is binding.",
+      "evidence_ref": "https://github.com/RISEInfoSec/Alex/actions/runs/42171644273/job/127807852155",
+      "provider_retry_not_before": null,
       "owner_hold_until": "2026-11-05T01:15:38Z",
       "owner_hold_reason": "Owner lifted prior pause; resume qualifying bounded credentialed checks.",
       "owner_hold_history": [
@@ -56,13 +56,21 @@
         }
       ],
       "owner_hold_lifted_at": "2026-11-03T14:21:42.553Z",
-      "resumption_status": "authorized_pending_qualifying_lookup",
+      "resumption_status": "reconciliation_required_no_requests",
       "resumption_evidence": {
         "authorized_at": "2026-11-03T14:21:42.553Z",
         "requests": 0,
         "reason": "No remaining supported isolated-registry candidate without independent holds; no new provider recovery asserted."
       },
-      "effective_policy_observed_at": "2026-11-04T23:11:25.049Z"
+      "effective_policy_observed_at": "2026-11-04T23:11:25.049Z",
+      "prior_deadline_observation": {
+        "retry_not_before": "2026-11-05T01:15:38Z",
+        "provider_retry_not_before": "2026-10-29T00:00:36.339996+00:00",
+        "last_failure_at": "2026-10-28T06:47:06.339996+00:00",
+        "last_http_status": 200
+      },
+      "requests_enabled": false,
+      "provider_deadline_known": false
     },
     {
       "id": "consensus",
@@ -150,22 +158,22 @@
   ],
   "owner_maintenance": {
     "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
-    "observed_at": "2026-11-05T19:10:04.917331+00:00",
-    "status": "owner_timing_hold",
+    "observed_at": "2026-11-06T09:42:25.154955+00:00",
+    "status": "repairs_verified_schedule_restoration_pending",
     "schedules_restored": false,
     "scheduled_recovery_proven": false,
     "restore_required": true,
     "receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
     "pacing_approved": true,
-    "updated_at": "2026-11-05T21:58:48.572Z",
+    "updated_at": "2026-11-06T09:42:25.154955+00:00",
     "retry_not_before": "2026-11-06T01:46:00.000Z",
-    "last_weekly_run": 42113903650,
+    "last_weekly_run": 42171644273,
     "scheduled_recovery_verified": false,
-    "remaining_doi_lookups": 582,
-    "lease_expires_at": "2026-11-06T00:45:00.000Z",
-    "next_unattended_check": "2026-11-06T01:46:00.000Z",
-    "lease_renewal_required_at_resume": true
+    "remaining_doi_lookups": 0,
+    "lease_expires_at": null,
+    "next_unattended_check": null,
+    "lease_renewal_required_at_resume": false
   },
   "owner_pause_intervals": [
     {

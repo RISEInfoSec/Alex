@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-06T09:29:28.681554+00:00",
+  "observed_at": "2026-11-06T09:42:25.154955+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -205,7 +205,7 @@
         "general_weekly_discovery",
         "scheduled_pipeline"
       ],
-      "status": "automatic_pass_continuation_live_verified_full_pipeline_pending",
+      "status": "native_pipeline_and_corrected_publication_verified_platform_orphan_retained",
       "evidence": [
         "https://github.com/RISEInfoSec/Alex/actions/runs/36439756777",
         "https://github.com/RISEInfoSec/Alex/actions/runs/41979421841",
@@ -218,7 +218,7 @@
         "https://github.com/RISEInfoSec/Alex/actions/runs/42164493659"
       ],
       "cause": "Cancellation of a stale jobless record was wrongly required before dispatch, despite a successful nine-job same-commit replacement and later weekly successes.",
-      "next_action": "Pass1 saved250 requests(233 HTTP200,17 HTTP404); native controller started pass2 automatically and saved7 HTTP200 under same window. Verify complete discovery and downstream publication.",
+      "next_action": "Continue exact supersession exception; platform orphan cancellation remains unavailable. Scheduled operation must still demonstrate recovery.",
       "verification_criteria": "Exact successful supersession proof remains verified; new current-main pipeline must complete discovery through publication/report with canonical receipts and useful processing.",
       "owner_role": "existing_content_review_worker",
       "updated_at": "2026-11-06T05:35:43.583741+00:00",
@@ -619,7 +619,7 @@
       "id": "approved-paper-evidence-replaced",
       "observed_at": "2026-11-06T09:29:28.681554+00:00",
       "owner_role": "existing_content_review_worker",
-      "status": "prepared_tests_passed_integrated_checks_running",
+      "status": "maintenance_restoration_and_corrected_deployment_verified",
       "branch": "codex/preserve-approved-paper-evidence",
       "cause": "Automatic current-window rescore pruned 75 previously approved/kept rows and rewrote other approved evidence. Five technical holds and manual resource remained exact.",
       "repair": "Restore complete original accepted rows from verified immutable baseline, excluding human removals; protect existing content-review/APWG releases and explicit human keeps before paid calls and replacement-key construction.",
@@ -639,7 +639,12 @@
         "provider_requests": 0,
         "paid_requests": 0
       },
-      "local_tests_passed": 720
+      "local_tests_passed": 720,
+      "pr": 135,
+      "merge_sha": "3ca04dbc76b3fd0d21ee9126eab5c98eef6d9b4e",
+      "tests_passed": 724,
+      "verification": "All465 original protected papers match the pre-run snapshot; all85 Content Review rows also match their approved typed release hashes and exact canonical CSV targets. Live public JSON/CSV/status exactly match main. No new provider or paid requests.",
+      "next_action": "Preserve approved rows during future automatic passes; later scheduled verification remains pending."
     }
   ]
 }
