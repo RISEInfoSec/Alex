@@ -281,6 +281,78 @@ def test_real_discovery_crosses_request_cap_and_reuses_responses(setup, monkeypa
     result_frame = pd.read_csv(root / 'data/discovery_candidates.csv')
     assert list(result_frame['abstract']) == ['Recovered abstract'] * 3
 
+    # Reproduce a completed old window rejected by the pre-fix controller.
+    import math
+    previous = recovery.record
+    previous.update(run_id='123:1', status='blocked', reason='receipt_budget_mismatch')
+    previous['passes'][-1].update(pass_id='123:1:2', status='started')
+    old_window = {'from_date': '2026-10-29', 'until_date': '2026-11-05'}
+    previous['window'] = old_window
+    atomic_json(recovery.path, previous)
+    for name in ('discovery_checkpoint.json', 'discovery_run_receipt.json'):
+        path = root / 'data' / name
+        saved = json.loads(path.read_text())
+        saved.update(window=old_window, orchestration_pass_id='123:1:2')
+        if name == 'discovery_run_receipt.json':
+            saved['budgets']['runtime_seconds'] = math.nextafter(60.0, math.inf)
+        atomic_json(path, saved)
+    prior_receipt = (root / 'data/discovery_run_receipt.json').read_bytes()
+    monkeypatch.setenv('ALEX_RESUME_DISCOVERY_RUN', '123')
+    monkeypatch.setenv('ALEX_DISCOVERY_REPLAY_RUN', '123')
+    replay = build(setup, invoke=invoke, run_id='124:1')
+    assert replay.run() == 0
+    assert len(replay.record['passes']) == 1
+    final = replay.record['passes'][0]['receipt']
+    assert final['window'] == old_window
+    assert final['actual_request_count'] == final['openalex_request_count'] == 0
+    assert final['budgets']['max_requests'] == final['budgets']['openalex_max_requests'] == 0
+    assert len(calls) == 3 and search.call_count == 1
+    import hashlib
+    evidence = replay.record['completed_window_reconciliation']
+    assert evidence['prior_final_pass']['receipt_sha256'] == hashlib.sha256(prior_receipt).hexdigest()
+    assert evidence['prior_recovery']['reason'] == 'receipt_budget_mismatch'
+
+
+@pytest.mark.parametrize('fault', ['wrong_run', 'partial', 'unknown_failure', 'over_budget',
+                                  'counts', 'provider_error', 'elapsed', 'window'])
+def test_completed_replay_rejects_invalid_evidence_before_writing(setup, monkeypatch, fault):
+    import math
+    root, clock, _ = setup
+    result(root, clock, '123:1:1', math.nextafter(60.0, math.inf))
+    receipt_path = root / 'data/discovery_run_receipt.json'
+    receipt = json.loads(receipt_path.read_text())
+    receipt['elapsed_seconds'] = 10
+    prior = {'run_id': '123:1', 'status': 'blocked', 'reason': 'receipt_budget_mismatch',
+             'window': receipt['window'], 'passes': [{'pass_id': '123:1:1', 'status': 'started'}]}
+    if fault == 'partial': receipt['status'] = 'partial'
+    if fault == 'unknown_failure': prior['reason'] = 'unknown'
+    if fault == 'over_budget': receipt['budgets']['runtime_seconds'] = 61
+    if fault == 'counts': receipt['actual_request_count'] = 2
+    if fault == 'provider_error': receipt['requests'][0]['http_status'] = 403
+    if fault == 'elapsed': receipt['elapsed_seconds'] = 61
+    if fault == 'window': prior['window'] = {}
+    atomic_json(receipt_path, receipt)
+    path = root / 'data/discovery_recovery_receipt.json'
+    atomic_json(path, prior)
+    before = path.read_bytes()
+    monkeypatch.setenv('ALEX_RESUME_DISCOVERY_RUN', '999' if fault == 'wrong_run' else '123')
+    with pytest.raises(RecoveryStop):
+        build(setup)
+    assert path.read_bytes() == before
+
+
+def test_completed_replay_cache_miss_sends_nothing(tmp_path, monkeypatch):
+    import requests
+    from alex.utils import http
+    from alex.utils.discovery_checkpoint import DiscoveryClient, DiscoveryDeferred
+    monkeypatch.setattr(http, 'CACHE', tmp_path / 'cache.json')
+    monkeypatch.setattr(requests.Session, 'get', lambda *a, **kw: pytest.fail('No network allowed'))
+    client = DiscoveryClient(tmp_path / 'checkpoint.json', {}, {},
+                             {'max_requests': 0, 'openalex_max_requests': 0})
+    with pytest.raises(DiscoveryDeferred, match='request_budget'):
+        client.get_json('https://api.openalex.org/works/https://doi.org/10.1/missing')
+    assert client.requests == []
+
 
 def test_timed_out_subprocess_is_terminated_before_return(setup, monkeypatch):
     import signal

@@ -66,6 +66,43 @@ class Recovery:
                                   'max_runtime_seconds': self.max_seconds,
                                   'max_cooldown_wait_seconds': self.max_wait,
                                   'max_cooldown_resumptions': self.max_resumptions}}
+        self.replay_run = os.getenv('ALEX_RESUME_DISCOVERY_RUN', '')
+        if self.replay_run:
+            self.configure_completed_replay()
+
+    def configure_completed_replay(self):
+        """Reconcile only the known one-ULP receipt defect, before any write."""
+        previous_raw = self.path.read_bytes()
+        previous = json.loads(previous_raw)
+        receipt = read_json(self.data / 'discovery_run_receipt.json')
+        if (not self.replay_run.isascii() or not self.replay_run.isdecimal()
+                or previous.get('run_id', '').split(':')[0] != self.replay_run
+                or previous.get('status') != 'blocked'
+                or previous.get('reason') != 'receipt_budget_mismatch'
+                or not previous.get('passes')):
+            raise RecoveryStop('completed_replay_identity_mismatch')
+        last = previous['passes'][-1]
+        runtime = receipt['budgets']['runtime_seconds']
+        elapsed = receipt.get('elapsed_seconds')
+        if (last.get('status') != 'started'
+                or not last['pass_id'].startswith(previous['run_id'] + ':')
+                or previous.get('window') != receipt.get('window')
+                or runtime != math.nextafter(float(self.pass_seconds), math.inf)
+                or type(elapsed) not in (int, float) or not math.isfinite(elapsed)
+                or not 0 <= elapsed <= self.pass_seconds
+                or any(r.get('error_type') or r.get('http_status') not in (200, 404)
+                       for r in receipt['requests'])):
+            raise RecoveryStop('completed_replay_evidence_mismatch')
+        # All ordinary identity, completion and request-count checks still apply.
+        # The sole allowance is the exactly adjacent float above the old limit.
+        evidence = {'pass_id': last['pass_id']}
+        self.verify(evidence, 0, runtime)
+        self.record['completed_window_reconciliation'] = {
+            'mode': 'zero_request_replay', 'prior_recovery': previous,
+            'prior_recovery_sha256': hashlib.sha256(previous_raw).hexdigest(),
+            'prior_final_pass': evidence}
+        self.max_passes = 1
+        self.record['limits']['max_passes'] = 1
 
     def timestamp(self):
         return datetime.fromtimestamp(self.clock(), timezone.utc).isoformat()
@@ -96,7 +133,8 @@ class Recovery:
 
     def _invoke(self, pass_id, runtime):
         env = {**os.environ, 'ALEX_DISCOVERY_PASS_ID': pass_id,
-               'ALEX_DISCOVERY_RUNTIME_LIMIT': str(runtime)}
+               'ALEX_DISCOVERY_RUNTIME_LIMIT': str(runtime),
+               'ALEX_DISCOVERY_REPLAY_RUN': self.replay_run}
         with subprocess.Popen([sys.executable, '-m', 'alex.cli', 'discover'],
                               cwd=self.root, env=env, start_new_session=True) as process:
             try:
@@ -214,6 +252,10 @@ class Recovery:
                     raise RecoveryStop('recovery_runtime_budget')
                 code = self.invoke(entry['pass_id'], runtime)
                 receipt, state = self.verify(entry, code, runtime)
+                if self.replay_run and (receipt['actual_request_count'] != 0
+                        or receipt['budgets']['max_requests'] != 0
+                        or receipt['budgets']['openalex_max_requests'] != 0):
+                    raise RecoveryStop('completed_replay_request_limit_violation')
                 if before_window != receipt['window']:
                     before_count = before_tasks = 0
                 progress = len(state['responses']) > before_count or len(state['tasks']) > before_tasks
