@@ -212,3 +212,21 @@ to pipeline-state even if stage processing fails, provided the initial state
 pull succeeded. Standalone workflows use the same state path and concurrency
 group. A failed state push fails the stage, preventing dependent jobs from
 starting with an older hold. Forced runner termination may still prevent cleanup.
+
+## Explicit reconciliation of a completed receipt
+
+The manual pipeline input `resume_completed_discovery_run` names a prior native
+run whose completed discovery was rejected solely by the old floating-point
+runtime receipt defect. The controller validates the prior blocked invocation,
+final pass identity, complete checkpoint, counts, original window and successful
+request outcomes before writing. Only the immediately adjacent floating-point
+value above the configured runtime is eligible; actual elapsed time must remain
+within that limit. Other failures and genuine overruns remain blocked.
+
+This mode preserves the prior controller and final request receipt, with hashes,
+in the new recovery evidence. It replays the exact completed window once with
+both HTTP request budgets set to zero. Cached tasks and responses remain usable;
+any missing response fails without a send. A fresh verified complete receipt is
+required to release downstream jobs. Scheduled discovery remains unchanged and
+continues to open the next window normally. This is operator reconciliation of
+completed work, not a general retry or permission to bypass provider holds.

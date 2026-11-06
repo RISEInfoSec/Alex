@@ -59,7 +59,17 @@ def run() -> None:
         if limit <= 0:
             raise ValueError('Discovery runtime limit must be positive')
         budgets['runtime_seconds'] = min(budgets.get('runtime_seconds', 2700), limit)
-    client = DiscoveryClient(root_file("data", "discovery_checkpoint.json"), window, config,
+    checkpoint = root_file("data", "discovery_checkpoint.json")
+    replay_run = os.getenv('ALEX_DISCOVERY_REPLAY_RUN')
+    if replay_run:
+        retained = load_json(checkpoint)
+        if (retained.get('status') != 'complete'
+                or retained.get('orchestration_pass_id', '').split(':')[0] != replay_run):
+            raise ValueError('Completed replay checkpoint does not match requested run')
+        window = retained['window']
+        # Cache hits are checked before this limit; a cache miss sends nothing.
+        budgets['max_requests'] = budgets['openalex_max_requests'] = 0
+    client = DiscoveryClient(checkpoint, window, config,
                              budgets, mailto=os.getenv("HARVEST_MAILTO", ""))
     receipt = root_file("data", "discovery_run_receipt.json")
     try:

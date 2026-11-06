@@ -1,6 +1,12 @@
 name: Pipeline
 on:
   workflow_dispatch:
+    inputs:
+      resume_completed_discovery_run:
+        description: 'Prior run blocked only by the known completed-receipt rounding defect; replay with zero requests'
+        type: string
+        required: false
+        default: ''
   schedule:
     - cron: "23 3 * * 1"
 env:
@@ -57,6 +63,7 @@ jobs:
         run: scripts/state.sh pull
       - name: Discover
         env:
+          ALEX_RESUME_DISCOVERY_RUN: ${{ inputs.resume_completed_discovery_run }}
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
           CORE_API_KEY: ${{ secrets.CORE_API_KEY }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
