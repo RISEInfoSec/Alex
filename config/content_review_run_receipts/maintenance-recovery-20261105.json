@@ -1712,7 +1712,7 @@
   },
   "additional_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/119",
-    "cause": "Discovery rewrites an unnecessary pretty-printed legacy cache in addition to the canonical durable response checkpoint. Native HTTP duration0.4\u20130.6s versus observed start gaps around8s motivated investigation.",
+    "cause": "Discovery rewrites an unnecessary pretty-printed legacy cache in addition to the canonical durable response checkpoint. Native HTTP duration0.4–0.6s versus observed start gaps around8s motivated investigation.",
     "change": "Disable only legacy cache reads/writes for DiscoveryClient; retain every existing canonical persistence and request-accounting boundary.",
     "tests_passed": 582,
     "live_throughput_verified": false,
@@ -1720,7 +1720,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T06:44:09.003316+00:00",
+  "updated_at": "2026-11-06T08:50:13.084097+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1787,7 +1787,7 @@
   },
   "orchestration_authorization": {
     "approved_at": "2026-11-06T04:32:28.818852+00:00",
-    "owner_reply": "OK, let\u2019s do that",
+    "owner_reply": "OK, let’s do that",
     "scope": "Finish retained discovery; move bounded recovery orchestration into GitHub Actions; finite continuation, holds, one writer and verifiable receipts; verify unattended recovery then comprehensive QA."
   },
   "second_automation_failure": {
@@ -3348,7 +3348,7 @@
   "harvest_response_retention_repair": {
     "pr": 129,
     "head_sha": "94d2eb14933b48b8ade38c1c38b146048c5ca5e0",
-    "status": "merged_native_ci_passed_live_verification_pending",
+    "status": "live_remote_successful_response_checkpoints_verified",
     "observed_at": "2026-11-06T07:27:02.874568+00:00",
     "cause": "Harvest rewrote a full runner-local JSON cache per response; pipeline-state omitted it, leaving completed source responses unrecoverable after runner loss. Identified by code inspection while existing harvest remained active, not a new observed timeout.",
     "verification": [
@@ -3359,10 +3359,84 @@
       "Existing harvest output preserved on checkpoint failure",
       "Actual Git state round trip of current and prior caches"
     ],
-    "live_verification_pending": true,
-    "active_harvest_uses_prior_code": true,
+    "live_verification_pending": false,
+    "active_harvest_uses_prior_code": false,
     "no_new_provider_diagnostics": true,
-    "merge_sha": "76333401807fa25d2cfedb80ac77854312bb2671"
+    "merge_sha": "76333401807fa25d2cfedb80ac77854312bb2671",
+    "latest_checkpoint": {
+      "observed_at": "2026-11-06T08:49:10.161236+00:00",
+      "run_id": 42171644273,
+      "attempt": 2,
+      "native_status": "in_progress",
+      "native_conclusion": null,
+      "jobs": [
+        {
+          "id": 127781398915,
+          "name": "discover",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-06T05:59:40Z",
+          "completed_at": "2026-11-06T06:03:24Z"
+        },
+        {
+          "id": 127781399084,
+          "name": "harvest",
+          "status": "in_progress",
+          "conclusion": null,
+          "started_at": "2026-11-06T07:59:12Z",
+          "completed_at": null
+        },
+        {
+          "id": 127781399913,
+          "name": "chain",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-06T06:03:27Z",
+          "completed_at": "2026-11-06T06:11:04Z"
+        },
+        {
+          "id": 127781400035,
+          "name": "score",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-11-06T06:11:07Z",
+          "completed_at": "2026-11-06T06:12:31Z"
+        }
+      ],
+      "state_sha": "a08efbb3b5d66ecf1a771a5d66164535a03034af",
+      "cache_git_blob_sha": "078422c71bb231d831f165df2eb74176bfc0f810",
+      "cache_sha256": "0bbd46318867364c07430c489a5ce10d7cefdb725df2559d84ac6188aef2ad6f",
+      "input_sha256": "be1eaf41a8448f528aa090d601e47b307b87d94d43a6dcfe53ddc51883f7fa06",
+      "outcomes": {
+        "not_found": 225,
+        "response": 4773
+      },
+      "crossref_unique_input_requests": 5091,
+      "crossref_retained_outcomes": 4634,
+      "complete": false,
+      "all_response_hashes_verified": true,
+      "crossref_response_doi_identities_verified": false,
+      "identity_mismatches": [
+        {
+          "requested_doi": "10.35940/ijrte.B8366.15010526/",
+          "returned_doi": "10.35940/ijrte.b8366.15010526",
+          "request_sha256": "d6d50958b2273217c98e018f81601d0b6208dae6d0b8c6d248bcea002cff3299",
+          "response_sha256": "7ea69587c8d30676bb2a1fb1c05cc4802c965d58d47d2a30d4528bc8d8839554"
+        },
+        {
+          "requested_doi": "10.4018/979-8-3693-5638-8.ch048",
+          "returned_doi": "10.4018/406039",
+          "request_sha256": "04549be9d46f9a10a5098dcc7f8f75076c7101a3ecd2a186bdce699c28ee1547",
+          "response_sha256": "5852ee9635a398c22b6156d0cbc8fcd8b0a8cec4fc25eafb43e8f9d8a4d8dd57"
+        },
+        {
+          "requested_doi": "10.4018/979-8-3693-5638-8.ch047",
+          "returned_doi": "10.4018/406038",
+          "request_sha256": "2e361d8baa0f3de79b5e6f567c197cea140577d1ad14b8ef86829f91dfd2cb23",
+          "response_sha256": "928a64da2857845019a58efe61036bb07bf5a7a8195f21be7f69b45be68af665"
+        }
+      ]
+    }
   },
   "harvest_timeout_recovery": {
     "observed_at": "2026-11-06T08:03:59.470961+00:00",
@@ -3388,6 +3462,50 @@
     "native_started_at": "2026-11-06T07:59:12Z",
     "upstream_original_completions_retained": true,
     "initial_native_cache_state_sha": "ed022b8b56b8547451a13d298c2968f84241c52f",
-    "status": "harvest_running_fresh_response_checkpoint_verification_pending"
+    "status": "harvest_running_remote_response_progress_verified"
+  },
+  "metadata_hold_classification_repair": {
+    "pr": 131,
+    "head_sha": "58907d8e12c574c4480fecd670d6f02ce63c6224",
+    "merge_sha": "5454f9182e62e3009e3b1fb0c9c1d3e3c313ea5a",
+    "status": "merged_native_ci_passed_live_pending",
+    "tests_passed": 695,
+    "verification": "Full real accepted corpus: all five held original CSV rows preserved exactly under matching rescore and changed inputs; no paid calls for held records; ordinary unheld work continues."
+  },
+  "provider_document_type_retention_repair": {
+    "pr": 132,
+    "head_sha": "2a301dff792e7b8a85480fde49135175efc7c048",
+    "merge_sha": "e521023e8bf2c803f7ecc78b1290cea8c440b17f",
+    "status": "merged_native_ci_passed_live_pending",
+    "tests_passed": 713,
+    "cause": "Citation-chain and harvest dropped source types, allowing known book/chapter candidates to reach paper rescore.",
+    "repair": "Retain both provider types; restore exact input-bound Crossref type from completed verified response cache without repeating provider requests; apply existing format-review holds."
+  },
+  "crossref_returned_doi_type_reconciliation": {
+    "pr": 133,
+    "head_sha": "c0addd3a58726751ce1664fd35c7fc7ee1a7aa5b",
+    "status": "local_tests_passed_native_ci_pending",
+    "tests_passed": 718,
+    "observed_mismatches": [
+      {
+        "requested_doi": "10.35940/ijrte.B8366.15010526/",
+        "returned_doi": "10.35940/ijrte.b8366.15010526",
+        "request_sha256": "d6d50958b2273217c98e018f81601d0b6208dae6d0b8c6d248bcea002cff3299",
+        "response_sha256": "7ea69587c8d30676bb2a1fb1c05cc4802c965d58d47d2a30d4528bc8d8839554"
+      },
+      {
+        "requested_doi": "10.4018/979-8-3693-5638-8.ch048",
+        "returned_doi": "10.4018/406039",
+        "request_sha256": "04549be9d46f9a10a5098dcc7f8f75076c7101a3ecd2a186bdce699c28ee1547",
+        "response_sha256": "5852ee9635a398c22b6156d0cbc8fcd8b0a8cec4fc25eafb43e8f9d8a4d8dd57"
+      },
+      {
+        "requested_doi": "10.4018/979-8-3693-5638-8.ch047",
+        "returned_doi": "10.4018/406038",
+        "request_sha256": "2e361d8baa0f3de79b5e6f567c197cea140577d1ad14b8ef86829f91dfd2cb23",
+        "response_sha256": "928a64da2857845019a58efe61036bb07bf5a7a8195f21be7f69b45be68af665"
+      }
+    ],
+    "repair": "Require exact nonempty title agreement across original candidate, retained response and harvested row at returned DOI before binding retained type. No row identity rewrite, provider retry or chapter hold release."
   }
 }
