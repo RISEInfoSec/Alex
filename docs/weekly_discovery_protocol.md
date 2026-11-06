@@ -272,6 +272,13 @@ written into checkpoint records. Stored responses remain public-source data.
 
 ## Paid classification failure and recovery
 
+Verified technical metadata holds also apply before paid classification and
+current-window corpus pruning. Incoming held DOIs are excluded from paid work;
+their original accepted CSV values are preserved exactly, including values
+that pandas would otherwise infer as numbers or missing values. Publication
+continues to exclude those records under the existing reversible hold policy.
+No hold is released, relabeled, or converted into an editorial rejection.
+
 Missing OpenAI credentials, network errors, non-success responses, empty output
 and invalid schema results fail classification. They never synthesize an `Other`
 label. A valid returned `Other` classification remains a legitimate taxonomy
