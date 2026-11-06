@@ -1719,7 +1719,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T04:47:32.703915+00:00",
+  "updated_at": "2026-11-06T05:01:54.209834+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1811,5 +1811,41 @@
     "automatic_handoff_verified": false,
     "full_pipeline_verified": false,
     "scheduled_verified": false
+  },
+  "downstream_recovery_repairs": {
+    "pr": 123,
+    "merge_commit": "ce026d3bbe49c4bd9f8d6a03a77c37e3cb548f55",
+    "local_tests_passed": 623,
+    "native_ci": "all applicable checks passed",
+    "repairs": [
+      "Per-host serialization covers concurrent workers, retries and polite delay; independent hosts can overlap.",
+      "Chain/harvest workflows preserve provider cooldown after successful state pull, including failed processing.",
+      "OpenAI smoketest validates current schema instead of requiring retired Keywords/Tags."
+    ],
+    "smoketest": {
+      "run_id": 42165017138,
+      "job_id": 127719352351,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 402,
+        "output_tokens": 36,
+        "total_tokens": 438
+      },
+      "classification": {
+        "Category": "Cyber Threat Intelligence",
+        "Investigation_Type": "Attribution",
+        "OSINT_Source_Types": [
+          "Public Records",
+          "News Media",
+          "Forums & Communities",
+          "Leaked Data"
+        ]
+      },
+      "native_failure": "AssertionError requiring retired Keywords field",
+      "source": "GitHub native job logs",
+      "replayed_without_provider_request": true
+    },
+    "verification": "Exact captured HTTP200 classification passes repaired actual workflow script locally; no repeated paid call. Concurrency and schema-rejection regressions pass.",
+    "live_workflow_limit": "Existing run42164493659 uses PR122 workflow definition, so new YAML state-save steps apply to subsequent invocations. Fresh downstream checkouts will use current-main code."
   }
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-06T04:47:32.703915+00:00",
+  "observed_at": "2026-11-06T05:01:54.209834+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -367,6 +367,39 @@
       "next_action": "Keep failed one-off disabled. Verify repository-owned continuation separately; original hourly worker/monitor require later native scheduled proof.",
       "owner_role": "existing_content_review_worker",
       "verification_criteria": "No claim of task-platform repair without diagnostics or successful useful scheduled runs."
+    },
+    {
+      "id": "provider-thread-pacing",
+      "status": "implemented_ci_tested",
+      "cause": "Per-thread sleeps allowed concurrent non-OpenAlex source calls across eight candidate workers.",
+      "repair_pr": 123,
+      "merge_commit": "ce026d3bbe49c4bd9f8d6a03a77c37e3cb548f55",
+      "verification": "Threaded regression proves serialization through the polite delay, independent-host overlap, and hold recheck.",
+      "next_action": "Observe eligible downstream stages; distinguish regression proof from actual live stage execution.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-06T05:01:54.209834+00:00"
+    },
+    {
+      "id": "downstream-provider-hold-persistence",
+      "status": "implemented_ci_tested",
+      "cause": "Harvest did not push shared OpenAlex cooldown state; standalone chain/harvest did not use the shared state path.",
+      "repair_pr": 123,
+      "merge_commit": "ce026d3bbe49c4bd9f8d6a03a77c37e3cb548f55",
+      "verification": "All three workflow definitions parse; final state push requires successful initial pull and runs on stage failure.",
+      "next_action": "Observe eligible downstream stages; distinguish regression proof from actual live stage execution.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-06T05:01:54.209834+00:00"
+    },
+    {
+      "id": "openai-smoke-retired-fields",
+      "status": "implemented_ci_tested",
+      "cause": "Native run42165017138 received HTTP200 with438 tokens, then required retired Keywords/Tags.",
+      "repair_pr": 123,
+      "merge_commit": "ce026d3bbe49c4bd9f8d6a03a77c37e3cb548f55",
+      "verification": "Exact retained response passes corrected actual workflow script; malformed enums and extra fields are rejected without live paid replay.",
+      "next_action": "Observe eligible downstream stages; distinguish regression proof from actual live stage execution.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-06T05:01:54.209834+00:00"
     }
   ]
 }
