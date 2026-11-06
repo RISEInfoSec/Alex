@@ -7,7 +7,7 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "OpenAlex remote connection closed without response; existing cooldown until 2026-11-05T20:45:39.224652+00:00;951 DOI lookups remain.",
+  "last_error": "Prior scheduled continuation failed without a diagnostic explanation; unattended reliability remains unverified.",
   "lease": {
     "owner": "maintenance-resume-2026-11-06T02-31Z",
     "run_id": "maintenance-resume-2026-11-06T02-31Z",
@@ -47,7 +47,7 @@
   },
   "global_deficit": 245,
   "soups_batch_deficit": 0,
-  "last_action": "Verified scheduled continuation363c0219-fb48-8325-b0a1-8d251dcfb8b1 failed without a diagnostic result; no later native pipeline exists. Reacquire expired lease and resume retained582 DOI lookups.",
+  "last_action": "Continuation42150889598 verified in progress after expired hold and no-overlap checks; saved state pulled and Discover running. Follow-up re-armed for03:35UTC.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -809,18 +809,18 @@
   "last_completed_at": "2026-11-05T14:47:27.564870+00:00",
   "maintenance_activity": {
     "owner": "maintenance-resume-2026-11-06T02-31Z",
-    "stage": "resuming_after_failed_automation",
+    "stage": "bounded_continuation_running",
     "started_at": "2026-11-05T18:08:44Z",
-    "updated_at": "2026-11-06T02:30:06.875764+00:00",
-    "candidate_processing": false,
+    "updated_at": "2026-11-06T02:33:52.789791+00:00",
+    "candidate_processing": true,
     "restore_automations_on_completion": true,
     "restoration_pending": true,
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
-    "run_id": 42113903650,
+    "run_id": 42150889598,
     "retry_not_before": "2026-11-06T01:46:00.000Z",
     "remaining_doi_lookups": 582,
     "lease_expires_at": "2026-11-06T04:30:06.875764+00:00",
-    "next_unattended_check": "2026-11-06T01:46:00.000Z"
+    "next_unattended_check": "2026-11-06T03:35:00Z"
   },
   "derived_queue_summary": {
     "sources": {

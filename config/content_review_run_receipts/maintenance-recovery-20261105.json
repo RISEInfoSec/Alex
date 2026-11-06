@@ -4,7 +4,7 @@
   "trigger": "owner_maintenance",
   "started_at": "2026-11-05T18:08:44Z",
   "observed_at": "2026-11-05T19:26:13.412050+00:00",
-  "status": "resuming_after_failed_automation",
+  "status": "bounded_continuation_running",
   "completed_at": null,
   "receipt_path": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
   "completed_actions": [
@@ -1591,6 +1591,30 @@
       "request_errors": 0,
       "state_commit": "057d8c17db9ecf7bdaed08f54dc274ccc59c6e93",
       "retry_not_before": "2026-11-06T01:46:00.000Z"
+    },
+    {
+      "provider_state": {
+        "state_sha": "057d8c17db9ecf7bdaed08f54dc274ccc59c6e93",
+        "blob_sha": "a8828f1c726fd304c09498941d25b4e63927f320",
+        "observed_at": "2026-11-06T02:31:38.872364+00:00",
+        "retry_not_before_epoch": 1793911539.2246518,
+        "retry_not_before": "2026-11-05T20:45:39.224652+00:00",
+        "eligible": true
+      },
+      "schema_version": 1,
+      "continuation": 4,
+      "owner_authorization": "Explicit owner approval of PR118 bounded recovery pace and resumption,2026-11-05",
+      "previous_run": 42113903650,
+      "expected_main_sha": "0fe7575d371954f7abcc16bf3840e6c1b31d7c24",
+      "started_at": "2026-11-06T02:31:40.197670+00:00",
+      "quarantined_historical_run": 36439756777,
+      "verified_successful_replacement": 36443867559,
+      "active_runs": [],
+      "dispatch_attempts": 1,
+      "status": "child_running_verified",
+      "child_run": 42150889598,
+      "child_head_sha": "0fe7575d371954f7abcc16bf3840e6c1b31d7c24",
+      "child_created_at": "2026-11-06T02:31:42Z"
     }
   ],
   "latest_weekly_checkpoint": {
@@ -1664,7 +1688,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T02:30:06.875764+00:00",
+  "updated_at": "2026-11-06T02:33:52.789791+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1689,7 +1713,7 @@
     "canonical_receipt": "config/content_review_weekly_recovery/42106396231.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "Resume saved582 DOI lookups after live hold/no-overlap checks; verify child and canonical receipt; diagnose unattended failure separately.",
+  "next_action": "Inspect native continuation42150889598 and its exact saved receipt. Follow-up re-armed for03:35UTC; no claim of unattended recovery until actual proof.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -1709,8 +1733,10 @@
   },
   "unattended_continuation": {
     "automation_id": "6ae935ba229c81919751322fbce87ef8",
-    "next_check_not_before": "2026-11-06T01:46:00.000Z",
-    "current_child_run": null
+    "next_check_not_before": "2026-11-06T03:35:00Z",
+    "current_child_run": 42150889598,
+    "enabled_readback_verified": true,
+    "prior_failure_cause_unresolved": true
   },
   "automation_failure_observation": {
     "observed_at": "2026-11-06T02:30:06.875764+00:00",
