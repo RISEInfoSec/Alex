@@ -16,6 +16,11 @@ private identities out of the public repository, logs and workflow inputs.
 `select_reconciled` overlays matching decisions on disposable in-memory copies
 before choosing candidates and holds changed or conflicting decisions out of
 selection. It does not persist that overlay or acquire the writer lease.
+`coordinator.py` makes a five-candidate plan only after validating the current
+lease, heartbeat, D1 reads and registry. It lists an explicit disposition for
+every registered collection, refuses to treat APWG or the corpus audit as
+normalized intake, and sets OpenAlex and paid requests to zero for the plan.
+The plan performs no candidate work, network calls or writes.
 
 Two matching paginated reads are not a database transaction. The coordinator
 must take complete fresh reads and recheck their fingerprint and immutable Git
