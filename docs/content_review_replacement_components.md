@@ -22,6 +22,12 @@ every registered collection, refuses to treat APWG or the corpus audit as
 normalized intake, and sets OpenAlex and paid requests to zero for the plan.
 The plan performs no candidate work, network calls or writes.
 
+`verified_inputs.py` loads registered collection manifests, main-branch public
+corpus, exclusions and current queue, and the preserved original weekly queue
+from immutable Git blobs. It verifies blob identity and size, the original
+queue's SHA-256 and every retained upstream row identity. The caller must still
+obtain and recheck the actual remote heads; local objects do not prove freshness.
+
 Two matching paginated reads are not a database transaction. The coordinator
 must take complete fresh reads and recheck their fingerprint and immutable Git
 source heads while holding the existing shared writer lease immediately before
