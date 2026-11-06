@@ -456,8 +456,8 @@
     },
     {
       "id": "openalex-literal-title-query",
-      "status": "implemented_local_tested_live_verification_pending",
-      "observed_at": "2026-11-06T06:21:33.034306+00:00",
+      "status": "merged_live_provider_verified",
+      "observed_at": "2026-11-06T08:03:59.470961+00:00",
       "cause": "Three native HTTP400 responses share literal title asterisks; corrected-query provider confirmation pending. Stored titles are not being changed.",
       "evidence": {
         "run_id": 42171644273,
@@ -466,9 +466,10 @@
         "new_candidates": 16
       },
       "repair_pr": 127,
-      "verification": "655 local tests passed; pending native CI and at most3 corrected queries under shared pipeline concurrency.",
-      "next_action": "Require HTTP200 and matching work identities before merge; never repeat original failed wildcard queries.",
-      "owner_role": "existing_content_review_worker"
+      "verification": "686 integrated tests and all native checks passed; diagnostic42174313902/job127775828506 made exactly3 HTTP200 queries with matching work identities.",
+      "next_action": "Observe normal future chain/harvest use; this diagnostic is not scheduled recovery proof.",
+      "owner_role": "existing_content_review_worker",
+      "merge_sha": "3425acacb2b97757c1ab343eba8213315b95cf7d"
     },
     {
       "id": "classification-synthetic-fallback",
@@ -494,7 +495,7 @@
     },
     {
       "id": "harvest-response-checkpoint-loss",
-      "status": "merged_native_ci_passed_live_verification_pending",
+      "status": "merged_native_resume_initial_checkpoint_verified",
       "observed_at": "2026-11-06T07:25:54.454543+00:00",
       "cause": "Successful harvest responses were kept only in a runner-local cache, rewritten in full for every response and omitted from transported state.",
       "evidence": {
@@ -506,13 +507,27 @@
         ],
         "active_run": 42171644273,
         "active_job": 127744876779,
-        "observed_terminal_failure": false
+        "observed_terminal_failure": true,
+        "terminal_conclusion": "cancelled",
+        "cancelled_at": "2026-11-06T07:43:07Z",
+        "logged_crossref404_events": 187
       },
       "repair_pr": 129,
-      "verification": "679 local tests and all native checks passed, including fresh-runner replay and real state round trips. No new source diagnostic calls.",
-      "next_action": "Verify actual cache persistence on a later eligible harvest without interrupting the active job or replaying completed discovery.",
+      "verification": "679 local tests and all native checks passed. Original harvest timed out; attempt2 runs repaired code and its initial remote cache retains186 independently reconciled404 outcomes. Fresh successful-response progress still pending verification.",
+      "next_action": "Verify fresh remote cache progress and completed downstream work in attempt2; do not repeat completed discovery/chain/score.",
       "owner_role": "existing_content_review_worker",
       "merge_sha": "76333401807fa25d2cfedb80ac77854312bb2671"
+    },
+    {
+      "id": "harvest-not-found-replay",
+      "status": "merged_reconciled_native_initial_cache_verified",
+      "observed_at": "2026-11-06T08:03:59.470961+00:00",
+      "cause": "Known Crossref404 outcomes were not cached and would be sent again after interruption.",
+      "repair_pr": 130,
+      "merge_sha": "51f686dbf687fb87da9932eaf3d52c5d021e58be",
+      "verification": "692 local tests plus native CI;187 actual404 log events map to186 distinct exact input requests; all186 replay without source calls and appear in resumed native cache. No response body fabricated; other errors and denials remain separate.",
+      "next_action": "Verify terminal harvest counts and downstream completion; preserve exact-input scope and provider holds.",
+      "owner_role": "existing_content_review_worker"
     }
   ]
 }

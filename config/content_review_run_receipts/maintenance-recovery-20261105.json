@@ -1744,7 +1744,7 @@
     "canonical_receipt": "config/content_review_weekly_recovery/42150889598.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "Finish pipeline and verify paid ledger and public exports; verify queued PR127 diagnostic and merge only on matching works; release lease then restore original hourly schedules.",
+  "next_action": "Verify actual remote harvest progress, complete rescore/classification/publication/deploy, compare paid ledger and live exports; release maintenance lease and restore original hourly schedules only after maintenance completion. Scheduled proof and full QA remain separate.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -1759,7 +1759,7 @@
     "owner": "maintenance-actions-recovery-2026-11-06",
     "run_id": "maintenance-actions-recovery-2026-11-06",
     "acquired_at": "2026-11-06T04:32:28.818852+00:00",
-    "expires_at": "2026-11-06T08:44:09.003316+00:00",
+    "expires_at": "2026-11-06T10:03:59.470961+00:00",
     "purpose": "Owner approved GitHub Actions bounded recovery orchestration and live verification before comprehensive QA"
   },
   "unattended_continuation": {
@@ -3219,6 +3219,12 @@
       "previous_expires_at": "2026-11-06T07:32:20.913613+00:00",
       "expires_at": "2026-11-06T08:44:09.003316+00:00",
       "owner": "maintenance-actions-recovery-2026-11-06"
+    },
+    {
+      "renewed_at": "2026-11-06T08:03:59.470961+00:00",
+      "previous_expires_at": "2026-11-06T08:44:09.003316+00:00",
+      "expires_at": "2026-11-06T10:03:59.470961+00:00",
+      "purpose": "Retain maintenance lease during failed-harvest recovery and downstream verification; original hourly checks remain paused."
     }
   ],
   "completed_window_replay_repair": {
@@ -3305,13 +3311,24 @@
   },
   "literal_title_query_repair": {
     "pr": 127,
-    "status": "ci_passed_diagnostic_queued",
-    "tests_passed": 655,
-    "head_sha": "4ce59f946e518ea327a9ae8fb940e169e4edef44",
-    "live_verification_pending": true,
+    "status": "merged_native_ci_and_live_queries_verified",
+    "tests_passed": 686,
+    "head_sha": "036abb13e598b6baf660718095b204be9feae152",
+    "live_verification_pending": false,
     "diagnostic_max_requests": 3,
     "diagnostic_after_active_pipeline": true,
-    "diagnostic_run": 42174313902
+    "diagnostic_run": 42174313902,
+    "merge_sha": "3425acacb2b97757c1ab343eba8213315b95cf7d",
+    "diagnostic_head_sha": "4ce59f946e518ea327a9ae8fb940e169e4edef44",
+    "diagnostic_job": 127775828506,
+    "http200": 3,
+    "matching_work_ids": [
+      "W2087484885",
+      "W2072500831",
+      "W2105973145",
+      "W4288545760"
+    ],
+    "evidence_source": "Completed native job logs; artifact metadata exists but local artifact-CDN download was denied and not bypassed."
   },
   "paid_classification_recovery_repair": {
     "pr": 128,
@@ -3346,5 +3363,31 @@
     "active_harvest_uses_prior_code": true,
     "no_new_provider_diagnostics": true,
     "merge_sha": "76333401807fa25d2cfedb80ac77854312bb2671"
+  },
+  "harvest_timeout_recovery": {
+    "observed_at": "2026-11-06T08:03:59.470961+00:00",
+    "run_id": 42171644273,
+    "original_attempt": 1,
+    "cancelled_job": 127744876779,
+    "cancelled_at": "2026-11-06T07:43:07Z",
+    "original_input_rows": 8292,
+    "last_observed_warning_row_index": 6022,
+    "progress_note": "Warning position is a lower bound, not a completed-row count. Successful response bodies were not retained by the original job.",
+    "logged_crossref404_events": 187,
+    "distinct_retained_not_found_outcomes": 186,
+    "logged_auth_quota_network_errors": 0,
+    "provider_state_saved_sha": "e2a0e980cf007365584199b64d4ca14cda722653",
+    "not_found_repair_pr": 130,
+    "not_found_repair_merge_sha": "51f686dbf687fb87da9932eaf3d52c5d021e58be",
+    "tests_passed": 692,
+    "reconciliation_state_sha": "f8182637b2b1d3ab87e5c1a4691e907304423c0d",
+    "reconciliation_cache_sha256": "9a217a49776544dd2a93ae9113a1f59cefba49ff7e8bbf1b41d601942832d83b",
+    "reconciliation_provider_requests": 0,
+    "resumed_attempt": 2,
+    "resumed_harvest_job": 127781399084,
+    "native_started_at": "2026-11-06T07:59:12Z",
+    "upstream_original_completions_retained": true,
+    "initial_native_cache_state_sha": "ed022b8b56b8547451a13d298c2968f84241c52f",
+    "status": "harvest_running_fresh_response_checkpoint_verification_pending"
   }
 }
