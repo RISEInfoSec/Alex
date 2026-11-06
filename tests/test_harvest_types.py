@@ -100,3 +100,32 @@ def test_forward_chain_requests_and_retains_source_type(monkeypatch):
     assert 'type' in cited.call_args.kwargs['select'].split(',')
     assert rows[0]['discovery_resource_type']=='book-chapter'
     assert paper_route_hold(rows[0])
+
+
+@pytest.mark.parametrize('fault',[None,'source_title','harvested_title','harvested_doi','missing_title'])
+def test_returned_doi_type_requires_exact_request_and_harvested_title(tmp_path,monkeypatch,fault):
+    frame,cache=fixture(tmp_path,monkeypatch)
+    from alex.utils.harvest_checkpoint import digest
+    records=[json.loads(line) for line in cache.read_text().splitlines()]
+    record=next(r for r in records if r.get('event')=='response')
+    original_doi=frame.iloc[0]['doi']
+    returned_doi='10.1234/returned-chapter'
+    message=record['response']['message']
+    message['DOI']=returned_doi
+    message['title']=[frame.iloc[0]['title']]
+    frame['doi']=returned_doi
+    if fault=='source_title':message['title']=['An unrelated work']
+    if fault=='harvested_title':frame['title']='An unrelated work'
+    if fault=='harvested_doi':frame['doi']=original_doi
+    if fault=='missing_title':message.pop('title')
+    record['sha256']=digest({k:record[k] for k in ('request_sha256','response')})
+    cache.write_text(''.join(json.dumps(r)+'\n' for r in records))
+    if fault:
+        with pytest.raises(ValueError):restore_crossref_types(frame,tmp_path)
+    else:
+        restored=restore_crossref_types(frame,tmp_path).iloc[0]
+        assert restored['doi']==returned_doi
+        assert restored['title']==frame.iloc[0]['title']
+        assert restored['harvest_crossref_requested_doi']==original_doi
+        assert restored['harvest_crossref_type']=='book-chapter'
+        assert paper_route_hold(restored)
