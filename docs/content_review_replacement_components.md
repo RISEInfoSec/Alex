@@ -13,6 +13,13 @@ conflicting candidates are held; unknown or malformed data fails closed. The
 function does not apply decisions or authorize publication. Its CLI reads one
 JSON line on stdin and prints only aggregate counts. Keep raw snapshots and
 private identities out of the public repository, logs and workflow inputs.
+`d1_reader.cjs` provides a connector-injected, bounded reader that uses only
+the exact overview names and connector-provided offsets. It rejects omitted
+columns or truncated values, gaps, duplicate identities and changing complete
+reads. Its required heartbeat callback must maintain the actual remote lease;
+the caller must also keep the heartbeat alive while connector calls are in
+flight. The reader itself neither acquires nor renews a lease. It returns private rows
+to the caller in memory and never writes or logs them.
 `select_reconciled` overlays matching decisions on disposable in-memory copies
 before choosing candidates and holds changed or conflicting decisions out of
 selection. It does not persist that overlay or acquire the writer lease.
