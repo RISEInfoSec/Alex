@@ -16,7 +16,7 @@ VALID = {'Category': 'Other', 'Investigation_Type': 'Other', 'OSINT_Source_Types
 
 def response(value=VALID):
     r = MagicMock(ok=True, status_code=200)
-    r.json.return_value = {'id': 'resp_retained', 'output_text': json.dumps(value),
+    r.json.return_value = {'id': 'resp_retained', 'status': 'completed', 'output_text': json.dumps(value),
                            'usage': {'input_tokens': 10, 'output_tokens': 5, 'total_tokens': 15}}
     return r
 
@@ -60,7 +60,8 @@ def test_changed_input_does_not_reuse_prior_paid_response(corpus, monkeypatch):
     assert paid.call_count == 2
 
 
-@pytest.mark.parametrize('fault', ['network', 'http500', 'empty', 'malformed', 'invalid_enum', 'extra_fields'])
+@pytest.mark.parametrize('fault', ['network', 'http500', 'empty', 'malformed', 'invalid_enum', 'extra_fields',
+                                  'incomplete', 'missing_id', 'refusal'])
 def test_provider_failures_never_become_other_or_get_blindly_retried(corpus, monkeypatch, fault):
     r = response()
     if fault == 'http500': r.ok = False; r.status_code = 500; r.json.return_value = {}
@@ -68,6 +69,9 @@ def test_provider_failures_never_become_other_or_get_blindly_retried(corpus, mon
     if fault == 'malformed': r.json.return_value['output_text'] = '{broken'
     if fault == 'invalid_enum': r = response({**VALID, 'Category': 'Invented'})
     if fault == 'extra_fields': r = response({**VALID, 'Keywords': []})
+    if fault == 'incomplete': r.json.return_value['status'] = 'incomplete'
+    if fault == 'missing_id': del r.json.return_value['id']
+    if fault == 'refusal': r.json.return_value['output'] = [{'content': [{'type': 'refusal'}]}]
     paid = MagicMock(return_value=r)
     if fault == 'network': paid.side_effect = requests.ConnectionError('ambiguous response')
     monkeypatch.setattr(classify.requests, 'post', paid)

@@ -186,6 +186,11 @@ def _request_body(row):
 
 def _validate_response(data):
     try:
+        if (data.get('status') != 'completed' or data.get('error') or data.get('incomplete_details')
+                or not isinstance(data.get('id'), str) or not data['id'].startswith('resp_')
+                or any(c.get('type') == 'refusal' for out in data.get('output', [])
+                       for c in out.get('content', []))):
+            raise OpenAIClassificationError('Incomplete, refused or unidentified paid response')
         value = json.loads(_extract_response_text(data))
         jsonschema.validate(value, CLASSIFICATION_SCHEMA)
         return value
@@ -220,8 +225,10 @@ def _send_openai(body, headers):
         code = ""
         try:
             code = (r.json().get("error") or {}).get("code", "") or ""
-        except ValueError:
+        except (ValueError, AttributeError, TypeError):
             pass
+        if not isinstance(code, str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,80}', code):
+            code = ''
         if code in FATAL_ERROR_CODES or r.status_code in (401, 403):
             error = OpenAIQuotaError(
                 f"OpenAI {r.status_code} (code={code or 'unknown'}) — aborting run. "

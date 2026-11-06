@@ -26,6 +26,7 @@ jobs:
           # signal classify is broken.
           from alex.pipelines.classify import (
               CLASSIFICATION_SCHEMA, PROMPT, CATEGORIES, INVESTIGATION_TYPES,
+              _validate_response,
           )
 
           key = os.environ["OPENAI_API_KEY"]
@@ -63,6 +64,9 @@ jobs:
 
           data = r.json()
           print("usage:", data.get("usage"))
+          # Production also requires completed status, response identity and
+          # no refusal/incomplete result. Keep this diagnostic on that contract.
+          _validate_response(data)
 
           # Mirror classify._extract_response_text exactly so the smoketest
           # validates the same parser path production uses.

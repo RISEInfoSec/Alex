@@ -458,6 +458,7 @@ class TestClassify:
         mock_response = _MM()
         mock_response.ok = True
         mock_response.json.return_value = {
+            "status": "completed", "id": "resp_test",
             "output": [{
                 "type": "message",
                 "status": "completed",
@@ -496,7 +497,8 @@ class TestClassify:
             mr = _MM()
             mr.ok = True
             mr.json.return_value = {
-                "output": [{"content": [{"text": '{"Category":"Other","Investigation_Type":"Other","OSINT_Source_Types":[]}'}]}],
+                "status": "completed", "id": "resp_test",
+            "output": [{"content": [{"text": '{"Category":"Other","Investigation_Type":"Other","OSINT_Source_Types":[]}'}]}],
                 "output_text": "",
                 "usage": {},
             }
@@ -532,6 +534,7 @@ class TestClassify:
         mock_response = _MM()
         mock_response.ok = True
         mock_response.json.return_value = {
+            "status": "completed", "id": "resp_test",
             "output_text": '{"Category":"Cyber Threat Intelligence","Investigation_Type":"Other","OSINT_Source_Types":[]}',
             "output": [],
             "usage": {"input_tokens": 10, "output_tokens": 5, "total_tokens": 15},
@@ -1055,6 +1058,7 @@ class TestClassify:
         mock_response = _MM()
         mock_response.ok = True
         mock_response.json.return_value = {
+            "status": "completed", "id": "resp_test",
             "output": [{"content": [{"text": '{"Category":"Other","Investigation_Type":"Other","OSINT_Source_Types":[]}'}]}],
             "output_text": "",
             "usage": {"input_tokens": 10, "output_tokens": 5, "total_tokens": 15},
