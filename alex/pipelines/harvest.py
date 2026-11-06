@@ -1,11 +1,12 @@
 from __future__ import annotations
 import logging
 import os
+import hashlib
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 import pandas as pd
 from alex.utils.io import load_df, save_df, root_file, validate_columns
-from alex.utils.http import HttpClient
+from alex.utils.harvest_checkpoint import HarvestClient as HttpClient, HarvestCheckpointError
 from alex.utils import connector_config
 from alex.connectors import crossref, openalex, semantic_scholar
 from alex.publication_dates import crossref_publication_fields
@@ -128,25 +129,32 @@ def run() -> None:
         )
         enable_s2 = False
 
-    client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
+    client = HttpClient(root_file('data', 'harvest_response_cache.jsonl'),
+                        hashlib.sha256(root_file('data', 'accepted_candidates.csv').read_bytes()).hexdigest(),
+                        mailto=os.getenv("HARVEST_MAILTO", ""))
     mailto = os.getenv("HARVEST_MAILTO", "")
 
     # Materialise rows up-front so we can submit them in input order and
     # collect results in the same order — preserves output stability.
     rows = [row for _, row in df.iterrows()]
-    with ThreadPoolExecutor(max_workers=HARVEST_WORKERS) as ex:
-        futures = [
-            ex.submit(_harvest_one, client, row, mailto, enable_s2, s2_key)
-            for row in rows
-        ]
-        harvested = []
-        for fut in futures:
-            try:
-                harvested.append(fut.result())
-            except Exception as exc:
-                # One bad row shouldn't sink the whole stage; drop it with a
-                # warning so the surviving rows still publish.
-                logger.warning("Harvest failed for one candidate: %s", exc)
-
-    save_df(output_path, pd.DataFrame(harvested))
+    complete = False
+    try:
+        with ThreadPoolExecutor(max_workers=HARVEST_WORKERS) as ex:
+            futures = [
+                ex.submit(_harvest_one, client, row, mailto, enable_s2, s2_key)
+                for row in rows
+            ]
+            harvested = []
+            for fut in futures:
+                try:
+                    harvested.append(fut.result())
+                except HarvestCheckpointError:
+                    ex.shutdown(wait=True, cancel_futures=True)
+                    raise
+                except Exception as exc:
+                    logger.warning("Harvest failed for one candidate: %s", exc)
+        save_df(output_path, pd.DataFrame(harvested))
+        complete = True
+    finally:
+        client.finish(complete=complete)
     print(f"Harvested {len(harvested)} accepted candidates")

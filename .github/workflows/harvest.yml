@@ -2,6 +2,7 @@ name: Harvest
 on:
   workflow_dispatch:
 env:
+  ALEX_HARVEST_SYNC: "1"
   ALEX_OPENALEX_STATE_PATH: data/discovery_openalex_state.json
 permissions:
   contents: write
@@ -39,3 +40,10 @@ jobs:
       - name: Preserve candidates and provider cooldown
         if: ${{ always() && steps.pipeline_state.outcome == 'success' }}
         run: scripts/state.sh push "Preserve harvest state and provider cooldown"
+      - name: Retain harvest response evidence
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: harvest-responses-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/harvest_response_cache*.jsonl
+          if-no-files-found: warn

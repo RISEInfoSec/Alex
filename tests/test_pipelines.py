@@ -1125,6 +1125,24 @@ class TestClassify:
 
 
 class TestHarvest:
+    def test_checkpoint_failure_aborts_without_replacing_output(self, tmp_path):
+        from alex.pipelines import harvest
+        from alex.utils.harvest_checkpoint import HarvestCheckpointError
+        (tmp_path / 'data').mkdir()
+        pd.DataFrame([{'title':'Paper','doi':'10.1/paper','authors':'A',
+                       'venue':'V','abstract':'Existing abstract'}]).to_csv(
+                           tmp_path / 'data/accepted_candidates.csv', index=False)
+        output = tmp_path / 'data/accepted_harvested.csv'
+        output.write_text('title\nPreviously completed harvest\n')
+        before = output.read_bytes()
+        with patch('alex.utils.io.ROOT',tmp_path), \
+             patch('alex.pipelines.harvest.connector_config.load',return_value={}), \
+             patch('alex.pipelines.harvest.HttpClient'), \
+             patch('alex.connectors.crossref.get_by_doi',side_effect=HarvestCheckpointError('state conflict')):
+            with pytest.raises(HarvestCheckpointError,match='state conflict'):
+                harvest.run()
+        assert output.read_bytes() == before
+
     def test_harvest_crossref_fallback(self, tmp_path):
         """Harvest enriches papers via Crossref when DOI is present."""
         accepted = pd.DataFrame([{
