@@ -25,8 +25,8 @@ before choosing candidates and holds changed or conflicting decisions out of
 selection. It does not persist that overlay or acquire the writer lease.
 `coordinator.py` makes a five-candidate plan only after validating the current
 lease, heartbeat, D1 reads and registry. It lists an explicit disposition for
-every registered collection, refuses to treat APWG or the corpus audit as
-normalized intake, and sets OpenAlex and paid requests to zero for the plan.
+every registered collection, reports APWG, the corpus audit and Virus Bulletin
+as requiring their separate adapters, and sets OpenAlex and paid requests to zero for the plan.
 The plan performs no candidate work, network calls or writes.
 
 `verified_inputs.py` loads registered collection manifests, main-branch public

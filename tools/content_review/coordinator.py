@@ -66,9 +66,10 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     result = select_reconciled(snapshot, confirmed_snapshot, manifests, ledger,
                                limit=MAX_CANDIDATES, source_progress=source_progress,
                                source_attempts=source_attempts)
-    # APWG and the existing-corpus audit require their separate adapters. They
-    # are never silently reclassified as normalized intake.
-    special = {c['id'] for c in registry if c.get('adapter') in ('apwg_pending', 'corpus_audit')}
+    # These routes need separate adapters before they can be executed. Virus
+    # Bulletin is marked normalized in the registry, but its executor is not
+    # wired yet; never select it as if the duplicate adapter supported it.
+    special = {c['id'] for c in registry if c.get('adapter') in ('apwg_pending', 'corpus_audit') or c['id'] == 'virusbulletin'}
     eligible = [item for item in result['selected'] if item['collection'] not in special]
     selected = [{**item, 'content_sha256': index[(item['collection'], item['candidate_id'])]['content_sha256']}
                 for item in eligible[:INITIAL_LIMIT]]

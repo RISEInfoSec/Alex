@@ -67,3 +67,15 @@ def test_duplicate_candidate_inventory_fails_closed():
     with pytest.raises(ValueError, match='Duplicate candidate'):
         plan(snap, deepcopy(snap), manifests, ledger, registry, state, 'worker', 'run',
              source_attempts={}, source_progress={}, at=now)
+
+
+def test_virus_bulletin_is_explicitly_held_until_its_adapter_exists():
+    now, snap, manifests, ledger, registry, state = fixture()
+    registry.append({'id': 'virusbulletin', 'adapter': 'normalized'})
+    manifests['virusbulletin'] = {'records': [dict(candidate_id='vb', review_number=1,
+        content_sha256='d' * 64, document_type='research_paper', decision='pending')]}
+    ledger['records']['virusbulletin:vb'] = {'state':'awaiting_initial_checks', 'first_seen_at':'2026-01-01'}
+    result = plan(snap, deepcopy(snap), manifests, ledger, registry, state, 'worker', 'run',
+                  source_attempts={}, source_progress={}, at=now)
+    assert all(x['collection'] != 'virusbulletin' for x in result['selected'])
+    assert next(x for x in result['coverage'] if x['collection'] == 'virusbulletin')['disposition'] == 'separate_collection_adapter_required'

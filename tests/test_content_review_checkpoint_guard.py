@@ -1,5 +1,6 @@
 import hashlib
 import json
+import subprocess
 from copy import deepcopy
 
 import pytest
@@ -97,3 +98,23 @@ def test_receipt_cannot_claim_provider_or_publication_activity(tmp_path):
     mutate(bundle, receipt, lambda o: o.update({'openalex_requests':1}))
     with pytest.raises(ValueError, match='receipt is invalid'):
         verify(tmp_path, head, main, bundle)
+
+
+def test_controlled_local_checkpoint_and_competing_writer(tmp_path):
+    head, main, bundle = fixture(tmp_path)
+    proof = verify(tmp_path, head, main, bundle)
+    for path, content in bundle['files'].items():
+        put(tmp_path, path, content)
+    git(tmp_path, 'add', *bundle['files'])
+    tree = git(tmp_path, 'write-tree')
+    winner = git(tmp_path, 'commit-tree', tree, '-p', head, '-m', 'synthetic checkpoint')
+    competitor = git(tmp_path, 'commit-tree', tree, '-p', head, '-m', 'competing synthetic writer')
+    branch = git(tmp_path, 'symbolic-ref', 'HEAD')
+    git(tmp_path, 'update-ref', branch, winner, head)
+    refused = subprocess.run(['git', '-C', str(tmp_path), 'update-ref', branch, competitor, head],
+                             capture_output=True, text=True, check=False)
+    assert refused.returncode != 0
+    assert git(tmp_path, 'rev-parse', branch) == winner
+    assert git(tmp_path, 'rev-parse', winner + '^') == proof['expected_head']
+    receipt = proof['new_path']
+    assert json.loads(git(tmp_path, 'show', winner + ':' + receipt))['publication_approved'] is False
