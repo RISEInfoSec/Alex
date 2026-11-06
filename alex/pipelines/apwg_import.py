@@ -386,10 +386,17 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
     """
     attempted = matched = 0
     access_status = "disabled" if max_lookups <= 0 else "ok"
-    blocked = getattr(client, "_host_blocked", lambda _url: False)
+    host_blocked = getattr(client, "_host_blocked", lambda _url: False)
+    deferred = getattr(client, "openalex_deferred", lambda: False)
+    def blocked_status():
+        if host_blocked(openalex.OPENALEX):
+            return "upstream_rate_limited"
+        if deferred() is True:
+            return "provider_deferred"
+        return None
     for row in sorted(records, key=lambda r: (-int(r.get("apwg_year") or 0), normalize_title(r.get("title", "")))):
-        if blocked(openalex.OPENALEX):
-            access_status = "upstream_rate_limited"
+        if blocked_status():
+            access_status = blocked_status()
             break
         if clean(row.get("doi")) and clean(row.get("authors")):
             continue
@@ -401,8 +408,8 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
         except Exception as exc:
             LOG.warning("OpenAlex title lookup failed for %r: %s", row["title"], exc)
             continue
-        if blocked(openalex.OPENALEX):
-            access_status = "upstream_rate_limited"
+        if blocked_status():
+            access_status = blocked_status()
             break
         for work in results:
             candidate_title = work.get("display_name") or work.get("title") or ""

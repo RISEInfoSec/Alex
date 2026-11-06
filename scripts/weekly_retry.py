@@ -24,6 +24,8 @@ def instant(value):
 
 
 def validate_request(request, policy, now):
+    if policy.get('requests_enabled') is False:
+        raise ValueError('OpenAlex provider-state reconciliation is required before retry')
     if request.get('kind') != 'weekly_pipeline_retry' or not request.get('authorization'):
         raise ValueError('Missing authorized retry')
     if request.get('request_id') != 'alex-weekly-recovery-20261105':

@@ -10,5 +10,17 @@
   "authorization": "Owner explicitly approved PR118 bounded recovery pace on 2026-11-05: no more than1 serial OpenAlex request/second,250 OpenAlex/300 total requests and45 minutes per pass. Preserve timeout, cooldown, quota/owner holds and zero automatic OpenAlex retries; no paid plan enabled.",
   "owner_hold_reason": "Owner requested a 48-hour OpenAlex backoff before one authorized weekly pipeline retry; no provider ban is established.",
   "previous_diagnostic_authorization": "User requested very slow individual OpenAlex queries until rate limits/timeouts are understood.",
-  "authorized_at": "2026-11-05T19:09:04.043800+00:00"
+  "authorized_at": "2026-11-05T19:09:04.043800+00:00",
+  "requests_enabled": false,
+  "reconciliation_hold": {
+    "reason": "APWG native job observed HTTP429 but the old workflow did not retain its provider cooldown checkpoint or response headers. Exact Retry-After/quota reset cannot be reconstructed safely.",
+    "observed_at": "2026-11-06T09:07:36.5801857Z",
+    "http_status": 429,
+    "run_id": 42171644273,
+    "job_id": 127807852155,
+    "minimum_retry_not_before": "2026-11-06T10:07:36.5801857Z",
+    "minimum_is_not_verified_provider_deadline": true,
+    "release_condition": "Verify authoritative provider quota/reset or response-header evidence, preserve any later deadline, and explicitly clear this reconciliation hold. Elapsed local minimum alone does not authorize another request.",
+    "authorization": "Protective reversible pause under the owner-authorized recovery and self-repair scope; no increase to approved request limits."
+  }
 }

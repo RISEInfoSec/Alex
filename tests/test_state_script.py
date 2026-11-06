@@ -116,3 +116,41 @@ def test_discovery_checkpoint_receipt_and_cooldown_round_trip(remote, tmp_path):
     assert _state(b, "pull").returncode == 0
     for name, content in files.items():
         assert (b / "data" / name).read_text() == content
+
+
+def test_apwg_fresh_runner_honors_and_persists_shared_cooldown(remote,tmp_path,monkeypatch):
+    import json,time
+    from unittest.mock import Mock
+    from alex.utils import http
+    workflow=(SCRIPT.parents[1]/'.github/workflows/pipeline.yml').read_text()
+    job=workflow.split('\n  apwg:\n',1)[1].split('\n  publish:\n',1)[0]
+    assert job.index('run: scripts/state.sh pull') < job.index('python -m alex.cli apwg')
+    push=job.split('- name: Preserve APWG provider cooldown',1)[1].split('\n      - name:',1)[0]
+    assert "always() && steps.pipeline_state.outcome == 'success'" in push
+    command=push.split('run: ',1)[1].strip()
+    producer=_clone(remote,tmp_path/'producer')
+    initial={'retry_not_before':time.time()+3600,'last_failure':'HTTP429'}
+    _write(producer,'discovery_openalex_state.json',json.dumps(initial))
+    assert _state(producer,'push','prior provider hold').returncode==0
+    audit=_clone(remote,tmp_path/'audit')
+    (audit/'scripts').mkdir();shutil.copy2(SCRIPT,audit/'scripts/state.sh')
+    assert _state(audit,'pull').returncode==0
+    path=audit/'data/discovery_openalex_state.json'
+    monkeypatch.setenv('ALEX_OPENALEX_STATE_PATH',str(path))
+    monkeypatch.setattr(http,'CACHE',tmp_path/'legacy.json')
+    monkeypatch.setattr(http,'_openalex_policy',lambda:{'min_interval_seconds':1,
+        'request_timeout_seconds':20,'failure_cooldown_seconds':3600})
+    blocked=http.HttpClient();send=Mock(side_effect=AssertionError('No provider request during inherited hold'))
+    monkeypatch.setattr(blocked,'_send_request',send)
+    assert blocked._openalex_request('https://api.openalex.org/works',{}, {},20) is None
+    send.assert_not_called();assert json.loads(path.read_text())==initial
+    # A later actual rate-limit response sets a new hold. Simulate the audit
+    # failing afterwards, then execute the workflow's unconditional save step.
+    path.write_text('{}');client=http.HttpClient();response=Mock(status_code=429,headers={'Retry-After':'7200'})
+    monkeypatch.setattr(client,'_send_request',Mock(return_value=response))
+    client._openalex_request('https://api.openalex.org/works',{}, {},20)
+    new=json.loads(path.read_text());assert new['retry_not_before']>initial['retry_not_before'];assert new['last_failure']=='HTTP429'
+    result=subprocess.run(['bash','-e','-c',command],cwd=audit,capture_output=True,text=True)
+    assert result.returncode==0,result.stderr
+    next_runner=_clone(remote,tmp_path/'next');assert _state(next_runner,'pull').returncode==0
+    assert json.loads((next_runner/'data/discovery_openalex_state.json').read_text())==new
