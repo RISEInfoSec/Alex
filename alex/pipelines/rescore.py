@@ -23,6 +23,7 @@ import pandas as pd
 from alex.utils.io import load_df, save_df, load_json, root_file
 from alex.utils.text import clean
 from alex.discovery_types import paper_route_hold
+from alex.utils.harvest_types import restore_crossref_types
 from alex.utils.scoring import (
     venue_score,
     citation_score,
@@ -70,6 +71,7 @@ def run() -> None:
             save_df(harvested_path, pd.DataFrame())
         return
 
+    df = restore_crossref_types(df, root_file())
     whitelist = load_json(root_file("config", "venue_whitelist.json"))["high_trust"]
     registry = load_json(root_file("config", "query_registry.json"))
     queries = registry["queries"]
