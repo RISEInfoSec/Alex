@@ -71,3 +71,36 @@ def test_malformed_shared_cooldown_fails_closed(hold):
         'git/blobs/' + sha: {'encoding': 'base64', 'content': base64.b64encode(raw).decode()}}
     with pytest.raises(ValueError, match='Invalid persisted'):
         provider_state_proof(responses.__getitem__, datetime.now(timezone.utc))
+
+
+@pytest.mark.parametrize('fault', ['expired', 'disabled_provider', 'malformed_request', 'missing_repo'])
+def test_rejected_startup_retains_receipt_without_network_or_dispatch(tmp_path, monkeypatch, fault):
+    import json
+    from unittest.mock import Mock
+    from scripts import weekly_retry
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv('GH_REPO', 'example/repo')
+    monkeypatch.setenv('GITHUB_RUN_ID', 'diagnostic-fixture')
+    if fault == 'missing_repo':
+        monkeypatch.delenv('GH_REPO')
+    config = tmp_path / 'config'
+    config.mkdir()
+    request = {'kind': 'weekly_pipeline_retry', 'authorization': 'owner',
+               'request_id': 'alex-weekly-recovery-20261105',
+               'not_before': '2020-01-01T00:00:00Z', 'expires_at': '2020-01-01T01:00:00Z'}
+    (config / 'weekly_pipeline_retry_request.json').write_text(
+        'invalid secret-do-not-copy' if fault == 'malformed_request' else json.dumps(request))
+    (config / 'openalex_request_policy.json').write_text(json.dumps(
+        {'requests_enabled': fault != 'disabled_provider', 'retry_not_before': '2020-01-01T00:00:00Z'}))
+    network = Mock(side_effect=AssertionError('No GitHub call is allowed on rejected startup'))
+    monkeypatch.setattr(weekly_retry.subprocess, 'run', network)
+    with pytest.raises((ValueError, KeyError)):
+        weekly_retry.main()
+    path = tmp_path / '.cache/weekly-retry-receipt.json'
+    receipt = json.loads(path.read_text())
+    assert receipt['status'] == 'validation_failed_no_dispatch'
+    assert receipt['dispatch_attempts'] == 0
+    assert receipt['run_id'] == 'diagnostic-fixture'
+    assert receipt['error_type'] in ('ValueError', 'JSONDecodeError', 'KeyError')
+    assert 'secret-do-not-copy' not in path.read_text()
+    network.assert_not_called()

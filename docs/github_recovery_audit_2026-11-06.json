@@ -231,7 +231,8 @@
         "conclusion": "success",
         "head_sha": "1f338893faa6fddc6b0f064469be76dd69198aac"
       },
-      "disposition": "superseded_by_later_successful_execution"
+      "disposition": "superseded_by_later_successful_execution",
+      "evidence": "Later launcher42113861146 succeeded; old authorization is expired and will not be reused. Current startup receipt repair preserves rejection diagnostics without dispatching or bypassing provider/owner holds."
     },
     {
       "workflow_path": ".github/workflows/pages.yml",
@@ -342,7 +343,8 @@
         "conclusion": "success",
         "head_sha": "1f338893faa6fddc6b0f064469be76dd69198aac"
       },
-      "disposition": "superseded_by_later_successful_execution"
+      "disposition": "superseded_by_later_successful_execution",
+      "evidence": "Later launcher42113861146 succeeded; old authorization is expired and will not be reused. Current startup receipt repair preserves rejection diagnostics without dispatching or bypassing provider/owner holds."
     },
     {
       "workflow_path": ".github/workflows/approved_publication.yml",
@@ -1269,7 +1271,7 @@
     "Full-project QA deferred by owner."
   ],
   "verification": {
-    "regression_tests_passed": 733,
+    "regression_tests_passed": 737,
     "review_compliance_tests_passed": 43,
     "actionlint_version": "1.7.7",
     "current_main_and_review_workflows": "passed",
@@ -1291,6 +1293,12 @@
     {
       "issue": 15,
       "repair": "Document actual credential mappings/provisioning, disabled optional connectors, multi-job pipeline, real outputs and no-fallback reconciliation rules."
+    },
+    {
+      "path": "scripts/weekly_retry.py",
+      "problem": "Authorization/policy/startup validation happened before receipt creation, so blocked run42113747639 also failed artifact upload with no receipt.",
+      "repair": "Create the receipt before startup validation; retain validation_failed_no_dispatch and exception type without sensitive exception text. All original authorization/provider guards and ambiguous-dispatch behavior remain unchanged.",
+      "verification": "Expired authorization, provider disabled, malformed request and missing repository environment each preserve a receipt and make zero GitHub calls."
     }
   ],
   "open_pr_reconciliation": {

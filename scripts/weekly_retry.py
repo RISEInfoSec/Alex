@@ -82,22 +82,24 @@ def provider_state_proof(api, now):
 
 
 def main():
-    repo = os.environ['GH_REPO']
     def api(path, method='GET'):
         command = ['gh', 'api', '--method', method, f'repos/{repo}/{path}']
         if method == 'POST':
             command += ['-f', 'ref=main']
         result = subprocess.run(command, check=True, capture_output=True, text=True, timeout=40)
         return json.loads(result.stdout) if result.stdout.strip() else None
-    request = json.loads(Path('config/weekly_pipeline_retry_request.json').read_text())
-    validate_request(request, json.loads(Path('config/openalex_request_policy.json').read_text()), datetime.now(timezone.utc))
-    receipt = {'request_id': request['request_id'], 'run_id': os.environ.get('GITHUB_RUN_ID'),
-               'status': 'checking', 'dispatch_attempts': 0, 'quarantined_run_ids': []}
+    receipt = {'request_id': None, 'run_id': os.environ.get('GITHUB_RUN_ID'),
+               'status': 'validating_request', 'dispatch_attempts': 0, 'quarantined_run_ids': []}
     output = Path('.cache/weekly-retry-receipt.json')
     output.parent.mkdir(parents=True, exist_ok=True)
     def save():
         output.write_text(json.dumps(receipt, indent=2) + '\n')
     try:
+        repo = os.environ['GH_REPO']
+        request = json.loads(Path('config/weekly_pipeline_retry_request.json').read_text())
+        receipt['request_id'] = request.get('request_id')
+        validate_request(request, json.loads(Path('config/openalex_request_policy.json').read_text()), datetime.now(timezone.utc))
+        receipt['status'] = 'checking'
         receipt['provider_state'] = provider_state_proof(api, datetime.now(timezone.utc))
         if not receipt['provider_state']['eligible']:
             receipt['status'] = 'provider_cooldown_no_dispatch'
@@ -141,6 +143,8 @@ def main():
             api('actions/workflows/pipeline.yml/dispatches', method='POST')
             receipt['status'] = 'dispatch_accepted_child_verification_required'
     except Exception as error:
+        if receipt['status'] == 'validating_request':
+            receipt['status'] = 'validation_failed_no_dispatch'
         receipt['error_type'] = type(error).__name__
         raise
     finally:
