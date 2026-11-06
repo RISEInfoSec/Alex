@@ -11,6 +11,7 @@ from tools.content_review.manifest_integrity import parse, validate_update
 from tools.content_review.snapshot_integrity import verify_bytes
 
 RUN_ID = re.compile(r'^[a-zA-Z0-9-]+$')
+CONTENT_HASH = re.compile(r'^[0-9a-f]{64}$')
 
 
 def _blob(item):
@@ -80,7 +81,9 @@ def observe(native, receipt_blob, manifests):
     for collection, old, new in pairs:
         for cid in old.keys() & new.keys():
             a, b = old[cid], new[cid]
-            if occurrences[cid] != 1 or cid not in attempted or a.get('content_sha256') != b.get('content_sha256'):
+            if (occurrences[cid] != 1 or cid not in attempted
+                or not isinstance(a.get('content_sha256'), str) or not CONTENT_HASH.fullmatch(a['content_sha256'])
+                or a.get('content_sha256') != b.get('content_sha256')):
                 continue
             for gate in GATES:
                 if cid not in claims.get(gate, []) or current_pass(a, gate) or not current_pass(b, gate):

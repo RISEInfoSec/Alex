@@ -36,8 +36,9 @@ def _rows(snapshot, key):
     evidence = snapshot.get('read_evidence')
     _require(isinstance(evidence, dict) and isinstance(evidence.get(key), dict), f"Missing {key} read evidence")
     proof = evidence[key]
-    _require(proof.get('complete') is True and proof.get('truncated_values') == 0
-             and proof.get('omitted_columns') == 0 and proof.get('rows_received') == len(rows),
+    _require(proof.get('complete') is True and type(proof.get('truncated_values')) is int and proof['truncated_values'] == 0
+             and type(proof.get('omitted_columns')) is int and proof['omitted_columns'] == 0
+             and type(proof.get('rows_received')) is int and proof['rows_received'] == len(rows),
              f"Incomplete {key} read evidence")
     _require(all(isinstance(row, dict) for row in rows), f"Invalid {key} row")
     ids = [row.get('id') for row in rows]
@@ -100,6 +101,7 @@ def reconcile(snapshot, confirmed_snapshot, manifests):
         _require(all(isinstance(row.get(k), str) and row[k] for k in ('user_id', 'collection')), 'Invalid submission owner or collection')
         _require(_integer(row.get('batch'), 1) and _integer(row.get('revision'), 1), 'Invalid submission batch or revision')
         _require(_integer(row.get('accepted')) and _integer(row.get('rejected')), 'Invalid submission counts')
+        _require(1 <= row['accepted'] + row['rejected'] <= 20, 'Invalid completed batch size')
         _require(bool(HASH.fullmatch(row.get('payload_hash') or '')), 'Invalid submission payload hash')
         key = (row['user_id'], row['collection'], row['batch'])
         unique = (*key, row['revision'])
@@ -192,7 +194,7 @@ def select_reconciled(snapshot, confirmed_snapshot, manifests, ledger, *, limit=
             for row in manifest.get(section, []):
                 _require(isinstance(row, dict) and isinstance(row.get('candidate_id'), str), 'Invalid selection candidate')
                 key = (collection, row['candidate_id'])
-                if key in held:
+                if key in held or not isinstance(row.get('content_sha256'), str) or not HASH.fullmatch(row['content_sha256']):
                     # work_plan treats anything other than pending/unreviewed as
                     # ineligible; no editorial decision is written or invented.
                     row['decision'] = 'hold_review_reconciliation'

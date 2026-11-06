@@ -1,5 +1,5 @@
 """Resume missing work; do not substitute cheap activity for source progress."""
-from tools.content_review.lifecycle import current_pass, due
+from tools.content_review.lifecycle import current_pass, due, instant
 
 def next_stage(row):
     if row.get('decision','pending') not in ('pending','unreviewed') or row.get('publication_status')=='published_live_verified':return 'complete'
@@ -32,7 +32,14 @@ def select(manifests, ledger, limit=5, source_progress=None, source_attempts=Non
     for rank, item in sorted(candidates,key=lambda x:x[0]):
         groups.setdefault(item['collection'],[]).append(item)
     def last_served(collection):
-        return source_attempts.get(collection,{}).get('at',source_progress.get(collection,{}).get('at',''))
+        values=[source_attempts.get(collection,{}).get('at'),source_progress.get(collection,{}).get('at')]
+        times=[]
+        for value in values:
+            if value:
+                timestamp=instant(value)
+                if not timestamp:raise ValueError('Invalid collection scheduling timestamp')
+                times.append(timestamp.timestamp())
+        return max(times,default=float('-inf'))
     order=sorted(groups,key=lambda c:(last_served(c),c!='weekly',c))
     while any(groups.values()):
         for collection in order:

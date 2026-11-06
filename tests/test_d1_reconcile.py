@@ -132,3 +132,13 @@ def test_selection_excludes_decided_and_changed_content_without_mutating_manifes
     assert result['reconciliation']['counts']['matched'] == 1
     assert result['reconciliation']['counts']['held'] == 1
     assert manifests == original
+
+
+def test_selection_holds_candidates_with_missing_or_malformed_content_hashes():
+    snapshot, rows = fixture()
+    rows['weekly'].extend([dict(candidate_id='c', content_sha256=None, review_number=3),
+                           dict(candidate_id='d', content_sha256=42, review_number=4)])
+    manifests = {'weekly': {'records': rows['weekly']}}
+    ledger = {'records': {'weekly:' + cid: {'state': 'awaiting_initial_checks', 'first_seen_at': '2026-01-01'}
+                          for cid in ('a', 'b', 'c', 'd')}}
+    assert select_reconciled(snapshot, deepcopy(snapshot), manifests, ledger)['selected'] == []
