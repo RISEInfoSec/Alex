@@ -9,11 +9,11 @@
   "soups_min_ready_batches": 0,
   "last_error": "Prior scheduled continuation failed without a diagnostic explanation; unattended reliability remains unverified.",
   "lease": {
-    "owner": "maintenance-resume-2026-11-06T02-31Z",
-    "run_id": "maintenance-resume-2026-11-06T02-31Z",
-    "acquired_at": "2026-11-06T02:30:06.875764+00:00",
-    "expires_at": "2026-11-06T04:30:06.875764+00:00",
-    "purpose": "Continue owner-authorized recovery after failed unattended run; both hourly checks remain paused"
+    "owner": "maintenance-actions-recovery-2026-11-06",
+    "run_id": "maintenance-actions-recovery-2026-11-06",
+    "acquired_at": "2026-11-06T04:32:28.818852+00:00",
+    "expires_at": "2026-11-06T06:32:28.818852+00:00",
+    "purpose": "Owner approved GitHub Actions bounded recovery orchestration and live verification before comprehensive QA"
   },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
@@ -47,7 +47,7 @@
   },
   "global_deficit": 245,
   "soups_batch_deficit": 0,
-  "last_action": "Continuation42150889598 verified in progress after expired hold and no-overlap checks; saved state pulled and Discover running. Follow-up re-armed for03:35UTC.",
+  "last_action": "Owner approved replacing failed ChatGPT recovery handoff with bounded repository-owned orchestration;250 additional DOI results verified and332 remain.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -808,18 +808,18 @@
   },
   "last_completed_at": "2026-11-05T14:47:27.564870+00:00",
   "maintenance_activity": {
-    "owner": "maintenance-resume-2026-11-06T02-31Z",
-    "stage": "bounded_continuation_running",
+    "owner": "maintenance-actions-recovery-2026-11-06",
+    "stage": "implementing_actions_recovery",
     "started_at": "2026-11-05T18:08:44Z",
-    "updated_at": "2026-11-06T02:33:52.789791+00:00",
-    "candidate_processing": true,
+    "updated_at": "2026-11-06T04:32:28.818852+00:00",
+    "candidate_processing": false,
     "restore_automations_on_completion": true,
     "restoration_pending": true,
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
     "run_id": 42150889598,
     "retry_not_before": "2026-11-06T01:46:00.000Z",
-    "remaining_doi_lookups": 582,
-    "lease_expires_at": "2026-11-06T04:30:06.875764+00:00",
+    "remaining_doi_lookups": 332,
+    "lease_expires_at": "2026-11-06T06:32:28.818852+00:00",
     "next_unattended_check": "2026-11-06T03:35:00Z"
   },
   "derived_queue_summary": {
@@ -929,6 +929,15 @@
       "renewed_at": "2026-11-05T19:52:24.240859+00:00",
       "status": "expired",
       "expiry_observed_at": "2026-11-06T02:30:06.875764+00:00"
+    },
+    {
+      "owner": "maintenance-resume-2026-11-06T02-31Z",
+      "run_id": "maintenance-resume-2026-11-06T02-31Z",
+      "acquired_at": "2026-11-06T02:30:06.875764+00:00",
+      "expires_at": "2026-11-06T04:30:06.875764+00:00",
+      "purpose": "Continue owner-authorized recovery after failed unattended run; both hourly checks remain paused",
+      "status": "expired",
+      "expiry_observed_at": "2026-11-06T04:32:28.818852+00:00"
     }
   ]
 }

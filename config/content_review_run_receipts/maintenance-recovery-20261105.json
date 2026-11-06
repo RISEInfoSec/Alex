@@ -4,7 +4,7 @@
   "trigger": "owner_maintenance",
   "started_at": "2026-11-05T18:08:44Z",
   "observed_at": "2026-11-05T19:26:13.412050+00:00",
-  "status": "bounded_continuation_running",
+  "status": "implementing_actions_recovery",
   "completed_at": null,
   "receipt_path": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
   "completed_actions": [
@@ -1498,8 +1498,8 @@
     "window_candidates": 4672,
     "completed_search_tasks": 49,
     "deduplicated_doi_abstract_lookups_total": 1072,
-    "cached_doi_results": 490,
-    "deduplicated_doi_abstract_lookups_remaining": 582,
+    "cached_doi_results": 740,
+    "deduplicated_doi_abstract_lookups_remaining": 332,
     "state_commit": "057d8c17db9ecf7bdaed08f54dc274ccc59c6e93",
     "retry_not_before": "2026-11-06T01:46:00.000Z"
   },
@@ -1688,7 +1688,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T02:33:52.789791+00:00",
+  "updated_at": "2026-11-06T04:32:28.818852+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1725,11 +1725,11 @@
   },
   "next_continuation_base_at_observation": "cf497a3cce0b85290dc94aa7902ff5a253617630",
   "maintenance_lease": {
-    "owner": "maintenance-resume-2026-11-06T02-31Z",
-    "run_id": "maintenance-resume-2026-11-06T02-31Z",
-    "acquired_at": "2026-11-06T02:30:06.875764+00:00",
-    "expires_at": "2026-11-06T04:30:06.875764+00:00",
-    "purpose": "Continue owner-authorized recovery after failed unattended run; both hourly checks remain paused"
+    "owner": "maintenance-actions-recovery-2026-11-06",
+    "run_id": "maintenance-actions-recovery-2026-11-06",
+    "acquired_at": "2026-11-06T04:32:28.818852+00:00",
+    "expires_at": "2026-11-06T06:32:28.818852+00:00",
+    "purpose": "Owner approved GitHub Actions bounded recovery orchestration and live verification before comprehensive QA"
   },
   "unattended_continuation": {
     "automation_id": "6ae935ba229c81919751322fbce87ef8",
@@ -1750,5 +1750,22 @@
     "requires_user_action": true,
     "cause": "Not exposed by scheduler result; do not infer authentication, timing, or environment as cause.",
     "new_native_pipeline_after_failed_automation": false
+  },
+  "orchestration_authorization": {
+    "approved_at": "2026-11-06T04:32:28.818852+00:00",
+    "owner_reply": "OK, let’s do that",
+    "scope": "Finish retained discovery; move bounded recovery orchestration into GitHub Actions; finite continuation, holds, one writer and verifiable receipts; verify unattended recovery then comprehensive QA."
+  },
+  "second_automation_failure": {
+    "run_id": "67da6975-3b90-832a-9d39-f7a0857db03d",
+    "scheduled_for": "2026-11-06T03:35:00Z",
+    "started_at": "2026-11-06T03:35:28.111957Z",
+    "completed_at": "2026-11-06T03:35:33.527015Z",
+    "status": "failed",
+    "result_text_empty": true,
+    "requires_user_action": true,
+    "environment_selection": "inherited",
+    "environment_details": null,
+    "cause": "No diagnostic detail exposed. Current interactive runtime/GitHub work; this does not prove scheduled-runtime readiness."
   }
 }
