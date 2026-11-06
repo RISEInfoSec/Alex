@@ -63,10 +63,11 @@ def expected_next(automation, pauses=()):
 
 def verified_completion(automation,receipt):
     run=automation.get('run_details',{}).get('last_run') or {}
-    if (run.get('recorded_status') not in ('completed','no_update') or not receipt
+    if (run.get('recorded_status') != 'completed' or not receipt
         or run.get('id')!=receipt.get('run_id') or receipt.get('trigger')!='schedule'
         or not receipt.get('completed_actions') or receipt.get('status')!='complete'):
         return None
+    if receipt.get('receipt_path') != f"config/content_review_run_receipts/{run['id']}.json":return None
     scheduled=instant(run.get('scheduled_for'));start=instant(run.get('started_at'));end=instant(run.get('completed_at'))
     if not all((scheduled,start,end)) or end<start:return None
     # Native scheduled_for must agree with the saved hourly schedule's anchor.
