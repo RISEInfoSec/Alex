@@ -28,6 +28,9 @@ lease, heartbeat, D1 reads and registry. It lists an explicit disposition for
 every registered collection, reports APWG, the corpus audit and Virus Bulletin
 as requiring their separate adapters, and sets OpenAlex and paid requests to zero for the plan.
 The plan performs no candidate work, network calls or writes.
+`apwg_adapter.py` reproduces the Site's filtered APWG candidate IDs, content
+hashes and batches for decision reconciliation. APWG execution still needs a
+separate source/decision writer; normalization is not processing.
 
 `verified_inputs.py` loads registered collection manifests, main-branch public
 corpus, exclusions and current queue, and the preserved original weekly queue
@@ -71,6 +74,10 @@ preserves lease history. These pure functions do not acquire a remote lease.
 `run_state.py` prepares a run-start observation while preserving the previous
 complete current-run record; it refuses to replace a running observation
 without retained evidence that the previous lease expired. It performs no write.
+`lease_transition.py` prepares start, heartbeat and failure-release state only
+for the configured native run. `github_atomic_lease.cjs` can publish and read
+back that single state file with an expected-head update. Neither component
+installs a scheduler, obtains native evidence, nor guarantees a live heartbeat.
 The coordinator must commit with an expected-head comparison and read back the
 winning lease before working, renew only while still owner, recheck before
 checkpointing, and stop immediately on a conflict or expiration. The heartbeat
@@ -81,6 +88,9 @@ does not prove that a live distributed coordinator is installed.
 native run and Git blob evidence. It requires a scheduled native completion,
 canonical receipt, matching times and intact, budget-compliant checkpoints;
 it reports only candidate gate transitions corroborated by before/after blobs.
+`monitor_snapshot.py` prepares a dated observation for distinct configured
+worker and observer identities. It is not itself a scheduled observer and its
+caller must independently fetch native records and immutable receipt evidence.
 Unverified source claims, no-work runs and checkpoint changes alone do not prove
 publication or unattended recovery. It fails closed on decision changes unless
 they can be separately reconciled. It is not yet an independent scheduled job.

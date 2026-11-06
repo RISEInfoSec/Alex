@@ -145,6 +145,13 @@ def load_inputs(repo, review_commit, main_commit):
             raise ValueError('Invalid preflight inventory')
         manifests[entry['id']] = manifest
 
+    # APWG hashes and batches are defined by the Site's filtered view, not by
+    # the normalized-ingest hash contract. Keep the original source as well.
+    reconciliation_manifests = dict(manifests)
+    if 'apwg' in manifests:
+        from tools.content_review.apwg_adapter import normalize
+        reconciliation_manifests['apwg'] = normalize(manifests['apwg'])
+
     public = _json(read(main_commit, 'data/papers.json'))
     if not isinstance(public, list) or not public or not all(isinstance(x, dict) for x in public):
         raise ValueError('Invalid public corpus')
@@ -175,7 +182,7 @@ def load_inputs(repo, review_commit, main_commit):
             or record.get('upstream_id') != str(old_queue[index].get('candidate_id'))
             or not isinstance(record.get('content_sha256'), str) or not SHA256.fullmatch(record['content_sha256'])):
             raise ValueError('Retained upstream identity mismatch')
-    return {'registry': collections, 'manifests': manifests, 'public': public,
+    return {'registry': collections, 'manifests': manifests, 'reconciliation_manifests': reconciliation_manifests, 'public': public,
             'exclusion_keys': excluded, 'original_queue': old_queue, 'current_queue': current_queue,
             'lifecycle': lifecycle, 'worker_state': worker_state, 'defects': defects,
             'lifecycle_policy': lifecycle_policy, 'preflight_status': preflight_status,

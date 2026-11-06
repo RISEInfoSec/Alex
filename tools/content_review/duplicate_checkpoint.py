@@ -108,7 +108,9 @@ def prepare(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
                'source_main_commit': inputs['main_commit'], 'provider_requests': 0,
                'paid_requests': 0, 'openalex_requests': 0, 'publication_approved': False}
     # This fingerprint stays in coordinator memory, not in the public receipt.
-    normalized = {k: v.get('records', []) for k, v in inputs['manifests'].items() if k != 'apwg'}
+    sources = inputs.get('reconciliation_manifests')
+    if sources is None:sources = {k: v for k, v in inputs['manifests'].items() if k != 'apwg'}
+    normalized = {k: v.get('records', []) for k, v in sources.items()}
     d1 = reconcile(snapshot, confirmed_snapshot, normalized)
     objects = {manifest_path: stage['manifest'], ledger_path: updated_ledger, stage_path: status,
                state_path: updated_state, receipt_path: receipt}

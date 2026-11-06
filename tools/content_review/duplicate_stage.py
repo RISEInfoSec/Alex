@@ -34,9 +34,11 @@ def evaluate(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
     # These distinct routes require their own hash/decision adapters.
     if collection in ('apwg', 'corpus-audit', 'virusbulletin'):
         raise ValueError('Collection requires its separate source adapter')
-    # The APWG source has a distinct, filtered normalization contract. Keep it
-    # in duplicate comparisons, but do not pass raw APWG rows to the planner.
-    normalized = {k: v for k, v in inputs['manifests'].items() if k != 'apwg'}
+    # The Site's filtered APWG view is used only for decision reconciliation;
+    # the original source remains present in duplicate comparisons.
+    normalized = inputs.get('reconciliation_manifests')
+    if normalized is None:normalized = {k: v for k, v in inputs['manifests'].items() if k != 'apwg'}
+    if not isinstance(normalized,dict):raise ValueError('Invalid reconciliation manifests')
     selection = plan(snapshot, confirmed_snapshot, normalized, ledger, inputs['registry'],
                      state, owner, run_id, source_attempts=source_attempts,
                      source_progress=source_progress, at=now)
