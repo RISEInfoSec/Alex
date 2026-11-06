@@ -32,14 +32,14 @@ concurrency:
 # 2026-07-13. They live gzipped on the `pipeline-state` branch; jobs move
 # them with `scripts/state.sh pull|push`.
 #
-# Every job has a timeout-minutes well under the 6h ceiling so a stalled
-# upstream costs an hour, not the whole run (chain hung 6h on 2026-06-22,
-# 06-29 and 07-20). The `report` job always runs last: it keeps the schedule
+# Discovery has a four-hour controller deadline and a five-hour job ceiling,
+# with each pass still capped at45 minutes. Other stages retain their original
+# shorter ceilings. The `report` job always runs last: it keeps the schedule
 # from being auto-disabled and opens/closes a failure issue.
 jobs:
   discover:
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -62,13 +62,18 @@ jobs:
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          status=0
-          python -m alex.cli discover || status=$?
-          scripts/state.sh push "Checkpoint weekly discovery (exit $status)"
-          if [ -f data/discovery_run_receipt.json ]; then
-            python -c 'import json; r=json.load(open("data/discovery_run_receipt.json")); print("Discovery coverage: " + r["status"] + "; actual requests: " + str(r["actual_request_count"]))' >> "$GITHUB_STEP_SUMMARY"
-          fi
-          exit "$status"
+          python -m alex.pipelines.discovery_recovery
+      - name: Preserve discovery recovery evidence
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: discovery-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            data/discovery_recovery_receipt.json
+            data/discovery_recovery_ledger.json
+            data/discovery_run_receipt.json
+            data/discovery_recovery_startup_error.json
+          if-no-files-found: warn
 
   chain:
     needs: discover

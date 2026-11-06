@@ -103,6 +103,8 @@ def test_discovery_checkpoint_receipt_and_cooldown_round_trip(remote, tmp_path):
         "discovery_checkpoint.json": '{"status":"partial","tasks":{"Crossref:q":[]}}',
         "discovery_run_receipt.json": '{"status":"partial","actual_request_count":1}',
         "discovery_openalex_state.json": '{"retry_not_before":9999999999}',
+        "discovery_recovery_receipt.json": '{"run_id":"1:1","status":"blocked","passes":[]}',
+        "discovery_recovery_ledger.json": '{"schema_version":1,"runs":[{"run_id":"1:1"}]}',
         "discovery_candidates.csv": "title\nExisting candidate\n",
     }
     for name, content in files.items():

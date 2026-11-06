@@ -44,8 +44,9 @@ not an accepted paper or a reason to relax quality requirements.
 
 Before an OpenAlex pacing wait, both the wait and its bounded request must fit
 inside the remaining runtime. Other requests use the remaining timeout budget.
-The GitHub job ceiling remains 60 minutes, leaving time for startup and durable
-state publication. Requests timeouts are connect/read timeouts, not an absolute
+Each pass retains its45-minute limit. The repository-owned controller has a
+four-hour total deadline, and its GitHub job has a five-hour ceiling for startup,
+state publication and diagnostic artifact upload. Requests timeouts are connect/read timeouts, not an absolute
 guarantee against a continually trickling response. Git/network state pushes
 are bounded at 120 seconds each; exceptional runner termination remains possible.
 
@@ -95,7 +96,9 @@ for the rest of that client pass. Persist the cooldown using the longer of
 Retry-After, the configured cooldown and any exhausted-quota reset header.
 All OpenAlex endpoint types honor it. Do not spend the rest of a pass iterating
 hundreds of requests that cannot be sent. Deferred tasks are retried on a later
-authorized invocation after the hold permits; no retry automation is added.
+authorized bounded pass after the hold permits. The GitHub controller described
+below may perform one such cooldown resumption; the HTTP client never retries
+the failed request automatically.
 
 `data/discovery_run_receipt.json` records:
 
@@ -141,3 +144,54 @@ verified saved window from pipeline-state in bounded current-main passes. Keep
 completeness/quality/editorial gates. No new schedule, paid plan, credential
 rotation or automatic provider-error retry is enabled. Observe each terminal
 receipt before launching another pass; never overlap active pipeline writers.
+
+
+## Repository-owned continuation — owner approved 6 November
+
+The owner approved moving bounded recovery out of the failing ChatGPT task
+handoff. Both existing discovery workflows now invoke
+`python -m alex.pipelines.discovery_recovery` inside their shared `pipeline`
+concurrency group. No recurring schedule, API key or provider endpoint is added.
+The weekly schedule and downstream dependency graph are unchanged.
+
+`config/weekly_recovery_policy.json` limits one invocation to six passes,
+four hours total including waits, at most one cooldown resumption, and at most
+one hour waiting for provider cooldown. Every pass retains at most250 OpenAlex
+requests,300 total attempts,45 minutes,20-second request timeout and serial
+pacing of at least one second. The controller only shortens a pass to fit the
+remaining overall time. The five-hour GitHub ceiling leaves room for startup,
+state pushes, child termination and diagnostic artifacts.
+
+A pass ending only at a request/runtime budget may resume after durable progress
+is verified and pushed. A transient provider failure may resume once after the
+longest persisted/configured cooldown, if that wait fits the remaining limits.
+401/403, exhausted quota, invalid or missing evidence, state-write conflicts,
+unknown exceptions, interrupted children and budget exhaustion without progress
+stop the controller. Longer holds remain held for a later authorized invocation;
+no attempt is made to override them. A timed-out child process group is stopped
+before returning, so it cannot overlap a later pass.
+
+Every invocation is keyed by GitHub run ID and attempt. Every child pass has a
+unique identity in both its discovery receipt and checkpoint. The controller
+checks the identity, window, saved response/task counts, exit status and request
+limits. A stale receipt cannot stand in for a failed new pass. A nonzero exit
+never releases downstream stages, even if the receipt says complete. Replaying
+an already-recorded invocation is refused pending reconciliation.
+
+`discovery_recovery_receipt.json` retains each pass's complete request receipt;
+`discovery_recovery_ledger.json` retains invocation/pass summaries and hashes
+across later runs. Both travel atomically with the existing pipeline-state files.
+Each pass is recorded before work and after verified completion. The existing
+Git compare-and-swap state push rejects competing writers; a failed push stops
+new requests and is never blindly retried. Native artifacts preserve receipts
+and startup diagnostics even when discovery fails. The existing report job
+exposes terminal failures. A stopped or partial controller remains nonzero;
+publication still requires complete discovery and every downstream stage.
+
+Tests exercise an actual three-DOI discovery across a two-request cap: the
+second pass makes only the one unresolved request and retains all three recovered
+abstracts. Controlled tests cover interrupted work, cooldown waiting, access and
+quota denials, corrupt/stale receipts, state conflicts, no progress, finite limits
+and subprocess termination. These tests establish mechanism behavior; live
+unattended evidence is reported separately. Comprehensive project QA remains a
+separate phase after recovery is established.
