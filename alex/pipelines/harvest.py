@@ -77,7 +77,7 @@ def _harvest_one(
             best.update(crossref_publication_fields(cr))
 
     if not best.get("abstract"):
-        oa = openalex.search(client, title, mailto, per_page=1)
+        oa = openalex.search(client, title, mailto, per_page=1, literal_title=True)
         if oa and _same_openalex_work(best, oa[0]):
             work = oa[0]
             best["abstract"] = openalex.abstract(work) or best["abstract"]

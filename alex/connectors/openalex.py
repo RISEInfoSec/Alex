@@ -16,6 +16,7 @@ def search(
     from_date: str | None = None,
     until_date: str | None = None,
     max_pages: int = 1,
+    literal_title: bool = False,
 ) -> list[dict[str, Any]]:
     """Search OpenAlex works.
 
@@ -27,6 +28,13 @@ def search(
     date, and `max_pages > 1` to paginate across result pages. Used by
     discover to sweep the rolling 7-day window.
     """
+    # Titles are text, not wildcard expressions. OpenAlex rejected the literal
+    # G*Power and trailing-footnote-* titles in run42171644273 with HTTP400.
+    # Keep configured discovery expressions unchanged.
+    if literal_title:
+        query = ' '.join(query.replace('*', ' ').split())
+        if not query:
+            return []
     filters = []
     if from_date:
         filters.append(f"from_publication_date:{from_date}")
