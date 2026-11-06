@@ -50,3 +50,13 @@ def test_optional_rescore_token_stages_only_real_changes(tmp_path, workflow, sta
                                       cwd=tmp_path, text=True).strip()
     expected = '' if state == 'absent' else ('A' if state == 'new' else 'D') + '\tdata/.rescore_window.json'
     assert changes == expected
+
+
+def test_apwg_audit_tee_preserves_stage_failure(tmp_path):
+    workflow=(Path(__file__).parents[1]/'.github/workflows/pipeline.yml').read_text()
+    step=workflow.split('      - name: Read-only APWG audit\n',1)[1].split('\n      - name:',1)[0]
+    script=dedent(step.split('        run: |\n',1)[1])
+    result=subprocess.run(['bash','-e','-c','python() { echo partial-audit; return 23; }\n'+script],
+                          cwd=tmp_path,capture_output=True,text=True)
+    assert result.returncode==23
+    assert (tmp_path/'.cache/apwg-audit.json').read_text()=='partial-audit\n'

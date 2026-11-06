@@ -571,3 +571,24 @@ def test_verified_venue_requires_identity_and_preserves_available_or_existing_me
                          ('duplicate_review_status', 'exact_doi_or_title_match')]:
         changed = {**row, field: value}
         assert apwg_import._apply_verified_venue(changed, c) == changed
+
+
+def test_actual_openalex_deferred_flag_stops_audit_and_reports_partial():
+    class DeferredClient:
+        held=False
+        def _host_blocked(self,url):return False
+        def openalex_deferred(self):return self.held
+    client=DeferredClient()
+    papers=[{'title':'Network Security Phishing','apwg_year':2024,'doi':'','authors':''},
+            {'title':'Malware Fraud Detection','apwg_year':2023,'doi':'','authors':''}]
+    def fail(*args,**kwargs):client.held=True;return []
+    with patch.object(apwg_import.openalex,'search',side_effect=fail) as search:
+        report=apwg_import.enrich_openalex(client,papers,200)
+    assert search.call_count==1
+    assert report['lookups_attempted']==1
+    assert report['source_access_status']=='provider_deferred'
+    with patch.object(apwg_import.openalex,'search') as search:
+        report=apwg_import.enrich_openalex(client,papers,200)
+    search.assert_not_called()
+    assert report['lookups_attempted']==0
+    assert report['source_access_status']=='provider_deferred'

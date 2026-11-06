@@ -273,12 +273,33 @@ jobs:
           python-version: "3.11"
           cache: 'pip'
       - run: pip install -r requirements.txt
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Pull pipeline state
+        id: pipeline_state
+        run: scripts/state.sh pull
       - name: Read-only APWG audit
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
-          python -m alex.cli apwg --dry-run
+          set -o pipefail
+          mkdir -p .cache
+          python -m alex.cli apwg --dry-run | tee .cache/apwg-audit.json
+      - name: Preserve APWG provider cooldown
+        if: ${{ always() && steps.pipeline_state.outcome == 'success' }}
+        run: scripts/state.sh push "Preserve APWG provider cooldown"
+      - name: Retain APWG audit and provider state
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: apwg-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .cache/apwg-audit.json
+            data/discovery_openalex_state.json
+          if-no-files-found: warn
 
   publish:
     needs: apwg
