@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-06T06:21:33.034306+00:00",
+  "observed_at": "2026-11-06T06:44:09.003316+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -468,6 +468,26 @@
       "repair_pr": 127,
       "verification": "655 local tests passed; pending native CI and at most3 corrected queries under shared pipeline concurrency.",
       "next_action": "Require HTTP200 and matching work identities before merge; never repeat original failed wildcard queries.",
+      "owner_role": "existing_content_review_worker"
+    },
+    {
+      "id": "classification-synthetic-fallback",
+      "status": "implemented_local_tested_final_native_ci_pending",
+      "observed_at": "2026-11-06T06:44:09.003316+00:00",
+      "cause": "Local no-key reproduction returned synthetic Other with zero actual provider calls; network/HTTP/malformed-response branches also used synthetic fallback.",
+      "repair_pr": 128,
+      "verification": "661 local tests including exact response reuse, concurrent duplicate coalescing, quota-after-success, ambiguous send hold, invalid schema, corrupt receipts, interrupted reservations and state-write failure; no live paid diagnostics.",
+      "next_action": "Merge after exact-head CI and observe actual classification ledger and downstream publication; scheduled proof remains separate.",
+      "owner_role": "existing_content_review_worker"
+    },
+    {
+      "id": "classification-paid-outcome-loss",
+      "status": "implemented_local_tested_final_native_ci_pending",
+      "observed_at": "2026-11-06T06:44:09.003316+00:00",
+      "cause": "Successful paid responses were kept only in memory until full classification succeeded; a later failure discarded reusable outcomes.",
+      "repair_pr": 128,
+      "verification": "661 local tests including exact response reuse, concurrent duplicate coalescing, quota-after-success, ambiguous send hold, invalid schema, corrupt receipts, interrupted reservations and state-write failure; no live paid diagnostics.",
+      "next_action": "Merge after exact-head CI and observe actual classification ledger and downstream publication; scheduled proof remains separate.",
       "owner_role": "existing_content_review_worker"
     }
   ]

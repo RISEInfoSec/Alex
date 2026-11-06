@@ -1720,7 +1720,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T06:21:33.034306+00:00",
+  "updated_at": "2026-11-06T06:44:09.003316+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1744,7 +1744,7 @@
     "canonical_receipt": "config/content_review_weekly_recovery/42150889598.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "Finish native harvest/rescore/classify/publication/deploy; verify public exports; verify corrected literal-title lookups before merging PR127; restore hourly tasks after releasing maintenance lease.",
+  "next_action": "Merge PR128 after final native checks before classification; finish pipeline and verify exports; verify queued PR127 diagnostic and merge only on matching works; release lease then restore original hourly schedules.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -1759,7 +1759,7 @@
     "owner": "maintenance-actions-recovery-2026-11-06",
     "run_id": "maintenance-actions-recovery-2026-11-06",
     "acquired_at": "2026-11-06T04:32:28.818852+00:00",
-    "expires_at": "2026-11-06T07:32:20.913613+00:00",
+    "expires_at": "2026-11-06T08:44:09.003316+00:00",
     "purpose": "Owner approved GitHub Actions bounded recovery orchestration and live verification before comprehensive QA"
   },
   "unattended_continuation": {
@@ -3213,6 +3213,12 @@
       "previous_expiry": "2026-11-06T06:32:28.818852+00:00",
       "expires_at": "2026-11-06T07:32:20.913613+00:00",
       "purpose": "Retain owner maintenance lease through native recovery, downstream repair and verification; hourly checks remain paused."
+    },
+    {
+      "renewed_at": "2026-11-06T06:44:09.003316+00:00",
+      "previous_expires_at": "2026-11-06T07:32:20.913613+00:00",
+      "expires_at": "2026-11-06T08:44:09.003316+00:00",
+      "owner": "maintenance-actions-recovery-2026-11-06"
     }
   ],
   "completed_window_replay_repair": {
@@ -3299,11 +3305,23 @@
   },
   "literal_title_query_repair": {
     "pr": 127,
-    "status": "local_tests_passed_native_ci_pending",
+    "status": "ci_passed_diagnostic_queued",
     "tests_passed": 655,
     "head_sha": "4ce59f946e518ea327a9ae8fb940e169e4edef44",
     "live_verification_pending": true,
     "diagnostic_max_requests": 3,
-    "diagnostic_after_active_pipeline": true
+    "diagnostic_after_active_pipeline": true,
+    "diagnostic_run": 42174313902
+  },
+  "paid_classification_recovery_repair": {
+    "pr": 128,
+    "status": "661_local_tests_passed_final_native_ci_pending",
+    "no_live_paid_diagnostic_requests": true,
+    "defects": [
+      "synthetic_Other_on_unavailable_or_invalid_response",
+      "completed_paid_outcomes_lost_on_later_failure",
+      "failed_send_attempts_missing_from_usage_count"
+    ],
+    "expected_live_adoption": "Classification checks out current main after harvest/rescore; ledger sync occurs in code even though this workflow lacks the new artifact step."
   }
 }
