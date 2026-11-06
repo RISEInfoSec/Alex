@@ -25,6 +25,8 @@ def test_lease_transitions_preserve_history_and_refuse_other_writers():
     assert closed['lease'] is None and closed['lease_history'][0] == {'run_id': 'historic'}
     assert closed['lease_history'][-1]['run_id'] == 'run-a'
     assert closed['lease_history'][-1]['status'] == 'released'
+    with pytest.raises(ValueError, match='cannot be reused'):
+        acquire(closed, 'worker-a', 'run-a', at=NOW + timedelta(minutes=3))
 
 
 def test_expired_lease_is_recorded_and_stale_owner_cannot_renew_or_release():
@@ -33,12 +35,21 @@ def test_expired_lease_is_recorded_and_stale_owner_cannot_renew_or_release():
     for action in (renew, release):
         with pytest.raises(ValueError, match='unexpired'):
             action(first, 'a', 'run-a', at=later)
+    with pytest.raises(ValueError, match='cannot be reused'):
+        acquire(first, 'a', 'run-a', at=later)
     second = acquire(first, 'b', 'run-b', at=later)
     assert second['lease']['run_id'] == 'run-b'
     assert second['lease_history'][-1]['run_id'] == 'run-a'
     assert second['lease_history'][-1]['status'] == 'expired'
     with pytest.raises(ValueError, match='unexpired'):
         release(second, 'a', 'run-a', at=later)
+
+
+def test_lease_cannot_be_renewed_or_released_before_it_was_acquired():
+    state = acquire({'lease': None}, 'a', 'run-a', at=NOW)
+    for action in (renew, release):
+        with pytest.raises(ValueError, match='cannot precede'):
+            action(state, 'a', 'run-a', at=NOW - timedelta(seconds=1))
 
 
 def test_two_claims_from_same_git_head_cannot_both_publish(tmp_path):

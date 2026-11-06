@@ -47,12 +47,17 @@ def _existing(state):
 def acquire(state, owner, run_id, seconds=MAX_LEASE_SECONDS, at=None):
     _identity(owner, run_id); _duration(seconds); now = _now(at)
     current, expiry = _existing(state)
+    history = state.get('lease_history', [])
+    if not isinstance(history, list) or any(not isinstance(entry, dict) for entry in history):
+        raise ValueError('Invalid lease history')
+    if any(entry.get('run_id') == run_id for entry in history):
+        raise ValueError('An earlier run identity cannot be reused for acquisition')
     if current and expiry > now:
         raise ValueError('Another active lease must finish before acquisition')
+    if current and current['run_id'] == run_id:
+        raise ValueError('An expired run identity cannot be reused for acquisition')
     result = deepcopy(state)
     history = result.setdefault('lease_history', [])
-    if not isinstance(history, list):
-        raise ValueError('Invalid lease history')
     if current:
         history.append({**deepcopy(current), 'status': 'expired', 'expiry_observed_at': now.isoformat()})
     result['lease'] = {'owner': owner, 'run_id': run_id, 'acquired_at': now.isoformat(),
@@ -65,8 +70,12 @@ def renew(state, owner, run_id, seconds=MAX_LEASE_SECONDS, at=None):
     current, expiry = _existing(state)
     if not current or current['owner'] != owner or current['run_id'] != run_id or expiry <= now:
         raise ValueError('A matching unexpired lease is required for renewal')
+    acquired = instant(current.get('acquired_at'))
+    renewed = instant(current.get('renewed_at')) if current.get('renewed_at') else acquired
+    if not acquired or not renewed or now < acquired or now < renewed:
+        raise ValueError('Lease renewal cannot precede acquisition or renewal')
     result = deepcopy(state)
-    result['lease']['expires_at'] = (now + timedelta(seconds=seconds)).isoformat()
+    result['lease']['expires_at'] = max(expiry, now + timedelta(seconds=seconds)).isoformat()
     result['lease']['renewed_at'] = now.isoformat()
     return result
 
@@ -76,6 +85,10 @@ def release(state, owner, run_id, at=None):
     current, expiry = _existing(state)
     if not current or current['owner'] != owner or current['run_id'] != run_id or expiry <= now:
         raise ValueError('A matching unexpired lease is required for release')
+    acquired = instant(current.get('acquired_at'))
+    renewed = instant(current.get('renewed_at')) if current.get('renewed_at') else acquired
+    if not acquired or not renewed or now < acquired or now < renewed:
+        raise ValueError('Lease release cannot precede acquisition or renewal')
     result = deepcopy(state)
     history = result.setdefault('lease_history', [])
     if not isinstance(history, list):
