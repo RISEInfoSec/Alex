@@ -1720,7 +1720,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T06:02:06.823019+00:00",
+  "updated_at": "2026-11-06T06:21:33.034306+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1744,7 +1744,7 @@
     "canonical_receipt": "config/content_review_weekly_recovery/42150889598.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "Verify zero-request completed-window replay and downstream stages in native run42171644273; restore original hourly tasks after maintenance completion.",
+  "next_action": "Finish native harvest/rescore/classify/publication/deploy; verify public exports; verify corrected literal-title lookups before merging PR127; restore hourly tasks after releasing maintenance lease.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -3217,7 +3217,7 @@
   ],
   "completed_window_replay_repair": {
     "pr": 126,
-    "status": "merged_native_replay_running",
+    "status": "native_verified_zero_request_complete",
     "tests_passed": 648,
     "mode": "one_pass_zero_request_replay",
     "prior_run": 42164493659,
@@ -3229,6 +3229,81 @@
       "receipt_sha256": "b67d037961e8737224bd0d2241c61f24a163d15f7792fcd039698175ba04ad8a",
       "prior_controller_hash_verified": true,
       "requests_sent": 0
+    },
+    "native_proof": {
+      "state_sha": "717d8505b3489836bc65c393ede0b64fce75a592",
+      "run_id": 42171644273,
+      "discovery_job": 127740640245,
+      "discovery_conclusion": "success",
+      "recovery_status": "complete",
+      "pass": {
+        "pass_id": "42171644273:1:1",
+        "number": 1,
+        "status": "complete",
+        "started_at": "2026-11-06T06:00:33.559314+00:00",
+        "returncode": 0,
+        "receipt": {
+          "schema_version": 1,
+          "status": "complete",
+          "window": {
+            "from_date": "2026-10-29",
+            "until_date": "2026-11-05"
+          },
+          "orchestration_pass_id": "42171644273:1:1",
+          "responses_cached": 1386,
+          "completed_at": "2026-11-06T06:02:22.465791+00:00",
+          "elapsed_seconds": 88.769,
+          "completed_tasks": 51,
+          "replayed_tasks": 49,
+          "deferred_tasks": {},
+          "new_candidates": 0,
+          "actual_request_count": 0,
+          "openalex_request_count": 0,
+          "checkpoint_cache_hits": 671,
+          "requests": [],
+          "budgets": {
+            "runtime_seconds": 2700,
+            "max_requests": 0,
+            "openalex_max_requests": 0
+          }
+        },
+        "receipt_sha256": "ab7739572cc8eec85c034af4294bca7162428b7b129d354c067e2635a0dbea26",
+        "completed_at": "2026-11-06T06:02:22.465791+00:00",
+        "actual_requests": 0,
+        "openalex_requests": 0,
+        "responses_cached": 1386,
+        "made_progress": true
+      }
     }
+  },
+  "downstream_live_progress": {
+    "chain": {
+      "job_id": 127741876259,
+      "conclusion": "success",
+      "new_candidates": 16,
+      "observed_http400_title_queries": 3
+    },
+    "score": {
+      "job_id": 127744388158,
+      "conclusion": "success",
+      "accepted": 2897,
+      "review": 5395,
+      "rejected": 72963,
+      "for_harvest": 8292
+    },
+    "harvest": {
+      "job_id": 127744876779,
+      "status": "in_progress"
+    },
+    "observed_at": "2026-11-06T06:21:33.034306+00:00"
+  },
+  "literal_title_query_repair": {
+    "pr": 127,
+    "status": "local_tests_passed_native_ci_pending",
+    "tests_passed": 655,
+    "head_sha": "4ce59f946e518ea327a9ae8fb940e169e4edef44",
+    "live_verification_pending": true,
+    "diagnostic_max_requests": 3,
+    "diagnostic_after_active_pipeline": true
   }
 }

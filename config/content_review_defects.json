@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-06T06:02:06.823019+00:00",
+  "observed_at": "2026-11-06T06:21:33.034306+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -403,18 +403,19 @@
     },
     {
       "id": "discovery-runtime-receipt-rounding",
-      "status": "merged_ci_tested_reconciliation_running",
+      "status": "live_reconciled_without_provider_replay",
       "cause": "Deadline subtraction could produce a runtime limit infinitesimally above the configured bound, failing strict receipt verification.",
       "repair_pr": 124,
       "merge_commit": "40efaaff22074234dd368516956154e52b2af57a",
       "verification": "Deterministic actual-discovery two-pass test and634 native CI tests pass after preserving configured value.",
-      "next_action": "Use validated completed-window replay with zero HTTP budgets; preserve original failure and receipt.",
+      "next_action": "Observe remaining downstream stages; existing hourly scheduled proof remains pending.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-06T06:02:06.823019+00:00",
+      "updated_at": "2026-11-06T06:21:33.034306+00:00",
       "live_failure_run": 42164493659,
       "reconciliation_pr": 126,
       "reconciliation_run": 42171644273,
-      "reconciliation_merge": "86a28ed580192ee56d3c58485d8f7e1252c05437"
+      "reconciliation_merge": "86a28ed580192ee56d3c58485d8f7e1252c05437",
+      "live_verification": "Native discovery job127740640245 succeeded with zero requests, original window and1386 responses retained."
     },
     {
       "id": "rescore-shell-error-masking",
@@ -452,6 +453,22 @@
         42168038195,
         42168038203
       ]
+    },
+    {
+      "id": "openalex-literal-title-query",
+      "status": "implemented_local_tested_live_verification_pending",
+      "observed_at": "2026-11-06T06:21:33.034306+00:00",
+      "cause": "Three native HTTP400 responses share literal title asterisks; corrected-query provider confirmation pending. Stored titles are not being changed.",
+      "evidence": {
+        "run_id": 42171644273,
+        "job_id": 127741876259,
+        "http400_count": 3,
+        "new_candidates": 16
+      },
+      "repair_pr": 127,
+      "verification": "655 local tests passed; pending native CI and at most3 corrected queries under shared pipeline concurrency.",
+      "next_action": "Require HTTP200 and matching work identities before merge; never repeat original failed wildcard queries.",
+      "owner_role": "existing_content_review_worker"
     }
   ]
 }
