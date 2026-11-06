@@ -384,7 +384,7 @@ class TestValidateColumns:
 
 
 class TestClassify:
-    def test_classify_with_no_api_key_uses_fallback(self, tmp_path):
+    def test_classify_with_no_api_key_blocks_publication(self, tmp_path):
         """Without OPENAI_API_KEY, classify uses fallback defaults."""
         harvested = pd.DataFrame([{
             "title": "OSINT Methods for Cyber Investigations",
@@ -405,16 +405,10 @@ class TestClassify:
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
              patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
             from alex.pipelines import classify
-            classify.run()
+            with pytest.raises(classify.OpenAIClassificationError, match="Missing OpenAI credential"):
+                classify.run()
 
-        result = pd.read_csv(tmp_path / "data" / "accepted_classified.csv")
-        assert len(result) == 1
-        assert result.iloc[0]["Category"] == "Other"
-        # Quality_Tier is no longer set on classified rows (publish derives it
-        # from total_quality_score). The fallback path still sets the other
-        # required fields and the code-driven Seminal_Flag.
-        # 600 citations >= 500 threshold
-        assert str(result.iloc[0]["Seminal_Flag"]).upper() == "TRUE"
+        assert not (tmp_path / "data" / "accepted_classified.csv").exists()
 
     def test_seminal_threshold_honours_config_override(self, tmp_path):
         """Until 2026-04-28 the seminal threshold was hardcoded `500` in
@@ -441,7 +435,7 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+             patch("alex.pipelines.classify.call_openai", return_value={"Category":"Other", "Investigation_Type":"Other", "OSINT_Source_Types":[]}):
             from alex.pipelines import classify
             classify.run()
 
@@ -469,7 +463,7 @@ class TestClassify:
                 "status": "completed",
                 "content": [{
                     "type": "output_text",
-                    "text": '{"Category":"Digital Forensics & Evidence","Investigation_Type":"Dark Web Analysis","OSINT_Source_Types":["Dark Web"],"Keywords":["dark web"],"Tags":["forensics"]}',
+                    "text": '{"Category":"Digital Forensics & Evidence","Investigation_Type":"Dark Web Analysis","OSINT_Source_Types":["Dark Web"]}',
                 }],
                 "role": "assistant",
             }],
@@ -502,7 +496,7 @@ class TestClassify:
             mr = _MM()
             mr.ok = True
             mr.json.return_value = {
-                "output": [{"content": [{"text": '{"Category":"Other","Investigation_Type":"Other","OSINT_Source_Types":[],"Keywords":[],"Tags":[]}'}]}],
+                "output": [{"content": [{"text": '{"Category":"Other","Investigation_Type":"Other","OSINT_Source_Types":[]}'}]}],
                 "output_text": "",
                 "usage": {},
             }
@@ -538,7 +532,7 @@ class TestClassify:
         mock_response = _MM()
         mock_response.ok = True
         mock_response.json.return_value = {
-            "output_text": '{"Category":"Cyber Threat Intelligence","Investigation_Type":"Other","OSINT_Source_Types":[],"Keywords":[],"Tags":[]}',
+            "output_text": '{"Category":"Cyber Threat Intelligence","Investigation_Type":"Other","OSINT_Source_Types":[]}',
             "output": [],
             "usage": {"input_tokens": 10, "output_tokens": 5, "total_tokens": 15},
         }
@@ -699,7 +693,7 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+             patch("alex.pipelines.classify.call_openai", return_value={"Category":"Other", "Investigation_Type":"Other", "OSINT_Source_Types":[]}):
             from alex.pipelines import classify
             classify.run()
 
@@ -727,7 +721,7 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+             patch("alex.pipelines.classify.call_openai", return_value={"Category":"Other", "Investigation_Type":"Other", "OSINT_Source_Types":[]}):
             from alex.pipelines import classify
             classify.run()
 
@@ -750,7 +744,7 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+             patch("alex.pipelines.classify.call_openai", return_value={"Category":"Other", "Investigation_Type":"Other", "OSINT_Source_Types":[]}):
             from alex.pipelines import classify
             classify.run()
 
@@ -779,7 +773,7 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+             patch("alex.pipelines.classify.call_openai", return_value={"Category":"Other", "Investigation_Type":"Other", "OSINT_Source_Types":[]}):
             from alex.pipelines import classify
             classify.run()
 
@@ -803,7 +797,7 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+             patch("alex.pipelines.classify.call_openai", return_value={"Category":"Other", "Investigation_Type":"Other", "OSINT_Source_Types":[]}):
             from alex.pipelines import classify
             classify.run()
 
@@ -833,7 +827,7 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+             patch("alex.pipelines.classify.call_openai", return_value={"Category":"Other", "Investigation_Type":"Other", "OSINT_Source_Types":[]}):
             from alex.pipelines import classify
             classify.run()
 
@@ -881,7 +875,7 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+             patch("alex.pipelines.classify.call_openai", return_value={"Category":"Other", "Investigation_Type":"Other", "OSINT_Source_Types":[]}):
             from alex.pipelines import classify
             classify.run()
 
@@ -939,7 +933,7 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+             patch("alex.pipelines.classify.call_openai", return_value={"Category":"Other", "Investigation_Type":"Other", "OSINT_Source_Types":[]}):
             from alex.pipelines import classify
             classify.run()
 
@@ -977,7 +971,7 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+             patch("alex.pipelines.classify.call_openai", return_value={"Category":"Other", "Investigation_Type":"Other", "OSINT_Source_Types":[]}):
             from alex.pipelines import classify
             classify.run()
 
@@ -1021,7 +1015,7 @@ class TestClassify:
         with patch("alex.utils.io.ROOT", tmp_path), \
              patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
              patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
-             patch.dict("os.environ", {"OPENAI_API_KEY": ""}, clear=False):
+             patch("alex.pipelines.classify.call_openai", return_value={"Category":"Other", "Investigation_Type":"Other", "OSINT_Source_Types":[]}):
             from alex.pipelines import classify
             classify.run()
 
@@ -1061,7 +1055,7 @@ class TestClassify:
         mock_response = _MM()
         mock_response.ok = True
         mock_response.json.return_value = {
-            "output": [{"content": [{"text": '{"Category":"Other","Investigation_Type":"Other","OSINT_Source_Types":[],"Keywords":[],"Tags":[]}'}]}],
+            "output": [{"content": [{"text": '{"Category":"Other","Investigation_Type":"Other","OSINT_Source_Types":[]}'}]}],
             "output_text": "",
             "usage": {"input_tokens": 10, "output_tokens": 5, "total_tokens": 15},
         }

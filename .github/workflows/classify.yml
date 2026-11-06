@@ -1,6 +1,8 @@
 name: Classify
 on:
   workflow_dispatch:
+env:
+  ALEX_CLASSIFICATION_SYNC: '1'
 permissions:
   contents: write
 # Shares the Pipeline's group: these jobs read and write the same
@@ -15,6 +17,8 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          ref: main
       - uses: actions/setup-python@v7.1.0
         with:
           python-version: "3.11"
@@ -37,3 +41,10 @@ jobs:
           fi
           git diff --cached --quiet || git commit -m "Classify accepted papers"
           git push
+      - name: Retain paid request evidence
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: classification-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/classification_request_ledger.json
+          if-no-files-found: warn

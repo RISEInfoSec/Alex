@@ -11,14 +11,16 @@ from datetime import datetime, timezone
 
 import pandas as pd
 import requests
+import jsonschema
+from alex.utils.paid_classification import Ledger, digest
 
 from alex.utils.io import load_df, load_json, save_df, root_file, validate_columns
 from alex.utils.text import clean, normalize_title, unique_keep
 
 logger = logging.getLogger(__name__)
 
-# Note: uses requests.post directly (not HttpClient) because LLM calls should NOT be cached
-# and the OpenAI API requires POST, not GET.
+# Paid responses are retained by exact model/prompt/schema/input digest. A new
+# request never substitutes for an ambiguous previous send.
 OPENAI_URL = "https://api.openai.com/v1/responses"
 
 # Fixed enum: Category buckets. Picked from labels the model itself produced
@@ -96,6 +98,13 @@ class OpenAIQuotaError(RuntimeError):
     """Raised on account-level OpenAI failures so classify aborts loudly."""
 
 
+class OpenAIClassificationError(RuntimeError):
+    """No valid classification was received; never invent Other as a fallback."""
+
+
+_ACTIVE_LEDGER = None
+
+
 # Per-run cumulative token usage. Reset by run() and reported at end so
 # any pipeline activity touching OpenAI surfaces its token spend. The lock
 # guards updates because run() now fans out OpenAI calls across worker
@@ -152,13 +161,9 @@ def _record_usage(usage: dict) -> None:
         _TOKEN_USAGE["total_tokens"]  += int(usage.get("total_tokens",  0) or 0)
 
 
-def call_openai(row: dict) -> dict:
-    api_key = os.getenv("OPENAI_API_KEY", "")
+def _request_body(row):
     model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-    if not api_key:
-        return dict(FALLBACK)
-    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-    body = {
+    return {
         "model": model,
         "input": [
             {"role": "system", "content": [{"type": "input_text", "text": PROMPT}]},
@@ -177,12 +182,34 @@ def call_openai(row: dict) -> dict:
             },
         },
     }
-    title = row.get("title", "")
+
+
+def _validate_response(data):
+    try:
+        value = json.loads(_extract_response_text(data))
+        jsonschema.validate(value, CLASSIFICATION_SCHEMA)
+        return value
+    except (ValueError, TypeError, AttributeError, jsonschema.ValidationError):
+        raise OpenAIClassificationError('Invalid or missing structured classification') from None
+
+
+def call_openai(row: dict) -> dict:
+    api_key = os.getenv('OPENAI_API_KEY', '')
+    body = _request_body(row)
+    if not api_key and not (_ACTIVE_LEDGER is not None and _ACTIVE_LEDGER.complete(body)):
+        raise OpenAIClassificationError('Missing OpenAI credential; no request sent')
+    headers = {'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'}
+    send = lambda: _send_openai(body, headers)
+    if _ACTIVE_LEDGER is not None:
+        return _ACTIVE_LEDGER.perform(body, send, _validate_response)
+    return _validate_response(send())
+
+
+def _send_openai(body, headers):
     try:
         r = requests.post(OPENAI_URL, headers=headers, json=body, timeout=60)
     except requests.exceptions.RequestException as exc:
-        logger.warning("OpenAI network error for %r: %s", title, exc)
-        return dict(FALLBACK)
+        raise OpenAIClassificationError('OpenAI network outcome is unknown; reconcile before retry') from None
 
     if not r.ok:
         # Check for fatal account-level errors before falling back. The error
@@ -196,28 +223,18 @@ def call_openai(row: dict) -> dict:
         if code in FATAL_ERROR_CODES or r.status_code in (401, 403):
             raise OpenAIQuotaError(
                 f"OpenAI {r.status_code} (code={code or 'unknown'}) — aborting run. "
-                f"Body: {r.text[:500]}"
             )
-        logger.warning("OpenAI %s for %r: %s", r.status_code, title, r.text[:300])
-        return dict(FALLBACK)
+        raise OpenAIClassificationError(f'OpenAI HTTP{r.status_code}; no classification accepted')
 
     try:
         data = r.json()
     except ValueError as exc:
-        logger.warning("OpenAI returned non-JSON for %r: %s", title, exc)
-        return dict(FALLBACK)
+        raise OpenAIClassificationError('OpenAI returned non-JSON; retain and reconcile outcome') from None
 
-    _record_usage(data.get("usage") or {})
-
-    text = _extract_response_text(data)
-    if not text:
-        logger.warning("Empty response text from OpenAI for %r", title)
-        return dict(FALLBACK)
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError as exc:
-        logger.warning("OpenAI response text not JSON for %r: %s", title, exc)
-        return dict(FALLBACK)
+    if not isinstance(data, dict):
+        raise OpenAIClassificationError('OpenAI response is not an object')
+    _record_usage(data.get('usage') or {})
+    return data
 
 
 def _extract_response_text(data: dict) -> str:
@@ -348,16 +365,15 @@ def _rows_match_run_id(df: pd.DataFrame, run_id: str, context: str) -> bool:
     return True
 
 
+def _classification_payload(row):
+    return {key: clean(row.get(key)) for key in ('title', 'abstract', 'venue', 'authors')}
+
+
 def _classify_one(row, seminal_threshold: float) -> dict:
     """Classify one paper row. Runs in a worker thread; safe to call
     concurrently because `call_openai` and `_record_usage` are reentrant
     (the latter takes _TOKEN_USAGE_LOCK)."""
-    payload = {
-        "title": clean(row.get("title")),
-        "abstract": clean(row.get("abstract")),
-        "venue": clean(row.get("venue")),
-        "authors": clean(row.get("authors")),
-    }
+    payload = _classification_payload(row)
     tags = call_openai(payload)
     out = dict(row)
     out["Category"] = tags.get("Category", "Other")
@@ -401,6 +417,7 @@ def _existing_corpus(path):
 
 
 def run() -> None:
+    global _ACTIVE_LEDGER
     _TOKEN_USAGE.update({"calls": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0})
     output_path = root_file("data", "accepted_classified.csv")
     window_path = root_file("data", ".rescore_window.json")
@@ -437,21 +454,29 @@ def run() -> None:
         # collect results in the same order — preserves output stability
         # for downstream dedup and merge.
         rows_in = [row for _, row in df.iterrows()]
-        with ThreadPoolExecutor(max_workers=CLASSIFY_WORKERS) as ex:
-            futures = [
-                ex.submit(_classify_one, row, seminal_threshold)
-                for row in rows_in
-            ]
+        ledger = Ledger(root_file(), [digest(_request_body(_classification_payload(row))) for row in rows_in],
+                        validate=_validate_response)
+        _ACTIVE_LEDGER = ledger
+        failed = True
+        try:
+            with ThreadPoolExecutor(max_workers=CLASSIFY_WORKERS) as ex:
+                futures = [ex.submit(_classify_one, row, seminal_threshold) for row in rows_in]
+                try:
+                    for fut in futures:
+                        rows.append(fut.result())
+                except Exception:
+                    ex.shutdown(wait=True, cancel_futures=True)
+                    raise
+            failed = False
+        finally:
+            _ACTIVE_LEDGER = None
             try:
-                for fut in futures:
-                    rows.append(fut.result())
-            except OpenAIQuotaError:
-                # Account-level failure: cancel queued futures, let in-flight
-                # ones finish on their own (Python doesn't let us kill a
-                # running thread mid-request), and re-raise so the workflow
-                # exits non-zero rather than silently shipping FALLBACK rows.
-                ex.shutdown(wait=False, cancel_futures=True)
-                raise
+                ledger.finish(failed=failed)
+            finally:
+                u = _TOKEN_USAGE
+                print(f"OpenAI usage: {u['calls']} calls, "
+                      f"{u['input_tokens']} input + {u['output_tokens']} output = "
+                      f"{u['total_tokens']} total tokens", flush=True)
 
     new_df = _drop_duplicate_papers(pd.DataFrame(rows))
 
@@ -479,9 +504,3 @@ def run() -> None:
     if window_path.exists():
         window_path.unlink()
     print(f"Classified {len(rows)} new papers; corpus now {len(merged)} (was {len(existing)})")
-    u = _TOKEN_USAGE
-    print(
-        f"OpenAI usage: {u['calls']} calls, "
-        f"{u['input_tokens']} input + {u['output_tokens']} output = "
-        f"{u['total_tokens']} total tokens"
-    )
