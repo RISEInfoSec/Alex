@@ -231,6 +231,18 @@ required to release downstream jobs. Scheduled discovery remains unchanged and
 continues to open the next window normally. This is operator reconciliation of
 completed work, not a general retry or permission to bypass provider holds.
 
+## Literal title queries
+
+Literal title lookups in citation chaining and harvest remove asterisks from
+the search text (never from the stored title). Three such titles returned HTTP400
+in run42171644273. Configured discovery queries remain unchanged. The existing
+manual citation-chain workflow offers `verify_literal_titles`: at most three
+corrected searches, a90-second send deadline, the existing provider governor,
+and no candidate processing. It shares pipeline concurrency and persists provider
+state even on failure. Its artifact must show HTTP200 and matching work identities
+before treating this query repair as live verified; it does not establish complete
+citation-chain coverage or scheduled recovery.
+
 ## Harvest response retention
 
 Harvest now appends each successful response to an input-bound, hash-checked

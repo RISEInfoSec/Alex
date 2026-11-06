@@ -6,6 +6,20 @@ from alex.pipelines import quality_gate, publish, rescore
 from alex.utils.io import validate_columns
 
 
+@pytest.mark.parametrize('stage', ['chain', 'harvest'])
+def test_literal_title_lookup_does_not_send_wildcard(stage):
+    from alex.pipelines import citation_chain, harvest
+    client = MagicMock()
+    client.get_json.return_value = {'results': []}
+    title = 'G*Power 3: A flexible statistical power analysis program*'
+    if stage == 'chain':
+        citation_chain._chain_one_candidate(client, title, '', 3, 5, False, '', 3, 5, set())
+    else:
+        harvest._harvest_one(client, {'title': title, 'doi': '', 'abstract': ''}, '', False, '')
+    assert client.get_json.call_count == 1
+    assert client.get_json.call_args.kwargs['params']['search'] == 'G Power 3: A flexible statistical power analysis program'
+
+
 class TestQualityGate:
     def test_routing_logic(self, tmp_path):
         """Papers are routed to accept/review/reject based on score thresholds."""

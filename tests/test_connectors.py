@@ -97,6 +97,19 @@ class TestOpenAlexAccessors:
 
 
 class TestOpenAlexSearch:
+    def test_empty_literal_title_never_broadens_to_all_works(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        assert openalex.search(client, '  *** ', literal_title=True) == []
+        client.get_json.assert_not_called()
+
+    def test_configured_query_is_not_rewritten_as_a_title(self):
+        from unittest.mock import MagicMock
+        client = MagicMock()
+        client.get_json.return_value = {'results': []}
+        openalex.search(client, 'cyber* OR OSINT')
+        assert client.get_json.call_args.kwargs['params']['search'] == 'cyber* OR OSINT'
+
     def test_default_is_single_page_no_filter(self):
         from unittest.mock import MagicMock
         client = MagicMock()

@@ -166,7 +166,7 @@ def _chain_one_candidate(
 
     # Forward chaining: OpenAlex title search -> for each hit, fetch its
     # cited-by works and propose them as new candidates.
-    oa_results = openalex.search(client, title, mailto, per_page=oa_search_limit)
+    oa_results = openalex.search(client, title, mailto, per_page=oa_search_limit, literal_title=True)
     for work in oa_results:
         cited_by_url = openalex.cited_by_api_url(work)
         if not cited_by_url:

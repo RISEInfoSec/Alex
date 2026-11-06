@@ -1,6 +1,11 @@
 name: Citation chain
 on:
   workflow_dispatch:
+    inputs:
+      verify_literal_titles:
+        description: 'Read-only verification of three previously rejected title queries; no candidate processing'
+        type: boolean
+        default: false
 env:
   ALEX_OPENALEX_STATE_PATH: data/discovery_openalex_state.json
 permissions:
@@ -18,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
         with:
-          ref: main
+          ref: ${{ inputs.verify_literal_titles && github.sha || 'main' }}
       - uses: actions/setup-python@v7.1.0
         with:
           python-version: "3.11"
@@ -28,11 +33,23 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - id: pipeline_state
         run: scripts/state.sh pull
-      - env:
+      - if: ${{ !inputs.verify_literal_titles }}
+        env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
           python -m alex.cli chain
+      - name: Verify literal title queries
+        if: ${{ inputs.verify_literal_titles }}
+        env:
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: python -m scripts.verify_openalex_titles
       - name: Preserve candidates and provider cooldown
         if: ${{ always() && steps.pipeline_state.outcome == 'success' }}
         run: scripts/state.sh push "Preserve chain state and provider cooldown"
+      - uses: actions/upload-artifact@v7.0.2
+        if: ${{ always() && inputs.verify_literal_titles }}
+        with:
+          name: openalex-title-verification-${{ github.run_id }}
+          path: .cache/openalex-title-verification.json
