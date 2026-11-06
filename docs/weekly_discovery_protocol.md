@@ -260,7 +260,9 @@ Already in-flight successful responses are still retained locally. Native
 artifacts provide a second retention path in updated workflow definitions.
 An abrupt runner loss can still lose work since the last remote checkpoint;
 this does not promise exactly-once source requests or automatic retry of a
-failed job. Failed responses and JSON nulls are not cached as successful work.
+failed job. HTTP404 is retained as a distinct not-found outcome and replays as
+no metadata, without inventing a response body. Other failures and JSON nulls
+are not cached as successful work. Auth, quota and provider holds are unchanged.
 
 Corrupt/truncated checkpoints and changed inputs while a harvest is unfinished
 fail before source requests. After a completed input, a new input can start a
