@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-06T05:01:54.209834+00:00",
+  "observed_at": "2026-11-06T05:23:11.520750+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -400,6 +400,49 @@
       "next_action": "Observe eligible downstream stages; distinguish regression proof from actual live stage execution.",
       "owner_role": "existing_content_review_worker",
       "updated_at": "2026-11-06T05:01:54.209834+00:00"
+    },
+    {
+      "id": "discovery-runtime-receipt-rounding",
+      "status": "implemented_ci_tested",
+      "cause": "Deadline subtraction could produce a runtime limit infinitesimally above the configured bound, failing strict receipt verification.",
+      "repair_pr": 124,
+      "merge_commit": "40efaaff22074234dd368516956154e52b2af57a",
+      "verification": "Deterministic actual-discovery two-pass test and634 native CI tests pass after preserving configured value.",
+      "next_action": "Observe final pipeline; current native invocation predates updated workflow steps.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-06T05:23:11.520750+00:00"
+    },
+    {
+      "id": "rescore-shell-error-masking",
+      "status": "implemented_ci_tested",
+      "cause": "Python failure was hidden by successful tail exit under implicit bash-e.",
+      "repair_pr": 124,
+      "merge_commit": "40efaaff22074234dd368516956154e52b2af57a",
+      "verification": "Exact shell fragment injected exit23 now exits23 before writes.",
+      "next_action": "Observe final pipeline; current native invocation predates updated workflow steps.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-06T05:23:11.520750+00:00"
+    },
+    {
+      "id": "rescore-empty-token-staging",
+      "status": "implemented_ci_tested",
+      "cause": "git add targeted an absent/untracked rescore token on empty weeks.",
+      "repair_pr": 124,
+      "merge_commit": "40efaaff22074234dd368516956154e52b2af57a",
+      "verification": "Absent/new/deleted cases succeed in real temporary Git repositories without staging unrelated files.",
+      "next_action": "Observe final pipeline; current native invocation predates updated workflow steps.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-06T05:23:11.520750+00:00"
+    },
+    {
+      "id": "classification-reviewed-resource-binding",
+      "status": "local_repair_tested_ci_pending",
+      "cause": "Disposable rehearsal using actual3194-row accepted corpus showed classification changed approved guide year2026 to2026.0, breaking immutable reviewed-content hash before publication.",
+      "repair_pr": 125,
+      "verification": "639 local tests; all3189 public records retained in repaired disposable rehearsal;5 technical holds retained; zero provider/paid calls; actual source files byte-identical.",
+      "next_action": "Complete native CI and merge before live classification; verify final public corpus after actual pipeline.",
+      "owner_role": "existing_content_review_worker",
+      "updated_at": "2026-11-06T05:23:11.520750+00:00"
     }
   ]
 }

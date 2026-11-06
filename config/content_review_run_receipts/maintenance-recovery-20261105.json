@@ -1719,7 +1719,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T05:01:54.209834+00:00",
+  "updated_at": "2026-11-06T05:23:11.520750+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1847,5 +1847,58 @@
     },
     "verification": "Exact captured HTTP200 classification passes repaired actual workflow script locally; no repeated paid call. Concurrency and schema-rejection regressions pass.",
     "live_workflow_limit": "Existing run42164493659 uses PR122 workflow definition, so new YAML state-save steps apply to subsequent invocations. Fresh downstream checkouts will use current-main code."
+  },
+  "workflow_boundary_repairs": {
+    "pr": 124,
+    "merge_commit": "40efaaff22074234dd368516956154e52b2af57a",
+    "local_and_ci_tests_passed": 634,
+    "initial_ci_failure_run": 42166646284,
+    "repaired_ci_run": 42167092710,
+    "repairs": [
+      "Preserve exact configured discovery runtime instead of subtracting floating-point deadlines.",
+      "Propagate Python rescore failure through tail with pipefail before any state/corpus write.",
+      "Stage rescore window only when present or tracked; preserve additions/deletions and permit genuinely absent empty-week token."
+    ],
+    "reproductions": [
+      "Clock4.001 with60-second bound previously produced60.00000000000001 and blocked valid continuation.",
+      "Injected rescore exit23 previously returned0 and reached write spies; repaired fragment exits23 without writes.",
+      "Absent rescore token previously caused git exit128; real disposable Git tests cover absent/new/deleted cases."
+    ]
+  },
+  "reviewed_resource_merge_repair": {
+    "pr": 125,
+    "status": "local_tested_ci_pending",
+    "local_tests_passed": 639,
+    "cause": [
+      {
+        "candidate_id": "m3aawg-url-75aa6fb2c156539547d27ab8",
+        "changed_bound_fields": {
+          "year": {
+            "before": "2026",
+            "after": "2026.0"
+          }
+        }
+      }
+    ],
+    "rehearsal": {
+      "disposable_only": true,
+      "source_commit": "40efaaff22074234dd368516956154e52b2af57a",
+      "provider_requests": 0,
+      "paid_requests": 0,
+      "published_to_live": false,
+      "baseline_public_records": 3189,
+      "public_records_preserved_exactly": 3189,
+      "temporary_synthetic_additions": 1,
+      "technical_holds_retained": 5,
+      "accepted_rows_in_disposable_copy": 3195,
+      "source_hashes": {
+        "accepted_classified.csv": "1bbbcbc7e9407105f2fa4b60538e043826e9ee306413fb88584e14e9e19b54b4",
+        "papers.json": "2f5963e5bb18ec5659ed80b8fe2dd5126733ba49c6ae254c0eed4577ed7d2c31",
+        "osint_cyber_papers.csv": "ae4682dc8575627ddde047dd53614fa2308718b9f84155726e7a5f2729c9327c",
+        "collection_status.json": "02825b187a22c5b3cdbb2a1b252d5048785c809cd8fb8fddaf4be1b1dcee51ee"
+      }
+    },
+    "repair": "Preserve and validate original CSV values for reviewed resources before automatic paper classification; hold conflicting automatic replacement/rescore before paid calls or corpus writes.",
+    "live_applied": false
   }
 }
