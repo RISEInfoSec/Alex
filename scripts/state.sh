@@ -22,6 +22,9 @@ FILES=(
   discovery_openalex_state.json
   discovery_recovery_receipt.json
   discovery_recovery_ledger.json
+  classification_request_ledger.json
+  harvest_response_cache.jsonl
+  harvest_response_cache_previous.jsonl
   quality_metrics.csv
   rejected_candidates.csv
   accepted_candidates.csv

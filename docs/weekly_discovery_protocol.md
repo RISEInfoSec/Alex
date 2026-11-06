@@ -231,6 +231,8 @@ required to release downstream jobs. Scheduled discovery remains unchanged and
 continues to open the next window normally. This is operator reconciliation of
 completed work, not a general retry or permission to bypass provider holds.
 
+## Literal title queries
+
 Literal title lookups in citation chaining and harvest remove asterisks from
 the search text (never from the stored title). Three such titles returned HTTP400
 in run42171644273. Configured discovery queries remain unchanged. The existing
@@ -240,3 +242,58 @@ and no candidate processing. It shares pipeline concurrency and persists provide
 state even on failure. Its artifact must show HTTP200 and matching work identities
 before treating this query repair as live verified; it does not establish complete
 citation-chain coverage or scheduled recovery.
+
+## Harvest response retention
+
+Harvest now appends each successful response to an input-bound, hash-checked
+JSONL cache instead of rewriting the entire legacy JSON cache for every call.
+The exact accepted-candidates file hash binds the cache to one input. A resumed
+harvest reuses those responses and sends only uncached requests; identical
+concurrent requests share one cache lookup/send. Provider pacing, holds, retry
+rules and the existing 90-minute job ceiling remain unchanged.
+
+Initial, periodic (120 seconds at response boundaries) and final state pushes
+transport the cache using the existing compare-and-swap pipeline-state branch.
+Local appends are flushed and fsynced. A failed append or state push stops new
+requests and fails the stage; it cannot be swallowed as a single dropped row.
+Already in-flight successful responses are still retained locally. Native
+artifacts provide a second retention path in updated workflow definitions.
+An abrupt runner loss can still lose work since the last remote checkpoint;
+this does not promise exactly-once source requests or automatic retry of a
+failed job. Failed responses and JSON nulls are not cached as successful work.
+
+Corrupt/truncated checkpoints and changed inputs while a harvest is unfinished
+fail before source requests. After a completed input, a new input can start a
+fresh cache while retaining the preceding completed cache for bounded rollback.
+Request keys are stored only as hashes so authentication headers cannot be
+written into checkpoint records. Stored responses remain public-source data.
+
+## Paid classification failure and recovery
+
+Missing OpenAI credentials, network errors, non-success responses, empty output
+and invalid schema results fail classification. They never synthesize an `Other`
+label. A valid returned `Other` classification remains a legitimate taxonomy
+value; all ordinary quality and editorial rules still apply.
+
+`data/classification_request_ledger.json` retains actual response JSON, its hash,
+and the digest of the exact model, prompt, schema and input request. Only matching,
+hash-verified, schema-valid results are reused, including when credentials are
+temporarily unavailable. Reuse sends no request and adds no token usage. Duplicate
+concurrent requests share one result. Older corpus labels without this evidence
+are not silently treated as verified paid receipts.
+
+Before any paid call, the whole work set is reserved in pipeline-state. Each
+outcome is saved locally, with remote checkpoints at most120 seconds apart and a
+forced final write. Any known error stops new sends, cancels queued work, waits
+for in-flight calls to finish, preserves their actual outcomes and blocks corpus
+publication. A failed state write also stops new sends without blindly retrying
+that write. Standalone classification uses the same state path and shared pipeline
+concurrency. Current workflows retain the ledger as an always-uploaded artifact.
+
+An abruptly killed runner can lose responses since its last remote checkpoint.
+Those reserved or started requests are ambiguous, not known unsent: the next
+invocation holds them for reconciliation instead of charging again. Only a final
+checkpoint after all threads terminate can mark untouched requests `not_sent`.
+Received failures and invalid paid responses also remain explicit holds. Never
+delete those entries or change their hashes to force a retry. Live publication
+and unattended scheduled operation remain separately verified outcomes.

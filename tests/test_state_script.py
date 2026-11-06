@@ -105,6 +105,8 @@ def test_discovery_checkpoint_receipt_and_cooldown_round_trip(remote, tmp_path):
         "discovery_openalex_state.json": '{"retry_not_before":9999999999}',
         "discovery_recovery_receipt.json": '{"run_id":"1:1","status":"blocked","passes":[]}',
         "discovery_recovery_ledger.json": '{"schema_version":1,"runs":[{"run_id":"1:1"}]}',
+        "harvest_response_cache.jsonl": '{"schema_version":1,"input_sha256":"current"}\n',
+        "harvest_response_cache_previous.jsonl": '{"schema_version":1,"input_sha256":"prior"}\n',
         "discovery_candidates.csv": "title\nExisting candidate\n",
     }
     for name, content in files.items():
