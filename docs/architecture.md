@@ -33,10 +33,10 @@ Working state — `discovery_candidates`, `accepted_candidates`, `rejected_candi
 
 - **Across upstream sources**: parallel is fine (each has its own rate-limit budget).
 - **Within a single free academic source**: pagination stays **serial** to honor the polite-API contract (`time.sleep(0.5)` in `HttpClient.get_json`).
-- **Paid commercial APIs (OpenAI)**: rate limits are the contract — concurrency within published RPM/TPM is fine if needed; the current classify loop is serial because steady-state load is small.
+- **Paid commercial APIs (OpenAI)**: classification uses bounded concurrent workers and a durable request ledger. Existing provider and spending limits apply; reserve work before sending and reconcile ambiguous sends before any retry.
 
 ## Failure semantics
 
-- **Network blips / 429 rate-limit / 5xx** during classify → log warning, fall back to default tags for that paper, continue.
+- **Network failures, non-success responses, empty or invalid classification results** → fail classification, retain actual request outcomes, and block downstream publication. Never synthesize default tags. Verified matching successful responses may be reused without another paid call; ambiguous sends require reconciliation.
 - **Account-level OpenAI errors** (`insufficient_quota`, `billing_hard_limit_reached`, `account_deactivated`, `invalid_api_key`, 401, 403) → **raise `OpenAIQuotaError` and abort the run**. This is intentional — silent fallback corrupted 1,499 papers as `Category="Other"` on 2026-04-25 before the loud-failure patch.
 - **Empty input to a stage** → write empty placeholder where downstream `git add` requires the file, but do not overwrite an existing populated output.

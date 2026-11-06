@@ -67,6 +67,7 @@ def test_provider_evidence_survives_cooldown_and_later_success(setup, monkeypatc
  monkeypatch.setenv('OPENALEX_API_KEY', 'private-api-key')
  headers = {'Retry-After': '7200', 'X-RateLimit-Remaining': '0',
             'X-RateLimit-Reset': '8000', 'X-RateLimit-Limit': '10000',
+            'X-RateLimit-Credits-Used': '10',
             'Date': 'Thu, 01 Jan 1970 02:46:40 GMT',
             'Set-Cookie': 'private-cookie', 'Authorization': 'private-api-key'}
  client = http.HttpClient()

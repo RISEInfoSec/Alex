@@ -41,7 +41,8 @@ def _openalex_response_evidence(response):
     """Retain quota evidence without request URLs, keys, bodies or cookies."""
     retained, invalid = {}, []
     for name in ('Date', 'Retry-After', 'X-RateLimit-Limit',
-                 'X-RateLimit-Remaining', 'X-RateLimit-Reset'):
+                 'X-RateLimit-Remaining', 'X-RateLimit-Reset',
+                 'X-RateLimit-Credits-Used'):
         value = response.headers.get(name)
         if value is None:
             continue

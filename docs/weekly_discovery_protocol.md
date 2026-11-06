@@ -310,7 +310,7 @@ and unattended scheduled operation remain separately verified outcomes.
 ## Retained OpenAlex quota evidence
 
 The shared HTTP governor saves the latest response status, UTC observation time,
-and validated `Date`, `Retry-After`, and `X-RateLimit-Limit/Remaining/Reset` header
+and validated `Date`, `Retry-After`, and `X-RateLimit-Limit/Remaining/Reset/Credits-Used` header
 values in the existing provider-state file. It separately retains the latest
 failure response so a later successful request cannot erase that evidence.
 Missing headers remain missing; malformed values are recorded by header name
