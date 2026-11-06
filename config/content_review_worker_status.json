@@ -8,13 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "Prior scheduled continuation failed without a diagnostic explanation; unattended reliability remains unverified.",
-  "lease": {
-    "owner": "maintenance-restoration-receipt-2026-11-06",
-    "run_id": "maintenance-restoration-receipt-2026-11-06",
-    "acquired_at": "2026-11-06T09:45:53.615744+00:00",
-    "expires_at": "2026-11-06T09:55:53.615744+00:00",
-    "purpose": "Record verified native restoration of existing hourly schedules, then release; no candidate or provider processing"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "weekly": 3,
@@ -809,12 +803,12 @@
   "last_completed_at": "2026-11-05T14:47:27.564870+00:00",
   "maintenance_activity": {
     "owner": "maintenance-actions-recovery-2026-11-06",
-    "stage": "repairs_verified_pending_schedule_restoration",
+    "stage": "maintenance_complete_provider_hold_active",
     "started_at": "2026-11-05T18:08:44Z",
-    "updated_at": "2026-11-06T09:42:25.154955+00:00",
+    "updated_at": "2026-11-06T09:47:33.791431+00:00",
     "candidate_processing": false,
     "restore_automations_on_completion": true,
-    "restoration_pending": true,
+    "restoration_pending": false,
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/122",
     "run_id": 42171644273,
     "retry_not_before": "2026-11-06T01:46:00.000Z",

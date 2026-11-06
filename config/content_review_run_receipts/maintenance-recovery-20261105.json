@@ -1487,10 +1487,59 @@
     "public_browser_ci_run": 42086625885
   },
   "schedules": {
-    "paused": true,
-    "restore_required": true,
+    "paused": false,
+    "restore_required": false,
     "original_ids_and_schedules_preserved": true,
-    "reason": "Owner approved bounded recovery continuation; retain shared lease and hourly pause during work."
+    "native_enabled_readback_verified": true,
+    "restoration_proof": {
+      "observed_at": "2026-11-06 09:45:09 UTC",
+      "maintenance_release_commit": "00d4f429fdc4ddceca5475f32caa344a0c5cbff7",
+      "release_readback_before_enable": true,
+      "prompts_schedules_timezones_environment_settings_unchanged": true,
+      "automations": [
+        {
+          "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+          "title": "Content Review",
+          "is_enabled": true,
+          "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+          "default_timezone": "America/Toronto",
+          "updated_at": "2026-11-06T09:45:07.251367+00:00",
+          "environment_selection": "inherited",
+          "environments": null,
+          "next_run_time": null,
+          "run_details": {
+            "last_run": {
+              "id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
+              "recorded_status": "completed",
+              "scheduled_for": "2026-11-05T16:45:00Z",
+              "started_at": "2026-11-05T16:43:29.150583Z",
+              "completed_at": "2026-11-05T16:53:29.391174Z"
+            }
+          }
+        },
+        {
+          "id": "Automation_88611f57231c81918d7ee01f7cd59c42",
+          "title": "ALEX independent monitor",
+          "is_enabled": true,
+          "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+          "default_timezone": "America/Toronto",
+          "updated_at": "2026-11-06T09:45:08.072108+00:00",
+          "environment_selection": "inherited",
+          "environments": null,
+          "next_run_time": null,
+          "run_details": {
+            "last_run": {
+              "id": "d9e1e0fb-c7a4-832f-9304-5d6cbef6ab8c",
+              "recorded_status": "completed",
+              "scheduled_for": "2026-11-05T16:32:00Z",
+              "started_at": "2026-11-05T16:32:31.445022Z",
+              "completed_at": "2026-11-05T16:37:55.998166Z"
+            }
+          }
+        }
+      ]
+    },
+    "scheduled_execution_verified_after_restoration": false
   },
   "scheduled_recovery_verified": false,
   "self_repair_instructions_pr": "https://github.com/RISEInfoSec/Alex/pull/117",
@@ -1500,7 +1549,6 @@
     "source": "Native retained completed-window receipt",
     "pending": [
       "Authoritative OpenAlex quota/reset or original response-header evidence; requests remain disabled until reconciled",
-      "Restore original hourly worker and monitor following verified lease release",
       "Later qualifying scheduled operation with intact receipts, compliant heartbeats/budgets and useful downstream work",
       "Full project QA remains a separate next phase",
       "Historical exact jobless GitHub run remains a platform record; operational supersession exception retained"
@@ -1722,7 +1770,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T09:42:25.154955+00:00",
+  "updated_at": "2026-11-06T09:47:33.791431+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1746,7 +1794,7 @@
     "canonical_receipt": "config/content_review_weekly_recovery/42150889598.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "Verify maintenance lease release, restore only the original two hourly automations and preserve their prompts/schedules; record native readback. OpenAlex stays blocked; other eligible work may proceed.",
+  "next_action": "Existing restored hourly worker resumes eligible independent work and bounded self-repair; existing monitor verifies actual scheduled receipts/progress. OpenAlex requests remain disabled pending authoritative provider reset evidence. Do not claim scheduled recovery or begin the separate full project QA yet.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -4668,6 +4716,16 @@
       "purpose": "Owner approved GitHub Actions bounded recovery orchestration and live verification before comprehensive QA"
     },
     "prepared_at": "2026-11-06T09:42:25.154955+00:00",
-    "readback_verified": false
+    "readback_verified": true,
+    "commit_sha": "00d4f429fdc4ddceca5475f32caa344a0c5cbff7",
+    "verified_before_restoration_at": "2026-11-06T09:44:54Z"
+  },
+  "restoration_receipt_lease": {
+    "owner": "maintenance-restoration-receipt-2026-11-06",
+    "acquisition_commit": "f4d290e3975a57d6cf1f7abac7a84b204d10c254",
+    "purpose": "Record actual enabled readback and close intentional pause intervals after processing lease release",
+    "released_in_this_checkpoint": true,
+    "candidate_processing": false,
+    "provider_requests": 0
   }
 }

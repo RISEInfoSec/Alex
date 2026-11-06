@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-06T09:42:25.154955+00:00",
+  "observed_at": "2026-11-06T09:47:33.791431+00:00",
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-05T18:38:16.568874+00:00",
-    "is_enabled": false,
+    "observed_at": "2026-11-06T09:47:33.791431+00:00",
+    "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
-    "expected_next_run_at": null,
+    "expected_next_run_at": "2026-11-06T10:45:00+00:00",
     "last_run": {
       "id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
       "recorded_status": "completed",
@@ -158,22 +158,23 @@
   ],
   "owner_maintenance": {
     "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
-    "observed_at": "2026-11-06T09:42:25.154955+00:00",
-    "status": "repairs_verified_schedule_restoration_pending",
-    "schedules_restored": false,
+    "observed_at": "2026-11-06T09:47:33.791431+00:00",
+    "status": "maintenance_complete_provider_reconciliation_pending",
+    "schedules_restored": true,
     "scheduled_recovery_proven": false,
-    "restore_required": true,
+    "restore_required": false,
     "receipt": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
     "pacing_approved": true,
-    "updated_at": "2026-11-06T09:42:25.154955+00:00",
+    "updated_at": "2026-11-06T09:47:33.791431+00:00",
     "retry_not_before": "2026-11-06T01:46:00.000Z",
     "last_weekly_run": 42171644273,
     "scheduled_recovery_verified": false,
     "remaining_doi_lookups": 0,
     "lease_expires_at": null,
     "next_unattended_check": null,
-    "lease_renewal_required_at_resume": false
+    "lease_renewal_required_at_resume": false,
+    "completed_at": "2026-11-06T09:47:33.791431+00:00"
   },
   "owner_pause_intervals": [
     {
@@ -188,11 +189,11 @@
     {
       "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
       "paused_at": "2026-11-05T18:08:44Z",
-      "resumed_at": null,
+      "resumed_at": "2026-11-06T09:45:07.251367+00:00",
       "owner_authorized": true,
       "pause_readback_verified": true,
-      "resume_readback_verified": false,
-      "evidence": "Owner-requested current recovery; native readback 2026-11-05"
+      "resume_readback_verified": true,
+      "evidence": "config/content_review_run_receipts/maintenance-recovery-20261105.json: verified native restoration 2026-11-06T09:45:09Z"
     },
     {
       "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
@@ -206,11 +207,11 @@
     {
       "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
       "paused_at": "2026-11-05T18:08:44Z",
-      "resumed_at": null,
+      "resumed_at": "2026-11-06T09:45:08.072108+00:00",
       "owner_authorized": true,
       "pause_readback_verified": true,
-      "resume_readback_verified": false,
-      "evidence": "Owner-requested current recovery; native readback 2026-11-05"
+      "resume_readback_verified": true,
+      "evidence": "config/content_review_run_receipts/maintenance-recovery-20261105.json: verified native restoration 2026-11-06T09:45:09Z"
     }
   ],
   "owner_maintenance_history": [
@@ -225,6 +226,26 @@
         "content_sha": "723e8d35db03c616065a2fb6609a2620169406c5",
         "released_at": "2026-11-05T17:58:09Z"
       }
+    }
+  ],
+  "restored_schedules": [
+    {
+      "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+      "is_enabled": true,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+      "native_updated_at": "2026-11-06T09:45:07.251367+00:00",
+      "native_next_run_time": null,
+      "expected_next_from_preserved_schedule": "2026-11-06T10:45:00+00:00",
+      "settings_unchanged": true
+    },
+    {
+      "id": "Automation_88611f57231c81918d7ee01f7cd59c42",
+      "is_enabled": true,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+      "native_updated_at": "2026-11-06T09:45:08.072108+00:00",
+      "native_next_run_time": null,
+      "expected_next_from_preserved_schedule": "2026-11-06T10:32:00+00:00",
+      "settings_unchanged": true
     }
   ]
 }
