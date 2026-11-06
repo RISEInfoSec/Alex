@@ -1,0 +1,40 @@
+# Unattended review replacement: validated components
+
+These components are not a deployed coordinator, scheduler or monitor. The old
+automations remain disabled. Do not enable a runner until the owner-private D1
+read path, single-writer lease, checkpoints, publication safeguards, bounded
+budgets and independent observation have all been integrated and verified.
+
+`tools/content_review/d1_reconcile.py` validates two complete D1 reads, joins
+every immutable submission, decision and job, selects the latest completed
+revision per owner/collection/batch and matches each active decision to the
+same candidate, review number and reviewed-content hash. Missing, changed or
+conflicting candidates are held; unknown or malformed data fails closed. The
+function does not apply decisions or authorize publication. Its CLI reads one
+JSON line on stdin and prints only aggregate counts. Keep raw snapshots and
+private identities out of the public repository, logs and workflow inputs.
+
+Two matching paginated reads are not a database transaction. The coordinator
+must take complete fresh reads and recheck their fingerprint and immutable Git
+source heads while holding the existing shared writer lease immediately before
+each checkpoint or release. A changed, incomplete or unreadable state stops
+the affected work. Preserve all prior revisions and decisions; drafts are never
+final decisions. All existing publication and hash checks continue to apply.
+
+`work_plan.select` rotates across eligible collections before revisiting a
+collection, even if another collection has stronger evidence. Within each
+collection it prefers supported, more complete evidence. The future coordinator
+must persist `source_attempts[collection].at` only after an actual candidate
+attempt under the lease, separately from `source_progress`, which changes only
+on useful progress. Passing no attempt history cannot prevent repeated blocked
+collections from monopolizing subsequent passes; this change is not yet a
+deployed fairness guarantee.
+
+The repository verifier accepts only a native `completed` run with its canonical
+receipt path. `no_update`, dispatch, an empty pass and tests do not establish
+useful processing. The private Site's separate console fix must also be deployed
+and integrated with the replacement's actual scheduler and monitor evidence.
+
+OpenAlex remains fully paused, including DOI lookups and diagnostics. The
+November 7 review time does not authorize resumption, and the unresolved HTTP
+429 reconciliation hold remains in force.
