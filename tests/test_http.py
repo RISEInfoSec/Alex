@@ -448,3 +448,15 @@ class TestOpenAlexApiKey:
                 assert client.get_raw("https://api.openalex.org/works", params={"search": "x"}) is None
             assert "sekret" not in caplog.text
             assert "api_key=***" in caplog.text
+
+
+def test_unreconciled_provider_policy_blocks_before_send(tmp_path,monkeypatch):
+    from unittest.mock import Mock
+    from alex.utils import http
+    monkeypatch.setattr(http,'CACHE',tmp_path/'cache.json')
+    monkeypatch.setattr(http,'_openalex_policy',lambda:{'requests_enabled':False})
+    client=http.HttpClient();send=Mock(side_effect=AssertionError('No request during unresolved provider hold'))
+    monkeypatch.setattr(client,'_send_request',send)
+    assert client.get_json('https://api.openalex.org/works') is None
+    assert client.openalex_deferred()
+    send.assert_not_called()

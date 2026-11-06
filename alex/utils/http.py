@@ -146,6 +146,10 @@ class HttpClient:
         if self._openalex_hold:
             return None
         policy = _openalex_policy()
+        if policy.get('requests_enabled') is False:
+            self._openalex_hold = True
+            logger.warning('OpenAlex requests paused pending provider-state reconciliation; no request sent')
+            return None
         state_path = Path(os.getenv('ALEX_OPENALEX_STATE_PATH', str(CACHE.with_name(CACHE.name + '.openalex-policy'))))
         state_path.parent.mkdir(parents=True, exist_ok=True)
         with _OPENALEX_LOCK, state_path.with_suffix(state_path.suffix + '.lock').open('a') as lock:
