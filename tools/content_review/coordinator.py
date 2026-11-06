@@ -35,6 +35,9 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
         raise ValueError('A fresh matching start and heartbeat are required')
     if not isinstance(source_attempts, dict) or not isinstance(source_progress, dict):
         raise ValueError('Separate collection attempt and progress histories are required')
+    if (source_attempts != state.get('source_attempts', {}) or
+            source_progress != state.get('source_last_progress', {})):
+        raise ValueError('Collection scheduling history differs from current worker state')
     if not isinstance(registry, list) or not all(isinstance(c, dict) and isinstance(c.get('id'), str) and c['id'] for c in registry):
         raise ValueError('A complete collection registry is required')
     names = [c['id'] for c in registry]

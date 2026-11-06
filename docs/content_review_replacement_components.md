@@ -28,6 +28,19 @@ from immutable Git blobs. It verifies blob identity and size, the original
 queue's SHA-256 and every retained upstream row identity. The caller must still
 obtain and recheck the actual remote heads; local objects do not prove freshness.
 
+`duplicate_stage.py` can calculate one local duplicate/exclusion result from
+those verified inputs after a D1-aware plan, with no provider calls or writes.
+It skips the candidate's own row only within its own collection; the same
+identifier in another collection or the public corpus is still checked. APWG,
+corpus-audit and Virus Bulletin remain on their separate adapter paths. The
+result is not a persisted checkpoint and cannot authorize publication.
+`duplicate_checkpoint.py` prepares a candidate manifest, lifecycle record,
+stage summary, worker state and new mechanical receipt together. It preserves
+prior duplicate evidence, rejects conflicting stage evidence and never writes
+the bundle. Its caller must check the receipt path is new, verify the exact
+base blobs, re-read D1 and both heads under the live lease, and publish all
+files in one expected-head commit. This is not yet a deployed writer.
+
 Two matching paginated reads are not a database transaction. The coordinator
 must take complete fresh reads and recheck their fingerprint and immutable Git
 source heads while holding the existing shared writer lease immediately before
@@ -55,15 +68,17 @@ they can be separately reconciled. It is not yet an independent scheduled job.
 collection, even if another collection has stronger evidence. Within each
 collection it prefers supported, more complete evidence. The future coordinator
 must persist `source_attempts[collection].at` only after an actual candidate
-attempt under the lease, separately from `source_progress`, which changes only
-on useful progress. Passing no attempt history cannot prevent repeated blocked
+attempt under the lease, separately from `source_last_progress`, which changes
+only when source work actually progresses. A duplicate gate is recorded as an
+attempt, not as source-retrieval progress. Passing no attempt history cannot prevent repeated blocked
 collections from monopolizing subsequent passes; this change is not yet a
 deployed fairness guarantee.
 
 The repository verifier accepts only a native `completed` run with its canonical
 receipt path. `no_update`, dispatch, an empty pass and tests do not establish
-useful processing. The private Site's separate console fix must also be deployed
-and integrated with the replacement's actual scheduler and monitor evidence.
+useful processing. The private Site's `no_update` and paused-OpenAlex display
+fixes have been deployed; integration with the replacement's actual scheduler
+and monitor evidence remains outstanding.
 
 OpenAlex remains fully paused, including DOI lookups and diagnostics. The
 November 7 review time does not authorize resumption, and the unresolved HTTP

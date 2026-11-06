@@ -8,3 +8,9 @@ def test_same_arxiv_discovery_alias_is_not_second_work():
     # An already prepared/published second record still needs explicit reconciliation.
     assert audit(a,{'public':[b]},[],set())['status']=='held'
     b['authors']='Someone else';assert not upstream_alias(a,b)
+
+def test_same_candidate_id_in_another_collection_is_not_skipped():
+    row=dict(candidate_id='same',title='Matching work',authors='A',year=2026)
+    assert audit(row,{'weekly':[dict(row)]},[],set(),source_collection='weekly')['status']=='passed'
+    assert audit(row,{'public':[dict(row)]},[],set(),source_collection='weekly')['status']=='held'
+    assert audit(row,{'weekly':[dict(row)]},[],set())['status']=='held'

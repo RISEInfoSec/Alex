@@ -41,6 +41,13 @@ def fixture(repo):
                  'raw_records': 2, 'records': [{'row': n, 'upstream_id': str(n+1),
                                                   'content_sha256': 'b' * 64} for n in range(2)]}
     put(repo, 'config/review_console.json', registry)
+    put(repo, 'config/content_review_candidate_lifecycle.json', {'records': {}})
+    put(repo, 'config/content_review_lifecycle_policy.json', {})
+    put(repo, 'config/content_review_preflight_status.json', {'records': []})
+    put(repo, 'config/content_review_worker_status.json', {'lease': None})
+    put(repo, 'config/content_review_defects.json', {'defects': []})
+    put(repo, 'config/content_review_workflow.json', {})
+    put(repo, 'config/content_review_material_policy.json', {})
     put(repo, 'config/weekly_source_inventory.json', inventory)
     put(repo, 'config/weekly_review_manifest.json', {'records': [], 'preflight_records': []})
     git(repo, 'add', '.')

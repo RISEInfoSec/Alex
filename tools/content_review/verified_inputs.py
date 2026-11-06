@@ -108,6 +108,20 @@ def load_inputs(repo, review_commit, main_commit):
     collections = registry.get('collections') if isinstance(registry, dict) else None
     if not isinstance(collections, list) or not collections:
         raise ValueError('Complete collection registry required')
+    lifecycle = _json(read(review_commit, 'config/content_review_candidate_lifecycle.json'))
+    lifecycle_policy = _json(read(review_commit, 'config/content_review_lifecycle_policy.json'))
+    preflight_status = _json(read(review_commit, 'config/content_review_preflight_status.json'))
+    worker_state = _json(read(review_commit, 'config/content_review_worker_status.json'))
+    defects = _json(read(review_commit, 'config/content_review_defects.json'))
+    workflow = _json(read(review_commit, 'config/content_review_workflow.json'))
+    material_policy = _json(read(review_commit, 'config/content_review_material_policy.json'))
+    if (not isinstance(lifecycle, dict) or not isinstance(lifecycle.get('records'), dict)
+        or not isinstance(lifecycle_policy, dict) or not isinstance(preflight_status, dict)
+        or not isinstance(preflight_status.get('records'), list)
+        or not isinstance(worker_state, dict) or not isinstance(defects, dict)
+        or not isinstance(defects.get('defects'), list) or not isinstance(workflow, dict)
+        or not isinstance(material_policy, dict)):
+        raise ValueError('Incomplete coordinator policy or state')
     manifests = {}
     for entry in collections:
         if (not isinstance(entry, dict) or not isinstance(entry.get('id'), str)
@@ -163,6 +177,9 @@ def load_inputs(repo, review_commit, main_commit):
             raise ValueError('Retained upstream identity mismatch')
     return {'registry': collections, 'manifests': manifests, 'public': public,
             'exclusion_keys': excluded, 'original_queue': old_queue, 'current_queue': current_queue,
+            'lifecycle': lifecycle, 'worker_state': worker_state, 'defects': defects,
+            'lifecycle_policy': lifecycle_policy, 'preflight_status': preflight_status,
+            'workflow': workflow, 'material_policy': material_policy,
             'metadata': list(metadata.values()) + [old_proof],
             'review_commit': review_commit, 'main_commit': main_commit,
             'counts': {'collections': len(collections), 'public': len(public),
