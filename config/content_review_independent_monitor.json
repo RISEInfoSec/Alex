@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T16:37:20.312Z",
+  "observed_at": "2026-11-06T10:38:56.874Z",
   "observer": {
     "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
-    "run_id": "d9e1e0fb-c7a4-832f-9304-5d6cbef6ab8c",
-    "scheduled_for": "2026-11-05T16:32:00Z",
-    "started_at": "2026-11-05T16:32:31.445022Z",
+    "run_id": "3a8f4b95-0070-8327-89d4-4222bfd98d2e",
+    "scheduled_for": "2026-11-06T10:32:00Z",
+    "started_at": "2026-11-06T10:34:35.865736Z",
     "trigger": "schedule",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T183200\nRRULE:FREQ=HOURLY\nEND:VEVENT",
@@ -14,37 +14,76 @@
   },
   "scheduler": {
     "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-05T16:33:59.883Z",
+    "observed_at": "2026-11-06T10:38:56.874Z",
     "is_enabled": true,
     "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "last_run": {
-      "id": "d1dc75a7-415c-832e-b4bb-d84e802cc9a8",
+      "id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
       "recorded_status": "completed",
-      "scheduled_for": "2026-11-05T15:45:00Z",
-      "started_at": "2026-11-05T15:43:55.664792Z",
-      "completed_at": "2026-11-05T15:49:42.987296Z"
+      "scheduled_for": "2026-11-05T16:45:00Z",
+      "started_at": "2026-11-05T16:43:29.150583Z",
+      "completed_at": "2026-11-05T16:53:29.391174Z"
     },
-    "last_run_deferral": null
+    "expected_next_run_at": "2026-11-06T10:45:00+00:00",
+    "last_run_deferral": null,
+    "owner_pause_intervals": [
+      {
+        "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+        "paused_at": "2026-11-05T16:55:52Z",
+        "resumed_at": "2026-11-05T18:01:33Z",
+        "owner_authorized": true,
+        "pause_readback_verified": true,
+        "resume_readback_verified": true,
+        "evidence": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+      },
+      {
+        "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+        "paused_at": "2026-11-05T18:08:44Z",
+        "resumed_at": "2026-11-06T09:45:07.251367+00:00",
+        "owner_authorized": true,
+        "pause_readback_verified": true,
+        "resume_readback_verified": true,
+        "evidence": "config/content_review_run_receipts/maintenance-recovery-20261105.json: verified native restoration 2026-11-06T09:45:09Z"
+      },
+      {
+        "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
+        "paused_at": "2026-11-05T16:55:52Z",
+        "resumed_at": "2026-11-05T18:01:33Z",
+        "owner_authorized": true,
+        "pause_readback_verified": true,
+        "resume_readback_verified": true,
+        "evidence": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json"
+      },
+      {
+        "automation_id": "Automation_88611f57231c81918d7ee01f7cd59c42",
+        "paused_at": "2026-11-05T18:08:44Z",
+        "resumed_at": "2026-11-06T09:45:08.072108+00:00",
+        "owner_authorized": true,
+        "pause_readback_verified": true,
+        "resume_readback_verified": true,
+        "evidence": "config/content_review_run_receipts/maintenance-recovery-20261105.json: verified native restoration 2026-11-06T09:45:09Z"
+      }
+    ]
   },
   "receipt_check": {
-    "run_id": "d1dc75a7-415c-832e-b4bb-d84e802cc9a8",
-    "path": "config/content_review_run_receipts/d1dc75a7-415c-832e-b4bb-d84e802cc9a8.json",
+    "run_id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
+    "path": "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json",
     "verified": true,
-    "reason": "Native run ID, schedule time, terminal status, nonempty actions, canonical path, and receipt completion within the native run window all match immutable evidence."
+    "reason": "Native run ID and scheduled_for match; canonical trigger/status/path/actions are valid, and receipt completed_at is within native start/completion bounds."
   },
-  "checkpoint_observed_at": "2026-11-05T15:48:10.168598+00:00",
+  "checkpoint_observed_at": "2026-11-05T16:52:43.568478+00:00",
   "processing": {
-    "observed_at": "2026-11-05T16:37:20.312Z",
-    "evidence_commit_sha": "c4898a3fa225a97da2a912df4825180e7e5318c1",
-    "evidence_tree_sha": "c0f19bbf44dc9e597f3e7ec5827887da2263985d",
+    "observed_at": "2026-11-06T10:38:56.874Z",
+    "evidence_commit_sha": "25c934e461bf35ba2089e8f8548e20f77db07ee9",
+    "evidence_tree_sha": "6fca9bb351921114f700ff1881aef544369e5b3c",
     "examined_run_ids": [
-      "48c3643c-4abc-832e-9705-a1fc0ebce17e",
       "632603a3-e58c-832e-aba4-f32087ee94c4",
-      "d1dc75a7-415c-832e-b4bb-d84e802cc9a8"
+      "d1dc75a7-415c-832e-b4bb-d84e802cc9a8",
+      "715ebf8c-ec08-832e-b282-d98919e80fd8"
     ],
     "totals": {
-      "local_candidates": 3,
+      "local_candidates": 0,
       "actual_source_requests": 0,
       "new_source_gate_passes": 0,
       "new_downstream_gate_passes": 0,
@@ -54,75 +93,19 @@
     },
     "runs": [
       {
-        "run_id": "48c3643c-4abc-832e-9705-a1fc0ebce17e",
-        "checkpoint_integrity": "reported_passed",
-        "local_candidates": 3,
-        "candidate_ids": [
-          "weekly-5119ae5a98d80e9ef5d2544b",
-          "weekly-56fec07c6bb5ce26240c614e",
-          "weekly-580cbf65ba78205f3b91860e"
-        ],
-        "actual_source_requests": 0,
-        "new_source_gate_passes": 0,
-        "new_downstream_gate_passes": 0,
-        "per_gate_passes": {
-          "duplicates": 0,
-          "format": 0,
-          "access": 0,
-          "metadata": 0,
-          "quality": 0,
-          "schema": 0
-        },
-        "all_six_completions": 0,
-        "newly_manual_ready": 0,
-        "automatic_survivors": 0,
-        "publications": 0,
-        "resolvable_gates": 3,
-        "legitimate_holds_only": false,
-        "blockers": [
-          {
-            "candidate_ids": [
-              "weekly-5119ae5a98d80e9ef5d2544b",
-              "weekly-56fec07c6bb5ce26240c614e",
-              "weekly-580cbf65ba78205f3b91860e"
-            ],
-            "stage": "classification_and_serialization",
-            "reason": "Verified paper types normalized with current first-five gates. Local requests/jsonschema dependencies are unavailable to prepare the current-contract paid handoff; no paid request or provider call made.",
-            "corrective_action": "Use the supported paid handoff in a runtime with its declared dependencies; first inspect existing exact-hash requests/results. Reuse retained source material and normalized inputs."
-          },
-          {
-            "stage": "publication_full_corpus_serialization",
-            "reason": "Existing controlled release41945055902 failed full-corpus assessment/content binding; current main release script differs from retained local copy. No unchanged failed release replayed.",
-            "corrective_action": "Read and validate the current main controlled serializer and preserve exact assessment/content binding before retry."
-          }
-        ],
-        "completed_at": "2026-11-05T13:51:06.729964+00:00",
-        "receipt_path": "config/content_review_run_receipts/48c3643c-4abc-832e-9705-a1fc0ebce17e.json",
-        "heartbeat_interval_compliant": false,
-        "promotion_eligible": false
-      },
-      {
         "run_id": "632603a3-e58c-832e-aba4-f32087ee94c4",
-        "checkpoint_integrity": "reported_passed",
         "local_candidates": 0,
         "candidate_ids": [],
         "actual_source_requests": 0,
         "new_source_gate_passes": 0,
         "new_downstream_gate_passes": 0,
-        "per_gate_passes": {
-          "duplicates": 0,
-          "format": 0,
-          "access": 0,
-          "metadata": 0,
-          "quality": 0,
-          "schema": 0
-        },
         "all_six_completions": 0,
         "newly_manual_ready": 0,
-        "automatic_survivors": 0,
         "publications": 0,
-        "resolvable_gates": 3,
-        "legitimate_holds_only": false,
+        "resolvable_gate_count": 3,
+        "all_candidates_legitimately_held": false,
+        "checkpoint_integrity": "reported_passed",
+        "heartbeat_interval_compliant": false,
         "blockers": [
           {
             "stage": "classification_and_serialization",
@@ -139,54 +122,61 @@
             "reason": "Prior controlled release failed assessment/content binding. No unchanged failed release replayed.",
             "corrective_action": "Verify current main serializer and exact assessment/content binding before retry."
           }
-        ],
-        "completed_at": "2026-11-05T14:45:49.680669+00:00",
-        "receipt_path": "config/content_review_run_receipts/632603a3-e58c-832e-aba4-f32087ee94c4.json",
-        "heartbeat_interval_compliant": false,
-        "promotion_eligible": false
+        ]
       },
       {
         "run_id": "d1dc75a7-415c-832e-b4bb-d84e802cc9a8",
-        "checkpoint_integrity": "reported_passed",
         "local_candidates": 0,
         "candidate_ids": [],
         "actual_source_requests": 0,
         "new_source_gate_passes": 0,
         "new_downstream_gate_passes": 0,
-        "per_gate_passes": {
-          "duplicates": 0,
-          "format": 0,
-          "access": 0,
-          "metadata": 0,
-          "quality": 0,
-          "schema": 0
-        },
         "all_six_completions": 0,
         "newly_manual_ready": 0,
-        "automatic_survivors": 0,
         "publications": 0,
-        "resolvable_gates": null,
-        "legitimate_holds_only": false,
+        "resolvable_gate_count": null,
+        "all_candidates_legitimately_held": false,
+        "checkpoint_integrity": "reported_passed",
+        "heartbeat_interval_compliant": false,
         "blockers": [
           {
             "stage": "pass_redirected",
             "reason": "Owner redirected the active turn to drafting an end-to-end repair and proactive maintenance instruction before candidate processing began.",
             "corrective_action": "Continue the next existing bounded pass with refreshed decisions, verified retained inputs and actual heartbeat checkpoints; no source or paid request was started."
           }
-        ],
-        "completed_at": "2026-11-05T15:47:36.213Z",
-        "receipt_path": "config/content_review_run_receipts/d1dc75a7-415c-832e-b4bb-d84e802cc9a8.json",
+        ]
+      },
+      {
+        "run_id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
+        "local_candidates": 0,
+        "candidate_ids": [],
+        "actual_source_requests": 0,
+        "new_source_gate_passes": 0,
+        "new_downstream_gate_passes": 0,
+        "all_six_completions": 0,
+        "newly_manual_ready": 0,
+        "publications": 0,
+        "resolvable_gate_count": 5,
+        "all_candidates_legitimately_held": false,
+        "checkpoint_integrity": "reported_passed",
         "heartbeat_interval_compliant": false,
-        "promotion_eligible": false
+        "blockers": [
+          {
+            "stage": "candidate_execution_window",
+            "reason": "Complete immutable input refresh and validated shared stage-summary repair consumed this pass's preparation window. Two retained weekly peers passed local handoff preparation; no current-main corpus refresh, paid dispatch, source dispatch or new gate completion was performed.",
+            "corrective_action": "Reuse verified retained inputs; refresh current main corpus/exclusions and exact-hash paid results, then execute selected missing gates with heartbeat groups below 40 seconds. Do not repeat completed source checks."
+          }
+        ]
       }
     ],
     "status": "stalled_resolvable_gates",
     "evaluator_status": "stalled_resolvable_gates",
-    "evaluator": "tools/content_review/work_plan.py processing_progress with checkpoint_repairs",
-    "evaluator_blob_sha": "ee2cbffe3ac87f0c5db168b683a5ed8117539b52",
-    "flags": [
-      "stalled_resolvable_gates"
-    ],
+    "flags": {
+      "stalled_local_only": false,
+      "stalled_resolvable_gates": true,
+      "repeated_attempts_without_progress": false,
+      "checkpoint_integrity_failed": false
+    },
     "unresolved_stall_run_ids": [
       "d28a0eec-2cdc-8332-a20c-540f3f9f238a",
       "6518a129-da24-8332-a08d-d53e3ce3eb56",
@@ -196,7 +186,8 @@
       "da45ceb2-82f4-832e-9025-098f80cb3919",
       "48c3643c-4abc-832e-9705-a1fc0ebce17e",
       "632603a3-e58c-832e-aba4-f32087ee94c4",
-      "d1dc75a7-415c-832e-b4bb-d84e802cc9a8"
+      "d1dc75a7-415c-832e-b4bb-d84e802cc9a8",
+      "715ebf8c-ec08-832e-b282-d98919e80fd8"
     ],
     "actionable_blockers": [
       {
@@ -404,45 +395,36 @@
         "stage": "pass_redirected",
         "reason": "Owner redirected the active turn to drafting an end-to-end repair and proactive maintenance instruction before candidate processing began.",
         "corrective_action": "Continue the next existing bounded pass with refreshed decisions, verified retained inputs and actual heartbeat checkpoints; no source or paid request was started."
+      },
+      {
+        "stage": "candidate_execution_window",
+        "reason": "Complete immutable input refresh and validated shared stage-summary repair consumed this pass's preparation window. Two retained weekly peers passed local handoff preparation; no current-main corpus refresh, paid dispatch, source dispatch or new gate completion was performed.",
+        "corrective_action": "Reuse verified retained inputs; refresh current main corpus/exclusions and exact-hash paid results, then execute selected missing gates with heartbeat groups below 40 seconds. Do not repeat completed source checks."
       }
     ],
     "missing_stages": [
-      "classification_and_serialization",
-      "venue_dependent_quality_reassessment",
-      "publication_full_corpus_serialization",
-      "per_collection_progress_or_legitimate_deferral"
+      "Execute selected due quality/source/classification-and-serialization gates in a post-maintenance scheduled pass.",
+      "Produce compliant <=60-second heartbeat evidence and intact checkpoint evidence.",
+      "Demonstrate per-collection useful work or a precise legitimate deferral after restoration."
     ],
-    "corrective_action": "On the next existing scheduled pass, use the repaired runtime and retained exact-hash evidence to complete venue-dependent quality, current-input classification/schema serialization, and eligible peer processing; record useful work or a precise legitimate deferral for every named collection. Merge and deploy the tested binding repair only through the supported existing release path, then verify exact live content.",
+    "corrective_action": "On the next due worker pass, reuse verified retained inputs and completed maintenance repairs, execute the selected candidates' next missing gates, checkpoint losslessly, and publish real heartbeats. Require later native terminal and receipt verification before claiming scheduled recovery.",
     "current_health": {
       "path": "config/content_review_processing_health.json",
-      "observed_at": "2026-11-05T15:23:32.046Z",
-      "trigger": "maintenance",
+      "observed_at": "2026-11-05T19:52:24.240859+00:00",
+      "trigger": "owner_maintenance",
       "native_run_id": null,
-      "blockers": [
-        {
-          "stage": "metadata",
-          "candidate_ids": [
-            "weekly-56fec07c6bb5ce26240c614e"
-          ],
-          "reason": "Venue is empty. Per-candidate preparation rejects it; two other retained candidates passed local request preparation.",
-          "corrective_action": "Reconcile venue from retained verified source evidence before classification; process eligible peers independently."
-        },
-        {
-          "stage": "publication_full_corpus_serialization",
-          "reason": "Prior controlled release failed assessment/content binding. No unchanged failed release replayed.",
-          "corrective_action": "Verify current main serializer and exact assessment/content binding before retry."
-        }
-      ],
-      "scope_note": "Owner-authorized maintenance repaired local runtime capability. No candidate/provider/admission/publication work occurred; this is not an unattended scheduled recovery.",
-      "corrective_action": "Use runtime_guard on the next existing scheduled pass; refresh current decisions, inspect exact-hash paid results, then resume eligible handoffs with real heartbeat publication."
+      "stale": true,
+      "age_seconds": 53192,
+      "maintenance_is_scheduled_evidence": false
     },
     "freshness": {
       "threshold_seconds": 4500,
-      "health_age_seconds": 4428.266,
-      "latest_scheduled_receipt_age_seconds": 2984.099,
-      "health_stale": false,
-      "scheduled_evidence_stale": false,
-      "maintenance_is_scheduled_evidence": false
+      "health_age_seconds": 53192,
+      "health_stale": true,
+      "latest_scheduled_receipt_age_seconds": 64019,
+      "scheduled_evidence_stale": true,
+      "scheduler_observation_stale": false,
+      "verified_pause_explains_absence_of_later_worker_run": true
     },
     "checkpoint_repairs": [
       {
@@ -451,6 +433,18 @@
         "prior_integrity_claim_corrected": true,
         "promotion_disqualified": true,
         "blob_size_sha_verified": true,
+        "verified_blobs": [
+          {
+            "path": "config/weekly_review_manifest.json",
+            "sha": "d01ceb748d0f957eba8521caaaee75d8aefe787e",
+            "size": 4627376
+          },
+          {
+            "path": "config/content_review_preflight_status.json",
+            "sha": "572c3cca9b55d3f147db29c9f0ce5867d335e7dd",
+            "size": 3302143
+          }
+        ],
         "original_receipt_preserved": true
       }
     ],
@@ -459,222 +453,51 @@
     "sustained_scheduled_recovery_verified": false,
     "defects": {
       "path": "config/content_review_defects.json",
-      "observed_at": "2026-11-05T16:14:37Z",
+      "observed_at": "2026-11-06T09:42:25.154955+00:00",
       "scope": "Entire ALEX pipeline; branch name is not scope",
-      "issues": [
-        {
-          "id": "publication-mixed-csv-binding",
-          "status": "implemented_ci_tested_pending_main_merge",
-          "affected_collections": [
-            "weekly",
-            "m3aawg",
-            "bellingcat",
-            "first",
-            "sans",
-            "soups",
-            "virusbulletin",
-            "apwg"
-          ],
-          "routes": [
-            "shared_publication",
-            "approved_manual_resources",
-            "existing_corpus_export"
-          ],
-          "evidence": [
-            "https://github.com/RISEInfoSec/Alex/actions/runs/41945055902",
-            "https://github.com/RISEInfoSec/Alex/pull/112",
-            "https://github.com/RISEInfoSec/Alex/actions/runs/42061457801"
-          ],
-          "next_action": "Merge exact tested PR112 through supported GitHub operation; current connector merge returns internal errors. Follow existing controlled release and Pages, then verify deployed fields and receipt-bound hashes.",
-          "verification_criteria": "55 controlled release tests passed; require main merge, successful existing release, Pages, exact live content and intact immutable release receipts.",
-          "updated_at": "2026-11-05T16:14:37Z"
-        },
-        {
-          "id": "retained-venue",
-          "status": "metadata_repaired_quality_reassessment_required",
-          "affected_collections": [
-            "weekly"
-          ],
-          "routes": [
-            "metadata",
-            "quality",
-            "classification"
-          ],
-          "evidence": [
-            "config/content_review_source_receipts/6e85535d2c040d20880fad8767660e6be3c3808ac579e96bee827c34efdf27eb.json"
-          ],
-          "next_action": "Re-evaluate venue-dependent quality with existing unchanged scoring policy, then build current-contract paid request only if eligible. Do not refetch source or reuse stale classification input.",
-          "verification_criteria": "Exact venue retained with previous full record, candidate hash/identity/decision preserved, manifest/stage agree; quality and current-input classification/serialization must actually complete.",
-          "updated_at": "2026-11-05T16:14:37Z"
-        },
-        {
-          "id": "downstream-runtime",
-          "status": "prior_runtime_repair_scheduled_recovery_unverified",
-          "affected_collections": [
-            "weekly",
-            "soups",
-            "first",
-            "m3aawg",
-            "bellingcat",
-            "sans"
-          ],
-          "routes": [
-            "paid_handoff",
-            "source_handoff"
-          ],
-          "evidence": [
-            "config/content_review_run_receipts/632603a3-e58c-832e-aba4-f32087ee94c4.json",
-            "config/content_review_maintenance_receipts/maintenance-runtime-repair-2026-11-05T15-19-51-174Z.json"
-          ],
-          "next_action": "Use verified runtime_guard; inspect/reuse exact-hash paid results before new work; process eligible peers independently. This maintenance session's cloud executor failed before shell access.",
-          "verification_criteria": "Subsequent existing scheduled receipts show classification/schema passes, complete gates and admissions with independent native proof, compliant heartbeats and intact checkpoints.",
-          "updated_at": "2026-11-05T16:14:37Z"
-        },
-        {
-          "id": "zero-attempt-masks-stall",
-          "status": "implemented_pending_ci",
-          "affected_collections": [
-            "all"
-          ],
-          "routes": [
-            "worker_health",
-            "independent_monitor"
-          ],
-          "evidence": [
-            "tools/content_review/work_plan.py",
-            "config/content_review_processing_health.json"
-          ],
-          "next_action": "Run recovery regressions; independently observe next worker and monitor snapshots retain unresolved stalls across no-work passes.",
-          "verification_criteria": "Regression includes zero-attempt passes and real downstream recovery; both scheduled consumers use current code and report exact corrective actions.",
-          "updated_at": "2026-11-05T16:14:37Z"
-        },
-        {
-          "id": "source-starvation",
-          "status": "implemented_pending_ci",
-          "affected_collections": [
-            "weekly",
-            "soups",
-            "first",
-            "m3aawg",
-            "bellingcat",
-            "sans",
-            "virusbulletin"
-          ],
-          "routes": [
-            "candidate_selection"
-          ],
-          "evidence": [
-            "tools/content_review/work_plan.py",
-            "docs/content_review_proactive_maintenance.md"
-          ],
-          "next_action": "Use source last actual progress before weekly tie preference; persist per-collection selections and legitimate deferrals each pass.",
-          "verification_criteria": "Successive-pass regression covers every comparable collection; subsequent existing scheduled receipts demonstrate useful processing or precise legitimate holds.",
-          "updated_at": "2026-11-05T16:14:37Z"
-        },
-        {
-          "id": "distinct-route-coverage",
-          "status": "audit_incomplete",
-          "affected_collections": [
-            "apwg",
-            "virusbulletin",
-            "corpus-audit",
-            "consensus"
-          ],
-          "routes": [
-            "legacy_import",
-            "corpus_maintenance",
-            "provider_activation"
-          ],
-          "evidence": [
-            "config/review_console.json",
-            "config/discovery_sources.json",
-            "tools/content_review/paid_worker.py"
-          ],
-          "next_action": "Audit distinct APWG/Virus Bulletin executors and actual corpus keep/removal/reclassification routes with real retained evidence. Preserve Consensus credential/Free-account enablement gate.",
-          "verification_criteria": "Representative real candidates/decisions per distinct route; no generic claim that normalized-paper tests cover these adapters.",
-          "updated_at": "2026-11-05T16:14:37Z"
-        },
-        {
-          "id": "console-and-scheduled-proof",
-          "status": "verification_incomplete",
-          "affected_collections": [
-            "all"
-          ],
-          "routes": [
-            "console",
-            "monitor",
-            "scheduled_execution",
-            "live_publication"
-          ],
-          "evidence": [
-            "config/content_review_run_receipts/d1dc75a7-415c-832e-b4bb-d84e802cc9a8.json"
-          ],
-          "next_action": "Restore attached runtime; inspect Site v31 source and live selected-collection states; watch existing subsequent worker and observer runs without duplicate schedules.",
-          "verification_criteria": "All ten pools show correct data and freshness; at least two later qualifying scheduled runs with independent receipts and collection progress; live release matches exact approved content.",
-          "updated_at": "2026-11-05T16:14:37Z"
-        }
-      ],
-      "repair_or_investigation_observation": "Binding code/CI, venue metadata, runtime, zero-attempt stall logic, and selection logic have recorded maintenance work. Scheduled downstream recovery, per-collection coverage, main merge/deployment, live publication, and distinct-route audits remain unverified.",
+      "repair_or_investigation_observation": "Publication binding, venue, runtime, route audit, stage summaries, weekly recovery and existing-corpus holds have maintenance/live evidence. Later qualifying hourly scheduled processing remains unverified.",
       "missing_corrective_action": [
-        "The latest scheduled worker run did not execute the retained paper's venue-dependent quality reassessment or current-input classification/serialization after the venue repair.",
-        "No examined scheduled run demonstrated downstream quality/schema progress, all-six completion, admission, or publication after the runtime repair.",
-        "The latest scheduled run did not validate or deploy the assessment/content-binding repair; PR112 remains implementation/CI evidence pending supported merge and live release verification.",
-        "No examined scheduled receipt supplied collection-specific useful work or a precise legitimate deferral for soups, first, m3aawg, bellingcat, sans, virusbulletin, apwg, corpus-audit, or consensus.",
-        "The source-starvation and zero-attempt-stall changes remain pending CI and subsequent scheduled proof; distinct APWG/Virus Bulletin/corpus-maintenance routes remain unaudited."
+        "No post-restoration scheduled worker pass has yet consumed the repaired capabilities.",
+        "The latest scheduled receipt completed no candidate attempt or gate and recorded heartbeat gaps.",
+        "Maintenance and deployed publication evidence do not satisfy the two-run unattended recovery requirement."
       ]
     },
     "collection_observations": {
       "weekly": {
-        "evidence": "last three completed canonical scheduled pilot receipts",
-        "local_candidates": 3,
-        "candidate_ids": [
-          "weekly-5119ae5a98d80e9ef5d2544b",
-          "weekly-56fec07c6bb5ce26240c614e",
-          "weekly-580cbf65ba78205f3b91860e"
-        ],
+        "evidence": "Latest three receipts",
+        "local_candidates": 0,
         "new_source_gate_passes": 0,
         "new_downstream_gate_passes": 0,
         "all_six_completions": 0,
         "newly_manual_ready": 0,
         "publications": 0,
-        "actual_progress": "Three retained papers were normalized in run 48c3643c-4abc-832e-9705-a1fc0ebce17e, but no source/downstream gate, all-six, admission or publication progress was recorded; the two later passes attempted no candidates.",
-        "deferral": "Latest pass was owner-redirected before candidate processing; this is not a legitimate access/policy hold and does not clear the stall."
+        "actual_progress": null,
+        "deferral": "Latest receipt selected three weekly candidates but preparation consumed the window; no gate passed."
       },
       "soups": {
-        "evidence": "No candidate IDs, per-collection progress, or pass-specific deferral for this collection appears in the last three completed canonical scheduled pilot receipts.",
-        "local_candidates": null,
-        "new_source_gate_passes": null,
-        "new_downstream_gate_passes": null,
-        "all_six_completions": null,
-        "newly_manual_ready": null,
-        "publications": null,
+        "evidence": "Latest receipt",
+        "local_candidates": 0,
+        "new_source_gate_passes": 0,
+        "new_downstream_gate_passes": 0,
+        "all_six_completions": 0,
+        "newly_manual_ready": 0,
+        "publications": 0,
         "actual_progress": null,
-        "deferral": null
-      },
-      "first": {
-        "evidence": "No candidate IDs, per-collection progress, or pass-specific deferral for this collection appears in the last three completed canonical scheduled pilot receipts.",
-        "local_candidates": null,
-        "new_source_gate_passes": null,
-        "new_downstream_gate_passes": null,
-        "all_six_completions": null,
-        "newly_manual_ready": null,
-        "publications": null,
-        "actual_progress": null,
-        "deferral": null
-      },
-      "m3aawg": {
-        "evidence": "No candidate IDs, per-collection progress, or pass-specific deferral for this collection appears in the last three completed canonical scheduled pilot receipts.",
-        "local_candidates": null,
-        "new_source_gate_passes": null,
-        "new_downstream_gate_passes": null,
-        "all_six_completions": null,
-        "newly_manual_ready": null,
-        "publications": null,
-        "actual_progress": null,
-        "deferral": null
+        "deferral": "One quality candidate selected; shared maintenance/time budget deferred execution, which is not a policy/access hold."
       },
       "bellingcat": {
-        "evidence": "No candidate IDs, per-collection progress, or pass-specific deferral for this collection appears in the last three completed canonical scheduled pilot receipts.",
+        "evidence": "Latest receipt",
+        "local_candidates": 0,
+        "new_source_gate_passes": 0,
+        "new_downstream_gate_passes": 0,
+        "all_six_completions": 0,
+        "newly_manual_ready": 0,
+        "publications": 0,
+        "actual_progress": null,
+        "deferral": "One source candidate selected; no source retry sent before the window closed."
+      },
+      "first": {
+        "evidence": "Latest receipt",
         "local_candidates": null,
         "new_source_gate_passes": null,
         "new_downstream_gate_passes": null,
@@ -682,10 +505,21 @@
         "newly_manual_ready": null,
         "publications": null,
         "actual_progress": null,
-        "deferral": null
+        "deferral": "Not selected in the five-candidate readiness tier; documented TLP/withheld restrictions remain."
+      },
+      "m3aawg": {
+        "evidence": "Latest receipt and current defects",
+        "local_candidates": null,
+        "new_source_gate_passes": null,
+        "new_downstream_gate_passes": null,
+        "all_six_completions": null,
+        "newly_manual_ready": null,
+        "publications": null,
+        "actual_progress": null,
+        "deferral": "Not selected; publication binding was later resolved by maintenance/live evidence, but no later hourly processing proof exists."
       },
       "sans": {
-        "evidence": "No candidate IDs, per-collection progress, or pass-specific deferral for this collection appears in the last three completed canonical scheduled pilot receipts.",
+        "evidence": "Latest receipt",
         "local_candidates": null,
         "new_source_gate_passes": null,
         "new_downstream_gate_passes": null,
@@ -693,10 +527,10 @@
         "newly_manual_ready": null,
         "publications": null,
         "actual_progress": null,
-        "deferral": null
+        "deferral": "Manifest verified but not selected in the current readiness tier."
       },
       "virusbulletin": {
-        "evidence": "No candidate IDs, per-collection progress, or pass-specific deferral for this collection appears in the last three completed canonical scheduled pilot receipts.",
+        "evidence": "Latest receipt and current defects",
         "local_candidates": null,
         "new_source_gate_passes": null,
         "new_downstream_gate_passes": null,
@@ -704,10 +538,10 @@
         "newly_manual_ready": null,
         "publications": null,
         "actual_progress": null,
-        "deferral": null
+        "deferral": "Distinct route and holds were audited in maintenance; no later scheduled evidence."
       },
       "apwg": {
-        "evidence": "No candidate IDs, per-collection progress, or pass-specific deferral for this collection appears in the last three completed canonical scheduled pilot receipts.",
+        "evidence": "Latest receipt and current defects",
         "local_candidates": null,
         "new_source_gate_passes": null,
         "new_downstream_gate_passes": null,
@@ -715,10 +549,10 @@
         "newly_manual_ready": null,
         "publications": null,
         "actual_progress": null,
-        "deferral": null
+        "deferral": "Annual discovery timing and distinct route documented; maintenance audit is not later scheduled progress."
       },
       "corpus-audit": {
-        "evidence": "No candidate IDs, per-collection progress, or pass-specific deferral for this collection appears in the last three completed canonical scheduled pilot receipts.",
+        "evidence": "Latest receipt and current defects",
         "local_candidates": null,
         "new_source_gate_passes": null,
         "new_downstream_gate_passes": null,
@@ -726,58 +560,43 @@
         "newly_manual_ready": null,
         "publications": null,
         "actual_progress": null,
-        "deferral": null
-      },
-      "consensus": {
-        "evidence": "No candidate IDs, per-collection progress, or pass-specific deferral for this collection appears in the last three completed canonical scheduled pilot receipts.",
-        "local_candidates": null,
-        "new_source_gate_passes": null,
-        "new_downstream_gate_passes": null,
-        "all_six_completions": null,
-        "newly_manual_ready": null,
-        "publications": null,
-        "actual_progress": null,
-        "deferral": "Registry documents a credential/Free-account enablement gate, but no examined scheduled receipt records a pass-specific deferral."
+        "deferral": "Existing-corpus route stayed separate; live technical holds were verified in maintenance, not scheduled processing."
       }
     },
-    "scope_note": "Read-only independent evaluation across the entire ALEX pipeline. Missing per-collection counts remain unknown; maintenance implementation/CI is distinct from later qualifying scheduled processing and deployed publication."
+    "scope_note": "Read-only observer evaluation across the entire ALEX pipeline. Unknown per-collection counts remain null; maintenance implementation, CI, live deployment and later qualifying scheduled recovery remain distinct."
   },
   "findings": [
     {
       "code": "scheduled_completion_verified",
-      "message": "Worker d1dc75a7-415c-832e-b4bb-d84e802cc9a8 completed natively with a matching canonical receipt. This verifies its recorded application completion, not candidate-processing recovery."
+      "message": "Worker 715ebf8c-ec08-832e-b282-d98919e80fd8 completed natively with a matching identity/time-bound canonical receipt. Application completion is verified; this does not establish processing recovery."
     },
     {
-      "code": "no_missed_start",
-      "message": "The 2026-11-05T15:45:00Z worker start was served. The next expected hourly start is 2026-11-05T16:45:00Z with 15-minute dispatch grace; native next_run_time remains null."
+      "code": "no_missed_start_after_verified_pause",
+      "message": "Verified owner pause intervals exempt the intentionally suspended worker slots. The worker was restored at 2026-11-06T09:45:07.251367Z; its next expected hourly start is 2026-11-06T10:45:00Z and was not overdue at this observation."
     },
     {
       "code": "no_active_heartbeat_stall",
-      "message": "Latest native worker is terminal and current_run records application complete with no active lease. The receipt's heartbeat_interval_compliant=false remains promotion-ineligible."
+      "message": "The latest native worker is terminal and no processing lease is active. Its receipt records heartbeat_interval_compliant=false, so it remains promotion-ineligible."
     },
     {
-      "code": "observer_fresh",
-      "message": "Actual observer run d9e1e0fb-c7a4-832f-9304-5d6cbef6ab8c is in progress, started 2026-11-05T16:32:31.445022Z for 2026-11-05T16:32:00Z. Prior snapshot age was 57.47 minutes."
+      "code": "observer_started_within_grace",
+      "message": "Observer 3a8f4b95-0070-8327-89d4-4222bfd98d2e started 2026-11-06T10:34:35.865736Z for 2026-11-06T10:32:00Z, within the 15-minute grace window."
     },
     {
       "code": "stalled_resolvable_gates",
-      "message": "Current evaluator retains the unresolved stall across the latest zero-attempt pass. Last three receipts record 3 candidate attempts, 0 source requests, 0 new gate passes, 0 all-six completions, 0 admissions, and 0 publications."
+      "message": "The latest three completed scheduled pilots recorded zero attempted candidates, source requests, new gates, all-six completions, admissions or publications. Known resolvable gates remain and zero-attempt passes do not clear the stall."
     },
     {
-      "code": "missing_corrective_action",
-      "message": "The latest scheduled pass was redirected before candidate processing and did not execute the known venue-quality, downstream classification/serialization, publication-binding, or per-collection recovery actions."
-    },
-    {
-      "code": "collection_coverage_missing",
-      "message": "Only weekly candidates appear in the examined receipts; nine other named collections have neither recent useful-work evidence nor pass-specific legitimate deferrals."
+      "code": "processing_health_stale",
+      "message": "The processing-health snapshot is 53192 seconds old and maintenance-triggered; it is not fresh scheduled recovery evidence."
     },
     {
       "code": "maintenance_not_scheduled_recovery",
-      "message": "Recorded code/CI/runtime/metadata maintenance is historical implementation evidence. No later qualifying scheduled downstream recovery or deployed publication is established."
+      "message": "Maintenance repaired and live-verified several defects and restored both hourly schedules. No post-restoration worker pass has yet supplied qualifying unattended progress."
     },
     {
       "code": "checkpoint_correction_preserved",
-      "message": "Run fe4875f6-dc78-8332-8c50-fe0d998ea688 remains integrity-corrected and promotion-disqualified. The complete correction blob was size/SHA verified; a later intact work-bearing pass means the latest checkpoint status is not checkpoint_integrity_failed."
+      "message": "Run fe4875f6-dc78-8332-8c50-fe0d998ea688 remains promotion-disqualified. Both restored immutable blobs were fetched by SHA, matched recorded byte sizes, parsed as JSON and contained no truncation marker."
     }
   ],
   "access_error": null
