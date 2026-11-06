@@ -51,6 +51,14 @@ def run() -> None:
               "until_date": today.isoformat()}
     budget_path = root_file("config", "weekly_discovery_policy.json")
     budgets = load_json(budget_path) if budget_path.exists() else {}
+    # The controller may shorten a pass to fit its remaining wall-clock budget;
+    # it can never raise the configured per-pass limit.
+    runtime_limit = os.getenv('ALEX_DISCOVERY_RUNTIME_LIMIT')
+    if runtime_limit is not None:
+        limit = int(runtime_limit)
+        if limit <= 0:
+            raise ValueError('Discovery runtime limit must be positive')
+        budgets['runtime_seconds'] = min(budgets.get('runtime_seconds', 2700), limit)
     client = DiscoveryClient(root_file("data", "discovery_checkpoint.json"), window, config,
                              budgets, mailto=os.getenv("HARVEST_MAILTO", ""))
     receipt = root_file("data", "discovery_run_receipt.json")
@@ -386,6 +394,11 @@ def _run(client: DiscoveryClient) -> int:
         if not row.get('abstract'):
             row['abstract'] = abstracts.get(normalize_title(row['title']), '')
     if not existing_df.empty:
+        # A checkpoint with only missing abstracts is inferred as float by
+        # pandas. It must accept recovered text on a later bounded pass.
+        if abstracts:
+            existing_df['abstract'] = existing_df.get(
+                'abstract', pd.Series('', index=existing_df.index)).astype(object)
         for idx, row in existing_df.iterrows():
             key = normalize_title(str(row.get('title', '')))
             if key in abstracts and (pd.isna(row.get('abstract')) or not row.get('abstract')):

@@ -64,6 +64,7 @@ class DiscoveryClient(HttpClient):
             self.state = {'schema_version': 1, 'window': window, 'registry': registry,
                           'responses': {}, 'tasks': {}, 'status': 'in_progress'}
         self.state['status'] = 'in_progress'
+        self.state['orchestration_pass_id'] = os.getenv('ALEX_DISCOVERY_PASS_ID')
         self._save()
 
     def _cache_get(self, key):
@@ -232,6 +233,8 @@ class DiscoveryClient(HttpClient):
             self.state['deferred_tasks'] = self.failures
             self._save()
             receipt = {'schema_version': 1, 'status': status, 'window': self.state['window'],
+                       'orchestration_pass_id': self.state['orchestration_pass_id'],
+                       'responses_cached': len(self.state['responses']),
                        'completed_at': datetime.now(timezone.utc).isoformat(),
                        'elapsed_seconds': round(time.monotonic() - self.started, 3),
                        'completed_tasks': done, 'replayed_tasks': self.replayed_tasks,

@@ -20,6 +20,8 @@ FILES=(
   discovery_checkpoint.json
   discovery_run_receipt.json
   discovery_openalex_state.json
+  discovery_recovery_receipt.json
+  discovery_recovery_ledger.json
   quality_metrics.csv
   rejected_candidates.csv
   accepted_candidates.csv
