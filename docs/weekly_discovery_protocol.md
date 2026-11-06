@@ -230,3 +230,33 @@ any missing response fails without a send. A fresh verified complete receipt is
 required to release downstream jobs. Scheduled discovery remains unchanged and
 continues to open the next window normally. This is operator reconciliation of
 completed work, not a general retry or permission to bypass provider holds.
+
+## Paid classification failure and recovery
+
+Missing OpenAI credentials, network errors, non-success responses, empty output
+and invalid schema results fail classification. They never synthesize an `Other`
+label. A valid returned `Other` classification remains a legitimate taxonomy
+value; all ordinary quality and editorial rules still apply.
+
+`data/classification_request_ledger.json` retains actual response JSON, its hash,
+and the digest of the exact model, prompt, schema and input request. Only matching,
+hash-verified, schema-valid results are reused, including when credentials are
+temporarily unavailable. Reuse sends no request and adds no token usage. Duplicate
+concurrent requests share one result. Older corpus labels without this evidence
+are not silently treated as verified paid receipts.
+
+Before any paid call, the whole work set is reserved in pipeline-state. Each
+outcome is saved locally, with remote checkpoints at most120 seconds apart and a
+forced final write. Any known error stops new sends, cancels queued work, waits
+for in-flight calls to finish, preserves their actual outcomes and blocks corpus
+publication. A failed state write also stops new sends without blindly retrying
+that write. Standalone classification uses the same state path and shared pipeline
+concurrency. Current workflows retain the ledger as an always-uploaded artifact.
+
+An abruptly killed runner can lose responses since its last remote checkpoint.
+Those reserved or started requests are ambiguous, not known unsent: the next
+invocation holds them for reconciliation instead of charging again. Only a final
+checkpoint after all threads terminate can mark untouched requests `not_sent`.
+Received failures and invalid paid responses also remain explicit holds. Never
+delete those entries or change their hashes to force a retry. Live publication
+and unattended scheduled operation remain separately verified outcomes.

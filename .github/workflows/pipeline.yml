@@ -243,6 +243,13 @@ jobs:
           fi
           git diff --cached --quiet || git commit -m "Classify accepted papers"
           git push || (git pull --rebase --autostash && git push)
+      - name: Retain paid request evidence
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: classification-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/classification_request_ledger.json
+          if-no-files-found: warn
 
   apwg:
     # Review-only: do not automatically add an unclassified research corpus.
