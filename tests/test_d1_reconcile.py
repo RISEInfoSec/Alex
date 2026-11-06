@@ -2,7 +2,7 @@ from copy import deepcopy
 
 import pytest
 
-from tools.content_review.d1_reconcile import SnapshotError, reconcile
+from tools.content_review.d1_reconcile import SnapshotError, reconcile, select_reconciled
 
 
 def fixture():
@@ -85,3 +85,19 @@ def test_jobs_must_match_the_original_hash_and_decision():
     snapshot['jobs'][0]['content_sha256'] = 'c' * 64
     with pytest.raises(SnapshotError, match='Job reviewed content mismatch'):
         reconcile(snapshot, deepcopy(snapshot), manifests)
+
+
+def test_selection_excludes_decided_and_changed_content_without_mutating_manifests():
+    snapshot, rows = fixture()
+    rows['weekly'][1]['content_sha256'] = 'c' * 64
+    rows['weekly'].append(dict(candidate_id='c', content_sha256='d' * 64, review_number=3,
+                               document_type='research_paper', decision='pending', abstract=''))
+    manifests = {'weekly': {'records': rows['weekly'], 'preflight_records': []}}
+    original = deepcopy(manifests)
+    ledger = {'records': {'weekly:' + c: {'state': 'awaiting_initial_checks', 'first_seen_at': '2026-01-01'}
+                          for c in ('a', 'b', 'c')}}
+    result = select_reconciled(snapshot, deepcopy(snapshot), manifests, ledger)
+    assert [row['candidate_id'] for row in result['selected']] == ['c']
+    assert result['reconciliation']['counts']['matched'] == 1
+    assert result['reconciliation']['counts']['held'] == 1
+    assert manifests == original

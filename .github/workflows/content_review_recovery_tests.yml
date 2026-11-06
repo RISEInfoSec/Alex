@@ -1,8 +1,11 @@
 name: Content Review recovery regression
 on:
+  pull_request:
+    branches: [codex/soups-corpus-review]
+    paths: ['tools/content_review/**', 'tests/test_d1_reconcile.py', 'tests/test_content_review_source_worker.py', 'tests/test_source_recovery_integrity.py', 'tests/test_processing_maintenance.py', 'tests/test_duplicate_evidence.py', 'tests/test_checkpoint.py', 'tests/test_content_review_runtime_guard.py', 'tests/test_content_review_operations.py', 'tests/test_content_review_paid_worker.py', '.github/workflows/content_review_recovery_tests.yml']
   push:
     branches: [codex/soups-corpus-review]
-    paths: ['tools/content_review/**', 'tests/test_content_review_source_worker.py', 'tests/test_source_recovery_integrity.py', 'tests/test_processing_maintenance.py', 'tests/test_duplicate_evidence.py', 'tests/test_checkpoint.py', 'tests/test_content_review_runtime_guard.py', 'tests/test_content_review_operations.py', 'tests/test_content_review_paid_worker.py', '.github/workflows/content_review_recovery_tests.yml']
+    paths: ['tools/content_review/**', 'tests/test_d1_reconcile.py', 'tests/test_content_review_source_worker.py', 'tests/test_source_recovery_integrity.py', 'tests/test_processing_maintenance.py', 'tests/test_duplicate_evidence.py', 'tests/test_checkpoint.py', 'tests/test_content_review_runtime_guard.py', 'tests/test_content_review_operations.py', 'tests/test_content_review_paid_worker.py', '.github/workflows/content_review_recovery_tests.yml']
 permissions:
   contents: read
 jobs:
@@ -19,5 +22,5 @@ jobs:
       - run: pip install -r requirements.txt pypdf beautifulsoup4
       - run: python -m tools.content_review.runtime_guard --check-dependencies
       - run: python -m pytest -q tests/test_content_review_runtime_guard.py tests/test_content_review_operations.py
-      - run: python -m pytest -q tests/test_content_review_source_worker.py tests/test_source_recovery_integrity.py tests/test_processing_maintenance.py tests/test_content_review_registry_worker.py tests/test_candidate_lifecycle.py tests/test_manifest_integrity.py tests/test_duplicate_evidence.py tests/test_checkpoint.py tests/test_content_review_paid_worker.py tests/test_content_review_admit_cleared.py tests/test_content_review_bind_recommendations.py tests/test_typed_resource.py tests/test_manual_resources.py tests/test_resource_mixed_corpus.py tests/test_checkpoint_transport.py tests/test_content_review_taxonomy_corrections.py tests/test_stage_summary.py
+      - run: python -m pytest -q tests/test_d1_reconcile.py tests/test_content_review_source_worker.py tests/test_source_recovery_integrity.py tests/test_processing_maintenance.py tests/test_content_review_registry_worker.py tests/test_candidate_lifecycle.py tests/test_manifest_integrity.py tests/test_duplicate_evidence.py tests/test_checkpoint.py tests/test_content_review_paid_worker.py tests/test_content_review_admit_cleared.py tests/test_content_review_bind_recommendations.py tests/test_typed_resource.py tests/test_manual_resources.py tests/test_resource_mixed_corpus.py tests/test_checkpoint_transport.py tests/test_content_review_taxonomy_corrections.py tests/test_stage_summary.py
 

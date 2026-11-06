@@ -13,6 +13,9 @@ conflicting candidates are held; unknown or malformed data fails closed. The
 function does not apply decisions or authorize publication. Its CLI reads one
 JSON line on stdin and prints only aggregate counts. Keep raw snapshots and
 private identities out of the public repository, logs and workflow inputs.
+`select_reconciled` overlays matching decisions on disposable in-memory copies
+before choosing candidates and holds changed or conflicting decisions out of
+selection. It does not persist that overlay or acquire the writer lease.
 
 Two matching paginated reads are not a database transaction. The coordinator
 must take complete fresh reads and recheck their fingerprint and immutable Git

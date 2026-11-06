@@ -142,6 +142,39 @@ def reconcile(snapshot, confirmed_snapshot, manifests):
                        'matched': len(matched), 'held': len(held)}}
 
 
+def select_reconciled(snapshot, confirmed_snapshot, manifests, ledger, *, limit=5,
+                      source_progress=None, source_attempts=None):
+    """Select only after overlaying matching completed decisions in memory.
+
+    This is not a lease, a database transaction, or a checkpoint. The caller
+    must still revalidate and use the existing leased, hash-verified writers.
+    """
+    from tools.content_review.work_plan import select
+
+    _require(isinstance(manifests, dict) and all(isinstance(v, dict) for v in manifests.values()),
+             'Invalid selection manifests')
+    checked = reconcile(snapshot, confirmed_snapshot,
+                        {k: v.get('records', []) for k, v in manifests.items()})
+    decided = {(d['collection'], d['candidate_id']): d['decision'] for d in checked['matched_decisions']}
+    held = {(d['collection'], d['candidate_id']) for d in checked['held']}
+    safe = deepcopy(manifests)
+    for collection, manifest in safe.items():
+        for section in ('records', 'preflight_records'):
+            _require(isinstance(manifest.get(section, []), list), 'Invalid manifest section')
+            for row in manifest.get(section, []):
+                _require(isinstance(row, dict) and isinstance(row.get('candidate_id'), str), 'Invalid selection candidate')
+                key = (collection, row['candidate_id'])
+                if key in held:
+                    # work_plan treats anything other than pending/unreviewed as
+                    # ineligible; no editorial decision is written or invented.
+                    row['decision'] = 'hold_review_reconciliation'
+                elif key in decided:
+                    row['decision'] = decided[key]
+    selected = select(safe, ledger, limit=limit, source_progress=source_progress,
+                      source_attempts=source_attempts)
+    return {'selected': selected, 'reconciliation': checked}
+
+
 def main():
     # One JSON line from stdin; raw private rows are never printed or persisted.
     try:
