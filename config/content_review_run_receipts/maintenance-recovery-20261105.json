@@ -4,7 +4,7 @@
   "trigger": "owner_maintenance",
   "started_at": "2026-11-05T18:08:44Z",
   "observed_at": "2026-11-05T19:26:13.412050+00:00",
-  "status": "implementing_actions_recovery",
+  "status": "actions_recovery_live_verification",
   "completed_at": null,
   "receipt_path": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
   "completed_actions": [
@@ -1500,7 +1500,7 @@
     "deduplicated_doi_abstract_lookups_total": 1072,
     "cached_doi_results": 740,
     "deduplicated_doi_abstract_lookups_remaining": 332,
-    "state_commit": "057d8c17db9ecf7bdaed08f54dc274ccc59c6e93",
+    "state_commit": "e2840e941694240ceb27b68e6af2bd4ff9fd938a",
     "retry_not_before": "2026-11-06T01:46:00.000Z"
   },
   "approval_required": {
@@ -1611,10 +1611,41 @@
       "verified_successful_replacement": 36443867559,
       "active_runs": [],
       "dispatch_attempts": 1,
-      "status": "child_running_verified",
+      "status": "completed_partial_request_budget",
       "child_run": 42150889598,
       "child_head_sha": "0fe7575d371954f7abcc16bf3840e6c1b31d7c24",
-      "child_created_at": "2026-11-06T02:31:42Z"
+      "child_created_at": "2026-11-06T02:31:42Z",
+      "conclusion": "failure",
+      "canonical_receipt": "config/content_review_weekly_recovery/42150889598.json",
+      "actual_requests": 250,
+      "http200": 232,
+      "http404": 18,
+      "request_errors": 0,
+      "state_commit": "e2840e941694240ceb27b68e6af2bd4ff9fd938a"
+    },
+    {
+      "provider_state": {
+        "state_sha": "e2840e941694240ceb27b68e6af2bd4ff9fd938a",
+        "blob_sha": "ec83b188c1a26e6ade38dc790e1af2d42edc8b92",
+        "observed_at": "2026-11-06T04:46:36.222983+00:00",
+        "retry_not_before_epoch": 1793911539.2246518,
+        "retry_not_before": "2026-11-05T20:45:39.224652+00:00",
+        "eligible": true
+      },
+      "schema_version": 1,
+      "continuation": 5,
+      "owner_authorization": "Explicit owner approval of repository-owned bounded recovery and live verification,2026-11-06; PR118 limits retained",
+      "previous_run": 42150889598,
+      "expected_main_sha": "31944edd9b19db0fbaf9fec818dc6801110d8bee",
+      "started_at": "2026-11-06T04:46:37.922507+00:00",
+      "quarantined_historical_run": 36439756777,
+      "verified_successful_replacement": 36443867559,
+      "active_runs": [],
+      "dispatch_attempts": 1,
+      "status": "child_running_verified",
+      "child_run": 42164493659,
+      "child_head_sha": "31944edd9b19db0fbaf9fec818dc6801110d8bee",
+      "child_created_at": "2026-11-06T04:46:40Z"
     }
   ],
   "latest_weekly_checkpoint": {
@@ -1688,7 +1719,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T04:32:28.818852+00:00",
+  "updated_at": "2026-11-06T04:47:32.703915+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1701,19 +1732,18 @@
     "merge_commit": "5b2f1b13646bcfba342e8e0437c17e81f6b38a84"
   },
   "latest_weekly_terminal": {
-    "run_id": 42106396231,
+    "run_id": 42150889598,
     "native_conclusion": "failure",
     "discovery_status": "partial",
     "actual_requests": 250,
-    "http200": 246,
-    "http404": 4,
+    "http200": 232,
+    "http404": 18,
     "connection_failure": 0,
-    "new_candidates": 0,
-    "source_state_commit": "f0f01deba4c4a1cead2c7dc4c79dd3d5d8194b84",
-    "canonical_receipt": "config/content_review_weekly_recovery/42106396231.json",
+    "source_state_commit": "e2840e941694240ceb27b68e6af2bd4ff9fd938a",
+    "canonical_receipt": "config/content_review_weekly_recovery/42150889598.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "Inspect native continuation42150889598 and its exact saved receipt. Follow-up re-armed for03:35UTC; no claim of unattended recovery until actual proof.",
+  "next_action": "Observe native controller handoff and complete downstream chain. Preserve limits and holds. Restore original hourly checks only after maintenance completion; scheduled proof remains separate.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -1735,8 +1765,11 @@
     "automation_id": "6ae935ba229c81919751322fbce87ef8",
     "next_check_not_before": "2026-11-06T03:35:00Z",
     "current_child_run": 42150889598,
-    "enabled_readback_verified": true,
-    "prior_failure_cause_unresolved": true
+    "enabled_readback_verified": false,
+    "prior_failure_cause_unresolved": true,
+    "is_enabled": false,
+    "status": "disabled_after_second_native_failure",
+    "replaced_for_discovery_by": "GitHub Actions PR122"
   },
   "automation_failure_observation": {
     "observed_at": "2026-11-06T02:30:06.875764+00:00",
@@ -1767,5 +1800,16 @@
     "environment_selection": "inherited",
     "environment_details": null,
     "cause": "No diagnostic detail exposed. Current interactive runtime/GitHub work; this does not prove scheduled-runtime readiness."
+  },
+  "actions_recovery": {
+    "pr": 122,
+    "merge_commit": "31944edd9b19db0fbaf9fec818dc6801110d8bee",
+    "local_tests_passed": 617,
+    "native_ci": "all checks passed; optional live APWG checks skipped by existing conditions",
+    "run_id": 42164493659,
+    "status": "running",
+    "automatic_handoff_verified": false,
+    "full_pipeline_verified": false,
+    "scheduled_verified": false
   }
 }

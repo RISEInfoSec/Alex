@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-05T19:52:24.240859+00:00",
+  "observed_at": "2026-11-06T04:47:32.703915+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -205,7 +205,7 @@
         "general_weekly_discovery",
         "scheduled_pipeline"
       ],
-      "status": "dispatch_guard_repaired_partial_coverage_provider_cooldown",
+      "status": "guard_reconciled_actions_recovery_live_verification",
       "evidence": [
         "https://github.com/RISEInfoSec/Alex/actions/runs/36439756777",
         "https://github.com/RISEInfoSec/Alex/actions/runs/41979421841",
@@ -213,13 +213,15 @@
         "https://github.com/RISEInfoSec/Alex/pull/115",
         "https://github.com/RISEInfoSec/Alex/actions/runs/36443867559",
         "https://github.com/RISEInfoSec/Alex/actions/runs/42083378760",
-        "https://github.com/RISEInfoSec/Alex/actions/runs/42083423973"
+        "https://github.com/RISEInfoSec/Alex/actions/runs/42083423973",
+        "https://github.com/RISEInfoSec/Alex/pull/122",
+        "https://github.com/RISEInfoSec/Alex/actions/runs/42164493659"
       ],
       "cause": "Cancellation of a stale jobless record was wrongly required before dispatch, despite a successful nine-job same-commit replacement and later weekly successes.",
-      "next_action": "Retain historical orphan and successful replacement proof. Child42083423973 saved3412 candidates,40 completed tasks and243 HTTP200 requests; ten OpenAlex tasks remain under the20-call ceiling. Resume the saved window only through an authorized invocation and unchanged provider policy; do not report full weekly recovery.",
-      "verification_criteria": "Orphan terminal or authoritatively reconciled; one intended current-main pipeline completes discovery through publication/report with canonical receipts and useful processing.",
+      "next_action": "PR122 merged after617 local tests and native CI; verify retained-window completion, automatic pass handoff, and downstream publication.",
+      "verification_criteria": "Exact successful supersession proof remains verified; new current-main pipeline must complete discovery through publication/report with canonical receipts and useful processing.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-05T19:01:39.097109+00:00",
+      "updated_at": "2026-11-06T04:47:32.703915+00:00",
       "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
       "history": [
         {
@@ -234,12 +236,21 @@
               "config/weekly_pipeline_retry_request.json"
             ]
           }
+        },
+        {
+          "recorded_at": "2026-11-06T04:47:32.703915+00:00",
+          "prior": {
+            "status": "dispatch_guard_repaired_partial_coverage_provider_cooldown",
+            "next_action": "Retain historical orphan and successful replacement proof. Child42083423973 saved3412 candidates,40 completed tasks and243 HTTP200 requests; ten OpenAlex tasks remain under the20-call ceiling. Resume the saved window only through an authorized invocation and unchanged provider policy; do not report full weekly recovery.",
+            "latest_run": 42091428591,
+            "remaining_doi_lookups": 951
+          }
         }
       ],
-      "latest_run": 42091428591,
+      "latest_run": 42164493659,
       "retry_not_before": "2026-11-05T20:45:39.224652+00:00",
-      "remaining_doi_lookups": 951,
-      "receipt": "config/content_review_weekly_recovery/42091428591.json"
+      "remaining_doi_lookups": 332,
+      "receipt": "config/content_review_weekly_recovery/42150889598.json"
     },
     {
       "id": "stale-derived-stage-summary",
@@ -337,6 +348,25 @@
       "cause": "CSV NaN skipped missing-abstract fallback and OpenAlex text was not copied.",
       "merge_commit": "5b2f1b13646bcfba342e8e0437c17e81f6b38a84",
       "tests_passed": 586
+    },
+    {
+      "id": "chatgpt-continuation-native-failure",
+      "affected_collections": [
+        "weekly"
+      ],
+      "routes": [
+        "scheduled_execution"
+      ],
+      "status": "cause_unresolved_dependency_removed_from_discovery",
+      "cause": "Two native scheduled invocations failed without result text or exposed diagnostic cause. Current environment diagnostics return no retained history. Inherited environment details are unavailable, not proven absent.",
+      "evidence": [
+        "363c0219-fb48-8325-b0a1-8d251dcfb8b1",
+        "67da6975-3b90-832a-9d39-f7a0857db03d",
+        "https://github.com/RISEInfoSec/Alex/pull/122"
+      ],
+      "next_action": "Keep failed one-off disabled. Verify repository-owned continuation separately; original hourly worker/monitor require later native scheduled proof.",
+      "owner_role": "existing_content_review_worker",
+      "verification_criteria": "No claim of task-platform repair without diagnostics or successful useful scheduled runs."
     }
   ]
 }

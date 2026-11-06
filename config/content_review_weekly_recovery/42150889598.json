@@ -1,0 +1,3370 @@
+{
+  "native": {
+    "id": 42150889598,
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "0fe7575d371954f7abcc16bf3840e6c1b31d7c24",
+    "created_at": "2026-11-06T02:31:42Z",
+    "updated_at": "2026-11-06T03:12:17Z",
+    "html_url": "https://github.com/RISEInfoSec/Alex/actions/runs/42150889598"
+  },
+  "jobs": [
+    {
+      "id": 127673591884,
+      "name": "discover",
+      "conclusion": "failure",
+      "started_at": "2026-11-06T02:31:48Z",
+      "completed_at": "2026-11-06T03:12:08Z"
+    },
+    {
+      "id": 127687161193,
+      "name": "chain",
+      "conclusion": "skipped",
+      "started_at": "2026-11-06T03:12:08Z",
+      "completed_at": "2026-11-06T03:12:08Z"
+    },
+    {
+      "id": 127687162003,
+      "name": "score",
+      "conclusion": "skipped",
+      "started_at": "2026-11-06T03:12:09Z",
+      "completed_at": "2026-11-06T03:12:08Z"
+    },
+    {
+      "id": 127687162613,
+      "name": "harvest",
+      "conclusion": "skipped",
+      "started_at": "2026-11-06T03:12:09Z",
+      "completed_at": "2026-11-06T03:12:08Z"
+    },
+    {
+      "id": 127687162921,
+      "name": "classify",
+      "conclusion": "skipped",
+      "started_at": "2026-11-06T03:12:09Z",
+      "completed_at": "2026-11-06T03:12:08Z"
+    },
+    {
+      "id": 127687163039,
+      "name": "rescore",
+      "conclusion": "skipped",
+      "started_at": "2026-11-06T03:12:09Z",
+      "completed_at": "2026-11-06T03:12:08Z"
+    },
+    {
+      "id": 127687163061,
+      "name": "report",
+      "conclusion": "success",
+      "started_at": "2026-11-06T03:12:11Z",
+      "completed_at": "2026-11-06T03:12:17Z"
+    },
+    {
+      "id": 127687163609,
+      "name": "publish",
+      "conclusion": "skipped",
+      "started_at": "2026-11-06T03:12:09Z",
+      "completed_at": "2026-11-06T03:12:09Z"
+    },
+    {
+      "id": 127687163657,
+      "name": "apwg",
+      "conclusion": "skipped",
+      "started_at": "2026-11-06T03:12:09Z",
+      "completed_at": "2026-11-06T03:12:09Z"
+    },
+    {
+      "id": 127687165191,
+      "name": "deploy",
+      "conclusion": "skipped",
+      "started_at": "2026-11-06T03:12:09Z",
+      "completed_at": "2026-11-06T03:12:09Z"
+    }
+  ],
+  "state_sha": "e2840e941694240ceb27b68e6af2bd4ff9fd938a",
+  "state_at": "2026-11-06T03:11:42Z",
+  "receipt_blob": {
+    "path": "discovery_run_receipt.json.gz",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "194d5a058115e7dce6ef75911f48997530a92e64",
+    "size": 4367,
+    "url": "https://api.github.com/repos/RISEInfoSec/Alex/git/blobs/194d5a058115e7dce6ef75911f48997530a92e64"
+  },
+  "receipt_sha256": "d383ea218ec1148f763040912f95c2695679367eaac1dd3ba09334fdd82ea0a9",
+  "discovery_receipt": {
+    "schema_version": 1,
+    "status": "partial",
+    "window": {
+      "from_date": "2026-10-29",
+      "until_date": "2026-11-05"
+    },
+    "completed_at": "2026-11-06T03:11:26.592643+00:00",
+    "elapsed_seconds": 2348.774,
+    "completed_tasks": 49,
+    "replayed_tasks": 49,
+    "deferred_tasks": {
+      "OpenAlex:abstract_enrichment:61ceafa0dddbabd0821939d87efd3f3b26f5cccb3b78ffdcc09bb1052ba258c8": "openalex_request_budget"
+    },
+    "new_candidates": 0,
+    "actual_request_count": 250,
+    "openalex_request_count": 250,
+    "checkpoint_cache_hits": 490,
+    "requests": [
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:33:30.344845+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.6,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77190.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:33:38.157004+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.164,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77182.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:33:45.623200+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.153,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77175.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:33:53.050647+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.177,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77167.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:34:00.462624+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.194,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77160.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:34:07.853379+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.132,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77153.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:34:15.069818+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.173,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77145.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:34:47.949160+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.188,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77112.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:34:55.427869+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.143,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77105.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:35:02.863094+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.214,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77097.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:35:10.355575+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.138,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77090.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:35:17.799759+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77083.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:35:25.071957+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.119,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77075.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:35:32.527539+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77068.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:35:39.909220+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.166,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77060.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:35:47.461127+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.18,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77053.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:35:54.818461+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.154,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77046.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:36:02.309854+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.182,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77038.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:36:09.712809+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.123,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77031.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:36:17.059767+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.162,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77023.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:36:24.356046+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.167,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77016.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:36:31.715273+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.191,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77009.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:36:39.114598+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.183,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 77001.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:36:46.505101+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76994.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:37:20.841468+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.198,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76959.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:37:27.964284+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.127,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76952.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:37:35.015394+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.171,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76945.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:37:42.217277+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.151,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76938.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:37:49.521250+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.167,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76931.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:37:56.814935+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.155,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76924.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:38:04.022370+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.2,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76916.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:38:11.369111+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.145,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76909.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:38:18.467853+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.167,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76902.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:38:25.717240+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.118,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76895.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:38:32.814533+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.188,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76888.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:38:39.917557+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.117,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76880.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:38:46.963779+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.164,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76873.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:38:54.079545+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.146,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76866.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:39:01.160021+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.173,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76859.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:39:08.270250+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.134,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76852.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:39:15.318621+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.276,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76845.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:39:48.431848+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.197,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76812.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:39:55.661657+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.142,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76805.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:40:02.914465+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.199,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76797.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:40:10.066285+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.154,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76790.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:40:17.204778+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.169,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76783.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:40:24.456469+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76776.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:40:31.714926+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.166,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76769.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:40:38.954249+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.164,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76761.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:40:46.216446+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.209,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76754.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:40:53.464019+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.138,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76747.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:41:00.756723+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.217,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76740.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:41:08.076802+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76732.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:41:15.267504+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.177,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76725.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:41:22.571401+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.119,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76718.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:41:29.868819+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76710.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:41:37.053939+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.154,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76703.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:41:44.259845+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.181,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76696.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:42:17.949399+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.245,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76662.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:42:25.179756+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.14,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76655.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:42:32.330299+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.247,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76648.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:42:39.606726+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.148,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76641.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:42:46.718895+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.169,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76634.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:42:53.861256+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.123,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76627.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:43:00.972013+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.163,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76619.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:43:08.116528+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.148,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76612.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:43:15.221950+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.161,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76605.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:43:22.369143+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.143,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76598.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:43:29.479788+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.189,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76591.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:43:36.676968+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.16,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76584.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:43:43.761715+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.169,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76577.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:43:50.922775+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.138,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76569.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:43:58.070908+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.178,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76562.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:44:05.322040+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.16,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76555.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:44:12.572869+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.153,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76548.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:44:46.091877+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.182,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76514.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:44:53.508869+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.169,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76507.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:45:00.968261+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.185,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76499.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:45:08.516541+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.157,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76492.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:45:15.907471+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.167,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76484.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:45:23.374763+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.129,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76477.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:45:30.859949+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.192,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76469.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:45:38.307704+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.164,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76462.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:45:45.816162+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.228,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76454.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:45:53.374065+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.162,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76447.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:46:00.916732+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.171,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76439.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:46:08.565133+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.183,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76432.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:46:16.229182+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.19,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76424.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:46:23.827955+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.152,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76417.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:46:31.469967+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.171,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76409.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:46:39.172105+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.185,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76401.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:47:13.605499+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.202,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76367.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:47:21.327293+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.135,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76359.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:47:29.027250+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.16,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76351.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:47:36.727554+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.148,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76344.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:47:44.361020+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.171,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76336.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:47:52.118299+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.148,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76328.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:47:59.769524+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.149,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76321.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:48:07.531378+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.155,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76313.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:48:15.119003+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.179,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76305.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:48:22.926611+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.164,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76297.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:48:30.370746+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.134,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76290.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:48:37.621781+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.139,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76283.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:48:44.873229+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.173,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76275.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:48:52.129920+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.146,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76268.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:48:59.478248+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76261.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:49:06.826964+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.17,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76254.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:49:41.260797+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.159,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76219.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:49:48.712922+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.151,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76212.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:49:56.161616+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.196,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76204.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:50:03.765840+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.134,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76197.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:50:11.358558+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.198,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76189.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:50:19.019835+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.157,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76181.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:50:26.572399+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.187,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76174.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:50:34.118770+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.146,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76166.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:50:41.322419+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.201,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76159.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:50:48.670847+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.171,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76152.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:50:56.068822+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.171,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76144.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:51:03.523995+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.14,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76137.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:51:10.772184+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.164,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76130.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:51:18.215263+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.183,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76122.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:51:25.544022+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.183,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76115.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:51:33.014867+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.126,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76107.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:51:40.477970+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.193,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76100.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:52:15.269042+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.177,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76065.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:52:22.873348+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.138,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76057.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:52:30.411674+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.166,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76050.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:52:37.877279+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.135,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76042.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:52:44.943613+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.164,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76035.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:52:52.126628+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.16,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76028.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:52:59.378319+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.158,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76021.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:53:06.582903+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.145,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76014.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:53:13.935649+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.152,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 76006.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:53:21.279216+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.133,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75999.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:53:28.635184+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.153,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75992.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:53:35.937509+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.122,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75984.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:53:43.278437+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.16,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75977.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:53:50.726764+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.126,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75970.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:53:58.282840+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.167,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75962.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:54:05.887121+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.14,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75954.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:54:13.533469+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.193,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75947.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:54:48.564511+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.201,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75912.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:54:56.274198+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.152,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75904.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:55:03.840066+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.176,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75896.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:55:11.407838+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.136,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75889.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:55:18.835793+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.17,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75882.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:55:26.485271+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.132,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75874.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:55:33.979581+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.165,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75866.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:55:41.255741+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.15,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75859.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:55:48.577500+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.159,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75852.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:55:56.038233+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.15,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75844.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:56:03.388292+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.141,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75837.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:56:10.837512+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.117,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75830.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:56:18.340225+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.157,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75822.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:56:25.980241+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.167,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75814.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:56:33.632581+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.166,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75807.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:56:41.282195+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.118,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75799.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:57:16.370862+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.163,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75764.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:57:24.126472+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.147,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75756.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:57:31.821082+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.159,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75749.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:57:39.518176+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.108,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75741.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:57:47.032205+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.162,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75733.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:57:54.625921+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.123,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75726.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:58:02.170702+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.178,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75718.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:58:09.621297+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.122,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75711.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:58:17.022203+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.161,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75703.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:58:24.472665+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.129,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75696.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:58:31.887707+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.163,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75688.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:58:39.322520+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.153,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75681.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:58:46.776803+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.147,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75674.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:58:54.220871+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.128,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75666.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:59:01.630503+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.181,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75659.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:59:09.134107+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.142,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75651.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:59:43.662874+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.204,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75617.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:59:51.425201+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.117,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75609.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T02:59:59.026389+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.165,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75601.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:00:06.768538+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.154,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75594.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:00:14.471235+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.203,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75586.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:00:22.016926+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.136,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75578.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:00:29.669683+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75571.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:00:37.428687+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.162,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75563.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:00:45.118528+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.2,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75555.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:00:52.781578+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.152,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75548.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:01:00.481057+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.149,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75540.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:01:08.077253+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.149,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75532.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:01:15.549318+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.171,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75525.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:01:22.970267+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.122,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75517.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:01:30.378275+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.199,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75510.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:01:37.880910+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.134,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75502.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:02:13.130643+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.198,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75467.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:02:20.779131+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.135,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75460.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:02:28.222134+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75452.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:02:35.845639+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.215,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75444.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:02:43.573778+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.594,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75436.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:02:51.575297+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.139,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75429.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:02:59.231807+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.163,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75421.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:03:06.868439+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.146,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75414.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:03:14.370573+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.144,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75406.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:03:22.067993+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.151,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75398.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:03:29.630545+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75391.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:03:37.375552+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.129,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75383.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:03:44.982427+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.238,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75375.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:03:52.726746+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.141,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75368.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:04:00.372860+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.144,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75360.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:04:08.019459+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.18,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75352.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:04:42.770024+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.166,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75318.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:04:50.032876+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.131,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75310.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:04:57.338437+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.161,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75303.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:05:04.672018+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.16,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75296.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:05:12.044106+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.208,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75288.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:05:19.434884+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.147,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75281.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:05:26.788148+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.162,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75274.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:05:34.194986+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.14,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75266.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:05:41.584264+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.146,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75259.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:05:48.986014+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.144,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75251.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:05:56.331574+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.172,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75244.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:06:03.890391+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.167,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75236.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:06:11.245888+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.177,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75229.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:06:18.831604+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.153,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75222.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:06:26.384708+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.154,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75214.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:06:33.968176+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.157,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75206.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:06:41.533234+00:00",
+        "http_status": 404,
+        "elapsed_seconds": 0.139,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75199.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:07:16.511280+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.18,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75164.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:07:24.182174+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.176,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75156.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:07:31.894495+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.148,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75148.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:07:39.389391+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.136,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75141.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:07:46.935851+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.167,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75133.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:07:54.533458+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.152,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75126.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:08:01.874970+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.156,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75118.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:08:09.335760+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.21,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75111.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:08:16.823815+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.147,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75104.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:08:24.322104+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.177,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75096.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:08:31.780121+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75089.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:08:39.339117+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.144,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75081.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:08:46.832219+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.175,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75073.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:08:54.584467+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.131,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75066.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:09:02.235875+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.163,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75058.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:09:09.928534+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.119,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75050.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:09:44.918408+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.162,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75015.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:09:52.584856+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.152,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75008.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:10:00.235506+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.155,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 75000.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:10:07.888916+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.144,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 74992.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:10:15.290258+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.167,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 74985.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:10:22.736220+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.122,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 74978.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:10:30.156050+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.171,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 74970.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:10:37.539319+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.163,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 74963.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:10:44.938204+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.156,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 74955.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:10:52.387475+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.121,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 74948.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:10:59.849411+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.159,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 74940.0
+        }
+      },
+      {
+        "host": "api.openalex.org",
+        "endpoint_type": "singleton",
+        "started_at": "2026-11-06T03:11:07.336298+00:00",
+        "http_status": 200,
+        "elapsed_seconds": 0.125,
+        "quota": {
+          "X-RateLimit-Limit": 10000.0,
+          "X-RateLimit-Remaining": 10000.0,
+          "X-RateLimit-Credits-Used": 0.0,
+          "X-RateLimit-Reset": 74933.0
+        }
+      }
+    ],
+    "budgets": {
+      "runtime_seconds": 2700.0,
+      "max_requests": 300,
+      "openalex_max_requests": 250
+    }
+  }
+}
