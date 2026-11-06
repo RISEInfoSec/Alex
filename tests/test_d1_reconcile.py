@@ -16,6 +16,9 @@ def fixture():
     snapshot = {'submissions': [sub], 'decisions': [decision('a', 'approved'), decision('b', 'rejected')],
                 'jobs': [dict(id='j1', user_id='owner', submission_id='s1', collection='weekly',
                               revision=1, kind='mechanical_assessment', candidate_id='a', content_sha256=h)]}
+    snapshot['read_evidence'] = {key: {'complete': True, 'rows_received': len(snapshot[key]),
+                                        'truncated_values': 0, 'omitted_columns': 0}
+                                 for key in ('submissions', 'decisions', 'jobs')}
     manifests = {'weekly': [dict(candidate_id='a', content_sha256=h, review_number=1),
                             dict(candidate_id='b', content_sha256=h, review_number=2)]}
     return snapshot, manifests
@@ -39,6 +42,7 @@ def test_changed_second_read_or_incomplete_submission_fails_closed():
         reconcile(snapshot, changed, manifests)
     incomplete = deepcopy(snapshot)
     incomplete['decisions'].pop()
+    incomplete['read_evidence']['decisions']['rows_received'] -= 1
     with pytest.raises(SnapshotError, match='Incomplete submission'):
         reconcile(incomplete, deepcopy(incomplete), manifests)
 
@@ -60,6 +64,8 @@ def test_latest_revision_only_but_prior_evidence_is_preserved():
     new.update(id='d-later', submission_id='s2', revision=2, decision='rejected')
     snapshot['submissions'].append(later)
     snapshot['decisions'].append(new)
+    snapshot['read_evidence']['submissions']['rows_received'] += 1
+    snapshot['read_evidence']['decisions']['rows_received'] += 1
     before = deepcopy(snapshot)
     result = reconcile(snapshot, deepcopy(snapshot), manifests)
     assert result['counts']['decisions'] == 3 and result['counts']['active_decisions'] == 1
@@ -75,6 +81,8 @@ def test_conflicting_active_decisions_are_held():
     other_decision.update(id='d2', user_id='second-owner', submission_id='s2')
     snapshot['submissions'].append(other_sub)
     snapshot['decisions'].append(other_decision)
+    snapshot['read_evidence']['submissions']['rows_received'] += 1
+    snapshot['read_evidence']['decisions']['rows_received'] += 1
     result = reconcile(snapshot, deepcopy(snapshot), manifests)
     assert result['counts']['matched'] == 1
     assert result['held'][0]['reason'] == 'conflicting_active_decisions'
@@ -84,6 +92,13 @@ def test_jobs_must_match_the_original_hash_and_decision():
     snapshot, manifests = fixture()
     snapshot['jobs'][0]['content_sha256'] = 'c' * 64
     with pytest.raises(SnapshotError, match='Job reviewed content mismatch'):
+        reconcile(snapshot, deepcopy(snapshot), manifests)
+
+
+def test_missing_or_incomplete_reader_evidence_never_masquerades_as_an_empty_database():
+    snapshot, manifests = fixture()
+    del snapshot['read_evidence']['decisions']
+    with pytest.raises(SnapshotError, match='Missing decisions read evidence'):
         reconcile(snapshot, deepcopy(snapshot), manifests)
 
 

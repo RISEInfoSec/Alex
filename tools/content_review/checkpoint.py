@@ -27,8 +27,13 @@ def prepare(root,paths,base_blobs,lease,owner,at=None):
     return tree
 
 def heartbeat(state,owner,run_id,at=None):
-    stamp=(at or datetime.now(timezone.utc)).isoformat()
-    if state.get('lease',{}).get('owner')!=owner:raise ValueError('Another lease owner')
-    if state.get('current_run',{}).get('run_id')!=run_id:raise ValueError('Heartbeat run mismatch')
+    now=at or datetime.now(timezone.utc);lease=state.get('lease') or {}
+    expiry=instant(lease.get('expires_at'))
+    if not owner or not run_id or lease.get('owner')!=owner or lease.get('run_id')!=run_id or not expiry or expiry<=now:
+        raise ValueError('A current matching single-writer lease is required')
+    if (state.get('current_run') or {}).get('run_id')!=run_id:raise ValueError('Heartbeat run mismatch')
+    previous=instant(state['current_run'].get('observed_at'))
+    if previous and previous>now:raise ValueError('Heartbeat time cannot move backwards')
+    stamp=now.isoformat()
     state['last_heartbeat_at']=stamp;state['current_run']['observed_at']=stamp
     return state

@@ -33,6 +33,12 @@ def _integer(value, minimum=0):
 def _rows(snapshot, key):
     rows = snapshot.get(key)
     _require(isinstance(rows, list) and len(rows) <= MAX_ROWS, f"Invalid {key} snapshot")
+    evidence = snapshot.get('read_evidence')
+    _require(isinstance(evidence, dict) and isinstance(evidence.get(key), dict), f"Missing {key} read evidence")
+    proof = evidence[key]
+    _require(proof.get('complete') is True and proof.get('truncated_values') == 0
+             and proof.get('omitted_columns') == 0 and proof.get('rows_received') == len(rows),
+             f"Incomplete {key} read evidence")
     _require(all(isinstance(row, dict) for row in rows), f"Invalid {key} row")
     ids = [row.get('id') for row in rows]
     _require(all(isinstance(i, str) and i for i in ids), f"Missing {key} identity")

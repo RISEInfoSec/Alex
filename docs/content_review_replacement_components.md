@@ -24,6 +24,14 @@ each checkpoint or release. A changed, incomplete or unreadable state stops
 the affected work. Preserve all prior revisions and decisions; drafts are never
 final decisions. All existing publication and hash checks continue to apply.
 
+`lease.py` prepares bounded acquire, renew and release state transitions and
+preserves lease history. These pure functions do not acquire a remote lease.
+The coordinator must commit with an expected-head comparison and read back the
+winning lease before working, renew only while still owner, recheck before
+checkpointing, and stop immediately on a conflict or expiration. The heartbeat
+helper rejects expired or foreign leases. The local Git compare-and-swap test
+does not prove that a live distributed coordinator is installed.
+
 `work_plan.select` rotates across eligible collections before revisiting a
 collection, even if another collection has stronger evidence. Within each
 collection it prefers supported, more complete evidence. The future coordinator
