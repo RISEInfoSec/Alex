@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import re
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -14,15 +15,15 @@ from tools.content_review.lifecycle import instant, stamp
 PATH='config/content_review_operations.json'
 AUTOMATION='Automation_4eb2dd829aa88191b542d57f7008ebe3'
 
-def find_automation(value):
+def find_automation(value, automation_id=AUTOMATION):
     if isinstance(value,dict):
-        if value.get('id')==AUTOMATION and 'is_enabled' in value:return value
+        if value.get('id')==automation_id and 'is_enabled' in value:return value
         for item in value.values():
-            result=find_automation(item)
+            result=find_automation(item,automation_id)
             if result:return result
     elif isinstance(value,list):
         for item in value:
-            result=find_automation(item)
+            result=find_automation(item,automation_id)
             if result:return result
     return None
 
@@ -63,7 +64,8 @@ def expected_next(automation, pauses=()):
 
 def verified_completion(automation,receipt):
     run=automation.get('run_details',{}).get('last_run') or {}
-    if (run.get('recorded_status') != 'completed' or not receipt
+    if (not isinstance(run.get('id'),str) or not re.fullmatch(r'[a-zA-Z0-9-]+',run['id'])
+        or run.get('recorded_status') != 'completed' or not receipt
         or run.get('id')!=receipt.get('run_id') or receipt.get('trigger')!='schedule'
         or not receipt.get('completed_actions') or receipt.get('status')!='complete'):
         return None
@@ -80,17 +82,28 @@ def verified_completion(automation,receipt):
         evidence_verified=True,receipt=receipt['receipt_path'])
 
 def observe(root,native,at=None):
-    root=Path(root);at=stamp(at);a=find_automation(native)
+    root=Path(root);at=stamp(at)
+    config_path=root/'config/content_review_monitor_config.json'
+    if not config_path.is_file():raise ValueError('Current monitor configuration is required')
+    config=json.loads(config_path.read_text());target=config.get('target_automation_id') if isinstance(config,dict) else None
+    if not isinstance(target,str) or not re.fullmatch(r'Automation_[a-zA-Z0-9]+',target):
+        raise ValueError('Configured target automation identity is unavailable')
+    a=find_automation(native,target)
     if not a:raise ValueError('Matching independently fetched native automation required')
     path=root/PATH;data=json.loads(path.read_text()) if path.exists() else {'schema_version':1}
+    previous=data.get('scheduler') or {}
+    if previous and previous.get('id')!=target:
+        history=data.setdefault('scheduler_history',[])
+        if not isinstance(history,list):raise ValueError('Existing scheduler history is invalid')
+        if previous not in history:history.append(copy.deepcopy(previous))
     last=(a.get('run_details') or {}).get('last_run') or {}
     latest=(a.get('run_details') or {}).get('latest_result') or {}
-    s=dict(id=AUTOMATION,observed_at=at,is_enabled=a['is_enabled'],schedule=a.get('schedule'),
+    s=dict(id=target,observed_at=at,is_enabled=a['is_enabled'],schedule=a.get('schedule'),
         next_run_time=a.get('next_run_time'),expected_next_run_at=expected_next(a, data.get('owner_pause_intervals',[])),last_run={k:last.get(k) for k in
             ('id','recorded_status','scheduled_for','started_at','completed_at')},
         requires_user_action=bool(latest.get('requires_user_action')) if latest.get('run_id')==last.get('id') else False,
-        last_verified_scheduled_success=data.get('scheduler',{}).get('last_verified_scheduled_success'))
-    if last.get('id'):
+        last_verified_scheduled_success=previous.get('last_verified_scheduled_success') if previous.get('id')==target else None)
+    if isinstance(last.get('id'),str) and re.fullmatch(r'[a-zA-Z0-9-]+',last['id']):
         receipt_path=root/'config/content_review_run_receipts'/(last['id']+'.json')
         receipt=json.loads(receipt_path.read_text()) if receipt_path.exists() else None
         proof=verified_completion(a,receipt)

@@ -52,6 +52,12 @@ base blobs and tree, requires a new receipt, validates the lease observation
 and committed lifecycle policy, and rejects unrelated candidate, stage, worker
 or history changes. It still cannot make a remote lease or D1 snapshot atomic;
 the caller must perform the required live rechecks and compare-and-swap.
+`github_atomic_checkpoint.cjs` adapts that proof to the existing GitHub
+connector. It checks the expected head and original file identities, verifies
+each created blob, requires a caller-supplied fresh D1/lease/source fence,
+uses an expected-head update and reads back the head and blobs. An ambiguous
+update must be reconciled rather than retried. It does not itself acquire or
+renew the lease, obtain D1 snapshots or implement the required live fence.
 
 Two matching paginated reads are not a database transaction. The coordinator
 must take complete fresh reads and recheck their fingerprint and immutable Git
@@ -91,9 +97,12 @@ deployed fairness guarantee.
 
 The repository verifier accepts only a native `completed` run with its canonical
 receipt path. `no_update`, dispatch, an empty pass and tests do not establish
-useful processing. The private Site's `no_update` and paused-OpenAlex display
-fixes have been deployed; integration with the replacement's actual scheduler
-and monitor evidence remains outstanding.
+useful processing. `operations.py` reads the target scheduler identity from the
+monitor configuration and archives the previous observation when the target
+changes. The private Site's receipt and paused-OpenAlex fixes are deployed;
+Site version 35 also follows that configured target without inheriting the old
+worker's heartbeat or proof. Actual replacement scheduler and monitor evidence
+remain outstanding.
 
 OpenAlex remains fully paused, including DOI lookups and diagnostics. The
 November 7 review time does not authorize resumption, and the unresolved HTTP

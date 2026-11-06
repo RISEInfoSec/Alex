@@ -193,4 +193,5 @@ def verify(repo, review_commit, main_commit, bundle):
     if not SHA.fullmatch(tree):
         raise ValueError('Commit tree is invalid')
     return {'expected_head': review_commit, 'base_tree_sha': tree, 'blobs': blobs,
+            'base_blobs': deepcopy(bases),
             'new_path': receipt_path, 'requires_remote_head_d1_and_lease_recheck': True, 'writes': 0}

@@ -51,6 +51,7 @@ def test_proposed_atomic_bundle_is_bound_to_exact_base_and_new_receipt(tmp_path)
     assert result['base_tree_sha'] == git(tmp_path, 'rev-parse', head + '^{tree}')
     assert result['new_path'] == bundle['new_paths_must_be_absent'][0]
     assert set(result['blobs']) == set(bundle['files'])
+    assert result['base_blobs'] == bundle['base_blobs']
     assert result['requires_remote_head_d1_and_lease_recheck'] is True
 
 
