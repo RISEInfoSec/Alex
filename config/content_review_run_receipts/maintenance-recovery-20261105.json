@@ -1720,7 +1720,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T05:56:23.044786+00:00",
+  "updated_at": "2026-11-06T06:02:06.823019+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1744,7 +1744,7 @@
     "canonical_receipt": "config/content_review_weekly_recovery/42150889598.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "Merge guarded completed-window replay after native checks, then continue retained original window and verify downstream stages.",
+  "next_action": "Verify zero-request completed-window replay and downstream stages in native run42171644273; restore original hourly tasks after maintenance completion.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -3217,9 +3217,18 @@
   ],
   "completed_window_replay_repair": {
     "pr": 126,
-    "status": "local_tests_passed_native_ci_pending",
+    "status": "merged_native_replay_running",
     "tests_passed": 648,
     "mode": "one_pass_zero_request_replay",
-    "prior_run": 42164493659
+    "prior_run": 42164493659,
+    "merge_commit": "86a28ed580192ee56d3c58485d8f7e1252c05437",
+    "run_id": 42171644273,
+    "native_ci": "All required checks passed; optional live checks skipped",
+    "production_checkpoint_validation": {
+      "state_sha": "9f9efa26616a7007b374eaacbc312c0482036cb7",
+      "receipt_sha256": "b67d037961e8737224bd0d2241c61f24a163d15f7792fcd039698175ba04ad8a",
+      "prior_controller_hash_verified": true,
+      "requests_sent": 0
+    }
   }
 }

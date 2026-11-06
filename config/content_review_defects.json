@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-06T05:56:23.044786+00:00",
+  "observed_at": "2026-11-06T06:02:06.823019+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -403,16 +403,18 @@
     },
     {
       "id": "discovery-runtime-receipt-rounding",
-      "status": "merged_fix_old_native_run_reconciliation_pending",
+      "status": "merged_ci_tested_reconciliation_running",
       "cause": "Deadline subtraction could produce a runtime limit infinitesimally above the configured bound, failing strict receipt verification.",
       "repair_pr": 124,
       "merge_commit": "40efaaff22074234dd368516956154e52b2af57a",
       "verification": "Deterministic actual-discovery two-pass test and634 native CI tests pass after preserving configured value.",
       "next_action": "Use validated completed-window replay with zero HTTP budgets; preserve original failure and receipt.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-06T05:56:23.044786+00:00",
+      "updated_at": "2026-11-06T06:02:06.823019+00:00",
       "live_failure_run": 42164493659,
-      "reconciliation_pr": 126
+      "reconciliation_pr": 126,
+      "reconciliation_run": 42171644273,
+      "reconciliation_merge": "86a28ed580192ee56d3c58485d8f7e1252c05437"
     },
     {
       "id": "rescore-shell-error-masking",
