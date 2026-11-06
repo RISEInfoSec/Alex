@@ -2,6 +2,7 @@ from __future__ import annotations
 import json
 import csv
 from alex.editorial_exclusions import filter_frame
+from alex.metadata_holds import filter_frame as filter_metadata_holds, load_holds, canonical_doi
 import logging
 import os
 import re
@@ -408,6 +409,7 @@ def _existing_corpus(path):
     from alex.resource_types import TYPES, public_fields
     existing = load_df(path)
     protected = set()
+    held_dois = {h['doi'] for h in load_holds(root_file('config', 'corpus_metadata_holds.json'))}
     if existing.empty:
         return existing, protected
     with path.open(newline='', encoding='utf-8') as stream:
@@ -416,11 +418,14 @@ def _existing_corpus(path):
     if len(raw_rows) != len(existing):
         raise ValueError('Classified CSV row alignment changed')
     for index, raw in enumerate(raw_rows):
-        if raw.get('document_type') not in TYPES:
+        manual_resource = raw.get('document_type') in TYPES
+        metadata_held = canonical_doi(raw.get('doi', '')) in held_dois
+        if not manual_resource and not metadata_held:
             continue
         # Validate the existing immutable binding, never recompute it to
         # bless a value altered by pandas (2026 -> 2026.0, or NA -> null).
-        public_fields(raw)
+        if manual_resource:
+            public_fields(raw)
         if not protected:
             existing = existing.astype(object)
         protected.add(_dedup_key(raw))
@@ -452,6 +457,13 @@ def run() -> None:
         validate_columns(df, ["title", "abstract", "venue", "authors", "citation_count"], "accepted_harvested.csv")
 
     df = filter_frame(df, root_file("config", "corpus_exclusions.json"))
+    # Technical holds preserve the accepted source row. Neither a fresh paid
+    # classification nor current-window pruning may replace that held evidence.
+    hold_path = root_file('config', 'corpus_metadata_holds.json')
+    if not df.empty:
+        df = filter_metadata_holds(df, hold_path)
+    if not rescored.empty:
+        rescored = filter_metadata_holds(rescored, hold_path)
     existing, protected_keys = _existing_corpus(output_path)
     rescored_keys = set()
     if window_run_id and _rows_match_run_id(rescored, window_run_id, "rescore_metrics.csv") \
