@@ -1498,10 +1498,11 @@
     "window_candidates": 4672,
     "completed_search_tasks": 49,
     "deduplicated_doi_abstract_lookups_total": 1072,
-    "cached_doi_results": 990,
-    "deduplicated_doi_abstract_lookups_remaining": 82,
+    "cached_doi_results": 997,
+    "deduplicated_doi_abstract_lookups_remaining": 75,
     "state_commit": "aaa58017b2dbf77125d4a07dde5c4ccf590a7e4d",
-    "retry_not_before": "2026-11-06T01:46:00.000Z"
+    "retry_not_before": "2026-11-06T01:46:00.000Z",
+    "observed_at": "2026-11-06T05:31:27Z"
   },
   "approval_required": {
     "proposal_pr": "https://github.com/RISEInfoSec/Alex/pull/118",
@@ -1719,7 +1720,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-06T05:32:20.913613+00:00",
+  "updated_at": "2026-11-06T05:35:43.583741+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1808,7 +1809,7 @@
     "native_ci": "all checks passed; optional live APWG checks skipped by existing conditions",
     "run_id": 42164493659,
     "status": "automatic_second_pass_started",
-    "automatic_handoff_verified": false,
+    "automatic_handoff_verified": true,
     "full_pipeline_verified": false,
     "scheduled_verified": false,
     "first_pass": {
@@ -1832,7 +1833,53 @@
       "until_date": "2026-11-05"
     },
     "automatic_handoff_started": true,
-    "proof_state": "aaa58017b2dbf77125d4a07dde5c4ccf590a7e4d"
+    "proof_state": "aaa58017b2dbf77125d4a07dde5c4ccf590a7e4d",
+    "automatic_handoff_evidence": {
+      "native": {
+        "id": 42164493659,
+        "status": "in_progress",
+        "conclusion": null,
+        "head_sha": "31944edd9b19db0fbaf9fec818dc6801110d8bee",
+        "created_at": "2026-11-06T04:46:40Z",
+        "updated_at": "2026-11-06T04:46:44Z"
+      },
+      "state_sha": "aaa58017b2dbf77125d4a07dde5c4ccf590a7e4d",
+      "state_at": "2026-11-06T05:31:27Z",
+      "state_status": "in_progress",
+      "state_pass_id": "42164493659:1:2",
+      "window": {
+        "from_date": "2026-10-29",
+        "until_date": "2026-11-05"
+      },
+      "completed_tasks": 49,
+      "completed_by_provider": {
+        "GitHub": 12,
+        "Crossref": 12,
+        "Zenodo": 12,
+        "OpenAlex": 12,
+        "arXiv": 1
+      },
+      "candidate_titles": 4672,
+      "requests_this_attempt": 7,
+      "statuses": {
+        "200": 7
+      },
+      "hosts": {
+        "api.openalex.org": 7
+      },
+      "last_openalex_quota": {
+        "X-RateLimit-Limit": 10000.0,
+        "X-RateLimit-Remaining": 10000.0,
+        "X-RateLimit-Credits-Used": 0.0,
+        "X-RateLimit-Reset": 66537.0
+      },
+      "last_request": {
+        "host": "api.openalex.org",
+        "http_status": 200,
+        "elapsed_seconds": 0.193,
+        "started_at": "2026-11-06T05:31:03.556589+00:00"
+      }
+    }
   },
   "downstream_recovery_repairs": {
     "pr": 123,
@@ -1889,7 +1936,7 @@
   },
   "reviewed_resource_merge_repair": {
     "pr": 125,
-    "status": "local_tested_ci_pending",
+    "status": "merged_ci_tested_live_stage_pending",
     "local_tests_passed": 639,
     "cause": [
       {
@@ -1921,7 +1968,10 @@
       }
     },
     "repair": "Preserve and validate original CSV values for reviewed resources before automatic paper classification; hold conflicting automatic replacement/rescore before paid calls or corpus writes.",
-    "live_applied": false
+    "live_applied": false,
+    "merge_commit": "5680592588743ad980e7d7f525eac78c43cb32dc",
+    "native_test_run": 42168038195,
+    "native_site_run": 42168038203
   },
   "lease_renewals": [
     {

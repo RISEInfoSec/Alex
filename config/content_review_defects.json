@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-06T05:23:11.520750+00:00",
+  "observed_at": "2026-11-06T05:35:43.583741+00:00",
   "scope": "Entire ALEX pipeline; branch name is not scope",
   "defects": [
     {
@@ -205,7 +205,7 @@
         "general_weekly_discovery",
         "scheduled_pipeline"
       ],
-      "status": "guard_reconciled_actions_recovery_live_verification",
+      "status": "automatic_pass_continuation_live_verified_full_pipeline_pending",
       "evidence": [
         "https://github.com/RISEInfoSec/Alex/actions/runs/36439756777",
         "https://github.com/RISEInfoSec/Alex/actions/runs/41979421841",
@@ -218,10 +218,10 @@
         "https://github.com/RISEInfoSec/Alex/actions/runs/42164493659"
       ],
       "cause": "Cancellation of a stale jobless record was wrongly required before dispatch, despite a successful nine-job same-commit replacement and later weekly successes.",
-      "next_action": "PR122 merged after617 local tests and native CI; verify retained-window completion, automatic pass handoff, and downstream publication.",
+      "next_action": "Pass1 saved250 requests(233 HTTP200,17 HTTP404); native controller started pass2 automatically and saved7 HTTP200 under same window. Verify complete discovery and downstream publication.",
       "verification_criteria": "Exact successful supersession proof remains verified; new current-main pipeline must complete discovery through publication/report with canonical receipts and useful processing.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-06T04:47:32.703915+00:00",
+      "updated_at": "2026-11-06T05:35:43.583741+00:00",
       "maintenance_receipt": "config/content_review_run_receipts/maintenance-end-to-end-20261105.json",
       "history": [
         {
@@ -249,7 +249,7 @@
       ],
       "latest_run": 42164493659,
       "retry_not_before": "2026-11-05T20:45:39.224652+00:00",
-      "remaining_doi_lookups": 332,
+      "remaining_doi_lookups": 75,
       "receipt": "config/content_review_weekly_recovery/42150889598.json"
     },
     {
@@ -436,13 +436,18 @@
     },
     {
       "id": "classification-reviewed-resource-binding",
-      "status": "local_repair_tested_ci_pending",
+      "status": "merged_ci_tested_live_stage_pending",
       "cause": "Disposable rehearsal using actual3194-row accepted corpus showed classification changed approved guide year2026 to2026.0, breaking immutable reviewed-content hash before publication.",
       "repair_pr": 125,
       "verification": "639 local tests; all3189 public records retained in repaired disposable rehearsal;5 technical holds retained; zero provider/paid calls; actual source files byte-identical.",
-      "next_action": "Complete native CI and merge before live classification; verify final public corpus after actual pipeline.",
+      "next_action": "Verify real classification/publication preserve reviewed bindings; no new editorial approval or synthetic publication.",
       "owner_role": "existing_content_review_worker",
-      "updated_at": "2026-11-06T05:23:11.520750+00:00"
+      "updated_at": "2026-11-06T05:35:43.583741+00:00",
+      "merge_commit": "5680592588743ad980e7d7f525eac78c43cb32dc",
+      "native_ci_runs": [
+        42168038195,
+        42168038203
+      ]
     }
   ]
 }
