@@ -9,12 +9,11 @@
   "soups_min_ready_batches": 0,
   "last_error": "OpenAlex remote connection closed without response; existing cooldown until 2026-11-05T20:45:39.224652+00:00;951 DOI lookups remain.",
   "lease": {
-    "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
-    "run_id": "maintenance-recovery-2026-11-05T18-08-44Z",
-    "acquired_at": "2026-11-05T18:08:44Z",
-    "expires_at": "2026-11-05T21:52:24.240859+00:00",
-    "purpose": "Owner authorized resolving outstanding failures and self-repair implementation; hourly checks paused",
-    "renewed_at": "2026-11-05T19:52:24.240859+00:00"
+    "owner": "maintenance-resume-2026-11-06T02-31Z",
+    "run_id": "maintenance-resume-2026-11-06T02-31Z",
+    "acquired_at": "2026-11-06T02:30:06.875764+00:00",
+    "expires_at": "2026-11-06T04:30:06.875764+00:00",
+    "purpose": "Continue owner-authorized recovery after failed unattended run; both hourly checks remain paused"
   },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
@@ -48,7 +47,7 @@
   },
   "global_deficit": 245,
   "soups_batch_deficit": 0,
-  "last_action": "Recovery pass42091428591 retained49 completed searches and121 DOI results; OpenAlex remote disconnect activated the one-hour shared hold. PR119 cache repair and PR120 harvest repair merged.",
+  "last_action": "Verified scheduled continuation363c0219-fb48-8325-b0a1-8d251dcfb8b1 failed without a diagnostic result; no later native pipeline exists. Reacquire expired lease and resume retained582 DOI lookups.",
   "mechanical_result_totals": {
     "legacy_accepted_tracked": 251,
     "legacy_bootstrapped_this_run": 0,
@@ -809,10 +808,10 @@
   },
   "last_completed_at": "2026-11-05T14:47:27.564870+00:00",
   "maintenance_activity": {
-    "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
-    "stage": "owner_timing_hold",
+    "owner": "maintenance-resume-2026-11-06T02-31Z",
+    "stage": "resuming_after_failed_automation",
     "started_at": "2026-11-05T18:08:44Z",
-    "updated_at": "2026-11-05T21:58:48.572Z",
+    "updated_at": "2026-11-06T02:30:06.875764+00:00",
     "candidate_processing": false,
     "restore_automations_on_completion": true,
     "restoration_pending": true,
@@ -820,7 +819,7 @@
     "run_id": 42113903650,
     "retry_not_before": "2026-11-06T01:46:00.000Z",
     "remaining_doi_lookups": 582,
-    "lease_expires_at": "2026-11-06T00:45:00.000Z",
+    "lease_expires_at": "2026-11-06T04:30:06.875764+00:00",
     "next_unattended_check": "2026-11-06T01:46:00.000Z"
   },
   "derived_queue_summary": {
@@ -920,6 +919,16 @@
       "purpose": "Owner-requested full ALEX repair; both hourly automations temporarily paused",
       "released_at": "2026-11-05T17:58:09Z",
       "release_reason": "Owner maintenance repair checkpoint verified; restore existing hourly schedules."
+    },
+    {
+      "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
+      "run_id": "maintenance-recovery-2026-11-05T18-08-44Z",
+      "acquired_at": "2026-11-05T18:08:44Z",
+      "expires_at": "2026-11-05T21:52:24.240859+00:00",
+      "purpose": "Owner authorized resolving outstanding failures and self-repair implementation; hourly checks paused",
+      "renewed_at": "2026-11-05T19:52:24.240859+00:00",
+      "status": "expired",
+      "expiry_observed_at": "2026-11-06T02:30:06.875764+00:00"
     }
   ]
 }

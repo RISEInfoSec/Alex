@@ -4,7 +4,7 @@
   "trigger": "owner_maintenance",
   "started_at": "2026-11-05T18:08:44Z",
   "observed_at": "2026-11-05T19:26:13.412050+00:00",
-  "status": "waiting_provider_cooldown",
+  "status": "resuming_after_failed_automation",
   "completed_at": null,
   "receipt_path": "config/content_review_run_receipts/maintenance-recovery-20261105.json",
   "completed_actions": [
@@ -1664,7 +1664,7 @@
     "ci_run": 42093725614,
     "ci_conclusion": "success"
   },
-  "updated_at": "2026-11-05T21:58:48.572Z",
+  "updated_at": "2026-11-06T02:30:06.875764+00:00",
   "harvest_abstract_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/120",
     "cause": "Truthy NaN from CSV skipped abstract fallback; OpenAlex fallback omitted returned abstract.",
@@ -1689,7 +1689,7 @@
     "canonical_receipt": "config/content_review_weekly_recovery/42106396231.json",
     "deferred_reason": "openalex_request_budget"
   },
-  "next_action": "Do not continue maintenance, dispatch or provider requests before 2026-11-06T01:46:00Z (20:46 America/Toronto). At that time re-read live provider state and acquire/verify a fresh maintenance lease before any write or dispatch. Reuse all 490 cached DOI outcomes.",
+  "next_action": "Resume saved582 DOI lookups after live hold/no-overlap checks; verify child and canonical receipt; diagnose unattended failure separately.",
   "provider_hold_launcher_repair": {
     "pr": "https://github.com/RISEInfoSec/Alex/pull/121",
     "merge_commit": "b033740a6e8ed2a398b320a2c120592ae06c6df0",
@@ -1701,17 +1701,28 @@
   },
   "next_continuation_base_at_observation": "cf497a3cce0b85290dc94aa7902ff5a253617630",
   "maintenance_lease": {
-    "owner": "maintenance-recovery-2026-11-05T18-08-44Z",
-    "verified_owner": true,
-    "renewed_at": null,
-    "expires_at": "2026-11-06T00:45:00.000Z",
-    "purpose": "Owner-authorized ALEX end-to-end recovery; hourly worker and monitor remain paused.",
-    "renewal_required_at_resume": true,
-    "status": "allowed_to_expire_during_owner_hold"
+    "owner": "maintenance-resume-2026-11-06T02-31Z",
+    "run_id": "maintenance-resume-2026-11-06T02-31Z",
+    "acquired_at": "2026-11-06T02:30:06.875764+00:00",
+    "expires_at": "2026-11-06T04:30:06.875764+00:00",
+    "purpose": "Continue owner-authorized recovery after failed unattended run; both hourly checks remain paused"
   },
   "unattended_continuation": {
     "automation_id": "6ae935ba229c81919751322fbce87ef8",
     "next_check_not_before": "2026-11-06T01:46:00.000Z",
     "current_child_run": null
+  },
+  "automation_failure_observation": {
+    "observed_at": "2026-11-06T02:30:06.875764+00:00",
+    "automation_id": "6ae935ba229c81919751322fbce87ef8",
+    "run_id": "363c0219-fb48-8325-b0a1-8d251dcfb8b1",
+    "recorded_status": "failed",
+    "scheduled_for": "2026-11-06T01:46:00Z",
+    "started_at": "2026-11-06T01:43:27.858780Z",
+    "completed_at": "2026-11-06T01:46:31.453450Z",
+    "result_text_empty": true,
+    "requires_user_action": true,
+    "cause": "Not exposed by scheduler result; do not infer authentication, timing, or environment as cause.",
+    "new_native_pipeline_after_failed_automation": false
   }
 }
