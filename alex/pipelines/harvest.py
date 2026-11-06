@@ -19,13 +19,9 @@ logger = logging.getLogger(__name__)
 # connectors for them elsewhere.
 _NON_CROSSREF_DOI_PREFIXES = ("10.5281/", "10.48550/arxiv")
 
-# Per-candidate parallelism. Same constraint as discovery (#46) and
-# citation_chain (#56): parallelism is *across candidates*, never within
-# one candidate's connector calls. Each thread does serial Crossref ->
-# OpenAlex -> S2 work for one row; the cumulative request rate to any
-# single source is bounded by HttpClient's polite delay (`time.sleep(0.5)`
-# in finally) firing inside each thread independently. Eight workers
-# amortises latency without surprising upstreams with bursty load.
+# Candidates may overlap across providers. HttpClient serializes every
+# upstream host, including its retries and polite delay; OpenAlex retains
+# its stricter persisted governor. Parallelism never increases a host's rate.
 HARVEST_WORKERS = 8
 
 

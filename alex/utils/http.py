@@ -21,6 +21,15 @@ CACHE = Path(__file__).resolve().parents[2] / ".alex_cache.json"
 # avoids ambiguity).
 _CACHE_MISS = object()
 _OPENALEX_LOCK = threading.Lock()
+_HOST_LOCKS_GUARD = threading.Lock()
+_HOST_LOCKS: dict[str, threading.Lock] = {}
+
+
+def _host_lock(url):
+    host = urlsplit(url).hostname or ""
+    with _HOST_LOCKS_GUARD:
+        return _HOST_LOCKS.setdefault(host, threading.Lock())
+
 _OPENALEX_POLICY_PATH = Path(__file__).resolve().parents[2] / 'config/openalex_request_policy.json'
 
 def _openalex_policy():
@@ -221,6 +230,18 @@ class HttpClient:
         unrecoverable failure. Honours Retry-After when present."""
         if urlsplit(url).hostname == 'api.openalex.org':
             return self._openalex_request(url, params, headers, timeout)
+        # A delay in each worker does not serialize requests from other
+        # workers. Share a lock across clients for the entire retry sequence
+        # and final polite delay; independent hosts can still run in parallel.
+        with _host_lock(url):
+            if self._host_blocked(url):
+                return None
+            try:
+                return self._request_other_host(url, params, headers, timeout, max_attempts)
+            finally:
+                time.sleep(0.5)
+
+    def _request_other_host(self, url, params, headers, timeout, max_attempts):
         last_exc: Exception | None = None
         params = self._with_auth(url, params)
         for attempt in range(1, max_attempts + 1):
@@ -290,8 +311,6 @@ class HttpClient:
         cached = self._cache_get(key)
         if cached is not _CACHE_MISS:
             return cached
-        if self._host_blocked(url):
-            return None
         try:
             r = self._request_with_retry(url, params, headers, timeout)
             if r is None:
@@ -305,7 +324,8 @@ class HttpClient:
             self._cache_put(key, text)
             return text
         finally:
-            time.sleep(0.5)
+            if urlsplit(url).hostname == "api.openalex.org":
+                time.sleep(0.5)
 
     def get_json(
         self,
@@ -318,8 +338,6 @@ class HttpClient:
         cached = self._cache_get(key)
         if cached is not _CACHE_MISS:
             return cached
-        if self._host_blocked(url):
-            return None
         try:
             r = self._request_with_retry(url, params, headers, timeout)
             if r is None:
@@ -333,4 +351,5 @@ class HttpClient:
             self._cache_put(key, data)
             return data
         finally:
-            time.sleep(0.5)
+            if urlsplit(url).hostname == "api.openalex.org":
+                time.sleep(0.5)

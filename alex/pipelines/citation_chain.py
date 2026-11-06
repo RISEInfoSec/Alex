@@ -17,12 +17,8 @@ logger = logging.getLogger(__name__)
 # more useful chains; everything else gets exponentially smaller returns.
 CITATION_CHAIN_TOP_N = 100
 
-# Per-candidate parallelism. Critical: each thread does serial OpenAlex/S2
-# work for one candidate; the cumulative request rate per upstream source is
-# bounded by HttpClient's polite delay (`time.sleep(0.5)` in finally) which
-# fires inside each thread independently. We never issue concurrent requests
-# *to the same source within one candidate*. Eight is a reasonable balance
-# between latency amortisation and not surprising upstreams with bursty load.
+# Candidate work may overlap across providers. HttpClient serializes each
+# upstream host; OpenAlex retains its stricter persisted governor.
 CITATION_CHAIN_WORKERS = 8
 
 # OpenAlex fan-out defaults. `search_limit` = how many title-search hits per
@@ -105,8 +101,8 @@ def run() -> None:
     mailto = os.getenv("HARVEST_MAILTO", "")
 
     # Each candidate's chain is independent. Fan out across candidates so
-    # OpenAlex/S2 calls overlap in wallclock; within each thread, calls stay
-    # serial under HttpClient's polite delay. Result merging is sequential
+    # independent provider calls overlap; each host remains serial under
+    # HttpClient's shared lock and pacing. Result merging is sequential
     # in the main thread to keep dedup deterministic.
     candidate_titles = [clean(row.get("title")) for _, row in sorted_df.iterrows()]
     per_candidate_rows: list[list[dict]] = []
