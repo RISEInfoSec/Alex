@@ -56,6 +56,22 @@ def test_content_change_is_held_not_rebound():
     assert {x['reason'] for x in result['held']} == {'reviewed_content_changed', 'missing_manifest_candidate'}
 
 
+def test_changed_batch_is_held_even_when_candidate_hash_matches():
+    snapshot, manifests = fixture()
+    manifests['weekly'][0]['review_batch'] = 2
+    result = reconcile(snapshot, deepcopy(snapshot), manifests)
+    assert result['counts']['matched'] == 1
+    assert result['held'][0]['reason'] == 'review_batch_changed_or_unknown'
+
+
+def test_soups_legacy_batch_and_apwg_unknown_batch_are_not_guessed():
+    from tools.content_review.d1_reconcile import _review_batch
+    assert _review_batch('soups', {'review_number': 118}) == 6
+    assert _review_batch('soups', {'review_number': 119}) == 7
+    assert _review_batch('soups', {'review_number': 121, 'review_batch': 9}) == 9
+    assert _review_batch('apwg', {'review_number': 4}) is None
+
+
 def test_latest_revision_only_but_prior_evidence_is_preserved():
     snapshot, manifests = fixture()
     later = deepcopy(snapshot['submissions'][0])

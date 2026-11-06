@@ -8,7 +8,7 @@ budgets and independent observation have all been integrated and verified.
 `tools/content_review/d1_reconcile.py` validates two complete D1 reads, joins
 every immutable submission, decision and job, selects the latest completed
 revision per owner/collection/batch and matches each active decision to the
-same candidate, review number and reviewed-content hash. Missing, changed or
+same candidate, review number, sealed batch and reviewed-content hash. Missing, changed or
 conflicting candidates are held; unknown or malformed data fails closed. The
 function does not apply decisions or authorize publication. Its CLI reads one
 JSON line on stdin and prints only aggregate counts. Keep raw snapshots and

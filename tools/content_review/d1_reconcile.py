@@ -55,6 +55,26 @@ def _fingerprint(snapshot):
     return hashlib.sha256(encoded).hexdigest()
 
 
+def _review_batch(collection, row):
+    """Match the Site's existing collection-specific batch contract."""
+    for field in ('review_batch', 'batch'):
+        explicit = row.get(field)
+        if explicit is not None:
+            return explicit if _integer(explicit, 1) else None
+    number = row.get('review_number')
+    if not _integer(number, 1) or collection == 'apwg':
+        # APWG derives batches from filtered manifest positions; callers must
+        # supply its normalized explicit batch, never guess that membership.
+        return None
+    if collection == 'soups':
+        if number <= 100:
+            return (number + 19) // 20
+        if number <= 118:
+            return 6
+        return 7 + (number - 119) // 20
+    return (number + 19) // 20
+
+
 def reconcile(snapshot, confirmed_snapshot, manifests):
     """Return a plan, never publication authority or a mutation.
 
@@ -139,6 +159,8 @@ def reconcile(snapshot, confirmed_snapshot, manifests):
             held.append({'collection': key[0], 'candidate_id': key[1], 'reason': 'missing_manifest_candidate'})
         elif target.get('content_sha256') != rows[0]['content_sha256'] or target.get('review_number') != rows[0]['review_number']:
             held.append({'collection': key[0], 'candidate_id': key[1], 'reason': 'reviewed_content_changed'})
+        elif _review_batch(key[0], target) != rows[0]['batch']:
+            held.append({'collection': key[0], 'candidate_id': key[1], 'reason': 'review_batch_changed_or_unknown'})
         else:
             matched.append(deepcopy(rows[0]))
     return {'snapshot_sha256': fingerprint, 'transactional_snapshot': False,
