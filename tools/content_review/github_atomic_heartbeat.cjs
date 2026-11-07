@@ -5,6 +5,9 @@
 // review branch and its active lease before using it.
 const REPO='RISEInfoSec/Alex', REVIEW='codex/soups-corpus-review', HEARTBEAT='codex/content-review-heartbeat';
 const PATH='config/content_review_detached_heartbeat.json', SHA=/^[0-9a-f]{40}$/;
+const {verifiedJson}=require('./verified_git_blob.cjs');
+const {validateHeartbeat}=require('./heartbeat_semantics.cjs');
+const WORKER='config/content_review_worker_status.json',CONFIG='config/content_review_monitor_config.json';
 const unwrap=(r,msg)=>{if(!r||r.isError||!r.structuredContent)throw new Error(msg);return r.structuredContent;};
 
 async function commitHeartbeat({api,linkId,proposal,now=()=>Date.now()}){
@@ -36,6 +39,11 @@ async function commitHeartbeat({api,linkId,proposal,now=()=>Date.now()}){
  }else if(!proposal.base_blob||proposal.base_blob.path!==PATH||proposal.base_blob.commit!==proposal.heartbeat_head||
           !SHA.test(proposal.base_blob.blob_sha||'')||unwrap(previous,'Cannot read heartbeat base').sha!==proposal.base_blob.blob_sha)
   throw new Error('Heartbeat base blob changed');
+ const [workerResponse,configResponse]=await Promise.all([WORKER,CONFIG].map(path=>api.fetchFile({...common,path,ref:proposal.review_head,encoding:'utf-8'})));
+ const [state,config,previousRecord]=await Promise.all([verifiedJson(workerResponse),verifiedJson(configResponse),
+  proposal.base_blob===null?Promise.resolve(null):verifiedJson(previous)]);
+ validateHeartbeat({state,config,record,previous:previousRecord,reviewHead:proposal.review_head,
+  owner:proposal.owner,runId:proposal.run_id,now:now()});
  const blob=unwrap(await api.createBlob({...common,content:proposal.content,encoding:'utf-8'}),'Cannot create heartbeat blob');
  if(blob.sha!==proposal.blob_sha)throw new Error('Heartbeat blob hash mismatch');
  let tree=null,commit=null;

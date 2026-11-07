@@ -6,7 +6,10 @@
 const REPOSITORY = 'RISEInfoSec/Alex';
 const BRANCH = 'codex/soups-corpus-review';
 const PATH = 'config/content_review_worker_status.json';
+const CONFIG = 'config/content_review_monitor_config.json';
 const SHA = /^[0-9a-f]{40}$/;
+const {validateTransition}=require('./lease_semantics.cjs');
+const {verifiedJson}=require('./verified_git_blob.cjs');
 
 function data(result, error) {
   if (!result || result.isError || !result.structuredContent) throw new Error(error);
@@ -54,6 +57,14 @@ async function commitLease({api, linkId, proposal, owner, runId, now=()=>Date.no
   if (await head() !== proposal.expected_head) throw new Error('Review head changed before lease update');
   const old=data(await file(proposal.expected_head),'Cannot read committed lease state');
   if (old.sha !== proposal.base_blob.blob_sha) throw new Error('Committed lease blob changed');
+  const previous=await verifiedJson({structuredContent:old});
+  validateTransition(previous,state,proposal.phase,{owner,runId,now:now()});
+  if(proposal.phase!=='abort'){
+    const config=data(await api.fetchFile({...common,path:CONFIG,ref:proposal.expected_head,encoding:'utf-8'}),'Cannot read committed worker configuration');
+    const settings=await verifiedJson({structuredContent:config});
+    if(!settings||settings.target_automation_id!==state.current_run?.scheduler?.id)
+      throw new Error('Native observation does not match configured worker');
+  }
   const blob=data(await api.createBlob({...common,content:proposal.content,encoding:'utf-8'}),'Cannot create lease blob');
   if (blob.sha !== proposal.blob_sha) throw new Error('Lease blob hash mismatch');
   const message=proposal.phase==='start'?'Acquire content review lease':proposal.phase==='abort'?'Release failed content review lease':'Record content review heartbeat';

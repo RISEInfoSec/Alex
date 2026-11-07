@@ -11,20 +11,26 @@ const path='config/content_review_worker_status.json', t=Date.parse('2026-11-06T
 
 function fixture(){
  let current=head,writes=0,blobContent='';
- const original='{"lease":null}\n', base=gitHash(original), state={lease:{owner:'worker',run_id:'run',expires_at:'2026-11-07T00:20:00Z'},
-  current_run:{run_id:'run',application_status:'running',started_at:'2026-11-06T23:50:01Z',observed_at:'2026-11-06T23:50:20Z',
-               scheduler:{last_run:{id:'run',recorded_status:'in_progress'}}}};
+ let original='{"lease":null}\n';
+ const state={lease:{owner:'worker',run_id:'run',acquired_at:'2026-11-06T23:50:20Z',expires_at:'2026-11-07T00:20:20Z'},lease_history:[],
+  last_started_at:'2026-11-06T23:50:01Z',last_heartbeat_at:'2026-11-06T23:50:20Z',
+  current_run:{run_id:'run',application_status:'running',started_at:'2026-11-06T23:50:01Z',scheduled_for:'2026-11-06T23:50:00Z',
+   observed_at:'2026-11-06T23:50:20Z',request_counts:{source:0,paid:0,openalex:0},
+   scheduler:{id:'Automation_worker',observed_at:'2026-11-06T23:50:20Z',is_enabled:true,schedule:'hourly',
+    last_run:{id:'run',recorded_status:'in_progress',scheduled_for:'2026-11-06T23:50:00Z',started_at:'2026-11-06T23:50:01Z',completed_at:null}}}};
  const content=JSON.stringify(state)+'\n';
  const api={fetchCommit:async()=>ok({commit:{sha:current}}),
-  fetchFile:async ({ref})=>ref===head?ok({sha:base,content:original}):ok({sha:gitHash(blobContent),content:blobContent}),
+  fetchFile:async ({ref,path:requested})=>{if(requested==='config/content_review_monitor_config.json'){
+   const content=JSON.stringify({target_automation_id:'Automation_worker'});return ok({sha:gitHash(content),content});}
+   return ref===head?ok({sha:gitHash(original),content:original}):ok({sha:gitHash(blobContent),content:blobContent});},
   createBlob:async ({content})=>{blobContent=content;return ok({sha:gitHash(content)});},
   createTree:async ({base_tree_sha,tree_elements})=>{assert.equal(base_tree_sha,tree);assert.equal(tree_elements[0].path,path);return ok({sha:nextTree});},
   createCommit:async ({parent_sha,tree_sha})=>{assert.equal(parent_sha,head);assert.equal(tree_sha,nextTree);return ok({sha:nextCommit});},
   updateRef:async ({expected_sha,sha,force})=>{writes++;assert.equal(force,false);if(current!==expected_sha)return {isError:true};current=sha;return ok({success:true});}};
  return {api,linkId:'account',owner:'worker',runId:'run',now:()=>t,
   proposal:{phase:'start',path,writes:0,requires_atomic_update_and_lease_readback:true,expected_head:head,base_tree_sha:tree,
-            base_blob:{path,commit:head,blob_sha:base},content,blob_sha:gitHash(content)},
-  writes:()=>writes,setHead:v=>{current=v;}};
+            base_blob:{path,commit:head,blob_sha:gitHash(original)},content,blob_sha:gitHash(content)},
+  writes:()=>writes,setHead:v=>{current=v;},setBefore:v=>{original=JSON.stringify(v)+'\n';}};
 }
 
 test('lease acquisition uses expected head and exact readback',async()=>{
@@ -60,9 +66,23 @@ test('ambiguous lease write is not retried',async()=>{
 });
 test('abort releases only the identified lease and records the failed application',async()=>{
  const f=fixture(),state=JSON.parse(f.proposal.content), prior=state.lease;
+ f.setBefore(state);f.proposal.base_blob.blob_sha=gitHash(JSON.stringify(state)+'\n');
  state.lease=null;state.lease_history=[{...prior,status:'released',released_at:'2026-11-06T23:50:20Z'}];
- state.current_run.application_status='failed';state.current_run.failure_code='access_unavailable';state.last_error='access_unavailable';
+ state.current_run.application_status='failed';state.current_run.application_completed_at='2026-11-06T23:50:20Z';
+ state.current_run.failure_code='access_unavailable';state.last_error='access_unavailable';
  f.proposal.phase='abort';f.proposal.content=JSON.stringify(state)+'\n';f.proposal.blob_sha=gitHash(f.proposal.content);
  const result=await commitLease(f);assert.equal(result.phase,'abort');assert.equal(result.expires_at,null);assert.equal(f.writes(),1);
  const g=fixture();g.proposal.phase='abort';await assert.rejects(commitLease(g),/release is stale or mismatched/);assert.equal(g.writes(),0);
+});
+test('lease writer rejects unrelated changes before making any blob or branch write',async()=>{
+ const f=fixture(),state=JSON.parse(f.proposal.content);state.source_attempts={fabricated:true};
+ f.proposal.content=JSON.stringify(state)+'\n';f.proposal.blob_sha=gitHash(f.proposal.content);
+ let blobs=0;f.api.createBlob=async()=>{blobs++;throw Error('unexpected');};
+ await assert.rejects(commitLease(f),/unrelated state/);assert.equal(blobs,0);assert.equal(f.writes(),0);
+});
+test('lease writer rejects a scheduler identity outside committed configuration',async()=>{
+ const f=fixture(),state=JSON.parse(f.proposal.content);state.current_run.scheduler.id='Automation_another';
+ f.proposal.content=JSON.stringify(state)+'\n';f.proposal.blob_sha=gitHash(f.proposal.content);
+ let blobs=0;f.api.createBlob=async()=>{blobs++;throw Error('unexpected');};
+ await assert.rejects(commitLease(f),/does not match configured worker/);assert.equal(blobs,0);
 });
