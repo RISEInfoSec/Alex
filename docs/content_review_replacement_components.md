@@ -29,6 +29,16 @@ every registered collection, reports APWG, the corpus audit and Virus Bulletin
 as requiring their separate adapters, and sets OpenAlex and paid requests to zero for the plan.
 Per-collection matching-decision counts are reconciliation observations, not
 processed work. The plan performs no candidate work, network calls or writes.
+`source_plan.py` prepares bounded source requests only for candidates selected
+after the private decision overlay, exact committed inputs and a current
+separate heartbeat. A held DOI candidate does not suppress an eligible peer.
+`source_accounting.py` prepares an idempotent request count and receipt only
+after independently supplied native workflow and artifact evidence agrees;
+`source_request_guard.py` and `source_result_guard.py` prepare two-file atomic
+bundles for a single pending request and its later verified receipt. The
+connector writer can save those bundles only after the same live fence. The
+outputs still require an atomic leased write and readback; none of these
+planning modules dispatches a workflow or makes a provider request.
 `apwg_adapter.py` reproduces the Site's filtered APWG candidate IDs, content
 hashes and batches for decision reconciliation. APWG execution still needs a
 separate source/decision writer; normalization is not processing.

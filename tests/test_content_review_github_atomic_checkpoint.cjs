@@ -100,3 +100,21 @@ test('mismatched readback is a failure even after successful update', async () =
   await assert.rejects(commitCheckpoint(f),/readback mismatch/);
   assert.equal(f.writes(),1);
 });
+test('source request and its single reservation commit together',async()=>{
+ const f=fixture(),worker='config/content_review_worker_status.json',request='config/content_review_source_requests/'+'2'.repeat(64)+'.json';
+ const requestContent='{"request_id":"synthetic"}\n';
+ f.bundle.files={[worker]:f.bundle.files[worker],[request]:requestContent};
+ f.proof.kind='source_request';f.proof.new_path=request;f.proof.base_blobs={[worker]:f.proof.base_blobs[worker]};
+ f.proof.blobs={[worker]:f.proof.blobs[worker],[request]:{blob_sha:hash(requestContent),size:Buffer.byteLength(requestContent)}};
+ const result=await commitCheckpoint(f);assert.equal(result.status,'committed_and_read_back');
+ assert.deepEqual(result.checkpoint_paths,[request,worker].sort());assert.equal(f.writes(),1);
+});
+test('a verified source result may be saved during the final checkpoint reserve',async()=>{
+ const f=fixture(),worker='config/content_review_worker_status.json',receipt='config/content_review_source_receipts/'+'3'.repeat(64)+'.json';
+ const receiptContent='{"synthetic":true}\n';
+ f.bundle.files={[worker]:f.bundle.files[worker],[receipt]:receiptContent};
+ f.proof.kind='source_result';f.proof.new_path=receipt;f.proof.base_blobs={[worker]:f.proof.base_blobs[worker]};
+ f.proof.blobs={[worker]:f.proof.blobs[worker],[receipt]:{blob_sha:hash(receiptContent),size:Buffer.byteLength(receiptContent)}};
+ f.observation.started_at='2026-11-06T23:39:20Z';
+ assert.equal((await commitCheckpoint(f)).status,'committed_and_read_back');
+});

@@ -57,7 +57,8 @@ function createFence({proof,bundle,readSnapshot,readReviewHead,readMainHead,read
     }
     const time=now(), observed=Date.parse(heartbeat), expiry=Date.parse(lease.expires_at), started=Date.parse(run.started_at);
     if(!Number.isFinite(time)||!Number.isFinite(observed)||observed>time||time-observed>40000||
-       !Number.isFinite(expiry)||expiry-time<=120000||!Number.isFinite(started)||started>time||time-started>600000)
+       !Number.isFinite(expiry)||expiry-time<=120000||!Number.isFinite(started)||started>time||
+       time-started>(proof.kind==='source_result'?720000:600000))
       throw new Error('Lease heartbeat or work budget expired during D1 read');
     return {verified:true,expectedHead:review,main_head:main,d1_fingerprint_private:a,
             lease_owner:lease.owner,run_id:run.run_id,heartbeat_at:heartbeat,

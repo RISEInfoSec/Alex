@@ -75,6 +75,7 @@ def prepare(repo, head, native, owner, run_id, phase, *, at=None, failure_code=N
         updated = begin(acquire(state, owner, run_id, at=now), owner, run_id,
                         started_at=run['started_at'], scheduled_for=run['scheduled_for'], at=now)
         updated['last_started_at'] = run['started_at']
+        updated['current_run']['request_counts'] = {'source':0,'paid':0,'openalex':0}
     else:
         previous = instant((state.get('current_run') or {}).get('observed_at'))
         if not previous or not 0 <= (now-previous).total_seconds() <= 40:

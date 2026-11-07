@@ -33,6 +33,7 @@ def test_native_start_prepares_lease_preserving_previous_run(tmp_path):
     assert state['lease']['owner']=='worker' and state['lease']['run_id']==run
     assert state['run_history']==[previous]
     assert state['current_run']['scheduler']['id']==native['id']
+    assert state['current_run']['request_counts']=={'source':0,'paid':0,'openalex':0}
     raw=result['content'].encode()
     assert result['blob_sha']==hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
     assert json.loads((tmp_path/'config/content_review_worker_status.json').read_text())['lease'] is None

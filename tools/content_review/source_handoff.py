@@ -6,14 +6,23 @@ from datetime import datetime, timezone, timedelta
 from tools.content_review.source_worker import digest, file_digest, records, MANIFESTS, WORKFLOW, BRANCH
 from tools.content_review.lifecycle import ensure_eligible, instant
 
-def prepare(root,selections,started_at,lease_owner,source_requests_used=0):
-    root=Path(root);start=instant(started_at);now=datetime.now(timezone.utc)
+def prepare(root,selections,started_at,lease_owner,source_requests_used=0,*,at=None,coordinator_run_id=None):
+    root=Path(root);start=instant(started_at);now=at or datetime.now(timezone.utc)
+    if not isinstance(now,datetime) or now.tzinfo is None or now.utcoffset() is None:raise ValueError('Timezone-aware work time required')
     if not start or start>now or now>=start+timedelta(seconds=600):raise ValueError('No work time remains; preserve completion reserve')
     if not 1<=len(selections)<=5 or not 0<=source_requests_used<30:raise ValueError('Initial pilot budgets exceeded')
     result={'schema_version':1,'started_at':start.isoformat(),'work_deadline':(start+timedelta(seconds=600)).isoformat(),'lease_owner':lease_owner,'source_request_limit':30-source_requests_used,'records':[]}
+    if coordinator_run_id is not None:
+        if not isinstance(coordinator_run_id,str) or not coordinator_run_id:raise ValueError('Coordinator run identity is required')
+        result['coordinator_run_id']=coordinator_run_id
     for collection,cid in selections:
         ensure_eligible(root,collection,cid);p=root/MANIFESTS[collection]
         row=next(r for r in records(json.loads(p.read_text())) if r['candidate_id']==cid)
+        from tools.content_review.manifest_integrity import reviewed_digest
+        from tools.content_review.source_worker import safe_url
+        if row.get('decision','pending') not in ('pending','unreviewed') or reviewed_digest(row)!=row.get('content_sha256'):
+            raise ValueError('Candidate decision or reviewed content is no longer eligible')
+        safe_url(row.get('source_url',''),resolve=False)
         ev=row.get('source_processing',{})
         if ev.get('content_sha256')==row['content_sha256'] and ev.get('retrieval_status')=='retrieved':raise ValueError('Consume retained source evidence instead of downloading again')
         result['records'].append({'collection':collection,'candidate_id':cid,'content_sha256':row['content_sha256'],'manifest_sha256':file_digest(p),'url':row['source_url']})

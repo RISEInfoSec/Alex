@@ -232,6 +232,17 @@ def validate(root,path):
     if not start or not end or not start<=now<end or (end-start).total_seconds()>600:raise ValueError('Expired or unbounded source work')
     state=json.loads((root/'config/content_review_worker_status.json').read_text());lease=state.get('lease') or {}
     if lease.get('owner')!=req['lease_owner'] or not instant(lease.get('expires_at')) or instant(lease['expires_at'])<=now:raise ValueError('No matching unexpired writer lease')
+    if 'coordinator_run_id' in req:
+        current=state.get('current_run') or {};pending=current.get('pending_source_request') or {};counts=current.get('request_counts') or {}
+        if (not isinstance(req['coordinator_run_id'],str) or not req['coordinator_run_id']
+            or lease.get('run_id')!=req['coordinator_run_id'] or current.get('run_id')!=req['coordinator_run_id']
+            or current.get('application_status')!='running' or instant(current.get('started_at'))!=start
+            or pending.get('request_id')!=req['request_id'] or pending.get('reserved_limit')!=req.get('source_request_limit')
+            or type(counts.get('source')) is not int or not 0<=counts['source']<30
+            or type(req.get('source_request_limit')) is not int or req['source_request_limit']!=30-counts['source']
+            or type(counts.get('paid')) is not int or not 0<=counts['paid']<=5
+            or type(counts.get('openalex')) is not int or counts['openalex']!=0):
+            raise ValueError('Matching single pending source request and budget are required')
     items=req['records']
     if not 1<=len(items)<=5 or len({i['candidate_id'] for i in items})!=len(items):raise ValueError('Initial pilot candidate ceiling/identity')
     if req.get('purpose') == 'corpus_metadata_audit':
