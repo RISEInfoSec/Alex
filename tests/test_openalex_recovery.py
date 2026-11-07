@@ -25,6 +25,36 @@ def test_pacing_shared_across_clients_and_cache_hits_do_not_request(setup,monkey
  assert a.session.get.call_count==1 and b.session.get.call_count==1 and 60 in slept
  assert a.session.get.call_args.kwargs['timeout']==20
 
+def test_request_budget_is_shared_across_clients_and_preserved_for_run(setup,monkeypatch):
+ monkeypatch.setenv('GITHUB_RUN_ID','123456')
+ monkeypatch.setattr(http,'_openalex_policy',lambda:{'requests_enabled':True,'min_interval_seconds':0,
+  'request_timeout_seconds':20,'failure_cooldown_seconds':3600,'retry_not_before':None,'max_openalex_requests_per_run':2})
+ first,second=http.HttpClient(),http.HttpClient()
+ first.session.get=MagicMock(return_value=response());second.session.get=MagicMock(return_value=response())
+ assert first.get_json('https://api.openalex.org/works',params={'q':'one'})=={'ok':True}
+ assert second.get_json('https://api.openalex.org/works',params={'q':'two'})=={'ok':True}
+ third=http.HttpClient();third.session.get=MagicMock(return_value=response())
+ assert third.get_json('https://api.openalex.org/works',params={'q':'three'}) is None
+ third.session.get.assert_not_called()
+ assert json.loads((setup/'cache.json.openalex-policy').read_text())['request_attempts_by_run']['123456']==2
+ monkeypatch.setenv('GITHUB_RUN_ID','123457')
+ next_run=http.HttpClient();next_run.session.get=MagicMock(return_value=response())
+ assert next_run.get_json('https://api.openalex.org/works',params={'q':'next'})=={'ok':True}
+
+def test_invalid_budget_checkpoint_fails_closed_before_network(setup,monkeypatch):
+ monkeypatch.setenv('GITHUB_RUN_ID','123456')
+ (setup/'cache.json.openalex-policy').write_text(json.dumps({'request_attempts_by_run':{'123456':'corrupt'}}))
+ client=http.HttpClient();client.session.get=MagicMock(return_value=response())
+ assert client.get_json('https://api.openalex.org/works') is None
+ client.session.get.assert_not_called()
+
+@pytest.mark.parametrize('hold',[{'owner_pause':{'reason':'owner'}},{'reconciliation_hold':{'http_status':429}}])
+def test_policy_hold_overrides_enabled_flag_before_network(setup,monkeypatch,hold):
+ monkeypatch.setattr(http,'_openalex_policy',lambda:{'requests_enabled':True,**hold})
+ client=http.HttpClient();client.session.get=MagicMock(return_value=response())
+ assert client.get_json('https://api.openalex.org/works') is None
+ client.session.get.assert_not_called()
+
 @pytest.mark.parametrize('failure',[429,503,'timeout'])
 def test_failure_stops_requests_and_cooldown_survives_new_client(setup,failure,monkeypatch):
  monkeypatch.setattr(http.time,'time',lambda:10000)

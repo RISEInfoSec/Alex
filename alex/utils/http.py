@@ -178,7 +178,8 @@ class HttpClient:
         if self._openalex_hold:
             return None
         policy = _openalex_policy()
-        if policy.get('requests_enabled') is False:
+        if (policy.get('requests_enabled') is False or policy.get('owner_pause') is not None
+                or policy.get('reconciliation_hold') is not None):
             self._openalex_hold = True
             logger.warning('OpenAlex requests paused pending provider-state reconciliation; no request sent')
             return None
@@ -190,6 +191,29 @@ class HttpClient:
                 state = json.loads(state_path.read_text()) if state_path.exists() else {}
             except (ValueError, OSError):
                 logger.warning('OpenAlex pacing checkpoint unreadable; no request sent')
+                return None
+            # Count before sending, under the same lock and in the same durable
+            # checkpoint as provider backoff. GitHub jobs in one pipeline run
+            # share this file through pipeline-state, so later stages cannot
+            # silently reset the owner's per-run ceiling.
+            configured_limit = policy.get('max_openalex_requests_per_run', 250)
+            if type(configured_limit) is not int or not 0 <= configured_limit <= 250:
+                logger.warning('OpenAlex request budget invalid; no request sent')
+                self._openalex_hold = True
+                return None
+            run_id = os.getenv('GITHUB_RUN_ID') or ('local-' + str(os.getpid()))
+            if not re.fullmatch(r'[a-zA-Z0-9_-]{1,100}', run_id):
+                logger.warning('OpenAlex run identity invalid; no request sent')
+                self._openalex_hold = True
+                return None
+            attempts = state.get('request_attempts_by_run', {})
+            if not isinstance(attempts, dict) or any(type(v) is not int or v < 0 for v in attempts.values()):
+                logger.warning('OpenAlex request budget checkpoint invalid; no request sent')
+                self._openalex_hold = True
+                return None
+            if attempts.get(run_id, 0) >= configured_limit:
+                logger.info('OpenAlex per-run request budget exhausted; no request sent')
+                self._openalex_hold = True
                 return None
             now = time.time()
             hold = policy.get('retry_not_before')
@@ -203,6 +227,8 @@ class HttpClient:
             if delay:
                 time.sleep(delay)
             state['last_request_at'] = time.time()
+            attempts[run_id] = attempts.get(run_id, 0) + 1
+            state['request_attempts_by_run'] = attempts
             def save():
                 temp = state_path.with_suffix(state_path.suffix + '.tmp')
                 temp.write_text(json.dumps(state))
