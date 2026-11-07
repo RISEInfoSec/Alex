@@ -43,6 +43,10 @@ the request again. Missing or inconsistent history holds further source work.
 The reported source workflow commit must be an ancestor of the current review
 head and contain the exact two-file atomic request reservation; a successful but
 unrelated workflow cannot supply a receipt for that request.
+`source_retention.py` prepares retention for one candidate only after rechecking
+the committed receipt, original artifact and workflow, candidate hash, current
+private decisions, live heartbeat and bounded work window. It neither writes the
+manifest nor passes a gate; the guarded atomic writer is not yet integrated.
 The connector writer can save those bundles only after the same live fence. The
 outputs still require an atomic leased write and readback; none of these
 planning modules dispatches a workflow or makes a provider request.
