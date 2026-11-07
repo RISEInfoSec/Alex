@@ -120,11 +120,18 @@ November 7 verified both reads against the live binding: 70 submissions, 937
 decisions and 615 jobs. The diagnostic was removed afterward. This was not a
 lease or candidate-processing test. The caller must keep the lease alive during
 each database call and perform the final live fence before a GitHub update.
-`site_snapshot_service.mjs` prepares a bounded, no-store service-only response
-for that reader. It relies on owner-private Sites dispatch to authenticate the
-service caller, rejects signed-in visitor requests, and never logs database
-values or error messages. The result does not assert a verified lease. The
-Site route and scheduler still need installation and end-to-end verification.
+`site_snapshot_service.mjs` provides a bounded, no-store service-only response
+for that reader. Site version 57 installed the matching private route after
+confirming the owner-only access policy. It relies on owner-private Sites
+dispatch to authenticate the service caller, rejects signed-in visitor
+requests, and never logs database values or error messages. A live service
+request verified both snapshots and the no-store header; an unauthenticated
+request was rejected with HTTP 401. The result does not assert a verified lease.
+`site_reconcile_client.py` reads this route without persisting private rows,
+reconciles the complete snapshots with immutable current Git blobs, and checks
+both branch heads again. On November 7 a live read-only run matched all 937
+active decisions with no holds. It did not process candidates or acquire a
+lease. The scheduler and final live fence still need installation and testing.
 
 Two matching paginated reads are not a database transaction. The coordinator
 must take complete fresh reads and recheck their fingerprint and immutable Git
