@@ -9,10 +9,6 @@ import requests
 
 DIRECTORY='config/content_review_registry_requests'
 BRANCH='codex/soups-corpus-review'
-# Explicit owner pause: neither a date nor a policy-file change alone releases
-# this source-level gate. Remove it only after the owner separately authorizes
-# resumption and the outstanding provider reconciliation hold is resolved.
-OPENALEX_OWNER_PAUSE=True
 def digest(value):return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False,allow_nan=False).encode()).hexdigest()
 def now():return datetime.now(timezone.utc)
 def validate(root,path):
@@ -43,9 +39,6 @@ def execute(root,path,get=None):
  req=validate(root,path)
  result={'schema_version':1,'request_id':req['request_id'],'candidate_id':req['candidate_id'],'content_sha256':req['content_sha256'],'checked_at':now().isoformat(),'status':'held','requests':0,'corpus_modified':False,'publication_approved':False,'provenance':{k:os.environ.get(k,'') for k in ['GITHUB_SHA','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_REF','GITHUB_WORKFLOW_REF']}}
  policy=effective_provider_policy(root);result['effective_policy']=policy
- if OPENALEX_OWNER_PAUSE:
-  result['effective_policy']={**policy,'allowed':False,'owner_pause_active':True,'request_limit':0}
-  result['error']='OpenAlex remains paused pending explicit owner authorization and provider reconciliation; no request was sent.';return result
  if not policy['allowed']:
   result['error']=policy.get('reason','OpenAlex held by longest current provider/owner/pacing deadline.');return result
  key=os.environ.get('OPENALEX_API_KEY','')

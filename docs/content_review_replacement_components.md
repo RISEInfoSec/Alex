@@ -3,7 +3,7 @@
 These components are not a deployed coordinator, scheduler or monitor. The old
 automations remain disabled. Do not enable a runner until the owner-private D1
 read path, single-writer lease, checkpoints, publication safeguards, bounded
-budgets and independent observation have all been integrated and verified.
+budgets and accurate native-run status have all been integrated and verified.
 
 `tools/content_review/d1_reconcile.py` validates two complete D1 reads, joins
 every immutable submission, decision and job, selects the latest completed
@@ -132,7 +132,10 @@ checkpointing, and stop immediately on a conflict or expiration. The heartbeat
 helper rejects expired or foreign leases. The local Git compare-and-swap test
 does not prove that a live distributed coordinator is installed.
 
-`independent_monitor.py` is a read-only verifier for independently obtained
+The owner retired the separate monitor task. Keep its definitions and history
+for reference, but do not schedule it or include it in the review console.
+The following dormant code is historical and is not the requested monitoring
+architecture. `independent_monitor.py` is a verifier for independently obtained
 native run and Git blob evidence. It requires a scheduled native completion,
 canonical receipt, matching times and intact, budget-compliant checkpoints;
 it reports only candidate gate transitions corroborated by before/after blobs.
@@ -142,8 +145,7 @@ caller must independently fetch native records and immutable receipt evidence.
 `detached_monitor.py` and `github_atomic_monitor.cjs` prepare and write that
 observation to a separate monitor ref with native-observer and worker rechecks,
 compare-and-swap and readback. The ref and independent schedule are not yet
-installed. The console can read the new ref once configured and checks its
-source configuration and worker blob against the current review history.
+installed. The console no longer consumes or displays that retired monitor ref.
 Unverified source claims, no-work runs and checkpoint changes alone do not prove
 publication or unattended recovery. It fails closed on decision changes unless
 they can be separately reconciled. It is not yet an independent scheduled job.
@@ -169,11 +171,11 @@ rather than independently demonstrated results. A native result requiring
 action or reporting failure cannot verify a receipt. Actual replacement scheduler and monitor evidence
 remain outstanding.
 
-OpenAlex remains fully paused, including DOI lookups and diagnostics. The
-November 7 review time does not authorize resumption, and the unresolved HTTP
-429 reconciliation hold remains in force. The registry worker has an explicit
-source-level owner-pause gate; a time or policy-file change alone cannot release
-it. The generic source worker blocks OpenAlex and DOI resolver/registry hosts
-before DNS, robots, redirects or HTTP, while preserving previously retrieved
-evidence. Releasing these guards requires explicit owner authorization and
-provider reconciliation.
+On November 7 the owner explicitly released the OpenAlex pause and authorized
+overriding the unresolved 429 reconciliation hold without verified provider
+reset evidence. Preserve the old pause and hold in policy history. Enforce
+the current main policy, existing cooldowns, 60-second review-worker pacing,
+one registry request per review run and the pipeline's bounded request budget.
+Generic source retrieval must not bypass these controls: it routes OpenAlex to
+the dedicated registry worker rather than sending it through the generic
+source transport. Other DOI resolvers are no longer subject to the owner pause.

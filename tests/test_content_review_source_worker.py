@@ -21,14 +21,16 @@ def test_truncated_text_is_explicit():
 def test_unsafe_and_separate_provider_routes(url):
     with pytest.raises(s.Hold):s.safe_url(url,resolve=False)
 @pytest.mark.parametrize('url',['https://api.openalex.org/works/doi:10.1/test','https://api.openalex.org./works',
-                               'https://openalex.org/','https://doi.org/10.1/test','https://dx.doi.org/10.1/test',
-                               'https://api.datacite.org/dois/10.1/test','https://api.crossref.org/works/10.1/test',
-                               'https://api.unpaywall.org/v2/10.1/test'])
-def test_owner_pause_blocks_provider_before_dns_or_http(url,monkeypatch):
+                               'https://openalex.org/'])
+def test_generic_source_cannot_bypass_controlled_openalex_route(url,monkeypatch):
     def forbidden(*args,**kwargs):raise AssertionError('Network must not be reached')
     monkeypatch.setattr(s.socket,'getaddrinfo',forbidden)
-    with pytest.raises(s.Hold,match='openalex_paused|doi_lookup_paused'):
+    with pytest.raises(s.Hold,match='openalex_requires_controlled_route'):
         s.safe_url(url)
+@pytest.mark.parametrize('url',['https://doi.org/10.1/test','https://dx.doi.org/10.1/test',
+                               'https://api.datacite.org/dois/10.1/test','https://api.crossref.org/works/10.1/test'])
+def test_other_doi_routes_are_no_longer_blocked_by_owner_pause(url):
+    assert s.safe_url(url,resolve=False)==url
 def test_source_after_duplicate_pass():
     row={'content_sha256':'h','preflight':{'checks':{'duplicates':dict(status='passed',content_sha256='h',checked_at='now',evidence='snapshot')}}}
     assert next_stage(row)=='source'

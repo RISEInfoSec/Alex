@@ -37,13 +37,10 @@ def safe_url(url, resolve=True):
     if p.scheme not in ('https','http') or not p.hostname or p.username or p.password or p.port not in (None,443 if p.scheme=='https' else 80):
         raise Hold('unsupported_or_credentialed_url')
     host=p.hostname.rstrip('.')
-    # The owner pause is explicit and has no automatic time-based release.
-    # Apply it before DNS, robots, redirects or any HTTP request.
+    # OpenAlex has a dedicated, bounded policy-aware route. Generic source
+    # retrieval must not bypass its shared pacing and per-run budget.
     if host=='openalex.org' or host.endswith('.openalex.org'):
-        raise Hold('openalex_paused')
-    if (host=='doi.org' or host.endswith('.doi.org') or
-        host in ('api.datacite.org','api.crossref.org','api.unpaywall.org')):
-        raise Hold('doi_lookup_paused')
+        raise Hold('openalex_requires_controlled_route')
     if host=='api.openai.com':
         raise Hold('provider_requires_separate_controlled_route')
     if resolve:

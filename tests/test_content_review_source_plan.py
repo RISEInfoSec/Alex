@@ -75,22 +75,28 @@ def test_d1_rejection_never_enters_a_source_request(tmp_path):
     assert result['status']=='no_due_source_in_plan' and result['request'] is None
 
 
-def test_changed_working_manifest_and_paused_doi_target_fail_closed(tmp_path):
+def test_changed_working_manifest_and_uncontrolled_openalex_target_fail_closed(tmp_path):
     now,review,main,hb,row,snap=fixture(tmp_path)
     put(tmp_path,'config/weekly_review_manifest.json',{'records':[]})
     with pytest.raises(ValueError,match='Incomplete or altered Git blob'):
         call(tmp_path,now,review,main,hb,snap)
-    other=tmp_path/'doi';other.mkdir();now,review,main,hb,row,snap=fixture(other,'https://doi.org/10.1/example')
+    other=tmp_path/'openalex';other.mkdir();now,review,main,hb,row,snap=fixture(other,'https://api.openalex.org/works/example')
     result=call(other,now,review,main,hb,snap)
     assert result['status']=='all_source_candidates_held' and result['request'] is None
-    assert result['held'][0]['reason']=='doi_lookup_paused'
+    assert result['held'][0]['reason']=='openalex_requires_controlled_route'
 
 
-def test_paused_doi_does_not_block_an_independent_eligible_peer(tmp_path):
-    now,review,main,hb,row,snap=fixture(tmp_path,'https://doi.org/10.1/example','https://example.org/peer')
+def test_controlled_openalex_route_does_not_block_an_eligible_peer(tmp_path):
+    now,review,main,hb,row,snap=fixture(tmp_path,'https://api.openalex.org/works/example','https://example.org/peer')
     result=call(tmp_path,now,review,main,hb,snap)
-    assert result['status']=='prepared' and result['held'][0]['reason']=='doi_lookup_paused'
+    assert result['status']=='prepared' and result['held'][0]['reason']=='openalex_requires_controlled_route'
     assert [x['candidate_id'] for x in result['request']['records']]==['source-2']
+
+
+def test_doi_target_can_be_prepared_after_owner_release(tmp_path):
+    now,review,main,hb,row,snap=fixture(tmp_path,'https://doi.org/10.1/example')
+    result=call(tmp_path,now,review,main,hb,snap)
+    assert result['status']=='prepared' and result['request']['records'][0]['url']==row['source_url']
 
 
 def test_request_count_must_match_the_committed_run_ledger(tmp_path):
