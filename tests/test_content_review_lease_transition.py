@@ -39,6 +39,33 @@ def test_native_start_prepares_lease_preserving_previous_run(tmp_path):
     assert json.loads((tmp_path/'config/content_review_worker_status.json').read_text())['lease'] is None
 
 
+@pytest.mark.parametrize('carried', [False, True])
+def test_pending_source_request_survives_run_transition(tmp_path, carried):
+    now, native, run, previous, _ = fixture(tmp_path)
+    pending={'request_id':'a'*64,'origin_run_id':'origin' if carried else 'previous',
+             'reserved_limit':30,'prepared_at':now.isoformat()}
+    previous['pending_source_request']=pending
+    state={'lease':None,'current_run':previous,'lease_history':[]}
+    if carried:
+        state['run_history']=[{'run_id':'origin','pending_source_request':pending}]
+    put(tmp_path, 'config/content_review_worker_status.json', state)
+    git(tmp_path, 'add', '.');git(tmp_path, 'commit', '-qm', 'pending')
+    result=prepare(tmp_path,git(tmp_path, 'rev-parse', 'HEAD'),native,'worker',run,'start',at=now)
+    updated=json.loads(result['content'])
+    assert updated['current_run']['pending_source_request']==pending
+    assert updated['current_run']['request_counts']=={'source':0,'paid':0,'openalex':0}
+    assert updated['run_history'][-1]==previous
+
+
+def test_pending_source_request_without_original_history_fails_closed(tmp_path):
+    now,native,run,previous,_=fixture(tmp_path)
+    previous['pending_source_request']={'request_id':'a'*64,'origin_run_id':'missing','reserved_limit':30}
+    put(tmp_path,'config/content_review_worker_status.json',{'lease':None,'current_run':previous,'lease_history':[]})
+    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','pending')
+    with pytest.raises(ValueError,match='Original pending source run is unavailable'):
+        prepare(tmp_path,git(tmp_path,'rev-parse','HEAD'),native,'worker',run,'start',at=now)
+
+
 def test_heartbeat_requires_fresh_owner_and_preserves_run(tmp_path):
     now, native, run, _, head=fixture(tmp_path)
     started=prepare(tmp_path, head, native, 'worker', run, 'start', at=now)

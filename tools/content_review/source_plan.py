@@ -73,7 +73,7 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
     request=prepare_handoff(root,eligible,state['current_run']['started_at'],owner,source_requests_used,at=now,coordinator_run_id=run_id)
     reserved=deepcopy(state)
     reserved['current_run']['pending_source_request']={'request_id':request['request_id'],
-        'reserved_limit':request['source_request_limit'],'prepared_at':now.isoformat()}
+        'origin_run_id':run_id,'reserved_limit':request['source_request_limit'],'prepared_at':now.isoformat()}
     return {'status':'prepared','request':request,'reserved_state':reserved,'held':held,'coverage':choices['coverage'],
             'd1_fingerprint_private':_fingerprint(snapshot),
             'provider_requests':0,'writes':0,'requires_atomic_reservation_and_live_recheck':True,

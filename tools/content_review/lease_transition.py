@@ -72,10 +72,21 @@ def prepare(repo, head, native, owner, run_id, phase, *, at=None, failure_code=N
                        'schedule': observed.get('schedule'),
                        'last_run': {k: run.get(k) for k in ('id','recorded_status','scheduled_for','started_at','completed_at')}}
     if phase == 'start':
+        previous_run=state.get('current_run') or {}
+        pending=previous_run.get('pending_source_request')
+        if pending is not None:
+            if (not isinstance(pending,dict) or not isinstance(pending.get('origin_run_id'),str)
+                or not re.fullmatch(r'[0-9a-f]{64}',pending.get('request_id') or '')):
+                raise ValueError('Prior pending source request is invalid')
+            if pending['origin_run_id']!=previous_run.get('run_id') and not any(
+                    isinstance(x,dict) and x.get('run_id')==pending['origin_run_id'] and x.get('pending_source_request')==pending
+                    for x in state.get('run_history',[])):
+                raise ValueError('Original pending source run is unavailable')
         updated = begin(acquire(state, owner, run_id, at=now), owner, run_id,
                         started_at=run['started_at'], scheduled_for=run['scheduled_for'], at=now)
         updated['last_started_at'] = run['started_at']
         updated['current_run']['request_counts'] = {'source':0,'paid':0,'openalex':0}
+        if pending is not None:updated['current_run']['pending_source_request']=deepcopy(pending)
     else:
         previous = instant((state.get('current_run') or {}).get('observed_at'))
         if not previous or not 0 <= (now-previous).total_seconds() <= 40:

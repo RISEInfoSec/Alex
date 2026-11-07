@@ -18,7 +18,7 @@ def fixture():
              'lease_owner':'worker','coordinator_run_id':'scheduler-run','source_request_limit':30,
              'records':[{'collection':'weekly','candidate_id':'one','content_sha256':'a'*64}]}
     request['request_id']=digest(request)
-    state['current_run']['pending_source_request']={'request_id':request['request_id'],'reserved_limit':30}
+    state['current_run']['pending_source_request']={'request_id':request['request_id'],'origin_run_id':'scheduler-run','reserved_limit':30}
     run={'id':123,'event':'push','head_branch':BRANCH,'path':WORKFLOW,'status':'completed','conclusion':'success',
          'head_sha':'b'*40,'run_attempt':1}
     result={'request_id':request['request_id'],'records':[{'collection':'weekly','candidate_id':'one','content_sha256':'a'*64,'evidence':[]}],
@@ -56,9 +56,43 @@ def test_changed_artifact_or_unverified_run_cannot_be_counted():
 def test_budget_and_existing_ambiguous_evidence_fail_closed():
     now,state,request,raw,run,artifact=fixture()
     state['current_run']['request_counts']['source']=29
-    with pytest.raises(ValueError,match='single pending request'):
+    with pytest.raises(ValueError,match='Original source request budget'):
         call(now,state,request,raw,run,artifact)
     state['current_run']['request_counts']['source']=0
     state['current_run']['accounted_source_requests']=[{'request_id':request['request_id'],'requests':99}]
     with pytest.raises(ValueError,match='already accounted with different evidence'):
         call(now,state,request,raw,run,artifact)
+
+
+def test_late_artifact_is_retained_without_charging_or_repeating_new_run():
+    now,state,request,raw,run,artifact=fixture();old=deepcopy(state['current_run'])
+    old['application_status']='failed'
+    state['run_history']=[old]
+    state['lease_history']=[{'owner':'worker','run_id':'scheduler-run','status':'released'}]
+    state['lease']={'owner':'next-worker','run_id':'next-run','expires_at':(now+timedelta(minutes=10)).isoformat()}
+    state['current_run']={'run_id':'next-run','application_status':'running','started_at':(now-timedelta(seconds=5)).isoformat(),
+        'request_counts':{'source':0,'paid':0,'openalex':0},'pending_source_request':deepcopy(old['pending_source_request'])}
+    before=deepcopy(state)
+    result=prepare(state,request,raw,run,artifact,'next-worker','next-run',at=now)
+    saved=result['state']['current_run']
+    assert saved['request_counts']['source']==0 and saved['pending_source_request'] is None
+    assert saved['accounted_source_requests'][0]['origin_run_id']=='scheduler-run'
+    assert saved['accounted_source_requests'][0]['charged_to_current_run'] is False
+    assert result['state']['run_history']==before['run_history'] and state==before
+
+
+@pytest.mark.parametrize('defect', ['missing_run','missing_lease','changed_pending','changed_budget'])
+def test_late_artifact_requires_original_run_and_lease_evidence(defect):
+    now,state,request,raw,run,artifact=fixture();old=deepcopy(state['current_run'])
+    old['application_status']='failed'
+    state['run_history']=[old]
+    state['lease_history']=[{'owner':'worker','run_id':'scheduler-run','status':'released'}]
+    state['lease']={'owner':'next-worker','run_id':'next-run','expires_at':(now+timedelta(minutes=10)).isoformat()}
+    state['current_run']={'run_id':'next-run','application_status':'running','started_at':(now-timedelta(seconds=5)).isoformat(),
+        'request_counts':{'source':0,'paid':0,'openalex':0},'pending_source_request':deepcopy(old['pending_source_request'])}
+    if defect=='missing_run':state['run_history']=[]
+    if defect=='missing_lease':state['lease_history']=[]
+    if defect=='changed_pending':state['run_history'][0]['pending_source_request']['reserved_limit']=29
+    if defect=='changed_budget':state['run_history'][0]['request_counts']['source']=1
+    with pytest.raises(ValueError):
+        prepare(state,request,raw,run,artifact,'next-worker','next-run',at=now)

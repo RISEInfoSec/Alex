@@ -237,7 +237,8 @@ def validate(root,path):
         if (not isinstance(req['coordinator_run_id'],str) or not req['coordinator_run_id']
             or lease.get('run_id')!=req['coordinator_run_id'] or current.get('run_id')!=req['coordinator_run_id']
             or current.get('application_status')!='running' or instant(current.get('started_at'))!=start
-            or pending.get('request_id')!=req['request_id'] or pending.get('reserved_limit')!=req.get('source_request_limit')
+            or pending.get('request_id')!=req['request_id'] or pending.get('origin_run_id')!=req['coordinator_run_id']
+            or pending.get('reserved_limit')!=req.get('source_request_limit')
             or type(counts.get('source')) is not int or not 0<=counts['source']<30
             or type(req.get('source_request_limit')) is not int or req['source_request_limit']!=30-counts['source']
             or type(counts.get('paid')) is not int or not 0<=counts['paid']<=5

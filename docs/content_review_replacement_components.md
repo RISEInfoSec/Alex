@@ -36,7 +36,11 @@ separate heartbeat. A held DOI candidate does not suppress an eligible peer.
 after independently supplied native workflow and artifact evidence agrees;
 `source_request_guard.py` and `source_result_guard.py` prepare two-file atomic
 bundles for a single pending request and its later verified receipt. The
-connector writer can save those bundles only after the same live fence. The
+pending reservation survives a run transition with its original run identity.
+A later run accepts the result only with matching original run and lease history;
+it records the original budget use without charging the later run or dispatching
+the request again. Missing or inconsistent history holds further source work.
+The connector writer can save those bundles only after the same live fence. The
 outputs still require an atomic leased write and readback; none of these
 planning modules dispatches a workflow or makes a provider request.
 `apwg_adapter.py` reproduces the Site's filtered APWG candidate IDs, content
