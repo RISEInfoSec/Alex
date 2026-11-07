@@ -71,17 +71,19 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     result = select_reconciled(snapshot, confirmed_snapshot, manifests, ledger,
                                limit=MAX_CANDIDATES, source_progress=source_progress,
                                source_attempts=source_attempts)
-    # These routes need separate adapters before they can be executed. Virus
-    # Bulletin is marked normalized in the registry, but its executor is not
-    # wired yet; never select it as if the duplicate adapter supported it.
-    special = {c['id'] for c in registry if c.get('adapter') in ('apwg_pending', 'corpus_audit') or c['id'] == 'virusbulletin'}
-    eligible = [item for item in result['selected'] if item['collection'] not in special]
+    # APWG and corpus audit still require their own execution adapters. Virus
+    # Bulletin has a separately checked duplicate gate only; do not select its
+    # source or later gates until those paths have been implemented.
+    special = {c['id'] for c in registry if c.get('adapter') in ('apwg_pending', 'corpus_audit')}
+    eligible = [item for item in result['selected'] if item['collection'] not in special
+                and (item['collection'] != 'virusbulletin' or item['next_stage'] == 'duplicates')]
     selected = [{**item, 'content_sha256': index[(item['collection'], item['candidate_id'])]['content_sha256']}
                 for item in eligible[:INITIAL_LIMIT]]
     # Report due work even when an executor is not yet available. Hiding it as
     # zero would make the coverage report look complete while skipping a source.
     available = Counter(x['collection'] for x in result['selected'])
     selected_counts = Counter(x['collection'] for x in selected)
+    executable = Counter(x['collection'] for x in eligible)
     held = Counter(x['collection'] for x in result['reconciliation']['held'])
     decisions = Counter(x['collection'] for x in result['reconciliation']['matched_decisions'])
     decided_keys = {(x['collection'], x['candidate_id']) for x in result['reconciliation']['matched_decisions']}
@@ -104,7 +106,7 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
         collection = entry['id']
         if collection not in manifests:
             reason = 'manifest_unavailable'
-        elif collection in special and available[collection]:
+        elif available[collection] and (collection in special or (collection == 'virusbulletin' and not executable[collection])):
             reason = 'separate_collection_adapter_required'
         elif selected_counts[collection]:
             reason = 'selected_for_next_gate'

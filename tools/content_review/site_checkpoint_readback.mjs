@@ -38,7 +38,7 @@ export async function verifyCheckpoint({github,input,checkpointCommit,path,snaps
  const source=receipt.source_review_commit;
  const registry=(await json('config/review_console.json',source)).value;
  const entries=Array.isArray(registry.collections)?registry.collections.filter(x=>x?.id===receipt.collection):[];
- if(entries.length!==1||!['weekly','bellingcat','first','m3aawg','sans','soups'].includes(receipt.collection)||
+ if(entries.length!==1||!['weekly','bellingcat','first','m3aawg','sans','soups','virusbulletin'].includes(receipt.collection)||
   typeof entries[0].manifest_url!=='string')throw Error('Checkpoint collection unsupported');
  const root='https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/config/';
  if(!entries[0].manifest_url.startsWith(root))throw Error('Checkpoint manifest unavailable');

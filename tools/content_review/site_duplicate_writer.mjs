@@ -14,7 +14,7 @@ const REPO='RISEInfoSec/Alex',REVIEW='codex/soups-corpus-review',MAIN='main';
 const LEDGER='config/content_review_candidate_lifecycle.json',STAGE='config/content_review_preflight_status.json';
 const STATE='config/content_review_worker_status.json',POLICY='config/content_review_lifecycle_policy.json',REGISTRY='config/review_console.json';
 const LIMIT=12*1024*1024,SHA=/^[0-9a-f]{40}$/,HASH=/^[0-9a-f]{64}$/,ID=/^[a-zA-Z0-9-]{1,100}$/;
-const COLLECTIONS=new Set(['weekly','bellingcat','first','m3aawg','sans','soups']);
+const COLLECTIONS=new Set(['weekly','bellingcat','first','m3aawg','sans','soups','virusbulletin']);
 const unwrap=(x,msg)=>{if(!x||x.isError||!x.structuredContent)throw Error(msg);return x.structuredContent;};
 
 export async function writeDuplicate({db,github,input,now=()=>Date.now(),read=reader.readStable,control=controlFence,

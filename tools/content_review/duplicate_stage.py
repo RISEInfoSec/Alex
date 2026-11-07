@@ -32,7 +32,7 @@ def evaluate(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
     if ledger != inputs.get('lifecycle') or state != inputs.get('worker_state'):
         raise ValueError('Worker state or lifecycle differs from the verified source commit')
     # These distinct routes require their own hash/decision adapters.
-    if collection in ('apwg', 'corpus-audit', 'virusbulletin'):
+    if collection in ('apwg', 'corpus-audit'):
         raise ValueError('Collection requires its separate source adapter')
     # The Site's filtered APWG view is used only for decision reconciliation;
     # the original source remains present in duplicate comparisons.
