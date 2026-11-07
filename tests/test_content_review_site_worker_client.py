@@ -83,6 +83,17 @@ def test_completed_run_receipt_does_not_claim_native_or_publication_success():
     assert post('completion',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
 
 
+def test_source_reservation_does_not_claim_the_workflow_ran():
+    response={'status':'committed_and_read_back','commit_sha':'a'*40,'request_path':'config/content_review_source_requests/'+'b'*64+'.json',
+              'source_request_limit':30,'source_request_reserved':True,'source_workflow_verified':False,
+              'candidate_processing':False,'publication_verified':False}
+    opener=Opener(Response(response));result=post('source_request',{},'secret-value',opener=opener)
+    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-request'
+    assert result['source_request_reserved'] is True and result['source_workflow_verified'] is False and result['candidate_processing'] is False
+    response['source_workflow_verified']=True
+    assert post('source_request',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
+
+
 def test_request_rejects_bad_action_or_invalid_token_before_network():
     opener=Opener(Response({}))
     for action,token in [('wrong','secret'),('lease','bad\nsecret')]:

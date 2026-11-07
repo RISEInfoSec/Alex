@@ -193,4 +193,4 @@ function validateDuplicate({before,after,receipt,snapshot,confirmed,audit,expect
   !equal(after.ledger.source_counts,totals.sources))fail('Lifecycle is not derived from current policy');
  return {status:'valid',receipt_path:path,candidate_processing:true,publication_verified:false};
 }
-module.exports={validateDuplicate};
+module.exports={validateDuplicate,validateSnapshot,complete};
