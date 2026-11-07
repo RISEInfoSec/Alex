@@ -172,14 +172,20 @@ index and files untouched; it does not replace semantic validation. This design
 can temporarily prevent new decision submissions, potentially until a human
 resolves an ambiguous write. It needs a clear retry message and a tested
 recovery path. The review branch currently reports `protected: false`, so
-force-push safeguards cannot be assumed. The schema, triggers and primitives
-are not installed or wired to the worker; testing them locally does not close
-the live cross-system race.
-`site_write_fence_migration.sql` mirrors the generated, not-yet-applied Site
-migration. It excludes a duplicate `candidate_assessments` table generated
-because an older migration has no Drizzle snapshot. Local D1 migrations and
-the real review submission SQL passed with existing rows preserved; production
-migration and before/after decision checks are still required.
+force-push safeguards cannot be assumed. Site version 63 installed the
+additive fence schema and triggers; the fence was empty after deployment. A
+private before/after comparison confirmed all 70 prior submissions, 937 prior
+decisions and 615 prior jobs unchanged. The fence is not yet wired to the
+worker, and a local test does not close the live cross-system race.
+`site_write_fence_migration.sql` mirrors the applied Site migration. It excludes
+a duplicate `candidate_assessments` table generated because an older migration
+has no Drizzle snapshot. Local D1 migrations and real review submission SQL
+passed with existing rows preserved.
+
+`d1_fence_status.mjs` inspects the table columns and nine installed trigger
+definitions without returning owner identities or changing data. An idle fence
+does not establish worker health, and a held fence means review submissions
+must wait while a checkpoint is verified.
 
 `lease.py` prepares bounded acquire, renew and release state transitions and
 preserves lease history. These pure functions do not acquire a remote lease.
