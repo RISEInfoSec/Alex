@@ -17,7 +17,9 @@ def setup():
     inputs['reconciliation_manifests'] = deepcopy(inputs['manifests'])
     inputs['lifecycle'] = {'records': {}}
     inputs['lifecycle_policy'] = {'version': 1}
+    inputs['preflight_status'] = {'records': [], 'summary': {}}
     inputs['metadata'].append({'commit': inputs['review_commit'], 'path': 'config/soups_review_manifest.json'})
+    inputs['metadata'].append({'commit': inputs['review_commit'], 'path': 'config/content_review_preflight_status.json'})
     return now, snapshot, inputs, state, inputs['lifecycle']
 
 
@@ -37,6 +39,9 @@ def test_unnumbered_intake_reserves_only_and_preserves_source_and_hash():
     assert 'review_number' not in row and not row.get('review_ready')
     assert row['content_sha256'] == inputs['manifests']['soups']['records'][0]['content_sha256']
     assert row['decision'] == 'pending' and result['proposed_ledger']['records']['soups:fresh']['attempts'] == []
+    stage = result['proposed_stage']['records'][0]
+    assert stage['review_ready'] is False and stage['status'] == 'held'
+    assert stage['checks'] == row['preflight']['checks'] == {}
     assert result['writes'] == 0 and result['candidate_processing'] is False
     assert result['requires_semantic_guard_and_live_recheck'] is True
     assert (snap, inputs, state, ledger) == original
@@ -113,3 +118,16 @@ def test_existing_reservation_is_retained_and_never_makes_candidate_ready():
     row = result['proposed_manifest']['records'][0]
     assert row['reserved_review_number'] == 200 and row['reserved_review_batch'] == 11
     assert 'review_number' not in row and not row.get('review_ready')
+
+
+def test_existing_stage_is_held_for_reconciliation_not_overwritten():
+    now, snap, inputs, state, ledger = setup()
+    stage = inputs['preflight_status']
+    stage['records'].append({'collection': 'soups', 'candidate_id': 'fresh', 'checks': {}})
+    from tools.content_review.stage_summary import derive
+    stage['summary'] = derive(stage['records'])
+    before = deepcopy(stage)
+    result = call(now, snap, inputs, state, ledger)
+    assert result['status'] == 'no_soups_intake_due'
+    assert result['held']['existing_preflight_stage_requires_reconciliation'] == 1
+    assert stage == before
