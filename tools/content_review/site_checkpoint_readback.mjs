@@ -45,6 +45,10 @@ export async function verifyCheckpoint({github,input,checkpointCommit,path,snaps
  const name=entries[0].manifest_url.slice(root.length);
  if(!/^[a-zA-Z0-9_-]+_review_manifest\.json$/.test(name))throw Error('Checkpoint manifest invalid');
  const manifest='config/'+name,paths=[manifest,...FIXED,path],before={},after={},afterBlobs=[];
+ // Audit before holding both full checkpoint trees in memory. The Site is a
+ // 128 MiB Worker and the public corpus and manifests can be large.
+ const evidence=await audit({github,expectedReview:source,currentReview:input.expectedHead,expectedMain:input.expectedMain,
+  collection:receipt.collection,candidateId:receipt.candidate_id,heartbeat});
  for(const file of paths){
   await heartbeat();const changed=await json(file,checkpointCommit);afterBlobs.push({path:file,mode:'100644',type:'blob',sha:changed.sha});
   if(file!==path){const original=await json(file,source);before[file]=original.value;after[file]=changed.value;}
@@ -54,8 +58,6 @@ export async function verifyCheckpoint({github,input,checkpointCommit,path,snaps
   'Checkpoint tree reconstruction unavailable');
  if(expectedTree.sha!==checkpoint.tree_sha)throw Error('Checkpoint contains unrelated file changes');
  const policy=(await json('config/content_review_lifecycle_policy.json',source)).value;
- const evidence=await audit({github,expectedReview:source,currentReview:input.expectedHead,expectedMain:input.expectedMain,
-  collection:receipt.collection,candidateId:receipt.candidate_id,heartbeat});
  const expectedEvidence={method:'complete immutable corpus, exclusions, registered collections and upstream inventories',
   review_commit:source,main_commit:input.expectedMain,input_blobs:evidence.input_blobs,matches:[],exclusions:[],upstream_aliases:[]};
  const checked=validate({before:{manifest:before[manifest],ledger:before[FIXED[0]],stage:before[FIXED[1]],state:before[FIXED[2]],policy},
