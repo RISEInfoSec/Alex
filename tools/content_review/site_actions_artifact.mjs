@@ -78,6 +78,6 @@ export async function readSourceArtifact({getToken,runId,artifactId,fetcher=fetc
  if(!HASH.test(extracted.sha256))throw Error('Source artifact digest invalid');
  return {native_run:{id:run.id,event:run.event,head_branch:run.head_branch,path:run.path,status:run.status,
   conclusion:run.conclusion,head_sha:run.head_sha,run_attempt:run.run_attempt},
-  artifact:{id:artifact.id,run_id:run.id,sha256:extracted.sha256},result_text:extracted.text};
+  artifact:{id:artifact.id,run_id:run.id,sha256:extracted.sha256,archive_sha256:archiveHash},result_text:extracted.text};
 }
 export {unzipResult};

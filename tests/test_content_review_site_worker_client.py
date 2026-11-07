@@ -94,6 +94,16 @@ def test_source_reservation_does_not_claim_the_workflow_ran():
     assert post('source_request',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
 
 
+def test_source_result_accounts_verified_workflow_without_claiming_a_gate_pass():
+    response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':'config/content_review_source_receipts/'+'b'*64+'.json',
+              'source_requests':3,'source_workflow_verified':True,'candidate_processing':False,'publication_verified':False}
+    opener=Opener(Response(response));result=post('source_result',{},'secret-value',opener=opener)
+    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-result' and opener.requests[0][1]==55
+    assert result['source_requests']==3 and result['source_workflow_verified'] is True and result['candidate_processing'] is False
+    response['candidate_processing']=True
+    assert post('source_result',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
+
+
 def test_request_rejects_bad_action_or_invalid_token_before_network():
     opener=Opener(Response({}))
     for action,token in [('wrong','secret'),('lease','bad\nsecret')]:

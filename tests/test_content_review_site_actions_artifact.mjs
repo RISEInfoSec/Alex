@@ -36,7 +36,8 @@ function fixture(mode='success'){
 }
 test('artifact read authenticates GitHub and strips authorization on the signed redirect',async()=>{
  const f=fixture(),r=await readSourceArtifact({getToken:()=> 'secret-value',runId:123,artifactId:456,fetcher:f.fetcher});
- assert.equal(r.result_text,f.text);assert.equal(r.artifact.sha256,sha(Buffer.from(f.text)));assert.equal(r.native_run.id,123);
+ assert.equal(r.result_text,f.text);assert.equal(r.artifact.sha256,sha(Buffer.from(f.text)));
+ assert.equal(r.artifact.archive_sha256,sha(f.archive));assert.notEqual(r.artifact.sha256,r.artifact.archive_sha256);assert.equal(r.native_run.id,123);
  const external=f.calls.find(x=>x.url.startsWith('https://productionresultssa3.'));
  assert.ok(external);assert.equal(external.opts.headers.Authorization,undefined);assert.equal(external.opts.redirect,'manual');
  assert.ok(f.calls.filter(x=>x.url.startsWith('https://api.github.com/')).every(x=>x.opts.headers.Authorization==='Bearer secret-value'));
