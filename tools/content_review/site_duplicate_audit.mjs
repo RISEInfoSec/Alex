@@ -25,6 +25,7 @@ function manifestLocation(entry,review,main){
 export async function auditDuplicateInputs({github,expectedReview,expectedMain,collection,candidateId}){
  if(!github||!SHA.test(expectedReview||'')||!SHA.test(expectedMain||'')||!ID.test(collection||'')||!ID.test(candidateId||'')||
     ['fetchCommit','fetchFile','streamBlob'].some(method=>typeof github[method]!=='function'))throw Error('Invalid audit request');
+ const proofs=new Map();
  async function heads(){
   const [a,b]=await Promise.all([github.fetchCommit({repo_full_name:REPO,commit_sha:REVIEW}),github.fetchCommit({repo_full_name:REPO,commit_sha:MAIN})]);
   if(a?.isError||b?.isError||a?.structuredContent?.commit?.sha!==expectedReview||b?.structuredContent?.commit?.sha!==expectedMain)
@@ -34,6 +35,9 @@ export async function auditDuplicateInputs({github,expectedReview,expectedMain,c
   const result=await github.fetchFile({repository_full_name:REPO,path,ref,require_content:true}),v=!result?.isError&&result?.structuredContent;
   if(!v||!SHA.test(v.sha||'')||typeof v.content!=='string'||await blobs.blobIdentity(v.content,{limit:MAX_JSON})!==v.sha)
    throw Error('Audit immutable source unavailable');
+  const bytes=new TextEncoder().encode(v.content),digest=await crypto.subtle.digest('SHA-256',bytes);
+  const contentHash=Array.from(new Uint8Array(digest),x=>x.toString(16).padStart(2,'0')).join('');
+  proofs.set(ref+':'+path,{commit:ref,path,blob_sha:v.sha,size:bytes.length,sha256:contentHash});
   let value;try{value=JSON.parse(v.content);}catch{throw Error('Audit JSON invalid');}
   if(!object(value)&&!(allowArray&&Array.isArray(value)))throw Error('Audit JSON shape invalid');
   return {value,sha:v.sha};
@@ -44,6 +48,10 @@ export async function auditDuplicateInputs({github,expectedReview,expectedMain,c
  const locations=new Map();
  for(const entry of registry){const location=manifestLocation(entry,expectedReview,expectedMain);
   if(locations.has(entry.id))throw Error('Audit registry ambiguous');locations.set(entry.id,location);}
+ const initialPaths=['config/review_console.json','config/content_review_candidate_lifecycle.json','config/content_review_lifecycle_policy.json',
+  'config/content_review_preflight_status.json','config/content_review_worker_status.json','config/content_review_defects.json',
+  'config/content_review_workflow.json','config/content_review_material_policy.json'];
+ for(const path of initialPaths.slice(1))await json(path,expectedReview);
  if(!locations.has(collection))throw Error('Candidate collection unavailable');
  const source=locations.get(collection),manifest=(await json(source.path,source.ref)).value;
  const sourceRows=[...(manifest.records||[]),...(manifest.preflight_records||[])];
@@ -89,10 +97,20 @@ export async function auditDuplicateInputs({github,expectedReview,expectedMain,c
  if(meta?.isError||!SHA.test(meta?.structuredContent?.sha||''))throw Error('Audit current queue unavailable');
  const current=new rows.CsvRows(row=>check(row));
  const recent=await github.streamBlob({repository_full_name:REPO,sha:meta.structuredContent.sha,onChunk:chunk=>current.update(chunk)});
- if(recent?.isError||recent?.structuredContent?.sha!==meta.structuredContent.sha)throw Error('Audit current queue incomplete');
+ if(recent?.isError||recent?.structuredContent?.sha!==meta.structuredContent.sha||!Number.isSafeInteger(recent.structuredContent.size)||
+  !SHA256.test(recent.structuredContent.sha256||''))throw Error('Audit current queue incomplete');
+ proofs.set(expectedMain+':data/review_queue.csv',{commit:expectedMain,path:'data/review_queue.csv',blob_sha:recent.structuredContent.sha,
+  size:recent.structuredContent.size,sha256:recent.structuredContent.sha256});
  const currentCount=current.finish().rows;
  await heads();
- return {status:matches?'held':'clear',possible_matches:matches,records_examined:scanned,collections_examined:locations.size,
+ if(!Number.isSafeInteger(old.structuredContent.size))throw Error('Audit retained size unavailable');
+ const ordered=[...initialPaths.map(path=>expectedReview+':'+path),...[...locations.values()].map(x=>x.ref+':'+x.path),
+  expectedMain+':data/papers.json',expectedMain+':config/corpus_exclusions.json',expectedMain+':data/review_queue.csv',
+  expectedReview+':config/weekly_source_inventory.json'];
+ const inputBlobs=[];for(const key of new Set(ordered)){const proof=proofs.get(key);if(!proof)throw Error('Audit provenance unavailable');inputBlobs.push(proof);}
+ inputBlobs.push({blob_sha:inventory.source_blob_sha,size:old.structuredContent.size,sha256:old.structuredContent.sha256});
+ return {status:matches?'held':'clear',candidate_key_sha256:hashes.sha256(collection+'\0'+candidateId+'\0'+candidate.content_sha256),
+  possible_matches:matches,records_examined:scanned,collections_examined:locations.size,
   retained_rows:inventory.raw_records,current_rows:currentCount,review_commit:expectedReview,main_commit:expectedMain,
-  candidate_processing:false,writes:0};
+  input_blobs:inputBlobs,candidate_processing:false,writes:0};
 }

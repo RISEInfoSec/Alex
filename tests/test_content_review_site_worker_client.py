@@ -60,6 +60,18 @@ def test_no_work_receipt_never_claims_native_success_or_candidate_processing():
     assert post('no_work',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
 
 
+def test_duplicate_checkpoint_reports_only_a_confirmed_mechanical_gate():
+    receipt='config/content_review_mechanical_checkpoints/'+'b'*64+'.json'
+    response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':receipt,'gate':'duplicates',
+              'candidate_processing':True,'native_completion_verified':False,'publication_verified':False}
+    opener=Opener(Response(response));result=post('duplicate',{},'secret-value',opener=opener)
+    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-duplicate'
+    assert opener.requests[0][1]==55 and result['gate']=='duplicates' and result['candidate_processing'] is True
+    assert result['native_completion_verified'] is False and result['publication_verified'] is False
+    response['publication_verified']=True
+    assert post('duplicate',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
+
+
 def test_request_rejects_bad_action_or_invalid_token_before_network():
     opener=Opener(Response({}))
     for action,token in [('wrong','secret'),('lease','bad\nsecret')]:

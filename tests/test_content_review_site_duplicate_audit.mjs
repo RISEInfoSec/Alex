@@ -21,6 +21,8 @@ function fixture(){
   'config/weekly_source_inventory.json':inventory,'config/corpus_exclusions.json':{schema_version:1,records:[]},
   'data/papers.json':[{title:'Published different'}],
  };
+ for(const name of ['candidate_lifecycle','lifecycle_policy','preflight_status','worker_status','defects','workflow','material_policy'])
+  configs['config/content_review_'+name+'.json']={};
  let changing=false,failStream=false;const calls=[];
  const github={
   async fetchCommit({commit_sha}){calls.push('head');return {structuredContent:{commit:{sha:commit_sha==='main'?(changing?'d'.repeat(40):main):review}}};},
@@ -29,7 +31,7 @@ function fixture(){
   async streamBlob({sha:expected,onChunk}){calls.push('stream');if(failStream)return {isError:true};
    const content=expected===sha(old)?old:expected===sha(current)?current:null;if(content===null)return {isError:true};
    const bytes=Buffer.from(content);for(let i=0;i<bytes.length;i+=7)await onChunk(bytes.subarray(i,i+7));
-   return {structuredContent:{sha:expected,sha256:createHash('sha256').update(bytes).digest('hex')}};},
+   return {structuredContent:{sha:expected,size:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')}};},
  };
  return {github,configs,candidate,calls,changeHead:()=>{changing=true;},failStream:()=>{failStream=true;}};
 }
