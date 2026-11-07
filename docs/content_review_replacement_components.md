@@ -175,6 +175,11 @@ recovery path. The review branch currently reports `protected: false`, so
 force-push safeguards cannot be assumed. The schema, triggers and primitives
 are not installed or wired to the worker; testing them locally does not close
 the live cross-system race.
+`site_write_fence_migration.sql` mirrors the generated, not-yet-applied Site
+migration. It excludes a duplicate `candidate_assessments` table generated
+because an older migration has no Drizzle snapshot. Local D1 migrations and
+the real review submission SQL passed with existing rows preserved; production
+migration and before/after decision checks are still required.
 
 `lease.py` prepares bounded acquire, renew and release state transitions and
 preserves lease history. These pure functions do not acquire a remote lease.
