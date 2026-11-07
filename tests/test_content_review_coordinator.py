@@ -40,7 +40,7 @@ def test_plan_covers_registered_routes_without_writes_or_openalex():
     assert [x['candidate_id'] for x in result['selected']] == ['fresh']
     assert {x['collection'] for x in result['coverage']} == {'weekly', 'first', 'apwg', 'corpus-audit'}
     assert next(x for x in result['coverage'] if x['collection'] == 'first')['disposition'] == 'manifest_unavailable'
-    assert next(x for x in result['coverage'] if x['collection'] == 'apwg')['disposition'] == 'separate_collection_adapter_required'
+    assert next(x for x in result['coverage'] if x['collection'] == 'apwg')['disposition'] == 'manifest_unavailable'
     assert next(x for x in result['coverage'] if x['collection'] == 'weekly')['matched_review_decisions'] == 1
     assert result['status'] == 'plan_only' and result['writes'] == 0
     assert result['openalex_requests_permitted'] == 0 and result['paid_requests'] == 0
@@ -79,4 +79,29 @@ def test_virus_bulletin_is_explicitly_held_until_its_adapter_exists():
     result = plan(snap, deepcopy(snap), manifests, ledger, registry, state, 'worker', 'run',
                   source_attempts={}, source_progress={}, at=now)
     assert all(x['collection'] != 'virusbulletin' for x in result['selected'])
-    assert next(x for x in result['coverage'] if x['collection'] == 'virusbulletin')['disposition'] == 'separate_collection_adapter_required'
+    coverage = next(x for x in result['coverage'] if x['collection'] == 'virusbulletin')
+    assert coverage['disposition'] == 'separate_collection_adapter_required'
+    assert coverage['eligible'] == 1 and coverage['selected'] == 0
+
+
+def test_special_collection_with_no_due_candidates_is_not_reported_as_executed_or_blocked():
+    now, snap, manifests, ledger, registry, state = fixture()
+    registry.append({'id': 'virusbulletin', 'adapter': 'normalized'})
+    manifests['virusbulletin'] = {'records': []}
+    result = plan(snap, deepcopy(snap), manifests, ledger, registry, state, 'worker', 'run',
+                  source_attempts={}, source_progress={}, at=now)
+    coverage = next(x for x in result['coverage'] if x['collection'] == 'virusbulletin')
+    assert coverage['disposition'] == 'no_due_candidate_in_supplied_snapshot'
+    assert coverage['eligible'] == 0 and coverage['selected'] == 0
+
+
+def test_pending_candidate_without_lifecycle_is_reported_as_a_hold():
+    now, snap, manifests, ledger, registry, state = fixture()
+    registry.append({'id': 'virusbulletin', 'adapter': 'normalized'})
+    manifests['virusbulletin'] = {'records': [dict(candidate_id='untracked', review_number=1,
+        content_sha256='d' * 64, decision='pending')]}
+    result = plan(snap, deepcopy(snap), manifests, ledger, registry, state, 'worker', 'run',
+                  source_attempts={}, source_progress={}, at=now)
+    coverage = next(x for x in result['coverage'] if x['collection'] == 'virusbulletin')
+    assert coverage['disposition'] == 'lifecycle_entry_missing'
+    assert coverage['missing_lifecycle'] == 1 and coverage['selected'] == 0

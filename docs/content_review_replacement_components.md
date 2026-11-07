@@ -28,7 +28,10 @@ lease, heartbeat, D1 reads and registry. It lists an explicit disposition for
 every registered collection, reports APWG, the corpus audit and Virus Bulletin
 as requiring their separate adapters, and sets OpenAlex and paid requests to zero for the plan.
 Per-collection matching-decision counts are reconciliation observations, not
-processed work. The plan performs no candidate work, network calls or writes.
+processed work. Coverage reports due candidates that lack an executor, and
+reports a missing lifecycle entry instead of treating an untracked pending
+candidate as an empty collection. The plan performs no candidate work, network
+calls or writes.
 `source_plan.py` prepares bounded source requests only for candidates selected
 after the private decision overlay, exact committed inputs and a current
 separate heartbeat. A held DOI candidate does not suppress an eligible peer.

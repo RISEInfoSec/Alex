@@ -78,26 +78,43 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     eligible = [item for item in result['selected'] if item['collection'] not in special]
     selected = [{**item, 'content_sha256': index[(item['collection'], item['candidate_id'])]['content_sha256']}
                 for item in eligible[:INITIAL_LIMIT]]
-    available, selected_counts = Counter(x['collection'] for x in eligible), Counter(x['collection'] for x in selected)
+    # Report due work even when an executor is not yet available. Hiding it as
+    # zero would make the coverage report look complete while skipping a source.
+    available = Counter(x['collection'] for x in result['selected'])
+    selected_counts = Counter(x['collection'] for x in selected)
     held = Counter(x['collection'] for x in result['reconciliation']['held'])
     decisions = Counter(x['collection'] for x in result['reconciliation']['matched_decisions'])
+    decided_keys = {(x['collection'], x['candidate_id']) for x in result['reconciliation']['matched_decisions']}
+    held_keys = {(x['collection'], x['candidate_id']) for x in result['reconciliation']['held']}
+    entries = ledger.get('records') if isinstance(ledger, dict) else None
+    if not isinstance(entries, dict):
+        raise ValueError('Complete candidate lifecycle is required')
+    missing_lifecycle = Counter()
+    for (collection, candidate_id), row in index.items():
+        key = (collection, candidate_id)
+        if (row.get('decision', 'pending') in ('pending', 'unreviewed') and key not in decided_keys
+            and key not in held_keys and collection + ':' + candidate_id not in entries):
+            missing_lifecycle[collection] += 1
     coverage = []
     for entry in registry:
         collection = entry['id']
-        if collection in special:
-            reason = 'separate_collection_adapter_required'
-        elif collection not in manifests:
+        if collection not in manifests:
             reason = 'manifest_unavailable'
+        elif collection in special and available[collection]:
+            reason = 'separate_collection_adapter_required'
         elif selected_counts[collection]:
             reason = 'selected_for_next_gate'
         elif available[collection]:
             reason = 'deferred_by_candidate_ceiling'
         elif held[collection]:
             reason = 'decision_reconciliation_hold'
+        elif missing_lifecycle[collection]:
+            reason = 'lifecycle_entry_missing'
         else:
             reason = 'no_due_candidate_in_supplied_snapshot'
         coverage.append({'collection': collection, 'eligible': available[collection],
                          'selected': selected_counts[collection], 'decision_holds': held[collection],
+                         'missing_lifecycle': missing_lifecycle[collection],
                          'matched_review_decisions': decisions[collection],
                          'disposition': reason})
     return {'status': 'plan_only', 'selected': selected, 'coverage': coverage,
