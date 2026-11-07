@@ -67,5 +67,15 @@ def test_guard_rejects_tampering_changed_decisions_and_stale_proposals(tmp_path)
     changed = deepcopy(snap);changed['read_evidence']['jobs']['complete'] = False
     with pytest.raises(ValueError, match='Incomplete jobs'):
         guard(tmp_path, review, main, hb, snap, changed, 'worker', 'run', proposal, at=now)
+    changed = deepcopy(snap)
+    row = proposal['proposed_manifest']['records'][0]
+    changed['submissions'] = [{'id': 'submission', 'user_id': 'owner', 'collection': 'soups',
+        'batch': 1, 'revision': 1, 'accepted': 0, 'rejected': 1, 'payload_hash': 'a' * 64}]
+    changed['decisions'] = [{'id': 'decision', 'submission_id': 'submission', 'user_id': 'owner',
+        'collection': 'soups', 'batch': 1, 'revision': 1, 'candidate_id': row['candidate_id'],
+        'review_number': 1, 'content_sha256': row['content_sha256'], 'decision': 'rejected'}]
+    for key in ('submissions', 'decisions'): changed['read_evidence'][key]['rows_received'] = 1
+    with pytest.raises(ValueError, match='differs from independently recomputed'):
+        guard(tmp_path, review, main, hb, changed, deepcopy(changed), 'worker', 'run', proposal, at=now)
     with pytest.raises(ValueError, match='stale'):
         guard(tmp_path, review, main, hb, snap, deepcopy(snap), 'worker', 'run', proposal, at=now+timedelta(seconds=41))
