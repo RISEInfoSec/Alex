@@ -61,6 +61,10 @@ rejection remains a removal-review request, requires the corresponding D1
 job and matching original record, and never authorizes deletion. The derived
 outcomes are private and must not be logged or committed. Live public target,
 lease and D1 checks remain mandatory before any eventual publication action.
+`corpus_audit_history.py` additionally binds the earlier 490 removals and 224
+keeps to the exact historical request, receipt, completed jobs, reviewed
+hashes, historical public blob and main-branch ancestry. It identifies historical
+receipts without asserting current public state or authorizing a repeat removal.
 
 `verified_inputs.py` loads registered collection manifests, main-branch public
 corpus, exclusions and current queue, and the preserved original weekly queue
