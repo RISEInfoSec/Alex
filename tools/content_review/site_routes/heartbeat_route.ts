@@ -14,7 +14,7 @@ export async function POST(request:Request){
   const result=await writeHeartbeat({github,input});return Response.json(result,{headers});
  }catch(error){
   const message=error instanceof Error?error.message:'';
-  const reason=message.includes('ambiguous')?'heartbeat_unconfirmed_reconcile':
+  const reason=message.includes('ambiguous')||message.includes('unconfirmed')?'heartbeat_unconfirmed_reconcile':
    message==='Invalid heartbeat request'||message==='invalid_request'?'invalid_request':'heartbeat_unavailable';
   return Response.json({status:'blocked',reason},{status:reason==='invalid_request'?400:409,headers});
  }

@@ -93,11 +93,12 @@ async function commitLease({api, linkId, proposal, owner, runId, now=()=>Date.no
     if (!update || update.isError || update.structuredContent?.success !== true)
       throw new Error('Lease update was rejected or ambiguous; reconcile commit '+commit.sha+' before retrying');
   }
-  if (await head() !== commit.sha) throw new Error('Lease head readback failed; stop work');
-  const verified=data(await file(commit.sha),'Lease state readback failed');
-  if (verified.sha !== proposal.blob_sha || verified.content !== proposal.content)
-    throw new Error('Lease state readback mismatch; stop work');
-  requireFresh();
+  try{
+    if (await head() !== commit.sha) throw new Error('head mismatch');
+    const verified=data(await file(commit.sha),'readback failed');
+    if (verified.sha !== proposal.blob_sha || verified.content !== proposal.content)throw new Error('blob mismatch');
+    requireFresh();
+  }catch{throw new Error('Lease commit outcome unconfirmed; reconcile branch and lease');}
   return {status:'committed_and_read_back',phase:proposal.phase,commit_sha:commit.sha,tree_sha:tree?.sha||null,
           owner,run_id:runId,expires_at:state.lease?.expires_at||null};
 }

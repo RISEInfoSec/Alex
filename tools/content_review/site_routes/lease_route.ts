@@ -14,7 +14,7 @@ export async function POST(request:Request){
   const result=await startLease({db:runtime.DB,github,input});return Response.json(result,{headers});
  }catch(error){
   const message=error instanceof Error?error.message:'';
-  const reason=message.includes('ambiguous')?'lease_unconfirmed_reconcile':message==='Decision fence is not idle'?'fence_not_idle':
+  const reason=message.includes('ambiguous')||message.includes('unconfirmed')?'lease_unconfirmed_reconcile':message==='Decision fence is not idle'?'fence_not_idle':
    message==='Invalid lease start request'||message==='invalid_request'?'invalid_request':'lease_unavailable';
   return Response.json({status:'blocked',reason},{status:reason==='invalid_request'?400:409,headers});
  }

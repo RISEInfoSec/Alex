@@ -86,3 +86,8 @@ test('lease writer rejects a scheduler identity outside committed configuration'
  let blobs=0;f.api.createBlob=async()=>{blobs++;throw Error('unexpected');};
  await assert.rejects(commitLease(f),/does not match configured worker/);assert.equal(blobs,0);
 });
+test('post-commit readback failure is reported as unconfirmed',async()=>{
+ const f=fixture(),read=f.api.fetchFile;
+ f.api.fetchFile=async args=>args.ref===nextCommit?ok({sha:'f'.repeat(40),content:'{}'}):read(args);
+ await assert.rejects(commitLease(f),/outcome unconfirmed; reconcile/);assert.equal(f.writes(),1);
+});

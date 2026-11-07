@@ -63,3 +63,8 @@ test('a forged lease or unrelated configured worker is rejected before any GitHu
   assert.equal(blobs,0);assert.equal(f.updates(),0);
  }
 });
+test('post-commit heartbeat readback failure is reported as unconfirmed',async()=>{
+ const f=fixture(),read=f.api.fetchFile;
+ f.api.fetchFile=async args=>args.ref===next?ok({sha:'f'.repeat(40),content:'{}'}):read(args);
+ await assert.rejects(commitHeartbeat(f),/outcome unconfirmed; reconcile/);assert.equal(f.updates(),1);
+});

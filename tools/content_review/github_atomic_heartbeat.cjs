@@ -73,11 +73,13 @@ async function commitHeartbeat({api,linkId,proposal,now=()=>Date.now()}){
   if(!update||update.isError||update.structuredContent?.success!==true)
    throw new Error('Heartbeat update was rejected or ambiguous; reconcile commit '+commit.sha+' before retrying');
  }
- if(await head(HEARTBEAT)!==commit.sha)throw new Error('Heartbeat head readback failed');
- const verified=unwrap(await file(commit.sha),'Heartbeat record readback failed');
- if(verified.sha!==proposal.blob_sha||verified.content!==proposal.content)throw new Error('Heartbeat readback mismatch');
- if(await head(REVIEW)!==proposal.review_head)throw new Error('Review head changed after heartbeat; refresh before work');
- requireFresh();
+ try{
+  if(await head(HEARTBEAT)!==commit.sha)throw new Error('head mismatch');
+  const verified=unwrap(await file(commit.sha),'readback failed');
+  if(verified.sha!==proposal.blob_sha||verified.content!==proposal.content)throw new Error('blob mismatch');
+  if(await head(REVIEW)!==proposal.review_head)throw new Error('review changed');
+  requireFresh();
+ }catch{throw new Error('Heartbeat commit outcome unconfirmed; reconcile heartbeat branch');}
  return {status:'committed_and_read_back',heartbeat_head:commit.sha,review_head:proposal.review_head,run_id:proposal.run_id};
 }
 module.exports={commitHeartbeat};
