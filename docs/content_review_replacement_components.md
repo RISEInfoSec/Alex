@@ -187,6 +187,12 @@ and nine trigger definitions without returning owner identities or changing
 data. Site version 64 exposed the read-only status and reported nine matching
 triggers with no active fence. An idle fence does not establish worker health;
 a held fence means review submissions must wait while a checkpoint is verified.
+`d1_fence_service.mjs` prepares narrow acquire, begin, abort and confirmed
+release operations. It rejects retired targets; before acquisition and commit
+it rechecks the current Git heads, recorded worker lease, bound heartbeat and
+private D1 fingerprint. It does not write GitHub or independently query the
+native scheduler. Its caller must obtain genuine native observations, and the
+separate semantic checkpoint writer must still be installed and verified.
 
 `lease.py` prepares bounded acquire, renew and release state transitions and
 preserves lease history. These pure functions do not acquire a remote lease.
