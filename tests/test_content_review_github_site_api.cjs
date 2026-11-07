@@ -156,12 +156,12 @@ test('streaming reports bounded failure stages without exposing data or credenti
 test('missing Content-Length uses bounded counting pass before verified consumption',async()=>{
  const content=Buffer.from('public source é\n'.repeat(1000));
  const sha=crypto.createHash('sha1').update(`blob ${content.length}\0`).update(content).digest('hex');
- let calls=0,seen=0;
+ let calls=0,seen=0,progress=0;
  const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async()=>{
   calls++;if(calls===2)assert.equal(seen,0);return new Response(content);
  }});
- const result=await api.streamBlob({repository_full_name:repo,sha,onChunk:chunk=>{seen+=chunk.length;}});
- assert.equal(calls,2);assert.equal(seen,content.length);
+ const result=await api.streamBlob({repository_full_name:repo,sha,onProgress:()=>{assert.equal(seen,0);progress++},onChunk:chunk=>{seen+=chunk.length;}});
+ assert.equal(calls,2);assert.equal(seen,content.length);assert.ok(progress>0);
  assert.deepEqual(result.structuredContent,{sha,size:content.length,sha256:crypto.createHash('sha256').update(content).digest('hex')});
 });
 test('a changed second response cannot pass the immutable blob check',async()=>{

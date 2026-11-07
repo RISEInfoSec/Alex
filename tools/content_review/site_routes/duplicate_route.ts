@@ -34,6 +34,7 @@ export async function POST(request:Request){
    'Invalid duplicate file inventory':'invalid_request','Duplicate file limit exceeded':'request_too_large',
    'Duplicate source head changed':'source_head_changed','Current worker lease or heartbeat is unavailable':'worker_not_verified',
    'Review decisions changed since preparation':'decisions_changed',
+   'Heartbeat renewal outcome unconfirmed; reconcile heartbeat branch':'heartbeat_unconfirmed_reconcile_ref',
    'Duplicate fence state unconfirmed; inspect fence':'fence_state_unconfirmed',
    'Duplicate commit outcome ambiguous or unconfirmed; reconcile branch and fence':'commit_unconfirmed_reconcile_fence'};
   const reason=reasons[message]||'duplicate_unavailable';

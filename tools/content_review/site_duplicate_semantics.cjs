@@ -84,7 +84,7 @@ function validateDuplicate({before,after,receipt,snapshot,confirmed,audit,expect
  const {collection,candidate_id:id,content_sha256:content,checked_at:at,run_id:run}=receipt;
  const auditIdentity=sha256(collection+'\0'+id+'\0'+content);
  if(audit.status!=='clear'||audit.candidate_key_sha256!==auditIdentity||audit.review_commit!==receipt.source_review_commit||
-  audit.main_commit!==receipt.source_main_commit||audit.candidate_processing!==false||audit.writes!==0||
+  audit.main_commit!==receipt.source_main_commit||audit.candidate_processing!==false||audit.candidate_writes!==0||
   expectedEvidence.review_commit!==receipt.source_review_commit||expectedEvidence.main_commit!==receipt.source_main_commit||
   !Array.isArray(expectedEvidence.input_blobs)||!equal(expectedEvidence.input_blobs,audit.input_blobs)||!equal(expectedEvidence.matches,[])||!equal(expectedEvidence.exclusions,[])||
   !equal(expectedEvidence.upstream_aliases,[])||expectedEvidence.method!=='complete immutable corpus, exclusions, registered collections and upstream inventories')

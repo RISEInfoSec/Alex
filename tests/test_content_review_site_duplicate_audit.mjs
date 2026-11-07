@@ -40,7 +40,7 @@ const params=github=>({github,expectedReview:review,expectedMain:main,collection
 test('independent audit scans each registered collection and both complete inventories',async()=>{
  const f=fixture(),result=await auditDuplicateInputs(params(f.github));
  assert.equal(result.status,'clear');assert.equal(result.collections_examined,4);assert.equal(result.retained_rows,1);
- assert.equal(result.current_rows,1);assert.equal(result.candidate_processing,false);assert.equal(result.writes,0);
+ assert.equal(result.current_rows,1);assert.equal(result.candidate_processing,false);assert.equal(result.candidate_writes,0);assert.equal(result.heartbeat_updates,0);
  for(const name of ['apwg','corpus-audit','virusbulletin'])assert.ok(f.calls.includes('config/'+name+'.json'));
 });
 test('a possible overlap in any collection or exclusion holds the candidate',async()=>{
@@ -58,4 +58,11 @@ test('invalid sources, changed content and failed streams never produce clear ev
  const d=fixture();d.changeHead();await assert.rejects(auditDuplicateInputs(params(d.github)));
  const e=fixture();e.configs['config/corpus_exclusions.json'].records.push({decision:'rejected',submission_id:'s',reviewed_content_sha256:'c'.repeat(64)});
  await assert.rejects(auditDuplicateInputs(params(e.github)));
+});
+test('an ambiguous heartbeat during the stream is not hidden by adapter error redaction',async()=>{
+ const f=fixture();let insideStream=false;
+ f.github.streamBlob=async({onProgress})=>{insideStream=true;try{await onProgress();}catch{return {isError:true};}return {isError:true};};
+ await assert.rejects(auditDuplicateInputs({...params(f.github),heartbeat:async()=>{
+  if(insideStream)throw Error('Heartbeat renewal outcome unconfirmed; reconcile heartbeat branch');return {renewed:false};
+ }}),/outcome unconfirmed; reconcile heartbeat branch/);
 });

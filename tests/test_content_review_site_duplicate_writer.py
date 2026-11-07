@@ -82,7 +82,8 @@ if(mode==='matching_corpus'){
  const p=v.input.expectedMain+':data/papers.json',item=v.files[p];item.content=JSON.stringify([{title:'New research'}]);item.sha=hash(item.content);
 }
 const verify=async()=>{if(mode==='unverified')throw Error('Worker lease unavailable')};
-try{const result=await writeDuplicate({db:{},github:api,input:v.input,now:()=>v.now,read,control,verify});
+const heartbeatFactory=()=>async()=>({renewed:false});
+try{const result=await writeDuplicate({db:{},github:api,input:v.input,now:()=>v.now,read,control,verify,heartbeatFactory});
  process.stdout.write(JSON.stringify({result,commits,blobs,phase,events}));}
 catch(e){process.stdout.write(JSON.stringify({error:e.message,commits,blobs,phase,events}));}
 """

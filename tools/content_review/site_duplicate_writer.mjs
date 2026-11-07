@@ -4,6 +4,7 @@
 // run before any Git object is created, and D1 is rechecked under its fence.
 import {controlFence,verifyWorkerContext} from './d1_fence_service.mjs';
 import {auditDuplicateInputs} from './site_duplicate_audit.mjs';
+import {makeHeartbeatKeeper} from './site_heartbeat_keeper.mjs';
 import reader from './site_d1_reader.cjs';
 import fingerprints from './d1_fingerprint.cjs';
 import jsonVerifier from './verified_git_blob.cjs';
@@ -17,9 +18,9 @@ const COLLECTIONS=new Set(['weekly','bellingcat','first','m3aawg','sans','soups'
 const unwrap=(x,msg)=>{if(!x||x.isError||!x.structuredContent)throw Error(msg);return x.structuredContent;};
 
 export async function writeDuplicate({db,github,input,now=()=>Date.now(),read=reader.readStable,control=controlFence,
- verify=verifyWorkerContext,audit=auditDuplicateInputs}){
+ verify=verifyWorkerContext,audit=auditDuplicateInputs,heartbeatFactory=makeHeartbeatKeeper}){
  if(!db||!github||typeof now!=='function'||typeof read!=='function'||typeof control!=='function'||typeof verify!=='function'||typeof audit!=='function'||
-  !input||typeof input!=='object'||Array.isArray(input)||
+  typeof heartbeatFactory!=='function'||!input||typeof input!=='object'||Array.isArray(input)||
   JSON.stringify(Object.keys(input).sort())!==JSON.stringify(['expectedHead','expectedMain','files','owner','runId'])||
   !SHA.test(input.expectedHead||'')||!SHA.test(input.expectedMain||'')||!ID.test(input.owner||'')||!ID.test(input.runId||'')||
   !input.files||typeof input.files!=='object'||Array.isArray(input.files))throw Error('Invalid duplicate request');
@@ -48,8 +49,9 @@ export async function writeDuplicate({db,github,input,now=()=>Date.now(),read=re
   !['soups','normalized'].includes(entries[0].adapter))throw Error('Duplicate manifest differs from registry');
  // This scan is independent of the proposed gate and checks all registered
  // collections, the public corpus, exclusions and retained/current queues.
+ const heartbeat=heartbeatFactory({github,input,now});
  const evidence=await audit({github,expectedReview:input.expectedHead,expectedMain:input.expectedMain,
-  collection:receipt.collection,candidateId:receipt.candidate_id});
+  collection:receipt.collection,candidateId:receipt.candidate_id,heartbeat});
  await verify({github,input,now});
  const expectedEvidence={method:'complete immutable corpus, exclusions, registered collections and upstream inventories',
   review_commit:input.expectedHead,main_commit:input.expectedMain,input_blobs:evidence.input_blobs,

@@ -81,8 +81,8 @@ function createSiteGithubApi({getToken,fetcher=fetch,timeoutMs=20000}={}){
    const result=await request(repoPath+'/git/blobs',{method:'POST',body:{content,encoding:'utf-8'}});
    return SHA.test(result.data?.sha||'')?success({sha:result.data.sha}):failure('BLOB_FAILED');
   },
-  async streamBlob({repository_full_name,sha,onChunk}){
-   if(repository_full_name!==REPOSITORY||!SHA.test(sha||'')||typeof onChunk!=='function')return failure('INVALID_SCOPE');
+  async streamBlob({repository_full_name,sha,onChunk,onProgress=async()=>{}}){
+   if(repository_full_name!==REPOSITORY||!SHA.test(sha||'')||typeof onChunk!=='function'||typeof onProgress!=='function')return failure('INVALID_SCOPE');
    const token=getToken();if(typeof token!=='string'||!token)return failure('READ_FAILED');
    let reader,stage='STREAM_FETCH_FAILED';
    try{
@@ -99,8 +99,9 @@ function createSiteGithubApi({getToken,fetcher=fetch,timeoutMs=20000}={}){
      // bytes only; no consumer sees them. A second pass must match that size
      // and the requested Git blob SHA before any result can be trusted.
      size=0;reader=response.body.getReader();stage='STREAM_READ_FAILED';
-     for(;;){const {value,done}=await reader.read();if(done)break;
+     for(;;){stage='STREAM_READ_FAILED';const {value,done}=await reader.read();if(done)break;
       if(!(value instanceof Uint8Array)||(size+=value.length)>MAX_STREAM_BYTES)throw Error('size');
+      stage='STREAM_CONSUMER_FAILED';await onProgress();
      }
      reader=undefined;stage='STREAM_FETCH_FAILED';response=await fetchBlob();
      if(!response.ok)return failure('STREAM_HTTP_'+response.status);

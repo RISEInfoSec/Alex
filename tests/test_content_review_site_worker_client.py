@@ -36,6 +36,7 @@ def test_client_targets_only_the_private_site_and_redacts_the_token():
 def test_timeout_unknown_response_and_unconfirmed_write_require_reconciliation():
     for response in [TimeoutError(),Response({'status':'unexpected'}),
         Response({'status':'blocked','reason':'commit_unconfirmed_reconcile_fence'},409),
+        Response({'status':'blocked','reason':'heartbeat_unconfirmed_reconcile_ref'},409),
         Response({'status':'blocked','reason':'unrecognized'},409)]:
         result=post('soups_intake',{},'secret-value',opener=Opener(response))
         assert result['status']=='outcome_unknown' and result['reconcile_before_retry'] is True

@@ -22,16 +22,20 @@ function manifestLocation(entry,review,main){
  return {path:'config/'+name,ref:root===reviewRoot?review:main};
 }
 
-export async function auditDuplicateInputs({github,expectedReview,expectedMain,collection,candidateId}){
+export async function auditDuplicateInputs({github,expectedReview,expectedMain,collection,candidateId,heartbeat=async()=>({renewed:false})}){
  if(!github||!SHA.test(expectedReview||'')||!SHA.test(expectedMain||'')||!ID.test(collection||'')||!ID.test(candidateId||'')||
-    ['fetchCommit','fetchFile','streamBlob'].some(method=>typeof github[method]!=='function'))throw Error('Invalid audit request');
- const proofs=new Map();
+    typeof heartbeat!=='function'||['fetchCommit','fetchFile','streamBlob'].some(method=>typeof github[method]!=='function'))throw Error('Invalid audit request');
+ const proofs=new Map();let heartbeatUpdates=0,heartbeatFailure=null;
+ async function pulse(){try{const result=await heartbeat();if(result?.renewed===true)heartbeatUpdates++;}
+  catch(error){heartbeatFailure=error;throw error;}}
  async function heads(){
+  await pulse();
   const [a,b]=await Promise.all([github.fetchCommit({repo_full_name:REPO,commit_sha:REVIEW}),github.fetchCommit({repo_full_name:REPO,commit_sha:MAIN})]);
   if(a?.isError||b?.isError||a?.structuredContent?.commit?.sha!==expectedReview||b?.structuredContent?.commit?.sha!==expectedMain)
    throw Error('Audit source heads changed');
  }
  async function json(path,ref,allowArray=false){
+  await pulse();
   const result=await github.fetchFile({repository_full_name:REPO,path,ref,require_content:true}),v=!result?.isError&&result?.structuredContent;
   if(!v||!SHA.test(v.sha||'')||typeof v.content!=='string'||await blobs.blobIdentity(v.content,{limit:MAX_JSON})!==v.sha)
    throw Error('Audit immutable source unavailable');
@@ -90,13 +94,15 @@ export async function auditDuplicateInputs({github,expectedReview,expectedMain,c
   if(!entry||entry.row!==index||entry.upstream_id!==String(row.candidate_id)||!SHA256.test(entry.content_sha256||''))throw Error('Audit retained row mismatch');
   check(row);
  });
- const old=await github.streamBlob({repository_full_name:REPO,sha:inventory.source_blob_sha,onChunk:chunk=>retained.update(chunk)});
+ const old=await github.streamBlob({repository_full_name:REPO,sha:inventory.source_blob_sha,onProgress:pulse,onChunk:async chunk=>{await pulse();retained.update(chunk);}});
+ if(heartbeatFailure)throw heartbeatFailure;
  if(old?.isError||old?.structuredContent?.sha!==inventory.source_blob_sha||old?.structuredContent?.sha256!==inventory.source_sha256||
     retained.finish().rows!==inventory.raw_records)throw Error('Audit retained inventory incomplete');
  const meta=await github.fetchFile({repository_full_name:REPO,path:'data/review_queue.csv',ref:expectedMain});
  if(meta?.isError||!SHA.test(meta?.structuredContent?.sha||''))throw Error('Audit current queue unavailable');
  const current=new rows.CsvRows(row=>check(row));
- const recent=await github.streamBlob({repository_full_name:REPO,sha:meta.structuredContent.sha,onChunk:chunk=>current.update(chunk)});
+ const recent=await github.streamBlob({repository_full_name:REPO,sha:meta.structuredContent.sha,onProgress:pulse,onChunk:async chunk=>{await pulse();current.update(chunk);}});
+ if(heartbeatFailure)throw heartbeatFailure;
  if(recent?.isError||recent?.structuredContent?.sha!==meta.structuredContent.sha||!Number.isSafeInteger(recent.structuredContent.size)||
   !SHA256.test(recent.structuredContent.sha256||''))throw Error('Audit current queue incomplete');
  proofs.set(expectedMain+':data/review_queue.csv',{commit:expectedMain,path:'data/review_queue.csv',blob_sha:recent.structuredContent.sha,
@@ -112,5 +118,5 @@ export async function auditDuplicateInputs({github,expectedReview,expectedMain,c
  return {status:matches?'held':'clear',candidate_key_sha256:hashes.sha256(collection+'\0'+candidateId+'\0'+candidate.content_sha256),
   possible_matches:matches,records_examined:scanned,collections_examined:locations.size,
   retained_rows:inventory.raw_records,current_rows:currentCount,review_commit:expectedReview,main_commit:expectedMain,
-  input_blobs:inputBlobs,candidate_processing:false,writes:0};
+  input_blobs:inputBlobs,candidate_processing:false,candidate_writes:0,heartbeat_updates:heartbeatUpdates};
 }

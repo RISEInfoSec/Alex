@@ -38,7 +38,7 @@ def bundle(repo):
             'receipt': receipt, 'snapshot': snapshot, 'confirmed': deepcopy(snapshot),
             'expectedEvidence': evidence,
             'audit': {'status': 'clear', 'candidate_key_sha256': identity, 'review_commit': review,
-                      'main_commit': main, 'input_blobs': deepcopy(evidence['input_blobs']), 'candidate_processing': False, 'writes': 0},
+                      'main_commit': main, 'input_blobs': deepcopy(evidence['input_blobs']), 'candidate_processing': False, 'candidate_writes': 0},
             'now': int(now.astimezone(timezone.utc).timestamp() * 1000)}
 
 
