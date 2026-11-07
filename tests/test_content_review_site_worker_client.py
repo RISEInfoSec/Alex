@@ -109,3 +109,13 @@ def test_request_rejects_bad_action_or_invalid_token_before_network():
     for action,token in [('wrong','secret'),('lease','bad\nsecret')]:
         with pytest.raises(ValueError):post(action,{},token,opener=opener)
     assert opener.requests==[]
+
+
+def test_source_retention_reports_evidence_without_claiming_a_gate():
+    response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':'config/content_review_source_checkpoints/'+'b'*64+'.json',
+              'gate_passed':False,'candidate_processing':False,'publication_verified':False}
+    opener=Opener(Response(response));result=post('source_retention',{},'secret-value',opener=opener)
+    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-retention' and opener.requests[0][1]==55
+    assert result['gate_passed'] is False and result['candidate_processing'] is False
+    response['gate_passed']=True
+    assert post('source_retention',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
