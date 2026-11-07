@@ -85,7 +85,10 @@ export async function writeIntake({db,github,input,now=()=>Date.now(),read=reade
  }catch(error){
   // Only the preparing phase can be aborted. Once a GitHub update may have
   // started, an ambiguous outcome must retain the fence for reconciliation.
-  if(mayHaveFence&&!commitAttempted){try{await control({db,github,input:{...fence,action:'abort'},now});}catch{}}
+  if(mayHaveFence&&!commitAttempted){
+   let aborted=false;try{aborted=(await control({db,github,input:{...fence,action:'abort'},now})).status==='aborted';}catch{}
+   if(!aborted)throw new Error('Intake fence state unconfirmed; inspect fence');
+  }
   if(commitAttempted)throw new Error('Intake commit outcome ambiguous or unconfirmed; reconcile branch and fence');
   throw error;
  }
