@@ -7,14 +7,8 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "Prior scheduled continuation failed without a diagnostic explanation; unattended reliability remains unverified.",
-  "lease": {
-    "owner": "content-review-worker-843a2fa3-86f8-8322-8d96-177ef301072b",
-    "run_id": "843a2fa3-86f8-8322-8d96-177ef301072b",
-    "acquired_at": "2026-11-07T02:47:15.713Z",
-    "expires_at": "2026-11-07T03:17:15.713Z",
-    "purpose": "Bounded scheduled Content Review pilot across all eligible collections"
-  },
+  "last_error": "Native run 843a2fa3-86f8-8322-8d96-177ef301072b failed with empty result content, requires_user_action=true and automatic disable before candidate selection; no concrete denial reason was supplied.",
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "weekly": 3,
@@ -948,6 +942,16 @@
       "status": "invalid_run_mismatch",
       "released_at": "2026-11-07T02:47:15.713Z",
       "release_reason": "Lease readback did not match current native in-progress run; corrected before status or candidate work."
+    },
+    {
+      "owner": "content-review-worker-843a2fa3-86f8-8322-8d96-177ef301072b",
+      "run_id": "843a2fa3-86f8-8322-8d96-177ef301072b",
+      "acquired_at": "2026-11-07T02:47:15.713Z",
+      "expires_at": "2026-11-07T03:17:15.713Z",
+      "purpose": "Bounded scheduled Content Review pilot across all eligible collections",
+      "status": "released_after_native_failure",
+      "released_at": "2026-11-07T02:52:17.563Z",
+      "release_reason": "Canonical failed-run receipt and processing health were committed and read back; no candidate or provider work occurred."
     }
   ]
 }
