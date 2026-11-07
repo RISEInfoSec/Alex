@@ -35,6 +35,17 @@ test('heartbeat may update only observation and scheduler evidence',()=>{
  after.lease.expires_at='2026-11-07T14:00:00Z';
  assert.throws(()=>validateTransition(before,after,'heartbeat',{...f.ctx,now:now+10000}),/unrelated state/);
 });
+test('a fresh detached heartbeat safely permits a later scheduler observation',()=>{
+ const f=fixture(),before=structuredClone(f.after),after=structuredClone(f.after),reviewHead='a'.repeat(40);
+ const later='2026-11-07T12:01:00Z';after.current_run.observed_at=later;after.current_run.scheduler.observed_at=later;after.last_heartbeat_at=later;
+ const h={schema_version:1,review_head:reviewHead,owner,run_id:runId,scheduler_id:before.current_run.scheduler.id,
+  started_at:before.current_run.started_at,lease_acquired_at:before.lease.acquired_at,
+  lease_expires_at:before.lease.expires_at,observed_at:'2026-11-07T12:00:55Z'};
+ assert.throws(()=>validateTransition(before,after,'heartbeat',{...f.ctx,now:now+60000}),/previous observation/);
+ assert.equal(validateTransition(before,after,'heartbeat',{...f.ctx,now:now+60000,detachedHeartbeat:h,reviewHead}).status,'valid');
+ for(const change of [{review_head:'f'.repeat(40)},{owner:'other'},{observed_at:'2026-11-07T12:00:10Z'}])
+  assert.throws(()=>validateTransition(before,after,'heartbeat',{...f.ctx,now:now+60000,detachedHeartbeat:{...h,...change},reviewHead}));
+});
 test('abort preserves lease history and other state exactly',()=>{
  const f=fixture(),before=structuredClone(f.after),after=structuredClone(f.after);
  after.lease_history.push({...before.lease,status:'released',released_at:stamp});after.lease=null;

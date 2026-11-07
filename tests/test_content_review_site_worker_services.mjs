@@ -12,6 +12,11 @@ test('lease start requires an idle decision fence and delegates the restricted s
  await assert.rejects(startLease({db,github,input:{owner:'worker',runId:'run',proposal},inspect:async()=>({status:'held'}),commit}),/not idle/);
  assert.equal(calls,1);
 });
+test('native observation refresh uses the same idle fence and guarded transition',async()=>{
+ let called=0;const result=await startLease({db:{},github:{},input:{owner:'worker',runId:'run',proposal:{phase:'heartbeat'}},
+  inspect:async()=>({status:'idle'}),commit:async()=>{called++;return {status:'committed_and_read_back'}}});
+ assert.equal(called,1);assert.equal(result.native_observation_authenticated,false);
+});
 test('lease endpoint cannot receive aborts or injected client fields',async()=>{
  const db={},github={},inspect=async()=>({status:'idle'}),commit=async()=>{throw Error('unexpected')};
  for(const input of [{owner:'worker',runId:'run',proposal:{phase:'abort'}},

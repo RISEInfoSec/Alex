@@ -81,6 +81,22 @@ def test_heartbeat_requires_fresh_owner_and_preserves_run(tmp_path):
         prepare(tmp_path, head, native, 'other', run, 'heartbeat', at=now+timedelta(seconds=30))
 
 
+def test_native_observation_can_refresh_after_fresh_detached_heartbeat(tmp_path):
+    from tools.content_review.heartbeat_evidence import prepare as make_heartbeat
+    now,native,run,_,head=fixture(tmp_path)
+    started=prepare(tmp_path,head,native,'worker',run,'start',at=now)
+    put(tmp_path,'config/content_review_worker_status.json',started['content'])
+    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','lease');head=git(tmp_path,'rev-parse','HEAD')
+    record=make_heartbeat(json.loads(started['content']),head,'worker',run,at=now+timedelta(seconds=55))
+    branch=git(tmp_path,'symbolic-ref','--short','HEAD');git(tmp_path,'checkout','-qb','heartbeat')
+    put(tmp_path,'config/content_review_detached_heartbeat.json',record);git(tmp_path,'add','.');git(tmp_path,'commit','-qm','heartbeat')
+    heartbeat_head=git(tmp_path,'rev-parse','HEAD');git(tmp_path,'checkout','-q',branch)
+    refreshed=prepare(tmp_path,head,native,'worker',run,'heartbeat',at=now+timedelta(seconds=60),heartbeat_head=heartbeat_head)
+    assert json.loads(refreshed['content'])['current_run']['observed_at']==(now+timedelta(seconds=60)).isoformat()
+    with pytest.raises(ValueError,match='stale'):
+        prepare(tmp_path,head,native,'worker',run,'heartbeat',at=now+timedelta(seconds=100),heartbeat_head=heartbeat_head)
+
+
 def test_abort_releases_only_owned_lease_even_when_native_read_is_unavailable(tmp_path):
     now, native, run, _, head=fixture(tmp_path)
     started=prepare(tmp_path, head, native, 'worker', run, 'start', at=now)

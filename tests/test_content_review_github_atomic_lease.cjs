@@ -45,6 +45,33 @@ test('Site-backed lease uses an exact-head atomic commit and verifies readback',
  };
  const result=await commitLease(f);assert.equal(result.commit_sha,nextCommit);assert.equal(result.tree_sha,null);assert.equal(calls,1);
 });
+test('native refresh verifies the detached heartbeat before updating a stale observation',async()=>{
+ const f=fixture(),before=JSON.parse(f.proposal.content),later=new Date(t+60000).toISOString();
+ f.setBefore(before);f.proposal.base_blob.blob_sha=gitHash(JSON.stringify(before)+'\n');
+ const after=structuredClone(before);after.current_run.observed_at=later;after.current_run.scheduler.observed_at=later;after.last_heartbeat_at=later;
+ f.proposal.phase='heartbeat';f.proposal.content=JSON.stringify(after)+'\n';f.proposal.blob_sha=gitHash(f.proposal.content);f.now=()=>t+60000;
+ const heartbeatHead='e'.repeat(40),record={schema_version:1,review_head:head,owner:'worker',run_id:'run',scheduler_id:'Automation_worker',
+  started_at:before.current_run.started_at,lease_acquired_at:before.lease.acquired_at,lease_expires_at:before.lease.expires_at,
+  observed_at:new Date(t+55000).toISOString()};
+ const baseHead=f.api.fetchCommit,baseFile=f.api.fetchFile;
+ f.api.fetchCommit=async args=>args.commit_sha==='codex/content-review-heartbeat'?ok({commit:{sha:heartbeatHead}}):baseHead(args);
+ f.api.fetchFile=async args=>{if(args.path==='config/content_review_detached_heartbeat.json'){
+  const content=JSON.stringify(record);return ok({sha:gitHash(content),content});}return baseFile(args);};
+ const result=await commitLease(f);assert.equal(result.phase,'heartbeat');assert.equal(f.writes(),1);
+});
+test('native refresh rejects a detached heartbeat for another run before a write',async()=>{
+ const f=fixture(),before=JSON.parse(f.proposal.content),later=new Date(t+60000).toISOString();
+ f.setBefore(before);f.proposal.base_blob.blob_sha=gitHash(JSON.stringify(before)+'\n');
+ const after=structuredClone(before);after.current_run.observed_at=later;after.current_run.scheduler.observed_at=later;after.last_heartbeat_at=later;
+ f.proposal.phase='heartbeat';f.proposal.content=JSON.stringify(after)+'\n';f.proposal.blob_sha=gitHash(f.proposal.content);f.now=()=>t+60000;
+ const record={schema_version:1,review_head:head,owner:'worker',run_id:'different',scheduler_id:'Automation_worker',
+  started_at:before.current_run.started_at,lease_acquired_at:before.lease.acquired_at,lease_expires_at:before.lease.expires_at,
+  observed_at:new Date(t+55000).toISOString()},baseHead=f.api.fetchCommit,baseFile=f.api.fetchFile;
+ f.api.fetchCommit=async args=>args.commit_sha==='codex/content-review-heartbeat'?ok({commit:{sha:'e'.repeat(40)}}):baseHead(args);
+ f.api.fetchFile=async args=>{if(args.path==='config/content_review_detached_heartbeat.json'){
+  const content=JSON.stringify(record);return ok({sha:gitHash(content),content});}return baseFile(args);};
+ await assert.rejects(commitLease(f),/does not match/);assert.equal(f.writes(),0);
+});
 test('ambiguous Site-backed lease is never retried',async()=>{
  const f=fixture();let calls=0;f.api.commitOnBranch=async()=>{calls++;throw Error('disconnected');};
  await assert.rejects(commitLease(f),/ambiguous; reconcile branch and lease/);assert.equal(calls,1);

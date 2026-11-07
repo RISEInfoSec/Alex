@@ -10,6 +10,9 @@ const CONFIG = 'config/content_review_monitor_config.json';
 const SHA = /^[0-9a-f]{40}$/;
 const {validateTransition}=require('./lease_semantics.cjs');
 const {verifiedJson}=require('./verified_git_blob.cjs');
+const heartbeatReader=require('./github_read_heartbeat.cjs');
+const gitHash=require('./git_blob_sha1.cjs');
+const {validateHeartbeat}=require('./heartbeat_semantics.cjs');
 
 function data(result, error) {
   if (!result || result.isError || !result.structuredContent) throw new Error(error);
@@ -58,13 +61,19 @@ async function commitLease({api, linkId, proposal, owner, runId, now=()=>Date.no
   const old=data(await file(proposal.expected_head),'Cannot read committed lease state');
   if (old.sha !== proposal.base_blob.blob_sha) throw new Error('Committed lease blob changed');
   const previous=await verifiedJson({structuredContent:old});
-  validateTransition(previous,state,proposal.phase,{owner,runId,now:now()});
+  let detachedHeartbeat=null;
   if(proposal.phase!=='abort'){
     const config=data(await api.fetchFile({...common,path:CONFIG,ref:proposal.expected_head,encoding:'utf-8'}),'Cannot read committed worker configuration');
     const settings=await verifiedJson({structuredContent:config});
     if(!settings||settings.target_automation_id!==state.current_run?.scheduler?.id)
       throw new Error('Native observation does not match configured worker');
+    if(proposal.phase==='heartbeat'){
+      const h=await heartbeatReader.readHeartbeat({api,linkId,gitBlobSha1:gitHash.gitBlobSha1});
+      validateHeartbeat({state:previous,config:settings,record:h.record,previous:null,reviewHead:proposal.expected_head,owner,runId,now:now()});
+      detachedHeartbeat=h.record;
+    }
   }
+  validateTransition(previous,state,proposal.phase,{owner,runId,now:now(),detachedHeartbeat,reviewHead:proposal.expected_head});
   const blob=data(await api.createBlob({...common,content:proposal.content,encoding:'utf-8'}),'Cannot create lease blob');
   if (blob.sha !== proposal.blob_sha) throw new Error('Lease blob hash mismatch');
   const message=proposal.phase==='start'?'Acquire content review lease':proposal.phase==='abort'?'Release failed content review lease':'Record content review heartbeat';

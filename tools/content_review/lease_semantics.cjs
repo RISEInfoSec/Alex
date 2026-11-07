@@ -27,7 +27,7 @@ function native(run,runId,now){
   time(run.scheduled_for)<=now+300000,'Native observation shape or timing is invalid');
 }
 
-function validateTransition(before,after,phase,{owner,runId,now}){
+function validateTransition(before,after,phase,{owner,runId,now,detachedHeartbeat=null,reviewHead=null}){
  required(object(before)&&object(after)&&typeof owner==='string'&&owner&&typeof runId==='string'&&
   /^[a-zA-Z0-9-]+$/.test(runId)&&Number.isFinite(now),'Lease state or identity invalid');
  const current=before.current_run,lease=before.lease,run=after.current_run,expected=structuredClone(before);
@@ -71,9 +71,15 @@ function validateTransition(before,after,phase,{owner,runId,now}){
   expected.lease=structuredClone(fresh);expected.current_run=structuredClone(run);
   expected.last_started_at=run.scheduler.last_run.started_at;expected.last_heartbeat_at=run.observed_at;
  }else if(phase==='heartbeat'){
+  const h=detachedHeartbeat,priorFresh=Number.isFinite(time(current?.observed_at))&&time(current.observed_at)<=now&&now-time(current.observed_at)<=40000;
+  const detachedFresh=object(h)&&/^[0-9a-f]{40}$/.test(reviewHead||'')&&h.schema_version===1&&h.review_head===reviewHead&&
+   h.owner===owner&&h.run_id===runId&&h.scheduler_id===current?.scheduler?.id&&h.started_at===current?.started_at&&
+   h.lease_acquired_at===lease?.acquired_at&&h.lease_expires_at===lease?.expires_at&&
+   Number.isFinite(time(h.observed_at))&&time(h.observed_at)<=now&&now-time(h.observed_at)<=40000&&
+   time(h.observed_at)>=time(current?.observed_at)&&time(h.observed_at)>=time(lease?.acquired_at)&&time(h.observed_at)>=time(current?.started_at);
   required(object(lease)&&lease.owner===owner&&lease.run_id===runId&&time(lease.expires_at)>now&&
    object(current)&&current.run_id===runId&&current.application_status==='running'&&
-   Number.isFinite(time(current.observed_at))&&time(current.observed_at)<=now&&now-time(current.observed_at)<=40000&&
+   Number.isFinite(time(current.observed_at))&&time(current.observed_at)<=now&&(priorFresh||detachedFresh)&&
    time(run?.observed_at)>=time(current.observed_at),'Heartbeat lease or previous observation invalid');
   native(run,runId,now);
   expected.current_run.observed_at=run.observed_at;expected.current_run.scheduler=structuredClone(run.scheduler);

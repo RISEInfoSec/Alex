@@ -20,7 +20,7 @@ RETIRED_TARGETS = frozenset({'Automation_0ff7fb9b800481919b48ddb2593b8f88',
                              'Automation_5bfb7f72636c819198bdbf0367081338'})
 
 
-def prepare(repo, head, native, owner, run_id, phase, *, at=None, failure_code=None):
+def prepare(repo, head, native, owner, run_id, phase, *, at=None, failure_code=None, heartbeat_head=None):
     """Build one state blob for an expected-head GitHub update and readback.
 
     The caller must authenticate the native observation, perform the update
@@ -95,7 +95,15 @@ def prepare(repo, head, native, owner, run_id, phase, *, at=None, failure_code=N
     else:
         previous = instant((state.get('current_run') or {}).get('observed_at'))
         if not previous or not 0 <= (now-previous).total_seconds() <= 40:
-            raise ValueError('Previous worker heartbeat is stale or unavailable')
+            if not isinstance(heartbeat_head, str) or not SHA.fullmatch(heartbeat_head):
+                raise ValueError('Previous worker heartbeat is stale or unavailable')
+            from tools.content_review.heartbeat_evidence import verify as verify_detached
+            heartbeat_raw, _ = _path_blob(repo, heartbeat_head, 'config/content_review_detached_heartbeat.json')
+            try:
+                detached = json.loads(heartbeat_raw)
+            except (ValueError, UnicodeDecodeError) as exc:
+                raise ValueError('Detached heartbeat is invalid') from exc
+            verify_detached(detached, state, head, owner, run_id, at=now)
         updated = heartbeat(deepcopy(state), owner, run_id, at=now)
     updated['current_run']['scheduler'] = native_snapshot
     updated['last_heartbeat_at'] = now.isoformat()
