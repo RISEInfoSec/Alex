@@ -10,7 +10,7 @@ import guard from './site_source_request_guard.cjs';
 const REPO='RISEInfoSec/Alex',REVIEW='codex/soups-corpus-review',MAIN='main';
 const WORKER='config/content_review_worker_status.json',LEDGER='config/content_review_candidate_lifecycle.json',REGISTRY='config/review_console.json';
 const LIMIT=12*1024*1024,SHA=/^[0-9a-f]{40}$/,HASH=/^[0-9a-f]{64}$/,ID=/^[a-zA-Z0-9-]{1,100}$/;
-const COLLECTIONS=new Set(['weekly','bellingcat','first','m3aawg','sans','soups']);
+const COLLECTIONS=new Set(['weekly','bellingcat','first','m3aawg','sans','soups','virusbulletin']);
 const unwrap=(x,msg)=>{if(!x||x.isError||!x.structuredContent)throw Error(msg);return x.structuredContent;};
 
 export async function writeSourceRequest({db,github,input,now=()=>Date.now(),read=reader.readStable,control=controlFence,verify=verifyWorkerContext}){

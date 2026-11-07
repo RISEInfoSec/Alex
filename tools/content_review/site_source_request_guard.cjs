@@ -10,7 +10,7 @@ const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const canonical=x=>Array.isArray(x)?x.map(canonical):object(x)?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
 const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
 const HASH=/^[0-9a-f]{64}$/,ID=/^[a-zA-Z0-9-]{1,100}$/;
-const COLLECTIONS=new Set(['weekly','bellingcat','first','m3aawg','sans','soups']);
+const COLLECTIONS=new Set(['weekly','bellingcat','first','m3aawg','sans','soups','virusbulletin']);
 const field=(o,k,d=null)=>Object.prototype.hasOwnProperty.call(o,k)?o[k]:d;
 const truthy=x=>Array.isArray(x)?x.length>0:object(x)?Object.keys(x).length>0:!!x;
 function pass(row,g){const c=row.preflight?.checks?.[g];return object(c)&&c.status==='passed'&&c.content_sha256===row.content_sha256&&

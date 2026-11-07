@@ -70,7 +70,7 @@ def test_duplicate_candidate_inventory_fails_closed():
              source_attempts={}, source_progress={}, at=now)
 
 
-def test_virus_bulletin_duplicate_is_selected_but_other_gates_remain_held():
+def test_virus_bulletin_duplicate_and_source_are_selected_but_other_gates_remain_held():
     now, snap, manifests, ledger, registry, state = fixture()
     registry.append({'id': 'virusbulletin', 'adapter': 'normalized'})
     manifests['virusbulletin'] = {'records': [dict(candidate_id='vb', review_number=1,
@@ -84,6 +84,12 @@ def test_virus_bulletin_duplicate_is_selected_but_other_gates_remain_held():
     assert coverage['eligible'] == 1 and coverage['selected'] == 1
     manifests['virusbulletin']['records'][0]['preflight']={'checks':{'duplicates':{'status':'passed',
         'content_sha256':'d'*64,'checked_at':now.isoformat(),'evidence':{'validated':True}}}}
+    result = plan(snap, deepcopy(snap), manifests, ledger, registry, state, 'worker', 'run',
+                  source_attempts={}, source_progress={}, at=now)
+    assert any(x['collection'] == 'virusbulletin' and x['next_stage'] == 'source' for x in result['selected'])
+    row=manifests['virusbulletin']['records'][0]
+    for gate in ('format','access'):
+        row['preflight']['checks'][gate]={'status':'passed','content_sha256':'d'*64,'checked_at':now.isoformat(),'evidence':{'validated':True}}
     result = plan(snap, deepcopy(snap), manifests, ledger, registry, state, 'worker', 'run',
                   source_attempts={}, source_progress={}, at=now)
     assert all(x['collection'] != 'virusbulletin' for x in result['selected'])

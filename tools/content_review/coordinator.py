@@ -72,11 +72,11 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
                                limit=MAX_CANDIDATES, source_progress=source_progress,
                                source_attempts=source_attempts)
     # APWG and corpus audit still require their own execution adapters. Virus
-    # Bulletin has a separately checked duplicate gate only; do not select its
-    # source or later gates until those paths have been implemented.
+    # Bulletin has independently checked duplicate and source-reservation paths;
+    # do not select its later gates until those paths have been implemented.
     special = {c['id'] for c in registry if c.get('adapter') in ('apwg_pending', 'corpus_audit')}
     eligible = [item for item in result['selected'] if item['collection'] not in special
-                and (item['collection'] != 'virusbulletin' or item['next_stage'] == 'duplicates')]
+                and (item['collection'] != 'virusbulletin' or item['next_stage'] in ('duplicates', 'source'))]
     selected = [{**item, 'content_sha256': index[(item['collection'], item['candidate_id'])]['content_sha256']}
                 for item in eligible[:INITIAL_LIMIT]]
     # Report due work even when an executor is not yet available. Hiding it as

@@ -19,7 +19,7 @@ def reviewed_digest(row):
     return digest({k:row.get(k,'') for k in ('title','authors','year','doi','source_url','abstract','document_type')})
 def records(manifest):return manifest.get('records',[])+manifest.get('preflight_records',[])
 def file_digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
-MANIFESTS={s:'config/'+s+'_review_manifest.json' for s in ('soups','weekly','first','m3aawg','bellingcat','sans')}
+MANIFESTS={s:'config/'+s+'_review_manifest.json' for s in ('soups','weekly','first','m3aawg','bellingcat','sans','virusbulletin')}
 
 from tools.content_review.lifecycle import ensure_eligible, instant
 
