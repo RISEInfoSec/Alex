@@ -12,6 +12,31 @@ from tools.content_review.verified_inputs import SHA,_git,_path_blob,load_inputs
 WORKER='config/content_review_worker_status.json'
 
 
+def _verify_request_commit(repo,review_head,request_path,request_raw,request,native_run):
+    """Bind the native job to the exact atomic reservation in review history."""
+    source_head=native_run.get('head_sha') if isinstance(native_run,dict) else None
+    if not isinstance(source_head,str) or not SHA.fullmatch(source_head):
+        raise ValueError('Native source run commit is unavailable')
+    try:
+        _git(repo,'merge-base','--is-ancestor',source_head,review_head)
+        parents=_git(repo,'rev-list','--parents','-n','1',source_head).decode('ascii').split()
+        if len(parents)!=2:raise ValueError('Source reservation must have exactly one parent')
+        changes=_git(repo,'diff-tree','--no-commit-id','--name-status','--no-renames','-r',source_head).decode('utf-8').splitlines()
+        if sorted(changes)!=sorted(['A\t'+request_path,'M\t'+WORKER]):
+            raise ValueError('Source run commit is not the atomic reservation')
+        original,_=_path_blob(repo,source_head,request_path)
+        if original!=request_raw:raise ValueError('Source run request bytes changed')
+        state_raw,_=_path_blob(repo,source_head,WORKER)
+        state=json.loads(state_raw);current=state.get('current_run') or {};lease=state.get('lease') or {}
+        pending=current.get('pending_source_request') or {}
+        if (current.get('run_id')!=request.get('coordinator_run_id') or lease.get('run_id')!=current.get('run_id')
+            or lease.get('owner')!=request.get('lease_owner') or pending.get('request_id')!=request.get('request_id')
+            or pending.get('origin_run_id')!=current.get('run_id') or pending.get('reserved_limit')!=request.get('source_request_limit')):
+            raise ValueError('Source run reservation state does not match the request')
+    except (ValueError,UnicodeDecodeError,AttributeError,TypeError) as exc:
+        raise ValueError('Native source run is not bound to the retained atomic reservation') from exc
+
+
 def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed,request_id,result_bytes,native_run,artifact,
             owner,run_id,*,observed_heads,at=None):
     now=at or datetime.now(timezone.utc)
@@ -26,8 +51,10 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed,request
     inputs=load_inputs(repo,review_head,main_head);state=inputs['worker_state']
     beat_raw,_=_path_blob(repo,heartbeat_head,'config/content_review_detached_heartbeat.json')
     verify_heartbeat(json.loads(beat_raw),state,review_head,owner,run_id,at=now)
-    request_raw,_=_path_blob(repo,review_head,'config/content_review_source_requests/'+request_id+'.json')
+    request_path='config/content_review_source_requests/'+request_id+'.json'
+    request_raw,_=_path_blob(repo,review_head,request_path)
     request=json.loads(request_raw)
+    _verify_request_commit(repo,review_head,request_path,request_raw,request,native_run)
     accounted=account(state,request,result_bytes,native_run,artifact,owner,run_id,at=now)
     receipt_path='config/content_review_source_receipts/'+request_id+'.json'
     existing=_git(repo,'ls-tree','-z',review_head,'--',receipt_path)

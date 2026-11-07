@@ -25,7 +25,7 @@ def setup(repo):
     run={'id':123,'event':'push','head_branch':BRANCH,'path':WORKFLOW,'status':'completed','conclusion':'success',
          'head_sha':review,'run_attempt':1}
     item=request['records'][0]
-    result={'request_id':request['request_id'],'records':[{'collection':item['collection'],'candidate_id':item['candidate_id'],
+    result={'schema_version':1,'status':'complete','read_only':True,'request_id':request['request_id'],'records':[{'collection':item['collection'],'candidate_id':item['candidate_id'],
              'content_sha256':item['content_sha256'],'evidence':[]}], 'requests':2,'request_log':[{},{}],
             'provenance':{'GITHUB_SHA':review,'GITHUB_RUN_ID':'123','GITHUB_RUN_ATTEMPT':'1',
                           'GITHUB_REF':'refs/heads/'+BRANCH,'GITHUB_WORKFLOW_REF':'RISEInfoSec/Alex/'+WORKFLOW+'@refs/heads/'+BRANCH}}
@@ -56,3 +56,14 @@ def test_altered_artifact_or_changed_remote_head_stops_result(tmp_path):
     with pytest.raises(ValueError,match='heads are unavailable or changed'):
         prepare(tmp_path,review,main,hb,snapshot,deepcopy(snapshot),request['request_id'],raw,run,artifact,
                 'worker','run',observed_heads={'review':'f'*40,'main':main},at=now)
+
+
+@pytest.mark.parametrize('forged_head', ['nonancestor','prior_commit'])
+def test_successful_artifact_must_come_from_atomic_request_commit(tmp_path,forged_head):
+    now,review,main,hb,snapshot,request,raw,run,artifact=setup(tmp_path)
+    bad_head=hb if forged_head=='nonancestor' else git(tmp_path,'rev-parse',review+'^')
+    run['head_sha']=bad_head
+    result=json.loads(raw);result['provenance']['GITHUB_SHA']=bad_head
+    raw=json.dumps(result).encode();artifact['sha256']=hashlib.sha256(raw).hexdigest()
+    with pytest.raises(ValueError,match='not bound to the retained atomic reservation'):
+        call_guard(tmp_path,now,review,main,hb,snapshot,request,raw,run,artifact)

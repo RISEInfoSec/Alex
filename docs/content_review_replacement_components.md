@@ -40,6 +40,9 @@ pending reservation survives a run transition with its original run identity.
 A later run accepts the result only with matching original run and lease history;
 it records the original budget use without charging the later run or dispatching
 the request again. Missing or inconsistent history holds further source work.
+The reported source workflow commit must be an ancestor of the current review
+head and contain the exact two-file atomic request reservation; a successful but
+unrelated workflow cannot supply a receipt for that request.
 The connector writer can save those bundles only after the same live fence. The
 outputs still require an atomic leased write and readback; none of these
 planning modules dispatches a workflow or makes a provider request.

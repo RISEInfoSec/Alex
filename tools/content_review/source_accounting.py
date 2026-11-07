@@ -25,6 +25,9 @@ def prepare(state,request,result_bytes,native_run,artifact,owner,run_id,*,at=Non
     if len(result_bytes)>32*1024*1024:raise ValueError('Source artifact exceeds bounded size')
     try:result=json.loads(result_bytes)
     except (ValueError,UnicodeDecodeError) as exc:raise ValueError('Source artifact JSON is invalid') from exc
+    if (not isinstance(result,dict) or result.get('schema_version')!=1
+        or result.get('status')!='complete' or result.get('read_only') is not True):
+        raise ValueError('Complete read-only source artifact is required')
     request_id=request.get('request_id')
     if (not isinstance(request_id,str) or not re.fullmatch(r'[0-9a-f]{64}',request_id)
         or digest({k:v for k,v in request.items() if k!='request_id'})!=request_id):

@@ -21,7 +21,7 @@ def fixture():
     state['current_run']['pending_source_request']={'request_id':request['request_id'],'origin_run_id':'scheduler-run','reserved_limit':30}
     run={'id':123,'event':'push','head_branch':BRANCH,'path':WORKFLOW,'status':'completed','conclusion':'success',
          'head_sha':'b'*40,'run_attempt':1}
-    result={'request_id':request['request_id'],'records':[{'collection':'weekly','candidate_id':'one','content_sha256':'a'*64,'evidence':[]}],
+    result={'schema_version':1,'status':'complete','read_only':True,'request_id':request['request_id'],'records':[{'collection':'weekly','candidate_id':'one','content_sha256':'a'*64,'evidence':[]}],
             'requests':2,'request_log':[{},{}],
             'provenance':{'GITHUB_SHA':run['head_sha'],'GITHUB_RUN_ID':'123','GITHUB_RUN_ATTEMPT':'1',
                           'GITHUB_REF':'refs/heads/'+BRANCH,'GITHUB_WORKFLOW_REF':'RISEInfoSec/Alex/'+WORKFLOW+'@refs/heads/'+BRANCH}}
@@ -50,6 +50,14 @@ def test_changed_artifact_or_unverified_run_cannot_be_counted():
         call(now,state,request,raw+b' ',run,artifact)
     run['conclusion']='failure'
     with pytest.raises(ValueError,match='not independently verified'):
+        call(now,state,request,raw,run,artifact)
+
+
+def test_partial_artifact_is_not_accounted_even_when_its_hash_matches():
+    now,state,request,raw,run,artifact=fixture()
+    result=json.loads(raw);result['status']='running';raw=json.dumps(result).encode()
+    artifact['sha256']=hashlib.sha256(raw).hexdigest()
+    with pytest.raises(ValueError,match='Complete read-only source artifact'):
         call(now,state,request,raw,run,artifact)
 
 
