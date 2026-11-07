@@ -89,12 +89,16 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     entries = ledger.get('records') if isinstance(ledger, dict) else None
     if not isinstance(entries, dict):
         raise ValueError('Complete candidate lifecycle is required')
-    missing_lifecycle = Counter()
+    missing_lifecycle, unnumbered_intake = Counter(), Counter()
     for (collection, candidate_id), row in index.items():
         key = (collection, candidate_id)
-        if (row.get('decision', 'pending') in ('pending', 'unreviewed') and key not in decided_keys
+        if (row.get('decision', 'pending') in ('pending', 'unreviewed')
+            and row.get('publication_status') != 'published_live_verified' and key not in decided_keys
             and key not in held_keys and collection + ':' + candidate_id not in entries):
-            missing_lifecycle[collection] += 1
+            if type(row.get('review_number')) is int and row['review_number'] > 0:
+                missing_lifecycle[collection] += 1
+            else:
+                unnumbered_intake[collection] += 1
     coverage = []
     for entry in registry:
         collection = entry['id']
@@ -110,11 +114,14 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
             reason = 'decision_reconciliation_hold'
         elif missing_lifecycle[collection]:
             reason = 'lifecycle_entry_missing'
+        elif unnumbered_intake[collection]:
+            reason = 'unnumbered_intake_required'
         else:
             reason = 'no_due_candidate_in_supplied_snapshot'
         coverage.append({'collection': collection, 'eligible': available[collection],
                          'selected': selected_counts[collection], 'decision_holds': held[collection],
                          'missing_lifecycle': missing_lifecycle[collection],
+                         'unnumbered_intake': unnumbered_intake[collection],
                          'matched_review_decisions': decisions[collection],
                          'disposition': reason})
     return {'status': 'plan_only', 'selected': selected, 'coverage': coverage,

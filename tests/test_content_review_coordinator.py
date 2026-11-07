@@ -105,3 +105,27 @@ def test_pending_candidate_without_lifecycle_is_reported_as_a_hold():
     coverage = next(x for x in result['coverage'] if x['collection'] == 'virusbulletin')
     assert coverage['disposition'] == 'lifecycle_entry_missing'
     assert coverage['missing_lifecycle'] == 1 and coverage['selected'] == 0
+
+
+def test_unnumbered_candidate_is_reported_as_intake_not_numbered_lifecycle():
+    now, snap, manifests, ledger, registry, state = fixture()
+    registry.append({'id': 'virusbulletin', 'adapter': 'normalized'})
+    manifests['virusbulletin'] = {'records': [dict(candidate_id='unnumbered',
+        content_sha256='d' * 64, decision='pending')]}
+    result = plan(snap, deepcopy(snap), manifests, ledger, registry, state, 'worker', 'run',
+                  source_attempts={}, source_progress={}, at=now)
+    coverage = next(x for x in result['coverage'] if x['collection'] == 'virusbulletin')
+    assert coverage['disposition'] == 'unnumbered_intake_required'
+    assert coverage['missing_lifecycle'] == 0 and coverage['unnumbered_intake'] == 1
+
+
+def test_already_published_candidate_is_not_reported_as_missing_lifecycle():
+    now, snap, manifests, ledger, registry, state = fixture()
+    registry.append({'id': 'virusbulletin', 'adapter': 'normalized'})
+    manifests['virusbulletin'] = {'records': [dict(candidate_id='published', review_number=1,
+        content_sha256='d' * 64, decision='pending', publication_status='published_live_verified')]}
+    result = plan(snap, deepcopy(snap), manifests, ledger, registry, state, 'worker', 'run',
+                  source_attempts={}, source_progress={}, at=now)
+    coverage = next(x for x in result['coverage'] if x['collection'] == 'virusbulletin')
+    assert coverage['disposition'] == 'no_due_candidate_in_supplied_snapshot'
+    assert coverage['missing_lifecycle'] == 0 and coverage['unnumbered_intake'] == 0

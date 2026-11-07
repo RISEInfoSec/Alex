@@ -29,9 +29,9 @@ every registered collection, reports APWG, the corpus audit and Virus Bulletin
 as requiring their separate adapters, and sets OpenAlex and paid requests to zero for the plan.
 Per-collection matching-decision counts are reconciliation observations, not
 processed work. Coverage reports due candidates that lack an executor, and
-reports a missing lifecycle entry instead of treating an untracked pending
-candidate as an empty collection. The plan performs no candidate work, network
-calls or writes.
+reports a missing lifecycle entry for numbered candidates separately from
+unnumbered intake instead of treating either as an empty collection. The plan
+performs no candidate work, network calls or writes.
 `source_plan.py` prepares bounded source requests only for candidates selected
 after the private decision overlay, exact committed inputs and a current
 separate heartbeat. A held DOI candidate does not suppress an eligible peer.
@@ -134,7 +134,17 @@ request was rejected with HTTP 401. The result does not assert a verified lease.
 reconciles the complete snapshots with immutable current Git blobs, and checks
 both branch heads again. On November 7 a live read-only run matched all 937
 active decisions with no holds. It did not process candidates or acquire a
-lease. The scheduler and final live fence still need installation and testing.
+lease. A separate Site-linked scheduled check also completed this reconciliation
+without user action. The scheduler and final live fence still need installation
+and testing. Site version 58 retains the route and prevents the retired source
+discovery row from reappearing when a replacement target is configured.
+
+`lifecycle_intake.py` prepares at most five additive lifecycle entries for
+numbered candidates, rotates across collections, preserves existing entries,
+and excludes existing decisions, holds, changed hashes and unnumbered intake.
+It creates no attempt, makes no write and confers no publication authority.
+Its proposed ledger requires a semantic checkpoint guard, a fresh D1/source
+fence and expected-head write before use; those connections do not yet exist.
 
 Two matching paginated reads are not a database transaction. The coordinator
 must take complete fresh reads and recheck their fingerprint and immutable Git
