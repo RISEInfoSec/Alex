@@ -94,6 +94,10 @@ but no heartbeat writer is installed or scheduled. `github_read_heartbeat.cjs` i
 heartbeat blob and verifies its Git hash with `git_blob_sha1.cjs` before the
 live fence consumes it. Site version 37 can consume that evidence when configured and will
 show missing or stale evidence as degraded.
+`runtime_guard.py` can use immutable review and heartbeat heads for each
+bounded work unit and reads its budget from the committed review policy. The
+caller must independently recheck both remote refs; local Git objects alone do
+not establish that they are current.
 The coordinator must commit with an expected-head comparison and read back the
 winning lease before working, renew only while still owner, recheck before
 checkpointing, and stop immediately on a conflict or expiration. The heartbeat
