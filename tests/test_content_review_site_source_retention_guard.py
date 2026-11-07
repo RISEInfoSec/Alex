@@ -51,3 +51,18 @@ def test_independent_guard_rejects_unverified_or_unrelated_changes(tmp_path,chan
     if change=='lease_time':d['state']['lease']['expires_at']='invalid';d['afterState']=deepcopy(d['state'])
     if change=='accounting':d['state']['current_run']['accounted_source_requests']=[];d['afterState']=deepcopy(d['state'])
     assert invoke(d).returncode!=0
+
+
+def test_guard_refuses_matching_private_decision_even_when_snapshot_is_stable(tmp_path):
+    d=value(tmp_path)
+    item=d['request']['records'][0]
+    submission={'id':'s','user_id':'private-user','collection':item['collection'],'batch':1,
+                'revision':1,'accepted':0,'rejected':1,'payload_hash':'a'*64}
+    decision={'id':'d','submission_id':'s','user_id':'private-user','collection':item['collection'],'batch':1,
+              'revision':1,'candidate_id':item['candidate_id'],'review_number':1,
+              'content_sha256':item['content_sha256'],'decision':'rejected'}
+    d['snapshot']['submissions']=[submission];d['snapshot']['decisions']=[decision]
+    for key in ('submissions','decisions'):d['snapshot']['read_evidence'][key]['rows_received']=1
+    d['confirmed']=deepcopy(d['snapshot'])
+    result=invoke(d)
+    assert result.returncode!=0 and 'review state' in result.stderr
