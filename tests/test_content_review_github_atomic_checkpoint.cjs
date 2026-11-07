@@ -208,10 +208,10 @@ test('run completion requires a fresh final D1 and lease fence',async()=>{
 
 function useSiteAtomic(f){
  let calls=0;
- f.api.createTree=async()=>{throw Error('site route must not create a separate tree')};
  f.api.createCommit=async()=>{throw Error('site route must not create a separate commit')};
  f.api.updateRef=async()=>{throw Error('site route must use expected-head atomic commit')};
- f.api.fetchCommitDetails=async()=>ok({sha:newCommit,tree_sha:newTree,parents:[oldHead]});
+ f.api.fetchCommitDetails=async({commit_sha})=>commit_sha===oldHead?ok({sha:oldHead,tree_sha:tree,parents:[]}):
+  ok({sha:newCommit,tree_sha:newTree,parents:[oldHead]});
  f.api.commitOnBranch=async({branch_name,expected_sha,additions})=>{
   calls++;assert.equal(branch_name,'codex/soups-corpus-review');assert.equal(expected_sha,oldHead);
   f.commits[newCommit]={...f.commits[oldHead],...Object.fromEntries(additions.map(x=>[x.path,hash(x.content)]))};
@@ -239,9 +239,17 @@ test('Site-backed commit never runs after a stale fence or changed head',async()
 test('Site-backed checkpoint rejects a committed tree or parent that differs from the proof',async()=>{
  for(const mode of ['tree','parent']){
   const f=fixture(),calls=useSiteAtomic(f);
-  f.api.fetchCommitDetails=async()=>ok({sha:newCommit,tree_sha:mode==='tree'?'f'.repeat(40):newTree,
-   parents:[mode==='parent'?'f'.repeat(40):oldHead]});
+  f.api.fetchCommitDetails=async({commit_sha})=>commit_sha===oldHead?ok({sha:oldHead,tree_sha:tree,parents:[]}):
+   ok({sha:newCommit,tree_sha:mode==='tree'?'f'.repeat(40):newTree,parents:[mode==='parent'?'f'.repeat(40):oldHead]});
   await assert.rejects(commitCheckpoint(f),/tree or parent differs/);assert.equal(calls(),1);
+ }
+});
+test('Site-backed writer rejects an incorrect base or proposed tree before branch update',async()=>{
+ for(const mode of ['base','proposed']){
+  const f=fixture(),calls=useSiteAtomic(f);
+  if(mode==='base')f.api.fetchCommitDetails=async()=>ok({sha:oldHead,tree_sha:'f'.repeat(40),parents:[]});
+  else f.api.createTree=async()=>ok({sha:'f'.repeat(40)});
+  await assert.rejects(commitCheckpoint(f),/tree differs/);assert.equal(calls(),0);assert.equal(f.head(),oldHead);
  }
 });
 
@@ -257,7 +265,8 @@ test('Site GitHub adapter and fenced writer complete one atomic run receipt toge
  const fetcher=async(input,options)=>{
   requests++;const u=new URL(input);
   assert.equal(u.origin,'https://api.github.com');assert.equal(options.redirect,'manual');
-  if(u.pathname.includes('/git/commits/'))return Response.json({sha:newCommit,tree:{sha:newTree},parents:[{sha:oldHead}]});
+  if(u.pathname.includes('/git/commits/'))return u.pathname.endsWith(oldHead)?Response.json({sha:oldHead,tree:{sha:tree},parents:[]}):
+   Response.json({sha:newCommit,tree:{sha:newTree},parents:[{sha:oldHead}]});
   if(u.pathname.includes('/commits/'))return Response.json({sha:f.head()});
   if(u.pathname.includes('/contents/')){
    const path=decodeURIComponent(u.pathname.split('/contents/')[1]),ref=u.searchParams.get('ref');
@@ -267,6 +276,7 @@ test('Site GitHub adapter and fenced writer complete one atomic run receipt toge
    return Response.json({sha,encoding:content===undefined?'none':'base64',content:content===undefined?'':Buffer.from(content).toString('base64')});
   }
   if(u.pathname.endsWith('/git/blobs'))return Response.json({sha:hash(JSON.parse(options.body).content)});
+  if(u.pathname.endsWith('/git/trees'))return Response.json({sha:newTree});
   if(u.pathname==='/graphql'){
    mutations++;const input=JSON.parse(options.body).variables.input;
    assert.equal(input.expectedHeadOid,oldHead);assert.equal(f.head(),oldHead);

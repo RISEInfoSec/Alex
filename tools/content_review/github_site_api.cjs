@@ -48,16 +48,28 @@ function createSiteGithubApi({getToken,fetcher=fetch,timeoutMs=20000}={}){
       value.parents.some(p=>!SHA.test(p?.sha||'')))return failure('READ_FAILED');
    return success({sha:value.sha,tree_sha:value.tree.sha,parents:value.parents.map(p=>p.sha)});
   },
-  async fetchFile({repository_full_name,path,ref}){
-   if(repository_full_name!==REPOSITORY||!validPath(path)||!SHA.test(ref||''))return failure('INVALID_SCOPE');
+  async fetchFile({repository_full_name,path,ref,require_content=false}){
+   if(repository_full_name!==REPOSITORY||!validPath(path)||!SHA.test(ref||'')||typeof require_content!=='boolean')return failure('INVALID_SCOPE');
    const result=await request(repoPath+'/contents/'+pathFor(path)+'?ref='+encodeURIComponent(ref));
    if(result.status===404)return failure('NOT_FOUND');
    if(!SHA.test(result.data?.sha||''))return failure('READ_FAILED');
+   let source=result.data;
+   // GitHub Contents returns encoding "none" for files over 1 MiB. A caller
+   // that needs full content must explicitly request the immutable blob; it
+   // must still independently verify the Git hash before trusting it.
+   if(require_content&&source.encoding==='none'){
+    const blob=await request(repoPath+'/git/blobs/'+source.sha);
+    if(blob.data?.sha!==source.sha||blob.data.encoding!=='base64'||!Number.isSafeInteger(blob.data.size)||
+       blob.data.size<0||blob.data.size>MAX_TOTAL_BYTES)return failure('CONTENT_UNAVAILABLE');
+    source=blob.data;
+   }
    let content;
-   if(result.data.encoding==='base64'&&typeof result.data.content==='string'){
-    try{const raw=atob(result.data.content.replace(/\s/g,''));content=new TextDecoder('utf-8',{fatal:true}).decode(Uint8Array.from(raw,c=>c.charCodeAt(0)));}
+   if(source.encoding==='base64'&&typeof source.content==='string'){
+    try{const raw=atob(source.content.replace(/\s/g,''));if(raw.length>MAX_TOTAL_BYTES||(source.size!=null&&source.size!==raw.length))return failure('CONTENT_LIMIT');
+     content=new TextDecoder('utf-8',{fatal:true}).decode(Uint8Array.from(raw,c=>c.charCodeAt(0)));}
     catch{return failure('INVALID_CONTENT');}
    }
+   if(require_content&&content===undefined)return failure('CONTENT_UNAVAILABLE');
    return success({sha:result.data.sha,...(content===undefined?{}:{content})});
   },
   async createBlob({repository_full_name,content,encoding}){
@@ -65,6 +77,15 @@ function createSiteGithubApi({getToken,fetcher=fetch,timeoutMs=20000}={}){
     return failure('INVALID_SCOPE');
    const result=await request(repoPath+'/git/blobs',{method:'POST',body:{content,encoding:'utf-8'}});
    return SHA.test(result.data?.sha||'')?success({sha:result.data.sha}):failure('BLOB_FAILED');
+  },
+  async createTree({repository_full_name,base_tree_sha,tree_elements}){
+   if(repository_full_name!==REPOSITORY||!SHA.test(base_tree_sha||'')||!Array.isArray(tree_elements)||
+      tree_elements.length<1||tree_elements.length>MAX_FILES||
+      tree_elements.some(x=>!x||!validPath(x.path)||x.mode!=='100644'||x.type!=='blob'||!SHA.test(x.sha||'')||
+       Object.keys(x).sort().join(',')!=='mode,path,sha,type')||
+      new Set(tree_elements.map(x=>x.path)).size!==tree_elements.length)return failure('INVALID_SCOPE');
+   const result=await request(repoPath+'/git/trees',{method:'POST',body:{base_tree:base_tree_sha,tree:tree_elements}});
+   return SHA.test(result.data?.sha||'')?success({sha:result.data.sha}):failure('TREE_FAILED');
   },
   async commitOnBranch({repository_full_name,branch_name,expected_sha,additions,message}){
    if(repository_full_name!==REPOSITORY||![REVIEW,HEARTBEAT].includes(branch_name)||!SHA.test(expected_sha||'')||

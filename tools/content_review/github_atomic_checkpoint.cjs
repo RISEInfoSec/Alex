@@ -43,7 +43,7 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
   if (!api || !linkId || !bundle || !proof || typeof fence !== 'function' || typeof now !== 'function')
     throw new Error('Connector, guarded checkpoint and live fence are required');
   const siteAtomic=typeof api.commitOnBranch==='function';
-  for (const method of ['fetchCommit', 'fetchFile', 'createBlob', ...(siteAtomic?['fetchCommitDetails']:['createTree','createCommit','updateRef'])])
+  for (const method of ['fetchCommit', 'fetchFile', 'createBlob','createTree', ...(siteAtomic?['fetchCommitDetails']:['createCommit','updateRef'])])
     if (typeof api[method] !== 'function') throw new Error('Required GitHub connector operation is unavailable');
   if (!SHA.test(proof.expected_head || '') || !SHA.test(proof.expected_main || '') || !SHA.test(proof.base_tree_sha || '') || !SHA.test(proof.expected_tree || '') ||
       !SHA256.test(proof.d1_fingerprint_private || '') || typeof proof.lease_owner !== 'string' || !proof.lease_owner ||
@@ -143,9 +143,13 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
   }));
   const message=kind==='source_request'?'Reserve bounded source evidence request':kind==='source_result'?'Record verified source evidence usage':kind==='source_retention'?'Retain verified source evidence':kind==='run_completion'?'Record run outcome and release review lease':'Checkpoint bounded content review evidence';
   let tree=null,commit=null;
+  if(siteAtomic){
+    const base=response(await api.fetchCommitDetails({...common,commit_sha:proof.expected_head}),'Cannot verify checkpoint base tree');
+    if(base.sha!==proof.expected_head||base.tree_sha!==proof.base_tree_sha)throw new Error('Checkpoint base tree differs from committed head');
+  }
+  tree = response(await api.createTree({...common, base_tree_sha:proof.base_tree_sha, tree_elements:created}), 'Cannot create checkpoint tree');
+  if (tree.sha !== proof.expected_tree) throw new Error('Checkpoint tree differs from guarded proposal');
   if(!siteAtomic){
-    tree = response(await api.createTree({...common, base_tree_sha:proof.base_tree_sha, tree_elements:created}), 'Cannot create checkpoint tree');
-    if (tree.sha !== proof.expected_tree) throw new Error('Checkpoint tree differs from guarded proposal');
     commit = response(await api.createCommit({...common, parent_sha:proof.expected_head, tree_sha:tree.sha, message}), 'Cannot create checkpoint commit');
     if (!SHA.test(commit.sha || '')) throw new Error('Checkpoint commit identity is invalid');
   }

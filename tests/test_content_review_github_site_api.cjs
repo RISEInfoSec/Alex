@@ -11,6 +11,7 @@ function fixture(){
   if(url.includes('/commits/'))return Response.json({sha:head});
   if(url.includes('/contents/'))return Response.json({sha:blob,encoding:'base64',content:btoa('file')});
   if(url.endsWith('/git/blobs'))return Response.json({sha:blob});
+  if(url.endsWith('/git/trees'))return Response.json({sha:commit});
   if(url.endsWith('/graphql'))return Response.json({data:{createCommitOnBranch:{commit:{oid:commit}}}});
   throw Error('unexpected URL');
  };
@@ -23,6 +24,8 @@ test('Site adapter sends exact-head atomic changes only to GitHub',async()=>{
   {sha:head,tree_sha:blob,parents:[commit]});
  assert.equal((await api.fetchFile({repository_full_name:repo,path:'config/state.json',ref:head})).structuredContent.content,'file');
  assert.equal((await api.createBlob({repository_full_name:repo,encoding:'utf-8',content:'texte é'})).structuredContent.sha,blob);
+ assert.equal((await api.createTree({repository_full_name:repo,base_tree_sha:head,
+  tree_elements:[{path:'config/state.json',mode:'100644',type:'blob',sha:blob}]})).structuredContent.sha,commit);
  const result=await api.commitOnBranch({repository_full_name:repo,branch_name:branch,expected_sha:head,
   additions:[{path:'config/state.json',content:'texte é'}],message:'Record checkpoint'});
  assert.deepEqual(result.structuredContent,{success:true,sha:commit});
@@ -30,6 +33,12 @@ test('Site adapter sends exact-head atomic changes only to GitHub',async()=>{
  assert.equal(input.expectedHeadOid,head);assert.equal(input.branch.branchName,branch);
  assert.equal(Buffer.from(input.fileChanges.additions[0].contents,'base64').toString(),'texte é');
  assert.equal(JSON.stringify(result).includes('test-secret'),false);
+});
+test('tree creation rejects arbitrary paths, modes and duplicate additions before network',async()=>{
+ const {api,calls}=fixture(),entry={path:'config/state.json',mode:'100644',type:'blob',sha:blob};
+ for(const elements of [[{...entry,path:'config/../secret.json'}],[{...entry,mode:'100755'}],[entry,entry],[],[{...entry,content:'arbitrary'}]])
+  assert.equal((await api.createTree({repository_full_name:repo,base_tree_sha:head,tree_elements:elements})).isError,true);
+ assert.equal(calls.length,0);
 });
 test('scope, duplicate paths and oversized payloads fail before network',async()=>{
  const {api,calls}=fixture();
@@ -73,6 +82,27 @@ test('large GitHub contents with no inline body retain their blob identity',asyn
  const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async()=>Response.json({sha:blob,encoding:'none',content:''})});
  const result=await api.fetchFile({repository_full_name:repo,path:'config/large.json',ref:head});
  assert.equal(result.structuredContent.sha,blob);assert.equal(result.structuredContent.content,undefined);
+});
+test('explicit full-content reads retrieve the immutable large blob with a bounded size',async()=>{
+ const content='é'.repeat(600000),calls=[];
+ const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async url=>{
+  calls.push(url);
+  if(url.includes('/contents/'))return Response.json({sha:blob,encoding:'none',content:''});
+  if(url.endsWith('/git/blobs/'+blob))return Response.json({sha:blob,encoding:'base64',size:Buffer.byteLength(content),content:Buffer.from(content).toString('base64')});
+  throw Error('unexpected URL');
+ }});
+ const result=await api.fetchFile({repository_full_name:repo,path:'config/large.json',ref:head,require_content:true});
+ assert.equal(result.structuredContent.sha,blob);assert.equal(result.structuredContent.content,content);
+ assert.equal(calls.length,2);assert.ok(calls.every(url=>url.startsWith('https://api.github.com/')));
+});
+test('full-content reads reject a different identity and oversized blobs',async()=>{
+ for(const value of [{sha:head,encoding:'base64',size:1,content:'YQ=='},
+                     {sha:blob,encoding:'base64',size:12*1024*1024+1,content:'YQ=='}]){
+  const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async url=>url.includes('/contents/')?
+   Response.json({sha:blob,encoding:'none'}):Response.json(value)});
+  const result=await api.fetchFile({repository_full_name:repo,path:'config/large.json',ref:head,require_content:true});
+  assert.equal(result.isError,true);assert.equal(result.structuredContent.error_code,'CONTENT_UNAVAILABLE');
+ }
 });
 test('bounded multi-megabyte changes retain every byte in the atomic payload',async()=>{
  let seen;
