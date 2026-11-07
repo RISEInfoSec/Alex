@@ -5,12 +5,12 @@ import json
 import subprocess
 
 from tests.test_content_review_duplicate_checkpoint import setup_bundle
-from tests.test_content_review_verified_inputs import git, put
+from tests.test_content_review_verified_inputs import git, put, fixture as input_fixture
 from tools.content_review.checkpoint_guard import verify
 from tools.content_review.duplicate_checkpoint import prepare as prepare_checkpoint
 from tools.content_review.lease_transition import prepare as prepare_lease
 from tools.content_review.monitor_snapshot import prepare as prepare_monitor
-from tools.content_review.verified_inputs import _path_blob
+from tools.content_review.verified_inputs import load_inputs
 
 
 def commit_files(repo, parent, files, message):
@@ -33,7 +33,7 @@ def test_local_native_lease_checkpoint_conflict_and_independent_monitor(tmp_path
                   'config/content_review_candidate_lifecycle.json':ledger,
                   'config/content_review_preflight_status.json':inputs['preflight_status'],
                   'config/content_review_worker_status.json':state}
-    git(tmp_path,'init','--quiet')
+    _, main, _ = input_fixture(tmp_path)
     for path,value in path_objects.items():put(tmp_path,path,value)
     put(tmp_path,'config/content_review_lifecycle_policy.json',inputs['lifecycle_policy'])
     put(tmp_path,'config/content_review_monitor_config.json',config)
@@ -47,8 +47,7 @@ def test_local_native_lease_checkpoint_conflict_and_independent_monitor(tmp_path
     lease_head=commit_files(tmp_path,head,{lease['path']:lease['content']},'synthetic lease')
     leased=json.loads(lease['content'])
     assert leased['run_history'][0]['receipt']=='retained'
-    inputs['review_commit']=lease_head;inputs['worker_state']=deepcopy(leased)
-    inputs['metadata']=[_path_blob(tmp_path,lease_head,path)[1] for path in path_objects]
+    inputs=load_inputs(tmp_path,lease_head,main)
     bundle=prepare_checkpoint(snapshot,deepcopy(snapshot),inputs,ledger,leased,'worker','run','weekly','fresh',
         observed_heads={'review':lease_head,'main':inputs['main_commit']},source_attempts={},source_progress={},at=now+timedelta(seconds=5))
     proof=verify(tmp_path,lease_head,inputs['main_commit'],bundle)

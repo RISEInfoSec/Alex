@@ -14,7 +14,9 @@ from tools.content_review.checkpoint_transport import validate
 from tools.content_review.lifecycle import GATES, current_pass, evaluate, instant, record_attempt
 from tools.content_review.manifest_integrity import validate_update
 from tools.content_review.stage_summary import validate_summary
-from tools.content_review.verified_inputs import MAX_BLOB_BYTES, SHA, _git, _path_blob
+from tools.content_review.verified_inputs import MAX_BLOB_BYTES, SHA, _git, _path_blob, load_inputs
+from tools.content_review.duplicate_evidence import audit
+from tools.content_review.manifest_integrity import reviewed_digest
 
 
 def _only_changed(before, after, allowed):
@@ -83,6 +85,40 @@ def _stage(before, after, collection, candidate, manifest_row):
         raise ValueError('Stage candidate identity is ambiguous')
 
 
+def _duplicate_evidence(repo, review_commit, main_commit, collection, candidate, checked_at, manifest_path, manifest_row):
+    """Recompute the gate from committed evidence; never trust a proposed pass."""
+    inputs = load_inputs(repo, review_commit, main_commit)
+    if collection not in inputs['manifests']:
+        raise ValueError('Checkpoint collection is not registered')
+    entries = [entry for entry in inputs['registry'] if entry.get('id') == collection]
+    expected_url = 'https://raw.githubusercontent.com/RISEInfoSec/Alex/codex/soups-corpus-review/' + manifest_path
+    if len(entries) != 1 or entries[0].get('manifest_url') != expected_url:
+        raise ValueError('Checkpoint manifest does not match the registered review collection')
+    manifest = inputs['manifests'][collection]
+    rows = manifest.get('records', []) + manifest.get('preflight_records', [])
+    candidates = [row for row in rows if row.get('candidate_id') == candidate]
+    if len(candidates) != 1:
+        raise ValueError('Committed duplicate candidate is ambiguous')
+    source = candidates[0]
+    if reviewed_digest(source) != source.get('content_sha256'):
+        raise ValueError('Committed duplicate candidate content hash is invalid')
+    collections = {'public': inputs['public']}
+    for name, other in inputs['manifests'].items():
+        collections[name] = other.get('records', []) + other.get('preflight_records', [])
+    actual = audit(source, collections, inputs['original_queue'] + inputs['current_queue'],
+                   inputs['exclusion_keys'], source_collection=collection)
+    if actual['status'] != 'passed':
+        raise ValueError('Committed duplicate or exclusion evidence does not pass')
+    expected = {'method': 'complete immutable corpus, exclusions, registered collections and upstream inventories',
+                'review_commit': review_commit, 'main_commit': main_commit,
+                'input_blobs': inputs['metadata'], 'matches': actual['matches'],
+                'exclusions': actual['exclusions'], 'upstream_aliases': actual['upstream_aliases']}
+    gate = manifest_row.get('preflight', {}).get('checks', {}).get('duplicates', {})
+    if (gate.get('evidence') != expected or gate.get('content_sha256') != source['content_sha256']
+        or gate.get('checked_at') != checked_at):
+        raise ValueError('Duplicate checkpoint evidence does not match committed inputs')
+
+
 def verify(repo, review_commit, main_commit, bundle, *, heartbeat_head=None):
     """Return exact blob and tree metadata, with no remote update or disclosure."""
     if not isinstance(review_commit, str) or not SHA.fullmatch(review_commit) or not isinstance(main_commit, str) or not SHA.fullmatch(main_commit):
@@ -139,6 +175,7 @@ def verify(repo, review_commit, main_commit, bundle, *, heartbeat_head=None):
     if receipt_path != 'config/content_review_mechanical_checkpoints/' + expected_id + '.json':
         raise ValueError('Checkpoint receipt identity is inconsistent')
     row = _manifest(original[manifest_path], changed[manifest_path], candidate, receipt['content_sha256'])
+    _duplicate_evidence(repo, review_commit, main_commit, collection, candidate, receipt['checked_at'], manifest_path, row)
     stage_path = 'config/content_review_preflight_status.json'
     _stage(original[stage_path], changed[stage_path], collection, candidate, row)
     state_path = 'config/content_review_worker_status.json'

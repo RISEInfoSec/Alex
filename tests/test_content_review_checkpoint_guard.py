@@ -7,16 +7,21 @@ from datetime import timedelta
 import pytest
 
 from tests.test_content_review_duplicate_checkpoint import setup_bundle
-from tests.test_content_review_verified_inputs import git, put
+from tests.test_content_review_verified_inputs import git, put, fixture as input_fixture
 from tools.content_review.checkpoint_guard import verify
 from tools.content_review.duplicate_checkpoint import prepare
 from tools.content_review.heartbeat_evidence import prepare as heartbeat
-from tools.content_review.verified_inputs import _path_blob
+from tools.content_review.verified_inputs import _path_blob, load_inputs
 
 
-def fixture(repo, existing_receipt=False):
+def fixture(repo, existing_receipt=False, stale_heartbeat=False):
     now, snap, inputs, state, ledger = setup_bundle()
-    git(repo, 'init', '--quiet')
+    _, main, _ = input_fixture(repo)
+    if stale_heartbeat:
+        state['lease']['acquired_at'] = (now-timedelta(minutes=3)).isoformat()
+        state['current_run']['started_at'] = (now-timedelta(minutes=2)).isoformat()
+        state['current_run']['observed_at'] = (now-timedelta(minutes=2)).isoformat()
+        state['current_run']['scheduler'] = {'id':'Automation_worker', 'last_run':{'id':'run', 'recorded_status':'in_progress'}}
     path_objects = {
         'config/weekly_review_manifest.json': inputs['manifests']['weekly'],
         'config/content_review_candidate_lifecycle.json': ledger,
@@ -33,12 +38,12 @@ def fixture(repo, existing_receipt=False):
     git(repo, 'add', '.')
     git(repo, 'commit', '-qm', 'source')
     head = git(repo, 'rev-parse', 'HEAD')
-    inputs['review_commit'] = head
-    inputs['metadata'] = [_path_blob(repo, head, p)[1] for p in path_objects]
+    inputs = load_inputs(repo, head, main)
+    beat = heartbeat(state, head, 'worker', 'run', at=now) if stale_heartbeat else None
     bundle = prepare(snap, deepcopy(snap), inputs, ledger, state, 'worker', 'run', 'weekly', 'fresh',
-                     observed_heads={'review': head, 'main': inputs['main_commit']},
-                     source_attempts={}, source_progress={}, at=now)
-    return head, inputs['main_commit'], bundle
+                     observed_heads={'review': head, 'main': main},
+                     source_attempts={}, source_progress={}, at=now, heartbeat=beat)
+    return head, main, bundle
 
 
 def mutate(bundle, path, f):
@@ -124,30 +129,36 @@ def test_controlled_local_checkpoint_and_competing_writer(tmp_path):
 
 
 def test_detached_heartbeat_keeps_verified_review_head_stable(tmp_path):
-    now,snap,inputs,state,ledger=setup_bundle()
-    state['lease']['acquired_at']=(now-timedelta(minutes=3)).isoformat()
-    state['current_run']['started_at']=(now-timedelta(minutes=2)).isoformat()
-    state['current_run']['observed_at']=(now-timedelta(minutes=2)).isoformat()
-    state['current_run']['scheduler']={'id':'Automation_worker','last_run':{'id':'run','recorded_status':'in_progress'}}
-    inputs['worker_state']=deepcopy(state)
-    path_objects={'config/weekly_review_manifest.json':inputs['manifests']['weekly'],
-       'config/content_review_candidate_lifecycle.json':ledger,'config/content_review_preflight_status.json':inputs['preflight_status'],
-       'config/content_review_worker_status.json':state}
-    git(tmp_path,'init','--quiet')
-    for path,value in path_objects.items():put(tmp_path,path,value)
-    put(tmp_path,'config/content_review_lifecycle_policy.json',inputs['lifecycle_policy'])
-    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','review')
-    review=git(tmp_path,'rev-parse','HEAD');branch=git(tmp_path,'symbolic-ref','--short','HEAD')
+    review,main,bundle=fixture(tmp_path, stale_heartbeat=True)
+    now=setup_bundle()[0]
+    state=json.loads(_path_blob(tmp_path,review,'config/content_review_worker_status.json')[0])
+    branch=git(tmp_path,'symbolic-ref','--short','HEAD')
     beat=heartbeat(state,review,'worker','run',at=now)
     git(tmp_path,'checkout','-qb','heartbeat')
     put(tmp_path,'config/content_review_detached_heartbeat.json',beat)
     git(tmp_path,'add','.');git(tmp_path,'commit','-qm','heartbeat')
     heartbeat_head=git(tmp_path,'rev-parse','HEAD');git(tmp_path,'checkout','-q',branch)
-    inputs['review_commit']=review;inputs['metadata']=[_path_blob(tmp_path,review,p)[1] for p in path_objects]
-    bundle=prepare(snap,deepcopy(snap),inputs,ledger,state,'worker','run','weekly','fresh',
-                   observed_heads={'review':review,'main':inputs['main_commit']},source_attempts={},source_progress={},
-                   heartbeat=beat,at=now)
     with pytest.raises(ValueError,match='fresh matching lease'):
-        verify(tmp_path,review,inputs['main_commit'],bundle)
-    proof=verify(tmp_path,review,inputs['main_commit'],bundle,heartbeat_head=heartbeat_head)
+        verify(tmp_path,review,main,bundle)
+    proof=verify(tmp_path,review,main,bundle,heartbeat_head=heartbeat_head)
     assert proof['heartbeat_head']==heartbeat_head and proof['expected_head']==review
+
+
+def test_forged_duplicate_pass_or_input_provenance_is_rejected(tmp_path):
+    head, main, bundle = fixture(tmp_path)
+    path = 'config/weekly_review_manifest.json'
+    changed = deepcopy(bundle)
+    mutate(changed, path, lambda o: o['records'][0]['preflight']['checks']['duplicates']['evidence'].update({'main_commit':'0'*40}))
+    with pytest.raises(ValueError, match='evidence does not match'):
+        verify(tmp_path, head, main, changed)
+    # A different committed public corpus that contains the candidate must
+    # reject an otherwise plausible previously prepared passing checkpoint.
+    put(tmp_path, 'data/papers.json', [{'title':'New research', 'authors':'Author', 'year':2026}])
+    git(tmp_path, 'add', 'data/papers.json'); git(tmp_path, 'commit', '-qm', 'matching public work')
+    changed_main = git(tmp_path, 'rev-parse', 'HEAD')
+    changed = deepcopy(bundle)
+    receipt = changed['new_paths_must_be_absent'][0]
+    mutate(changed, receipt, lambda o: o.update({'source_main_commit':changed_main}))
+    mutate(changed, path, lambda o: o['records'][0]['preflight']['checks']['duplicates']['evidence'].update({'main_commit':changed_main}))
+    with pytest.raises(ValueError, match='duplicate or exclusion evidence does not pass'):
+        verify(tmp_path, head, changed_main, changed)
