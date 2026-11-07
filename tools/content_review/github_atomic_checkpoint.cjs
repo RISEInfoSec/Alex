@@ -42,7 +42,8 @@ function same(a,b) {return JSON.stringify(canonical(a))===JSON.stringify(canonic
 async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date.now()}) {
   if (!api || !linkId || !bundle || !proof || typeof fence !== 'function' || typeof now !== 'function')
     throw new Error('Connector, guarded checkpoint and live fence are required');
-  for (const method of ['fetchCommit', 'fetchFile', 'createBlob', 'createTree', 'createCommit', 'updateRef'])
+  const siteAtomic=typeof api.commitOnBranch==='function';
+  for (const method of ['fetchCommit', 'fetchFile', 'createBlob', ...(siteAtomic?[]:['createTree','createCommit','updateRef'])])
     if (typeof api[method] !== 'function') throw new Error('Required GitHub connector operation is unavailable');
   if (!SHA.test(proof.expected_head || '') || !SHA.test(proof.expected_main || '') || !SHA.test(proof.base_tree_sha || '') ||
       !SHA256.test(proof.d1_fingerprint_private || '') || typeof proof.lease_owner !== 'string' || !proof.lease_owner ||
@@ -140,14 +141,17 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
     if (result.sha !== blobs[path].blob_sha) throw new Error('Created checkpoint blob failed hash verification');
     return {path, mode:'100644', type:'blob', sha:result.sha};
   }));
-  const tree = response(await api.createTree({...common, base_tree_sha:proof.base_tree_sha, tree_elements:created}), 'Cannot create checkpoint tree');
-  if (!SHA.test(tree.sha || '')) throw new Error('Checkpoint tree identity is invalid');
-  const commit = response(await api.createCommit({...common, parent_sha:proof.expected_head, tree_sha:tree.sha,
-                                                   message:kind==='source_request'?'Reserve bounded source evidence request':kind==='source_result'?'Record verified source evidence usage':kind==='source_retention'?'Retain verified source evidence':kind==='run_completion'?'Record run outcome and release review lease':'Checkpoint bounded content review evidence'}), 'Cannot create checkpoint commit');
-  if (!SHA.test(commit.sha || '')) throw new Error('Checkpoint commit identity is invalid');
+  const message=kind==='source_request'?'Reserve bounded source evidence request':kind==='source_result'?'Record verified source evidence usage':kind==='source_retention'?'Retain verified source evidence':kind==='run_completion'?'Record run outcome and release review lease':'Checkpoint bounded content review evidence';
+  let tree=null,commit=null;
+  if(!siteAtomic){
+    tree = response(await api.createTree({...common, base_tree_sha:proof.base_tree_sha, tree_elements:created}), 'Cannot create checkpoint tree');
+    if (!SHA.test(tree.sha || '')) throw new Error('Checkpoint tree identity is invalid');
+    commit = response(await api.createCommit({...common, parent_sha:proof.expected_head, tree_sha:tree.sha, message}), 'Cannot create checkpoint commit');
+    if (!SHA.test(commit.sha || '')) throw new Error('Checkpoint commit identity is invalid');
+  }
   // The fence must independently reread the current D1/main/lease state. An
   // asynchronous heartbeat can move the head; the last read and CAS then fail.
-  const observation = await fence({expectedHead:proof.expected_head, candidateCommit:commit.sha});
+  const observation = await fence({expectedHead:proof.expected_head, candidateCommit:commit?.sha||null});
   const checked=Date.parse(observation?.checked_at), heartbeat=Date.parse(observation?.heartbeat_at),
         expiry=Date.parse(observation?.lease_expires_at), started=Date.parse(observation?.started_at);
   function requireFence() {
@@ -165,20 +169,27 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
   if (await head() !== proof.expected_head) throw new Error('Review head changed before atomic update');
   requireFence();
   let update;
-  try {
-    update = await api.updateRef({...common, branch_name:REVIEW_BRANCH, expected_sha:proof.expected_head,
-                                  sha:commit.sha, force:false});
-  } catch (error) {
-    throw new Error('Checkpoint update outcome is ambiguous; reconcile commit ' + commit.sha + ' before retrying');
+  if(siteAtomic){
+    try{update=await api.commitOnBranch({...common,branch_name:REVIEW_BRANCH,expected_sha:proof.expected_head,
+      additions:paths.map(path=>({path,content:files[path]})),message});}
+    catch{throw new Error('Atomic Site commit outcome is ambiguous; reconcile branch and receipt before retrying');}
+    const actual=update&&!update.isError&&update.structuredContent;
+    if(!actual||actual.success!==true||!SHA.test(actual.sha||''))
+      throw new Error('Atomic Site commit was rejected or ambiguous; reconcile branch and receipt before retrying');
+    commit={sha:actual.sha};
+  }else{
+    try{update = await api.updateRef({...common, branch_name:REVIEW_BRANCH, expected_sha:proof.expected_head,
+                                    sha:commit.sha, force:false});}
+    catch{throw new Error('Checkpoint update outcome is ambiguous; reconcile commit ' + commit.sha + ' before retrying');}
+    if (!update || update.isError || update.structuredContent?.success !== true)
+      throw new Error('Checkpoint update was rejected or ambiguous; reconcile commit ' + commit.sha + ' before retrying');
   }
-  if (!update || update.isError || update.structuredContent?.success !== true)
-    throw new Error('Checkpoint update was rejected or ambiguous; reconcile commit ' + commit.sha + ' before retrying');
   if (await head() !== commit.sha) throw new Error('Checkpoint head readback failed; reconcile before retrying');
   for (const path of paths) {
     const current = response(await file(path, commit.sha), 'Checkpoint blob readback failed');
     if (current.sha !== blobs[path].blob_sha) throw new Error('Checkpoint blob readback mismatch; stop work');
   }
-  return {status:'committed_and_read_back', commit_sha:commit.sha, tree_sha:tree.sha,
+  return {status:'committed_and_read_back', commit_sha:commit.sha, tree_sha:tree?.sha||null,
           checkpoint_paths:paths, publication_verified:false};
 }
 

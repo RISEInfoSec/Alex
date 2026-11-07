@@ -99,6 +99,21 @@ lease-bound heartbeat; `d1_fingerprint.cjs` computes the same private digest as
 the Python reconciler in memory. The modules still need an actual scheduler
 and authenticated connector callbacks, and the D1 read is not a transaction.
 
+`github_site_api.cjs` prepares the corresponding Site-hosted GitHub adapter:
+all requests go only to `api.github.com` with redirects disabled, and the final
+mutation uses GitHub's expected-head atomic commit. It supports at most five
+files and 12 MiB of UTF-8 content per commit; its guarded caller checks every
+created blob hash and treats ambiguous outcomes as requiring reconciliation. The adapter alone
+does not authorize a write and must be used through the existing semantic guard
+and live D1/native/lease fence. Its multi-megabyte payloads have only been
+tested locally; GitHub acceptance and hosted memory use are not yet verified.
+
+`site_d1_reader.cjs` prepares two bounded, complete reads of the three review
+tables through the Site's existing database binding, checking schema, counts,
+rows and heartbeat between reads. It does not write to D1, and its real Site
+binding has not yet been verified. The caller must keep the lease alive during
+each database call and perform the final live fence before a GitHub update.
+
 Two matching paginated reads are not a database transaction. The coordinator
 must take complete fresh reads and recheck their fingerprint and immutable Git
 source heads while holding the existing shared writer lease immediately before

@@ -3,6 +3,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const {commitCheckpoint} = require('../tools/content_review/github_atomic_checkpoint.cjs');
+const {createSiteGithubApi} = require('../tools/content_review/github_site_api.cjs');
 
 const hash = text => crypto.createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const ok = data => ({structuredContent:data, isError:false});
@@ -199,4 +200,68 @@ test('run completion rejects unrelated changes and receipt data leaks',async()=>
 test('run completion requires a fresh final D1 and lease fence',async()=>{
  const f=completionFixture();f.fence=async()=>({...f.observation,d1_fingerprint_private:'0'.repeat(64)});
  await assert.rejects(commitCheckpoint(f),/fence failed/);assert.equal(f.writes(),0);
+});
+
+function useSiteAtomic(f){
+ let calls=0;
+ f.api.createTree=async()=>{throw Error('site route must not create a separate tree')};
+ f.api.createCommit=async()=>{throw Error('site route must not create a separate commit')};
+ f.api.updateRef=async()=>{throw Error('site route must use expected-head atomic commit')};
+ f.api.commitOnBranch=async({branch_name,expected_sha,additions})=>{
+  calls++;assert.equal(branch_name,'codex/soups-corpus-review');assert.equal(expected_sha,oldHead);
+  f.commits[newCommit]={...f.commits[oldHead],...Object.fromEntries(additions.map(x=>[x.path,hash(x.content)]))};
+  f.setHead(newCommit);return ok({success:true,sha:newCommit});
+ };
+ return ()=>calls;
+}
+
+test('Site-backed atomic commit checks the fence and reads back every blob',async()=>{
+ for(const make of [fixture,completionFixture]){
+  const f=make(),calls=useSiteAtomic(f),result=await commitCheckpoint(f);
+  assert.equal(calls(),1);assert.equal(result.commit_sha,newCommit);assert.equal(result.tree_sha,null);
+  assert.equal(f.head(),newCommit);assert.equal(result.publication_verified,false);
+ }
+});
+
+test('Site-backed commit never runs after a stale fence or changed head',async()=>{
+ for(const mode of ['fence','head']){
+  const f=fixture(),calls=useSiteAtomic(f);
+  if(mode==='fence')f.fence=async()=>({...f.observation,d1_fingerprint_private:'0'.repeat(64)});
+  else f.fence=async()=>{f.setHead('f'.repeat(40));return {...f.observation}};
+  await assert.rejects(commitCheckpoint(f));assert.equal(calls(),0);
+ }
+});
+
+test('ambiguous Site-backed commit is not retried',async()=>{
+ const f=fixture();useSiteAtomic(f);let calls=0;
+ f.api.commitOnBranch=async()=>{calls++;f.setHead(newCommit);throw Error('connection lost')};
+ await assert.rejects(commitCheckpoint(f),/ambiguous; reconcile branch and receipt/);
+ assert.equal(calls,1);
+});
+
+test('Site GitHub adapter and fenced writer complete one atomic run receipt together',async()=>{
+ const f=completionFixture(),originalFetch=f.api.fetchFile;let requests=0,mutations=0;
+ const fetcher=async(input,options)=>{
+  requests++;const u=new URL(input);
+  assert.equal(u.origin,'https://api.github.com');assert.equal(options.redirect,'error');
+  if(u.pathname.includes('/commits/'))return Response.json({sha:f.head()});
+  if(u.pathname.includes('/contents/')){
+   const path=decodeURIComponent(u.pathname.split('/contents/')[1]),ref=u.searchParams.get('ref');
+   const value=await originalFetch({path,ref});
+   if(value.isError)return new Response('',{status:404});
+   const {sha,content}=value.structuredContent;
+   return Response.json({sha,encoding:content===undefined?'none':'base64',content:content===undefined?'':Buffer.from(content).toString('base64')});
+  }
+  if(u.pathname.endsWith('/git/blobs'))return Response.json({sha:hash(JSON.parse(options.body).content)});
+  if(u.pathname==='/graphql'){
+   mutations++;const input=JSON.parse(options.body).variables.input;
+   assert.equal(input.expectedHeadOid,oldHead);assert.equal(f.head(),oldHead);
+   f.commits[newCommit]={...f.commits[oldHead],...Object.fromEntries(input.fileChanges.additions.map(x=>[x.path,hash(Buffer.from(x.contents,'base64').toString())]))};
+   f.setHead(newCommit);return Response.json({data:{createCommitOnBranch:{commit:{oid:newCommit}}}});
+  }
+  throw Error('unexpected request');
+ };
+ f.api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher});
+ const result=await commitCheckpoint(f);
+ assert.equal(result.commit_sha,newCommit);assert.equal(mutations,1);assert.ok(requests>3);
 });
