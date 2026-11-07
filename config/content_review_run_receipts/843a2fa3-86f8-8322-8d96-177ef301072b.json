@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "run_id": "843a2fa3-86f8-8322-8d96-177ef301072b",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-07T02:45:00Z",
+  "started_at": "2026-11-07T02:45:51.361830Z",
+  "completed_at": "2026-11-07T02:50:15.490Z",
+  "status": "failed",
+  "receipt_path": "config/content_review_run_receipts/843a2fa3-86f8-8322-8d96-177ef301072b.json",
+  "native_scheduler": {
+    "automation_id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+    "recorded_status": "failed",
+    "native_completed_at": "2026-11-07T02:46:56.224411Z",
+    "requires_user_action": true,
+    "result_content": "",
+    "result_content_truncated": false,
+    "enabled_after_failure": false,
+    "terminal_success_verified": false
+  },
+  "completed_actions": [
+    "Observed the actual scheduled native run identity, start time and schedule.",
+    "Acquired and read back the shared single-writer lease for the actual native run.",
+    "Published and read back both worker-status and operations records from the then-current native observation.",
+    "Refreshed native state, detected that the run had already terminated failed, stopped all processing and corrected both records to application_status=failed.",
+    "Preserved the owner OpenAlex pause and made zero OpenAlex calls.",
+    "Recorded zero candidate, source, paid, admission and publication work rather than inventing progress."
+  ],
+  "candidate_processing": {
+    "selected_candidate_ids": [],
+    "attempted_candidate_ids": [],
+    "completed_candidate_ids": [],
+    "local_audits": 0,
+    "first_dispositions": 0,
+    "next_dispositions": 0,
+    "manual_admissions": 0,
+    "automatic_survivors": 0,
+    "actual_publications": 0
+  },
+  "requests": {
+    "source_http_send_attempts": 0,
+    "paid_classifications": 0,
+    "openalex": 0
+  },
+  "gate_passes": {
+    "format": {"count": 0, "candidate_ids": []},
+    "access": {"count": 0, "candidate_ids": []},
+    "metadata": {"count": 0, "candidate_ids": []},
+    "duplicates": {"count": 0, "candidate_ids": []},
+    "quality": {"count": 0, "candidate_ids": []},
+    "schema": {"count": 0, "candidate_ids": []},
+    "all_six": {"count": 0, "candidate_ids": []}
+  },
+  "pilot": {
+    "candidate_limit": 5,
+    "resolvable_gate_count": null,
+    "all_candidates_legitimately_held": false,
+    "all_candidates_legitimately_held_evidence": "Candidate selection was not reached; the native scheduler failure is not a candidate hold.",
+    "budget_compliant": true,
+    "promotion_eligible": false,
+    "promotion_reason": "This failed native run performed no candidate work and cannot qualify for promotion.",
+    "source_last_progress": null
+  },
+  "collections": {
+    "weekly": {"candidate_ids": [], "deferral": "terminal_scheduler_failure_before_selection"},
+    "corpus-audit": {"candidate_ids": [], "deferral": "terminal_scheduler_failure_before_selection"},
+    "apwg": {"candidate_ids": [], "deferral": "terminal_scheduler_failure_before_selection"},
+    "bellingcat": {"candidate_ids": [], "deferral": "terminal_scheduler_failure_before_selection"},
+    "first": {"candidate_ids": [], "deferral": "terminal_scheduler_failure_before_selection"},
+    "m3aawg": {"candidate_ids": [], "deferral": "terminal_scheduler_failure_before_selection"},
+    "sans": {"candidate_ids": [], "deferral": "terminal_scheduler_failure_before_selection"},
+    "soups": {"candidate_ids": [], "deferral": "terminal_scheduler_failure_before_selection"},
+    "virusbulletin": {"candidate_ids": [], "deferral": "terminal_scheduler_failure_before_selection"}
+  },
+  "checkpoint_repairs": [
+    {
+      "path": "config/content_review_checkpoint_repairs/2026-11-05-truncated-write.json",
+      "blob_sha": "d7f88dda85f4036ff6cba25b35fd7606889c8104",
+      "size": 1153,
+      "affected_run_id": "fe4875f6-dc78-8332-8c50-fe0d998ea688",
+      "effect": "Excluded from promotion; historical source progress preserved."
+    }
+  ],
+  "blockers": [
+    "Native scheduler failed with empty result content, requires_user_action=true and automatic disable before candidate selection.",
+    "The platform supplied no concrete permission, credential, spending or editorial denial reason to repair or escalate further in this pass.",
+    "OpenAlex remains explicitly paused and was not contacted."
+  ],
+  "scope_note": "This receipt covers the entire ALEX Content Review pipeline and every named collection; the branch name does not limit scope.",
+  "public_corpus_modified": false,
+  "identities_or_decisions_modified": false,
+  "application_completion_proves_native_success": false
+}
