@@ -6,6 +6,7 @@ import blobs from './verified_git_blob.cjs';
 import rows from './stream_csv.cjs';
 import guard from './soups_intake_site_guard.cjs';
 import hashes from './d1_fingerprint.cjs';
+import apwg from './site_apwg_adapter.cjs';
 
 const REPO='RISEInfoSec/Alex',REVIEW='codex/soups-corpus-review',MAIN='main';
 const SHA=/^[0-9a-f]{40}$/,SHA256=/^[0-9a-f]{64}$/,ID=/^[a-zA-Z0-9-]{1,100}$/;
@@ -72,9 +73,11 @@ export async function auditDuplicateInputs({github,expectedReview,expectedMain,c
  const publicRows=(await json('data/papers.json',expectedMain,true)).value;
  if(!Array.isArray(publicRows)||!publicRows.length||publicRows.length>MAX_ROWS)throw Error('Audit public corpus unavailable');
  for(const row of publicRows)check(row);
+ let apwgPending=null;
  for(const [name,location] of locations){
   const m=name===collection?manifest:(await json(location.path,location.ref)).value;
   if(!Array.isArray(m.records)||!Array.isArray(m.preflight_records||[]))throw Error('Audit collection unavailable');
+  if(name==='apwg')apwgPending=apwg.normalize(m).records.length;
   const all=[...m.records,...(m.preflight_records||[])];if(all.length>MAX_ROWS)throw Error('Audit collection exceeds bound');
   for(const row of all){if(name===collection&&(row?.candidate_id===candidateId||row?.discovery_identity===candidateId))continue;check(row);}
  }
@@ -118,5 +121,5 @@ export async function auditDuplicateInputs({github,expectedReview,expectedMain,c
  return {status:matches?'held':'clear',candidate_key_sha256:hashes.sha256(collection+'\0'+candidateId+'\0'+candidate.content_sha256),
   possible_matches:matches,records_examined:scanned,collections_examined:locations.size,
   retained_rows:inventory.raw_records,current_rows:currentCount,review_commit:expectedReview,main_commit:expectedMain,
-  input_blobs:inputBlobs,candidate_processing:false,candidate_writes:0,heartbeat_updates:heartbeatUpdates};
+  input_blobs:inputBlobs,apwg_pending:apwgPending,candidate_processing:false,candidate_writes:0,heartbeat_updates:heartbeatUpdates};
 }

@@ -16,7 +16,7 @@ function fixture(){
   records:[{row:0,upstream_id:'1',content_sha256:'c'.repeat(64)}]};
  const configs={
   'config/review_console.json':{collections:['weekly','apwg','corpus-audit','virusbulletin'].map(id=>({id,manifest_url:root+'codex/soups-corpus-review/config/'+id+'.json'}))},
-  'config/weekly.json':{records:[candidate]},'config/apwg.json':{records:[{title:'APWG different'}]},
+  'config/weekly.json':{records:[candidate]},'config/apwg.json':{records:[{title:'APWG different',editorial_decision:'approved_quality_hold'}]},
   'config/corpus-audit.json':{records:[{title:'Corpus different'}]},'config/virusbulletin.json':{records:[{title:'Virus different'}]},
   'config/weekly_source_inventory.json':inventory,'config/corpus_exclusions.json':{schema_version:1,records:[]},
   'data/papers.json':[{title:'Published different'}],
@@ -58,6 +58,7 @@ test('invalid sources, changed content and failed streams never produce clear ev
  const d=fixture();d.changeHead();await assert.rejects(auditDuplicateInputs(params(d.github)));
  const e=fixture();e.configs['config/corpus_exclusions.json'].records.push({decision:'rejected',submission_id:'s',reviewed_content_sha256:'c'.repeat(64)});
  await assert.rejects(auditDuplicateInputs(params(e.github)));
+ const g=fixture();g.configs['config/apwg.json'].records=[{title:'Unnormalized pending entry'}];await assert.rejects(auditDuplicateInputs(params(g.github)));
 });
 test('an ambiguous heartbeat during the stream is not hidden by adapter error redaction',async()=>{
  const f=fixture();let insideStream=false;
