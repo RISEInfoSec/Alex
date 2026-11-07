@@ -84,22 +84,39 @@ function createSiteGithubApi({getToken,fetcher=fetch,timeoutMs=20000}={}){
   async streamBlob({repository_full_name,sha,onChunk}){
    if(repository_full_name!==REPOSITORY||!SHA.test(sha||'')||typeof onChunk!=='function')return failure('INVALID_SCOPE');
    const token=getToken();if(typeof token!=='string'||!token)return failure('READ_FAILED');
-   let reader;
+   let reader,stage='STREAM_FETCH_FAILED';
    try{
-    const response=await fetcher(BASE+repoPath+'/git/blobs/'+sha,{headers:{Authorization:'Bearer '+token,
+    const fetchBlob=()=>fetcher(BASE+repoPath+'/git/blobs/'+sha,{headers:{Authorization:'Bearer '+token,
      Accept:'application/vnd.github.raw+json','User-Agent':'ALEX-Review-Worker'},redirect:'manual',cache:'no-store',signal:AbortSignal.timeout(timeoutMs)});
+    let response=await fetchBlob();
+    if(!response.ok)return failure('STREAM_HTTP_'+response.status);
     const header=response.headers.get('content-length');
-    if(!response.ok||!header||!/^\d+$/.test(header))return failure('STREAM_UNAVAILABLE');
-    const size=Number(header);if(!Number.isSafeInteger(size)||size<0||size>MAX_STREAM_BYTES||!response.body)return failure('CONTENT_LIMIT');
+    if(header&&!/^\d+$/.test(header))return failure('STREAM_SIZE_UNAVAILABLE');
+    let size=header?Number(header):null;
+    if(!response.body||size!==null&&(!Number.isSafeInteger(size)||size<0||size>MAX_STREAM_BYTES))return failure('CONTENT_LIMIT');
+    if(size===null){
+     // Some Site runtimes strip Content-Length. A bounded first pass counts
+     // bytes only; no consumer sees them. A second pass must match that size
+     // and the requested Git blob SHA before any result can be trusted.
+     size=0;reader=response.body.getReader();stage='STREAM_READ_FAILED';
+     for(;;){const {value,done}=await reader.read();if(done)break;
+      if(!(value instanceof Uint8Array)||(size+=value.length)>MAX_STREAM_BYTES)throw Error('size');
+     }
+     reader=undefined;stage='STREAM_FETCH_FAILED';response=await fetchBlob();
+     if(!response.ok)return failure('STREAM_HTTP_'+response.status);
+     const secondHeader=response.headers.get('content-length');
+     if(!response.body||secondHeader&&(!/^\d+$/.test(secondHeader)||Number(secondHeader)!==size))return failure('STREAM_INTEGRITY_FAILED');
+    }
     const git=new StreamHash('sha1').update(new TextEncoder().encode('blob '+size+'\0')),digest=new StreamHash('sha256');
     reader=response.body.getReader();let count=0;
-    for(;;){const {value,done}=await reader.read();if(done)break;
-     if(!(value instanceof Uint8Array)||(count+=value.length)>size)throw Error('size');
-     git.update(value);digest.update(value);await onChunk(value);
+    for(;;){stage='STREAM_READ_FAILED';const {value,done}=await reader.read();if(done)break;
+     stage='STREAM_INTEGRITY_FAILED';if(!(value instanceof Uint8Array)||(count+=value.length)>size)throw Error('size');
+     git.update(value);digest.update(value);stage='STREAM_CONSUMER_FAILED';await onChunk(value);
     }
+    stage='STREAM_INTEGRITY_FAILED';
     if(count!==size||git.digest()!==sha)throw Error('integrity');
     return success({sha,size,sha256:digest.digest()});
-   }catch{try{await reader?.cancel();}catch{}return failure('STREAM_UNAVAILABLE');}
+   }catch{try{await reader?.cancel();}catch{}return failure(stage);}
   },
   async createTree({repository_full_name,base_tree_sha,tree_elements}){
    if(repository_full_name!==REPOSITORY||!SHA.test(base_tree_sha||'')||!Array.isArray(tree_elements)||

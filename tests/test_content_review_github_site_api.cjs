@@ -137,6 +137,40 @@ test('streaming rejects truncation, bad hash, missing size and oversized content
   assert.equal(result.isError,true);
  }
 });
+test('streaming reports bounded failure stages without exposing data or credentials',async()=>{
+ const sha='a'.repeat(40),bytes=Buffer.from('private row');
+ const cases=[
+  [async()=>new Response('',{status:403}),'STREAM_HTTP_403',()=>{}],
+  [async()=>new Response(bytes,{headers:{'content-length':'not-a-number'}}),'STREAM_SIZE_UNAVAILABLE',()=>{}],
+  [async()=>{throw Error('test-secret');},'STREAM_FETCH_FAILED',()=>{}],
+  [async()=>new Response(bytes,{headers:{'content-length':String(bytes.length)}}),'STREAM_CONSUMER_FAILED',()=>{throw Error('private row test-secret');}],
+  [async()=>new Response(bytes,{headers:{'content-length':String(bytes.length)}}),'STREAM_INTEGRITY_FAILED',()=>{}],
+ ];
+ for(const [fetcher,expected,onChunk] of cases){
+  const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher});
+  const result=await api.streamBlob({repository_full_name:repo,sha,onChunk});
+  assert.equal(result.structuredContent.error_code,expected);
+  assert.doesNotMatch(JSON.stringify(result),/test-secret|private row/);
+ }
+});
+test('missing Content-Length uses bounded counting pass before verified consumption',async()=>{
+ const content=Buffer.from('public source é\n'.repeat(1000));
+ const sha=crypto.createHash('sha1').update(`blob ${content.length}\0`).update(content).digest('hex');
+ let calls=0,seen=0;
+ const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async()=>{
+  calls++;if(calls===2)assert.equal(seen,0);return new Response(content);
+ }});
+ const result=await api.streamBlob({repository_full_name:repo,sha,onChunk:chunk=>{seen+=chunk.length;}});
+ assert.equal(calls,2);assert.equal(seen,content.length);
+ assert.deepEqual(result.structuredContent,{sha,size:content.length,sha256:crypto.createHash('sha256').update(content).digest('hex')});
+});
+test('a changed second response cannot pass the immutable blob check',async()=>{
+ const a=Buffer.from('first'),b=Buffer.from('other');let calls=0;
+ const sha=crypto.createHash('sha1').update(`blob ${a.length}\0`).update(a).digest('hex');
+ const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async()=>new Response(++calls===1?a:b)});
+ const result=await api.streamBlob({repository_full_name:repo,sha,onChunk:()=>{}});
+ assert.equal(calls,2);assert.equal(result.structuredContent.error_code,'STREAM_INTEGRITY_FAILED');
+});
 test('bounded multi-megabyte changes retain every byte in the atomic payload',async()=>{
  let seen;
  const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async(url,options)=>{
