@@ -118,3 +118,23 @@ test('a verified source result may be saved during the final checkpoint reserve'
  f.observation.started_at='2026-11-06T23:39:20Z';
  assert.equal((await commitCheckpoint(f)).status,'committed_and_read_back');
 });
+test('source retention saves only its manifest, worker and new receipt together',async()=>{
+ const f=fixture(),worker='config/content_review_worker_status.json',manifest='config/weekly_review_manifest.json';
+ const receipt='config/content_review_source_checkpoints/'+'4'.repeat(64)+'.json',content='{"synthetic":true}\n';
+ f.bundle.files={[worker]:f.bundle.files[worker],[manifest]:f.bundle.files[manifest],[receipt]:content};
+ f.proof.kind='source_retention';f.proof.new_path=receipt;
+ f.proof.base_blobs={[worker]:f.proof.base_blobs[worker],[manifest]:f.proof.base_blobs[manifest]};
+ f.proof.blobs={[worker]:f.proof.blobs[worker],[manifest]:f.proof.blobs[manifest],
+                [receipt]:{blob_sha:hash(content),size:Buffer.byteLength(content)}};
+ const result=await commitCheckpoint(f);assert.equal(result.status,'committed_and_read_back');
+ assert.deepEqual(result.checkpoint_paths,[worker,manifest,receipt].sort());assert.equal(f.writes(),1);
+});
+test('source retention cannot write an unrelated manifest',async()=>{
+ const f=fixture(),worker='config/content_review_worker_status.json',old='config/weekly_review_manifest.json';
+ const other='config/unsafe_review_manifest.json',receipt='config/content_review_source_checkpoints/'+'4'.repeat(64)+'.json',content='{}\n';
+ f.bundle.files={[worker]:f.bundle.files[worker],[other]:f.bundle.files[old],[receipt]:content};
+ f.proof.kind='source_retention';f.proof.new_path=receipt;
+ f.proof.base_blobs={[worker]:f.proof.base_blobs[worker],[other]:{...f.proof.base_blobs[old],path:other}};
+ f.proof.blobs={[worker]:f.proof.blobs[worker],[other]:f.proof.blobs[old],[receipt]:{blob_sha:hash(content),size:Buffer.byteLength(content)}};
+ await assert.rejects(commitCheckpoint(f),/paths differ/);assert.equal(f.writes(),0);
+});

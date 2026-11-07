@@ -121,5 +121,5 @@ def prepare(repo, review_head, main_head, heartbeat_head, snapshot, confirmed, r
     return {'status': 'prepared', 'writes': 0, 'path': path, 'content': content, 'base_blob': base,
             'blob_sha': hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest(),
             'd1_fingerprint_private': checked['snapshot_sha256'], 'review_head': review_head, 'main_head': main_head,
-            'heartbeat_head': heartbeat_head, 'requires_remote_d1_head_and_lease_recheck': True,
+            'heartbeat_head': heartbeat_head, 'checked_at': now.isoformat(), 'requires_remote_d1_head_and_lease_recheck': True,
             'gate_passed': False, 'publication_authorized': False}

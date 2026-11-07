@@ -47,13 +47,18 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
   const kind=proof.kind||'duplicate_checkpoint';
   const newPath=kind==='duplicate_checkpoint'?/^config\/content_review_mechanical_checkpoints\/[0-9a-f]{64}\.json$/:
                 kind==='source_request'?/^config\/content_review_source_requests\/[0-9a-f]{64}\.json$/:
-                kind==='source_result'?/^config\/content_review_source_receipts\/[0-9a-f]{64}\.json$/:null;
+                kind==='source_result'?/^config\/content_review_source_receipts\/[0-9a-f]{64}\.json$/:
+                kind==='source_retention'?/^config\/content_review_source_checkpoints\/[0-9a-f]{64}\.json$/:null;
   if (!files || !blobs || !bases || typeof files !== 'object' || typeof blobs !== 'object' ||
       typeof bases !== 'object' || !newPath || !newPath.test(added || ''))
     throw new Error('Invalid checkpoint paths');
   const paths = Object.keys(files).sort(), expectedPaths = [...Object.keys(bases), added].sort();
-  if (paths.length !== (kind==='duplicate_checkpoint'?MAX_FILES:2) ||
-      (kind!=='duplicate_checkpoint'&&(Object.keys(bases).length!==1||!bases['config/content_review_worker_status.json'])) ||
+  const worker='config/content_review_worker_status.json';
+  const manifestPaths=Object.keys(bases).filter(p=>p!==worker);
+  if (paths.length !== (kind==='duplicate_checkpoint'?MAX_FILES:kind==='source_retention'?3:2) ||
+      (kind!=='duplicate_checkpoint'&&(!bases[worker] ||
+       (kind==='source_retention'?(manifestPaths.length!==1||!/^config\/(soups|weekly|first|m3aawg|bellingcat|sans)_review_manifest\.json$/.test(manifestPaths[0])):
+                                    manifestPaths.length!==0))) ||
       JSON.stringify(paths) !== JSON.stringify(expectedPaths) ||
       JSON.stringify(Object.keys(blobs).sort()) !== JSON.stringify(paths) || bases[added])
     throw new Error('Checkpoint paths differ from verified proof');
@@ -87,7 +92,7 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
   const tree = response(await api.createTree({...common, base_tree_sha:proof.base_tree_sha, tree_elements:created}), 'Cannot create checkpoint tree');
   if (!SHA.test(tree.sha || '')) throw new Error('Checkpoint tree identity is invalid');
   const commit = response(await api.createCommit({...common, parent_sha:proof.expected_head, tree_sha:tree.sha,
-                                                   message:kind==='source_request'?'Reserve bounded source evidence request':kind==='source_result'?'Record verified source evidence usage':'Checkpoint bounded content review evidence'}), 'Cannot create checkpoint commit');
+                                                   message:kind==='source_request'?'Reserve bounded source evidence request':kind==='source_result'?'Record verified source evidence usage':kind==='source_retention'?'Retain verified source evidence':'Checkpoint bounded content review evidence'}), 'Cannot create checkpoint commit');
   if (!SHA.test(commit.sha || '')) throw new Error('Checkpoint commit identity is invalid');
   // The fence must independently reread the current D1/main/lease state. An
   // asynchronous heartbeat can move the head; the last read and CAS then fail.

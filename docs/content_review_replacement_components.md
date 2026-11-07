@@ -46,7 +46,10 @@ unrelated workflow cannot supply a receipt for that request.
 `source_retention.py` prepares retention for one candidate only after rechecking
 the committed receipt, original artifact and workflow, candidate hash, current
 private decisions, live heartbeat and bounded work window. It neither writes the
-manifest nor passes a gate; the guarded atomic writer is not yet integrated.
+manifest nor passes a gate. `source_retention_checkpoint.py` recomputes that
+proposal and prepares an immutable checkpoint receipt with the manifest and
+unchanged worker state. The connector accepts only those paths and requires the
+live fence and readback; the scheduler is not yet connected to this path.
 The connector writer can save those bundles only after the same live fence. The
 outputs still require an atomic leased write and readback; none of these
 planning modules dispatches a workflow or makes a provider request.

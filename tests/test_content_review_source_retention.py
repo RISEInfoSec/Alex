@@ -9,6 +9,7 @@ from tests.test_content_review_source_result_guard import setup, call_guard
 from tests.test_content_review_verified_inputs import git, put
 from tools.content_review.heartbeat_evidence import prepare as heartbeat
 from tools.content_review.source_retention import prepare
+from tools.content_review.source_retention_checkpoint import prepare as checkpoint
 
 
 def fixture(repo):
@@ -80,3 +81,24 @@ def test_retention_stops_before_the_checkpoint_reserve(tmp_path):
     git(tmp_path,'add','.');git(tmp_path,'commit','-qm','late heartbeat');hb=git(tmp_path,'rev-parse','HEAD');git(tmp_path,'checkout','-q',branch)
     with pytest.raises(ValueError,match='checkpoint reserve'):
         call(tmp_path,late,review,main,hb,snapshot,request,raw,run,artifact)
+
+
+def test_checkpoint_recomputes_proposal_and_keeps_worker_state_unchanged(tmp_path):
+    now,review,main,hb,snapshot,request,raw,run,artifact=fixture(tmp_path)
+    proposal=call(tmp_path,now,review,main,hb,snapshot,request,raw,run,artifact)
+    item=request['records'][0]
+    result=checkpoint(tmp_path,review,main,hb,snapshot,deepcopy(snapshot),request['request_id'],raw,run,artifact,
+                      item['collection'],item['candidate_id'],'worker','run',proposal,
+                      observed_heads={'review':review,'main':main},at=now)
+    proof,bundle=result['proof'],result['bundle']
+    assert result['writes']==0 and proof['kind']=='source_retention' and len(bundle['files'])==3
+    worker='config/content_review_worker_status.json'
+    assert bundle['files'][worker]==(tmp_path/worker).read_text()
+    receipt=json.loads(bundle['files'][proof['new_path']])
+    assert receipt['publication_approved'] is False and receipt['openalex_requests']==0
+    assert receipt['content_sha256']==item['content_sha256'] and proof['requires_remote_head_d1_and_lease_recheck']
+    changed=deepcopy(proposal);changed['content']='{}\n'
+    with pytest.raises(ValueError,match='differs from the independently verified proposal'):
+        checkpoint(tmp_path,review,main,hb,snapshot,deepcopy(snapshot),request['request_id'],raw,run,artifact,
+                   item['collection'],item['candidate_id'],'worker','run',changed,
+                   observed_heads={'review':review,'main':main},at=now)
