@@ -1,5 +1,5 @@
 """Resume missing work; do not substitute cheap activity for source progress."""
-from tools.content_review.lifecycle import current_pass, due
+from tools.content_review.lifecycle import current_pass, due, instant
 
 def next_stage(row):
     if row.get('decision','pending') not in ('pending','unreviewed') or row.get('publication_status')=='published_live_verified':return 'complete'
@@ -10,9 +10,9 @@ def next_stage(row):
     if not current_pass(row,'schema'):return 'classification_and_serialization'
     return 'recommendation_and_admission'
 
-def select(manifests, ledger, limit=5, source_progress=None):
+def select(manifests, ledger, limit=5, source_progress=None, source_attempts=None):
     if limit <= 0:return []
-    candidates=[];source_progress=source_progress or {}
+    candidates=[];source_progress=source_progress or {};source_attempts=source_attempts or {}
     for collection,manifest in manifests.items():
         for row in manifest.get('records',[])+manifest.get('preflight_records',[]):
             entry=ledger.get('records',{}).get(collection+':'+row['candidate_id'])
@@ -22,23 +22,30 @@ def select(manifests, ledger, limit=5, source_progress=None):
             kind=row.get('verified_document_type') or row.get('document_type')
             from alex.resource_types import TYPES
             supported=kind in ('research_paper','research_paper_candidate') or kind in TYPES
-            # Supported complete abstracts first; weekly priority within comparable work.
-            rank=(not(supported and all(current_pass(row,g) for g in ('format','access','metadata','quality'))),not(supported and len(row.get('abstract',''))>=100),source_progress.get(collection,{}).get('at',''),collection!='weekly',entry.get('first_seen_at',''),row['candidate_id'])
+            # Prefer stronger evidence within a collection, not across collections.
+            rank=(not(supported and all(current_pass(row,g) for g in ('format','access','metadata','quality'))),not(supported and len(row.get('abstract',''))>=100),entry.get('first_seen_at',''),row['candidate_id'])
             candidates.append((rank,{'collection':collection,'candidate_id':row['candidate_id'],'next_stage':stage}))
-    # Round-robin within each evidence/readiness tier. Source waiting history
-    # precedes weekly preference; weekly wins ties, not every future pass.
-    result=[]
-    tiers={}
+    # Rotate across every due collection even when one has many advanced items.
+    # Actual attempts are tracked separately from useful source progress: an
+    # unsuccessful attempt must neither count as progress nor monopolize slots.
+    result=[];groups={}
     for rank, item in sorted(candidates,key=lambda x:x[0]):
-        tiers.setdefault(rank[:2],{}).setdefault(item['collection'],[]).append((rank,item))
-    for tier in sorted(tiers):
-        groups=tiers[tier]
-        order=sorted(groups,key=lambda c:groups[c][0][0])
-        while any(groups.values()):
-            for collection in order:
-                if groups[collection]:
-                    result.append(groups[collection].pop(0)[1])
-                    if len(result)>=limit:return result
+        groups.setdefault(item['collection'],[]).append(item)
+    def last_served(collection):
+        values=[source_attempts.get(collection,{}).get('at'),source_progress.get(collection,{}).get('at')]
+        times=[]
+        for value in values:
+            if value:
+                timestamp=instant(value)
+                if not timestamp:raise ValueError('Invalid collection scheduling timestamp')
+                times.append(timestamp.timestamp())
+        return max(times,default=float('-inf'))
+    order=sorted(groups,key=lambda c:(last_served(c),c!='weekly',c))
+    while any(groups.values()):
+        for collection in order:
+            if groups[collection]:
+                result.append(groups[collection].pop(0))
+                if len(result)>=limit:return result
     return result
 
 def processing_progress(receipts, checkpoint_repairs=()):

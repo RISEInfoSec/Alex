@@ -36,7 +36,15 @@ def safe_url(url, resolve=True):
     p=urlsplit(url)
     if p.scheme not in ('https','http') or not p.hostname or p.username or p.password or p.port not in (None,443 if p.scheme=='https' else 80):
         raise Hold('unsupported_or_credentialed_url')
-    if p.hostname in ('api.openalex.org','api.openai.com'):
+    host=p.hostname.rstrip('.')
+    # The owner pause is explicit and has no automatic time-based release.
+    # Apply it before DNS, robots, redirects or any HTTP request.
+    if host=='openalex.org' or host.endswith('.openalex.org'):
+        raise Hold('openalex_paused')
+    if (host=='doi.org' or host.endswith('.doi.org') or
+        host in ('api.datacite.org','api.crossref.org','api.unpaywall.org')):
+        raise Hold('doi_lookup_paused')
+    if host=='api.openai.com':
         raise Hold('provider_requires_separate_controlled_route')
     if resolve:
         try: addresses={a[4][0] for a in socket.getaddrinfo(p.hostname,443 if p.scheme=='https' else 80,type=socket.SOCK_STREAM)}
@@ -212,7 +220,7 @@ def validate_corpus_snapshot(root,req):
             raise ValueError('Changed corpus record')
         doi=str(matches[0].get('doi','')).lower()
         match=re.fullmatch(r'10\.5281/zenodo\.(\d+)',doi)
-        permitted={'https://zenodo.org/api/records/'+match.group(1), 'https://api.datacite.org/dois/'+doi} if match else set()
+        permitted={'https://zenodo.org/api/records/'+match.group(1)} if match else set()
         if item['url'] not in permitted:
             raise ValueError('Corpus URL does not match DOI')
 
@@ -224,6 +232,18 @@ def validate(root,path):
     if not start or not end or not start<=now<end or (end-start).total_seconds()>600:raise ValueError('Expired or unbounded source work')
     state=json.loads((root/'config/content_review_worker_status.json').read_text());lease=state.get('lease') or {}
     if lease.get('owner')!=req['lease_owner'] or not instant(lease.get('expires_at')) or instant(lease['expires_at'])<=now:raise ValueError('No matching unexpired writer lease')
+    if 'coordinator_run_id' in req:
+        current=state.get('current_run') or {};pending=current.get('pending_source_request') or {};counts=current.get('request_counts') or {}
+        if (not isinstance(req['coordinator_run_id'],str) or not req['coordinator_run_id']
+            or lease.get('run_id')!=req['coordinator_run_id'] or current.get('run_id')!=req['coordinator_run_id']
+            or current.get('application_status')!='running' or instant(current.get('started_at'))!=start
+            or pending.get('request_id')!=req['request_id'] or pending.get('origin_run_id')!=req['coordinator_run_id']
+            or pending.get('reserved_limit')!=req.get('source_request_limit')
+            or type(counts.get('source')) is not int or not 0<=counts['source']<30
+            or type(req.get('source_request_limit')) is not int or req['source_request_limit']!=30-counts['source']
+            or type(counts.get('paid')) is not int or not 0<=counts['paid']<=5
+            or type(counts.get('openalex')) is not int or counts['openalex']!=0):
+            raise ValueError('Matching single pending source request and budget are required')
     items=req['records']
     if not 1<=len(items)<=5 or len({i['candidate_id'] for i in items})!=len(items):raise ValueError('Initial pilot candidate ceiling/identity')
     if req.get('purpose') == 'corpus_metadata_audit':

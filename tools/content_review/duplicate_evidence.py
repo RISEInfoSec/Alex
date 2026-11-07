@@ -18,11 +18,11 @@ def upstream_alias(row,other):
     return bool(aid and aid==arxiv_id(other) and norm(row.get('title'))==norm(other.get('title'))
                 and norm(row.get('authors')) and norm(row.get('authors'))==norm(other.get('authors')))
 
-def audit(row,collections,upstream,exclusion_keys):
+def audit(row,collections,upstream,exclusion_keys,source_collection=None):
     keys=record_keys(row);matches=[];aliases=[]
     for name,items in collections.items():
         for other in items:
-            if row['candidate_id'] in (other.get('candidate_id'),other.get('discovery_identity')):continue
+            if source_collection is not None and name==source_collection and row['candidate_id'] in (other.get('candidate_id'),other.get('discovery_identity')):continue
             overlap=keys&record_keys(other)
             if overlap:matches.append({'origin':name,'candidate_id':other.get('candidate_id'),'keys':sorted(overlap)})
     for other in upstream:
