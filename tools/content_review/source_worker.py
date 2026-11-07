@@ -36,7 +36,15 @@ def safe_url(url, resolve=True):
     p=urlsplit(url)
     if p.scheme not in ('https','http') or not p.hostname or p.username or p.password or p.port not in (None,443 if p.scheme=='https' else 80):
         raise Hold('unsupported_or_credentialed_url')
-    if p.hostname in ('api.openalex.org','api.openai.com'):
+    host=p.hostname.rstrip('.')
+    # The owner pause is explicit and has no automatic time-based release.
+    # Apply it before DNS, robots, redirects or any HTTP request.
+    if host=='openalex.org' or host.endswith('.openalex.org'):
+        raise Hold('openalex_paused')
+    if (host=='doi.org' or host.endswith('.doi.org') or
+        host in ('api.datacite.org','api.crossref.org','api.unpaywall.org')):
+        raise Hold('doi_lookup_paused')
+    if host=='api.openai.com':
         raise Hold('provider_requires_separate_controlled_route')
     if resolve:
         try: addresses={a[4][0] for a in socket.getaddrinfo(p.hostname,443 if p.scheme=='https' else 80,type=socket.SOCK_STREAM)}
@@ -212,7 +220,7 @@ def validate_corpus_snapshot(root,req):
             raise ValueError('Changed corpus record')
         doi=str(matches[0].get('doi','')).lower()
         match=re.fullmatch(r'10\.5281/zenodo\.(\d+)',doi)
-        permitted={'https://zenodo.org/api/records/'+match.group(1), 'https://api.datacite.org/dois/'+doi} if match else set()
+        permitted={'https://zenodo.org/api/records/'+match.group(1)} if match else set()
         if item['url'] not in permitted:
             raise ValueError('Corpus URL does not match DOI')
 

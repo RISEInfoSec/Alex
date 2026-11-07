@@ -137,4 +137,9 @@ remain outstanding.
 
 OpenAlex remains fully paused, including DOI lookups and diagnostics. The
 November 7 review time does not authorize resumption, and the unresolved HTTP
-429 reconciliation hold remains in force.
+429 reconciliation hold remains in force. The registry worker has an explicit
+source-level owner-pause gate; a time or policy-file change alone cannot release
+it. The generic source worker blocks OpenAlex and DOI resolver/registry hosts
+before DNS, robots, redirects or HTTP, while preserving previously retrieved
+evidence. Releasing these guards requires explicit owner authorization and
+provider reconciliation.

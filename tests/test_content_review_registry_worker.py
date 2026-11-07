@@ -6,7 +6,7 @@ from tools.content_review import registry_worker as w
 @pytest.fixture
 def packet(tmp_path):
  (tmp_path/'config').mkdir();now=w.now();owner='test-owner'
- pp=tmp_path/'.cache/provider-policy/config';pp.mkdir(parents=True);(pp/'openalex_request_policy.json').write_text('{}')
+ pp=tmp_path/'.cache/provider-policy/config';pp.mkdir(parents=True);(pp/'openalex_request_policy.json').write_text('{"requests_enabled":true}')
  state={'phase':'active','lease':{'owner':owner,'expires_at':(now+timedelta(minutes=20)).isoformat()}}
  (tmp_path/'config/content_review_worker_status.json').write_text(json.dumps(state))
  row={'candidate_id':'weekly-test','title':'Verified paper','authors':'A. Author','year':2025,'doi':'10.1234/example','source_url':'https://example.org','abstract':'Verified abstract','document_type':'research_paper','citation_count':None,'decision':'pending'}
@@ -24,6 +24,7 @@ def test_missing_secret_never_sends_anonymous_request(packet,monkeypatch):
 
 @pytest.mark.parametrize('status',[200,401,403,429,500])
 def test_one_exact_credentialed_request_and_complete_backoff(packet,monkeypatch,status):
+ monkeypatch.setattr(w,'OPENALEX_OWNER_PAUSE',False)  # simulated unit test only; no real request
  monkeypatch.setenv('OPENALEX_API_KEY','fixture-secret');root,path=packet;calls=[]
  class Response:
   status_code=status;headers={'Retry-After':'86400'}
@@ -35,9 +36,16 @@ def test_one_exact_credentialed_request_and_complete_backoff(packet,monkeypatch,
  if status==429:assert w.datetime.fromisoformat(result['retry_not_before'])>w.now()+timedelta(hours=23)
 
 def test_timeout_never_retries_or_leaks_url(packet,monkeypatch):
+ monkeypatch.setattr(w,'OPENALEX_OWNER_PAUSE',False)  # simulated unit test only; no real request
  monkeypatch.setenv('OPENALEX_API_KEY','fixture-secret');root,path=packet;calls=[]
  def get(*a,**k):calls.append(1);raise requests.Timeout('URL with fixture-secret')
  result=w.execute(root,path,get=get);assert len(calls)==1 and 'fixture-secret' not in json.dumps(result)
+
+def test_owner_pause_never_sends_even_if_policy_would_otherwise_allow(packet,monkeypatch):
+ root,path=packet;monkeypatch.setenv('OPENALEX_API_KEY','fixture-secret')
+ result=w.execute(root,path,get=lambda *a,**k:pytest.fail('OpenAlex request during owner pause'))
+ assert result['requests']==0 and result['status']=='held'
+ assert result['effective_policy']['owner_pause_active'] is True
 
 def test_changed_snapshot_fails_before_network(packet,monkeypatch):
  root,path=packet;(root/'config/weekly_review_manifest.json').write_text('{}')
