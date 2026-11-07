@@ -45,5 +45,5 @@ def test_coordinator_does_not_treat_source_work_or_an_unknown_write_as_success(m
     assert result['status']=='deferred' and result['candidate_processing'] is False and calls==[]
     result=module.checkpoint_one('.','secret',review,main,'worker','run',
         planner=lambda *a,**k:{'selected':[{'collection':'weekly','candidate_id':'x','next_stage':'duplicates'}]},**common)
-    assert result['status']=='blocked' and result['reconcile_before_retry'] is True and calls==[1]
+    assert result['status']=='blocked' and result['reconcile_before_retry'] is True and result['candidate_processing'] is None and calls==[1]
     assert result['lease_release_confirmed'] is False and result['native_completion_verified'] is False

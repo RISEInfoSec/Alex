@@ -62,7 +62,7 @@ def checkpoint_one(repo,token,review_head,main_head,owner,run_id,*,heads=read_he
     if not isinstance(response,dict) or response.get('status')!='committed_and_read_back':
         # A network timeout or ambiguous write must be reconciled by the caller.
         return {'status':'blocked','reason':'checkpoint_not_confirmed','reconcile_before_retry':True,
-                'candidate_processing':False,'native_completion_verified':False,'lease_release_confirmed':False,'publication_verified':False}
+                'candidate_processing':None,'native_completion_verified':False,'lease_release_confirmed':False,'publication_verified':False}
     commit=response.get('commit_sha');receipt=response.get('receipt_path')
     if not SHA.fullmatch(commit or '') or not isinstance(receipt,str) or not re.fullmatch(r'config/content_review_mechanical_checkpoints/[0-9a-f]{64}\.json',receipt) or \
        response.get('candidate_processing') is not True or response.get('gate')!='duplicates' or response.get('native_completion_verified') is not False or response.get('publication_verified') is not False:
