@@ -182,10 +182,11 @@ a duplicate `candidate_assessments` table generated because an older migration
 has no Drizzle snapshot. Local D1 migrations and real review submission SQL
 passed with existing rows preserved.
 
-`d1_fence_status.mjs` inspects the table columns and nine installed trigger
-definitions without returning owner identities or changing data. An idle fence
-does not establish worker health, and a held fence means review submissions
-must wait while a checkpoint is verified.
+`d1_fence_status.mjs` inspects the table, singleton constraints, unique index
+and nine trigger definitions without returning owner identities or changing
+data. Site version 64 exposed the read-only status and reported nine matching
+triggers with no active fence. An idle fence does not establish worker health;
+a held fence means review submissions must wait while a checkpoint is verified.
 
 `lease.py` prepares bounded acquire, renew and release state transitions and
 preserves lease history. These pure functions do not acquire a remote lease.
