@@ -84,7 +84,9 @@ installs a scheduler, obtains native evidence, nor guarantees a live heartbeat.
 `heartbeat_evidence.py`, `detached_heartbeat.py` and
 `github_atomic_heartbeat.cjs` prepare, verify and write liveness on a separate
 Git ref, bound to the exact review head and lease. They are not installed or
-scheduled. Site version 36 can consume that evidence when configured and will
+scheduled. `github_read_heartbeat.cjs` independently reads the immutable
+heartbeat blob and verifies its Git hash with `git_blob_sha1.cjs` before the
+live fence consumes it. Site version 37 can consume that evidence when configured and will
 show missing or stale evidence as degraded.
 The coordinator must commit with an expected-head comparison and read back the
 winning lease before working, renew only while still owner, recheck before
@@ -118,8 +120,9 @@ receipt path. `no_update`, dispatch, an empty pass and tests do not establish
 useful processing. `operations.py` reads the target scheduler identity from the
 monitor configuration and archives the previous observation when the target
 changes. The private Site's receipt and paused-OpenAlex fixes are deployed;
-Site version 36 also follows that configured target without inheriting the old
-worker's heartbeat or proof. Actual replacement scheduler and monitor evidence
+Site version 37 also follows that configured target without inheriting the old
+worker's heartbeat or proof, and labels stored processing counts as reports
+rather than independently demonstrated results. Actual replacement scheduler and monitor evidence
 remain outstanding.
 
 OpenAlex remains fully paused, including DOI lookups and diagnostics. The
