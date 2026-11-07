@@ -59,6 +59,16 @@ async function context(github,input,now){
  return {review,main};
 }
 
+// Preliminary read-only check for Site operations before they create any Git
+// objects. A caller must still recheck under the decision fence before CAS.
+export async function verifyWorkerContext({github,input,now=()=>Date.now()}){
+ if(!github||!input||typeof now!=='function'||!SHA.test(input.expectedHead||'')||!SHA.test(input.expectedMain||'')||
+    typeof input.owner!=='string'||!/^[a-zA-Z0-9-]{1,100}$/.test(input.owner)||
+    typeof input.runId!=='string'||!/^[a-zA-Z0-9-]{1,100}$/.test(input.runId))
+  throw Error('Invalid worker context');
+ return context(github,input,now);
+}
+
 export async function controlFence({db,github,input,now=()=>Date.now(),inspect=inspectFence,readSnapshot=reader.readStable}){
  if(!input||typeof input!=='object'||Array.isArray(input)||JSON.stringify(Object.keys(input).sort())!==JSON.stringify(KEYS)||
     !['acquire','begin','abort','release'].includes(input.action)||!SHA.test(input.expectedMain||'')||!SHA256.test(input.d1Fingerprint||''))

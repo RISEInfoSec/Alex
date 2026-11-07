@@ -17,7 +17,7 @@ def fixture(repo):
     now = datetime.now(timezone.utc)
     row = {'candidate_id': 'soups-new', 'title': 'Example', 'authors': 'Author', 'year': 2025,
            'doi': '', 'source_url': 'https://example.test/paper', 'abstract': '',
-           'document_type': 'research_paper', 'decision': 'pending'}
+           'document_type': 'research_paper', 'decision': 'pending', 'screening_status': 'not_assessed'}
     row['content_sha256'] = reviewed_digest(row)
     registry = {'collections': [{'id': 'soups', 'adapter': 'soups', 'manifest_url': URL}]}
     state = {'lease': {'owner': 'worker', 'run_id': 'run', 'acquired_at': (now-timedelta(seconds=10)).isoformat(),
