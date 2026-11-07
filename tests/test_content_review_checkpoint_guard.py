@@ -2,6 +2,7 @@ import hashlib
 import json
 import subprocess
 from copy import deepcopy
+from datetime import timedelta
 
 import pytest
 
@@ -9,6 +10,7 @@ from tests.test_content_review_duplicate_checkpoint import setup_bundle
 from tests.test_content_review_verified_inputs import git, put
 from tools.content_review.checkpoint_guard import verify
 from tools.content_review.duplicate_checkpoint import prepare
+from tools.content_review.heartbeat_evidence import prepare as heartbeat
 from tools.content_review.verified_inputs import _path_blob
 
 
@@ -119,3 +121,33 @@ def test_controlled_local_checkpoint_and_competing_writer(tmp_path):
     assert git(tmp_path, 'rev-parse', winner + '^') == proof['expected_head']
     receipt = proof['new_path']
     assert json.loads(git(tmp_path, 'show', winner + ':' + receipt))['publication_approved'] is False
+
+
+def test_detached_heartbeat_keeps_verified_review_head_stable(tmp_path):
+    now,snap,inputs,state,ledger=setup_bundle()
+    state['lease']['acquired_at']=(now-timedelta(minutes=3)).isoformat()
+    state['current_run']['started_at']=(now-timedelta(minutes=2)).isoformat()
+    state['current_run']['observed_at']=(now-timedelta(minutes=2)).isoformat()
+    state['current_run']['scheduler']={'id':'Automation_worker','last_run':{'id':'run','recorded_status':'in_progress'}}
+    inputs['worker_state']=deepcopy(state)
+    path_objects={'config/weekly_review_manifest.json':inputs['manifests']['weekly'],
+       'config/content_review_candidate_lifecycle.json':ledger,'config/content_review_preflight_status.json':inputs['preflight_status'],
+       'config/content_review_worker_status.json':state}
+    git(tmp_path,'init','--quiet')
+    for path,value in path_objects.items():put(tmp_path,path,value)
+    put(tmp_path,'config/content_review_lifecycle_policy.json',inputs['lifecycle_policy'])
+    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','review')
+    review=git(tmp_path,'rev-parse','HEAD');branch=git(tmp_path,'symbolic-ref','--short','HEAD')
+    beat=heartbeat(state,review,'worker','run',at=now)
+    git(tmp_path,'checkout','-qb','heartbeat')
+    put(tmp_path,'config/content_review_detached_heartbeat.json',beat)
+    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','heartbeat')
+    heartbeat_head=git(tmp_path,'rev-parse','HEAD');git(tmp_path,'checkout','-q',branch)
+    inputs['review_commit']=review;inputs['metadata']=[_path_blob(tmp_path,review,p)[1] for p in path_objects]
+    bundle=prepare(snap,deepcopy(snap),inputs,ledger,state,'worker','run','weekly','fresh',
+                   observed_heads={'review':review,'main':inputs['main_commit']},source_attempts={},source_progress={},
+                   heartbeat=beat,at=now)
+    with pytest.raises(ValueError,match='fresh matching lease'):
+        verify(tmp_path,review,inputs['main_commit'],bundle)
+    proof=verify(tmp_path,review,inputs['main_commit'],bundle,heartbeat_head=heartbeat_head)
+    assert proof['heartbeat_head']==heartbeat_head and proof['expected_head']==review

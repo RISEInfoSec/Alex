@@ -58,7 +58,10 @@ def _fingerprint(snapshot):
 
 def _review_batch(collection, row):
     """Match the Site's existing collection-specific batch contract."""
-    for field in ('review_batch', 'batch'):
+    # APWG's filtered Site view computes `batch` after applying its fallback;
+    # an original falsey review_batch must not override that computed value.
+    fields = ('batch', 'review_batch') if collection == 'apwg' else ('review_batch', 'batch')
+    for field in fields:
         explicit = row.get(field)
         if explicit is not None:
             return explicit if _integer(explicit, 1) else None

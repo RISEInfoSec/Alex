@@ -15,7 +15,7 @@ from tools.content_review.manifest_integrity import validate_update
 
 
 def evaluate(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
-             collection, candidate_id, *, observed_heads, source_attempts, source_progress, at=None):
+             collection, candidate_id, *, observed_heads, source_attempts, source_progress, at=None, heartbeat=None):
     now = at or datetime.now(timezone.utc)
     if not isinstance(inputs, dict) or not isinstance(observed_heads, dict):
         raise ValueError('Verified input bundle and current heads are required')
@@ -41,7 +41,7 @@ def evaluate(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
     if not isinstance(normalized,dict):raise ValueError('Invalid reconciliation manifests')
     selection = plan(snapshot, confirmed_snapshot, normalized, ledger, inputs['registry'],
                      state, owner, run_id, source_attempts=source_attempts,
-                     source_progress=source_progress, at=now)
+                     source_progress=source_progress, at=now, heartbeat=heartbeat, review_head=inputs['review_commit'])
     match = [x for x in selection['selected'] if x['collection'] == collection and x['candidate_id'] == candidate_id]
     if len(match) != 1 or match[0]['next_stage'] != 'duplicates':
         raise ValueError('Candidate is not selected for its duplicate gate')
@@ -66,11 +66,11 @@ def evaluate(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
 
 
 def propose_checkpoint(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
-                       collection, candidate_id, *, observed_heads, source_attempts, source_progress, at=None):
+                       collection, candidate_id, *, observed_heads, source_attempts, source_progress, at=None, heartbeat=None):
     """Prepare an evidence-bound manifest change; never write or publish it."""
     result = evaluate(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
                       collection, candidate_id, observed_heads=observed_heads,
-                      source_attempts=source_attempts, source_progress=source_progress, at=at)
+                      source_attempts=source_attempts, source_progress=source_progress, at=at, heartbeat=heartbeat)
     if result['status'] != 'passed':
         return {'status': 'held', 'result': result, 'manifest': None, 'writes': 0}
     before = inputs['manifests'][collection]

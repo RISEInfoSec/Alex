@@ -7,6 +7,7 @@ const {commitCheckpoint} = require('../tools/content_review/github_atomic_checkp
 const hash = text => crypto.createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0`).update(text).digest('hex');
 const ok = data => ({structuredContent:data, isError:false});
 const oldHead = 'a'.repeat(40), tree = 'b'.repeat(40), newTree = 'c'.repeat(40), newCommit = 'd'.repeat(40);
+const mainHead='e'.repeat(40), fingerprint='f'.repeat(64), at=Date.parse('2026-11-06T23:50:20Z');
 const added = 'config/content_review_mechanical_checkpoints/' + '1'.repeat(64) + '.json';
 const paths = ['config/weekly_review_manifest.json', 'config/content_review_candidate_lifecycle.json',
                'config/content_review_preflight_status.json', 'config/content_review_worker_status.json', added];
@@ -43,10 +44,14 @@ function fixture() {
       head=sha; return ok({success:true});
     }
   };
-  return {api,linkId:'account',bundle:{status:'prepared',writes:0,files},
+  const observation={verified:true,expectedHead:oldHead,main_head:mainHead,d1_fingerprint_private:fingerprint,
+    lease_owner:'worker',run_id:'run',checked_at:'2026-11-06T23:50:20Z',heartbeat_at:'2026-11-06T23:50:10Z',
+    lease_expires_at:'2026-11-07T00:20:00Z',started_at:'2026-11-06T23:50:01Z'};
+  return {api,linkId:'account',bundle:{status:'prepared',writes:0,files,d1_fingerprint_private:fingerprint},
           proof:{expected_head:oldHead,base_tree_sha:tree,blobs:metadata,base_blobs,new_path:added,
+                 expected_main:mainHead,d1_fingerprint_private:fingerprint,lease_owner:'worker',run_id:'run',
                  requires_remote_head_d1_and_lease_recheck:true,writes:0},
-          fence:async () => ({verified:true,expectedHead:oldHead}),
+          fence:async () => ({...observation}),now:()=>at,observation,
           writes:()=>writes, setHead:value=>{head=value;}, head:()=>head, commits};
 }
 
@@ -69,9 +74,17 @@ test('changed head, bad blob or failed fence never moves the branch', async () =
 
 test('a concurrent heartbeat or writer invalidates the expected head', async () => {
   const f=fixture();
-  f.fence=async () => {f.setHead('e'.repeat(40)); return {verified:true,expectedHead:oldHead};};
+  f.fence=async () => {f.setHead('e'.repeat(40)); return {...f.observation};};
   await assert.rejects(commitCheckpoint(f),/head changed before atomic update/);
   assert.equal(f.writes(),0);
+});
+
+test('D1, main, lease and time must all match in the final fence',async()=>{
+ for(const [key,value] of [['main_head','0'.repeat(40)],['d1_fingerprint_private','0'.repeat(64)],
+     ['lease_owner','other'],['heartbeat_at','2026-11-06T23:49:00Z'],['checked_at','2026-11-06T23:49:00Z']]) {
+  const f=fixture(); f.fence=async()=>({...f.observation,[key]:value});
+  await assert.rejects(commitCheckpoint(f),/fence failed/);assert.equal(f.writes(),0);
+ }
 });
 
 test('ambiguous update is never retried automatically', async () => {

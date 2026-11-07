@@ -7,6 +7,7 @@
 const REPOSITORY = 'RISEInfoSec/Alex';
 const REVIEW_BRANCH = 'codex/soups-corpus-review';
 const SHA = /^[0-9a-f]{40}$/;
+const SHA256 = /^[0-9a-f]{64}$/;
 const MAX_FILES = 5;
 const MAX_BYTES = 32 * 1024 * 1024;
 
@@ -31,14 +32,16 @@ function response(result, message) {
   return result.structuredContent;
 }
 
-async function commitCheckpoint({api, linkId, bundle, proof, fence}) {
-  if (!api || !linkId || !bundle || !proof || typeof fence !== 'function')
+async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date.now()}) {
+  if (!api || !linkId || !bundle || !proof || typeof fence !== 'function' || typeof now !== 'function')
     throw new Error('Connector, guarded checkpoint and live fence are required');
   for (const method of ['fetchCommit', 'fetchFile', 'createBlob', 'createTree', 'createCommit', 'updateRef'])
     if (typeof api[method] !== 'function') throw new Error('Required GitHub connector operation is unavailable');
-  if (!SHA.test(proof.expected_head || '') || !SHA.test(proof.base_tree_sha || '') ||
+  if (!SHA.test(proof.expected_head || '') || !SHA.test(proof.expected_main || '') || !SHA.test(proof.base_tree_sha || '') ||
+      !SHA256.test(proof.d1_fingerprint_private || '') || typeof proof.lease_owner !== 'string' || !proof.lease_owner ||
+      typeof proof.run_id !== 'string' || !proof.run_id ||
       proof.requires_remote_head_d1_and_lease_recheck !== true || proof.writes !== 0 ||
-      bundle.status !== 'prepared' || bundle.writes !== 0)
+      bundle.status !== 'prepared' || bundle.writes !== 0 || bundle.d1_fingerprint_private !== proof.d1_fingerprint_private)
     throw new Error('Invalid checkpoint proof');
   const files = bundle.files, blobs = proof.blobs, bases = proof.base_blobs, added = proof.new_path;
   if (!files || !blobs || !bases || typeof files !== 'object' || typeof blobs !== 'object' ||
@@ -83,9 +86,21 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence}) {
   // The fence must independently reread the current D1/main/lease state. An
   // asynchronous heartbeat can move the head; the last read and CAS then fail.
   const observation = await fence({expectedHead:proof.expected_head, candidateCommit:commit.sha});
-  if (!observation || observation.verified !== true || observation.expectedHead !== proof.expected_head)
-    throw new Error('Fresh lease, D1, source or budget fence failed');
+  const checked=Date.parse(observation?.checked_at), heartbeat=Date.parse(observation?.heartbeat_at),
+        expiry=Date.parse(observation?.lease_expires_at), started=Date.parse(observation?.started_at);
+  function requireFence() {
+    const time=now();
+    if (!observation || observation.verified !== true || observation.expectedHead !== proof.expected_head ||
+        observation.main_head !== proof.expected_main || observation.d1_fingerprint_private !== proof.d1_fingerprint_private ||
+        observation.lease_owner !== proof.lease_owner || observation.run_id !== proof.run_id || !Number.isFinite(time) ||
+        !Number.isFinite(checked) || checked > time || time-checked > 10000 ||
+        !Number.isFinite(heartbeat) || heartbeat > time || time-heartbeat > 40000 ||
+        !Number.isFinite(expiry) || expiry-time <= 120000 || !Number.isFinite(started) || started > time || time-started > 600000)
+      throw new Error('Fresh lease, D1, source or budget fence failed');
+  }
+  requireFence();
   if (await head() !== proof.expected_head) throw new Error('Review head changed before atomic update');
+  requireFence();
   let update;
   try {
     update = await api.updateRef({...common, branch_name:REVIEW_BRANCH, expected_sha:proof.expected_head,

@@ -16,7 +16,7 @@ MAX_CANDIDATES = 10000
 
 
 def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
-         owner, run_id, *, source_attempts, source_progress, at=None):
+         owner, run_id, *, source_attempts, source_progress, at=None, heartbeat=None, review_head=None):
     now = at or datetime.now(timezone.utc)
     if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError('Timezone-aware observation required')
@@ -30,8 +30,13 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     current = state.get('current_run') or {}
     if current.get('run_id') != run_id or current.get('application_status') != 'running':
         raise ValueError('A matching running worker observation is required')
-    started, heartbeat = instant(current.get('started_at')), instant(current.get('observed_at'))
-    if not started or not heartbeat or not started <= heartbeat <= now or (now-heartbeat).total_seconds() > 40:
+    started = instant(current.get('started_at'))
+    if heartbeat is None:
+        heartbeat_time = instant(current.get('observed_at'))
+    else:
+        from tools.content_review.heartbeat_evidence import verify
+        heartbeat_time = verify(heartbeat, state, review_head, owner, run_id, at=now)
+    if not started or not heartbeat_time or not started <= heartbeat_time <= now or (now-heartbeat_time).total_seconds() > 40:
         raise ValueError('A fresh matching start and heartbeat are required')
     if not isinstance(source_attempts, dict) or not isinstance(source_progress, dict):
         raise ValueError('Separate collection attempt and progress histories are required')
@@ -108,7 +113,8 @@ def main():
         result = plan(request['snapshot'], request['confirmed_snapshot'], request['manifests'],
                       request['ledger'], request['registry'], request['state'],
                       request['owner'], request['run_id'], source_attempts=request['source_attempts'],
-                      source_progress=request['source_progress'])
+                      source_progress=request['source_progress'], heartbeat=request.get('heartbeat'),
+                      review_head=request.get('review_head'))
         print(json.dumps(result, sort_keys=True))
     except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
         print(json.dumps({'status': 'blocked', 'reason': str(exc) if isinstance(exc, ValueError) else 'Invalid plan input'}))

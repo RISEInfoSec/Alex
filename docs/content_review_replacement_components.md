@@ -16,9 +16,9 @@ private identities out of the public repository, logs and workflow inputs.
 `d1_reader.cjs` provides a connector-injected, bounded reader that uses only
 the exact overview names and connector-provided offsets. It rejects omitted
 columns or truncated values, gaps, duplicate identities and changing complete
-reads. Its required heartbeat callback must maintain the actual remote lease;
-the caller must also keep the heartbeat alive while connector calls are in
-flight. The reader itself neither acquires nor renews a lease. It returns private rows
+reads. Its required heartbeat callback must maintain verified liveness while
+the separately held remote lease remains valid, including while connector calls
+are in flight. The reader itself neither acquires nor renews a lease. It returns private rows
 to the caller in memory and never writes or logs them.
 `select_reconciled` overlays matching decisions on disposable in-memory copies
 before choosing candidates and holds changed or conflicting decisions out of
@@ -59,8 +59,11 @@ the caller must perform the required live rechecks and compare-and-swap.
 connector. It checks the expected head and original file identities, verifies
 each created blob, requires a caller-supplied fresh D1/lease/source fence,
 uses an expected-head update and reads back the head and blobs. An ambiguous
-update must be reconciled rather than retried. It does not itself acquire or
-renew the lease, obtain D1 snapshots or implement the required live fence.
+update must be reconciled rather than retried. `d1_live_fence.cjs` compares
+fresh complete D1 snapshots, both branch heads, native state and the verified
+lease-bound heartbeat; `d1_fingerprint.cjs` computes the same private digest as
+the Python reconciler in memory. The modules still need an actual scheduler
+and authenticated connector callbacks, and the D1 read is not a transaction.
 
 Two matching paginated reads are not a database transaction. The coordinator
 must take complete fresh reads and recheck their fingerprint and immutable Git
@@ -78,6 +81,11 @@ without retained evidence that the previous lease expired. It performs no write.
 for the configured native run. `github_atomic_lease.cjs` can publish and read
 back that single state file with an expected-head update. Neither component
 installs a scheduler, obtains native evidence, nor guarantees a live heartbeat.
+`heartbeat_evidence.py`, `detached_heartbeat.py` and
+`github_atomic_heartbeat.cjs` prepare, verify and write liveness on a separate
+Git ref, bound to the exact review head and lease. They are not installed or
+scheduled. Site version 36 can consume that evidence when configured and will
+show missing or stale evidence as degraded.
 The coordinator must commit with an expected-head comparison and read back the
 winning lease before working, renew only while still owner, recheck before
 checkpointing, and stop immediately on a conflict or expiration. The heartbeat
@@ -110,7 +118,7 @@ receipt path. `no_update`, dispatch, an empty pass and tests do not establish
 useful processing. `operations.py` reads the target scheduler identity from the
 monitor configuration and archives the previous observation when the target
 changes. The private Site's receipt and paused-OpenAlex fixes are deployed;
-Site version 35 also follows that configured target without inheriting the old
+Site version 36 also follows that configured target without inheriting the old
 worker's heartbeat or proof. Actual replacement scheduler and monitor evidence
 remain outstanding.
 

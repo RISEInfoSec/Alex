@@ -83,7 +83,7 @@ def _stage(before, after, collection, candidate, manifest_row):
         raise ValueError('Stage candidate identity is ambiguous')
 
 
-def verify(repo, review_commit, main_commit, bundle):
+def verify(repo, review_commit, main_commit, bundle, *, heartbeat_head=None):
     """Return exact blob and tree metadata, with no remote update or disclosure."""
     if not isinstance(review_commit, str) or not SHA.fullmatch(review_commit) or not isinstance(main_commit, str) or not SHA.fullmatch(main_commit):
         raise ValueError('Full immutable Git heads required')
@@ -147,6 +147,11 @@ def verify(repo, review_commit, main_commit, bundle):
     old_state, new_state = original[state_path], changed[state_path]
     lease, run = old_state.get('lease') or {}, old_state.get('current_run') or {}
     expiry, started, observed = instant(lease.get('expires_at')), instant(run.get('started_at')), instant(run.get('observed_at'))
+    if heartbeat_head is not None:
+        from tools.content_review.heartbeat_evidence import verify as verify_heartbeat
+        heartbeat_raw, _ = _path_blob(repo, heartbeat_head, 'config/content_review_detached_heartbeat.json')
+        observed = verify_heartbeat(json.loads(heartbeat_raw), old_state, review_commit,
+                                    lease.get('owner'), receipt['run_id'], at=checked_at)
     if (not lease.get('owner') or lease.get('run_id') != receipt['run_id'] or run.get('run_id') != receipt['run_id']
         or run.get('application_status') != 'running' or not expiry or (expiry-checked_at).total_seconds() <= 120
         or not started or not 0 <= (checked_at-started).total_seconds() <= 600
@@ -189,9 +194,14 @@ def verify(repo, review_commit, main_commit, bundle):
                         for c in sorted({x.get('collection') for x in new_records.values() if x.get('collection')})}
     if new_ledger.get('counts') != expected_counts or new_ledger.get('source_counts') != expected_sources:
         raise ValueError('Checkpoint lifecycle counts are inconsistent')
+    fingerprint = bundle.get('d1_fingerprint_private')
+    if not isinstance(fingerprint,str) or not re.fullmatch(r'[0-9a-f]{64}',fingerprint):
+        raise ValueError('Private D1 snapshot fingerprint is missing')
     tree = _git(repo, 'rev-parse', review_commit + '^{tree}').decode('ascii').strip()
     if not SHA.fullmatch(tree):
         raise ValueError('Commit tree is invalid')
-    return {'expected_head': review_commit, 'base_tree_sha': tree, 'blobs': blobs,
+    return {'expected_head': review_commit, 'expected_main': main_commit, 'base_tree_sha': tree, 'blobs': blobs,
             'base_blobs': deepcopy(bases),
+            'd1_fingerprint_private':fingerprint, 'lease_owner':lease['owner'], 'run_id':receipt['run_id'],
+            'heartbeat_head':heartbeat_head,
             'new_path': receipt_path, 'requires_remote_head_d1_and_lease_recheck': True, 'writes': 0}
