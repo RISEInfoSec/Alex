@@ -1,0 +1,39 @@
+from datetime import timedelta
+import json
+
+import pytest
+
+from tests.test_content_review_detached_heartbeat import fixture
+from tests.test_content_review_verified_inputs import git,put
+from tools.content_review.coordinator_heartbeat_transport import DetachedHeartbeatPulse,REVIEW,MAIN,HEARTBEAT
+
+
+def test_site_heartbeat_is_bound_to_current_heads_and_read_back(tmp_path):
+    now,review,branch=fixture(tmp_path);heads={REVIEW:review,MAIN:review,HEARTBEAT:review};sent=[]
+    def read(_):return dict(heads)
+    def fetch(_repo,_heads,_run):pass
+    def send(action,payload,token):
+        assert action=='heartbeat' and token=='private-test-token';sent.append(payload)
+        git(tmp_path,'checkout','-qb','heartbeat');put(tmp_path,payload['proposal']['path'],payload['proposal']['content'])
+        git(tmp_path,'add','.');git(tmp_path,'commit','-qm','beat');heads[HEARTBEAT]=git(tmp_path,'rev-parse','HEAD')
+        git(tmp_path,'checkout','-q',branch)
+        return {'status':'committed_and_read_back','commit_sha':heads[HEARTBEAT]}
+    pulse=DetachedHeartbeatPulse(tmp_path,'private-test-token',review,review,'worker','run',heads=read,fetch=fetch,send=send,
+                                 clock=lambda:now+timedelta(seconds=5))
+    result=pulse()
+    assert result=={'status':'committed_and_read_back','commit_sha':heads[HEARTBEAT]}
+    assert 'private-test-token' not in json.dumps(result) and len(sent)==1
+    assert git(tmp_path,'rev-parse','HEAD')==review
+
+
+def test_moved_head_or_ambiguous_write_stops_without_a_retry(tmp_path):
+    now,review,_=fixture(tmp_path);heads={REVIEW:review,MAIN:review,HEARTBEAT:review};calls=[]
+    def read(_):return dict(heads)
+    def send(*args):calls.append(1);return {'status':'outcome_unknown'}
+    pulse=DetachedHeartbeatPulse(tmp_path,'secret',review,review,'worker','run',heads=read,fetch=lambda *args:None,send=send,clock=lambda:now)
+    heads[MAIN]='a'*40
+    with pytest.raises(ValueError,match='heads changed'):pulse()
+    assert calls==[]
+    heads[MAIN]=review
+    with pytest.raises(ValueError,match='unconfirmed'):pulse()
+    assert len(calls)==1

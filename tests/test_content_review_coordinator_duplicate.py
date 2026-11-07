@@ -1,0 +1,49 @@
+import json
+
+import pytest
+
+import tools.content_review.coordinator_duplicate as module
+
+
+class Keeper:
+    active=False
+    def __init__(self,pulse):self.pulse=pulse
+    def __enter__(self):Keeper.active=True;self.pulse();return self
+    def check(self):assert Keeper.active
+    def __exit__(self,*args):Keeper.active=False
+
+
+def test_coordinator_stops_heartbeat_before_site_audit_and_reports_only_confirmed_gate(monkeypatch):
+    review,main,heartbeat,commit='a'*40,'b'*40,'c'*40,'d'*40
+    refs={module.REVIEW:review,module.MAIN:main,module.HEARTBEAT:heartbeat};calls=[]
+    monkeypatch.setattr(module,'_path_blob',lambda *args:(json.dumps({'observed_at':'test'}).encode(),{}))
+    inputs={'worker_state':{},'lifecycle':{},'reconciliation_manifests':{},'registry':[]}
+    def send(action,payload,token):
+        assert not Keeper.active and action=='duplicate' and token=='private-token'
+        assert payload['expectedHead']==review and set(payload)=={'expectedHead','expectedMain','owner','runId','files'}
+        calls.append(action);refs[module.REVIEW]=commit
+        return {'status':'committed_and_read_back','commit_sha':commit,'receipt_path':'config/content_review_mechanical_checkpoints/'+'e'*64+'.json',
+                'candidate_processing':True,'gate':'duplicates','native_completion_verified':False,'publication_verified':False}
+    result=module.checkpoint_one('.', 'private-token',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,
+        inputs_reader=lambda *a:inputs,snapshot_reader=lambda *a:({'private':'not returned'},{'private':'not returned'}),
+        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,
+        planner=lambda *a,**k:{'selected':[{'collection':'weekly','candidate_id':'x','next_stage':'duplicates'}]},
+        preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},send=send)
+    assert result['status']=='checkpoint_confirmed_run_incomplete' and result['candidate_processing'] is True
+    assert result['native_completion_verified'] is False and result['lease_release_confirmed'] is False
+    assert 'private-token' not in json.dumps(result) and 'not returned' not in json.dumps(result) and calls==['duplicate']
+
+
+def test_coordinator_does_not_treat_source_work_or_an_unknown_write_as_success(monkeypatch):
+    review,main,heartbeat='a'*40,'b'*40,'c'*40;refs={module.REVIEW:review,module.MAIN:main,module.HEARTBEAT:heartbeat};calls=[]
+    monkeypatch.setattr(module,'_path_blob',lambda *args:(b'{}',{}))
+    common=dict(heads=lambda _:dict(refs),fetch=lambda *a:None,inputs_reader=lambda *a:{'worker_state':{},'lifecycle':{},'reconciliation_manifests':{},'registry':[]},
+        snapshot_reader=lambda *a:({},{}),pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,
+        preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},
+        send=lambda *a:(calls.append(1) or {'status':'outcome_unknown'}))
+    result=module.checkpoint_one('.','secret',review,main,'worker','run',planner=lambda *a,**k:{'selected':[{'next_stage':'source'}]},**common)
+    assert result['status']=='deferred' and result['candidate_processing'] is False and calls==[]
+    result=module.checkpoint_one('.','secret',review,main,'worker','run',
+        planner=lambda *a,**k:{'selected':[{'collection':'weekly','candidate_id':'x','next_stage':'duplicates'}]},**common)
+    assert result['status']=='blocked' and result['reconcile_before_retry'] is True and calls==[1]
+    assert result['lease_release_confirmed'] is False and result['native_completion_verified'] is False
