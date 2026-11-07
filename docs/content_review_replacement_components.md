@@ -135,6 +135,10 @@ it reports only candidate gate transitions corroborated by before/after blobs.
 `monitor_snapshot.py` prepares a dated observation for distinct configured
 worker and observer identities. It is not itself a scheduled observer and its
 caller must independently fetch native records and immutable receipt evidence.
+`detached_monitor.py` and `github_atomic_monitor.cjs` prepare and write that
+observation to a separate monitor ref with native-observer and worker rechecks,
+compare-and-swap and readback. The ref and independent schedule are not yet
+installed, and the console is not yet connected to the new ref.
 Unverified source claims, no-work runs and checkpoint changes alone do not prove
 publication or unattended recovery. It fails closed on decision changes unless
 they can be separately reconciled. It is not yet an independent scheduled job.
@@ -154,9 +158,10 @@ receipt path. `no_update`, dispatch, an empty pass and tests do not establish
 useful processing. `operations.py` reads the target scheduler identity from the
 monitor configuration and archives the previous observation when the target
 changes. The private Site's receipt and paused-OpenAlex fixes are deployed;
-Site version 37 also follows that configured target without inheriting the old
+Site version 38 also follows that configured target without inheriting the old
 worker's heartbeat or proof, and labels stored processing counts as reports
-rather than independently demonstrated results. Actual replacement scheduler and monitor evidence
+rather than independently demonstrated results. A native result requiring
+action or reporting failure cannot verify a receipt. Actual replacement scheduler and monitor evidence
 remain outstanding.
 
 OpenAlex remains fully paused, including DOI lookups and diagnostics. The

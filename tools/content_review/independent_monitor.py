@@ -34,7 +34,8 @@ def observe(native, receipt_blob, manifests):
     """
     if not isinstance(native, dict) or not isinstance(native.get('id'), str) or not RUN_ID.fullmatch(native['id']):
         raise ValueError('Missing native run identity')
-    if native.get('recorded_status') != 'completed' or native.get('trigger') != 'schedule':
+    if (native.get('recorded_status') != 'completed' or native.get('trigger') != 'schedule'
+        or native.get('requires_user_action') is True or native.get('is_failure_message') is True):
         raise ValueError('Native scheduled completion is not confirmed')
     receipt = json.loads(_blob(receipt_blob))
     path = 'config/content_review_run_receipts/' + native['id'] + '.json'

@@ -44,6 +44,15 @@ def test_no_update_and_missing_worker_never_gain_verified_receipt():
     assert result['access_error']
 
 
+def test_completed_native_run_requiring_action_is_not_verified():
+    now,config,worker,observer,receipt=fixture()
+    worker['run_details']['latest_result']={'run_id':'worker-run','requires_user_action':True}
+    result=prepare(config,worker,observer,None,receipt,at=now)
+    assert result['receipt_check']['verified'] is False
+    assert result['scheduler']['requires_user_action'] is True
+    assert result['findings'][0]['code']=='worker_terminal_not_verified'
+
+
 @pytest.mark.parametrize('error',['same_id','terminal_observer','off_schedule','wrong_worker'])
 def test_observer_cannot_impersonate_worker_or_fabricate_a_native_schedule(error):
     now,config,worker,observer,receipt=fixture()

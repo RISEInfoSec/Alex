@@ -52,7 +52,8 @@ def test_observer_requires_native_schedule_and_verified_checkpoint_change():
 
 
 @pytest.mark.parametrize('change', [{'recorded_status': 'no_update'}, {'trigger': 'manual'},
-                                  {'recorded_status': 'failed'}])
+                                  {'recorded_status': 'failed'}, {'requires_user_action': True},
+                                  {'is_failure_message': True}])
 def test_no_update_manual_and_failed_native_runs_are_not_verified(change):
     native, receipt, manifests = fixture()
     with pytest.raises(ValueError, match='Native scheduled completion'):

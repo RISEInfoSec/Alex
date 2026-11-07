@@ -44,10 +44,14 @@ def prepare(config, worker_native, observer_native, checkpoint, receipt, *, at=N
         return observation
     if not isinstance(worker.get('is_enabled'), bool):raise ValueError('Native worker enabled state is unavailable')
     last=(worker.get('run_details') or {}).get('last_run') or {}
+    latest=(worker.get('run_details') or {}).get('latest_result') or {}
+    same_result=latest.get('run_id')==last.get('id') and bool(last.get('id'))
     safe_run=last.get('id') if isinstance(last.get('id'),str) and re.fullmatch(r'[a-zA-Z0-9-]+',last['id']) else None
     observation['scheduler']={'id':worker_id,'observed_at':now.isoformat(),'is_enabled':worker['is_enabled'],
         'schedule':worker.get('schedule'),'next_run_time':worker.get('next_run_time'),
         'last_run':{k:last.get(k) for k in ('id','recorded_status','scheduled_for','started_at','completed_at')},
+        'requires_user_action':latest.get('requires_user_action') if same_result else None,
+        'result_is_failure_message':latest.get('is_failure_message') if same_result else None,
         'expected_next_run_at':expected_next(worker)}
     proof=verified_completion(worker,receipt) if safe_run else None
     observation['receipt_check']={'run_id':safe_run,
@@ -57,6 +61,6 @@ def prepare(config, worker_native, observer_native, checkpoint, receipt, *, at=N
                  'Native scheduled completion and matching canonical receipt are not both verified.'}
     if not worker['is_enabled']:
         observation['findings'].append({'code':'worker_paused','message':'Native worker scheduling is disabled.'})
-    elif last.get('recorded_status') in ('failed','no_update'):
+    elif last.get('recorded_status') in ('failed','no_update') or (same_result and (latest.get('requires_user_action') is True or latest.get('is_failure_message') is True)):
         observation['findings'].append({'code':'worker_terminal_not_verified','message':'The latest native run did not record a successful completed processing receipt.'})
     return observation

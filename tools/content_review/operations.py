@@ -64,8 +64,11 @@ def expected_next(automation, pauses=()):
 
 def verified_completion(automation,receipt):
     run=automation.get('run_details',{}).get('last_run') or {}
+    latest=automation.get('run_details',{}).get('latest_result') or {}
     if (not isinstance(run.get('id'),str) or not re.fullmatch(r'[a-zA-Z0-9-]+',run['id'])
         or run.get('recorded_status') != 'completed' or not receipt
+        or (latest.get('run_id')==run.get('id') and
+            (latest.get('requires_user_action') is True or latest.get('is_failure_message') is True))
         or run.get('id')!=receipt.get('run_id') or receipt.get('trigger')!='schedule'
         or not receipt.get('completed_actions') or receipt.get('status')!='complete'):
         return None
@@ -102,6 +105,7 @@ def observe(root,native,at=None):
         next_run_time=a.get('next_run_time'),expected_next_run_at=expected_next(a, data.get('owner_pause_intervals',[])),last_run={k:last.get(k) for k in
             ('id','recorded_status','scheduled_for','started_at','completed_at')},
         requires_user_action=bool(latest.get('requires_user_action')) if latest.get('run_id')==last.get('id') else False,
+        result_is_failure_message=bool(latest.get('is_failure_message')) if latest.get('run_id')==last.get('id') else False,
         last_verified_scheduled_success=previous.get('last_verified_scheduled_success') if previous.get('id')==target else None)
     if isinstance(last.get('id'),str) and re.fullmatch(r'[a-zA-Z0-9-]+',last['id']):
         receipt_path=root/'config/content_review_run_receipts'/(last['id']+'.json')
