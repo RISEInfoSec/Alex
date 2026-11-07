@@ -138,3 +138,65 @@ test('source retention cannot write an unrelated manifest',async()=>{
  f.proof.blobs={[worker]:f.proof.blobs[worker],[other]:f.proof.blobs[old],[receipt]:{blob_sha:hash(content),size:Buffer.byteLength(content)}};
  await assert.rejects(commitCheckpoint(f),/paths differ/);assert.equal(f.writes(),0);
 });
+
+function completionFixture(withAction=true){
+ const f=fixture(),worker='config/content_review_worker_status.json';
+ const receiptPath='config/content_review_run_receipts/run.json';
+ const old={lease:{owner:'worker',run_id:'run',acquired_at:'2026-11-06T23:50:00Z',expires_at:'2026-11-07T00:20:00Z'},
+  lease_history:[],current_run:{run_id:'run',application_status:'running',started_at:'2026-11-06T23:50:01Z',scheduled_for:'2026-11-06T23:50:00Z'}};
+ const action={path:added,collection:'weekly',candidate_id:'candidate',content_sha256:'7'.repeat(64),gate:'duplicates'};
+ const receipt={schema_version:1,run_id:'run',trigger:'schedule',scheduled_for:old.current_run.scheduled_for,
+  started_at:old.current_run.started_at,completed_at:'2026-11-06T23:50:20Z',status:withAction?'complete':'no_work',
+  completed_actions:withAction?[action]:[],receipt_path:receiptPath,provider_requests:0,paid_requests:0,openalex_requests:0,
+  publication_approved:false,native_completion_verified:false,scope_note:'Mechanical duplicate checks only; review readiness and publication are not established.',
+  pilot:{attempted_candidate_ids:withAction?['candidate']:[],newly_passed_checks:{duplicates:withAction?['candidate']:[]},
+   requests:{source:0,paid:0,openalex:0},manual_admitted:[],all_six_completed:[],actual_publications:[],
+   integrity_passed:null,checkpoint_failures:null,resolvable_gate_count:null,all_candidates_legitimately_held:null,
+   remaining_blockers:['Subsequent gates and source work were not executed in this mechanical pass.']}};
+ const state=structuredClone(old);state.lease_history.push({...old.lease,status:'released',released_at:receipt.completed_at});
+ state.lease=null;state.current_run.application_status=withAction?'complete':'deferred';
+ state.current_run.application_completed_at=receipt.completed_at;state.current_run.receipt=receiptPath;
+ const oldText=JSON.stringify(old),stateText=JSON.stringify(state),receiptText=JSON.stringify(receipt);
+ f.commits[oldHead][worker]=hash(oldText);
+ const oldFetch=f.api.fetchFile;
+ f.api.fetchFile=async args=>{
+  if(args.ref===oldHead&&args.path===worker)return ok({sha:hash(oldText),content:oldText});
+  if(args.ref===oldHead&&args.path===added&&withAction)return ok({sha:'9'.repeat(40),content:JSON.stringify({
+    kind:'duplicate_checkpoint',status:'passed',run_id:'run',collection:action.collection,candidate_id:action.candidate_id,
+    content_sha256:action.content_sha256,source_main_commit:mainHead})});
+  return oldFetch(args);
+ };
+ f.bundle.files={[worker]:stateText,[receiptPath]:receiptText};
+ f.proof.kind='run_completion';f.proof.fence_state=old;f.proof.new_path=receiptPath;
+ f.proof.base_blobs={[worker]:{path:worker,commit:oldHead,blob_sha:hash(oldText)}};
+ f.proof.blobs={[worker]:{blob_sha:hash(stateText),size:Buffer.byteLength(stateText)},
+  [receiptPath]:{blob_sha:hash(receiptText),size:Buffer.byteLength(receiptText)}};
+ return {...f,worker,receiptPath,receipt,state};
+}
+
+test('run completion atomically saves a scoped receipt and releases the lease',async()=>{
+ for(const withAction of [true,false]){
+  const f=completionFixture(withAction),result=await commitCheckpoint(f);
+  assert.equal(result.status,'committed_and_read_back');assert.equal(f.writes(),1);
+  assert.deepEqual(result.checkpoint_paths,[f.worker,f.receiptPath].sort());
+ }
+});
+
+test('run completion rejects unrelated changes and receipt data leaks',async()=>{
+ for(const kind of ['worker','receipt','checkpoint']){
+  const f=completionFixture();
+  if(kind==='worker'){
+   const changed={...f.state,unrelated:'changed'},text=JSON.stringify(changed);
+   f.bundle.files[f.worker]=text;f.proof.blobs[f.worker]={blob_sha:hash(text),size:Buffer.byteLength(text)};
+  }else if(kind==='receipt'){
+   const text=JSON.stringify({...f.receipt,private_row:'not allowed'});
+   f.bundle.files[f.receiptPath]=text;f.proof.blobs[f.receiptPath]={blob_sha:hash(text),size:Buffer.byteLength(text)};
+  }else f.api.fetchFile=async args=>args.path===f.worker?ok({sha:f.proof.base_blobs[f.worker].blob_sha,content:JSON.stringify(f.proof.fence_state)}):{isError:true,structuredContent:{error_code:'NOT_FOUND'}};
+  await assert.rejects(commitCheckpoint(f));assert.equal(f.writes(),0);
+ }
+});
+
+test('run completion requires a fresh final D1 and lease fence',async()=>{
+ const f=completionFixture();f.fence=async()=>({...f.observation,d1_fingerprint_private:'0'.repeat(64)});
+ await assert.rejects(commitCheckpoint(f),/fence failed/);assert.equal(f.writes(),0);
+});

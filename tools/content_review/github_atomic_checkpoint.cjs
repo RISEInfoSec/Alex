@@ -32,6 +32,13 @@ function response(result, message) {
   return result.structuredContent;
 }
 
+function canonical(value) {
+  if (Array.isArray(value)) return value.map(canonical);
+  if (value && typeof value === 'object') return Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])]));
+  return value;
+}
+function same(a,b) {return JSON.stringify(canonical(a))===JSON.stringify(canonical(b));}
+
 async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date.now()}) {
   if (!api || !linkId || !bundle || !proof || typeof fence !== 'function' || typeof now !== 'function')
     throw new Error('Connector, guarded checkpoint and live fence are required');
@@ -48,6 +55,7 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
   const newPath=kind==='duplicate_checkpoint'?/^config\/content_review_mechanical_checkpoints\/[0-9a-f]{64}\.json$/:
                 kind==='source_request'?/^config\/content_review_source_requests\/[0-9a-f]{64}\.json$/:
                 kind==='source_result'?/^config\/content_review_source_receipts\/[0-9a-f]{64}\.json$/:
+                kind==='run_completion'?/^config\/content_review_run_receipts\/[a-zA-Z0-9-]+\.json$/:
                 kind==='source_retention'?/^config\/content_review_source_checkpoints\/[0-9a-f]{64}\.json$/:null;
   if (!files || !blobs || !bases || typeof files !== 'object' || typeof blobs !== 'object' ||
       typeof bases !== 'object' || !newPath || !newPath.test(added || ''))
@@ -80,6 +88,49 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
   for (const path of Object.keys(bases)) {
     const old = response(await file(path, proof.expected_head), 'Cannot read checkpoint base');
     if (old.sha !== bases[path].blob_sha) throw new Error('Checkpoint base blob changed');
+    if(kind==='run_completion'){
+      let before,after,receipt;
+      try{before=JSON.parse(old.content);after=JSON.parse(files[worker]);receipt=JSON.parse(files[added]);}
+      catch{throw new Error('Run completion state or receipt is invalid');}
+      const oldLease=before.lease||{}, oldRun=before.current_run||{}, actions=receipt.completed_actions;
+      const receiptKeys=['schema_version','run_id','trigger','scheduled_for','started_at','completed_at','status','completed_actions',
+       'receipt_path','provider_requests','paid_requests','openalex_requests','publication_approved','native_completion_verified','scope_note','pilot'].sort();
+      if(!same(before,proof.fence_state)||oldLease.owner!==proof.lease_owner||oldLease.run_id!==proof.run_id||
+         oldRun.run_id!==proof.run_id||oldRun.application_status!=='running'||receipt.schema_version!==1||
+         !same(Object.keys(receipt).sort(),receiptKeys)||receipt.scope_note!=='Mechanical duplicate checks only; review readiness and publication are not established.'||
+         receipt.run_id!==proof.run_id||receipt.receipt_path!==added||added!=='config/content_review_run_receipts/'+proof.run_id+'.json'||
+         receipt.trigger!=='schedule'||receipt.scheduled_for!==oldRun.scheduled_for||receipt.started_at!==oldRun.started_at||
+         !Number.isFinite(Date.parse(receipt.completed_at))||!Array.isArray(actions)||actions.length>5||new Set(actions.map(a=>a?.path)).size!==actions.length||
+         receipt.status!==(actions.length?'complete':'no_work')||receipt.native_completion_verified!==false||
+         receipt.publication_approved!==false||['provider_requests','paid_requests','openalex_requests'].some(k=>receipt[k]!==0))
+        throw new Error('Run completion is not bound to its current lease and scope');
+      const expected=JSON.parse(JSON.stringify(before));
+      if(!Array.isArray(expected.lease_history))expected.lease_history=[];
+      expected.lease_history.push({...oldLease,status:'released',released_at:receipt.completed_at});
+      expected.lease=null;
+      expected.current_run.application_status=actions.length?'complete':'deferred';
+      expected.current_run.application_completed_at=receipt.completed_at;
+      expected.current_run.receipt=added;
+      if(!same(expected,after))throw new Error('Run completion changes unrelated worker state');
+      const ids=actions.map(a=>a?.candidate_id);
+      const expectedPilot={attempted_candidate_ids:ids,newly_passed_checks:{duplicates:ids},requests:{source:0,paid:0,openalex:0},
+       manual_admitted:[],all_six_completed:[],actual_publications:[],integrity_passed:null,checkpoint_failures:null,
+       resolvable_gate_count:null,all_candidates_legitimately_held:null,
+       remaining_blockers:['Subsequent gates and source work were not executed in this mechanical pass.']};
+      if(!same(receipt.pilot,expectedPilot))throw new Error('Run completion progress report is inconsistent');
+      for(const action of actions){
+        if(!action||!/^config\/content_review_mechanical_checkpoints\/[0-9a-f]{64}\.json$/.test(action.path||'')||
+           !same(Object.keys(action).sort(),['candidate_id','collection','content_sha256','gate','path'])||
+           typeof action.collection!=='string'||typeof action.candidate_id!=='string'||!SHA256.test(action.content_sha256||'')||action.gate!=='duplicates')
+          throw new Error('Run completion action is invalid');
+        const saved=response(await file(action.path,proof.expected_head),'Cannot read completed checkpoint');
+        let evidence;try{evidence=JSON.parse(saved.content);}catch{throw new Error('Completed checkpoint is invalid');}
+        if(evidence.kind!=='duplicate_checkpoint'||evidence.status!=='passed'||evidence.run_id!==proof.run_id||
+           evidence.collection!==action.collection||evidence.candidate_id!==action.candidate_id||
+           evidence.content_sha256!==action.content_sha256||evidence.source_main_commit!==proof.expected_main)
+          throw new Error('Completed checkpoint identity differs');
+      }
+    }
   }
   const existing = await file(added, proof.expected_head);
   if (!existing || existing.isError !== true || existing.structuredContent?.error_code !== 'NOT_FOUND')
@@ -92,7 +143,7 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
   const tree = response(await api.createTree({...common, base_tree_sha:proof.base_tree_sha, tree_elements:created}), 'Cannot create checkpoint tree');
   if (!SHA.test(tree.sha || '')) throw new Error('Checkpoint tree identity is invalid');
   const commit = response(await api.createCommit({...common, parent_sha:proof.expected_head, tree_sha:tree.sha,
-                                                   message:kind==='source_request'?'Reserve bounded source evidence request':kind==='source_result'?'Record verified source evidence usage':kind==='source_retention'?'Retain verified source evidence':'Checkpoint bounded content review evidence'}), 'Cannot create checkpoint commit');
+                                                   message:kind==='source_request'?'Reserve bounded source evidence request':kind==='source_result'?'Record verified source evidence usage':kind==='source_retention'?'Retain verified source evidence':kind==='run_completion'?'Record run outcome and release review lease':'Checkpoint bounded content review evidence'}), 'Cannot create checkpoint commit');
   if (!SHA.test(commit.sha || '')) throw new Error('Checkpoint commit identity is invalid');
   // The fence must independently reread the current D1/main/lease state. An
   // asynchronous heartbeat can move the head; the last read and CAS then fail.
@@ -106,8 +157,8 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
         observation.lease_owner !== proof.lease_owner || observation.run_id !== proof.run_id || !Number.isFinite(time) ||
         !Number.isFinite(checked) || checked > time || time-checked > 10000 ||
         !Number.isFinite(heartbeat) || heartbeat > time || time-heartbeat > 40000 ||
-        !Number.isFinite(expiry) || expiry-time <= 120000 || !Number.isFinite(started) || started > time ||
-        time-started > (kind==='source_result'?720000:600000))
+        !Number.isFinite(expiry) || expiry-time <= (kind==='run_completion'?0:120000) || !Number.isFinite(started) || started > time ||
+        time-started > (['source_result','run_completion'].includes(kind)?720000:600000))
       throw new Error('Fresh lease, D1, source or budget fence failed');
   }
   requireFence();

@@ -14,6 +14,10 @@ from tools.content_review.verified_inputs import SHA, _git, _path_blob
 
 WORKER = 'config/content_review_worker_status.json'
 CONFIG = 'config/content_review_monitor_config.json'
+RETIRED_TARGETS = frozenset({'Automation_0ff7fb9b800481919b48ddb2593b8f88',
+                             'Automation_4eb2dd829aa88191b542d57f7008ebe3',
+                             'Automation_88611f57231c81918d7ee01f7cd59c42',
+                             'Automation_5bfb7f72636c819198bdbf0367081338'})
 
 
 def prepare(repo, head, native, owner, run_id, phase, *, at=None, failure_code=None):
@@ -37,7 +41,8 @@ def prepare(repo, head, native, owner, run_id, phase, *, at=None, failure_code=N
     if not isinstance(state, dict) or not isinstance(config, dict):
         raise ValueError('Committed worker state or configuration is invalid')
     target = config.get('target_automation_id')
-    if not isinstance(target, str) or not re.fullmatch(r'Automation_[a-zA-Z0-9]+', target):
+    if (not isinstance(target, str) or not re.fullmatch(r'Automation_[a-zA-Z0-9]+', target)
+        or (target in RETIRED_TARGETS and phase != 'abort')):
         raise ValueError('Current target automation is unavailable')
     # A failure may make native access unavailable. Release only the exact
     # current owner's unexpired lease, retaining a dated application failure.

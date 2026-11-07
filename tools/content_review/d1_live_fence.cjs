@@ -24,7 +24,9 @@ function createFence({proof,bundle,readSnapshot,readReviewHead,readMainHead,read
   if(proof.heartbeat_head!=null&&(!H.test(proof.heartbeat_head)||typeof readHeartbeat!=='function'))
     throw new Error('Separate heartbeat reader is required');
   let state;
-  try{state=JSON.parse(bundle.files[WORKER]);}catch{throw new Error('Guarded worker state is unavailable');}
+  try{state=proof.kind==='run_completion'?proof.fence_state:JSON.parse(bundle.files[WORKER]);}
+  catch{throw new Error('Guarded worker state is unavailable');}
+  if(!state||typeof state!=='object')throw new Error('Guarded worker state is unavailable');
   const lease=state.lease||{},run=state.current_run||{},scheduler=run.scheduler||{};
   if(lease.owner!==proof.lease_owner||lease.run_id!==proof.run_id||run.run_id!==proof.run_id||
      run.application_status!=='running'||typeof scheduler.id!=='string'||!scheduler.id)
@@ -57,8 +59,8 @@ function createFence({proof,bundle,readSnapshot,readReviewHead,readMainHead,read
     }
     const time=now(), observed=Date.parse(heartbeat), expiry=Date.parse(lease.expires_at), started=Date.parse(run.started_at);
     if(!Number.isFinite(time)||!Number.isFinite(observed)||observed>time||time-observed>40000||
-       !Number.isFinite(expiry)||expiry-time<=120000||!Number.isFinite(started)||started>time||
-       time-started>(proof.kind==='source_result'?720000:600000))
+       !Number.isFinite(expiry)||expiry-time<=(proof.kind==='run_completion'?0:120000)||!Number.isFinite(started)||started>time||
+       time-started>(['source_result','run_completion'].includes(proof.kind)?720000:600000))
       throw new Error('Lease heartbeat or work budget expired during D1 read');
     return {verified:true,expectedHead:review,main_head:main,d1_fingerprint_private:a,
             lease_owner:lease.owner,run_id:run.run_id,heartbeat_at:heartbeat,

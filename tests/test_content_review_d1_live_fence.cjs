@@ -56,3 +56,14 @@ test('separate fresh heartbeat permits a long read without moving the review hea
  const result=await createFence(f)({expectedHead:head});assert.equal(result.heartbeat_at,record.observed_at);
  record.review_head='e'.repeat(40);await assert.rejects(createFence(f)({expectedHead:head}),/not verified/);
 });
+test('completion fences the owned pre-release state during the final reserve',async()=>{
+ const f=fixture(),state=JSON.parse(f.bundle.files['config/content_review_worker_status.json']);
+ state.current_run.started_at='2026-11-06T23:39:20Z';state.current_run.observed_at='2026-11-06T23:50:10Z';
+ state.lease.expires_at='2026-11-06T23:51:00Z';
+ f.native.run_details.last_run.started_at=state.current_run.started_at;
+ f.proof.kind='run_completion';f.proof.fence_state=state;
+ f.bundle.files['config/content_review_worker_status.json']=JSON.stringify({lease:null,current_run:{application_status:'complete'}});
+ assert.equal((await createFence(f)({expectedHead:head})).verified,true);
+ f.now=()=>Date.parse('2026-11-06T23:51:01Z');
+ await assert.rejects(createFence(f)({expectedHead:head}),/expired/);
+});

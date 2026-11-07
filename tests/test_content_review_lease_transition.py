@@ -106,3 +106,13 @@ def test_unverified_native_schedule_cannot_acquire_lease(tmp_path, change):
     if change=='wrong_slot':native['run_details']['last_run']['scheduled_for']='2026-11-06T23:51:00Z'
     if change=='approval':native['run_details']['latest_result']={'run_id':run,'requires_user_action':True}
     with pytest.raises(ValueError):prepare(tmp_path, head, native, 'worker', run, 'start', at=now)
+
+
+def test_retired_worker_cannot_acquire_even_if_accidentally_enabled(tmp_path):
+    now,native,run,_,_=fixture(tmp_path)
+    retired='Automation_4eb2dd829aa88191b542d57f7008ebe3'
+    put(tmp_path,'config/content_review_monitor_config.json',{'target_automation_id':retired})
+    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','retired target')
+    native['id']=retired
+    with pytest.raises(ValueError,match='target automation is unavailable'):
+        prepare(tmp_path,git(tmp_path,'rev-parse','HEAD'),native,'worker',run,'start',at=now)

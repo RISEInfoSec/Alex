@@ -115,6 +115,12 @@ without retained evidence that the previous lease expired. It performs no write.
 for the configured native run. `github_atomic_lease.cjs` can publish and read
 back that single state file with an expected-head update. Neither component
 installs a scheduler, obtains native evidence, nor guarantees a live heartbeat.
+`run_completion.py` prepares a canonical run receipt and releases the lease
+only after revalidating committed mechanical checkpoints, the reviewed hashes,
+two current D1 reads, a fresh detached heartbeat and the observed native run.
+It records an empty pass as `no_work`, never as successful processing. The
+atomic writer supports this two-file completion bundle with the final D1 and
+lease fence. These components are not connected to an installed scheduler.
 `heartbeat_evidence.py`, `detached_heartbeat.py` and
 `github_atomic_heartbeat.cjs` prepare, verify and write liveness on a separate
 Git ref, bound to the exact review head and lease. The ref has been created,
