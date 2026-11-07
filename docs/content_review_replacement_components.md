@@ -115,9 +115,16 @@ write endpoint has been installed.
 
 `site_d1_reader.cjs` prepares two bounded, complete reads of the three review
 tables through the Site's existing database binding, checking schema, counts,
-rows and heartbeat between reads. It does not write to D1, and its real Site
-binding has not yet been verified. The caller must keep the lease alive during
+rows and heartbeat between reads. A temporary read-only Site diagnostic on
+November 7 verified both reads against the live binding: 70 submissions, 937
+decisions and 615 jobs. The diagnostic was removed afterward. This was not a
+lease or candidate-processing test. The caller must keep the lease alive during
 each database call and perform the final live fence before a GitHub update.
+`site_snapshot_service.mjs` prepares a bounded, no-store service-only response
+for that reader. It relies on owner-private Sites dispatch to authenticate the
+service caller, rejects signed-in visitor requests, and never logs database
+values or error messages. The result does not assert a verified lease. The
+Site route and scheduler still need installation and end-to-end verification.
 
 Two matching paginated reads are not a database transaction. The coordinator
 must take complete fresh reads and recheck their fingerprint and immutable Git
