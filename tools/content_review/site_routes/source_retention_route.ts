@@ -24,8 +24,8 @@ export async function POST(request:Request){
  }catch(error){
   const message=error instanceof Error?error.message:'',reasons:Record<string,string>={
    'request_too_large':'request_too_large','invalid_request':'invalid_request','Invalid source retention request':'invalid_request',
-   'Invalid source retention file inventory':'invalid_request','Source retention identity invalid':'invalid_request',
-   'Source retention head changed':'source_head_changed','Current worker lease or heartbeat is unavailable':'worker_not_verified',
+   'Invalid source retention file inventory':'invalid_request','Source retention receipt identity invalid':'invalid_request',
+   'Source retention proposal expired before fence':'proposal_expired','Source retention head changed':'source_head_changed','Current worker lease or heartbeat is unavailable':'worker_not_verified',
    'Review decisions changed since preparation':'decisions_changed',
    'Heartbeat renewal outcome unconfirmed; reconcile heartbeat branch':'heartbeat_unconfirmed_reconcile_ref',
    'Source retention fence state unconfirmed; inspect fence':'fence_state_unconfirmed',

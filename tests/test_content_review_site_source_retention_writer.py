@@ -40,13 +40,14 @@ def invoke(value,mode):
     code=r"""import crypto from 'node:crypto';import {writeSourceRetention} from './tools/content_review/site_source_retention_writer.mjs';
 let raw='';for await(const chunk of process.stdin)raw+=chunk;const v=JSON.parse(raw),mode=v.mode;
 const hash=s=>crypto.createHash('sha1').update(`blob ${Buffer.byteLength(s)}\0`).update(s).digest('hex');
-const ok=x=>({isError:false,structuredContent:x});let phase='idle',commits=0,blobs=0,events=[];
+const ok=x=>({isError:false,structuredContent:x});let phase='idle',commits=0,blobs=0,events=[],clockOffset=0;
 const commit='d'.repeat(40),tree='c'.repeat(40),api={
  fetchCommit:async({commit_sha})=>ok({commit:{sha:commit_sha==='main'?v.input.expectedMain:v.input.expectedHead}}),
  fetchCommitDetails:async({commit_sha})=>v.details[commit_sha]?ok(v.details[commit_sha]):({isError:true}),
  fetchFile:async({path,ref})=>{const item=v.files[ref+':'+path];return item?ok(item):({isError:true,structuredContent:{error_code:'NOT_FOUND'}})},
  createBlob:async({content})=>{blobs++;return ok({sha:hash(content)})},
- createTree:async({base_tree_sha})=>ok({sha:base_tree_sha===v.details[v.parent].tree_sha?(mode==='tree'?'f'.repeat(40):v.details[v.reservation].tree_sha):tree}),
+ createTree:async({base_tree_sha})=>{if(base_tree_sha===v.details[v.parent].tree_sha)return ok({sha:mode==='tree'?'f'.repeat(40):v.details[v.reservation].tree_sha});
+  if(mode==='expired')clockOffset=41000;return ok({sha:tree})},
  commitOnBranch:async()=>{commits++;if(mode==='ambiguous')throw Error('lost');return ok({success:true,sha:commit})}};
 const control=async({input})=>{events.push(input.action);if(input.action==='acquire'){phase='preparing';return {status:'acquired'}}
  if(input.action==='begin'){if(mode==='changed')throw Error('D1 changed');phase='committing';return {status:'committing'}}
@@ -57,7 +58,7 @@ const artifactReader=async()=>{if(mode==='artifact')throw Error('Artifact digest
 const heartbeatFactory=()=>async()=>({renewed:false});
 if(mode==='receipt'){const p=Object.keys(v.input.files).find(x=>x.includes('source_checkpoints/')),r=JSON.parse(v.input.files[p]);
  r.publication_approved=true;v.input.files[p]=JSON.stringify(r)}
-try{const result=await writeSourceRetention({db:{},github:api,getToken:()=> 'not-used',input:v.input,now:()=>v.now,read,control,verify,artifactReader,heartbeatFactory});
+try{const result=await writeSourceRetention({db:{},github:api,getToken:()=> 'not-used',input:v.input,now:()=>v.now+clockOffset,read,control,verify,artifactReader,heartbeatFactory});
  process.stdout.write(JSON.stringify({result,commits,blobs,phase,events}));}
 catch(e){process.stdout.write(JSON.stringify({error:e.message,commits,blobs,phase,events}));}"""
     result=subprocess.run(['node','--input-type=module','-e',code],cwd=ROOT,input=json.dumps({**value,'mode':mode}),text=True,capture_output=True)
@@ -72,9 +73,10 @@ def test_source_retention_fences_verified_evidence_without_passing_gate(tmp_path
     assert result['events']==['acquire','begin','release'] and result['commits']==1
 
 
-@pytest.mark.parametrize('mode',['tree','artifact','receipt','unverified','changed','ambiguous'])
+@pytest.mark.parametrize('mode',['tree','artifact','receipt','unverified','changed','ambiguous','expired'])
 def test_source_retention_rejects_unverified_evidence_and_preserves_fence(tmp_path,mode):
     result=invoke(request(tmp_path),mode);assert 'error' in result
     if mode in ('tree','artifact','receipt','unverified'):assert result['blobs']==0 and result['commits']==0 and result['events']==[]
+    if mode=='expired':assert result['commits']==0 and result['events']==[] and 'expired' in result['error']
     if mode=='changed':assert result['commits']==0 and result['events']==['acquire','begin','abort'] and result['phase']=='idle'
     if mode=='ambiguous':assert result['commits']==1 and result['phase']=='committing'

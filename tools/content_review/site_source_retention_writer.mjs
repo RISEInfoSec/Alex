@@ -52,10 +52,12 @@ export async function writeSourceRetention({db,github,getToken,input,now=()=>Dat
   entry[0].manifest_url!=='https://raw.githubusercontent.com/RISEInfoSec/Alex/'+REVIEW+'/'+manifests[0])throw Error('Source retention manifest differs from registry');
  const before=(await readJson(manifests[0],input.expectedHead)).value,state=(await readJson(WORKER,input.expectedHead)).value;
  const policy=(await readJson(POLICY,input.expectedHead)).value?.bounded_processing_pilot||{},started=Date.parse(state.current_run?.started_at||''),expiry=Date.parse(state.lease?.expires_at||'');
- if(!Number.isSafeInteger(policy.total_runtime_seconds)||!Number.isSafeInteger(policy.checkpoint_reserve_seconds)||policy.total_runtime_seconds>720||
-  policy.checkpoint_reserve_seconds<120||policy.total_runtime_seconds<=policy.checkpoint_reserve_seconds||!Number.isFinite(started)||!Number.isFinite(expiry)||
-  now()<started||now()-started+20000>=(policy.total_runtime_seconds-policy.checkpoint_reserve_seconds)*1000||
-  expiry-now()<=(policy.checkpoint_reserve_seconds+20)*1000)throw Error('Source retention has no checkpoint reserve');
+ const checkWindow=()=>{const instant=now();
+  if(!Number.isSafeInteger(policy.total_runtime_seconds)||!Number.isSafeInteger(policy.checkpoint_reserve_seconds)||policy.total_runtime_seconds>720||
+   policy.checkpoint_reserve_seconds<120||policy.total_runtime_seconds<=policy.checkpoint_reserve_seconds||!Number.isFinite(started)||!Number.isFinite(expiry)||
+   !Number.isFinite(instant)||instant<started||instant-started+20000>=(policy.total_runtime_seconds-policy.checkpoint_reserve_seconds)*1000||
+   expiry-instant<=(policy.checkpoint_reserve_seconds+20)*1000)throw Error('Source retention has no checkpoint reserve');};
+ checkWindow();
  const sourceRequest=await readJson(requestPath,input.expectedHead),sourceReceipt=(await readJson(sourceReceiptPath,input.expectedHead)).value;
  const prior=await github.fetchFile({repository_full_name:REPO,path:receipts[0],ref:input.expectedHead});
  if(!prior?.isError||prior.structuredContent?.error_code!=='NOT_FOUND')throw Error('Source retention receipt already exists');
@@ -100,6 +102,9 @@ export async function writeSourceRetention({db,github,getToken,input,now=()=>Dat
  }
  const tree=ok(await github.createTree({repository_full_name:REPO,base_tree_sha:currentDetails.tree_sha,tree_elements:additions}),'Source retention tree unavailable');
  if(!SHA.test(tree.sha||''))throw Error('Source retention tree invalid');
+ checkWindow();
+ const checkedAt=Date.parse(receipt.checked_at||'');
+ if(!Number.isFinite(checkedAt)||checkedAt>now()||now()-checkedAt>40000)throw Error('Source retention proposal expired before fence');
  const fence={action:'acquire',operationId:crypto.randomUUID(),owner:input.owner,runId:input.runId,expectedHead:input.expectedHead,expectedMain:input.expectedMain,
   expectedTree:tree.sha,receiptPath:receipts[0],receiptBlob:additions.find(x=>x.path===receipts[0]).sha,d1Fingerprint:fingerprints.fingerprint(snapshots.snapshot)};
  let mayHaveFence=false,commitAttempted=false;
