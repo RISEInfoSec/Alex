@@ -36,14 +36,15 @@ async function context(github,input,now){
  const head=async branch=>unwrap(await github.fetchCommit({repo_full_name:REPO,commit_sha:branch}))?.commit?.sha;
  const [review,main]=await Promise.all([head(REVIEW),head(MAIN)]);
  if(review!==input.expectedHead||main!==input.expectedMain)throw Error('Source head changed');
- const [state,config,heartbeat]=await Promise.all([
-  verifiedJson(github,WORKER,review),verifiedJson(github,CONFIG,review),
-  heartbeatReader.readHeartbeat({api:github,linkId:'site',gitBlobSha1:gitHash.gitBlobSha1})]);
- const target=config.target_automation_id,lease=state.lease||{},run=state.current_run||{},scheduler=run.scheduler||{},h=heartbeat.record;
+ const [state,config]=await Promise.all([verifiedJson(github,WORKER,review),verifiedJson(github,CONFIG,review)]);
+ const target=config.target_automation_id;
+ if(typeof target!=='string'||!/^Automation_[a-zA-Z0-9]+$/.test(target)||RETIRED.has(target)||config.heartbeat_ref!=='codex/content-review-heartbeat')
+  throw Error('Current worker lease or heartbeat is unavailable');
+ const heartbeat=await heartbeatReader.readHeartbeat({api:github,linkId:'site',gitBlobSha1:gitHash.gitBlobSha1});
+ const lease=state.lease||{},run=state.current_run||{},scheduler=run.scheduler||{},h=heartbeat.record;
  const time=now(),started=instant(run.started_at),scheduled=instant(run.scheduled_for),nativeObserved=instant(scheduler.observed_at),
   acquired=instant(lease.acquired_at),expires=instant(lease.expires_at),observed=instant(h?.observed_at);
- if(typeof target!=='string'||!/^Automation_[a-zA-Z0-9]+$/.test(target)||RETIRED.has(target)||config.heartbeat_ref!=='codex/content-review-heartbeat'||
-    lease.owner!==input.owner||lease.run_id!==input.runId||run.run_id!==input.runId||run.application_status!=='running'||
+ if(lease.owner!==input.owner||lease.run_id!==input.runId||run.run_id!==input.runId||run.application_status!=='running'||
     scheduler.id!==target||scheduler.is_enabled!==true||scheduler.last_run?.id!==input.runId||scheduler.last_run?.recorded_status!=='in_progress'||
     !h||h.schema_version!==1||h.review_head!==review||h.owner!==input.owner||h.run_id!==input.runId||h.scheduler_id!==target||
     h.started_at!==run.started_at||h.lease_acquired_at!==lease.acquired_at||h.lease_expires_at!==lease.expires_at||

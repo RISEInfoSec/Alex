@@ -58,6 +58,13 @@ test('retired target, stale heartbeat or changed source never acquire a fence',a
   await assert.rejects(call(f,'acquire'));assert.equal(f.current(),null);
  }
 });
+test('a retired target is rejected without consulting the heartbeat ref',async()=>{
+ const f=fixture();f.config.target_automation_id='Automation_4eb2dd829aa88191b542d57f7008ebe3';
+ const original=f.github.fetchCommit;let heartbeatReads=0;
+ f.github.fetchCommit=async args=>{if(args.commit_sha==='codex/content-review-heartbeat')heartbeatReads++;return original(args);};
+ await assert.rejects(call(f,'acquire'),/worker lease or heartbeat/);
+ assert.equal(heartbeatReads,0);assert.equal(f.current(),null);
+});
 test('only a verified matching committed tree releases a committing fence',async()=>{
  const f=fixture();await call(f,'acquire');await call(f,'begin');
  await assert.rejects(call(f,'release'));assert.equal(f.current().phase,'committing');
