@@ -27,10 +27,16 @@ selection. It does not persist that overlay or acquire the writer lease.
 lease, heartbeat, D1 reads and registry. It lists an explicit disposition for
 every registered collection, reports APWG, the corpus audit and Virus Bulletin
 as requiring their separate adapters, and sets OpenAlex and paid requests to zero for the plan.
-The plan performs no candidate work, network calls or writes.
+Per-collection matching-decision counts are reconciliation observations, not
+processed work. The plan performs no candidate work, network calls or writes.
 `apwg_adapter.py` reproduces the Site's filtered APWG candidate IDs, content
 hashes and batches for decision reconciliation. APWG execution still needs a
 separate source/decision writer; normalization is not processing.
+`corpus_audit_adapter.py` classifies matched audit decisions in memory. A
+rejection remains a removal-review request, requires the corresponding D1
+job and matching original record, and never authorizes deletion. The derived
+outcomes are private and must not be logged or committed. Live public target,
+lease and D1 checks remain mandatory before any eventual publication action.
 
 `verified_inputs.py` loads registered collection manifests, main-branch public
 corpus, exclusions and current queue, and the preserved original weekly queue

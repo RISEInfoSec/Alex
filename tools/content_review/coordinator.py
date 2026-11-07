@@ -80,6 +80,7 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
                 for item in eligible[:INITIAL_LIMIT]]
     available, selected_counts = Counter(x['collection'] for x in eligible), Counter(x['collection'] for x in selected)
     held = Counter(x['collection'] for x in result['reconciliation']['held'])
+    decisions = Counter(x['collection'] for x in result['reconciliation']['matched_decisions'])
     coverage = []
     for entry in registry:
         collection = entry['id']
@@ -97,6 +98,7 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
             reason = 'no_due_candidate_in_supplied_snapshot'
         coverage.append({'collection': collection, 'eligible': available[collection],
                          'selected': selected_counts[collection], 'decision_holds': held[collection],
+                         'matched_review_decisions': decisions[collection],
                          'disposition': reason})
     return {'status': 'plan_only', 'selected': selected, 'coverage': coverage,
             'candidate_limit': INITIAL_LIMIT, 'openalex_requests_permitted': 0,

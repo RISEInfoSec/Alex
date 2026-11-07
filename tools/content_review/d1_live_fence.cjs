@@ -42,6 +42,7 @@ function createFence({proof,bundle,readSnapshot,readReviewHead,readMainHead,read
     if(review!==proof.expected_head||main!==proof.expected_main)throw new Error('A source branch head changed');
     if(!native||native.id!==scheduler.id||native.is_enabled!==true||last?.id!==proof.run_id||
        last.recorded_status!=='in_progress'||Date.parse(last.started_at)!==Date.parse(run.started_at)||
+       !Number.isFinite(Date.parse(last.scheduled_for))||Date.parse(last.scheduled_for)!==Date.parse(run.scheduled_for)||
        (latest?.run_id===proof.run_id&&latest?.requires_user_action===true))
       throw new Error('Native worker is not confirmed in progress');
     let heartbeat=run.observed_at;

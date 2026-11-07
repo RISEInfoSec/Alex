@@ -41,6 +41,7 @@ def test_plan_covers_registered_routes_without_writes_or_openalex():
     assert {x['collection'] for x in result['coverage']} == {'weekly', 'first', 'apwg', 'corpus-audit'}
     assert next(x for x in result['coverage'] if x['collection'] == 'first')['disposition'] == 'manifest_unavailable'
     assert next(x for x in result['coverage'] if x['collection'] == 'apwg')['disposition'] == 'separate_collection_adapter_required'
+    assert next(x for x in result['coverage'] if x['collection'] == 'weekly')['matched_review_decisions'] == 1
     assert result['status'] == 'plan_only' and result['writes'] == 0
     assert result['openalex_requests_permitted'] == 0 and result['paid_requests'] == 0
     assert result['snapshot_recheck_required'] and result['lease_readback_required']

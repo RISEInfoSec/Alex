@@ -12,9 +12,9 @@ function snapshot(){return {submissions:[{id:'s',decision:'stored'}],decisions:[
 function fixture(){
  const initial=snapshot(),digest=fingerprint(initial);
  const state={lease:{owner:'worker',run_id:'run',expires_at:'2026-11-07T00:20:00Z'},
-  current_run:{run_id:'run',application_status:'running',started_at:'2026-11-06T23:50:01Z',observed_at:'2026-11-06T23:50:10Z',
+  current_run:{run_id:'run',application_status:'running',started_at:'2026-11-06T23:50:01Z',scheduled_for:'2026-11-06T23:50:00Z',observed_at:'2026-11-06T23:50:10Z',
                scheduler:{id:'Automation_worker123'}}};
- const native={id:'Automation_worker123',is_enabled:true,run_details:{last_run:{id:'run',recorded_status:'in_progress',started_at:'2026-11-06T23:50:01Z'}}};
+ const native={id:'Automation_worker123',is_enabled:true,run_details:{last_run:{id:'run',recorded_status:'in_progress',started_at:'2026-11-06T23:50:01Z',scheduled_for:'2026-11-06T23:50:00Z'}}};
  return {proof:{expected_head:head,expected_main:main,d1_fingerprint_private:digest,lease_owner:'worker',run_id:'run'},
   bundle:{d1_fingerprint_private:digest,files:{'config/content_review_worker_status.json':JSON.stringify(state)}},
   readSnapshot:async()=>({snapshot:snapshot(),confirmed_snapshot:snapshot(),transactional_snapshot:false}),
