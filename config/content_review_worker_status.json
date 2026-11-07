@@ -9,10 +9,10 @@
   "soups_min_ready_batches": 0,
   "last_error": "Prior scheduled continuation failed without a diagnostic explanation; unattended reliability remains unverified.",
   "lease": {
-    "owner": "content-review-worker-925f1d8d-875c-8322-aebb-03ecd121a67f",
-    "run_id": "925f1d8d-875c-8322-aebb-03ecd121a67f",
-    "acquired_at": "2026-11-07T02:46:52.726Z",
-    "expires_at": "2026-11-07T03:16:52.726Z",
+    "owner": "content-review-worker-843a2fa3-86f8-8322-8d96-177ef301072b",
+    "run_id": "843a2fa3-86f8-8322-8d96-177ef301072b",
+    "acquired_at": "2026-11-07T02:47:15.713Z",
+    "expires_at": "2026-11-07T03:17:15.713Z",
     "purpose": "Bounded scheduled Content Review pilot across all eligible collections"
   },
   "instructions": "docs/content_review_background_worker.md",
@@ -938,6 +938,16 @@
       "purpose": "Continue owner-authorized recovery after failed unattended run; both hourly checks remain paused",
       "status": "expired",
       "expiry_observed_at": "2026-11-06T04:32:28.818852+00:00"
+    },
+    {
+      "owner": "content-review-worker-925f1d8d-875c-8322-aebb-03ecd121a67f",
+      "run_id": "925f1d8d-875c-8322-aebb-03ecd121a67f",
+      "acquired_at": "2026-11-07T02:46:52.726Z",
+      "expires_at": "2026-11-07T03:16:52.726Z",
+      "purpose": "Bounded scheduled Content Review pilot across all eligible collections",
+      "status": "invalid_run_mismatch",
+      "released_at": "2026-11-07T02:47:15.713Z",
+      "release_reason": "Lease readback did not match current native in-progress run; corrected before status or candidate work."
     }
   ]
 }
