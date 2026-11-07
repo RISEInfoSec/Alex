@@ -1,6 +1,6 @@
 # Alex v2.1.1 Production-Ready Package
 
-Alex is a production-oriented discovery, evaluation, enrichment, and publishing pipeline for building a **high-quality OSINT + cybersecurity research corpus**.
+Alex is a production-oriented discovery, evaluation, enrichment, and publishing pipeline for building a **high-quality OSINT + cybercrime research corpus**.
 
 ## ALEX research data reuse and licensing
 
