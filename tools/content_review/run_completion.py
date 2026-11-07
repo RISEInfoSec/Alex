@@ -174,8 +174,10 @@ def prepare(repo, review_head, main_head, heartbeat_head, native, snapshot, conf
         blobs[path] = {'blob_sha': hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest(),
                        'size': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
     tree = _git(repo, 'rev-parse', review_head+'^{tree}').decode('ascii').strip()
+    from tools.content_review.proposed_tree import bind_guarded
+    expected_tree = bind_guarded(repo, review_head, files, {WORKER:state_meta}, receipt_path, blobs)
     return {'status':'prepared', 'kind':'run_completion', 'files':files, 'blobs':blobs,
             'base_blobs':{WORKER:state_meta}, 'new_path':receipt_path, 'expected_head':review_head,
-            'expected_main':main_head, 'base_tree_sha':tree, 'heartbeat_head':heartbeat_head,
+            'expected_main':main_head, 'base_tree_sha':tree, 'expected_tree':expected_tree, 'heartbeat_head':heartbeat_head,
             'd1_fingerprint_private':checked['snapshot_sha256'], 'lease_owner':owner, 'run_id':run_id, 'fence_state':state,
             'requires_remote_head_d1_and_lease_recheck':True, 'native_completion_verified':False, 'writes':0}

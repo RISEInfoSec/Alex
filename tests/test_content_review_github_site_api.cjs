@@ -7,6 +7,7 @@ function fixture(){
  const fetcher=async(url,options)=>{
   calls.push({url,options});assert.ok(url.startsWith('https://api.github.com/'));
   assert.equal(options.headers.Authorization,'Bearer test-secret');assert.equal(options.redirect,'error');
+  if(url.includes('/git/commits/'))return Response.json({sha:head,tree:{sha:blob},parents:[{sha:commit}]});
   if(url.includes('/commits/'))return Response.json({sha:head});
   if(url.includes('/contents/'))return Response.json({sha:blob,encoding:'base64',content:btoa('file')});
   if(url.endsWith('/git/blobs'))return Response.json({sha:blob});
@@ -18,6 +19,8 @@ function fixture(){
 test('Site adapter sends exact-head atomic changes only to GitHub',async()=>{
  const {api,calls}=fixture();
  assert.equal((await api.fetchCommit({repo_full_name:repo,commit_sha:branch})).structuredContent.commit.sha,head);
+ assert.deepEqual((await api.fetchCommitDetails({repository_full_name:repo,commit_sha:head})).structuredContent,
+  {sha:head,tree_sha:blob,parents:[commit]});
  assert.equal((await api.fetchFile({repository_full_name:repo,path:'config/state.json',ref:head})).structuredContent.content,'file');
  assert.equal((await api.createBlob({repository_full_name:repo,encoding:'utf-8',content:'texte é'})).structuredContent.sha,blob);
  const result=await api.commitOnBranch({repository_full_name:repo,branch_name:branch,expected_sha:head,

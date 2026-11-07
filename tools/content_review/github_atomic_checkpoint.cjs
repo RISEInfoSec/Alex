@@ -43,9 +43,9 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
   if (!api || !linkId || !bundle || !proof || typeof fence !== 'function' || typeof now !== 'function')
     throw new Error('Connector, guarded checkpoint and live fence are required');
   const siteAtomic=typeof api.commitOnBranch==='function';
-  for (const method of ['fetchCommit', 'fetchFile', 'createBlob', ...(siteAtomic?[]:['createTree','createCommit','updateRef'])])
+  for (const method of ['fetchCommit', 'fetchFile', 'createBlob', ...(siteAtomic?['fetchCommitDetails']:['createTree','createCommit','updateRef'])])
     if (typeof api[method] !== 'function') throw new Error('Required GitHub connector operation is unavailable');
-  if (!SHA.test(proof.expected_head || '') || !SHA.test(proof.expected_main || '') || !SHA.test(proof.base_tree_sha || '') ||
+  if (!SHA.test(proof.expected_head || '') || !SHA.test(proof.expected_main || '') || !SHA.test(proof.base_tree_sha || '') || !SHA.test(proof.expected_tree || '') ||
       !SHA256.test(proof.d1_fingerprint_private || '') || typeof proof.lease_owner !== 'string' || !proof.lease_owner ||
       typeof proof.run_id !== 'string' || !proof.run_id ||
       proof.requires_remote_head_d1_and_lease_recheck !== true || proof.writes !== 0 ||
@@ -145,7 +145,7 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
   let tree=null,commit=null;
   if(!siteAtomic){
     tree = response(await api.createTree({...common, base_tree_sha:proof.base_tree_sha, tree_elements:created}), 'Cannot create checkpoint tree');
-    if (!SHA.test(tree.sha || '')) throw new Error('Checkpoint tree identity is invalid');
+    if (tree.sha !== proof.expected_tree) throw new Error('Checkpoint tree differs from guarded proposal');
     commit = response(await api.createCommit({...common, parent_sha:proof.expected_head, tree_sha:tree.sha, message}), 'Cannot create checkpoint commit');
     if (!SHA.test(commit.sha || '')) throw new Error('Checkpoint commit identity is invalid');
   }
@@ -185,11 +185,17 @@ async function commitCheckpoint({api, linkId, bundle, proof, fence, now=()=>Date
       throw new Error('Checkpoint update was rejected or ambiguous; reconcile commit ' + commit.sha + ' before retrying');
   }
   if (await head() !== commit.sha) throw new Error('Checkpoint head readback failed; reconcile before retrying');
+  if(siteAtomic){
+    const details=response(await api.fetchCommitDetails({...common,commit_sha:commit.sha}),'Checkpoint commit readback failed');
+    if(details.sha!==commit.sha||details.tree_sha!==proof.expected_tree||!Array.isArray(details.parents)||
+       details.parents.length!==1||details.parents[0]!==proof.expected_head)
+      throw new Error('Checkpoint commit tree or parent differs; reconcile before retrying');
+  }
   for (const path of paths) {
     const current = response(await file(path, commit.sha), 'Checkpoint blob readback failed');
     if (current.sha !== blobs[path].blob_sha) throw new Error('Checkpoint blob readback mismatch; stop work');
   }
-  return {status:'committed_and_read_back', commit_sha:commit.sha, tree_sha:tree?.sha||null,
+  return {status:'committed_and_read_back', commit_sha:commit.sha, tree_sha:proof.expected_tree,
           checkpoint_paths:paths, publication_verified:false};
 }
 

@@ -49,7 +49,7 @@ function fixture() {
     lease_owner:'worker',run_id:'run',checked_at:'2026-11-06T23:50:20Z',heartbeat_at:'2026-11-06T23:50:10Z',
     lease_expires_at:'2026-11-07T00:20:00Z',started_at:'2026-11-06T23:50:01Z'};
   return {api,linkId:'account',bundle:{status:'prepared',writes:0,files,d1_fingerprint_private:fingerprint},
-          proof:{expected_head:oldHead,base_tree_sha:tree,blobs:metadata,base_blobs,new_path:added,
+          proof:{expected_head:oldHead,base_tree_sha:tree,expected_tree:newTree,blobs:metadata,base_blobs,new_path:added,
                  expected_main:mainHead,d1_fingerprint_private:fingerprint,lease_owner:'worker',run_id:'run',
                  requires_remote_head_d1_and_lease_recheck:true,writes:0},
           fence:async () => ({...observation}),now:()=>at,observation,
@@ -100,6 +100,10 @@ test('mismatched readback is a failure even after successful update', async () =
   f.api.fetchFile=async args => args.ref===newCommit && args.path===paths[0] ? ok({sha:'f'.repeat(40)}) : original(args);
   await assert.rejects(commitCheckpoint(f),/readback mismatch/);
   assert.equal(f.writes(),1);
+});
+test('a different computed tree is rejected before the connector updates the branch',async()=>{
+ const f=fixture();f.api.createTree=async()=>ok({sha:'f'.repeat(40)});
+ await assert.rejects(commitCheckpoint(f),/tree differs from guarded proposal/);assert.equal(f.writes(),0);
 });
 test('source request and its single reservation commit together',async()=>{
  const f=fixture(),worker='config/content_review_worker_status.json',request='config/content_review_source_requests/'+'2'.repeat(64)+'.json';
@@ -207,6 +211,7 @@ function useSiteAtomic(f){
  f.api.createTree=async()=>{throw Error('site route must not create a separate tree')};
  f.api.createCommit=async()=>{throw Error('site route must not create a separate commit')};
  f.api.updateRef=async()=>{throw Error('site route must use expected-head atomic commit')};
+ f.api.fetchCommitDetails=async()=>ok({sha:newCommit,tree_sha:newTree,parents:[oldHead]});
  f.api.commitOnBranch=async({branch_name,expected_sha,additions})=>{
   calls++;assert.equal(branch_name,'codex/soups-corpus-review');assert.equal(expected_sha,oldHead);
   f.commits[newCommit]={...f.commits[oldHead],...Object.fromEntries(additions.map(x=>[x.path,hash(x.content)]))};
@@ -218,7 +223,7 @@ function useSiteAtomic(f){
 test('Site-backed atomic commit checks the fence and reads back every blob',async()=>{
  for(const make of [fixture,completionFixture]){
   const f=make(),calls=useSiteAtomic(f),result=await commitCheckpoint(f);
-  assert.equal(calls(),1);assert.equal(result.commit_sha,newCommit);assert.equal(result.tree_sha,null);
+  assert.equal(calls(),1);assert.equal(result.commit_sha,newCommit);assert.equal(result.tree_sha,newTree);
   assert.equal(f.head(),newCommit);assert.equal(result.publication_verified,false);
  }
 });
@@ -229,6 +234,14 @@ test('Site-backed commit never runs after a stale fence or changed head',async()
   if(mode==='fence')f.fence=async()=>({...f.observation,d1_fingerprint_private:'0'.repeat(64)});
   else f.fence=async()=>{f.setHead('f'.repeat(40));return {...f.observation}};
   await assert.rejects(commitCheckpoint(f));assert.equal(calls(),0);
+ }
+});
+test('Site-backed checkpoint rejects a committed tree or parent that differs from the proof',async()=>{
+ for(const mode of ['tree','parent']){
+  const f=fixture(),calls=useSiteAtomic(f);
+  f.api.fetchCommitDetails=async()=>ok({sha:newCommit,tree_sha:mode==='tree'?'f'.repeat(40):newTree,
+   parents:[mode==='parent'?'f'.repeat(40):oldHead]});
+  await assert.rejects(commitCheckpoint(f),/tree or parent differs/);assert.equal(calls(),1);
  }
 });
 
@@ -244,6 +257,7 @@ test('Site GitHub adapter and fenced writer complete one atomic run receipt toge
  const fetcher=async(input,options)=>{
   requests++;const u=new URL(input);
   assert.equal(u.origin,'https://api.github.com');assert.equal(options.redirect,'error');
+  if(u.pathname.includes('/git/commits/'))return Response.json({sha:newCommit,tree:{sha:newTree},parents:[{sha:oldHead}]});
   if(u.pathname.includes('/commits/'))return Response.json({sha:f.head()});
   if(u.pathname.includes('/contents/')){
    const path=decodeURIComponent(u.pathname.split('/contents/')[1]),ref=u.searchParams.get('ref');

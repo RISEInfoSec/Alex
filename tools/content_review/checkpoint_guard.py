@@ -237,7 +237,9 @@ def verify(repo, review_commit, main_commit, bundle, *, heartbeat_head=None):
     tree = _git(repo, 'rev-parse', review_commit + '^{tree}').decode('ascii').strip()
     if not SHA.fullmatch(tree):
         raise ValueError('Commit tree is invalid')
-    return {'expected_head': review_commit, 'expected_main': main_commit, 'base_tree_sha': tree, 'blobs': blobs,
+    from tools.content_review.proposed_tree import bind_guarded
+    expected_tree = bind_guarded(repo, review_commit, files, bases, receipt_path, blobs)
+    return {'expected_head': review_commit, 'expected_main': main_commit, 'base_tree_sha': tree, 'expected_tree': expected_tree, 'blobs': blobs,
             'base_blobs': deepcopy(bases),
             'd1_fingerprint_private':fingerprint, 'lease_owner':lease['owner'], 'run_id':receipt['run_id'],
             'heartbeat_head':heartbeat_head,

@@ -153,6 +153,23 @@ each checkpoint or release. A changed, incomplete or unreadable state stops
 the affected work. Preserve all prior revisions and decisions; drafts are never
 final decisions. All existing publication and hash checks continue to apply.
 
+`d1_write_fence.sql` and `d1_write_fence.mjs` prepare an additional database
+fence for the interval between the final D1 check and GitHub's atomic update.
+SQLite triggers reject inserts, updates and deletes on submissions, decisions
+and review jobs while the singleton fence exists. A preparing fence can be
+aborted only by its exact owner and operation. Once the GitHub commit begins,
+release requires independently checking a single-parent commit with the
+expected full tree and receipt blob, and observing the same branch head twice.
+An unchanged, moving or unknown head remains locked. `proposed_tree.py`
+computes that tree in a temporary Git object store while leaving the repository
+index and files untouched; it does not replace semantic validation. This design
+can temporarily prevent new decision submissions, potentially until a human
+resolves an ambiguous write. It needs a clear retry message and a tested
+recovery path. The review branch currently reports `protected: false`, so
+force-push safeguards cannot be assumed. The schema, triggers and primitives
+are not installed or wired to the worker; testing them locally does not close
+the live cross-system race.
+
 `lease.py` prepares bounded acquire, renew and release state transitions and
 preserves lease history. These pure functions do not acquire a remote lease.
 `run_state.py` prepares a run-start observation while preserving the previous

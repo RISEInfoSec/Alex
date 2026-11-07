@@ -78,7 +78,9 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed,request
     if not SHA.fullmatch(tree):raise ValueError('Invalid review tree')
     private=checked['snapshot_sha256']
     bundle={'status':'prepared','writes':0,'files':files,'d1_fingerprint_private':private}
-    proof={'kind':'source_result','expected_head':review_head,'expected_main':main_head,'base_tree_sha':tree,
+    from tools.content_review.proposed_tree import bind_guarded
+    expected_tree=bind_guarded(repo,review_head,files,{WORKER:base},receipt_path,blobs)
+    proof={'kind':'source_result','expected_head':review_head,'expected_main':main_head,'base_tree_sha':tree,'expected_tree':expected_tree,
            'blobs':blobs,'base_blobs':{WORKER:base},'new_path':receipt_path,'heartbeat_head':heartbeat_head,
            'd1_fingerprint_private':private,'lease_owner':owner,'run_id':run_id,
            'requires_remote_head_d1_and_lease_recheck':True,'writes':0}

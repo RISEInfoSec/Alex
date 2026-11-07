@@ -41,6 +41,13 @@ function createSiteGithubApi({getToken,fetcher=fetch,timeoutMs=20000}={}){
    const result=await request(repoPath+'/commits/'+encodeURIComponent(commit_sha));
    return SHA.test(result.data?.sha||'')?success({commit:{sha:result.data.sha}}):failure('READ_FAILED');
   },
+  async fetchCommitDetails({repository_full_name,commit_sha}){
+   if(repository_full_name!==REPOSITORY||!SHA.test(commit_sha||''))return failure('INVALID_SCOPE');
+   const result=await request(repoPath+'/git/commits/'+commit_sha),value=result.data;
+   if(value?.sha!==commit_sha||!SHA.test(value?.tree?.sha||'')||!Array.isArray(value.parents)||
+      value.parents.some(p=>!SHA.test(p?.sha||'')))return failure('READ_FAILED');
+   return success({sha:value.sha,tree_sha:value.tree.sha,parents:value.parents.map(p=>p.sha)});
+  },
   async fetchFile({repository_full_name,path,ref}){
    if(repository_full_name!==REPOSITORY||!validPath(path)||!SHA.test(ref||''))return failure('INVALID_SCOPE');
    const result=await request(repoPath+'/contents/'+pathFor(path)+'?ref='+encodeURIComponent(ref));

@@ -145,7 +145,7 @@ const crypto=require('node:crypto');let raw='';process.stdin.setEncoding('utf8')
 process.stdin.on('data',x=>raw+=x);process.stdin.on('end',async()=>{
  const {proposal:p,evidence}=JSON.parse(raw), old=p.expected_head, worker='config/content_review_worker_status.json';
  const ok=x=>({isError:false,structuredContent:x}),hash=x=>crypto.createHash('sha1').update(`blob ${Buffer.byteLength(x)}\0`).update(x).digest('hex');
- let head=old,treeEntries=[],saved={};const commit='d'.repeat(40),tree='c'.repeat(40);
+ let head=old,treeEntries=[],saved={};const commit='d'.repeat(40),tree=p.expected_tree;
  const api={fetchCommit:async()=>ok({commit:{sha:head}}),
   fetchFile:async({path,ref})=>{
    if(ref===old&&path===worker)return ok({sha:p.base_blobs[worker].blob_sha,content:JSON.stringify(p.fence_state)});
