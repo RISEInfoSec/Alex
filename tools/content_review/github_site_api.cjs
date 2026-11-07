@@ -27,7 +27,7 @@ function createSiteGithubApi({getToken,fetcher=fetch,timeoutMs=20000}={}){
   try{
    const result=await fetcher(BASE+path,{method,headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json',
     'User-Agent':'ALEX-Review-Worker',...(body?{'Content-Type':'application/json'}:{})},
-    ...(body?{body:JSON.stringify(body)}:{}),redirect:'error',cache:'no-store',signal:AbortSignal.timeout(timeoutMs)});
+    ...(body?{body:JSON.stringify(body)}:{}),redirect:'manual',cache:'no-store',signal:AbortSignal.timeout(timeoutMs)});
    if(!result.ok)return {status:result.status};
    return {status:result.status,data:await result.json()};
   }catch{return {status:0};}

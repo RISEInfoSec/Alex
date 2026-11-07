@@ -6,7 +6,7 @@ function fixture(){
  const calls=[];
  const fetcher=async(url,options)=>{
   calls.push({url,options});assert.ok(url.startsWith('https://api.github.com/'));
-  assert.equal(options.headers.Authorization,'Bearer test-secret');assert.equal(options.redirect,'error');
+  assert.equal(options.headers.Authorization,'Bearer test-secret');assert.equal(options.redirect,'manual');
   if(url.includes('/git/commits/'))return Response.json({sha:head,tree:{sha:blob},parents:[{sha:commit}]});
   if(url.includes('/commits/'))return Response.json({sha:head});
   if(url.includes('/contents/'))return Response.json({sha:blob,encoding:'base64',content:btoa('file')});
@@ -60,6 +60,14 @@ test('missing file, failures and ambiguous GraphQL responses are distinct and re
   additions:[{path:'config/state.json',content:'{}'}],message:'Record'});
  assert.equal(result.structuredContent.error_code,'ATOMIC_COMMIT_FAILED_OR_AMBIGUOUS');
  assert.equal(JSON.stringify(result).includes('test-secret'),false);
+});
+test('redirects are rejected without forwarding credentials to the destination',async()=>{
+ const calls=[];const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async(url,options)=>{
+  calls.push({url,redirect:options.redirect});return new Response('',{status:302,headers:{Location:'https://untrusted.invalid/'}});
+ }});
+ const result=await api.fetchCommit({repo_full_name:repo,commit_sha:branch});
+ assert.equal(result.isError,true);assert.equal(calls.length,1);assert.equal(calls[0].url.startsWith('https://api.github.com/'),true);
+ assert.equal(calls[0].redirect,'manual');assert.equal(JSON.stringify(result).includes('test-secret'),false);
 });
 test('large GitHub contents with no inline body retain their blob identity',async()=>{
  const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async()=>Response.json({sha:blob,encoding:'none',content:''})});

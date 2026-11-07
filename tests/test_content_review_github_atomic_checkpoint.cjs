@@ -256,7 +256,7 @@ test('Site GitHub adapter and fenced writer complete one atomic run receipt toge
  const f=completionFixture(),originalFetch=f.api.fetchFile;let requests=0,mutations=0;
  const fetcher=async(input,options)=>{
   requests++;const u=new URL(input);
-  assert.equal(u.origin,'https://api.github.com');assert.equal(options.redirect,'error');
+  assert.equal(u.origin,'https://api.github.com');assert.equal(options.redirect,'manual');
   if(u.pathname.includes('/git/commits/'))return Response.json({sha:newCommit,tree:{sha:newTree},parents:[{sha:oldHead}]});
   if(u.pathname.includes('/commits/'))return Response.json({sha:f.head()});
   if(u.pathname.includes('/contents/')){

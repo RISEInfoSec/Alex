@@ -108,8 +108,14 @@ mutation uses GitHub's expected-head atomic commit. It supports at most five
 files and 12 MiB of UTF-8 content per commit; its guarded caller checks every
 created blob hash and treats ambiguous outcomes as requiring reconciliation. The adapter alone
 does not authorize a write and must be used through the existing semantic guard
-and live D1/native/lease fence. Its multi-megabyte payloads have only been
-tested locally; GitHub acceptance and hosted memory use are not yet verified.
+and live D1/native/lease fence. On November 7 an owner-private Site route sent
+a 10,485,773-byte synthetic file in one expected-head mutation to an isolated
+probe branch. GitHub independently confirmed commit `2f0279282353ba8d55d4dd00fa5678b7ff363ec1`,
+its sole parent, full tree and expected blob. This validates one large synthetic
+payload, not a multi-file production checkpoint or candidate processing. The
+temporary Site route was removed. The live test also showed that Cloudflare
+rejects `redirect: error`; the adapter now uses manual redirects and fails
+closed on 3xx responses without forwarding credentials.
 The same transport can read the main and heartbeat heads and prepare guarded
 lease and heartbeat updates; heartbeat writes are limited to the heartbeat
 record on its own ref. The caller must still independently establish the native
@@ -136,7 +142,7 @@ both branch heads again. On November 7 a live read-only run matched all 937
 active decisions with no holds. It did not process candidates or acquire a
 lease. A separate Site-linked scheduled check also completed this reconciliation
 without user action. The scheduler and final live fence still need installation
-and testing. Site version 58 retains the route and prevents the retired source
+and testing. Site version 62 retains the route and prevents the retired source
 discovery row from reappearing when a replacement target is configured.
 
 `lifecycle_intake.py` prepares at most five additive lifecycle entries for
