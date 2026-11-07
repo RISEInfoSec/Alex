@@ -1,6 +1,8 @@
 // Independent, read-only duplicate evidence for a candidate. A clear result
 // is only one prerequisite for a checkpoint: it does not authorize a write,
-// establish a lease, reconcile D1, or prove scheduler execution.
+// establish a lease, reconcile D1, or prove scheduler execution. A historical
+// expectedReview is usable only after the caller independently verifies that
+// it is an ancestor of currentReview; this audit does not prove ancestry.
 import identity from './conservative_identity.cjs';
 import blobs from './verified_git_blob.cjs';
 import rows from './stream_csv.cjs';
@@ -23,16 +25,17 @@ function manifestLocation(entry,review,main){
  return {path:'config/'+name,ref:root===reviewRoot?review:main};
 }
 
-export async function auditDuplicateInputs({github,expectedReview,expectedMain,collection,candidateId,heartbeat=async()=>({renewed:false})}){
+export async function auditDuplicateInputs({github,expectedReview,expectedMain,collection,candidateId,heartbeat=async()=>({renewed:false}),
+ currentReview=expectedReview}){
  if(!github||!SHA.test(expectedReview||'')||!SHA.test(expectedMain||'')||!ID.test(collection||'')||!ID.test(candidateId||'')||
-    typeof heartbeat!=='function'||['fetchCommit','fetchFile','streamBlob'].some(method=>typeof github[method]!=='function'))throw Error('Invalid audit request');
+    !SHA.test(currentReview||'')||typeof heartbeat!=='function'||['fetchCommit','fetchFile','streamBlob'].some(method=>typeof github[method]!=='function'))throw Error('Invalid audit request');
  const proofs=new Map();let heartbeatUpdates=0,heartbeatFailure=null;
  async function pulse(){try{const result=await heartbeat();if(result?.renewed===true)heartbeatUpdates++;}
   catch(error){heartbeatFailure=error;throw error;}}
  async function heads(){
   await pulse();
   const [a,b]=await Promise.all([github.fetchCommit({repo_full_name:REPO,commit_sha:REVIEW}),github.fetchCommit({repo_full_name:REPO,commit_sha:MAIN})]);
-  if(a?.isError||b?.isError||a?.structuredContent?.commit?.sha!==expectedReview||b?.structuredContent?.commit?.sha!==expectedMain)
+  if(a?.isError||b?.isError||a?.structuredContent?.commit?.sha!==currentReview||b?.structuredContent?.commit?.sha!==expectedMain)
    throw Error('Audit source heads changed');
  }
  async function json(path,ref,allowArray=false){

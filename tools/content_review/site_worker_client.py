@@ -17,7 +17,7 @@ from tools.content_review.site_reconcile_client import NoRedirect
 ORIGIN = 'https://alex-research-review.neil-schwartzm917549.chatgpt.site'
 PATHS = {'lease': '/api/content-review-lease', 'heartbeat': '/api/content-review-heartbeat',
          'soups_intake': '/api/content-review-soups-intake', 'no_work': '/api/content-review-no-work',
-         'duplicate': '/api/content-review-duplicate'}
+         'duplicate': '/api/content-review-duplicate', 'completion': '/api/content-review-completion'}
 MAX_INPUT = 16 * 1024 * 1024
 MAX_RESULT = 16 * 1024
 SAFE_REASON = re.compile(r'^[a-z_]{1,80}$')
@@ -36,7 +36,7 @@ def post(action, payload, token, *, opener=None):
     request = urllib.request.Request(ORIGIN + PATHS[action], data=body, method='POST',
         headers={'OAI-Sites-Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Accept': 'application/json'})
     try:
-        with (opener or urllib.request.build_opener(NoRedirect)).open(request, timeout=55 if action == 'duplicate' else 45) as response:
+        with (opener or urllib.request.build_opener(NoRedirect)).open(request, timeout=55 if action in ('duplicate', 'completion') else 45) as response:
             status = response.status
             raw = response.read(MAX_RESULT + 1)
     except urllib.error.HTTPError as exc:
@@ -57,7 +57,7 @@ def post(action, payload, token, *, opener=None):
         known_blocked = {'invalid_request', 'request_too_large', 'worker_not_verified', 'source_head_changed',
                          'proposal_expired', 'decisions_changed', 'service_access_required', 'lease_unavailable',
                          'heartbeat_unavailable', 'fence_not_idle', 'intake_unavailable', 'no_work_unavailable',
-                         'duplicate_unavailable'}
+                         'duplicate_unavailable', 'completion_unavailable'}
         uncertain = reason not in known_blocked or status >= 500
         return {'status': 'blocked' if not uncertain else 'outcome_unknown', 'action': action,
                 'http_status': status, 'reason': reason, 'reconcile_before_retry': uncertain}
@@ -88,6 +88,13 @@ def post(action, payload, token, *, opener=None):
             return {'status': 'outcome_unknown', 'action': action, 'reconcile_before_retry': True}
         output.update(receipt_path=receipt, gate='duplicates', candidate_processing=True,
                       native_completion_verified=False, publication_verified=False)
+    elif action == 'completion':
+        receipt = result.get('receipt_path')
+        if (not isinstance(receipt, str) or not re.fullmatch(r'config/content_review_run_receipts/[a-zA-Z0-9-]{1,100}\.json', receipt) or
+            result.get('candidate_processing') is not True or result.get('native_completion_verified') is not False or
+            result.get('publication_verified') is not False):
+            return {'status': 'outcome_unknown', 'action': action, 'reconcile_before_retry': True}
+        output.update(receipt_path=receipt, candidate_processing=True, native_completion_verified=False, publication_verified=False)
     return output
 
 
