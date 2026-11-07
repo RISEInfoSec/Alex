@@ -1,5 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
+const crypto=require('node:crypto');
 const {createSiteGithubApi}=require('../tools/content_review/github_site_api.cjs');
 const repo='RISEInfoSec/Alex',branch='codex/soups-corpus-review',head='a'.repeat(40),blob='b'.repeat(40),commit='c'.repeat(40);
 function fixture(){
@@ -50,6 +51,17 @@ test('scope, duplicate paths and oversized payloads fail before network',async()
   assert.equal((await api.commitOnBranch({...base,...change})).isError,true);
  }
  assert.equal(calls.length,0);
+});
+test('public corpus and queue are read-only even though their metadata may be read',async()=>{
+ const {api,calls}=fixture();
+ for(const path of ['data/papers.json','data/review_queue.csv']){
+  assert.equal((await api.fetchFile({repository_full_name:repo,path,ref:head})).isError,false);
+  assert.equal((await api.commitOnBranch({repository_full_name:repo,branch_name:branch,expected_sha:head,
+   additions:[{path,content:'{}'}],message:'Invalid'})).isError,true);
+  assert.equal((await api.createTree({repository_full_name:repo,base_tree_sha:head,
+   tree_elements:[{path,mode:'100644',type:'blob',sha:blob}]})).isError,true);
+ }
+ assert.equal(calls.length,2);
 });
 test('Site adapter reads both source heads and restricts heartbeat writes',async()=>{
  const {api,calls}=fixture();
@@ -102,6 +114,27 @@ test('full-content reads reject a different identity and oversized blobs',async(
    Response.json({sha:blob,encoding:'none'}):Response.json(value)});
   const result=await api.fetchFile({repository_full_name:repo,path:'config/large.json',ref:head,require_content:true});
   assert.equal(result.isError,true);assert.equal(result.structuredContent.error_code,'CONTENT_UNAVAILABLE');
+ }
+});
+test('large immutable blobs are streamed and verified without following redirects',async()=>{
+ const content=Buffer.from('public evidence é😀\n'.repeat(10000));
+ const sha=crypto.createHash('sha1').update(`blob ${content.length}\0`).update(content).digest('hex');
+ let calls=0,bytes=0;
+ const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async(url,options)=>{
+  calls++;assert.equal(url,'https://api.github.com/repos/'+repo+'/git/blobs/'+sha);
+  assert.equal(options.redirect,'manual');assert.equal(options.headers.Accept,'application/vnd.github.raw+json');
+  return new Response(content,{headers:{'content-length':String(content.length)}});
+ }});
+ const result=await api.streamBlob({repository_full_name:repo,sha,onChunk:chunk=>{bytes+=chunk.length}});
+ assert.deepEqual(result.structuredContent,{sha,size:content.length,sha256:crypto.createHash('sha256').update(content).digest('hex')});
+ assert.equal(bytes,content.length);assert.equal(calls,1);assert.equal(JSON.stringify(result).includes('test-secret'),false);
+});
+test('streaming rejects truncation, bad hash, missing size and oversized content',async()=>{
+ const body=Buffer.from('public');
+ for(const headers of [{'content-length':'7'},{'content-length':'6'},{},{'content-length':String(32*1024*1024+1)}]){
+  const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async()=>new Response(body,{headers})});
+  const result=await api.streamBlob({repository_full_name:repo,sha:'a'.repeat(40),onChunk:()=>{}});
+  assert.equal(result.isError,true);
  }
 });
 test('bounded multi-megabyte changes retain every byte in the atomic payload',async()=>{

@@ -7,6 +7,8 @@ const REPOSITORY='RISEInfoSec/Alex', REVIEW='codex/soups-corpus-review', HEARTBE
 const HEARTBEAT_PATH='config/content_review_detached_heartbeat.json';
 const BASE='https://api.github.com', SHA=/^[0-9a-f]{40}$/;
 const MAX_FILES=5, MAX_TOTAL_BYTES=12*1024*1024;
+const MAX_STREAM_BYTES=32*1024*1024;
+const {StreamHash}=require('./stream_hash.cjs');
 
 function base64Utf8(text){
  const bytes=new TextEncoder().encode(text);let binary='';
@@ -33,6 +35,7 @@ function createSiteGithubApi({getToken,fetcher=fetch,timeoutMs=20000}={}){
   }catch{return {status:0};}
  }
  function validPath(path){return typeof path==='string'&&/^config\/[a-zA-Z0-9_./-]+\.json$/.test(path)&&!path.includes('..');}
+ function validReadPath(path){return validPath(path)||path==='data/papers.json'||path==='data/review_queue.csv';}
  function pathFor(path){return path.split('/').map(encodeURIComponent).join('/');}
  const repoPath='/repos/'+REPOSITORY;
  return {
@@ -49,7 +52,7 @@ function createSiteGithubApi({getToken,fetcher=fetch,timeoutMs=20000}={}){
    return success({sha:value.sha,tree_sha:value.tree.sha,parents:value.parents.map(p=>p.sha)});
   },
   async fetchFile({repository_full_name,path,ref,require_content=false}){
-   if(repository_full_name!==REPOSITORY||!validPath(path)||!SHA.test(ref||'')||typeof require_content!=='boolean')return failure('INVALID_SCOPE');
+   if(repository_full_name!==REPOSITORY||!validReadPath(path)||!SHA.test(ref||'')||typeof require_content!=='boolean')return failure('INVALID_SCOPE');
    const result=await request(repoPath+'/contents/'+pathFor(path)+'?ref='+encodeURIComponent(ref));
    if(result.status===404)return failure('NOT_FOUND');
    if(!SHA.test(result.data?.sha||''))return failure('READ_FAILED');
@@ -77,6 +80,26 @@ function createSiteGithubApi({getToken,fetcher=fetch,timeoutMs=20000}={}){
     return failure('INVALID_SCOPE');
    const result=await request(repoPath+'/git/blobs',{method:'POST',body:{content,encoding:'utf-8'}});
    return SHA.test(result.data?.sha||'')?success({sha:result.data.sha}):failure('BLOB_FAILED');
+  },
+  async streamBlob({repository_full_name,sha,onChunk}){
+   if(repository_full_name!==REPOSITORY||!SHA.test(sha||'')||typeof onChunk!=='function')return failure('INVALID_SCOPE');
+   const token=getToken();if(typeof token!=='string'||!token)return failure('READ_FAILED');
+   let reader;
+   try{
+    const response=await fetcher(BASE+repoPath+'/git/blobs/'+sha,{headers:{Authorization:'Bearer '+token,
+     Accept:'application/vnd.github.raw+json','User-Agent':'ALEX-Review-Worker'},redirect:'manual',cache:'no-store',signal:AbortSignal.timeout(timeoutMs)});
+    const header=response.headers.get('content-length');
+    if(!response.ok||!header||!/^\d+$/.test(header))return failure('STREAM_UNAVAILABLE');
+    const size=Number(header);if(!Number.isSafeInteger(size)||size<0||size>MAX_STREAM_BYTES||!response.body)return failure('CONTENT_LIMIT');
+    const git=new StreamHash('sha1').update(new TextEncoder().encode('blob '+size+'\0')),digest=new StreamHash('sha256');
+    reader=response.body.getReader();let count=0;
+    for(;;){const {value,done}=await reader.read();if(done)break;
+     if(!(value instanceof Uint8Array)||(count+=value.length)>size)throw Error('size');
+     git.update(value);digest.update(value);await onChunk(value);
+    }
+    if(count!==size||git.digest()!==sha)throw Error('integrity');
+    return success({sha,size,sha256:digest.digest()});
+   }catch{try{await reader?.cancel();}catch{}return failure('STREAM_UNAVAILABLE');}
   },
   async createTree({repository_full_name,base_tree_sha,tree_elements}){
    if(repository_full_name!==REPOSITORY||!SHA.test(base_tree_sha||'')||!Array.isArray(tree_elements)||
