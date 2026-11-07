@@ -16,7 +16,8 @@ function data(result, error) {
 async function commitLease({api, linkId, proposal, owner, runId, now=()=>Date.now()}) {
   if (!api || !linkId || !proposal || !owner || !runId || typeof now !== 'function')
     throw new Error('Native-bound lease proposal and connector are required');
-  for (const name of ['fetchCommit','fetchFile','createBlob','createTree','createCommit','updateRef'])
+  const siteAtomic=typeof api.commitOnBranch==='function';
+  for (const name of ['fetchCommit','fetchFile','createBlob',...(siteAtomic?[]:['createTree','createCommit','updateRef'])])
     if (typeof api[name] !== 'function') throw new Error('Required GitHub connector operation is unavailable');
   if (!['start','heartbeat','abort'].includes(proposal.phase) || proposal.path !== PATH || proposal.writes !== 0 ||
       proposal.requires_atomic_update_and_lease_readback !== true || !SHA.test(proposal.expected_head || '') ||
@@ -55,26 +56,38 @@ async function commitLease({api, linkId, proposal, owner, runId, now=()=>Date.no
   if (old.sha !== proposal.base_blob.blob_sha) throw new Error('Committed lease blob changed');
   const blob=data(await api.createBlob({...common,content:proposal.content,encoding:'utf-8'}),'Cannot create lease blob');
   if (blob.sha !== proposal.blob_sha) throw new Error('Lease blob hash mismatch');
-  const tree=data(await api.createTree({...common,base_tree_sha:proposal.base_tree_sha,
+  const message=proposal.phase==='start'?'Acquire content review lease':proposal.phase==='abort'?'Release failed content review lease':'Record content review heartbeat';
+  let tree=null,commit=null;
+  if(!siteAtomic){
+  tree=data(await api.createTree({...common,base_tree_sha:proposal.base_tree_sha,
                  tree_elements:[{path:PATH,mode:'100644',type:'blob',sha:blob.sha}]}),'Cannot create lease tree');
   if (!SHA.test(tree.sha || '')) throw new Error('Lease tree identity is invalid');
-  const commit=data(await api.createCommit({...common,parent_sha:proposal.expected_head,tree_sha:tree.sha,
-                    message:proposal.phase==='start'?'Acquire content review lease':proposal.phase==='abort'?'Release failed content review lease':'Record content review heartbeat'}),
+  commit=data(await api.createCommit({...common,parent_sha:proposal.expected_head,tree_sha:tree.sha,message}),
                     'Cannot create lease commit');
   if (!SHA.test(commit.sha || '')) throw new Error('Lease commit identity is invalid');
+  }
   requireFresh();
   if (await head() !== proposal.expected_head) throw new Error('Review head changed before lease update');
   let update;
-  try {update=await api.updateRef({...common,branch_name:BRANCH,expected_sha:proposal.expected_head,sha:commit.sha,force:false});}
-  catch {throw new Error('Lease update outcome is ambiguous; reconcile commit '+commit.sha+' before retrying');}
-  if (!update || update.isError || update.structuredContent?.success !== true)
-    throw new Error('Lease update was rejected or ambiguous; reconcile commit '+commit.sha+' before retrying');
+  if(siteAtomic){
+    try{update=await api.commitOnBranch({...common,branch_name:BRANCH,expected_sha:proposal.expected_head,
+      additions:[{path:PATH,content:proposal.content}],message});}
+    catch{throw new Error('Site lease update outcome is ambiguous; reconcile branch and lease before retrying');}
+    if(!update||update.isError||update.structuredContent?.success!==true||!SHA.test(update.structuredContent.sha||''))
+      throw new Error('Site lease update was rejected or ambiguous; reconcile branch and lease before retrying');
+    commit={sha:update.structuredContent.sha};
+  }else{
+    try {update=await api.updateRef({...common,branch_name:BRANCH,expected_sha:proposal.expected_head,sha:commit.sha,force:false});}
+    catch {throw new Error('Lease update outcome is ambiguous; reconcile commit '+commit.sha+' before retrying');}
+    if (!update || update.isError || update.structuredContent?.success !== true)
+      throw new Error('Lease update was rejected or ambiguous; reconcile commit '+commit.sha+' before retrying');
+  }
   if (await head() !== commit.sha) throw new Error('Lease head readback failed; stop work');
   const verified=data(await file(commit.sha),'Lease state readback failed');
   if (verified.sha !== proposal.blob_sha || verified.content !== proposal.content)
     throw new Error('Lease state readback mismatch; stop work');
   requireFresh();
-  return {status:'committed_and_read_back',phase:proposal.phase,commit_sha:commit.sha,tree_sha:tree.sha,
+  return {status:'committed_and_read_back',phase:proposal.phase,commit_sha:commit.sha,tree_sha:tree?.sha||null,
           owner,run_id:runId,expires_at:state.lease?.expires_at||null};
 }
 

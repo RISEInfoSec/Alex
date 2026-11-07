@@ -24,6 +24,18 @@ function fixture(){
 test('heartbeat advances only the independent ref and verifies readback',async()=>{
  const f=fixture(),r=await commitHeartbeat(f);assert.equal(r.heartbeat_head,next);assert.equal(r.review_head,review);assert.equal(f.updates(),1);
 });
+test('Site-backed heartbeat targets only the heartbeat ref with expected head',async()=>{
+ const f=fixture();let calls=0;
+ f.api.commitOnBranch=async({branch_name,expected_sha,additions})=>{
+  calls++;assert.equal(branch_name,'codex/content-review-heartbeat');assert.equal(expected_sha,old);
+  assert.deepEqual(additions,[{path,content:f.proposal.content}]);f.setHeartbeat(next);return ok({success:true,sha:next});
+ };
+ const result=await commitHeartbeat(f);assert.equal(result.heartbeat_head,next);assert.equal(calls,1);
+});
+test('ambiguous Site heartbeat is not retried',async()=>{
+ const f=fixture();let calls=0;f.api.commitOnBranch=async()=>{calls++;throw Error('disconnected');};
+ await assert.rejects(commitHeartbeat(f),/ambiguous; reconcile heartbeat branch/);assert.equal(calls,1);
+});
 test('stale records, changed review heads and competing heartbeats stop before write',async()=>{
  for(const kind of ['stale','review','heartbeat']){
   const f=fixture();if(kind==='stale')f.now=()=>clock+41000;if(kind==='review')f.setReview('f'.repeat(40));if(kind==='heartbeat')f.setHeartbeat('f'.repeat(40));

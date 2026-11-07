@@ -107,6 +107,11 @@ created blob hash and treats ambiguous outcomes as requiring reconciliation. The
 does not authorize a write and must be used through the existing semantic guard
 and live D1/native/lease fence. Its multi-megabyte payloads have only been
 tested locally; GitHub acceptance and hosted memory use are not yet verified.
+The same transport can read the main and heartbeat heads and prepare guarded
+lease and heartbeat updates; heartbeat writes are limited to the heartbeat
+record on its own ref. The caller must still independently establish the native
+run and validate lease transitions against the committed state. No generic
+write endpoint has been installed.
 
 `site_d1_reader.cjs` prepares two bounded, complete reads of the three review
 tables through the Site's existing database binding, checking schema, counts,

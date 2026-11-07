@@ -39,6 +39,16 @@ test('scope, duplicate paths and oversized payloads fail before network',async()
  }
  assert.equal(calls.length,0);
 });
+test('Site adapter reads both source heads and restricts heartbeat writes',async()=>{
+ const {api,calls}=fixture();
+ for(const ref of ['main','codex/content-review-heartbeat'])
+  assert.equal((await api.fetchCommit({repo_full_name:repo,commit_sha:ref})).structuredContent.commit.sha,head);
+ assert.equal((await api.fetchCommit({repo_full_name:repo,commit_sha:'unrelated'})).isError,true);
+ const base={repository_full_name:repo,branch_name:'codex/content-review-heartbeat',expected_sha:head,message:'Heartbeat'};
+ assert.equal((await api.commitOnBranch({...base,additions:[{path:'config/state.json',content:'{}'}]})).isError,true);
+ assert.equal((await api.commitOnBranch({...base,additions:[{path:'config/content_review_detached_heartbeat.json',content:'{}'}]})).structuredContent.sha,commit);
+ assert.equal(JSON.parse(calls.at(-1).options.body).variables.input.branch.branchName,base.branch_name);
+});
 test('missing file, failures and ambiguous GraphQL responses are distinct and redacted',async()=>{
  const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher:async(url)=>url.includes('/contents/')?
   new Response('',{status:404}):Response.json({errors:[{message:'test-secret'}]})});

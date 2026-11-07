@@ -30,6 +30,19 @@ function fixture(){
 test('lease acquisition uses expected head and exact readback',async()=>{
  const f=fixture(),r=await commitLease(f);assert.equal(r.commit_sha,nextCommit);assert.equal(r.owner,'worker');assert.equal(f.writes(),1);
 });
+test('Site-backed lease uses an exact-head atomic commit and verifies readback',async()=>{
+ const f=fixture();let calls=0;
+ f.api.commitOnBranch=async({branch_name,expected_sha,additions})=>{
+  calls++;assert.equal(branch_name,'codex/soups-corpus-review');assert.equal(expected_sha,head);
+  assert.deepEqual(additions,[{path,content:f.proposal.content}]);f.setHead(nextCommit);
+  return ok({success:true,sha:nextCommit});
+ };
+ const result=await commitLease(f);assert.equal(result.commit_sha,nextCommit);assert.equal(result.tree_sha,null);assert.equal(calls,1);
+});
+test('ambiguous Site-backed lease is never retried',async()=>{
+ const f=fixture();let calls=0;f.api.commitOnBranch=async()=>{calls++;throw Error('disconnected');};
+ await assert.rejects(commitLease(f),/ambiguous; reconcile branch and lease/);assert.equal(calls,1);
+});
 test('foreign, stale or terminal observations never advance the branch',async()=>{
  for(const kind of ['owner','stale','terminal']){
   const f=fixture();if(kind==='owner')f.owner='other';if(kind==='stale')f.now=()=>t+41000;
