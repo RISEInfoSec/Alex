@@ -3,6 +3,7 @@
 // taxonomy and the live private decision fence require independent validation.
 const {sha256}=require('./d1_fingerprint.cjs');
 const {pyJson}=require('./soups_intake_site_guard.cjs');
+const policy=require('./site_classification_taxonomy.cjs');
 const obj=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const own=(o,k,d='')=>Object.hasOwn(o,k)?o[k]:d;
 const truthy=x=>Array.isArray(x)?x.length>0:obj(x)?Object.keys(x).length>0:!!x;
@@ -30,6 +31,7 @@ function inspect(row,assessment,taxonomy){
  if(!same(Object.keys(taxonomy).sort(),taxonomyFields)||taxonomyFields.some(k=>!Array.isArray(taxonomy[k])||taxonomy[k].length<1||
   taxonomy[k].length>100||taxonomy[k].some(x=>typeof x!=='string'||!x||x.length>100||!/^[\x20-\x7e\t\r\n]+$/.test(x))||new Set(taxonomy[k]).size!==taxonomy[k].length))
   throw Error('Classification taxonomy invalid');
+ if(taxonomyFields.some(k=>!same(taxonomy[k],policy[k])))throw Error('Classification taxonomy differs from ALEX policy');
  if(!same(Object.keys(assessment).sort(),fields))return {status:'held',reason:'complete_assessment_required',writes:0};
  const hash=sha256(text.trim()),types=assessment.source_types,rationale=assessment.rationale;
  if(assessment.content_sha256!==digest||assessment.abstract_sha256!==hash||assessment.method!=='native_abstract_assessment'||

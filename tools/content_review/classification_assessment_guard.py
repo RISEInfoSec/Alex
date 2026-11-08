@@ -11,6 +11,7 @@ import re
 
 from tools.content_review.lifecycle import current_pass
 from tools.content_review.manifest_integrity import reviewed_digest
+from tools.content_review.classification_taxonomy import POLICY
 
 ASCII_TEXT=re.compile(r'^[\x20-\x7e\t\r\n]+$')
 FIELDS={'content_sha256','abstract_sha256','method','category','investigation_type','source_types','rationale'}
@@ -47,6 +48,8 @@ def inspect(row, assessment, taxonomy):
         any(not isinstance(x,str) or not x or len(x)>100 or not ASCII_TEXT.fullmatch(x) for x in taxonomy[k]) or len(set(taxonomy[k]))!=len(taxonomy[k])
         for k in TAXONOMY):
         raise ValueError('Classification taxonomy invalid')
+    if taxonomy!=POLICY:
+        raise ValueError('Classification taxonomy differs from ALEX policy')
     if set(assessment)!=FIELDS:
         return {'status':'held','reason':'complete_assessment_required','writes':0}
     abstract_hash=hashlib.sha256(text.strip().encode()).hexdigest()

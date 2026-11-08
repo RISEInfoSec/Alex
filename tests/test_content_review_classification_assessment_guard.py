@@ -1,4 +1,5 @@
 from copy import deepcopy
+import ast
 import hashlib
 import json
 from pathlib import Path
@@ -8,6 +9,7 @@ import pytest
 
 from tests.test_content_review_quality_hold_rules import row as base_row
 from tools.content_review.classification_assessment_guard import inspect
+from tools.content_review.classification_taxonomy import POLICY
 from tools.content_review.manifest_integrity import reviewed_digest
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -18,8 +20,7 @@ def fixture():
     row['content_sha256']=reviewed_digest(row)
     for check in row['preflight']['checks'].values():check['content_sha256']=row['content_sha256']
     row['preflight']['checks']['quality']=deepcopy(row['preflight']['checks']['access'])
-    tax={'categories':['Cyber Threat Intelligence','Other'],'investigation_types':['Threat Hunting','Other'],
-         'source_types':['Academic Literature','Other']}
+    tax=deepcopy(POLICY)
     assessment={'content_sha256':row['content_sha256'],'abstract_sha256':hashlib.sha256(row['abstract'].strip().encode()).hexdigest(),
         'method':'native_abstract_assessment','category':'Cyber Threat Intelligence','investigation_type':'Threat Hunting',
         'source_types':['Academic Literature'],'rationale':'The abstract describes a concrete method and findings relevant to the selected category. '*2}
@@ -47,6 +48,17 @@ def test_generic_missing_key_fallback_is_not_an_assessment():
     row,_,tax=fixture();fallback={'Category':'Other','Investigation_Type':'Other','OSINT_Source_Types':[]}
     result=inspect(row,fallback,tax)
     assert result['reason']=='complete_assessment_required' and site(row,fallback,tax)==result
+
+
+def test_taxonomy_is_the_existing_alex_classification_policy():
+    tree=ast.parse((ROOT/'alex/pipelines/classify.py').read_text())
+    values={}
+    for item in tree.body:
+        if isinstance(item,ast.Assign) and len(item.targets)==1 and isinstance(item.targets[0],ast.Name):
+            key=item.targets[0].id
+            if key in ('CATEGORIES','INVESTIGATION_TYPES','OSINT_SOURCE_TYPES'):values[key]=ast.literal_eval(item.value)
+    assert values=={'CATEGORIES':POLICY['categories'],'INVESTIGATION_TYPES':POLICY['investigation_types'],
+                    'OSINT_SOURCE_TYPES':POLICY['source_types']}
 
 
 def test_other_is_allowed_when_part_of_a_complete_native_assessment():
@@ -84,7 +96,7 @@ def test_stale_unattributed_or_out_of_taxonomy_outputs_never_verify(change):
     assert result['status']=='held' and result['writes']==0 and site(row,a,tax)==result
 
 
-@pytest.mark.parametrize('change',['decision','stale_content','missing_quality','quality_held','non_paper','duplicate_taxonomy','malformed_evidence'])
+@pytest.mark.parametrize('change',['decision','stale_content','missing_quality','quality_held','non_paper','duplicate_taxonomy','changed_taxonomy','malformed_evidence'])
 def test_candidate_and_policy_must_be_current(change):
     row,a,tax=fixture()
     if change=='decision':row['decision']='approved'
@@ -93,6 +105,7 @@ def test_candidate_and_policy_must_be_current(change):
     if change=='quality_held':row['preflight']['checks']['quality']['status']='held'
     if change=='non_paper':row['document_type']='dataset';row['content_sha256']=reviewed_digest(row)
     if change=='duplicate_taxonomy':tax['categories'].append(tax['categories'][0])
+    if change=='changed_taxonomy':tax['categories'][0]='Unauthorized category'
     if change=='malformed_evidence':row['preflight']['checks']['quality']['evidence']='not a structured proof'
     with pytest.raises(ValueError):inspect(row,a,tax)
     assert 'error' in site(row,a,tax)
