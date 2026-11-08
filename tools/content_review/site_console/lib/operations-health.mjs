@@ -63,7 +63,8 @@ export function coordinatorHealth(snapshot,checkpoint,now=Date.now()){
    &&native?.id===heartbeat?.run_id&&savedTime!==null&&heartbeatTime!==null&&savedTime>=heartbeatTime;
  if(!nativeTerminal&&heartbeat?.run_id===native?.id&&['complete','failed','deferred'].includes(heartbeat?.application_status)){
   return {...result,status:heartbeat.application_status==='failed'?'Failed':'Degraded',
-   issue:heartbeat.application_status==='failed'?'Worker application work failed. Inspect its saved stage and receipt.':
+   issue:heartbeat.application_status==='failed'?(heartbeat.receipt?'Worker application work failed; a receipt is referenced but not independently verified.':
+    'Worker application work failed; no completion receipt is recorded.'):
     heartbeat.application_status==='deferred'?'Worker reports a deferred pass; its receipt and native scheduler completion are not independently verified.':
     'Application work completed; native scheduler terminal completion is still awaiting independent confirmation.',
    activity_observed_at:heartbeat.observed_at};
