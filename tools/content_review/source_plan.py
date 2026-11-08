@@ -99,7 +99,7 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
     heartbeat=json.loads(heartbeat_raw)
     choices=plan(snapshot,confirmed_snapshot,inputs['reconciliation_manifests'],ledger,inputs['registry'],state,owner,run_id,
                  source_attempts=state.get('source_attempts',{}),source_progress=state.get('source_last_progress',{}),
-                 at=now,heartbeat=heartbeat,review_head=review_head)
+                 at=now,heartbeat=heartbeat,review_head=review_head,stages=('source',))
     selected=[x for x in choices['selected'] if x['next_stage']=='source']
     if not selected:
         return {'status':'no_due_source_in_plan','request':None,'coverage':choices['coverage'],

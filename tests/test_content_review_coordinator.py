@@ -120,6 +120,24 @@ def test_unresolved_origin_does_not_consume_bounded_source_selection_slots():
     assert next(x for x in result['coverage'] if x['collection']=='weekly')['unresolved_source_count']==7
 
 
+def test_rotation_reaches_candidates_after_a_full_window_of_held_checks():
+    now,snap,manifests,ledger,registry,state=fixture()
+    row=manifests['weekly']['records'][1]
+    for n in range(11):
+        peer=deepcopy(row);peer.update(candidate_id='candidate-'+str(n),review_number=n+3)
+        manifests['weekly']['records'].append(peer);ledger['records']['weekly:'+peer['candidate_id']]=deepcopy(ledger['records']['weekly:fresh'])
+    seen=set()
+    for cycle in range(3):
+        state['run_history']=[{'run_id':'prior-'+str(n)} for n in range(cycle)]
+        result=plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},at=now,stages=('duplicates',))
+        assert len(result['selected'])==5
+        seen.update(item['candidate_id'] for item in result['selected'])
+    assert len(seen)==12
+    state['run_history']=[{}]
+    with pytest.raises(ValueError,match='history'):
+        plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},at=now)
+
+
 def test_superseded_decision_is_reported_as_hold_even_for_preflight_rows():
     now,snap,manifests,ledger,registry,state=fixture()
     old=deepcopy(snap['decisions'][0]);old.update(id='d-old',candidate_id='fresh',review_number=2,content_sha256='c'*64)

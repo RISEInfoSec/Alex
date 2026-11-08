@@ -94,8 +94,13 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
                 and item['next_stage'] in supported_stages
                 and (item['collection'] != 'virusbulletin' or item['next_stage'] in ('duplicates', 'source'))]
     stage_eligible=[item for item in eligible if stages is None or item['next_stage'] in stages]
+    history=state.get('run_history',[])
+    if not isinstance(history,list) or any(not isinstance(x,dict) or not x.get('run_id') for x in history):
+        raise ValueError('Run history is unavailable for candidate rotation')
+    offset=(len(history)*INITIAL_LIMIT)%len(stage_eligible) if stage_eligible else 0
+    rotated=stage_eligible[offset:]+stage_eligible[:offset]
     selected = [{**item, 'content_sha256': index[(item['collection'], item['candidate_id'])]['content_sha256']}
-                for item in stage_eligible[:INITIAL_LIMIT]]
+                for item in rotated[:INITIAL_LIMIT]]
     # Report due work even when an executor is not yet available. Hiding it as
     # zero would make the coverage report look complete while skipping a source.
     available = Counter(x['collection'] for x in result['selected'])

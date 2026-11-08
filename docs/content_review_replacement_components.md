@@ -277,14 +277,16 @@ authorize publication; it is not yet connected to the scheduled coordinator.
 `work_plan.select` rotates across eligible collections before revisiting a
 collection, even if another collection has stronger evidence. Within each
 collection it prefers supported, more complete evidence. The future coordinator
-filters for duplicate-due candidates before its five-candidate ceiling; if all
+filters for duplicate-due or source-due candidates before its five-candidate ceiling; if all
 five are held, it ends that bounded pass and gives source work a later turn
-instead of silently inspecting a second set of candidates. It must persist
+instead of silently inspecting a second set of candidates. A bounded rotation
+based on retained run history moves the selection window across a stable due
+inventory, including when no checkpoint can be made. It must persist
 `source_attempts[collection].at` only after an actual candidate
 attempt under the lease, separately from `source_last_progress`, which changes
 only when source work actually progresses. A duplicate gate is recorded as an
-attempt, not as source-retrieval progress. Passing no attempt history cannot prevent repeated blocked
-collections from monopolizing subsequent passes; this change is not yet a
+attempt, not as source-retrieval progress. Dynamic inventories, unavailable
+executors and failures still need runtime observation; this change is not yet a
 deployed fairness guarantee.
 
 The planner reports quality, classification and admission work as requiring a

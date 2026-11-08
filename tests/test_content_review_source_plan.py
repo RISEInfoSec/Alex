@@ -93,6 +93,24 @@ def test_controlled_openalex_route_does_not_block_an_eligible_peer(tmp_path):
     assert [x['candidate_id'] for x in result['request']['records']]==['source-2']
 
 
+def test_duplicate_due_candidates_do_not_consume_source_selection_slots(tmp_path):
+    now,review,main,hb,row,snap=fixture(tmp_path)
+    manifest=json.loads((tmp_path/'config/weekly_review_manifest.json').read_text())
+    ledger=json.loads((tmp_path/'config/content_review_candidate_lifecycle.json').read_text())
+    for n in range(6):
+        peer=deepcopy(row);peer.update(candidate_id='duplicate-'+str(n),review_number=n+2,preflight={'checks':{}})
+        manifest['records'].append(peer);ledger['records']['weekly:'+peer['candidate_id']]=deepcopy(ledger['records']['weekly:source-1'])
+    put(tmp_path,'config/weekly_review_manifest.json',manifest);put(tmp_path,'config/content_review_candidate_lifecycle.json',ledger)
+    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','more duplicate candidates')
+    review=git(tmp_path,'rev-parse','HEAD');branch=git(tmp_path,'symbolic-ref','--short','HEAD')
+    state=json.loads((tmp_path/'config/content_review_worker_status.json').read_text())
+    beat=prepare_heartbeat(state,review,'worker','run',at=now)
+    git(tmp_path,'checkout','-q','heartbeat');put(tmp_path,'config/content_review_detached_heartbeat.json',beat)
+    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','rebind heartbeat');hb=git(tmp_path,'rev-parse','HEAD');git(tmp_path,'checkout','-q',branch)
+    result=call(tmp_path,now,review,main,hb,snap)
+    assert result['status']=='prepared' and [x['candidate_id'] for x in result['request']['records']]==['source-1']
+
+
 def test_doi_target_can_be_prepared_after_owner_release(tmp_path):
     now,review,main,hb,row,snap=fixture(tmp_path,'https://doi.org/10.1/example')
     result=call(tmp_path,now,review,main,hb,snap)
