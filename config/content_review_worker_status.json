@@ -99,7 +99,7 @@
     "source_release_holds": 6
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-11-08T04:43:15.704915Z",
+  "last_started_at": "2026-11-08T05:41:02.949432Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
@@ -728,11 +728,11 @@
     "additional_removed_record_corrected": 1
   },
   "current_run": {
-    "run_id": "a5641cae-9200-8333-8c96-d25040455236",
-    "application_status": "deferred",
-    "started_at": "2026-11-08T04:43:15.704915+00:00",
-    "scheduled_for": "2026-11-08T04:45:00+00:00",
-    "observed_at": "2026-11-08T04:46:17.012602+00:00",
+    "run_id": "14aefcc0-3768-8333-9ec9-365b3eb25878",
+    "application_status": "complete",
+    "started_at": "2026-11-08T05:41:02.949432+00:00",
+    "scheduled_for": "2026-11-08T05:45:00+00:00",
+    "observed_at": "2026-11-08T05:43:49.429453+00:00",
     "request_counts": {
       "source": 0,
       "paid": 0,
@@ -740,21 +740,21 @@
     },
     "scheduler": {
       "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
-      "observed_at": "2026-11-08T04:46:17.012602+00:00",
+      "observed_at": "2026-11-08T05:43:49.429453+00:00",
       "is_enabled": true,
-      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261107T234500\nRRULE:FREQ=HOURLY;COUNT=1\nEND:VEVENT",
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261108T004500\nRRULE:FREQ=HOURLY;COUNT=1\nEND:VEVENT",
       "last_run": {
-        "id": "a5641cae-9200-8333-8c96-d25040455236",
+        "id": "14aefcc0-3768-8333-9ec9-365b3eb25878",
         "recorded_status": "in_progress",
-        "scheduled_for": "2026-11-08T04:45:00Z",
-        "started_at": "2026-11-08T04:43:15.704915Z",
+        "scheduled_for": "2026-11-08T05:45:00Z",
+        "started_at": "2026-11-08T05:41:02.949432Z",
         "completed_at": null
       }
     },
-    "application_completed_at": "2026-11-08T04:48:32.247389+00:00",
-    "receipt": "config/content_review_run_receipts/a5641cae-9200-8333-8c96-d25040455236.json"
+    "application_completed_at": "2026-11-08T05:47:29.333692+00:00",
+    "receipt": "config/content_review_run_receipts/14aefcc0-3768-8333-9ec9-365b3eb25878.json"
   },
-  "last_heartbeat_at": "2026-11-08T04:46:17.012602+00:00",
+  "last_heartbeat_at": "2026-11-08T05:43:49.429453+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
@@ -996,6 +996,14 @@
       "expires_at": "2026-11-08T05:16:17.012602+00:00",
       "status": "released",
       "released_at": "2026-11-08T04:48:32.247389+00:00"
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "14aefcc0-3768-8333-9ec9-365b3eb25878",
+      "acquired_at": "2026-11-08T05:43:49.429453+00:00",
+      "expires_at": "2026-11-08T06:13:49.429453+00:00",
+      "status": "released",
+      "released_at": "2026-11-08T05:47:29.333692+00:00"
     }
   ],
   "run_history": [
@@ -1164,12 +1172,39 @@
       },
       "application_completed_at": "2026-11-08T03:46:08.381884+00:00",
       "receipt": "config/content_review_run_receipts/854e7e11-3c48-8333-b782-a1b10b2d2b49.json"
+    },
+    {
+      "run_id": "a5641cae-9200-8333-8c96-d25040455236",
+      "application_status": "deferred",
+      "started_at": "2026-11-08T04:43:15.704915+00:00",
+      "scheduled_for": "2026-11-08T04:45:00+00:00",
+      "observed_at": "2026-11-08T04:46:17.012602+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "scheduler": {
+        "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+        "observed_at": "2026-11-08T04:46:17.012602+00:00",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261107T234500\nRRULE:FREQ=HOURLY;COUNT=1\nEND:VEVENT",
+        "last_run": {
+          "id": "a5641cae-9200-8333-8c96-d25040455236",
+          "recorded_status": "in_progress",
+          "scheduled_for": "2026-11-08T04:45:00Z",
+          "started_at": "2026-11-08T04:43:15.704915Z",
+          "completed_at": null
+        }
+      },
+      "application_completed_at": "2026-11-08T04:48:32.247389+00:00",
+      "receipt": "config/content_review_run_receipts/a5641cae-9200-8333-8c96-d25040455236.json"
     }
   ],
   "source_attempts": {
     "m3aawg": {
-      "at": "2026-11-08T03:44:07.707050+00:00",
-      "run_id": "854e7e11-3c48-8333-b782-a1b10b2d2b49",
+      "at": "2026-11-08T05:45:10.978229+00:00",
+      "run_id": "14aefcc0-3768-8333-9ec9-365b3eb25878",
       "gate": "duplicates"
     }
   },
