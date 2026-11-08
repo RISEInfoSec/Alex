@@ -40,11 +40,8 @@ def source_pass(repo,token,native,review_head,main_head,owner,run_id,*,heads=rea
             items=prepared.get('items')
             if not isinstance(items,list) or not 1<=len(items)<=5:raise ValueError('Source retention inventory invalid')
             item=items[0]
-            if item.get('result_status')!='retrieved':
-                completed=empty_finish(repo,token,native,review_head,main_head,owner,run_id,None)
-                if completed.get('status')=='deferred' and completed.get('lease_release_confirmed') is True:
-                    return {**completed,'reason':'source_hold_retention_completion_required'}
-                return completed
+            if item.get('result_status') not in ('retrieved','held'):
+                raise ValueError('Source retention outcome invalid')
             retained=retention(repo,token,review_head,main_head,owner,run_id,item['native_run_id'],item['artifact_id'],item['collection'],item['candidate_id'])
             if retained.get('status')!='source_retained' or retained.get('heartbeat_rebound') is not True:
                 return {'status':'blocked','reason':'source_retention_unconfirmed','reconcile_before_retry':True,

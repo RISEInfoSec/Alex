@@ -8,8 +8,8 @@ from tests.test_content_review_verified_inputs import git,put
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def request(repo):
-    value=setup(repo);source=value['input']['expectedHead']
+def request(repo,result_status='retrieved'):
+    value=setup(repo,result_status);source=value['input']['expectedHead']
     for path,content in value['input']['files'].items():put(repo,path,content)
     git(repo,'add','.');git(repo,'commit','-qm','source retention checkpoint');head=git(repo,'rev-parse','HEAD')
     parts=git(repo,'rev-list','--parents','-n','1',head).split()
@@ -34,7 +34,7 @@ const api={fetchCommit:async()=>ok({commit:{sha:v.input.expectedHead}}),
 const verify=async()=>{verifies++;if(v.mode==='head')throw Error('current head changed')};
 const sourceAudit=async o=>{audits++;if(!o.auditOnly||o.input.expectedHead!==v.source||typeof o.verify!=='function'||o.input.sourceRunId!==v.observed.native_run.id)throw Error('bad audit context');
  return {status:v.mode==='audit'?'held':'validated',receipt_path:v.path,collection:'weekly',candidate_id:'source-1',
- content_sha256:JSON.parse(v.input.files[v.path]).content_sha256,result_status:'retrieved',gate_passed:false,candidate_processing:false,publication_verified:false}};
+ content_sha256:JSON.parse(v.input.files[v.path]).content_sha256,result_status:v.mode==='mismatch'?'held':JSON.parse(v.input.files[v.path]).result_status,gate_passed:false,candidate_processing:false,publication_verified:false}};
 try{const result=await verifySourceRetentionCheckpoint({github:api,getToken:()=>'',input:v.input,checkpointCommit:v.input.expectedHead,path:v.path,
  snapshot:v.snapshot,confirmed:v.snapshot,heartbeat:async()=>{},verify,sourceAudit,now:()=>v.now});process.stdout.write(JSON.stringify({result,audits,verifies,trees}));}
 catch(e){process.stdout.write(JSON.stringify({error:e.message,audits,verifies,trees}));}"""
@@ -49,11 +49,16 @@ def test_retention_readback_requires_exact_tree_and_independent_audit(tmp_path):
     assert result['audits']==1 and result['trees']==1 and result['verifies']==2
 
 
-@pytest.mark.parametrize('mode',['tree','audit','head'])
+@pytest.mark.parametrize('mode',['tree','audit','head','mismatch'])
 def test_retention_readback_rejects_unverified_checkpoint(tmp_path,mode):
     result=invoke(request(tmp_path),mode)
     assert 'error' in result
     if mode in ('tree','head'):assert result['audits']==0
+
+
+def test_retention_readback_identifies_a_verified_hold(tmp_path):
+    result=invoke(request(tmp_path,'held'),'success')
+    assert result.get('result',{}).get('action')=='source_hold_retained',result
 
 
 def test_retention_readback_reaudits_artifact_and_checkpoint(tmp_path):
@@ -74,10 +79,10 @@ try{const result=await verifySourceRetentionCheckpoint({github:api,getToken:()=>
     assert answer.get('result',{}).get('action')=='source_evidence_retained',answer
 
 
-def actual_request(tmp_path):
+def actual_request(tmp_path,result_status='retrieved'):
     from tests.test_content_review_source_retention_run_completion import fixture
     import hashlib
-    now,head,main,hb,native,snapshot,path=fixture(tmp_path)
+    now,head,main,hb,native,snapshot,path=fixture(tmp_path,result_status)
     record=json.loads(git(tmp_path,'show',head+':'+path));rid=record['request_id']
     source_path='config/content_review_source_receipts/'+rid+'.json';request_path='config/content_review_source_requests/'+rid+'.json'
     source=json.loads(git(tmp_path,'show',head+':'+source_path));result_text=json.dumps(source['result'])

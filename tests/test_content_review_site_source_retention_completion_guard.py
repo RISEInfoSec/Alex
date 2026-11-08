@@ -8,8 +8,8 @@ from tests.test_content_review_source_retention_run_completion import fixture,ca
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def value(repo):
-    values=fixture(repo);result=call(repo,values)
+def value(repo,result_status='retrieved'):
+    values=fixture(repo,result_status);result=call(repo,values)
     receipt=json.loads(result['files'][result['receipt_path']]);after=json.loads(result['files']['config/content_review_worker_status.json'])
     before=json.loads(subprocess.check_output(['git','-C',str(repo),'show',values[1]+':config/content_review_worker_status.json']))
     return {'before':before,'after':after,'receipt':receipt,'owner':'worker','runId':'run2',
@@ -27,6 +27,15 @@ def test_site_validates_truthful_source_retention_completion(tmp_path):
     result=invoke(value(tmp_path));assert result.returncode==0,result.stderr
     checked=json.loads(result.stdout)
     assert checked['candidate_processing'] is True and checked['native_completion_verified'] is False
+
+
+def test_site_validates_hold_without_accepting_false_progress(tmp_path):
+    data=value(tmp_path,'held');result=invoke(data)
+    assert result.returncode==0,result.stderr
+    checked=json.loads(result.stdout)
+    assert checked['candidate_processing'] is False and checked['native_completion_verified'] is False
+    data['receipt']['candidate_processing']=True
+    assert invoke(data).returncode!=0
 
 
 @pytest.mark.parametrize('change',['action','receipt','native','publication','state','lease','counts'])

@@ -60,7 +60,7 @@ def prepare(repo,review_head,main_head,heartbeat_head,native,snapshot,confirmed,
     record,_=_json(repo,review_head,checkpoint_path)
     collection,candidate,digest,rid=record.get('collection'),record.get('candidate_id'),record.get('content_sha256'),record.get('request_id')
     if (record.get('schema_version')!=1 or record.get('kind')!='source_retention' or record.get('run_id')!=run_id
-        or record.get('result_status')!='retrieved' or not isinstance(collection,str) or not isinstance(candidate,str)
+        or record.get('result_status') not in ('retrieved','held') or not isinstance(collection,str) or not isinstance(candidate,str)
         or not re.fullmatch(r'[0-9a-f]{64}',digest or '') or not re.fullmatch(r'[0-9a-f]{64}',rid or '')
         or record.get('source_main_commit')!=main_head or record.get('publication_approved') is not False
         or any(record.get(k)!=0 for k in ('provider_requests','paid_requests','openalex_requests'))):
@@ -87,14 +87,18 @@ def prepare(repo,review_head,main_head,heartbeat_head,native,snapshot,confirmed,
         raise ValueError('Current retained source evidence differs')
     receipt_path='config/content_review_run_receipts/'+run_id+'.json'
     if _git(repo,'ls-tree','-z',review_head,'--',receipt_path):raise ValueError('Run receipt already exists')
-    updated=release(state,owner,run_id,at=now);updated['current_run']['application_status']='complete'
+    held=record['result_status']=='held'
+    status='deferred' if held else 'complete'
+    updated=release(state,owner,run_id,at=now);updated['current_run']['application_status']=status
     updated['current_run']['application_completed_at']=now.isoformat();updated['current_run']['receipt']=receipt_path
-    action={'path':checkpoint_path,'collection':collection,'candidate_id':candidate,'content_sha256':digest,'action':'source_evidence_retained'}
+    action={'path':checkpoint_path,'collection':collection,'candidate_id':candidate,'content_sha256':digest,
+            'action':'source_hold_retained' if held else 'source_evidence_retained'}
     outcome={'schema_version':1,'kind':'source_retention_completion','run_id':run_id,'trigger':'schedule','scheduled_for':due.isoformat(),
-             'started_at':started.isoformat(),'completed_at':now.isoformat(),'status':'complete','receipt_path':receipt_path,
-             'completed_actions':[action],'provider_requests':0,'paid_requests':0,'openalex_requests':0,'candidate_processing':True,
+             'started_at':started.isoformat(),'completed_at':now.isoformat(),'status':status,'receipt_path':receipt_path,
+             'completed_actions':[action],'provider_requests':0,'paid_requests':0,'openalex_requests':0,'candidate_processing':not held,
              'native_completion_verified':False,'publication_approved':False,
-             'scope_note':'One source evidence result retained; no gate pass, review readiness or publication is established.'}
+             'scope_note':('One source hold retained; no gate pass, review readiness or publication is established.' if held else
+                           'One source evidence result retained; no gate pass, review readiness or publication is established.')}
     files={WORKER:json.dumps(updated,ensure_ascii=False,indent=2)+'\n',receipt_path:json.dumps(outcome,ensure_ascii=False,indent=2)+'\n'}
     blobs={}
     for path,text in files.items():

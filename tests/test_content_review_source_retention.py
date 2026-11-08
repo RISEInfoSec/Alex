@@ -12,12 +12,14 @@ from tools.content_review.source_retention import prepare
 from tools.content_review.source_retention_checkpoint import prepare as checkpoint
 
 
-def fixture(repo):
+def fixture(repo, result_status='retrieved'):
     now,review,main,hb,snapshot,request,raw,run,artifact=setup(repo)
     result=json.loads(raw)
     result['records'][0].update(status='retrieved',next_action='Inspect retained evidence.',evidence=[{
         'text':'example evidence','text_sha256':hashlib.sha256(b'example evidence').hexdigest(),
         'body_sha256':'f'*64,'retrieved_at':now.isoformat(),'http_status':200}])
+    if result_status=='held':
+        result['records'][0].update(status='held',reason='source unavailable',next_action='Resolve source hold.',evidence=[])
     raw=json.dumps(result).encode();artifact['sha256']=hashlib.sha256(raw).hexdigest()
     guarded=call_guard(repo,now,review,main,hb,snapshot,request,raw,run,artifact)
     for path,content in guarded['bundle']['files'].items():put(repo,path,content)

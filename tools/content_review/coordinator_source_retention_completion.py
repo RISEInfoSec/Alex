@@ -1,5 +1,6 @@
 """Re-audit and release one source-retention run without native-success claims."""
 from datetime import datetime,timezone
+import json
 import re
 
 from tools.content_review.coordinator_heartbeat import HeartbeatKeeper
@@ -33,18 +34,28 @@ def complete(repo,token,native,review_head,main_head,owner,run_id,checkpoint_pat
         keeper.check()
     if not isinstance(proposal,dict) or proposal.get('status')!='prepared' or proposal.get('writes')!=0 or not isinstance(proposal.get('files'),dict):
         raise ValueError('Source retention completion proposal unavailable')
+    receipt_path='config/content_review_run_receipts/'+run_id+'.json'
+    try:receipt=json.loads(proposal['files'][receipt_path])
+    except (KeyError,TypeError,ValueError):raise ValueError('Source retention completion proposal invalid') from None
+    actions=receipt.get('completed_actions') if isinstance(receipt,dict) else None
+    action=actions[0].get('action') if isinstance(actions,list) and len(actions)==1 and isinstance(actions[0],dict) else None
+    held=action=='source_hold_retained'
+    if action not in ('source_hold_retained','source_evidence_retained') or receipt.get('candidate_processing') is not (not held) or \
+       receipt.get('status')!=('deferred' if held else 'complete'):
+        raise ValueError('Source retention completion proposal invalid')
     refs=heads(repo)
     if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Source retention completion heads changed')
     result=send('source_retention_completion',{'expectedHead':review_head,'expectedMain':main_head,'owner':owner,'runId':run_id,
                                            'checkpointCommit':review_head,'files':proposal['files']},token)
     if not isinstance(result,dict) or result.get('status')!='committed_and_read_back':
         return {'status':'blocked','reason':'source_retention_completion_unconfirmed','reconcile_before_retry':True,
-                'candidate_processing':True,'lease_release_confirmed':False,'native_completion_verified':False,'publication_verified':False}
+                'candidate_processing':None,'lease_release_confirmed':False,'native_completion_verified':False,'publication_verified':False}
     commit=result.get('commit_sha')
     if not SHA.fullmatch(commit or '') or result.get('receipt_path')!='config/content_review_run_receipts/'+run_id+'.json' or \
-       result.get('candidate_processing') is not True or result.get('native_completion_verified') is not False or result.get('publication_verified') is not False:
+       result.get('candidate_processing') is not (not held) or result.get('native_completion_verified') is not False or result.get('publication_verified') is not False:
         raise ValueError('Source retention completion response unconfirmed; reconcile before retrying')
     refs=heads(repo)
     if refs.get(REVIEW)!=commit or refs.get(MAIN)!=main_head:raise ValueError('Source retention completion head changed; reconcile before retrying')
-    return {'status':'application_complete','commit_sha':commit,'receipt_path':result['receipt_path'],
-            'candidate_processing':True,'lease_release_confirmed':True,'native_completion_verified':False,'publication_verified':False}
+    return {'status':'deferred' if held else 'application_complete','commit_sha':commit,'receipt_path':result['receipt_path'],
+            'reason':'source_hold_retained' if held else None,'candidate_processing':not held,
+            'lease_release_confirmed':True,'native_completion_verified':False,'publication_verified':False}

@@ -9,19 +9,21 @@ const HASH=/^[0-9a-f]{64}$/,ID=/^[a-zA-Z0-9-]{1,100}$/;
 function validateSourceRetentionCompletion({before,after,receipt,owner,runId,verifiedAction,now=Date.now()}){
  if(!object(before)||!object(after)||!object(receipt)||!object(verifiedAction)||!ID.test(owner||'')||!ID.test(runId||'')||!Number.isFinite(now))
   throw Error('Invalid source retention completion inputs');
- const lease=before.lease,run=before.current_run,stamp=receipt.completed_at;
+ const lease=before.lease,run=before.current_run,stamp=receipt.completed_at,held=verifiedAction.action==='source_hold_retained';
+ const status=held?'deferred':'complete';
  const fields=['schema_version','kind','run_id','trigger','scheduled_for','started_at','completed_at','status','receipt_path','completed_actions',
   'provider_requests','paid_requests','openalex_requests','candidate_processing','native_completion_verified','publication_approved','scope_note'].sort();
  const actionFields=['path','collection','candidate_id','content_sha256','action'].sort();
  if(!equal(Object.keys(verifiedAction).sort(),actionFields)||!ID.test(verifiedAction.collection||'')||!ID.test(verifiedAction.candidate_id||'')||
-  !HASH.test(verifiedAction.content_sha256||'')||verifiedAction.action!=='source_evidence_retained'||
+  !HASH.test(verifiedAction.content_sha256||'')||!['source_evidence_retained','source_hold_retained'].includes(verifiedAction.action)||
   !/^config\/content_review_source_checkpoints\/[0-9a-f]{64}\.json$/.test(verifiedAction.path||''))
   throw Error('Invalid verified source retention action');
  if(!equal(Object.keys(receipt).sort(),fields)||receipt.schema_version!==1||receipt.kind!=='source_retention_completion'||receipt.run_id!==runId||
-  receipt.trigger!=='schedule'||receipt.status!=='complete'||!equal(receipt.completed_actions,[verifiedAction])||
+  receipt.trigger!=='schedule'||receipt.status!==status||!equal(receipt.completed_actions,[verifiedAction])||
   receipt.receipt_path!=='config/content_review_run_receipts/'+runId+'.json'||receipt.provider_requests!==0||receipt.paid_requests!==0||
-  receipt.openalex_requests!==0||receipt.candidate_processing!==true||receipt.native_completion_verified!==false||receipt.publication_approved!==false||
-  receipt.scope_note!=='One source evidence result retained; no gate pass, review readiness or publication is established.'||
+  receipt.openalex_requests!==0||receipt.candidate_processing!==!held||receipt.native_completion_verified!==false||receipt.publication_approved!==false||
+  receipt.scope_note!==(held?'One source hold retained; no gate pass, review readiness or publication is established.':
+   'One source evidence result retained; no gate pass, review readiness or publication is established.')||
   !object(lease)||lease.owner!==owner||lease.run_id!==runId||!object(run)||run.run_id!==runId||run.application_status!=='running'||
   !equal(run.request_counts,{source:0,paid:0,openalex:0})||
   !Number.isFinite(time(stamp))||time(stamp)>now||now-time(stamp)>300000||
@@ -42,8 +44,8 @@ function validateSourceRetentionCompletion({before,after,receipt,owner,runId,ver
  const expected=structuredClone(before);expected.lease_history??=[];
  if(!Array.isArray(expected.lease_history))throw Error('Lease history invalid');
  expected.lease_history.push({...lease,status:'released',released_at:stamp});expected.lease=null;
- expected.current_run.application_status='complete';expected.current_run.application_completed_at=stamp;expected.current_run.receipt=receipt.receipt_path;
+ expected.current_run.application_status=status;expected.current_run.application_completed_at=stamp;expected.current_run.receipt=receipt.receipt_path;
  if(!equal(expected,after))throw Error('Source retention completion changes unrelated state');
- return {status:'valid',candidate_processing:true,native_completion_verified:false,publication_verified:false};
+ return {status:'valid',candidate_processing:!held,native_completion_verified:false,publication_verified:false};
 }
 module.exports={validateSourceRetentionCompletion};

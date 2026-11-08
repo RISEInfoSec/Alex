@@ -12,8 +12,8 @@ from tools.content_review.source_retention_checkpoint import prepare as checkpoi
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def request(repo):
-    now,head,main,hb,snapshot,source_request,raw,run,artifact=fixture(repo)
+def request(repo, result_status='retrieved'):
+    now,head,main,hb,snapshot,source_request,raw,run,artifact=fixture(repo,result_status)
     proposal=call(repo,now,head,main,hb,snapshot,source_request,raw,run,artifact)
     item=source_request['records'][0]
     bundle=checkpoint(repo,head,main,hb,snapshot,deepcopy(snapshot),source_request['request_id'],raw,run,artifact,

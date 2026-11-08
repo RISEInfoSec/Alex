@@ -9,8 +9,8 @@ from tests.test_content_review_verified_inputs import git
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def request(repo):
-    data=fixture(repo);proposal=call(repo,data);receipt=json.loads(proposal['files'][proposal['receipt_path']])
+def request(repo,result_status='retrieved'):
+    data=fixture(repo,result_status);proposal=call(repo,data);receipt=json.loads(proposal['files'][proposal['receipt_path']])
     return {'now':int((data[0].timestamp()+10)*1000),'snapshot':data[5],
             'before':json.loads(git(repo,'show',data[1]+':config/content_review_worker_status.json')),
             'action':deepcopy(receipt['completed_actions'][0]),
@@ -53,6 +53,13 @@ def test_source_retention_completion_releases_only_verified_checkpoint(tmp_path)
     result=invoke(request(tmp_path),'success')
     assert result.get('result',{}).get('status')=='committed_and_read_back',result
     assert result['result']['candidate_processing'] is True and result['result']['native_completion_verified'] is False
+    assert result['events']==['acquire','begin','release']
+
+
+def test_source_hold_completion_uses_same_fence_and_does_not_claim_processing(tmp_path):
+    result=invoke(request(tmp_path,'held'),'success')
+    assert result.get('result',{}).get('status')=='committed_and_read_back',result
+    assert result['result']['candidate_processing'] is False and result['result']['native_completion_verified'] is False
     assert result['events']==['acquire','begin','release']
 
 

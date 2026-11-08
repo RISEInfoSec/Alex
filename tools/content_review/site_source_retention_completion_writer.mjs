@@ -67,7 +67,7 @@ export async function writeSourceRetentionCompletion({db,github,getToken,input,n
   if(result.success!==true||!SHA.test(result.sha||''))throw Error('Source retention completion outcome ambiguous');
   const released=await control({db,github,input:{...fence,action:'release'},now});
   if(released.status!=='confirmed_and_released'||released.commit_sha!==result.sha)throw Error('Source retention completion readback differs');
-  return {status:'committed_and_read_back',commit_sha:result.sha,receipt_path:receiptPath,candidate_processing:true,
+  return {status:'committed_and_read_back',commit_sha:result.sha,receipt_path:receiptPath,candidate_processing:receipt.candidate_processing,
    native_completion_verified:false,publication_verified:false};
  }catch(error){
   if(mayHaveFence&&!commitAttempted){let aborted=false;try{aborted=(await control({db,github,input:{...fence,action:'abort'},now})).status==='aborted';}catch{}

@@ -50,8 +50,10 @@ export async function verifySourceRetentionCheckpoint({github,getToken,input,che
   verify:async()=>verify(),heartbeatFactory:()=>heartbeat,auditOnly:true};
  if(artifactReader)options.artifactReader=artifactReader;
  const result=await sourceAudit(options);await verify();
- if(result?.status!=='validated'||result.receipt_path!==path||result.result_status!=='retrieved'||result.gate_passed!==false||result.candidate_processing!==false||
+ if(result?.status!=='validated'||result.receipt_path!==path||!['retrieved','held'].includes(result.result_status)||result.result_status!==receipt.value?.result_status||
+  result.gate_passed!==false||result.candidate_processing!==false||
   result.publication_verified!==false||!ID.test(result.collection||'')||!ID.test(result.candidate_id||'')||!/^[0-9a-f]{64}$/.test(result.content_sha256||''))
   throw Error('Source retention independent audit failed');
- return {path,collection:result.collection,candidate_id:result.candidate_id,content_sha256:result.content_sha256,action:'source_evidence_retained'};
+ return {path,collection:result.collection,candidate_id:result.candidate_id,content_sha256:result.content_sha256,
+  action:result.result_status==='held'?'source_hold_retained':'source_evidence_retained'};
 }

@@ -11,8 +11,8 @@ from tools.content_review.source_retention_run_completion import prepare
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def request(repo):
-    value=actual_request(repo);head=value['input']['expectedHead'];main=value['input']['expectedMain'];hb=git(repo,'rev-parse','retention-completion-heartbeat')
+def request(repo,result_status='retrieved'):
+    value=actual_request(repo,result_status);head=value['input']['expectedHead'];main=value['input']['expectedMain'];hb=git(repo,'rev-parse','retention-completion-heartbeat')
     now=datetime.fromtimestamp(value['now']/1000,timezone.utc)
     proposal=prepare(repo,head,main,hb,value['native'],value['snapshot'],deepcopy(value['snapshot']),'worker','run2',value['path'],at=now)
     value['input'].update(checkpointCommit=head,files=proposal['files'])
@@ -81,6 +81,17 @@ def test_source_completion_reaudits_and_fences_live_decisions(tmp_path,mode):
     if mode=='success':
         assert result.get('result',{}).get('status')=='committed_and_read_back',result
         assert result['result']['candidate_processing'] is True and result['result']['native_completion_verified'] is False
+        assert result['heartbeat_updates']==1 and result['commits']==1 and result['fence']==[]
+    if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
+    if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True
+
+
+@pytest.mark.parametrize('mode',['success','d1change','ambiguous'])
+def test_source_hold_completion_reaudits_and_fences_live_decisions(tmp_path,mode):
+    result=invoke(request(tmp_path,'held'),mode)
+    if mode=='success':
+        assert result.get('result',{}).get('status')=='committed_and_read_back',result
+        assert result['result']['candidate_processing'] is False and result['result']['native_completion_verified'] is False
         assert result['heartbeat_updates']==1 and result['commits']==1 and result['fence']==[]
     if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
     if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True

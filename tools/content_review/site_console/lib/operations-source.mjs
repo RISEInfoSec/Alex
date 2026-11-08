@@ -144,7 +144,7 @@ export async function readOperations({fetcher=fetch,token='',now=Date.now(),cach
   // Fetch the canonical receipt from a pinned review commit and confirm the
   // head did not move. Receipt-derived counts remain worker-reported evidence.
   const run=scopedCheckpoint?.current_run,receiptPath=run?.receipt;
-  if(configured&&run?.application_status==='complete'&&typeof currentRun==='string'&&/^[a-zA-Z0-9-]{1,100}$/.test(currentRun)&&
+  if(configured&&['complete','deferred'].includes(run?.application_status)&&typeof currentRun==='string'&&/^[a-zA-Z0-9-]{1,100}$/.test(currentRun)&&
      receiptPath==='config/content_review_run_receipts/'+currentRun+'.json'){
    const pinned=await github('/commits/codex%2Fsoups-corpus-review');
    if(/^[0-9a-f]{40}$/.test(pinned?.sha||'')){

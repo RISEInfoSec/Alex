@@ -11,8 +11,8 @@ from tools.content_review.source_retention_checkpoint import prepare as checkpoi
 from tools.content_review.source_retention_run_completion import prepare
 
 
-def fixture(repo):
-    value=source_fixture(repo);old=value['input']['expectedHead'];main=value['input']['expectedMain']
+def fixture(repo, result_status='retrieved'):
+    value=source_fixture(repo,result_status);old=value['input']['expectedHead'];main=value['input']['expectedMain']
     state=json.loads(value['files'][old+':config/content_review_worker_status.json']['content'])
     prior=deepcopy(state['current_run']);now=(datetime.fromtimestamp(value['now']/1000,timezone.utc)+timedelta(seconds=1)).replace(microsecond=0)
     started=now.isoformat();state['run_history']=[prior];state['lease_history']=[]
@@ -55,6 +55,14 @@ def test_retention_completion_releases_with_truthful_receipt(tmp_path):
     assert receipt['kind']=='source_retention_completion' and receipt['completed_actions'][0]['action']=='source_evidence_retained'
     assert receipt['candidate_processing'] is True and receipt['native_completion_verified'] is False
     assert receipt['publication_approved'] is False and state['lease'] is None
+
+
+def test_held_source_completion_preserves_hold_and_defers_without_gate_claim(tmp_path):
+    values=fixture(tmp_path,'held');result=call(tmp_path,values)
+    receipt=json.loads(result['files'][result['receipt_path']]);state=json.loads(result['files']['config/content_review_worker_status.json'])
+    assert receipt['status']=='deferred' and receipt['completed_actions'][0]['action']=='source_hold_retained'
+    assert receipt['candidate_processing'] is False and receipt['native_completion_verified'] is False
+    assert receipt['publication_approved'] is False and state['lease'] is None and state['current_run']['application_status']=='deferred'
 
 
 def test_retention_completion_rejects_no_update_and_intervening_commit(tmp_path):

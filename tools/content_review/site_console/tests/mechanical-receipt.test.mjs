@@ -42,6 +42,18 @@ test('a retention receipt reports evidence retained without claiming a gate',()=
  assert.match(processingHealth(value,Date.parse(end)).status,/Source evidence retention reported/);
  r.candidate_processing=false;assert.equal(mechanicalReceipt(state(),r,target),null);
 });
+test('a retained source hold remains deferred and reports no gate or native success',()=>{
+ const s=state(),r=receipt();s.current_run.application_status='deferred';r.status='deferred';
+ r.kind='source_retention_completion';r.candidate_processing=false;
+ r.completed_actions[0].path='config/content_review_source_checkpoints/'+'a'.repeat(64)+'.json';
+ delete r.completed_actions[0].gate;r.completed_actions[0].action='source_hold_retained';
+ const value=mechanicalReceipt(s,r,target);
+ assert.equal(value.source_holds_retained,1);assert.equal(value.source_gate_passes,0);
+ assert.equal(value.source_evidence_retained,0);assert.equal(value.newly_review_ready,0);assert.equal(value.native_completion_verified,false);
+ assert.match(processingHealth(value,Date.parse(end)).status,/Source hold recorded/);
+ r.candidate_processing=true;assert.equal(mechanicalReceipt(s,r,target),null);
+ r.candidate_processing=false;r.status='complete';assert.equal(mechanicalReceipt(s,r,target),null);
+});
 
 import {createHash} from 'node:crypto';
 import {readOperations} from '../lib/operations-source.mjs';
@@ -82,6 +94,25 @@ test('console reports a source-gate receipt without inventing review readiness',
  assert.equal(result.processing.source_gate_passes,1);assert.equal(result.processing.duplicate_gate_passes,0);
  assert.equal(result.processing.newly_review_ready,0);assert.equal(result.processing.native_completion_verified,false);
  assert.match(result.processing.status,/Source progress reported/);
+});
+test('console reads a deferred hold receipt without reporting a source gate pass',async()=>{
+ const now=Date.parse(end),head='c'.repeat(40),s=state(),r=receipt();s.current_run.application_status='deferred';r.status='deferred';
+ r.kind='source_retention_completion';r.candidate_processing=false;
+ r.completed_actions[0].path='config/content_review_source_checkpoints/'+'a'.repeat(64)+'.json';
+ delete r.completed_actions[0].gate;r.completed_actions[0].action='source_hold_retained';
+ const fetcher=async url=>{
+  if(url.includes('/commits/codex%2Fsoups-corpus-review'))return Response.json({sha:head});
+  if(url.includes('content_review_monitor_config.json'))return encoded({target_automation_id:target});
+  if(url.includes('content_review_worker_status.json'))return encoded(s);
+  if(url.includes('content_review_run_receipts/'))return encoded(r);
+  if(url.includes('content_review_operations.json'))return encoded({scheduler:{id:target}});
+  if(url.includes('content_review_processing_health.json'))return encoded({});
+  if(url.includes('openalex_request_policy.json'))return encoded({requests_enabled:true});
+  return Response.json({workflows:[]});
+ };
+ const result=await readOperations({fetcher,now});
+ assert.equal(result.processing.source_holds_retained,1);assert.equal(result.processing.source_gate_passes,0);
+ assert.equal(result.processing.newly_review_ready,0);assert.equal(result.processing.native_completion_verified,false);
 });
 test('a moving review head cannot promote a receipt into processing evidence',async()=>{
  const now=Date.parse(end);let reads=0;
