@@ -121,12 +121,13 @@ def _proposal(repo, head, state_meta, updated, phase):
             'size': len(raw_new), 'requires_atomic_update_and_lease_readback': True, 'writes': 0}
 
 
-def prepare_manual(repo, head, owner, run_id, *, at=None):
+def prepare_manual(repo, head, owner, run_id, *, at=None, scope='duplicate_only'):
     """Prepare one explicitly authorized manual run; never invent native evidence."""
     now=at or datetime.now(timezone.utc)
     if (not isinstance(now,datetime) or now.tzinfo is None or now.utcoffset() is None or
         not isinstance(head,str) or not SHA.fullmatch(head) or not isinstance(owner,str) or not owner or
-        not isinstance(run_id,str) or not re.fullmatch(r'[a-zA-Z0-9-]+',run_id)):
+        not isinstance(run_id,str) or not re.fullmatch(r'[a-zA-Z0-9-]+',run_id) or
+        scope not in ('duplicate_only','source_retention_only')):
         raise ValueError('Manual run identity invalid')
     raw,meta=_path_blob(repo,head,WORKER);config_raw,_=_path_blob(repo,head,CONFIG)
     state,config=json.loads(raw),json.loads(config_raw)
@@ -134,7 +135,7 @@ def prepare_manual(repo, head, owner, run_id, *, at=None):
     until=instant(permit.get('expires_at')) if isinstance(permit,dict) else None
     if (not isinstance(target,str) or not re.fullmatch(r'Automation_[a-zA-Z0-9]+',target) or target in RETIRED_TARGETS or
         not isinstance(permit,dict) or set(permit)!={'run_id','owner','expires_at','scope'} or
-        permit.get('run_id')!=run_id or permit.get('owner')!=owner or permit.get('scope')!='duplicate_only' or
+        permit.get('run_id')!=run_id or permit.get('owner')!=owner or permit.get('scope')!=scope or
         not until or not 0<(until-now).total_seconds()<=900):
         raise ValueError('Exact unexpired manual authorization required')
     previous=state.get('current_run') or {}

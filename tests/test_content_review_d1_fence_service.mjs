@@ -87,7 +87,7 @@ test('manual permits cannot cross writer scopes or authorize unscoped operations
    f.state.current_run.scheduler={id:'Automation_worker1',kind:'manual',authorization:'owner_request',observed_at:'2026-11-07T19:00:20Z'};
    f.config.manual_run_authorization={run_id:'run-1',owner:'worker',scope:permit,expires_at:'2026-11-07T19:14:00Z'};
    f.manualScope=scope;
-   if(permit==='duplicate_only'&&scope===permit)assert.equal((await call(f,'acquire')).status,'acquired');
+   if(scope===permit)assert.equal((await call(f,'acquire')).status,'acquired');
    else {await assert.rejects(call(f,'acquire'));assert.equal(f.current(),null);}
   }
  }

@@ -18,7 +18,7 @@ def complete(repo,token,native,review_head,main_head,owner,run_id,checkpoint_pat
              snapshot_reader=read_snapshot,pulse_factory=DetachedHeartbeatPulse,keeper_factory=HeartbeatKeeper,
              preparer=prepare,send=post,clock=None):
     if not all(isinstance(x,str) and SHA.fullmatch(x) for x in (review_head,main_head)) or not all(ID.fullmatch(x or '') for x in (owner,run_id)) or \
-       not isinstance(checkpoint_path,str) or not PATH.fullmatch(checkpoint_path) or not isinstance(native,dict):
+       not isinstance(checkpoint_path,str) or not PATH.fullmatch(checkpoint_path) or (native is not None and not isinstance(native,dict)):
         raise ValueError('Invalid source retention completion identity')
     if not isinstance(token,str) or not token or '\n' in token or '\r' in token:raise ValueError('Source retention completion access unavailable')
     clock=clock or (lambda:datetime.now(timezone.utc));pulse=pulse_factory(repo,token,review_head,main_head,owner,run_id)

@@ -100,3 +100,18 @@ def test_manual_authorization_is_bound_to_current_run_and_expiry(tmp_path):
     for index,value in [(2,'other'),(3,'other'),(4,(now+timedelta(minutes=15)).timestamp()*1000)]:
         changed=deepcopy(valid);changed[index]=value
         assert json.loads(node('manual_authorization.cjs','authorized',changed).stdout) is False
+
+
+def test_source_retention_lease_requires_matching_manual_scope(tmp_path):
+    now,snapshot,inputs,state,ledger=setup_bundle();state['lease']=None
+    state['current_run']={'run_id':'old','application_status':'complete'}
+    _,main,_=input_fixture(tmp_path)
+    permit={'run_id':'manual-1','owner':'worker','scope':'source_retention_only','expires_at':(now+timedelta(minutes=14)).isoformat()}
+    put(tmp_path,'config/content_review_worker_status.json',state)
+    put(tmp_path,'config/content_review_monitor_config.json',{'target_automation_id':'Automation_worker1','manual_run_authorization':permit})
+    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','source retention permit');head=git(tmp_path,'rev-parse','HEAD')
+    with pytest.raises(ValueError,match='manual authorization'):
+        prepare_manual(tmp_path,head,'worker','manual-1',at=now)
+    proposal=prepare_manual(tmp_path,head,'worker','manual-1',at=now,scope='source_retention_only')
+    started=json.loads(proposal['content'])
+    assert started['current_run']['scheduler']['kind']=='manual' and started['current_run']['scheduled_for'] is None

@@ -10,7 +10,7 @@ function validateSourceRetentionCompletion({before,after,receipt,owner,runId,ver
  if(!object(before)||!object(after)||!object(receipt)||!object(verifiedAction)||!ID.test(owner||'')||!ID.test(runId||'')||!Number.isFinite(now))
   throw Error('Invalid source retention completion inputs');
  const lease=before.lease,run=before.current_run,stamp=receipt.completed_at,held=verifiedAction.action==='source_hold_retained';
- const status=held?'deferred':'complete';
+ const status=held?'deferred':'complete',manual=run?.scheduler?.kind==='manual';
  const fields=['schema_version','kind','run_id','trigger','scheduled_for','started_at','completed_at','status','receipt_path','completed_actions',
   'provider_requests','paid_requests','openalex_requests','candidate_processing','native_completion_verified','publication_approved','scope_note'].sort();
  const actionFields=['path','collection','candidate_id','content_sha256','action'].sort();
@@ -19,7 +19,7 @@ function validateSourceRetentionCompletion({before,after,receipt,owner,runId,ver
   !/^config\/content_review_source_checkpoints\/[0-9a-f]{64}\.json$/.test(verifiedAction.path||''))
   throw Error('Invalid verified source retention action');
  if(!equal(Object.keys(receipt).sort(),fields)||receipt.schema_version!==1||receipt.kind!=='source_retention_completion'||receipt.run_id!==runId||
-  receipt.trigger!=='schedule'||receipt.status!==status||!equal(receipt.completed_actions,[verifiedAction])||
+  receipt.trigger!==(manual?'manual':'schedule')||receipt.status!==status||!equal(receipt.completed_actions,[verifiedAction])||
   receipt.receipt_path!=='config/content_review_run_receipts/'+runId+'.json'||receipt.provider_requests!==0||receipt.paid_requests!==0||
   receipt.openalex_requests!==0||receipt.candidate_processing!==!held||receipt.native_completion_verified!==false||receipt.publication_approved!==false||
   receipt.scope_note!==(held?'One source hold retained; no gate pass, review readiness or publication is established.':
@@ -28,7 +28,7 @@ function validateSourceRetentionCompletion({before,after,receipt,owner,runId,ver
   !equal(run.request_counts,{source:0,paid:0,openalex:0})||
   !Number.isFinite(time(stamp))||time(stamp)>now||now-time(stamp)>300000||
   !Number.isFinite(time(run.started_at))||time(run.started_at)>time(stamp)||time(receipt.started_at)!==time(run.started_at)||
-  !Number.isFinite(time(run.scheduled_for))||time(receipt.scheduled_for)!==time(run.scheduled_for)||
+  (manual?(run.scheduled_for!==null||receipt.scheduled_for!==null):(!Number.isFinite(time(run.scheduled_for))||time(receipt.scheduled_for)!==time(run.scheduled_for)))||
   !Number.isFinite(time(lease.acquired_at))||time(lease.acquired_at)>time(stamp)||
   !Number.isFinite(time(lease.expires_at))||time(lease.expires_at)<=now||
   (lease.renewed_at!=null&&(!Number.isFinite(time(lease.renewed_at))||time(lease.renewed_at)>time(stamp))))

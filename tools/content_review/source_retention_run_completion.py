@@ -38,7 +38,18 @@ def prepare(repo,review_head,main_head,heartbeat_head,native,snapshot,confirmed,
     last=((observed or {}).get('run_details') or {}).get('last_run') or {};latest=((observed or {}).get('run_details') or {}).get('latest_result') or {}
     run=state.get('current_run') or {};started,due=instant(run.get('started_at')),instant(run.get('scheduled_for'))
     anchor=hourly_anchor((observed or {}).get('schedule',''))
-    if (not observed or observed.get('is_enabled') is not True or (run.get('scheduler') or {}).get('id')!=target or last.get('id')!=run_id
+    manual=(run.get('scheduler') or {}).get('kind')=='manual'
+    permit=config.get('manual_run_authorization') if manual else None
+    until=instant(permit.get('expires_at')) if isinstance(permit,dict) else None
+    if manual:
+        if (native is not None or not isinstance(target,str) or target in RETIRED_TARGETS or
+            not isinstance(permit,dict) or set(permit)!={'run_id','owner','expires_at','scope'} or
+            permit.get('run_id')!=run_id or permit.get('owner')!=owner or permit.get('scope')!='source_retention_only' or
+            (run.get('scheduler') or {}).get('id')!=target or (run.get('scheduler') or {}).get('authorization')!='owner_request' or
+            run.get('scheduled_for') is not None or not started or not until or started>now or until<=now or
+            (until-started).total_seconds()>900 or (now-started).total_seconds()>600):
+            raise ValueError('Exact manual source retention authorization and work window required')
+    elif (not observed or observed.get('is_enabled') is not True or (run.get('scheduler') or {}).get('id')!=target or last.get('id')!=run_id
         or last.get('recorded_status')!='in_progress' or instant(last.get('started_at'))!=started or instant(last.get('scheduled_for'))!=due
         or not started or not due or not anchor or due<anchor or (due-anchor).total_seconds()%3600!=0 or started>now
         or (now-started).total_seconds()>720 or (latest.get('run_id')==run_id and (latest.get('requires_user_action') is True or latest.get('is_failure_message') is True))):
@@ -93,7 +104,7 @@ def prepare(repo,review_head,main_head,heartbeat_head,native,snapshot,confirmed,
     updated['current_run']['application_completed_at']=now.isoformat();updated['current_run']['receipt']=receipt_path
     action={'path':checkpoint_path,'collection':collection,'candidate_id':candidate,'content_sha256':digest,
             'action':'source_hold_retained' if held else 'source_evidence_retained'}
-    outcome={'schema_version':1,'kind':'source_retention_completion','run_id':run_id,'trigger':'schedule','scheduled_for':due.isoformat(),
+    outcome={'schema_version':1,'kind':'source_retention_completion','run_id':run_id,'trigger':'manual' if manual else 'schedule','scheduled_for':None if manual else due.isoformat(),
              'started_at':started.isoformat(),'completed_at':now.isoformat(),'status':status,'receipt_path':receipt_path,
              'completed_actions':[action],'provider_requests':0,'paid_requests':0,'openalex_requests':0,'candidate_processing':not held,
              'native_completion_verified':False,'publication_approved':False,

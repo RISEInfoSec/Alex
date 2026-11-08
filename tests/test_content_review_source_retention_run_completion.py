@@ -11,7 +11,7 @@ from tools.content_review.source_retention_checkpoint import prepare as checkpoi
 from tools.content_review.source_retention_run_completion import prepare
 
 
-def fixture(repo, result_status='retrieved'):
+def fixture(repo, result_status='retrieved', manual=False, permit_scope='source_retention_only', permit_seconds=600):
     value=source_fixture(repo,result_status);old=value['input']['expectedHead'];main=value['input']['expectedMain']
     state=json.loads(value['files'][old+':config/content_review_worker_status.json']['content'])
     prior=deepcopy(state['current_run']);now=(datetime.fromtimestamp(value['now']/1000,timezone.utc)+timedelta(seconds=1)).replace(microsecond=0)
@@ -21,8 +21,13 @@ def fixture(repo, result_status='retrieved'):
         'scheduler':{'id':'Automation_worker','is_enabled':True,'observed_at':started,
          'last_run':{'id':'run2','recorded_status':'in_progress','started_at':started,'scheduled_for':started}},
         'request_counts':{'source':0,'paid':0,'openalex':0}}
+    config={'target_automation_id':'Automation_worker','heartbeat_ref':'codex/content-review-heartbeat'}
+    if manual:
+        state['current_run']['scheduled_for']=None
+        state['current_run']['scheduler']={'id':'Automation_worker','kind':'manual','authorization':'owner_request','observed_at':started}
+        config['manual_run_authorization']={'owner':'worker','run_id':'run2','scope':permit_scope,'expires_at':(now+timedelta(seconds=permit_seconds)).isoformat()}
     put(repo,'config/content_review_worker_status.json',state)
-    put(repo,'config/content_review_monitor_config.json',{'target_automation_id':'Automation_worker','heartbeat_ref':'codex/content-review-heartbeat'})
+    put(repo,'config/content_review_monitor_config.json',config)
     git(repo,'add','.');git(repo,'commit','-qm','new native run');review=git(repo,'rev-parse','HEAD')
     branch=git(repo,'symbolic-ref','--short','HEAD');beat=heartbeat(state,review,'worker','run2',at=now)
     git(repo,'checkout','-qb','retention-completion-heartbeat');put(repo,'config/content_review_detached_heartbeat.json',beat)
@@ -41,6 +46,7 @@ def fixture(repo, result_status='retrieved'):
     schedule='BEGIN:VEVENT\nDTSTART:'+now.strftime('%Y%m%dT%H%M%SZ')+'\nRRULE:FREQ=HOURLY\nEND:VEVENT'
     native={'automations':[{'id':'Automation_worker','is_enabled':True,'schedule':schedule,
         'run_details':{'last_run':{'id':'run2','recorded_status':'in_progress','started_at':started,'scheduled_for':started}}}]}
+    if manual:native=None
     return now,review,main,hb,native,value['snapshot'],bundle['proof']['new_path']
 
 
@@ -83,3 +89,18 @@ def test_private_review_decision_blocks_retention_completion(tmp_path):
     for key in ('submissions','decisions'):snapshot['read_evidence'][key]['rows_received']=len(snapshot[key])
     values[5]=snapshot
     with pytest.raises(ValueError,match='Reviewed candidate requires reconciliation'):call(tmp_path,values)
+
+
+def test_manual_retention_completion_reports_manual_without_native_claim(tmp_path):
+    values=fixture(tmp_path,manual=True);result=call(tmp_path,values)
+    receipt=json.loads(result['files'][result['receipt_path']])
+    assert receipt['trigger']=='manual' and receipt['scheduled_for'] is None
+    assert receipt['native_completion_verified'] is False and receipt['publication_approved'] is False
+    with pytest.raises(ValueError,match='manual source retention authorization'):
+        call(tmp_path,values,native={'fabricated':'native'})
+
+
+@pytest.mark.parametrize('scope,seconds',[('duplicate_only',600),('publication',600),('source_retention_only',-1),('source_retention_only',901)])
+def test_manual_retention_completion_requires_exact_fresh_scope(tmp_path,scope,seconds):
+    values=fixture(tmp_path,manual=True,permit_scope=scope,permit_seconds=seconds)
+    with pytest.raises(ValueError,match='manual source retention authorization'):call(tmp_path,values)

@@ -38,6 +38,17 @@ def test_site_validates_hold_without_accepting_false_progress(tmp_path):
     assert invoke(data).returncode!=0
 
 
+def test_manual_retention_receipt_is_truthful_and_cannot_claim_a_schedule(tmp_path):
+    values=fixture(tmp_path,manual=True);result=call(tmp_path,values)
+    receipt=json.loads(result['files'][result['receipt_path']]);after=json.loads(result['files']['config/content_review_worker_status.json'])
+    before=json.loads(subprocess.check_output(['git','-C',str(tmp_path),'show',values[1]+':config/content_review_worker_status.json']))
+    data={'before':before,'after':after,'receipt':receipt,'owner':'worker','runId':'run2',
+          'verifiedAction':deepcopy(receipt['completed_actions'][0]),'now':int(values[0].timestamp()*1000)}
+    assert invoke(data).returncode==0
+    data['receipt']['trigger']='schedule'
+    assert invoke(data).returncode!=0
+
+
 @pytest.mark.parametrize('change',['action','receipt','native','publication','state','lease','counts'])
 def test_retention_completion_rejects_unverified_or_unrelated_changes(tmp_path,change):
     data=value(tmp_path)

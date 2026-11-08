@@ -40,12 +40,15 @@ def start(repo,token,native,owner,run_id,*,heads=read_heads,fetch=fetch_heads,pr
             'native_observation_authenticated':False,'candidate_processing':False}
 
 
-def start_manual(repo,token,native,owner,run_id,*,heads=read_heads,fetch=fetch_heads,preparer=prepare_manual,send=post,clock=None):
+def start_manual(repo,token,native,owner,run_id,*,heads=read_heads,fetch=fetch_heads,preparer=prepare_manual,send=post,clock=None,scope='duplicate_only',expected_review_head=None,expected_main_head=None):
     _identity(token,owner,run_id);clock=clock or (lambda:datetime.now(timezone.utc))
     if native is not None:raise ValueError('Manual run cannot include native scheduler evidence')
     refs=heads(repo)
     if not all(SHA.fullmatch(refs.get(k) or '') for k in (REVIEW,MAIN,HEARTBEAT)):raise ValueError('Coordinator source heads unavailable')
-    fetch(repo,refs,run_id);proposal=preparer(repo,refs[REVIEW],owner,run_id,at=clock())
+    if (expected_review_head is not None and refs[REVIEW]!=expected_review_head) or (expected_main_head is not None and refs[MAIN]!=expected_main_head):
+        raise ValueError('Coordinator source heads changed before lease')
+    if scope not in ('duplicate_only','source_retention_only'):raise ValueError('Manual scope invalid')
+    fetch(repo,refs,run_id);proposal=preparer(repo,refs[REVIEW],owner,run_id,at=clock(),scope=scope)
     result=send('lease',{'proposal':proposal,'owner':owner,'runId':run_id},token)
     if not isinstance(result,dict) or result.get('status')!='committed_and_read_back' or not SHA.fullmatch(result.get('commit_sha') or ''):
         return {'status':'blocked','reason':'lease_start_not_confirmed','reconcile_before_retry':True,'candidate_processing':False}
