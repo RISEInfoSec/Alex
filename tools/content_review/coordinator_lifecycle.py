@@ -95,8 +95,15 @@ def complete(repo,token,native,review_head,main_head,owner,run_id,checkpoint_pat
     if processed:request['checkpointCommits']=checkpoint_commits
     result=send('completion' if processed else 'no_work',request,token)
     if not isinstance(result,dict) or result.get('status')!='committed_and_read_back':
+        safe_reasons={'invalid_request','request_too_large','worker_not_verified','source_head_changed','decisions_changed',
+                      'service_access_required','no_work_unavailable','completion_unavailable','heartbeat_unconfirmed_reconcile_ref',
+                      'fence_state_unconfirmed','commit_unconfirmed_reconcile_fence'}
+        site_reason=result.get('reason') if isinstance(result,dict) else None
+        http_status=result.get('http_status') if isinstance(result,dict) else None
         return {'status':'blocked','reason':'completion_not_confirmed','reconcile_before_retry':True,
-                'candidate_processing':processed,'lease_release_confirmed':False,'native_completion_verified':False}
+                'candidate_processing':processed,'lease_release_confirmed':False,'native_completion_verified':False,
+                'site_reason':site_reason if isinstance(site_reason,str) and site_reason in safe_reasons else None,
+                'site_http_status':http_status if type(http_status) is int and 100<=http_status<=599 else None}
     commit=result.get('commit_sha')
     if not SHA.fullmatch(commit or '') or result.get('receipt_path')!='config/content_review_run_receipts/'+run_id+'.json' or \
        result.get('candidate_processing') is not processed or result.get('native_completion_verified') is not False or result.get('publication_verified') is not False:

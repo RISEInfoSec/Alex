@@ -33,7 +33,7 @@ async function verifiedJson(github,path,ref){
  return result;
 }
 
-async function context(github,input,now,manualScope=null){
+async function context(github,input,now,manualScope=null,completionOnly=false){
  const head=async branch=>unwrap(await github.fetchCommit({repo_full_name:REPO,commit_sha:branch}))?.commit?.sha;
  const [review,main]=await Promise.all([head(REVIEW),head(MAIN)]);
  if(review!==input.expectedHead||main!==input.expectedMain)throw Error('Source head changed');
@@ -54,7 +54,7 @@ async function context(github,input,now,manualScope=null){
     (scheduler.kind!=='manual'&&(scheduled===null||instant(scheduler.last_run?.started_at)!==started||instant(scheduler.last_run?.scheduled_for)!==scheduled))||
     nativeObserved<started||nativeObserved>time||acquired===null||expires===null||observed===null||
     started>time||acquired>observed||observed<started||observed>time||time-observed>40000||
-    time-started>600000||expires-time<=120000)
+    time-started>(completionOnly?900000:600000)||expires-time<=120000)
   throw Error('Current worker lease or heartbeat is unavailable');
  const [reviewAgain,mainAgain]=await Promise.all([head(REVIEW),head(MAIN)]);
  if(reviewAgain!==review||mainAgain!==main)throw Error('Source head changed');
@@ -63,21 +63,21 @@ async function context(github,input,now,manualScope=null){
 
 // Preliminary read-only check for Site operations before they create any Git
 // objects. A caller must still recheck under the decision fence before CAS.
-export async function verifyWorkerContext({github,input,now=()=>Date.now(),manualScope=null}){
+export async function verifyWorkerContext({github,input,now=()=>Date.now(),manualScope=null,completionOnly=false}){
  if(!github||!input||typeof now!=='function'||!SHA.test(input.expectedHead||'')||!SHA.test(input.expectedMain||'')||
     typeof input.owner!=='string'||!/^[a-zA-Z0-9-]{1,100}$/.test(input.owner)||
     typeof input.runId!=='string'||!/^[a-zA-Z0-9-]{1,100}$/.test(input.runId)||
-    ![null,'duplicate_only','source_retention_only'].includes(manualScope))
+    ![null,'duplicate_only','source_retention_only'].includes(manualScope)||typeof completionOnly!=='boolean')
   throw Error('Invalid worker context');
- return context(github,input,now,manualScope);
+ return context(github,input,now,manualScope,completionOnly);
 }
 
-export async function controlFence({db,github,input,now=()=>Date.now(),inspect=inspectFence,readSnapshot=reader.readStable,manualScope=null}){
+export async function controlFence({db,github,input,now=()=>Date.now(),inspect=inspectFence,readSnapshot=reader.readStable,manualScope=null,completionOnly=false}){
  if(!input||typeof input!=='object'||Array.isArray(input)||JSON.stringify(Object.keys(input).sort())!==JSON.stringify(KEYS)||
     !['acquire','begin','abort','release'].includes(input.action)||!SHA.test(input.expectedMain||'')||!SHA256.test(input.d1Fingerprint||''))
   throw Error('Invalid fence request');
  if(!db||!github||typeof now!=='function'||typeof inspect!=='function'||typeof readSnapshot!=='function'||
-    ![null,'duplicate_only','source_retention_only'].includes(manualScope))
+    ![null,'duplicate_only','source_retention_only'].includes(manualScope)||typeof completionOnly!=='boolean')
   throw Error('Fence dependencies unavailable');
  // Aborting only a preparing fence and releasing only an independently
  // confirmed commit remain possible even after the worker lease has expired.
@@ -86,7 +86,7 @@ export async function controlFence({db,github,input,now=()=>Date.now(),inspect=i
  const state=await inspect(db);
  if(input.action==='acquire'&&state.status!=='idle')throw Error('Decision fence unavailable');
  if(input.action==='begin'&&state.status!=='held')throw Error('Decision fence unavailable');
- const check=()=>context(github,input,now,manualScope);
+ const check=()=>context(github,input,now,manualScope,completionOnly);
  await check();
  if(input.action==='acquire')return {status:await acquireFence(db,input,()=>new Date(now()))?'acquired':'not_changed'};
  const snapshots=await readSnapshot({db,heartbeat:check});

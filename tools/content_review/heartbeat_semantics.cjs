@@ -21,7 +21,7 @@ function validateHeartbeat({state,config,record,previous,reviewHead,owner,runId,
     record.lease_expires_at!==lease.expires_at||!Number.isFinite(time(record.observed_at))||time(record.observed_at)>now||
     now-time(record.observed_at)>40000||!Number.isFinite(time(run.started_at))||time(run.started_at)>time(record.observed_at)||
     !Number.isFinite(time(lease.acquired_at))||time(lease.acquired_at)>time(record.observed_at)||
-    !Number.isFinite(time(lease.expires_at))||time(lease.expires_at)<=now||now-time(run.started_at)>=720000)
+    !Number.isFinite(time(lease.expires_at))||time(lease.expires_at)<=now||now-time(run.started_at)>=900000)
   throw new Error('Heartbeat does not match the committed worker and lease');
  if(previous!==null){
   if(!object(previous)||!Number.isFinite(time(previous.observed_at))||time(previous.observed_at)>time(record.observed_at)||

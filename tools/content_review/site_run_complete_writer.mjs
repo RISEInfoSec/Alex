@@ -35,19 +35,19 @@ export async function writeCompletion({db,github,input,now=()=>Date.now(),read=r
  const head=async branch=>unwrap(await github.fetchCommit({repo_full_name:REPO,commit_sha:branch}),'Completion branch unavailable').commit?.sha;
  const checkHeads=async()=>{const [a,b]=await Promise.all([head(REVIEW),head(MAIN)]);
   if(a!==input.expectedHead||b!==input.expectedMain)throw Error('Completion source head changed');};
- await checkHeads();await verify({github,input,now,manualScope:'duplicate_only'});
+ await checkHeads();await verify({github,input,now,manualScope:'duplicate_only',completionOnly:true});
  const before=await verifier.verifiedJson(await github.fetchFile({repository_full_name:REPO,path:WORKER,ref:input.expectedHead,require_content:true}),{limit:LIMIT});
  const prior=await github.fetchFile({repository_full_name:REPO,path:receiptPath,ref:input.expectedHead});
  if(!prior?.isError||prior.structuredContent?.error_code!=='NOT_FOUND')throw Error('Completion receipt is not confirmed absent');
  const heartbeat=heartbeatFactory({github,input,now});
- const snapshots=await read({db,heartbeat:async()=>{await heartbeat();await verify({github,input,now,manualScope:'duplicate_only'});}});
+ const snapshots=await read({db,heartbeat:async()=>{await heartbeat();await verify({github,input,now,manualScope:'duplicate_only',completionOnly:true});}});
  if(!snapshots||snapshots.transactional_snapshot!==false||
   fingerprints.fingerprint(snapshots.snapshot)!==fingerprints.fingerprint(snapshots.confirmed_snapshot))throw Error('Completion decision snapshot changed');
  const verifiedActions=[];
  // Heartbeat renewal shares one serialized ref: re-audit each action in order.
  for(const action of actions)verifiedActions.push(await check({github,input,checkpointCommit:input.checkpointCommits[action.path],path:action.path,
   snapshot:snapshots.snapshot,confirmed:snapshots.confirmed_snapshot,heartbeat}));
- await verify({github,input,now,manualScope:'duplicate_only'});
+ await verify({github,input,now,manualScope:'duplicate_only',completionOnly:true});
  guard.validateComplete({before,after,receipt,owner:input.owner,runId:input.runId,verifiedActions,now:now()});
  const privateFingerprint=fingerprints.fingerprint(snapshots.snapshot);
  const details=unwrap(await github.fetchCommitDetails({repository_full_name:REPO,commit_sha:input.expectedHead}),'Completion base commit unavailable');
@@ -65,20 +65,20 @@ export async function writeCompletion({db,github,input,now=()=>Date.now(),read=r
   expectedMain:input.expectedMain,expectedTree:tree.sha,receiptPath,receiptBlob:additions.find(x=>x.path===receiptPath).sha,d1Fingerprint:privateFingerprint};
  let mayHaveFence=false,commitAttempted=false;
  try{
-  mayHaveFence=true;if((await control({db,github,input:fence,now,manualScope:'duplicate_only'})).status!=='acquired')throw Error('Completion fence unavailable');
-  if((await control({db,github,input:{...fence,action:'begin'},now,manualScope:'duplicate_only'})).status!=='committing')throw Error('Completion fence did not enter commit');
+  mayHaveFence=true;if((await control({db,github,input:fence,now,manualScope:'duplicate_only',completionOnly:true})).status!=='acquired')throw Error('Completion fence unavailable');
+  if((await control({db,github,input:{...fence,action:'begin'},now,manualScope:'duplicate_only',completionOnly:true})).status!=='committing')throw Error('Completion fence did not enter commit');
   commitAttempted=true;let update;
   try{update=await github.commitOnBranch({repository_full_name:REPO,branch_name:REVIEW,expected_sha:input.expectedHead,
    additions:paths.map(path=>({path,content:files[path]})),message:'Record verified review checkpoint and release lease'});}
   catch{throw Error('Completion commit outcome ambiguous');}
   const result=unwrap(update,'Completion commit rejected or ambiguous');
   if(result.success!==true||!SHA.test(result.sha||''))throw Error('Completion commit outcome ambiguous');
-  const released=await control({db,github,input:{...fence,action:'release'},now,manualScope:'duplicate_only'});
+  const released=await control({db,github,input:{...fence,action:'release'},now,manualScope:'duplicate_only',completionOnly:true});
   if(released.status!=='confirmed_and_released'||released.commit_sha!==result.sha)throw Error('Completion commit readback differs');
   return {status:'committed_and_read_back',commit_sha:result.sha,receipt_path:receiptPath,candidate_processing:true,
    native_completion_verified:false,publication_verified:false};
  }catch(error){
-  if(mayHaveFence&&!commitAttempted){let aborted=false;try{aborted=(await control({db,github,input:{...fence,action:'abort'},now,manualScope:'duplicate_only'})).status==='aborted';}catch{}
+  if(mayHaveFence&&!commitAttempted){let aborted=false;try{aborted=(await control({db,github,input:{...fence,action:'abort'},now,manualScope:'duplicate_only',completionOnly:true})).status==='aborted';}catch{}
    if(!aborted)throw Error('Completion fence state unconfirmed; inspect fence');}
   if(commitAttempted)throw Error('Completion commit outcome ambiguous or unconfirmed; reconcile branch and fence');
   throw error;

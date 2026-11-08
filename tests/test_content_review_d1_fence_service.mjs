@@ -62,6 +62,18 @@ test('a fresh detached heartbeat permits a long-running native-bound worker',asy
  const f=fixture();f.now=()=>at+180000;f.heartbeat.observed_at='2026-11-07T19:03:20Z';
  assert.equal((await call(f,'acquire')).status,'acquired');
 });
+test('only the internal completion path can use the bounded completion window',async()=>{
+ const atMinute=minutes=>{const f=fixture();const t=Date.parse('2026-11-07T19:00:00Z')+minutes*60000;
+  f.now=()=>t;f.heartbeat.observed_at=new Date(t).toISOString();return f;};
+ const candidate=atMinute(11);await assert.rejects(call(candidate,'acquire'));assert.equal(candidate.current(),null);
+ const completion=atMinute(11);completion.completionOnly=true;
+ assert.equal((await call(completion,'acquire')).status,'acquired');completion.snap.jobs.push({id:'private'});
+ await assert.rejects(call(completion,'begin'),/decisions changed/);assert.equal((await call(completion,'abort')).status,'aborted');
+ const late=atMinute(15.1);late.completionOnly=true;await assert.rejects(call(late,'acquire'));assert.equal(late.current(),null);
+ const stale=atMinute(11);stale.completionOnly=true;stale.heartbeat.observed_at='2026-11-07T19:00:20Z';
+ await assert.rejects(call(stale,'acquire'));assert.equal(stale.current(),null);
+ const supplied=atMinute(11);await assert.rejects(call(supplied,'acquire',{completionOnly:true}),/Invalid fence request/);
+});
 test('a scheduler observation predating its run is rejected',async()=>{
  const f=fixture();f.state.current_run.scheduler.observed_at='2026-11-07T18:59:59Z';
  await assert.rejects(call(f,'acquire'),/worker lease or heartbeat/);assert.equal(f.current(),null);

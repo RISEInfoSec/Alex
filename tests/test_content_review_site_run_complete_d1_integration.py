@@ -17,7 +17,7 @@ from tools.content_review.run_completion import prepare
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def request(repo, *, pending=False):
+def request(repo, *, pending=False, completion_seconds=10):
     old=fixture(repo,pending=pending);now,checkpoint,main,_,native,snapshot,paths=old
     value=readback_data(repo,old)
     put(repo,'config/content_review_monitor_config.json',{'target_automation_id':'Automation_worker1',
@@ -25,11 +25,11 @@ def request(repo, *, pending=False):
     git(repo,'add','config/content_review_monitor_config.json');git(repo,'commit','-qm','monitor configuration')
     head=git(repo,'rev-parse','HEAD')
     state=json.loads(git(repo,'show',head+':config/content_review_worker_status.json'))
-    heartbeat=prepare_heartbeat(state,head,'worker','run',at=now+timedelta(seconds=10))
+    heartbeat=prepare_heartbeat(state,head,'worker','run',at=now+timedelta(seconds=completion_seconds))
     branch=git(repo,'symbolic-ref','--short','HEAD');git(repo,'checkout','-qb','heartbeat-for-completion')
     put(repo,'config/content_review_detached_heartbeat.json',heartbeat)
     git(repo,'add','.');git(repo,'commit','-qm','heartbeat');hb=git(repo,'rev-parse','HEAD');git(repo,'checkout','-q',branch)
-    proposal=prepare(repo,head,main,hb,native,snapshot,deepcopy(snapshot),'worker','run',paths,at=now+timedelta(seconds=10))
+    proposal=prepare(repo,head,main,hb,native,snapshot,deepcopy(snapshot),'worker','run',paths,at=now+timedelta(seconds=completion_seconds))
     for path in ['config/weekly_review_manifest.json','config/content_review_candidate_lifecycle.json',
                  'config/content_review_preflight_status.json','config/content_review_worker_status.json',
                  'config/content_review_monitor_config.json',paths[0]]:
@@ -39,7 +39,7 @@ def request(repo, *, pending=False):
     value['input']={'expectedHead':head,'expectedMain':main,'owner':'worker','runId':'run',
                     'checkpointCommits':{paths[0]:checkpoint},'files':proposal['files']}
     value.update({'checkpointCommit':checkpoint,'currentTree':git(repo,'rev-parse',head+'^{tree}'),
-                  'heartbeat':heartbeat,'now':int((now.timestamp()+10)*1000)})
+                  'heartbeat':heartbeat,'now':int((now.timestamp()+completion_seconds)*1000)})
     return value
 
 
@@ -127,6 +127,14 @@ def test_completion_reaudits_under_real_d1_fence(tmp_path,mode):
         assert result.get('result',{}).get('status')=='committed_and_read_back',result
         assert result['commits']==1 and result['heartbeat_updates']==1 and result['fence']==[]
         assert result['result']['native_completion_verified'] is False and result['result']['publication_verified'] is False
+    if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
+    if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True
+
+
+@pytest.mark.parametrize('mode',['success','d1change','ambiguous'])
+def test_late_completion_reaudits_under_real_d1_fence(tmp_path,mode):
+    result=invoke(request(tmp_path,completion_seconds=650),mode)
+    if mode=='success':assert result.get('result',{}).get('status')=='committed_and_read_back' and result['fence']==[],result
     if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
     if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True
 

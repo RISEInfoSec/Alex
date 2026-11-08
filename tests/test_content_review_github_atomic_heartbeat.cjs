@@ -1,6 +1,7 @@
 'use strict';
 const test=require('node:test');const assert=require('node:assert/strict');const crypto=require('node:crypto');
 const {commitHeartbeat}=require('../tools/content_review/github_atomic_heartbeat.cjs');
+const {validateHeartbeat}=require('../tools/content_review/heartbeat_semantics.cjs');
 const hash=s=>crypto.createHash('sha1').update(`blob ${Buffer.byteLength(s)}\0`).update(s).digest('hex');
 const ok=x=>({isError:false,structuredContent:x});
 const review='a'.repeat(40),old='b'.repeat(40),tree='c'.repeat(40),newTree='d'.repeat(40),next='e'.repeat(40);
@@ -29,6 +30,22 @@ function fixture(){
 }
 test('heartbeat advances only the independent ref and verifies readback',async()=>{
  const f=fixture(),r=await commitHeartbeat(f);assert.equal(r.heartbeat_head,next);assert.equal(r.review_head,review);assert.equal(f.updates(),1);
+});
+test('fresh heartbeat supports bounded completion grace but expires at fifteen minutes',()=>{
+ const f=fixture(),record=JSON.parse(f.proposal.content),base=Date.parse(record.started_at);
+ const args={state:f.worker,config:f.config,record,previous:null,reviewHead:review,owner:'worker',runId:'run'};
+ record.observed_at=new Date(base+11*60000).toISOString();
+ assert.equal(validateHeartbeat({...args,now:base+11*60000}).status,'valid');
+ record.observed_at=new Date(base+15*60000).toISOString();
+ assert.throws(()=>validateHeartbeat({...args,now:base+15*60000}),/does not match/);
+});
+test('heartbeat adapter enforces the same completion-grace limit before writes',async()=>{
+ for(const minutes of [11,15]){
+  const f=fixture(),record=JSON.parse(f.proposal.content),at=Date.parse(record.started_at)+minutes*60000;
+  record.observed_at=new Date(at).toISOString();f.proposal.content=JSON.stringify(record)+'\n';f.proposal.blob_sha=hash(f.proposal.content);f.now=()=>at;
+  if(minutes===11){assert.equal((await commitHeartbeat(f)).status,'committed_and_read_back');assert.equal(f.updates(),1);}
+  else {await assert.rejects(commitHeartbeat(f),/stale or mismatched/);assert.equal(f.updates(),0);}
+ }
 });
 test('Site-backed heartbeat targets only the heartbeat ref with expected head',async()=>{
  const f=fixture();let calls=0;
