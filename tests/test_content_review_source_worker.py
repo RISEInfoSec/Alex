@@ -20,6 +20,17 @@ def test_truncated_text_is_explicit():
 @pytest.mark.parametrize('url',['file:///etc/passwd','https://u:p@example.org','https://example.org:8080','https://api.openalex.org/works'])
 def test_unsafe_and_separate_provider_routes(url):
     with pytest.raises(s.Hold):s.safe_url(url,resolve=False)
+@pytest.mark.parametrize('url',['https://api.openalex.org/works/doi:10.1/test','https://api.openalex.org./works',
+                               'https://openalex.org/'])
+def test_generic_source_cannot_bypass_controlled_openalex_route(url,monkeypatch):
+    def forbidden(*args,**kwargs):raise AssertionError('Network must not be reached')
+    monkeypatch.setattr(s.socket,'getaddrinfo',forbidden)
+    with pytest.raises(s.Hold,match='openalex_requires_controlled_route'):
+        s.safe_url(url)
+@pytest.mark.parametrize('url',['https://doi.org/10.1/test','https://dx.doi.org/10.1/test',
+                               'https://api.datacite.org/dois/10.1/test','https://api.crossref.org/works/10.1/test'])
+def test_other_doi_routes_are_no_longer_blocked_by_owner_pause(url):
+    assert s.safe_url(url,resolve=False)==url
 def test_source_after_duplicate_pass():
     row={'content_sha256':'h','preflight':{'checks':{'duplicates':dict(status='passed',content_sha256='h',checked_at='now',evidence='snapshot')}}}
     assert next_stage(row)=='source'
@@ -60,6 +71,16 @@ def test_exhausted_budget_sends_nothing(monkeypatch):
     with pytest.raises(s.Hold,match='budget_exhausted'):tx.send('https://example.org/paper')
     assert tx.sends==[]
 
+def test_retained_cooldown_blocks_redirect_origin_before_network(monkeypatch):
+    from datetime import datetime, timedelta, timezone
+    monkeypatch.setattr(s,'safe_url',lambda url,resolve=True:url)
+    until=(datetime.now(timezone.utc)+timedelta(hours=1)).isoformat()
+    tx=s.Transport(deadline=1000,clock=lambda:0,sleep=lambda _:None,
+                   origin_backoff={'example.org':{'reason':'http_429','retry_not_before':until}})
+    with pytest.raises(s.Hold,match='source_origin_backoff_active'):
+        tx.send('https://example.org/redirected-document')
+    assert tx.sends==[] and tx.stopped=={}
+
 def test_unavailable_page_never_follows_navigation_pdf():
     x=s.extract(response(b'<title>Temporarily Unavailable For Review</title><p>Content review</p><a href="unrelated.pdf">DNS matrix</a>'))
     with pytest.raises(s.Hold,match='publisher_temporarily_withheld'):s.linked_pdf(x)
@@ -92,6 +113,8 @@ def test_corpus_metadata_route_binds_full_record_and_authoritative_url(tmp_path)
                      'url':'https://zenodo.org/api/records/123'}]}
     s.validate_corpus_snapshot(tmp_path,req)
     req['records'][0]['url']='https://zenodo.org/api/records/456'
+    with pytest.raises(ValueError,match='DOI'):s.validate_corpus_snapshot(tmp_path,req)
+    req['records'][0]['url']='https://api.datacite.org/dois/10.5281/zenodo.123'
     with pytest.raises(ValueError,match='DOI'):s.validate_corpus_snapshot(tmp_path,req)
     req['records'][0]['url']='https://zenodo.org/api/records/123'
     req['records'][0]['content_sha256']='c'*64

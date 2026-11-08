@@ -10,18 +10,16 @@ from email.utils import parsedate_to_datetime
 from pathlib import Path
 from urllib.parse import urlsplit, urljoin, urldefrag
 from urllib.robotparser import RobotFileParser
-import requests
-from bs4 import BeautifulSoup
-from pypdf import PdfReader
 def digest(value):
     return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False,allow_nan=False).encode()).hexdigest()
 def reviewed_digest(row):
     return digest({k:row.get(k,'') for k in ('title','authors','year','doi','source_url','abstract','document_type')})
 def records(manifest):return manifest.get('records',[])+manifest.get('preflight_records',[])
 def file_digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
-MANIFESTS={s:'config/'+s+'_review_manifest.json' for s in ('soups','weekly','first','m3aawg','bellingcat','sans')}
+MANIFESTS={s:'config/'+s+'_review_manifest.json' for s in ('soups','weekly','first','m3aawg','bellingcat','sans','virusbulletin')}
 
 from tools.content_review.lifecycle import ensure_eligible, instant
+from tools.content_review.source_origin_backoff import active as origin_backoff_active, origin as canonical_origin
 
 DIRECTORY = 'config/content_review_source_requests'
 WORKFLOW = '.github/workflows/content_review_sources.yml'
@@ -36,7 +34,12 @@ def safe_url(url, resolve=True):
     p=urlsplit(url)
     if p.scheme not in ('https','http') or not p.hostname or p.username or p.password or p.port not in (None,443 if p.scheme=='https' else 80):
         raise Hold('unsupported_or_credentialed_url')
-    if p.hostname in ('api.openalex.org','api.openai.com'):
+    host=p.hostname.rstrip('.')
+    # OpenAlex has a dedicated, bounded policy-aware route. Generic source
+    # retrieval must not bypass its shared pacing and per-run budget.
+    if host=='openalex.org' or host.endswith('.openalex.org'):
+        raise Hold('openalex_requires_controlled_route')
+    if host=='api.openai.com':
         raise Hold('provider_requires_separate_controlled_route')
     if resolve:
         try: addresses={a[4][0] for a in socket.getaddrinfo(p.hostname,443 if p.scheme=='https' else 80,type=socket.SOCK_STREAM)}
@@ -53,12 +56,17 @@ def retry_at(value):
         except (ValueError,TypeError):return None
 
 class Transport:
-    def __init__(self, *, deadline, cap=30, session=None, clock=time.monotonic, sleep=time.sleep):
+    def __init__(self, *, deadline, cap=30, session=None, clock=time.monotonic, sleep=time.sleep, origin_backoff=None):
+        import requests
         self.deadline,self.cap,self.session,self.clock,self.sleep=deadline,cap,session or requests.Session(),clock,sleep
+        self.origin_backoff=origin_backoff if origin_backoff is not None else {}
         self.sends=[];self.last={};self.robots={};self.stopped={};self.cache={}
         self.session.headers.update({'User-Agent':UA,'Accept':'text/html,application/pdf;q=0.9,*/*;q=0.1'})
     def send(self,url):
-        url=safe_url(url);origin=urlsplit(url).netloc
+        import requests
+        url=safe_url(url);origin=canonical_origin(url)
+        if origin_backoff_active(self.origin_backoff,url,datetime.now(timezone.utc)):
+            raise Hold('source_origin_backoff_active')
         if origin in self.stopped:raise Hold('origin_backoff: '+self.stopped[origin]['reason'])
         delay=max(0,2-(self.clock()-self.last.get(origin,-100)))
         if len(self.sends)>=self.cap or self.clock()+delay+20>=self.deadline:raise Hold('source_request_or_time_budget_exhausted')
@@ -107,7 +115,7 @@ class Transport:
         if rp and not rp.can_fetch(UA,url):raise Hold('robots_disallow')
         crawl=rp.crawl_delay(UA) if rp else None
         if crawl and crawl>2:
-            delay=max(0,crawl-(self.clock()-self.last.get(p.netloc,-100)))
+            delay=max(0,crawl-(self.clock()-self.last.get(canonical_origin(url),-100)))
             if self.clock()+delay+20>=self.deadline:raise Hold('crawl_delay_exceeds_budget')
             self.sleep(delay)
     def fetch(self,url):
@@ -145,12 +153,14 @@ def extract(response, fragment=''):
                    repository_doi=doi,files=data.get('files',[]),links=data.get('links',{}),
                    text=text[:36000],text_complete=len(text)<=36000,metadata_complete=True,document_type='unverified')
     elif body.startswith(b'%PDF-'):
+        from pypdf import PdfReader
         try:
             pdf=PdfReader(io.BytesIO(body));pages=[p.extract_text() or '' for p in pdf.pages[:6]]
         except Exception:raise Hold('pdf_parse_failed') from None
         text='\n'.join(pages)
         out.update(container_type='pdf',page_count=len(pdf.pages),pages_inspected=len(pages),pdf_metadata={str(k):str(v) for k,v in (pdf.metadata or {}).items()},text=text[:36000],text_complete=len(pdf.pages)<=6 and len(text)<=36000,document_type='unverified')
     else:
+        from bs4 import BeautifulSoup
         soup=BeautifulSoup(body,'html.parser')
         text0=soup.get_text(' ',strip=True)
         if re.search(r'(?i)(just a moment|verify you are human|enable javascript and cookies to continue|access denied)',(soup.title.get_text() if soup.title else '')+' '+text0[:400]):raise Hold('access_challenge')
@@ -212,7 +222,7 @@ def validate_corpus_snapshot(root,req):
             raise ValueError('Changed corpus record')
         doi=str(matches[0].get('doi','')).lower()
         match=re.fullmatch(r'10\.5281/zenodo\.(\d+)',doi)
-        permitted={'https://zenodo.org/api/records/'+match.group(1), 'https://api.datacite.org/dois/'+doi} if match else set()
+        permitted={'https://zenodo.org/api/records/'+match.group(1)} if match else set()
         if item['url'] not in permitted:
             raise ValueError('Corpus URL does not match DOI')
 
@@ -224,8 +234,23 @@ def validate(root,path):
     if not start or not end or not start<=now<end or (end-start).total_seconds()>600:raise ValueError('Expired or unbounded source work')
     state=json.loads((root/'config/content_review_worker_status.json').read_text());lease=state.get('lease') or {}
     if lease.get('owner')!=req['lease_owner'] or not instant(lease.get('expires_at')) or instant(lease['expires_at'])<=now:raise ValueError('No matching unexpired writer lease')
+    if 'coordinator_run_id' in req:
+        current=state.get('current_run') or {};pending=current.get('pending_source_request') or {};counts=current.get('request_counts') or {}
+        if (not isinstance(req['coordinator_run_id'],str) or not req['coordinator_run_id']
+            or lease.get('run_id')!=req['coordinator_run_id'] or current.get('run_id')!=req['coordinator_run_id']
+            or current.get('application_status')!='running' or instant(current.get('started_at'))!=start
+            or pending.get('request_id')!=req['request_id'] or pending.get('origin_run_id')!=req['coordinator_run_id']
+            or pending.get('reserved_limit')!=req.get('source_request_limit')
+            or type(counts.get('source')) is not int or not 0<=counts['source']<30
+            or type(req.get('source_request_limit')) is not int or req['source_request_limit']!=30-counts['source']
+            or type(counts.get('paid')) is not int or not 0<=counts['paid']<=5
+            or type(counts.get('openalex')) is not int or counts['openalex']!=0):
+            raise ValueError('Matching single pending source request and budget are required')
     items=req['records']
     if not 1<=len(items)<=5 or len({i['candidate_id'] for i in items})!=len(items):raise ValueError('Initial pilot candidate ceiling/identity')
+    for item in items:
+        if origin_backoff_active(state.get('source_origin_backoff',{}),item.get('url'),now):
+            raise ValueError('Source origin cooldown is active')
     if req.get('purpose') == 'corpus_metadata_audit':
         validate_corpus_snapshot(root,req)
         return req
@@ -238,6 +263,9 @@ def validate(root,path):
         if len(matches)!=1:raise ValueError('Candidate missing/nonunique')
         row=matches[0];ensure_eligible(root,item['collection'],item['candidate_id'])
         if row['content_sha256']!=item['content_sha256'] or reviewed_digest(row)!=row['content_sha256']:raise ValueError('Candidate content changed')
+        evidence=row.get('source_processing',{})
+        if evidence.get('content_sha256')==row['content_sha256'] and evidence.get('retrieval_status') in ('retrieved','held'):
+            raise ValueError('Retained source evidence or hold must be resolved first')
         if row.get('decision','pending') not in ('pending','unreviewed'):raise ValueError('Decided candidate')
         if item['url']!=row['source_url']:
             ref=item.get('resume_receipt','')
@@ -253,7 +281,8 @@ def validate(root,path):
 
 def execute(root,path,output):
     req=validate(root,path);seconds=(instant(req['work_deadline'])-datetime.now(timezone.utc)).total_seconds()
-    tx=Transport(deadline=time.monotonic()+seconds,cap=min(30,req['source_request_limit']))
+    state=json.loads((root/'config/content_review_worker_status.json').read_text())
+    tx=Transport(deadline=time.monotonic()+seconds,cap=min(30,req['source_request_limit']),origin_backoff=state.get('source_origin_backoff',{}))
     result={'schema_version':1,'request_id':req['request_id'],'status':'running','records':[],'requests':0,'read_only':True,'provenance':{k:os.environ.get(k,'') for k in ('GITHUB_SHA','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_REF','GITHUB_WORKFLOW_REF')}}
     def checkpoint():
         result.update(requests=len(tx.sends),request_log=tx.sends,origin_backoff=tx.stopped,updated_at=datetime.now(timezone.utc).isoformat())
