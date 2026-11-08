@@ -94,6 +94,15 @@ export async function readOperations({fetcher=fetch,token='',now=Date.now(),cach
   }
   if(heartbeat.configured&&!heartbeat.verified&&worker.status==='Running')
    worker={...worker,status:'Degraded',issue:'The separate worker heartbeat is not verified. '+heartbeat.reason};
+  const pending=scopedCheckpoint?.current_run?.pending_source_request;
+  if(configured&&pending!=null){
+   const valid=typeof pending==='object'&&!Array.isArray(pending)&&/^[0-9a-f]{64}$/.test(pending.request_id||'')&&
+    /^[a-zA-Z0-9-]{1,100}$/.test(pending.origin_run_id||'')&&Number.isSafeInteger(pending.reserved_limit)&&
+    pending.reserved_limit>=1&&pending.reserved_limit<=30&&Number.isFinite(Date.parse(pending.prepared_at||''));
+   worker={...worker,status:['Failed','Overdue','Running'].includes(worker.status)?worker.status:'Degraded',
+    issue:worker.issue+(valid?' A source request is awaiting accounting and retention; a reservation alone does not verify retrieval or gate progress.':
+     ' Pending source request evidence is invalid.')};
+  }
   if(configured&&checkpoint&&checkpoint.source_unresolved_requests!==undefined){
    const holds=checkpoint.source_unresolved_requests;
    if(!Array.isArray(holds))worker={...worker,status:['Failed','Overdue'].includes(worker.status)?worker.status:'Degraded',issue:worker.issue+' Unresolved source request evidence is invalid.'};

@@ -100,3 +100,42 @@ test('unresolved source outcomes are visible without revealing their details',as
  assert.doesNotMatch(JSON.stringify(result),/private-id|private\.example/);
  holds={};result=await readOperations({fetcher,now});assert.match(result.workers[0].issue,/evidence is invalid/);
 });
+
+test('pending source evidence is reported without claiming retrieval or exposing identities',async()=>{
+ const now=Date.parse('2026-11-08T07:45:00Z'),target='Automation_new';
+ const encode=value=>Response.json({encoding:'base64',content:Buffer.from(JSON.stringify(value)).toString('base64')});
+ let pending={request_id:'a'.repeat(64),origin_run_id:'private-run',reserved_limit:30,prepared_at:'2026-11-08T07:40:00Z'};
+ const fetcher=async url=>{
+  if(url.includes('content_review_monitor_config.json'))return encode({target_automation_id:target});
+  if(url.includes('content_review_operations.json'))return encode({scheduler:{id:target}});
+  if(url.includes('content_review_worker_status.json'))return encode({current_run:{scheduler:{id:target},pending_source_request:pending}});
+  if(url.includes('openalex_request_policy.json'))return encode({requests_enabled:true});
+  return Response.json({workflows:[]});
+ };
+ let result=await readOperations({fetcher,now});
+ assert.match(result.workers[0].issue,/awaiting accounting and retention/);
+ assert.match(result.workers[0].issue,/does not verify retrieval or gate progress/);
+ assert.doesNotMatch(JSON.stringify(result),/private-run|a{64}/);
+ pending={request_id:'invalid'};result=await readOperations({fetcher,now});
+ assert.match(result.workers[0].issue,/Pending source request evidence is invalid/);
+});
+
+test('a deferred worker is not presented as a stale running heartbeat',async()=>{
+ const now=Date.parse('2026-11-08T07:50:00Z'),at='2026-11-08T07:40:00Z',target='Automation_new';
+ const scheduler={id:target,is_enabled:true,observed_at:at,last_run:{id:'run',recorded_status:'in_progress',started_at:at}};
+ const encode=value=>Response.json({encoding:'base64',content:Buffer.from(JSON.stringify(value)).toString('base64')});
+ const fetcher=async url=>{
+  if(url.includes('content_review_monitor_config.json'))return encode({target_automation_id:target});
+  if(url.includes('content_review_operations.json'))return encode({scheduler});
+  if(url.includes('content_review_worker_status.json'))return encode({lease:null,current_run:{run_id:'run',scheduler,
+   observed_at:at,application_status:'deferred',pending_source_request:{request_id:'a'.repeat(64),origin_run_id:'run',reserved_limit:30,prepared_at:at}}});
+  if(url.includes('openalex_request_policy.json'))return encode({requests_enabled:true});
+  return Response.json({workflows:[]});
+ };
+ const result=await readOperations({fetcher,now});
+ assert.equal(result.workers[0].status,'Degraded');
+ assert.match(result.workers[0].issue,/deferred pass/);
+ assert.match(result.workers[0].issue,/awaiting accounting and retention/);
+ assert.doesNotMatch(result.workers[0].issue,/heartbeat is over five minutes old/);
+ assert.equal(result.workers[0].native_evidence_verified,false);
+});

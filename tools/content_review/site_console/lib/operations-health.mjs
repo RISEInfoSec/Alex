@@ -61,9 +61,11 @@ export function coordinatorHealth(snapshot,checkpoint,now=Date.now()){
  const native=selected?.scheduler?.last_run;
  const nativeTerminal=['completed','no_update','failed'].includes(native?.recorded_status)
    &&native?.id===heartbeat?.run_id&&savedTime!==null&&heartbeatTime!==null&&savedTime>=heartbeatTime;
- if(!nativeTerminal&&heartbeat?.run_id===native?.id&&['complete','failed'].includes(heartbeat?.application_status)){
+ if(!nativeTerminal&&heartbeat?.run_id===native?.id&&['complete','failed','deferred'].includes(heartbeat?.application_status)){
   return {...result,status:heartbeat.application_status==='failed'?'Failed':'Degraded',
-   issue:heartbeat.application_status==='failed'?'Worker application work failed. Inspect its saved stage and receipt.':'Application work completed; native scheduler terminal completion is still awaiting independent confirmation.',
+   issue:heartbeat.application_status==='failed'?'Worker application work failed. Inspect its saved stage and receipt.':
+    heartbeat.application_status==='deferred'?'Worker reports a deferred pass; its receipt and native scheduler completion are not independently verified.':
+    'Application work completed; native scheduler terminal completion is still awaiting independent confirmation.',
    activity_observed_at:heartbeat.observed_at};
  }
  const lease=checkpoint?.lease;
