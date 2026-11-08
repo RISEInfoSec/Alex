@@ -20,6 +20,7 @@ MANIFESTS={s:'config/'+s+'_review_manifest.json' for s in ('soups','weekly','fir
 
 from tools.content_review.lifecycle import ensure_eligible, instant
 from tools.content_review.source_origin_backoff import active as origin_backoff_active, origin as canonical_origin
+from tools.content_review.source_unresolved import validate as validate_unresolved
 
 DIRECTORY = 'config/content_review_source_requests'
 WORKFLOW = '.github/workflows/content_review_sources.yml'
@@ -56,15 +57,18 @@ def retry_at(value):
         except (ValueError,TypeError):return None
 
 class Transport:
-    def __init__(self, *, deadline, cap=30, session=None, clock=time.monotonic, sleep=time.sleep, origin_backoff=None):
+    def __init__(self, *, deadline, cap=30, session=None, clock=time.monotonic, sleep=time.sleep, origin_backoff=None, unresolved_origins=None):
         import requests
         self.deadline,self.cap,self.session,self.clock,self.sleep=deadline,cap,session or requests.Session(),clock,sleep
         self.origin_backoff=origin_backoff if origin_backoff is not None else {}
+        self.unresolved_origins=unresolved_origins if unresolved_origins is not None else set()
         self.sends=[];self.last={};self.robots={};self.stopped={};self.cache={}
         self.session.headers.update({'User-Agent':UA,'Accept':'text/html,application/pdf;q=0.9,*/*;q=0.1'})
     def send(self,url):
         import requests
-        url=safe_url(url);origin=canonical_origin(url)
+        url=safe_url(url,resolve=False);origin=canonical_origin(url)
+        if origin in self.unresolved_origins:raise Hold('source_outcome_requires_reconciliation')
+        url=safe_url(url)
         if origin_backoff_active(self.origin_backoff,url,datetime.now(timezone.utc)):
             raise Hold('source_origin_backoff_active')
         if origin in self.stopped:raise Hold('origin_backoff: '+self.stopped[origin]['reason'])
@@ -248,7 +252,10 @@ def validate(root,path):
             raise ValueError('Matching single pending source request and budget are required')
     items=req['records']
     if not 1<=len(items)<=5 or len({i['candidate_id'] for i in items})!=len(items):raise ValueError('Initial pilot candidate ceiling/identity')
+    unresolved_keys,unresolved_hosts=validate_unresolved(state.get('source_unresolved_requests',[]))
     for item in items:
+        if (item.get('collection'),item.get('candidate_id')) in unresolved_keys or canonical_origin(item.get('url')) in unresolved_hosts:
+            raise ValueError('Source outcome requires reconciliation')
         if origin_backoff_active(state.get('source_origin_backoff',{}),item.get('url'),now):
             raise ValueError('Source origin cooldown is active')
     if req.get('purpose') == 'corpus_metadata_audit':
@@ -282,7 +289,9 @@ def validate(root,path):
 def execute(root,path,output):
     req=validate(root,path);seconds=(instant(req['work_deadline'])-datetime.now(timezone.utc)).total_seconds()
     state=json.loads((root/'config/content_review_worker_status.json').read_text())
-    tx=Transport(deadline=time.monotonic()+seconds,cap=min(30,req['source_request_limit']),origin_backoff=state.get('source_origin_backoff',{}))
+    _,unresolved_origins=validate_unresolved(state.get('source_unresolved_requests',[]))
+    tx=Transport(deadline=time.monotonic()+seconds,cap=min(30,req['source_request_limit']),
+                 origin_backoff=state.get('source_origin_backoff',{}),unresolved_origins=unresolved_origins)
     result={'schema_version':1,'request_id':req['request_id'],'status':'running','records':[],'requests':0,'read_only':True,'provenance':{k:os.environ.get(k,'') for k in ('GITHUB_SHA','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_REF','GITHUB_WORKFLOW_REF')}}
     def checkpoint():
         result.update(requests=len(tx.sends),request_log=tx.sends,origin_backoff=tx.stopped,updated_at=datetime.now(timezone.utc).isoformat())
