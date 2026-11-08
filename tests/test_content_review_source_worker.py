@@ -93,6 +93,18 @@ def test_unresolved_origin_blocks_redirect_before_dns_or_network(monkeypatch):
         tx.send('https://EXAMPLE.ORG.:443/redirected-document')
     assert calls==[False] and tx.sends==[] and tx.stopped=={}
 
+def test_unresolved_failure_keeps_unknown_usage_and_canonical_origin():
+    from tools.content_review.source_unresolved import from_failure,validate
+    request={'coordinator_run_id':'origin-run','source_request_limit':30,'records':[
+        {'collection':'weekly','candidate_id':'a','content_sha256':'a'*64,'url':'https://Example.org.:443/paper'}]}
+    request['request_id']=s.digest(request)
+    pending={'request_id':request['request_id'],'origin_run_id':'origin-run','reserved_limit':30}
+    hold=from_failure(request,pending,{'status':'source_run_failed','source_run_id':123,'conclusion':'failure'})
+    keys,hosts=validate([hold])
+    assert keys=={('weekly','a')} and hosts=={'example.org'} and hold['origin_provider_requests'] is None
+    hold['origin_provider_requests']=0
+    with pytest.raises(ValueError):validate([hold])
+
 def test_unavailable_page_never_follows_navigation_pdf():
     x=s.extract(response(b'<title>Temporarily Unavailable For Review</title><p>Content review</p><a href="unrelated.pdf">DNS matrix</a>'))
     with pytest.raises(s.Hold,match='publisher_temporarily_withheld'):s.linked_pdf(x)

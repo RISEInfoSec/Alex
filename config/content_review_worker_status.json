@@ -7,7 +7,7 @@
   "global_target": 250,
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
-  "last_error": "Native run 843a2fa3-86f8-8322-8d96-177ef301072b failed with empty result content, requires_user_action=true and automatic disable before candidate selection; no concrete denial reason was supplied.",
+  "last_error": "checkpoint_failure",
   "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
@@ -99,7 +99,7 @@
     "source_release_holds": 6
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-11-07T02:45:51.361830Z",
+  "last_started_at": "2026-11-08T04:43:15.704915Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
@@ -728,37 +728,33 @@
     "additional_removed_record_corrected": 1
   },
   "current_run": {
-    "run_id": "843a2fa3-86f8-8322-8d96-177ef301072b",
-    "observed_at": "2026-11-07T02:49:50.091115+00:00",
-    "started_at": "2026-11-07T02:45:51.361830Z",
-    "scheduled_for": "2026-11-07T02:45:00Z",
-    "application_status": "failed",
+    "run_id": "a5641cae-9200-8333-8c96-d25040455236",
+    "application_status": "deferred",
+    "started_at": "2026-11-08T04:43:15.704915+00:00",
+    "scheduled_for": "2026-11-08T04:45:00+00:00",
+    "observed_at": "2026-11-08T04:46:17.012602+00:00",
+    "request_counts": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
     "scheduler": {
-      "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-      "observed_at": "2026-11-07T02:49:50.091115+00:00",
-      "is_enabled": false,
-      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
-      "next_run_time": null,
-      "expected_next_run_at": null,
+      "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+      "observed_at": "2026-11-08T04:46:17.012602+00:00",
+      "is_enabled": true,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261107T234500\nRRULE:FREQ=HOURLY;COUNT=1\nEND:VEVENT",
       "last_run": {
-        "id": "843a2fa3-86f8-8322-8d96-177ef301072b",
-        "recorded_status": "failed",
-        "scheduled_for": "2026-11-07T02:45:00Z",
-        "started_at": "2026-11-07T02:45:51.361830Z",
-        "completed_at": "2026-11-07T02:46:56.224411Z"
-      },
-      "requires_user_action": true,
-      "last_verified_scheduled_success": {
-        "run_id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
-        "completed_at": "2026-11-05T16:53:29.391174Z",
-        "trigger": "schedule",
-        "evidence_verified": true,
-        "receipt": "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json"
+        "id": "a5641cae-9200-8333-8c96-d25040455236",
+        "recorded_status": "in_progress",
+        "scheduled_for": "2026-11-08T04:45:00Z",
+        "started_at": "2026-11-08T04:43:15.704915Z",
+        "completed_at": null
       }
     },
-    "application_completed_at": "2026-11-07T02:49:50.091115+00:00"
+    "application_completed_at": "2026-11-08T04:48:32.247389+00:00",
+    "receipt": "config/content_review_run_receipts/a5641cae-9200-8333-8c96-d25040455236.json"
   },
-  "last_heartbeat_at": "2026-11-07T02:49:50.091115+00:00",
+  "last_heartbeat_at": "2026-11-08T04:46:17.012602+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
@@ -952,6 +948,230 @@
       "status": "released_after_native_failure",
       "released_at": "2026-11-07T02:52:17.563Z",
       "release_reason": "Canonical failed-run receipt and processing health were committed and read back; no candidate or provider work occurred."
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "3dc9a422-d8fc-8326-a34d-ef3431bc1b12",
+      "acquired_at": "2026-11-08T01:54:12.643092+00:00",
+      "expires_at": "2026-11-08T02:24:12.643092+00:00",
+      "status": "released",
+      "released_at": "2026-11-08T01:58:57.630488+00:00"
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "af585156-4b30-8325-bd72-30ca08fbe161",
+      "acquired_at": "2026-11-08T02:13:30.316317+00:00",
+      "expires_at": "2026-11-08T02:43:30.316317+00:00",
+      "status": "released",
+      "released_at": "2026-11-08T02:20:26.756168+00:00"
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "18e79942-6944-832c-9f9c-1794d932e3e7",
+      "acquired_at": "2026-11-08T02:52:48.282811+00:00",
+      "expires_at": "2026-11-08T03:22:48.282811+00:00",
+      "status": "released",
+      "released_at": "2026-11-08T03:00:08.807931+00:00"
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "64066e17-e910-8332-934c-f2fbf2b07bda",
+      "acquired_at": "2026-11-08T03:24:15.504376+00:00",
+      "expires_at": "2026-11-08T03:54:15.504376+00:00",
+      "status": "released",
+      "released_at": "2026-11-08T03:29:40.645325+00:00"
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "854e7e11-3c48-8333-b782-a1b10b2d2b49",
+      "acquired_at": "2026-11-08T03:43:05.159813+00:00",
+      "expires_at": "2026-11-08T04:13:05.159813+00:00",
+      "status": "released",
+      "released_at": "2026-11-08T03:46:08.381884+00:00"
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "a5641cae-9200-8333-8c96-d25040455236",
+      "acquired_at": "2026-11-08T04:46:17.012602+00:00",
+      "expires_at": "2026-11-08T05:16:17.012602+00:00",
+      "status": "released",
+      "released_at": "2026-11-08T04:48:32.247389+00:00"
     }
-  ]
+  ],
+  "run_history": [
+    {
+      "run_id": "843a2fa3-86f8-8322-8d96-177ef301072b",
+      "observed_at": "2026-11-07T02:49:50.091115+00:00",
+      "started_at": "2026-11-07T02:45:51.361830Z",
+      "scheduled_for": "2026-11-07T02:45:00Z",
+      "application_status": "failed",
+      "scheduler": {
+        "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+        "observed_at": "2026-11-07T02:49:50.091115+00:00",
+        "is_enabled": false,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+        "next_run_time": null,
+        "expected_next_run_at": null,
+        "last_run": {
+          "id": "843a2fa3-86f8-8322-8d96-177ef301072b",
+          "recorded_status": "failed",
+          "scheduled_for": "2026-11-07T02:45:00Z",
+          "started_at": "2026-11-07T02:45:51.361830Z",
+          "completed_at": "2026-11-07T02:46:56.224411Z"
+        },
+        "requires_user_action": true,
+        "last_verified_scheduled_success": {
+          "run_id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
+          "completed_at": "2026-11-05T16:53:29.391174Z",
+          "trigger": "schedule",
+          "evidence_verified": true,
+          "receipt": "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json"
+        }
+      },
+      "application_completed_at": "2026-11-07T02:49:50.091115+00:00"
+    },
+    {
+      "run_id": "3dc9a422-d8fc-8326-a34d-ef3431bc1b12",
+      "application_status": "failed",
+      "started_at": "2026-11-08T01:48:23.937269+00:00",
+      "scheduled_for": "2026-11-08T01:52:00+00:00",
+      "observed_at": "2026-11-08T01:54:12.643092+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "scheduler": {
+        "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+        "observed_at": "2026-11-08T01:54:12.643092+00:00",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261107T205200\nRRULE:FREQ=HOURLY;COUNT=1\nEND:VEVENT",
+        "last_run": {
+          "id": "3dc9a422-d8fc-8326-a34d-ef3431bc1b12",
+          "recorded_status": "in_progress",
+          "scheduled_for": "2026-11-08T01:52:00Z",
+          "started_at": "2026-11-08T01:48:23.937269Z",
+          "completed_at": null
+        }
+      },
+      "application_completed_at": "2026-11-08T01:58:57.630488+00:00",
+      "failure_code": "checkpoint_failure"
+    },
+    {
+      "run_id": "af585156-4b30-8325-bd72-30ca08fbe161",
+      "application_status": "failed",
+      "started_at": "2026-11-08T02:10:11.768819+00:00",
+      "scheduled_for": "2026-11-08T02:15:00+00:00",
+      "observed_at": "2026-11-08T02:13:30.316317+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "scheduler": {
+        "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+        "observed_at": "2026-11-08T02:13:30.316317+00:00",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261107T211500\nRRULE:FREQ=HOURLY;COUNT=1\nEND:VEVENT",
+        "last_run": {
+          "id": "af585156-4b30-8325-bd72-30ca08fbe161",
+          "recorded_status": "in_progress",
+          "scheduled_for": "2026-11-08T02:15:00Z",
+          "started_at": "2026-11-08T02:10:11.768819Z",
+          "completed_at": null
+        }
+      },
+      "application_completed_at": "2026-11-08T02:20:26.756168+00:00",
+      "failure_code": "checkpoint_failure"
+    },
+    {
+      "run_id": "18e79942-6944-832c-9f9c-1794d932e3e7",
+      "application_status": "failed",
+      "started_at": "2026-11-08T02:49:57.916493+00:00",
+      "scheduled_for": "2026-11-08T02:50:00+00:00",
+      "observed_at": "2026-11-08T02:52:48.282811+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "scheduler": {
+        "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+        "observed_at": "2026-11-08T02:52:48.282811+00:00",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261107T215000\nRRULE:FREQ=HOURLY;COUNT=1\nEND:VEVENT",
+        "last_run": {
+          "id": "18e79942-6944-832c-9f9c-1794d932e3e7",
+          "recorded_status": "in_progress",
+          "scheduled_for": "2026-11-08T02:50:00Z",
+          "started_at": "2026-11-08T02:49:57.916493Z",
+          "completed_at": null
+        }
+      },
+      "application_completed_at": "2026-11-08T03:00:08.807931+00:00",
+      "failure_code": "checkpoint_failure"
+    },
+    {
+      "run_id": "64066e17-e910-8332-934c-f2fbf2b07bda",
+      "application_status": "failed",
+      "started_at": "2026-11-08T03:21:23.879627+00:00",
+      "scheduled_for": "2026-11-08T03:20:00+00:00",
+      "observed_at": "2026-11-08T03:24:15.504376+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "scheduler": {
+        "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+        "observed_at": "2026-11-08T03:24:15.504376+00:00",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261107T222000\nRRULE:FREQ=HOURLY;COUNT=1\nEND:VEVENT",
+        "last_run": {
+          "id": "64066e17-e910-8332-934c-f2fbf2b07bda",
+          "recorded_status": "in_progress",
+          "scheduled_for": "2026-11-08T03:20:00Z",
+          "started_at": "2026-11-08T03:21:23.879627Z",
+          "completed_at": null
+        }
+      },
+      "application_completed_at": "2026-11-08T03:29:40.645325+00:00",
+      "failure_code": "checkpoint_failure"
+    },
+    {
+      "run_id": "854e7e11-3c48-8333-b782-a1b10b2d2b49",
+      "application_status": "complete",
+      "started_at": "2026-11-08T03:40:09.679321+00:00",
+      "scheduled_for": "2026-11-08T03:45:00+00:00",
+      "observed_at": "2026-11-08T03:43:05.159813+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "scheduler": {
+        "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+        "observed_at": "2026-11-08T03:43:05.159813+00:00",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261107T224500\nRRULE:FREQ=HOURLY;COUNT=1\nEND:VEVENT",
+        "last_run": {
+          "id": "854e7e11-3c48-8333-b782-a1b10b2d2b49",
+          "recorded_status": "in_progress",
+          "scheduled_for": "2026-11-08T03:45:00Z",
+          "started_at": "2026-11-08T03:40:09.679321Z",
+          "completed_at": null
+        }
+      },
+      "application_completed_at": "2026-11-08T03:46:08.381884+00:00",
+      "receipt": "config/content_review_run_receipts/854e7e11-3c48-8333-b782-a1b10b2d2b49.json"
+    }
+  ],
+  "source_attempts": {
+    "m3aawg": {
+      "at": "2026-11-08T03:44:07.707050+00:00",
+      "run_id": "854e7e11-3c48-8333-b782-a1b10b2d2b49",
+      "gate": "duplicates"
+    }
+  },
+  "source_last_progress": {}
 }

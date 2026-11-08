@@ -17292,7 +17292,18 @@
       "candidate_id": "m3aawg-url-065b71fc7bd1d12933e1b3b0",
       "first_seen_at": "2026-11-02T11:08:00.965663+00:00",
       "cycle": 1,
-      "attempts": [],
+      "attempts": [
+        {
+          "attempt_id": "1ddc678d0167e3de866fdcd5c5101d5bc10a30a3af81e5ef2c3a6fb0790877f9",
+          "at": "2026-11-08T03:44:07.707050+00:00",
+          "stage": "duplicates",
+          "outcome": "success",
+          "reason": "Complete local duplicate and exclusion check passed.",
+          "evidence_ref": "config/content_review_mechanical_checkpoints/1ddc678d0167e3de866fdcd5c5101d5bc10a30a3af81e5ef2c3a6fb0790877f9.json",
+          "cycle": 1,
+          "retry_not_before": null
+        }
+      ],
       "history": [
         {
           "at": "2026-11-02T21:46:58.757259+00:00",
@@ -17313,23 +17324,22 @@
         "source_url": "https://www.m3aawg.org/sites/default/files/doc_files/m3aawg-key-implementation-bp-revised-2017-07.pdf",
         "candidate_id": "m3aawg-url-065b71fc7bd1d12933e1b3b0"
       },
-      "last_evaluated_at": "2026-11-05T18:22:04.883416+00:00",
-      "attempt_count": 0,
-      "last_attempt_at": null,
-      "last_check_at": null,
+      "last_evaluated_at": "2026-11-08T03:44:07.707050+00:00",
+      "attempt_count": 1,
+      "last_attempt_at": "2026-11-08T03:44:07.707050+00:00",
+      "last_check_at": "2026-11-08T03:44:07.707050+00:00",
       "outstanding_checks": [
         "format",
         "access",
         "metadata",
-        "duplicates",
         "quality",
         "schema"
       ],
-      "initial_checks_overdue": true,
+      "initial_checks_overdue": false,
       "state_changed_at": "2026-11-02T21:46:58.757259+00:00",
       "state": "awaiting_initial_checks",
       "reason": "Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.",
-      "next_action": "Complete missing initial stages. Initial processing is overdue by the 48-hour policy.",
+      "next_action": "Complete missing initial stages.",
       "reconsideration_condition": null,
       "next_retry_at": null,
       "active": true,
@@ -17340,8 +17350,11 @@
         "maximum_failure_age_days": 30
       },
       "evaluated_at": "2026-11-04T14:45:53.286843+00:00",
-      "completed_checks": [],
-      "initial_check_status": "untouched"
+      "completed_checks": [
+        "duplicates"
+      ],
+      "initial_check_status": "partially_checked",
+      "last_progress_at": "2026-11-08T03:44:07.707050+00:00"
     },
     "m3aawg:m3aawg-url-d156fb3efaf1b4eed317df8d": {
       "candidate_id": "m3aawg-url-d156fb3efaf1b4eed317df8d",
@@ -23570,7 +23583,7 @@
       "initial_check_status": "partially_checked"
     }
   },
-  "updated_at": "2026-11-05T18:22:04.883416+00:00",
+  "updated_at": "2026-11-08T03:44:07.707050+00:00",
   "policy_version": 1,
   "counts": {
     "completed": 13,
