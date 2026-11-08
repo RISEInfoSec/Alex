@@ -142,7 +142,8 @@ export async function readOperations({fetcher=fetch,token='',now=Date.now(),cach
     }else refreshErrors.push('Review head or worker identity changed while reading the run receipt.');
    }else refreshErrors.push('Review head unavailable for run receipt.');
   }
-  return {checked_at:new Date(now).toISOString(),snapshot_at:scopedSnapshot?.observed_at||null,snapshot_available:!!scopedSnapshot,checkpoint_available:!!scopedCheckpoint,replacement_configured:configured,refresh_id:refreshId,refresh_mode:'uncached_origin_read',refresh_errors:[...new Set(refreshErrors)],heartbeat,processing:processingHealth(scopedProcessing,now),workers,providers,summary:operationsSummary(workers,providers)};
+  const workerScope=configured&&typeof monitorConfig?.target_scope==='string'?monitorConfig.target_scope.trim().slice(0,240)||null:null;
+  return {checked_at:new Date(now).toISOString(),snapshot_at:scopedSnapshot?.observed_at||null,snapshot_available:!!scopedSnapshot,checkpoint_available:!!scopedCheckpoint,replacement_configured:configured,worker_scope:workerScope,refresh_id:refreshId,refresh_mode:'uncached_origin_read',refresh_errors:[...new Set(refreshErrors)],heartbeat,processing:processingHealth(scopedProcessing,now),workers,providers,summary:operationsSummary(workers,providers)};
  };
  return load();
 }

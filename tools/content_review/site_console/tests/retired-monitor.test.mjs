@@ -68,7 +68,7 @@ test('matching replacement activity is reported without claiming verification',a
  const now=Date.parse('2026-11-07T18:00:00Z'),at=new Date(now).toISOString(),target='Automation_new';
  const encode=value=>Response.json({encoding:'base64',content:Buffer.from(JSON.stringify(value)).toString('base64')});
  const fetcher=async url=>{
-  if(url.includes('content_review_monitor_config.json'))return encode({target_automation_id:target});
+  if(url.includes('content_review_monitor_config.json'))return encode({target_automation_id:target,target_scope:'One controlled duplicate-only retry; full worker is not deployed.'});
   if(url.includes('content_review_operations.json'))return encode({scheduler:{id:target,is_enabled:true,observed_at:at,last_run:{id:'new-run',recorded_status:'completed',started_at:at}},source_discovery:{observed_at:at,last_success_at:at,note:'legacy source activity'}});
   if(url.includes('content_review_worker_status.json'))return encode({current_run:{run_id:'new-run',scheduler:{id:target}}});
   if(url.includes('content_review_processing_health.json'))return encode({native_run_id:'new-run',observed_at:at,local_candidates:2});
@@ -77,6 +77,7 @@ test('matching replacement activity is reported without claiming verification',a
  };
  const result=await readOperations({fetcher,now});
  assert.equal(result.replacement_configured,true);
+ assert.equal(result.worker_scope,'One controlled duplicate-only retry; full worker is not deployed.');
  assert.equal(result.processing.local_candidates,2);
  assert.equal(result.processing.counts_independently_verified,false);
  assert.notEqual(result.workers[0].status,'Operating normally');
