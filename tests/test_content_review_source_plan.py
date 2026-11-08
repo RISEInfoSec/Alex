@@ -127,3 +127,29 @@ def test_pending_request_prevents_a_second_dispatch_plan(tmp_path):
     new_head=git(tmp_path,'rev-parse','HEAD')
     second=call(tmp_path,now,new_head,main,hb,snap)
     assert second['status']=='pending_source_result' and second['request'] is None
+
+
+def test_accounted_source_evidence_must_be_retained_before_another_request(tmp_path):
+    from tests.test_content_review_source_retention import fixture as accounted_fixture
+    now,review,main,hb,snapshot,request,raw,run,artifact=accounted_fixture(tmp_path)
+    used=json.loads((tmp_path/'config/content_review_worker_status.json').read_text())['current_run']['request_counts']['source']
+    result=prepare(tmp_path,review,main,hb,snapshot,deepcopy(snapshot),'worker','run',
+                   observed_heads={'review':review,'main':main},source_requests_used=used,at=now)
+    assert result['status']=='all_source_candidates_held' and result['request'] is None
+    assert result['held'][0]['reason']=='source_result_requires_retention'
+    assert result['held'][0]['request_id']==request['request_id'] and result['provider_requests']==0
+
+
+def test_missing_accounted_receipt_blocks_instead_of_repeating_source_request(tmp_path):
+    from tests.test_content_review_source_retention import fixture as accounted_fixture
+    now,review,main,hb,snapshot,request,raw,run,artifact=accounted_fixture(tmp_path)
+    path='config/content_review_source_receipts/'+request['request_id']+'.json'
+    git(tmp_path,'rm','-q',path);git(tmp_path,'commit','-qm','missing evidence')
+    changed=git(tmp_path,'rev-parse','HEAD')
+    state=json.loads((tmp_path/'config/content_review_worker_status.json').read_text());branch=git(tmp_path,'symbolic-ref','--short','HEAD')
+    beat=prepare_heartbeat(state,changed,'worker','run',at=now)
+    git(tmp_path,'checkout','-q','heartbeat');put(tmp_path,'config/content_review_detached_heartbeat.json',beat)
+    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','rebind');hb=git(tmp_path,'rev-parse','HEAD');git(tmp_path,'checkout','-q',branch)
+    used=state['current_run']['request_counts']['source']
+    with pytest.raises(ValueError):prepare(tmp_path,changed,main,hb,snapshot,deepcopy(snapshot),'worker','run',
+        observed_heads={'review':changed,'main':main},source_requests_used=used,at=now)

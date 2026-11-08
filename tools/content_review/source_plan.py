@@ -7,6 +7,7 @@ before publishing the immutable request; no OpenAlex or DOI lookup is allowed.
 from copy import deepcopy
 from datetime import datetime,timezone
 import json
+import re
 from pathlib import Path
 
 from tools.content_review.coordinator import plan
@@ -17,6 +18,58 @@ from tools.content_review.source_handoff import prepare as prepare_handoff
 from tools.content_review.source_worker import Hold,MANIFESTS
 from tools.content_review.verified_inputs import _path_blob,load_inputs
 
+
+
+def _unretained_source_results(repo, review_head, state, selected, manifests):
+    """Hold selected candidates whose accounted evidence has not been retained.
+
+    Missing, malformed or excessive history fails closed instead of permitting
+    another source request. No private D1 rows or source text are returned.
+    """
+    history=state.get('run_history',[])
+    if not isinstance(history,list) or any(not isinstance(run,dict) for run in history):
+        raise ValueError('Source evidence run history is invalid')
+    runs=[state.get('current_run')]+history;entries=[]
+    for run in runs:
+        if run is None:continue
+        if not isinstance(run,dict):raise ValueError('Source evidence run history is invalid')
+        items=run.get('accounted_source_requests',[])
+        if not isinstance(items,list):raise ValueError('Source evidence history is invalid')
+        entries.extend(items)
+        if len(entries)>100:raise ValueError('Source evidence history exceeds the bounded reconciliation limit')
+    ids=set();pending={}
+    for entry in entries:
+        if not isinstance(entry,dict) or not isinstance(entry.get('request_id'),str) or not re.fullmatch(r'[0-9a-f]{64}',entry['request_id']):
+            raise ValueError('Source evidence history is invalid')
+        request_id=entry['request_id']
+        if request_id in ids:raise ValueError('Source evidence was accounted more than once')
+        ids.add(request_id);path='config/content_review_source_receipts/'+request_id+'.json'
+        raw,_=_path_blob(repo,review_head,path)
+        if len(raw)>12*1024*1024:raise ValueError('Source evidence receipt exceeds the bounded limit')
+        try:receipt=json.loads(raw)
+        except (ValueError,UnicodeDecodeError) as exc:raise ValueError('Source evidence receipt is invalid') from exc
+        result=receipt.get('result') if isinstance(receipt,dict) else None
+        if (not isinstance(receipt,dict) or receipt.get('independently_verified') is not True or
+            receipt.get('artifact_id')!=entry.get('artifact_id') or receipt.get('artifact_sha256')!=entry.get('artifact_sha256') or
+            (receipt.get('native_run') or {}).get('id')!=entry.get('native_run_id') or not isinstance(result,dict) or
+            result.get('request_id')!=request_id or result.get('status')!='complete' or result.get('read_only') is not True or
+            not isinstance(result.get('records'),list)):
+            raise ValueError('Accounted source evidence is unavailable or inconsistent')
+        for item in selected:
+            manifest=manifests.get(item['collection']) or {};rows=manifest.get('records',[])+manifest.get('preflight_records',[])
+            matches=[row for row in rows if row.get('candidate_id')==item['candidate_id']]
+            evidence=[row for row in result['records'] if row.get('collection')==item['collection'] and
+                      row.get('candidate_id')==item['candidate_id'] and row.get('content_sha256')==item['content_sha256']]
+            if len(matches)!=1 or len(evidence)>1:raise ValueError('Source evidence candidate is ambiguous')
+            if not evidence:continue
+            row=matches[0];history=row.get('source_processing_history',[])
+            if not isinstance(history,list):raise ValueError('Source evidence retention history is invalid')
+            versions=[row.get('source_processing')]+history
+            if not any(isinstance(version,dict) and version.get('receipt')==path and
+                       version.get('content_sha256')==item['content_sha256'] for version in versions):
+                pending[(item['collection'],item['candidate_id'])]={'request_id':request_id,
+                    'artifact_id':entry.get('artifact_id'),'native_run_id':entry.get('native_run_id')}
+    return pending
 
 def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapshot,owner,run_id,
             *,observed_heads,source_requests_used=0,at=None):
@@ -59,8 +112,13 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
         _,proof=_path_blob(root,review_head,path)
         verify_bytes((root/path).read_bytes(),proof['blob_sha'],proof['size'])
     eligible=[];held=[]
+    retained_pending=_unretained_source_results(root,review_head,state,selected,inputs['manifests'])
     for item in selected:
         pair=(item['collection'],item['candidate_id'])
+        if pair in retained_pending:
+            held.append({'collection':pair[0],'candidate_id':pair[1],
+                         'reason':'source_result_requires_retention',**retained_pending[pair]})
+            continue
         try:
             prepare_handoff(root,[pair],state['current_run']['started_at'],owner,source_requests_used,at=now,coordinator_run_id=run_id)
             eligible.append(pair)

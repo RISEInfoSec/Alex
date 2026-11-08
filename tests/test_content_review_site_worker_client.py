@@ -119,3 +119,13 @@ def test_source_retention_reports_evidence_without_claiming_a_gate():
     assert result['gate_passed'] is False and result['candidate_processing'] is False
     response['gate_passed']=True
     assert post('source_retention',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
+
+
+def test_source_completion_does_not_claim_candidate_or_native_completion():
+    response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':'config/content_review_run_receipts/run.json',
+              'source_requests':3,'source_workflow_verified':True,'candidate_processing':False,'native_completion_verified':False,'publication_verified':False}
+    opener=Opener(Response(response));result=post('source_completion',{},'secret',opener=opener)
+    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-completion'
+    assert result['source_requests']==3 and result['candidate_processing'] is False and result['native_completion_verified'] is False
+    response['candidate_processing']=True
+    assert post('source_completion',{},'secret',opener=Opener(Response(response)))['status']=='outcome_unknown'
