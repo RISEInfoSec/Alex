@@ -28,6 +28,7 @@ jobs:
       - run: python -m pytest -q tests/test_content_review_corpus_audit_live_check.py
       - run: python -m pytest -q tests/test_content_review_quality_hold_rules.py
       - run: python -m pytest -q tests/test_content_review_quality_lower_bound.py
+      - run: python -m pytest -q tests/test_content_review_quality_source_eligibility.py
       - run: python -m pytest -q tests/test_content_review_source_unresolved.py
       - run: python -m pytest -q tests/test_content_review_coordinator_source_pilot.py
       - run: node --test tests/test_content_review_d1_fence_service.mjs tests/test_content_review_d1_fence_status.mjs tests/test_content_review_d1_write_fence.mjs tests/test_content_review_d1_reader.cjs tests/test_content_review_site_d1_reader.cjs tests/test_content_review_site_snapshot_service.mjs tests/test_content_review_d1_fingerprint.cjs tests/test_content_review_d1_live_fence.cjs tests/test_content_review_github_atomic_checkpoint.cjs tests/test_content_review_github_site_api.cjs tests/test_content_review_github_atomic_lease.cjs tests/test_content_review_github_atomic_heartbeat.cjs tests/test_content_review_github_atomic_monitor.cjs tests/test_content_review_github_read_heartbeat.cjs

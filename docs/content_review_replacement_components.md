@@ -318,6 +318,10 @@ conservative score bound using verified text, zero citations, the least venue
 credit and no institution bonus. The result explicitly does not assert a final
 quality score, pass a gate, change a decision or authorize publication. These
 preview rules are not yet connected to a writer or scheduler.
+The independent quality-source eligibility rules identify existing held,
+hash-matched candidates that lack retained source evidence. They cannot issue
+a request or alter the hold; live private decisions and the Site fence remain
+required before any future source reservation.
 
 The repository verifier accepts only a native `completed` run with its canonical
 receipt path. `no_update`, dispatch, an empty pass and tests do not establish
