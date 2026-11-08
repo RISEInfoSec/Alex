@@ -8,7 +8,12 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "checkpoint_failure",
-  "lease": null,
+  "lease": {
+    "owner": "alex-guarded-pilot",
+    "run_id": "09ca0efb-3f68-8330-a16a-612f192b7c4e",
+    "acquired_at": "2026-11-08T08:36:10.969264+00:00",
+    "expires_at": "2026-11-08T09:06:10.969264+00:00"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "weekly": 3,
@@ -99,7 +104,7 @@
     "source_release_holds": 6
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-11-08T07:33:41.542431Z",
+  "last_started_at": "2026-11-08T08:33:07.054773Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
@@ -728,28 +733,15 @@
     "additional_removed_record_corrected": 1
   },
   "current_run": {
-    "run_id": "42fb90b1-0e9c-8330-b578-79f3eac7fe48",
-    "application_status": "deferred",
-    "started_at": "2026-11-08T07:33:41.542431+00:00",
-    "scheduled_for": "2026-11-08T07:30:00+00:00",
-    "observed_at": "2026-11-08T07:37:21.935276+00:00",
+    "run_id": "09ca0efb-3f68-8330-a16a-612f192b7c4e",
+    "application_status": "running",
+    "started_at": "2026-11-08T08:33:07.054773+00:00",
+    "scheduled_for": "2026-11-08T08:30:00+00:00",
+    "observed_at": "2026-11-08T08:36:10.969264+00:00",
     "request_counts": {
       "source": 0,
       "paid": 0,
       "openalex": 0
-    },
-    "scheduler": {
-      "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
-      "observed_at": "2026-11-08T07:37:21.935276+00:00",
-      "is_enabled": true,
-      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261108T023000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
-      "last_run": {
-        "id": "42fb90b1-0e9c-8330-b578-79f3eac7fe48",
-        "recorded_status": "in_progress",
-        "scheduled_for": "2026-11-08T07:30:00Z",
-        "started_at": "2026-11-08T07:33:41.542431Z",
-        "completed_at": null
-      }
     },
     "pending_source_request": {
       "request_id": "53cc552fecd4cc38e92c44477c030cbd4a6f0065728d7b4f6196e4467fec5a8e",
@@ -757,10 +749,21 @@
       "reserved_limit": 30,
       "prepared_at": "2026-11-08T07:38:25.536385+00:00"
     },
-    "application_completed_at": "2026-11-08T07:40:59.643612+00:00",
-    "receipt": "config/content_review_run_receipts/42fb90b1-0e9c-8330-b578-79f3eac7fe48.json"
+    "scheduler": {
+      "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+      "observed_at": "2026-11-08T08:36:10.969264+00:00",
+      "is_enabled": true,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261108T023000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+      "last_run": {
+        "id": "09ca0efb-3f68-8330-a16a-612f192b7c4e",
+        "recorded_status": "in_progress",
+        "scheduled_for": "2026-11-08T08:30:00Z",
+        "started_at": "2026-11-08T08:33:07.054773Z",
+        "completed_at": null
+      }
+    }
   },
-  "last_heartbeat_at": "2026-11-08T07:37:21.935276+00:00",
+  "last_heartbeat_at": "2026-11-08T08:36:10.969264+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
@@ -1275,6 +1278,39 @@
       },
       "application_completed_at": "2026-11-08T06:56:00.817104+00:00",
       "failure_code": "checkpoint_failure"
+    },
+    {
+      "run_id": "42fb90b1-0e9c-8330-b578-79f3eac7fe48",
+      "application_status": "deferred",
+      "started_at": "2026-11-08T07:33:41.542431+00:00",
+      "scheduled_for": "2026-11-08T07:30:00+00:00",
+      "observed_at": "2026-11-08T07:37:21.935276+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "scheduler": {
+        "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+        "observed_at": "2026-11-08T07:37:21.935276+00:00",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261108T023000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+        "last_run": {
+          "id": "42fb90b1-0e9c-8330-b578-79f3eac7fe48",
+          "recorded_status": "in_progress",
+          "scheduled_for": "2026-11-08T07:30:00Z",
+          "started_at": "2026-11-08T07:33:41.542431Z",
+          "completed_at": null
+        }
+      },
+      "pending_source_request": {
+        "request_id": "53cc552fecd4cc38e92c44477c030cbd4a6f0065728d7b4f6196e4467fec5a8e",
+        "origin_run_id": "42fb90b1-0e9c-8330-b578-79f3eac7fe48",
+        "reserved_limit": 30,
+        "prepared_at": "2026-11-08T07:38:25.536385+00:00"
+      },
+      "application_completed_at": "2026-11-08T07:40:59.643612+00:00",
+      "receipt": "config/content_review_run_receipts/42fb90b1-0e9c-8330-b578-79f3eac7fe48.json"
     }
   ],
   "source_attempts": {

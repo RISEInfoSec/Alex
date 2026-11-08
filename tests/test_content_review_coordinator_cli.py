@@ -45,3 +45,11 @@ def test_known_failure_reports_only_a_fixed_allowlisted_detail(monkeypatch):
     code,out=run(monkeypatch,data,fail)
     assert code==1 and out['error_type']=='ValueError' and out['safe_detail']=='Coordinator source heads changed'
     assert 'secret' not in json.dumps(out)
+
+
+def test_artifact_failure_reports_fixed_reason_without_claiming_success(monkeypatch):
+    data={'site_token':'secret','native':{},'owner':'worker','run_id':'run'}
+    def fail(*args):raise ValueError('Source artifact blocked: source_artifact_metadata_unavailable')
+    code,out=run(monkeypatch,data,fail)
+    assert code==1 and out['safe_detail']=='Source artifact blocked: source_artifact_metadata_unavailable'
+    assert out['reconcile_before_retry'] is True and out['lease_release_confirmed'] is False

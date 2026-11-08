@@ -1,5 +1,7 @@
 import hashlib
+import io
 import json
+import urllib.error
 
 import pytest
 
@@ -40,3 +42,19 @@ def test_client_rejects_changed_artifact_identity_and_claims(key):
     if key=='run':value['native_run']['id']=4
     if key=='publication':value['publication_verified']=True
     with pytest.raises(ValueError):read_source_artifact('secret','d'*40,'e'*40,'worker','run',1,2,opener=Opener(Response(value)))
+
+
+@pytest.mark.parametrize('reason,expected',[
+    ('worker_not_verified','Source artifact blocked: worker_not_verified'),
+    ('source_artifact_metadata_unavailable','Source artifact blocked: source_artifact_metadata_unavailable'),
+    ('private-secret','Source artifact read failed; reconcile heartbeat before retry'),
+    ({'private':'secret'},'Source artifact read failed; reconcile heartbeat before retry'),
+])
+def test_artifact_failure_preserves_only_fixed_safe_reasons(reason,expected):
+    class Failed:
+        def open(self,request,timeout):
+            body=json.dumps({'status':'blocked','reason':reason,'private':'secret'}).encode()
+            raise urllib.error.HTTPError(request.full_url,409,'conflict',{},io.BytesIO(body))
+    with pytest.raises(ValueError) as error:
+        read_source_artifact('secret','d'*40,'e'*40,'worker','run',1,2,opener=Failed())
+    assert str(error.value)==expected and 'secret' not in str(error.value)

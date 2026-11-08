@@ -19,7 +19,20 @@ export async function POST(request:Request){
   const message=error instanceof Error?error.message:'',reasons:Record<string,string>={
    'invalid_request':'invalid_request','Invalid source artifact handoff':'invalid_request',
    'Current worker lease or heartbeat is unavailable':'worker_not_verified','Source handoff head changed':'source_head_changed',
-   'Heartbeat renewal outcome unconfirmed; reconcile heartbeat branch':'heartbeat_unconfirmed_reconcile_ref'};
+   'Heartbeat renewal outcome unconfirmed; reconcile heartbeat branch':'heartbeat_unconfirmed_reconcile_ref',
+   'GitHub Actions metadata unavailable':'source_artifact_metadata_unavailable',
+   'GitHub Actions metadata invalid':'source_artifact_metadata_unavailable',
+   'Source artifact redirect unavailable':'source_artifact_download_unavailable',
+   'Source artifact download unavailable':'source_artifact_download_unavailable',
+   'Source artifact redirect invalid':'source_artifact_invalid',
+   'Source artifact redirect untrusted':'source_artifact_invalid',
+   'Source workflow run is not verified':'source_artifact_invalid',
+   'Source artifact metadata is not verified':'source_artifact_invalid',
+   'Source artifact archive digest differs':'source_artifact_invalid',
+   'Source artifact checksum differs':'source_artifact_invalid',
+   'Source handoff history unavailable':'source_artifact_history_unavailable',
+   'Source handoff history invalid':'source_artifact_history_unavailable',
+   'Source handoff reservation outside bounded history':'source_artifact_history_unavailable'};
   const reason=reasons[message]||'source_artifact_unavailable';
   return Response.json({status:'blocked',reason},{status:reason==='invalid_request'?400:409,headers});
  }

@@ -25,6 +25,10 @@ SAFE_ERRORS={'Input exceeds bounded size','Input is invalid','Coordinator source
              'Native source run is not bound to the retained atomic reservation','Source discovery heads changed',
              'Source coordinator heads changed','Source accounting heads changed','Source retention heads changed',
              'Completion source heads changed','Completion response unconfirmed; reconcile before retrying'}
+SAFE_ERRORS.update('Source artifact blocked: '+reason for reason in (
+    'worker_not_verified','source_head_changed','heartbeat_unconfirmed_reconcile_ref',
+    'source_artifact_unavailable','source_artifact_metadata_unavailable',
+    'source_artifact_download_unavailable','source_artifact_invalid','source_artifact_history_unavailable'))
 
 
 def main():

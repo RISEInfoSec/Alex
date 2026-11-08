@@ -14,6 +14,10 @@ MAX_RESULT=12*1024*1024
 SHA=re.compile(r'^[0-9a-f]{40}$')
 HASH=re.compile(r'^[0-9a-f]{64}$')
 ID=re.compile(r'^[a-zA-Z0-9-]{1,100}$')
+SAFE_REASONS={'worker_not_verified','source_head_changed','heartbeat_unconfirmed_reconcile_ref',
+              'source_artifact_unavailable','source_artifact_metadata_unavailable',
+              'source_artifact_download_unavailable','source_artifact_invalid',
+              'source_artifact_history_unavailable'}
 
 
 def read_source_artifact(token,review_head,main_head,owner,run_id,source_run_id,artifact_id,*,opener=None):
@@ -31,7 +35,19 @@ def read_source_artifact(token,review_head,main_head,owner,run_id,source_run_id,
             raw=response.read(MAX_RESPONSE+1)
         if len(raw)>MAX_RESPONSE:raise ValueError('Source artifact response exceeds limit')
         value=json.loads(raw)
-    except (OSError,UnicodeError,json.JSONDecodeError,urllib.error.HTTPError):
+    except urllib.error.HTTPError as exc:
+        # The service supplies fixed public reason codes. Never echo arbitrary
+        # response content, which may include private data or credentials.
+        try:
+            raw=exc.read(4097)
+            detail=json.loads(raw) if len(raw)<=4096 else None
+            reason=detail.get('reason') if isinstance(detail,dict) and detail.get('status')=='blocked' else None
+        except (OSError,UnicodeError,ValueError):
+            reason=None
+        if exc.code==409 and isinstance(reason,str) and reason in SAFE_REASONS:
+            raise ValueError('Source artifact blocked: '+reason) from None
+        raise ValueError('Source artifact read failed; reconcile heartbeat before retry') from None
+    except (OSError,UnicodeError,json.JSONDecodeError):
         raise ValueError('Source artifact read failed; reconcile heartbeat before retry') from None
     if not isinstance(value,dict) or value.get('status')!='verified_source_artifact' or value.get('candidate_processing') is not False or \
        value.get('publication_verified') is not False or not HASH.fullmatch(value.get('request_id') or ''):
