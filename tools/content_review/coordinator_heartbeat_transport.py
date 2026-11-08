@@ -87,7 +87,12 @@ def fetch_heads(repo,heads,run_id):
     # never moving refs or shared destination refs. This avoids repeatedly
     # transferring already-present history during heartbeat and foreground work.
     shas=list(dict.fromkeys(heads[ref] for ref in REFS));missing=_missing_commits(repo,shas)
-    if missing:_run(repo,'fetch','--no-tags','--no-write-fetch-head','origin',*missing)
+    # Exact objects fetched without destination refs may otherwise be omitted
+    # from Git's negotiation. Advertise only the already-verified local commits
+    # as tips, so a new lease or heartbeat does not redownload old history.
+    present=[sha for sha in shas if sha not in missing]
+    if missing:_run(repo,'fetch','--no-tags','--no-write-fetch-head',
+                    *('--negotiation-tip='+sha for sha in present),'origin',*missing)
     if _missing_commits(repo,shas):raise ValueError('Coordinator Git object verification failed')
 
 

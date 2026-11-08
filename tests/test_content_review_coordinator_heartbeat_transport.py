@@ -79,8 +79,9 @@ def test_fetch_reuses_verified_commits_and_fetches_only_missing_ids(tmp_path,mon
         if args[0]=='cat-file':
             ids=[x.removesuffix('^{commit}') for x in input_text.splitlines()]
             return '\n'.join(x+' commit' if x in present else x+'^{commit} missing' for x in ids)
-        assert args[:4]==('fetch','--no-tags','--no-write-fetch-head','origin')
-        assert args[4:]==(beat,);present.add(beat);return ''
+        assert args[:3]==('fetch','--no-tags','--no-write-fetch-head')
+        assert args[3:]==('--negotiation-tip='+review,'--negotiation-tip='+main,'origin',beat)
+        present.add(beat);return ''
     monkeypatch.setattr(transport,'_run',run)
     transport.fetch_heads(tmp_path,heads,'run')
     assert sum(c[0]=='fetch' for c in calls)==1
