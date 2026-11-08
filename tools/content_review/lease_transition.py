@@ -119,3 +119,33 @@ def _proposal(repo, head, state_meta, updated, phase):
             'base_blob': state_meta, 'content': content,
             'blob_sha': hashlib.sha1(b'blob ' + str(len(raw_new)).encode() + b'\0' + raw_new).hexdigest(),
             'size': len(raw_new), 'requires_atomic_update_and_lease_readback': True, 'writes': 0}
+
+
+def reconcile_expired(repo, head, terminal, owner, run_id, *, at=None):
+    """Prepare a stopped, expired lease for exact-head reconciliation.
+
+    The caller must authenticate the native terminal observation, check the
+    live D1 fence and all ambiguous writes, and independently validate the
+    transition before an atomic update. This function never writes remotely.
+    """
+    now=at or datetime.now(timezone.utc)
+    if (not isinstance(now,datetime) or now.tzinfo is None or now.utcoffset() is None or
+        not isinstance(head,str) or not SHA.fullmatch(head) or not isinstance(owner,str) or not owner or
+        not isinstance(run_id,str) or not re.fullmatch(r'[a-zA-Z0-9-]+',run_id)):
+        raise ValueError('Expired lease identity invalid')
+    expected={'run_id':run_id,'scheduler_status':'completed','status':'blocked',
+              'reason':'source_completion_not_confirmed','candidate_processing':False,
+              'lease_release_confirmed':False,'reconcile_before_retry':True}
+    if terminal!=expected:raise ValueError('Exact blocked native result required')
+    raw,meta=_path_blob(repo,head,WORKER);state=json.loads(raw);lease=state.get('lease') or {};current=state.get('current_run') or {}
+    expiry=instant(lease.get('expires_at'));acquired=instant(lease.get('acquired_at'));history=state.get('lease_history',[])
+    if (lease.get('owner')!=owner or lease.get('run_id')!=run_id or not expiry or not acquired or acquired>=expiry or expiry>now or
+        current.get('run_id')!=run_id or current.get('application_status')!='running' or not isinstance(history,list) or
+        any(not isinstance(x,dict) or x.get('run_id')==run_id for x in history)):
+        raise ValueError('Matching expired running lease required')
+    updated=deepcopy(state);stamp=now.isoformat()
+    updated.setdefault('lease_history',[]).append({**deepcopy(lease),'status':'expired','expiry_observed_at':stamp})
+    updated['lease']=None;updated['current_run']['application_status']='failed'
+    updated['current_run']['application_completed_at']=stamp;updated['current_run']['failure_code']='reconciliation_hold'
+    updated['last_error']='reconciliation_hold'
+    return _proposal(repo,head,meta,updated,'expire')

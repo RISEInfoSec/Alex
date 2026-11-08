@@ -62,6 +62,9 @@ def complete(repo,token,native,review_head,main_head,owner,run_id,checkpoint_pat
         raise ValueError('Completion proposal unavailable')
     refs=heads(repo)
     if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Completion source heads changed')
+    final=pulse_factory(repo,token,review_head,main_head,owner,run_id)()
+    if not isinstance(final,dict) or final.get('status')!='committed_and_read_back' or not SHA.fullmatch(final.get('commit_sha') or ''):
+        raise ValueError('Heartbeat outcome unconfirmed; reconcile before retrying')
     request={'expectedHead':review_head,'expectedMain':main_head,'owner':owner,'runId':run_id,'files':proposal['files']}
     if processed:request['checkpointCommits']={checkpoint_path:review_head}
     result=send('completion' if processed else 'no_work',request,token)

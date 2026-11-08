@@ -94,6 +94,16 @@ function validateTransition(before,after,phase,{owner,runId,now,detachedHeartbea
   expected.lease_history??=[];expected.lease_history.push({...lease,status:'released',released_at:done});
   expected.lease=null;expected.current_run.application_status='failed';expected.current_run.application_completed_at=done;
   expected.current_run.failure_code=failed;expected.last_error=failed;
+ }else if(phase==='expire'){
+  const done=run?.application_completed_at;
+  required(object(lease)&&lease.owner===owner&&lease.run_id===runId&&Number.isFinite(time(lease.acquired_at))&&
+   Number.isFinite(time(lease.expires_at))&&time(lease.acquired_at)<time(lease.expires_at)&&time(lease.expires_at)<=now&&
+   object(current)&&current.run_id===runId&&current.application_status==='running'&&run?.failure_code==='reconciliation_hold'&&
+   Number.isFinite(time(done))&&time(done)<=now&&now-time(done)<=40000&&!oldHistory.some(x=>x.run_id===runId),
+   'Expired lease reconciliation invalid');
+  expected.lease_history??=[];expected.lease_history.push({...lease,status:'expired',expiry_observed_at:done});
+  expected.lease=null;expected.current_run.application_status='failed';expected.current_run.application_completed_at=done;
+  expected.current_run.failure_code='reconciliation_hold';expected.last_error='reconciliation_hold';
  }else throw new Error('Unknown lease transition');
  required(equal(expected,after),'Lease transition changes unrelated state or loses history');
  return {status:'valid',native_observation_authenticated:false};

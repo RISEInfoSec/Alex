@@ -99,7 +99,7 @@
     "source_release_holds": 6
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-11-08T12:31:57.244939Z",
+  "last_started_at": "2026-11-08T13:28:28.693521Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
@@ -728,39 +728,45 @@
     "additional_removed_record_corrected": 1
   },
   "current_run": {
-    "run_id": "8a0b99be-cdac-832c-a39e-45409248c830",
+    "run_id": "35cd42ab-e488-832c-8dd1-9e8c46fc79c1",
     "application_status": "failed",
-    "started_at": "2026-11-08T12:31:57.244939+00:00",
-    "scheduled_for": "2026-11-08T12:30:00+00:00",
-    "observed_at": "2026-11-08T12:34:55.049107+00:00",
+    "started_at": "2026-11-08T13:28:28.693521+00:00",
+    "scheduled_for": "2026-11-08T13:30:00+00:00",
+    "observed_at": "2026-11-08T13:31:21.732436+00:00",
     "request_counts": {
       "source": 0,
       "paid": 0,
       "openalex": 0
     },
-    "pending_source_request": {
-      "request_id": "53cc552fecd4cc38e92c44477c030cbd4a6f0065728d7b4f6196e4467fec5a8e",
-      "origin_run_id": "42fb90b1-0e9c-8330-b578-79f3eac7fe48",
-      "reserved_limit": 30,
-      "prepared_at": "2026-11-08T07:38:25.536385+00:00"
-    },
+    "pending_source_request": null,
     "scheduler": {
       "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
-      "observed_at": "2026-11-08T12:34:55.049107+00:00",
+      "observed_at": "2026-11-08T13:31:21.732436+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261108T023000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "last_run": {
-        "id": "8a0b99be-cdac-832c-a39e-45409248c830",
+        "id": "35cd42ab-e488-832c-8dd1-9e8c46fc79c1",
         "recorded_status": "in_progress",
-        "scheduled_for": "2026-11-08T12:30:00Z",
-        "started_at": "2026-11-08T12:31:57.244939Z",
+        "scheduled_for": "2026-11-08T13:30:00Z",
+        "started_at": "2026-11-08T13:28:28.693521Z",
         "completed_at": null
       }
     },
-    "application_completed_at": "2026-11-08T12:45:39.636758+00:00",
+    "accounted_source_requests": [
+      {
+        "request_id": "53cc552fecd4cc38e92c44477c030cbd4a6f0065728d7b4f6196e4467fec5a8e",
+        "artifact_id": 13608433972,
+        "artifact_sha256": "578c4e70d79bc1bd18ba8c75c58947ad0dca261b52c2d6e933d4c5f0c6aa20cc",
+        "native_run_id": 42459678797,
+        "requests": 16,
+        "origin_run_id": "42fb90b1-0e9c-8330-b578-79f3eac7fe48",
+        "charged_to_current_run": false
+      }
+    ],
+    "application_completed_at": "2026-11-08T14:45:06.326305+00:00",
     "failure_code": "reconciliation_hold"
   },
-  "last_heartbeat_at": "2026-11-08T12:34:55.049107+00:00",
+  "last_heartbeat_at": "2026-11-08T13:31:21.732436+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
@@ -1050,6 +1056,14 @@
       "expires_at": "2026-11-08T13:04:55.049107+00:00",
       "status": "released",
       "released_at": "2026-11-08T12:45:39.636758+00:00"
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "35cd42ab-e488-832c-8dd1-9e8c46fc79c1",
+      "acquired_at": "2026-11-08T13:31:21.732436+00:00",
+      "expires_at": "2026-11-08T14:01:21.732436+00:00",
+      "status": "expired",
+      "expiry_observed_at": "2026-11-08T14:45:06.326305+00:00"
     }
   ],
   "run_history": [
@@ -1395,6 +1409,39 @@
         }
       },
       "application_completed_at": "2026-11-08T11:40:12.287493+00:00",
+      "failure_code": "reconciliation_hold"
+    },
+    {
+      "run_id": "8a0b99be-cdac-832c-a39e-45409248c830",
+      "application_status": "failed",
+      "started_at": "2026-11-08T12:31:57.244939+00:00",
+      "scheduled_for": "2026-11-08T12:30:00+00:00",
+      "observed_at": "2026-11-08T12:34:55.049107+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "pending_source_request": {
+        "request_id": "53cc552fecd4cc38e92c44477c030cbd4a6f0065728d7b4f6196e4467fec5a8e",
+        "origin_run_id": "42fb90b1-0e9c-8330-b578-79f3eac7fe48",
+        "reserved_limit": 30,
+        "prepared_at": "2026-11-08T07:38:25.536385+00:00"
+      },
+      "scheduler": {
+        "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+        "observed_at": "2026-11-08T12:34:55.049107+00:00",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261108T023000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+        "last_run": {
+          "id": "8a0b99be-cdac-832c-a39e-45409248c830",
+          "recorded_status": "in_progress",
+          "scheduled_for": "2026-11-08T12:30:00Z",
+          "started_at": "2026-11-08T12:31:57.244939Z",
+          "completed_at": null
+        }
+      },
+      "application_completed_at": "2026-11-08T12:45:39.636758+00:00",
       "failure_code": "reconciliation_hold"
     }
   ],

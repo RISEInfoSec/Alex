@@ -19,7 +19,7 @@ export default function OperationsPanel(){
  }
  useEffect(()=>{refresh();const timer=setInterval(refresh,30000);return()=>{clearInterval(timer);++generation.current;request.current?.abort();};},[]);
  const main=data?.workers.find((w:any)=>w.id==='content-review');
- const problems=data?.workers.filter((w:any)=>['Paused','Failed','Overdue','Degraded','Status unknown','Not configured'].includes(w.status))||[];
+ const problems=data?.workers.filter((w:any)=>['Paused','Failed','Cancelled','Overdue','Degraded','Status unknown','Not configured'].includes(w.status))||[];
  const incidents=data?.providers.filter((p:any)=>['Failed','Degraded','Status unknown'].includes(p.status))||[];
  const displayState=stale?'Status unknown — stale evidence':main?.status||'Status unknown';
  return <section className="operations-panel" aria-label="Worker and service health" aria-busy={busy}>

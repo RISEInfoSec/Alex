@@ -27,7 +27,7 @@ def test_coordinator_stops_heartbeat_before_site_audit_and_reports_only_confirme
                 'candidate_processing':True,'gate':'duplicates','native_completion_verified':False,'publication_verified':False}
     result=module.checkpoint_one('.', 'private-token',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,
         inputs_reader=lambda *a:inputs,snapshot_reader=lambda *a:({'private':'not returned'},{'private':'not returned'}),
-        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,
+        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back','commit_sha':'f'*40},keeper_factory=Keeper,
         planner=lambda *a,**k:{'selected':[{'collection':'weekly','candidate_id':'x','next_stage':'duplicates'}]},
         preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},send=send)
     assert result['status']=='checkpoint_confirmed_run_incomplete' and result['candidate_processing'] is True
@@ -35,11 +35,26 @@ def test_coordinator_stops_heartbeat_before_site_audit_and_reports_only_confirme
     assert 'private-token' not in json.dumps(result) and 'not returned' not in json.dumps(result) and calls==['duplicate']
 
 
+def test_duplicate_never_sends_after_unconfirmed_final_heartbeat(monkeypatch):
+    review,main,heartbeat='a'*40,'b'*40,'c'*40;refs={module.REVIEW:review,module.MAIN:main,module.HEARTBEAT:heartbeat};calls=[]
+    monkeypatch.setattr(module,'_path_blob',lambda *a:(b'{}',{}))
+    def pulse():
+        calls.append('heartbeat')
+        return {'status':'outcome_unknown'} if len(calls)==3 else {'status':'committed_and_read_back','commit_sha':'f'*40}
+    with pytest.raises(ValueError,match='Heartbeat outcome unconfirmed'):
+        module.checkpoint_one('.','secret',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,
+            inputs_reader=lambda *a:{'worker_state':{},'lifecycle':{},'reconciliation_manifests':{},'registry':[]},snapshot_reader=lambda *a:({},{}),
+            pulse_factory=lambda *a:pulse,keeper_factory=Keeper,
+            planner=lambda *a,**k:{'selected':[{'collection':'first','candidate_id':'x','next_stage':'duplicates'}]},
+            preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},
+            send=lambda *a:pytest.fail('uncertain heartbeat must block the write'))
+
+
 def test_coordinator_does_not_treat_source_work_or_an_unknown_write_as_success(monkeypatch):
     review,main,heartbeat='a'*40,'b'*40,'c'*40;refs={module.REVIEW:review,module.MAIN:main,module.HEARTBEAT:heartbeat};calls=[]
     monkeypatch.setattr(module,'_path_blob',lambda *args:(b'{}',{}))
     common=dict(heads=lambda _:dict(refs),fetch=lambda *a:None,inputs_reader=lambda *a:{'worker_state':{},'lifecycle':{},'reconciliation_manifests':{},'registry':[]},
-        snapshot_reader=lambda *a:({},{}),pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,
+        snapshot_reader=lambda *a:({},{}),pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back','commit_sha':'f'*40},keeper_factory=Keeper,
         preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},
         send=lambda *a:(calls.append(1) or {'status':'outcome_unknown'}))
     result=module.checkpoint_one('.','secret',review,main,'worker','run',planner=lambda *a,**k:{'selected':[{'next_stage':'source'}]},**common)
@@ -62,7 +77,7 @@ def test_coordinator_skips_a_held_duplicate_and_checks_next_fair_candidate(monke
                 'candidate_processing':True,'gate':'duplicates','native_completion_verified':False,'publication_verified':False}
     result=module.checkpoint_one('.','secret',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,
         inputs_reader=lambda *a:{'worker_state':{},'lifecycle':{},'reconciliation_manifests':{},'registry':[]},snapshot_reader=lambda *a:({},{}),
-        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,
+        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back','commit_sha':'f'*40},keeper_factory=Keeper,
         planner=lambda *a,**k:{'selected':[{'collection':'weekly','candidate_id':'held','next_stage':'duplicates'},
                                           {'collection':'sans','candidate_id':'clear','next_stage':'duplicates'}]},preparer=prepare,send=send)
     assert seen==['held','clear'] and result['candidate_processing'] is True
@@ -73,7 +88,7 @@ def test_coordinator_preserves_only_safe_site_failure_reason(monkeypatch):
     monkeypatch.setattr(module,'_path_blob',lambda *args:(b'{}',{}))
     result=module.checkpoint_one('.','secret',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,
         inputs_reader=lambda *a:{'worker_state':{},'lifecycle':{},'reconciliation_manifests':{},'registry':[]},snapshot_reader=lambda *a:({},{}),
-        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,
+        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back','commit_sha':'f'*40},keeper_factory=Keeper,
         planner=lambda *a,**k:{'selected':[{'collection':'weekly','candidate_id':'x','next_stage':'duplicates'}]},
         preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},
         send=lambda *a:{'status':'blocked','reason':'worker_not_verified','http_status':409})

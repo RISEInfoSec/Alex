@@ -3,6 +3,7 @@ from datetime import datetime,timezone
 from tools.content_review.coordinator_lifecycle import start,complete
 from tools.content_review.coordinator_heartbeat_transport import REVIEW,MAIN,HEARTBEAT
 from tests.test_content_review_coordinator_duplicate import Keeper
+import pytest
 
 
 def test_start_uses_native_observation_and_requires_remote_readback():
@@ -30,17 +31,29 @@ def test_completion_stops_local_heartbeat_before_site_reaudit_and_never_claims_n
         return {'status':'committed_and_read_back','commit_sha':commit,'receipt_path':'config/content_review_run_receipts/run.json',
                 'candidate_processing':True,'native_completion_verified':False,'publication_verified':False}
     result=complete('.','secret',{},review,main,'worker','run',checkpoint,heads=lambda _:dict(refs),fetch=lambda *a:None,
-        snapshot_reader=lambda _:({},{}),pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,
+        snapshot_reader=lambda _:({},{}),pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back','commit_sha':'f'*40},keeper_factory=Keeper,
         preparer=prepare,send=send)
     assert result['status']=='application_complete' and result['lease_release_confirmed'] is True
     assert result['native_completion_verified'] is False and result['publication_verified'] is False and calls==[1]
+
+
+def test_completion_never_sends_after_unconfirmed_final_heartbeat():
+    review,main,beat='a'*40,'b'*40,'c'*40;refs={REVIEW:review,MAIN:main,HEARTBEAT:beat};calls=[]
+    def pulse():
+        calls.append('heartbeat')
+        return {'status':'outcome_unknown'} if len(calls)==3 else {'status':'committed_and_read_back','commit_sha':'f'*40}
+    with pytest.raises(ValueError,match='Heartbeat outcome unconfirmed'):
+        complete('.','secret',{},review,main,'worker','run',None,heads=lambda _:dict(refs),fetch=lambda *a:None,
+            snapshot_reader=lambda _:({},{}),pulse_factory=lambda *a:pulse,keeper_factory=Keeper,
+            preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},
+            send=lambda *a:pytest.fail('uncertain heartbeat must block completion'))
 
 
 def test_unknown_completion_requires_reconciliation_without_retry():
     review,main,beat='a'*40,'b'*40,'c'*40;refs={REVIEW:review,MAIN:main,HEARTBEAT:beat};calls=[]
     checkpoint='config/content_review_mechanical_checkpoints/'+'e'*64+'.json'
     result=complete('.','secret',{},review,main,'worker','run',checkpoint,heads=lambda _:dict(refs),fetch=lambda *a:None,
-        snapshot_reader=lambda _:({},{}),pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,
+        snapshot_reader=lambda _:({},{}),pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back','commit_sha':'f'*40},keeper_factory=Keeper,
         preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},send=lambda *a:(calls.append(1) or {'status':'outcome_unknown'}))
     assert result['status']=='blocked' and result['reconcile_before_retry'] is True and result['lease_release_confirmed'] is False and calls==[1]
 
@@ -53,7 +66,7 @@ def test_deferred_completion_releases_lease_without_claiming_processing():
         return {'status':'committed_and_read_back','commit_sha':commit,'receipt_path':'config/content_review_run_receipts/run.json',
                 'candidate_processing':False,'native_completion_verified':False,'publication_verified':False}
     result=complete('.','secret',{},review,main,'worker','run',None,heads=lambda _:dict(refs),fetch=lambda *a:None,
-        snapshot_reader=lambda _:({},{}),pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,
+        snapshot_reader=lambda _:({},{}),pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back','commit_sha':'f'*40},keeper_factory=Keeper,
         preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},send=send)
     assert result['status']=='deferred' and result['candidate_processing'] is False and result['lease_release_confirmed'] is True
     assert result['native_completion_verified'] is False

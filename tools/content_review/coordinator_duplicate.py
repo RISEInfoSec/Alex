@@ -73,6 +73,9 @@ def checkpoint_one(repo,token,review_head,main_head,owner,run_id,*,heads=read_he
     if not isinstance(proposal.get('files'),dict):raise ValueError('Duplicate proposal files unavailable')
     current=heads(repo)
     if current.get(REVIEW)!=review_head or current.get(MAIN)!=main_head:raise ValueError('Coordinator source heads changed')
+    final=pulse_factory(repo,token,review_head,main_head,owner,run_id)()
+    if not isinstance(final,dict) or final.get('status')!='committed_and_read_back' or not SHA.fullmatch(final.get('commit_sha') or ''):
+        raise ValueError('Heartbeat outcome unconfirmed; reconcile before retrying')
     response=send('duplicate',{'expectedHead':review_head,'expectedMain':main_head,'owner':owner,'runId':run_id,
                                'files':proposal['files']},token)
     if not isinstance(response,dict) or response.get('status')!='committed_and_read_back':

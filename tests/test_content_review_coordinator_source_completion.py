@@ -1,6 +1,7 @@
 from tools.content_review.coordinator_source_completion import complete
 from tools.content_review.coordinator_heartbeat_transport import REVIEW,MAIN,HEARTBEAT
 from tests.test_content_review_coordinator_duplicate import Keeper
+import pytest
 
 
 def test_source_completion_releases_lease_without_claiming_gate_or_native_completion():
@@ -15,7 +16,23 @@ def test_source_completion_releases_lease_without_claiming_gate_or_native_comple
         artifact_reader=artifact,snapshot_reader=lambda _:({},{}),pulse_factory=pulse_factory,keeper_factory=Keeper,
         preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},send=send)
     assert result['status']=='deferred' and result['lease_release_confirmed'] is True and result['candidate_processing'] is False
-    assert result['native_completion_verified'] is False and events==['heartbeat','artifact','heartbeat','heartbeat','completion']
+    assert result['native_completion_verified'] is False and events==['heartbeat','artifact','heartbeat','heartbeat','heartbeat','completion']
+
+
+def test_completion_refreshes_heartbeat_after_last_ref_read_and_blocks_on_uncertain_refresh():
+    review,main,beat='a'*40,'b'*40,'c'*40;refs={REVIEW:review,MAIN:main,HEARTBEAT:beat};events=[];pulses=[]
+    def heads(_):events.append('heads');return dict(refs)
+    def pulse(*args):
+        def run():
+            events.append('heartbeat');pulses.append(1)
+            return {'status':'outcome_unknown'} if len(pulses)==4 else {'status':'committed_and_read_back','commit_sha':'f'*40}
+        return run
+    with pytest.raises(ValueError,match='Heartbeat outcome unconfirmed'):
+        complete('.','secret',{},review,main,'worker','run',1,2,heads=heads,fetch=lambda *a:None,
+            artifact_reader=lambda *a:{'request_id':'e'*64,'result_bytes':b'{}','native_run':{},'artifact':{}},snapshot_reader=lambda _:({},{}),
+            pulse_factory=pulse,keeper_factory=Keeper,preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},
+            send=lambda *a:pytest.fail('uncertain heartbeat must block completion'))
+    assert events[-2:]==['heads','heartbeat']
 
 
 def test_unknown_completion_does_not_retry_or_claim_lease_release():

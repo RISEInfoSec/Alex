@@ -93,7 +93,8 @@ export function coordinatorHealth(snapshot,checkpoint,now=Date.now()){
  return result;
 }
 export function workflowHealth(monitor,workflow,runs,now=Date.now()){
- const list=(runs||[]).filter(r=>r.head_branch==='main'||r.head_branch==='codex/soups-corpus-review');
+ const list=(runs||[]).filter(r=>r.head_branch==='main'||r.head_branch==='codex/soups-corpus-review'||
+  (monitor.id==='source-regression'&&r.event==='pull_request'&&r.head_branch==='codex/unattended-review-replacement-20261106'));
  const latest=list[0],success=list.find(r=>r.conclusion==='success');
  const result={...monitor,schedule_enabled:workflow?.state==='active'?(monitor.scheduled?true:null):workflow?.state?.startsWith('disabled')?false:null,
   observed_at:new Date(now).toISOString(),last_attempt_at:latest?.run_started_at||latest?.created_at||null,last_success_at:success?.updated_at||null,
@@ -104,9 +105,12 @@ export function workflowHealth(monitor,workflow,runs,now=Date.now()){
   const age=now-time(latest.run_started_at||latest.created_at);
   return {...result,status:age>60*minute?'Overdue':'Running',issue:age>60*minute?'Workflow has not completed within one hour.':'Live GitHub run: '+latest.status};
  }
+ if(latest?.conclusion==='cancelled')return {...result,status:'Cancelled',issue:'Latest relevant GitHub run was cancelled; no successful completion was recorded.'};
  if(latest&&failures.has(latest.conclusion))return {...result,status:'Failed',issue:'Latest relevant GitHub run ended '+latest.conclusion+'.'};
  if(monitor.scheduled&&latest&&now-time(latest.created_at)>8*24*60*minute)return {...result,status:'Overdue',issue:'No scheduled weekly run has been recorded in more than eight days.'};
- return {...result,status:'Idle',issue:latest?'Latest relevant run: '+latest.conclusion+'. No active run is reported.':'No relevant execution is recorded. This is not proof the worker has completed work.'};
+ return {...result,status:'Idle',issue:latest?(monitor.id==='source-regression'&&latest.event==='pull_request'
+  ?'Latest draft pull request regression: '+latest.conclusion+'. This tests code; it does not establish worker processing.'
+  :'Latest relevant run: '+latest.conclusion+'. No active run is reported.'):'No relevant execution is recorded. This is not proof the worker has completed work.'};
 }
 export function providerHealth(provider,now=Date.now()){
  const retry=time(provider.retry_not_before),success=time(provider.last_success_at),failure=time(provider.last_failure_at);
@@ -119,7 +123,7 @@ export function providerHealth(provider,now=Date.now()){
  return {...provider,status:'Status unknown',issue:'No current provider result is available.'};
 }
 export function operationsSummary(workers,providers){
- const problems=workers.filter(w=>['Paused','Degraded','Failed','Overdue','Status unknown','Not configured'].includes(w.status));
+ const problems=workers.filter(w=>['Paused','Degraded','Failed','Cancelled','Overdue','Status unknown','Not configured'].includes(w.status));
  const incidents=providers.filter(p=>['Degraded','Failed','Status unknown'].includes(p.status));
  return {problems:problems.length,incidents:incidents.length,label:problems.length||incidents.length?'Attention required':'No current problem reported'};
 }

@@ -40,6 +40,11 @@ def complete(repo,token,native,review_head,main_head,owner,run_id,source_run_id,
         raise ValueError('Source completion proposal unavailable')
     refs=heads(repo)
     if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Source completion heads changed')
+    # A slow final ref check can outlive the Site's heartbeat freshness window.
+    # Refresh before the Site takes over renewal during the fenced write.
+    final=pulse_factory(repo,token,review_head,main_head,owner,run_id)()
+    if not isinstance(final,dict) or final.get('status')!='committed_and_read_back' or not SHA.fullmatch(final.get('commit_sha') or ''):
+        raise ValueError('Heartbeat outcome unconfirmed; reconcile before retrying')
     result=send('source_completion',{'expectedHead':review_head,'expectedMain':main_head,'owner':owner,'runId':run_id,
                                     'sourceRunId':source_run_id,'artifactId':artifact_id,'files':proposal['files']},token)
     if not isinstance(result,dict) or result.get('status')!='committed_and_read_back':
