@@ -10,9 +10,6 @@ from email.utils import parsedate_to_datetime
 from pathlib import Path
 from urllib.parse import urlsplit, urljoin, urldefrag
 from urllib.robotparser import RobotFileParser
-import requests
-from bs4 import BeautifulSoup
-from pypdf import PdfReader
 def digest(value):
     return hashlib.sha256(json.dumps(value,sort_keys=True,ensure_ascii=False,allow_nan=False).encode()).hexdigest()
 def reviewed_digest(row):
@@ -60,11 +57,13 @@ def retry_at(value):
 
 class Transport:
     def __init__(self, *, deadline, cap=30, session=None, clock=time.monotonic, sleep=time.sleep, origin_backoff=None):
+        import requests
         self.deadline,self.cap,self.session,self.clock,self.sleep=deadline,cap,session or requests.Session(),clock,sleep
         self.origin_backoff=origin_backoff if origin_backoff is not None else {}
         self.sends=[];self.last={};self.robots={};self.stopped={};self.cache={}
         self.session.headers.update({'User-Agent':UA,'Accept':'text/html,application/pdf;q=0.9,*/*;q=0.1'})
     def send(self,url):
+        import requests
         url=safe_url(url);origin=canonical_origin(url)
         if origin_backoff_active(self.origin_backoff,url,datetime.now(timezone.utc)):
             raise Hold('source_origin_backoff_active')
@@ -154,12 +153,14 @@ def extract(response, fragment=''):
                    repository_doi=doi,files=data.get('files',[]),links=data.get('links',{}),
                    text=text[:36000],text_complete=len(text)<=36000,metadata_complete=True,document_type='unverified')
     elif body.startswith(b'%PDF-'):
+        from pypdf import PdfReader
         try:
             pdf=PdfReader(io.BytesIO(body));pages=[p.extract_text() or '' for p in pdf.pages[:6]]
         except Exception:raise Hold('pdf_parse_failed') from None
         text='\n'.join(pages)
         out.update(container_type='pdf',page_count=len(pdf.pages),pages_inspected=len(pages),pdf_metadata={str(k):str(v) for k,v in (pdf.metadata or {}).items()},text=text[:36000],text_complete=len(pdf.pages)<=6 and len(text)<=36000,document_type='unverified')
     else:
+        from bs4 import BeautifulSoup
         soup=BeautifulSoup(body,'html.parser')
         text0=soup.get_text(' ',strip=True)
         if re.search(r'(?i)(just a moment|verify you are human|enable javascript and cookies to continue|access denied)',(soup.title.get_text() if soup.title else '')+' '+text0[:400]):raise Hold('access_challenge')

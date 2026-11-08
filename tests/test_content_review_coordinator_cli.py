@@ -1,8 +1,17 @@
 import io
 import json
 import sys
+import subprocess
+from pathlib import Path
 
 import tools.content_review.coordinator_cli as cli
+
+
+def test_coordinator_starts_without_source_worker_runtime_packages():
+    root=Path(__file__).resolve().parents[1]
+    result=subprocess.run([sys.executable,'-S','-c','import tools.content_review.coordinator_cli'],cwd=root,
+                          text=True,capture_output=True)
+    assert result.returncode==0,result.stderr
 
 
 def run(monkeypatch,data,fn):
