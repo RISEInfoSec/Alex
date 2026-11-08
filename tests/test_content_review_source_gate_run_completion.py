@@ -63,3 +63,20 @@ def test_native_mismatch_and_intervening_head_fail_closed(tmp_path):
     put(tmp_path,'unrelated.txt','changed');git(tmp_path,'add','.');git(tmp_path,'commit','-qm','intervening change')
     changed=list(values);changed[1]=git(tmp_path,'rev-parse','HEAD')
     with pytest.raises(ValueError):call(tmp_path,changed)
+
+
+def test_superseded_review_decision_still_blocks_source_completion(tmp_path):
+    values=list(fixture(tmp_path));snapshot=deepcopy(values[5])
+    receipt=json.loads(git(tmp_path,'show',values[1]+':'+values[6]))
+    snapshot['submissions']=[{'id':'old','user_id':'owner','collection':receipt['collection'],'batch':1,'revision':1,
+        'accepted':0,'rejected':1,'payload_hash':'a'*64},{'id':'new','user_id':'owner','collection':receipt['collection'],
+        'batch':1,'revision':2,'accepted':1,'rejected':0,'payload_hash':'b'*64}]
+    snapshot['decisions']=[{'id':'old-d','submission_id':'old','user_id':'owner','collection':receipt['collection'],
+        'batch':1,'revision':1,'candidate_id':receipt['candidate_id'],'review_number':1,
+        'content_sha256':receipt['content_sha256'],'decision':'rejected'},
+        {'id':'new-d','submission_id':'new','user_id':'owner','collection':receipt['collection'],'batch':1,
+        'revision':2,'candidate_id':'other','review_number':2,'content_sha256':'c'*64,'decision':'approved'}]
+    for k in ('submissions','decisions'):snapshot['read_evidence'][k]['rows_received']=len(snapshot[k])
+    values[5]=snapshot
+    with pytest.raises(ValueError,match='Reviewed candidate requires reconciliation'):
+        call(tmp_path,values)

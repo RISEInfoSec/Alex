@@ -65,7 +65,7 @@ def prepare(repo,review_head,main_head,heartbeat_head,native,snapshot,confirmed,
     if not made or not started<=made<=now:raise ValueError('Source gate checkpoint time invalid')
     inputs=load_inputs(repo,review_head,main_head)
     checked=reconcile(snapshot,confirmed,{k:v.get('records',[]) for k,v in inputs['reconciliation_manifests'].items()})
-    if any(x.get('collection')==collection and x.get('candidate_id')==candidate for x in checked['matched_decisions']+checked['held']):
+    if any(x.get('collection')==collection and x.get('candidate_id')==candidate for x in snapshot['decisions']+checked['held']):
         raise ValueError('Reviewed candidate requires reconciliation')
     current=inputs['manifests'].get(collection) or {};rows=current.get('records',[])+current.get('preflight_records',[])
     matches=[row for row in rows if row.get('candidate_id')==candidate]

@@ -89,7 +89,9 @@ def prepare(repo, review_head, main_head, heartbeat_head, native, snapshot, conf
     inputs = load_inputs(repo, review_head, main_head)
     manifests = inputs['reconciliation_manifests']
     checked = reconcile(snapshot, confirmed_snapshot, {k: v.get('records', []) for k, v in manifests.items()})
-    decision_keys = {(x['collection'], x['candidate_id']) for x in checked['matched_decisions']}
+    # Historical decisions remain authoritative even after a later submission
+    # supersedes them; the independent Site writer applies the same hold.
+    decision_keys = {(x['collection'], x['candidate_id']) for x in snapshot['decisions']}
     held_keys = {(x['collection'], x['candidate_id']) for x in checked['held']}
     actions = []
     for path in checkpoint_paths:

@@ -154,6 +154,22 @@ def test_new_review_decision_stops_completion_for_that_candidate(tmp_path):
         call(tmp_path,data,snapshot=snapshot)
 
 
+def test_superseded_review_decision_still_blocks_duplicate_completion(tmp_path):
+    data=fixture(tmp_path);snapshot=deepcopy(data[5])
+    row=json.loads(git(tmp_path,'show',data[1]+':config/weekly_review_manifest.json'))['records'][0]
+    snapshot['submissions']=[{'id':'old','user_id':'owner','collection':'weekly','batch':1,'revision':1,
+        'accepted':0,'rejected':1,'payload_hash':'a'*64}, {'id':'new','user_id':'owner','collection':'weekly',
+        'batch':1,'revision':2,'accepted':1,'rejected':0,'payload_hash':'b'*64}]
+    snapshot['decisions']=[{'id':'old-d','submission_id':'old','user_id':'owner','collection':'weekly','batch':1,
+        'revision':1,'candidate_id':row['candidate_id'],'review_number':row['review_number'],
+        'content_sha256':row['content_sha256'],'decision':'rejected'},
+        {'id':'new-d','submission_id':'new','user_id':'owner','collection':'weekly','batch':1,'revision':2,
+        'candidate_id':'other','review_number':2,'content_sha256':'c'*64,'decision':'approved'}]
+    for k in ('submissions','decisions'):snapshot['read_evidence'][k]['rows_received']=len(snapshot[k])
+    with pytest.raises(ValueError,match='reviewed or held candidate'):
+        call(tmp_path,data,snapshot=snapshot)
+
+
 def test_python_completion_bundle_is_accepted_by_atomic_javascript_writer(tmp_path):
     data=fixture(tmp_path);proposal=call(tmp_path,data)
     evidence={path:json.loads(git(tmp_path,'show',data[1]+':'+path)) for path in data[6]}
