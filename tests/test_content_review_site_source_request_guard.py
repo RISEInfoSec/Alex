@@ -52,12 +52,12 @@ def test_site_guard_refuses_active_origin_backoff_and_retained_holds(tmp_path):
     assert invoke(data).returncode!=0
 
 
-def test_site_guard_blocks_unresolved_origin_even_for_another_candidate(tmp_path):
+def test_site_guard_blocks_all_source_requests_when_redirect_history_is_unknown(tmp_path):
     from tests.test_content_review_source_unresolved import sample
     from tools.content_review.source_unresolved import from_failure
     data=value(tmp_path);request,pending,discovery=sample()
     request['records']=request['records'][:1]
-    request['records'][0].update(candidate_id='different-candidate',url=data['request']['records'][0]['url'])
+    request['records'][0].update(candidate_id='different-candidate',url='https://different.example/paper')
     request['request_id']=digest({k:v for k,v in request.items() if k!='request_id'});pending['request_id']=request['request_id']
     hold=from_failure(request,pending,discovery)
     for state in (data['before'],data['after']):state['source_unresolved_requests']=[deepcopy(hold)]

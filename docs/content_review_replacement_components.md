@@ -51,11 +51,10 @@ and run history. A deferred local check falls through to source discovery. This
 does not resolve a failed request, process all remaining gates, or establish
 fair coverage of every collection.
 For a conclusively failed source workflow, a guarded deferral can instead retain
-the original request and an unresolved hold for its candidates and canonical
-origins. Provider usage remains unknown; the source planner, Site validator and
-source worker all reject replay for those candidates or origins, including
-redirect destinations before DNS or a request. Unrelated origins remain eligible,
-and held origins do not consume selection slots. This
+the original request and an unresolved hold for its candidates and known
+origins. Provider usage and redirect destinations remain unknown; the source
+planner, Site validator and source worker hold all source requests until the
+failure is reconciled. Unrelated local duplicate checks can proceed. This
 failure handling is proposed here and has not been deployed or scheduled.
 A later run accepts the result only with matching original run and lease history;
 it records the original budget use without charging the later run or dispatching

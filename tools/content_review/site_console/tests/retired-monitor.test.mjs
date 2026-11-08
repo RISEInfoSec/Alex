@@ -96,7 +96,7 @@ test('unresolved source outcomes are visible without revealing their details',as
   return Response.json({workflows:[]});
  };
  let result=await readOperations({fetcher,now});
- assert.equal(result.workers[0].status,'Degraded');assert.match(result.workers[0].issue,/1 source request\(s\).*held for reconciliation/);
+ assert.equal(result.workers[0].status,'Degraded');assert.match(result.workers[0].issue,/1 source request\(s\).*source requests are held for reconciliation/);
  assert.doesNotMatch(JSON.stringify(result),/private-id|private\.example/);
  holds={};result=await readOperations({fetcher,now});assert.match(result.workers[0].issue,/evidence is invalid/);
 });

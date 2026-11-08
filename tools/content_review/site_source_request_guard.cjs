@@ -52,6 +52,7 @@ function validateSourceRequest({before,after,request,manifests,manifestHashes,le
   reserved_limit:request.source_request_limit,prepared_at:after.current_run.pending_source_request.prepared_at};
  if(!equal(expected,after))throw Error('Source reservation changes unrelated worker state');
  const seen=new Set(),blocked=unresolved.validate(before.source_unresolved_requests??[]);
+ if(blocked.hosts.size)throw Error('Source outcome requires reconciliation');
  for(const item of request.records){
   if(!object(item)||!equal(Object.keys(item).sort(),['candidate_id','collection','content_sha256','manifest_sha256','url'])||
    !COLLECTIONS.has(item.collection)||!ID.test(item.candidate_id||'')||!HASH.test(item.content_sha256||'')||

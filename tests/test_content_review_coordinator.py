@@ -102,7 +102,7 @@ def test_unresolved_source_failure_holds_affected_candidate_but_not_peer():
     assert [x['candidate_id'] for x in result['selected']]==['other']
 
 
-def test_unresolved_origin_does_not_consume_bounded_source_selection_slots():
+def test_unresolved_source_outcome_holds_all_source_work_but_allows_local_duplicates():
     from tests.test_content_review_source_unresolved import sample
     from tools.content_review.source_unresolved import from_failure
     now,snap,manifests,ledger,registry,state=fixture();request,pending,discovery=sample()
@@ -116,8 +116,12 @@ def test_unresolved_origin_does_not_consume_bounded_source_selection_slots():
     peer=deepcopy(row);peer.update(candidate_id='different-origin',review_number=9,source_url='https://other-unblocked.example/paper')
     manifests['weekly']['records'].append(peer);ledger['records']['weekly:different-origin']=deepcopy(ledger['records']['weekly:fresh'])
     result=plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},at=now,stages=('source',))
-    assert [x['candidate_id'] for x in result['selected']]==['different-origin']
-    assert next(x for x in result['coverage'] if x['collection']=='weekly')['unresolved_source_count']==7
+    assert result['selected']==[]
+    assert next(x for x in result['coverage'] if x['collection']=='weekly')['unresolved_source_count']==8
+    peer=deepcopy(row);peer.update(candidate_id='local-duplicate',review_number=10,preflight={'checks':{}})
+    manifests['weekly']['records'].append(peer);ledger['records']['weekly:local-duplicate']=deepcopy(ledger['records']['weekly:fresh'])
+    result=plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},at=now,stages=('duplicates',))
+    assert [x['candidate_id'] for x in result['selected']]==['local-duplicate']
 
 
 def test_rotation_reaches_candidates_after_a_full_window_of_held_checks():

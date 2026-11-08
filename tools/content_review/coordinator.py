@@ -10,7 +10,6 @@ import sys
 
 from tools.content_review.d1_reconcile import select_reconciled
 from tools.content_review.lifecycle import instant
-from tools.content_review.source_origin_backoff import origin as source_origin
 from tools.content_review.source_unresolved import validate as validate_unresolved
 
 INITIAL_LIMIT = 5
@@ -81,9 +80,9 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     def source_hold(item):
         key=(item['collection'],item['candidate_id'])
         if key in unresolved_keys:return True
-        if item['next_stage']!='source' or not unresolved_hosts:return False
-        try:return source_origin(index[key].get('source_url')) in unresolved_hosts
-        except ValueError:return False  # The source guard will reject the unsupported URL.
+        # A failed workflow may have followed an unknown redirect. Until its
+        # request history is reconciled, no source destination is provably safe.
+        return item['next_stage']=='source' and bool(unresolved_hosts)
     # APWG and corpus audit still require their own execution adapters. Virus
     # Bulletin has independently checked duplicate and source-reservation paths;
     # do not select its later gates until those paths have been implemented.

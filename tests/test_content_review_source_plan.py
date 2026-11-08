@@ -137,14 +137,14 @@ def test_source_runner_requires_the_single_durable_reservation(tmp_path):
         validate(tmp_path,request_path)
 
 
-def test_source_runner_rejects_unresolved_origin_even_for_a_distinct_candidate(tmp_path):
+def test_source_runner_rejects_all_origins_when_redirect_history_is_unknown(tmp_path):
     from tests.test_content_review_source_unresolved import sample
     from tools.content_review.source_unresolved import from_failure
     from tools.content_review.source_worker import validate,digest
     now,review,main,hb,row,snap=fixture(tmp_path)
     proposal=call(tmp_path,now,review,main,hb,snap);request=proposal['request'];state=proposal['reserved_state']
     failed,pending,discovery=sample();failed['records']=failed['records'][:1]
-    failed['records'][0].update(candidate_id='different-candidate',url=request['records'][0]['url'])
+    failed['records'][0].update(candidate_id='different-candidate',url='https://different.example/paper')
     failed['request_id']=digest({k:v for k,v in failed.items() if k!='request_id'});pending['request_id']=failed['request_id']
     state['source_unresolved_requests']=[from_failure(failed,pending,discovery)]
     request_path=tmp_path/'config/content_review_source_requests'/(request['request_id']+'.json')

@@ -98,7 +98,7 @@ export async function readOperations({fetcher=fetch,token='',now=Date.now(),cach
    const holds=checkpoint.source_unresolved_requests;
    if(!Array.isArray(holds))worker={...worker,status:['Failed','Overdue'].includes(worker.status)?worker.status:'Degraded',issue:worker.issue+' Unresolved source request evidence is invalid.'};
    else if(holds.length)worker={...worker,status:['Failed','Overdue'].includes(worker.status)?worker.status:'Degraded',
-    issue:worker.issue+' '+holds.length+' source request(s) have unresolved outcomes; affected candidates and origins are held for reconciliation.'};
+    issue:worker.issue+' '+holds.length+' source request(s) have unresolved outcomes; source requests are held for reconciliation.'};
   }
   workers.unshift(worker);
   // Do not resurrect the legacy source-discovery worker row when a new target
