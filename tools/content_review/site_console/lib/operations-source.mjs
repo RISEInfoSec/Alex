@@ -1,5 +1,6 @@
 import {coordinatorHealth,workflowHealth,providerHealth,workflowMonitors,operationsSummary} from './operations-health.mjs';
 import {processingHealth} from './processing-health.mjs';
+import {mechanicalReceipt} from './mechanical-receipt.mjs';
 import {verifyDetachedHeartbeat} from './detached-heartbeat.mjs';
 import gitVerification from './content-review/verified_git_blob.cjs';
 const base='https://api.github.com/repos/RISEInfoSec/Alex';
@@ -124,7 +125,23 @@ export async function readOperations({fetcher=fetch,token='',now=Date.now(),cach
   const providers=sourceProviders.map(p=>providerHealth(p,now));
   if(!providers.some(p=>p.id==='openalex'))providers.push(providerHealth({id:'openalex',name:'OpenAlex',impact:'Citation enrichment'},now));
   const currentRun=scopedCheckpoint?.current_run?.run_id||scopedSnapshot?.scheduler?.last_run?.id;
-  const scopedProcessing=configured&&currentRun&&processing?.native_run_id===currentRun?processing:null;
+  let scopedProcessing=configured&&currentRun&&processing?.native_run_id===currentRun?processing:null;
+  // Fetch the canonical receipt from a pinned review commit and confirm the
+  // head did not move. Receipt-derived counts remain worker-reported evidence.
+  const run=scopedCheckpoint?.current_run,receiptPath=run?.receipt;
+  if(configured&&run?.application_status==='complete'&&typeof currentRun==='string'&&/^[a-zA-Z0-9-]{1,100}$/.test(currentRun)&&
+     receiptPath==='config/content_review_run_receipts/'+currentRun+'.json'){
+   const pinned=await github('/commits/codex%2Fsoups-corpus-review');
+   if(/^[0-9a-f]{40}$/.test(pinned?.sha||'')){
+    const [pinnedState,pinnedConfig,receipt]=await Promise.all([
+     configJson('content_review_worker_status.json',pinned.sha,true),configJson('content_review_monitor_config.json',pinned.sha,true),
+     configJson('content_review_run_receipts/'+currentRun+'.json',pinned.sha,true)]);
+    const again=await github('/commits/codex%2Fsoups-corpus-review');
+    if(again?.sha===pinned.sha&&replacementTarget(pinnedConfig)===target&&pinnedState?.current_run?.run_id===currentRun){
+     const reported=mechanicalReceipt(pinnedState,receipt,target);if(reported)scopedProcessing=reported;
+    }else refreshErrors.push('Review head or worker identity changed while reading the run receipt.');
+   }else refreshErrors.push('Review head unavailable for run receipt.');
+  }
   return {checked_at:new Date(now).toISOString(),snapshot_at:scopedSnapshot?.observed_at||null,snapshot_available:!!scopedSnapshot,checkpoint_available:!!scopedCheckpoint,replacement_configured:configured,refresh_id:refreshId,refresh_mode:'uncached_origin_read',refresh_errors:[...new Set(refreshErrors)],heartbeat,processing:processingHealth(scopedProcessing,now),workers,providers,summary:operationsSummary(workers,providers)};
  };
  return load();
