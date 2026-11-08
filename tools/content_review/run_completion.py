@@ -159,6 +159,8 @@ def prepare(repo, review_head, main_head, heartbeat_head, native, snapshot, conf
             raise ValueError('Completed duplicate evidence differs from committed inputs')
         actions.append({'path': path, 'collection': collection, 'candidate_id': candidate,
                         'content_sha256': digest, 'gate': 'duplicates'})
+    if len({a['candidate_id'] for a in actions}) != len(actions):
+        raise ValueError('Candidate identities are ambiguous across checkpoints')
     receipt_path = RECEIPT + run_id + '.json'
     if _git(repo, 'ls-tree', '-z', review_head, '--', receipt_path):
         raise ValueError('Run receipt already exists')

@@ -1,4 +1,4 @@
-// Finalize exactly one independently reconstructed duplicate checkpoint.
+// Finalize one to five independently reconstructed duplicate checkpoints.
 // This releases the lease but never claims native scheduler completion or
 // publication. The route constructs all clients and D1 access itself.
 import {controlFence,verifyWorkerContext} from './d1_fence_service.mjs';
@@ -27,9 +27,10 @@ export async function writeCompletion({db,github,input,now=()=>Date.now(),read=r
  if(paths.length!==2||!paths.includes(WORKER)||!paths.includes(receiptPath)||paths.some(p=>typeof files[p]!=='string')||
   paths.reduce((n,p)=>n+new TextEncoder().encode(files[p]).length,0)>LIMIT)throw Error('Invalid completion file inventory');
  let after,receipt;try{after=JSON.parse(files[WORKER]);receipt=JSON.parse(files[receiptPath]);}catch{throw Error('Completion JSON invalid');}
- const action=Array.isArray(receipt?.completed_actions)&&receipt.completed_actions.length===1?receipt.completed_actions[0]:null;
- const checkpointPath=action?.path,keys=Object.keys(input.checkpointCommits);
- if(!action||keys.length!==1||keys[0]!==checkpointPath||!SHA.test(input.checkpointCommits[checkpointPath]||''))
+ const actions=receipt?.completed_actions,keys=Object.keys(input.checkpointCommits);
+ if(!Array.isArray(actions)||actions.length<1||actions.length>5||actions.some(a=>!a||typeof a!=='object'||Array.isArray(a)||typeof a.path!=='string')||
+  new Set(actions.map(a=>a.path)).size!==actions.length||keys.length!==actions.length||
+  actions.some(a=>!Object.hasOwn(input.checkpointCommits,a.path)||!SHA.test(input.checkpointCommits[a.path]||'')))
   throw Error('Completion checkpoint inventory invalid');
  const head=async branch=>unwrap(await github.fetchCommit({repo_full_name:REPO,commit_sha:branch}),'Completion branch unavailable').commit?.sha;
  const checkHeads=async()=>{const [a,b]=await Promise.all([head(REVIEW),head(MAIN)]);
@@ -42,10 +43,12 @@ export async function writeCompletion({db,github,input,now=()=>Date.now(),read=r
  const snapshots=await read({db,heartbeat:async()=>{await heartbeat();await verify({github,input,now});}});
  if(!snapshots||snapshots.transactional_snapshot!==false||
   fingerprints.fingerprint(snapshots.snapshot)!==fingerprints.fingerprint(snapshots.confirmed_snapshot))throw Error('Completion decision snapshot changed');
- const verifiedAction=await check({github,input,checkpointCommit:input.checkpointCommits[checkpointPath],path:checkpointPath,
-  snapshot:snapshots.snapshot,confirmed:snapshots.confirmed_snapshot,heartbeat});
+ const verifiedActions=[];
+ // Heartbeat renewal shares one serialized ref: re-audit each action in order.
+ for(const action of actions)verifiedActions.push(await check({github,input,checkpointCommit:input.checkpointCommits[action.path],path:action.path,
+  snapshot:snapshots.snapshot,confirmed:snapshots.confirmed_snapshot,heartbeat}));
  await verify({github,input,now});
- guard.validateComplete({before,after,receipt,owner:input.owner,runId:input.runId,verifiedAction,now:now()});
+ guard.validateComplete({before,after,receipt,owner:input.owner,runId:input.runId,verifiedActions,now:now()});
  const privateFingerprint=fingerprints.fingerprint(snapshots.snapshot);
  const details=unwrap(await github.fetchCommitDetails({repository_full_name:REPO,commit_sha:input.expectedHead}),'Completion base commit unavailable');
  if(details.sha!==input.expectedHead||!SHA.test(details.tree_sha||''))throw Error('Completion base tree unavailable');

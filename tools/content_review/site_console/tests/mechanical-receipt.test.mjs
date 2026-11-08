@@ -12,6 +12,14 @@ test('a matching mechanical receipt reports the duplicate only and never native 
  assert.equal(value.newly_review_ready,0);assert.equal(value.candidate_counts_verified,false);
  assert.match(processingHealth(value,Date.parse(end)).status,/Duplicate check reported/);
 });
+test('a bounded batch reports distinct duplicate checkpoints and rejects ambiguous batches',()=>{
+ const r=receipt(),second=action();second.path=second.path.replace('a'.repeat(64),'c'.repeat(64));second.candidate_id='second';r.completed_actions.push(second);
+ const value=mechanicalReceipt(state(),r,target);assert.equal(value.local_candidates,2);assert.equal(value.duplicate_gate_passes,2);
+ assert.equal(value.native_completion_verified,false);assert.equal(value.candidate_counts_verified,false);
+ second.candidate_id='candidate';assert.equal(mechanicalReceipt(state(),r,target),null);
+ second.candidate_id='second';second.path=r.completed_actions[0].path;assert.equal(mechanicalReceipt(state(),r,target),null);
+ second.path=second.path.replace('a'.repeat(64),'c'.repeat(64));second.gate='metadata';assert.equal(mechanicalReceipt(state(),r,target),null);
+});
 test('stale identity, no-work, forged native claims or unrelated activity cannot appear as processing',()=>{
  for(const change of ['identity','target','status','empty','native','cost','changed','badtime']){
   const s=state(),r=receipt();

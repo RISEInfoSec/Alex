@@ -10,6 +10,7 @@ import pytest
 from tests.test_content_review_run_completion import fixture
 from tests.test_content_review_site_checkpoint_readback import data as readback_data
 from tests.test_content_review_verified_inputs import git, put
+from tests.test_content_review_backlog_completion_integration import two_fixture
 from tools.content_review.heartbeat_evidence import prepare as prepare_heartbeat
 from tools.content_review.run_completion import prepare
 
@@ -40,6 +41,25 @@ def request(repo, *, pending=False):
     value.update({'checkpointCommit':checkpoint,'currentTree':git(repo,'rev-parse',head+'^{tree}'),
                   'heartbeat':heartbeat,'now':int((now.timestamp()+10)*1000)})
     return value
+
+
+def request_batch(repo):
+    now,head,main,hb,native,snapshot,paths,commits=two_fixture(repo)
+    first=readback_data(repo,(now,commits[0],main,hb,native,snapshot,[paths[0]]))
+    second=readback_data(repo,(now,commits[1],main,hb,native,snapshot,[paths[1]]))
+    first['files'].update(second['files']);first['blobs'].update(second['blobs'])
+    for path in ['config/weekly_review_manifest.json','config/content_review_candidate_lifecycle.json',
+                 'config/content_review_preflight_status.json','config/content_review_worker_status.json',
+                 'config/content_review_monitor_config.json',*paths]:
+        raw=subprocess.check_output(['git','-C',str(repo),'show',head+':'+path]);sha=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+        first['files'][head+':'+path]={'sha':sha,'content':raw.decode('utf8')}
+    proposal=prepare(repo,head,main,hb,native,snapshot,deepcopy(snapshot),'worker','run',paths,at=now+timedelta(seconds=15))
+    first['input']={'expectedHead':head,'expectedMain':main,'owner':'worker','runId':'run',
+                    'checkpointCommits':dict(zip(paths,commits)),'files':proposal['files']}
+    first.update({'checkpointCommit':commits[0],'currentTree':git(repo,'rev-parse',head+'^{tree}'),
+                  'heartbeat':json.loads(git(repo,'show',hb+':config/content_review_detached_heartbeat.json')),
+                  'now':int((now.timestamp()+15)*1000),'batch':True})
+    return first
 
 
 def invoke(value,mode):
@@ -73,8 +93,8 @@ const saved={},api={
  streamBlob:async({sha,onChunk})=>{const data=v.blobs[sha];if(data===undefined)return {isError:true};const bytes=Buffer.from(data);
   for(let i=0;i<bytes.length;i+=7)await onChunk(bytes.subarray(i,i+7));return ok({sha,size:bytes.length,sha256:sha256(bytes)})},
  createBlob:async({content})=>ok({sha:hash(content)}),
- createTree:async({tree_elements})=>{
-  if(tree_elements.length===5)return ok({sha:v.tree});
+ createTree:async({tree_elements,base_tree_sha})=>{
+  if(tree_elements.length===5)return ok({sha:v.batch&&base_tree_sha===v.tree?v.currentTree:v.tree});
   if(mode==='d1change')sqlite.prepare('INSERT INTO review_submissions VALUES (?,?,?,?,?,?,?,?,?)')
    .run('new-submission','user','weekly',1,1,0,1,'0'.repeat(64),v.heartbeat.started_at);
   return ok({sha:tree})},
@@ -115,3 +135,13 @@ def test_duplicate_completion_preserves_pending_source_under_real_d1_fence(tmp_p
     result=invoke(request(tmp_path,pending=True),'success')
     assert result.get('result',{}).get('status')=='committed_and_read_back',result
     assert result['pending_preserved'] is True and result['fence']==[] and result['commits']==1
+
+
+@pytest.mark.parametrize('mode',['success','d1change','ambiguous'])
+def test_two_real_checkpoints_are_reaudited_under_one_real_d1_fence(tmp_path,mode):
+    result=invoke(request_batch(tmp_path),mode)
+    if mode=='success':
+        assert result.get('result',{}).get('status')=='committed_and_read_back',result
+        assert result['commits']==1 and result['fence']==[] and result['result']['candidate_processing'] is True
+    if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
+    if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True

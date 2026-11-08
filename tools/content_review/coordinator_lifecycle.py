@@ -42,11 +42,19 @@ def start(repo,token,native,owner,run_id,*,heads=read_heads,fetch=fetch_heads,pr
 
 def complete(repo,token,native,review_head,main_head,owner,run_id,checkpoint_path,*,heads=read_heads,fetch=fetch_heads,
              snapshot_reader=read_snapshot,pulse_factory=DetachedHeartbeatPulse,keeper_factory=HeartbeatKeeper,
-             preparer=prepare_completion,send=post,clock=None):
+             preparer=prepare_completion,send=post,clock=None,checkpoint_commits=None):
     _identity(token,owner,run_id);clock=clock or (lambda:datetime.now(timezone.utc))
-    if not SHA.fullmatch(review_head or '') or not SHA.fullmatch(main_head or '') or (checkpoint_path is not None and not RECEIPT.fullmatch(checkpoint_path)):
+    paths=[] if checkpoint_path is None else [checkpoint_path] if isinstance(checkpoint_path,str) else checkpoint_path
+    if (not SHA.fullmatch(review_head or '') or not SHA.fullmatch(main_head or '') or not isinstance(paths,list) or len(paths)>5 or
+        any(not isinstance(path,str) or not RECEIPT.fullmatch(path) for path in paths) or len(paths)!=len(set(paths))):
         raise ValueError('Completion checkpoint identity is invalid')
-    processed=checkpoint_path is not None
+    if checkpoint_commits is None:
+        if len(paths)>1:raise ValueError('Exact commit for every checkpoint is required')
+        checkpoint_commits={paths[0]:review_head} if paths else {}
+    if (not isinstance(checkpoint_commits,dict) or set(checkpoint_commits)!=set(paths) or
+        any(not isinstance(x,str) or not SHA.fullmatch(x) for x in checkpoint_commits.values())):
+        raise ValueError('Exact checkpoint commits are invalid')
+    processed=bool(paths)
     pulse=pulse_factory(repo,token,review_head,main_head,owner,run_id)
     with keeper_factory(pulse) as keeper:
         refs=heads(repo)
@@ -56,7 +64,7 @@ def complete(repo,token,native,review_head,main_head,owner,run_id,checkpoint_pat
         keeper.refresh();refs=heads(repo)
         if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Completion source heads changed')
         fetch(repo,refs,run_id)
-        proposal=preparer(repo,review_head,main_head,refs[HEARTBEAT],native,snapshot,confirmed,owner,run_id,[checkpoint_path] if processed else [],at=clock())
+        proposal=preparer(repo,review_head,main_head,refs[HEARTBEAT],native,snapshot,confirmed,owner,run_id,paths,at=clock())
         keeper.check()
     if proposal.get('status')!='prepared' or proposal.get('writes')!=0 or not isinstance(proposal.get('files'),dict):
         raise ValueError('Completion proposal unavailable')
@@ -66,7 +74,7 @@ def complete(repo,token,native,review_head,main_head,owner,run_id,checkpoint_pat
     if not isinstance(final,dict) or final.get('status')!='committed_and_read_back' or not SHA.fullmatch(final.get('commit_sha') or ''):
         raise ValueError('Heartbeat outcome unconfirmed; reconcile before retrying')
     request={'expectedHead':review_head,'expectedMain':main_head,'owner':owner,'runId':run_id,'files':proposal['files']}
-    if processed:request['checkpointCommits']={checkpoint_path:review_head}
+    if processed:request['checkpointCommits']=checkpoint_commits
     result=send('completion' if processed else 'no_work',request,token)
     if not isinstance(result,dict) or result.get('status')!='committed_and_read_back':
         return {'status':'blocked','reason':'completion_not_confirmed','reconcile_before_retry':True,
@@ -78,4 +86,4 @@ def complete(repo,token,native,review_head,main_head,owner,run_id,checkpoint_pat
     current=heads(repo)
     if current.get(REVIEW)!=commit or current.get(MAIN)!=main_head:raise ValueError('Completion head changed; reconcile before retrying')
     return {'status':'application_complete' if processed else 'deferred','commit_sha':commit,'receipt_path':result.get('receipt_path'),
-            'candidate_processing':processed,'lease_release_confirmed':True,'native_completion_verified':False,'publication_verified':False}
+            'candidate_processing':processed,'checkpoint_count':len(paths),'lease_release_confirmed':True,'native_completion_verified':False,'publication_verified':False}

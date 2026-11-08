@@ -1,6 +1,6 @@
 'use strict';
 
-// Narrow run completion: one independently verified duplicate checkpoint.
+// Bounded run completion: one to five independently verified duplicate checkpoints.
 // The caller must derive the action from Git history and current D1, not from
 // the proposed receipt. Native terminal success and publication remain false.
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
@@ -8,23 +8,28 @@ const canonical=x=>Array.isArray(x)?x.map(canonical):object(x)?Object.fromEntrie
 const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
 const time=x=>typeof x==='string'?Date.parse(x):NaN;
 const HASH=/^[0-9a-f]{64}$/,ID=/^[a-zA-Z0-9-]{1,100}$/;
-function validateComplete({before,after,receipt,owner,runId,verifiedAction,now=Date.now()}){
- if(!object(before)||!object(after)||!object(receipt)||!object(verifiedAction)||!ID.test(owner||'')||!ID.test(runId||'')||!Number.isFinite(now))
+function validateComplete({before,after,receipt,owner,runId,verifiedAction,verifiedActions,now=Date.now()}){
+ if(!object(before)||!object(after)||!object(receipt)||!ID.test(owner||'')||!ID.test(runId||'')||!Number.isFinite(now)||
+  (verifiedAction!==undefined&&verifiedActions!==undefined))
   throw Error('Invalid run completion inputs');
+ const actions=verifiedActions===undefined?[verifiedAction]:verifiedActions;
+ if(!Array.isArray(actions)||actions.length<1||actions.length>5||actions.some(x=>!object(x)))throw Error('Invalid verified checkpoint actions');
  const lease=before.lease,run=before.current_run,stamp=receipt.completed_at;
  const fields=['schema_version','run_id','trigger','scheduled_for','started_at','completed_at','status','completed_actions',
   'receipt_path','provider_requests','paid_requests','openalex_requests','publication_approved','native_completion_verified','scope_note','pilot'].sort();
  const actionFields=['path','collection','candidate_id','content_sha256','gate'].sort();
- if(!equal(Object.keys(verifiedAction).sort(),actionFields)||!ID.test(verifiedAction.collection||'')||!ID.test(verifiedAction.candidate_id||'')||
-  !HASH.test(verifiedAction.content_sha256||'')||verifiedAction.gate!=='duplicates'||
-  !/^config\/content_review_mechanical_checkpoints\/[0-9a-f]{64}\.json$/.test(verifiedAction.path||''))
+ if(actions.some(a=>!equal(Object.keys(a).sort(),actionFields)||!ID.test(a.collection||'')||!ID.test(a.candidate_id||'')||
+  !HASH.test(a.content_sha256||'')||a.gate!=='duplicates'||
+  !/^config\/content_review_mechanical_checkpoints\/[0-9a-f]{64}\.json$/.test(a.path||''))||
+  new Set(actions.map(a=>a.path)).size!==actions.length||new Set(actions.map(a=>a.candidate_id)).size!==actions.length)
   throw Error('Invalid verified checkpoint action');
- const pilot={attempted_candidate_ids:[verifiedAction.candidate_id],newly_passed_checks:{duplicates:[verifiedAction.candidate_id]},
+ const ids=actions.map(a=>a.candidate_id);
+ const pilot={attempted_candidate_ids:ids,newly_passed_checks:{duplicates:ids},
   requests:{source:0,paid:0,openalex:0},manual_admitted:[],all_six_completed:[],actual_publications:[],integrity_passed:null,
   checkpoint_failures:null,resolvable_gate_count:null,all_candidates_legitimately_held:null,
   remaining_blockers:['Subsequent gates and source work were not executed in this mechanical pass.']};
  if(!equal(Object.keys(receipt).sort(),fields)||receipt.schema_version!==1||receipt.run_id!==runId||receipt.trigger!=='schedule'||
-  receipt.status!=='complete'||!equal(receipt.completed_actions,[verifiedAction])||receipt.receipt_path!=='config/content_review_run_receipts/'+runId+'.json'||
+  receipt.status!=='complete'||!equal(receipt.completed_actions,actions)||receipt.receipt_path!=='config/content_review_run_receipts/'+runId+'.json'||
   receipt.provider_requests!==0||receipt.paid_requests!==0||receipt.openalex_requests!==0||receipt.publication_approved!==false||
   receipt.native_completion_verified!==false||receipt.scope_note!=='Mechanical duplicate checks only; review readiness and publication are not established.'||
   !equal(receipt.pilot,pilot)||!object(lease)||lease.owner!==owner||lease.run_id!==runId||!object(run)||run.run_id!==runId||

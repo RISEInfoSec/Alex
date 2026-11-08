@@ -13,7 +13,7 @@ from tools.content_review.stage_summary import derive, validate_summary
 
 
 def prepare(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
-            collection, candidate_id, *, observed_heads, source_attempts, source_progress, at=None, heartbeat=None):
+            collection, candidate_id, *, observed_heads, source_attempts, source_progress, at=None, heartbeat=None, only_collections=None,excluded_candidates=None):
     """Return an all-or-nothing bundle; the caller must still perform remote CAS.
 
     D1 and both Git heads must be rechecked after preparation, immediately
@@ -28,7 +28,8 @@ def prepare(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
         raise ValueError('Checkpoint reserve or original work window is unavailable')
     stage = propose_checkpoint(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
                                collection, candidate_id, observed_heads=observed_heads,
-                               source_attempts=source_attempts, source_progress=source_progress, at=now, heartbeat=heartbeat)
+                               source_attempts=source_attempts, source_progress=source_progress, at=now, heartbeat=heartbeat,only_collections=only_collections,
+                               excluded_candidates=excluded_candidates)
     if stage['status'] != 'prepared':
         return {'status': 'held', 'result': stage['result'], 'writes': 0}
     if not isinstance(inputs.get('lifecycle_policy'), dict) or not isinstance(inputs.get('preflight_status'), dict):
