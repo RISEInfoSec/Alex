@@ -135,9 +135,8 @@ def test_accounted_source_evidence_must_be_retained_before_another_request(tmp_p
     used=json.loads((tmp_path/'config/content_review_worker_status.json').read_text())['current_run']['request_counts']['source']
     result=prepare(tmp_path,review,main,hb,snapshot,deepcopy(snapshot),'worker','run',
                    observed_heads={'review':review,'main':main},source_requests_used=used,at=now)
-    assert result['status']=='all_source_candidates_held' and result['request'] is None
-    assert result['held'][0]['reason']=='source_result_requires_retention'
-    assert result['held'][0]['request_id']==request['request_id'] and result['provider_requests']==0
+    assert result['status']=='pending_source_retention' and result['request'] is None
+    assert result['pending'][0]['request_id']==request['request_id'] and result['provider_requests']==0
 
 
 def test_missing_accounted_receipt_blocks_instead_of_repeating_source_request(tmp_path):

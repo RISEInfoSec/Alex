@@ -47,3 +47,21 @@ def test_coordinator_does_not_treat_source_work_or_an_unknown_write_as_success(m
         planner=lambda *a,**k:{'selected':[{'collection':'weekly','candidate_id':'x','next_stage':'duplicates'}]},**common)
     assert result['status']=='blocked' and result['reconcile_before_retry'] is True and result['candidate_processing'] is None and calls==[1]
     assert result['lease_release_confirmed'] is False and result['native_completion_verified'] is False
+
+
+def test_coordinator_skips_a_held_duplicate_and_checks_next_fair_candidate(monkeypatch):
+    review,main,heartbeat,commit='a'*40,'b'*40,'c'*40,'d'*40
+    refs={module.REVIEW:review,module.MAIN:main,module.HEARTBEAT:heartbeat};seen=[]
+    monkeypatch.setattr(module,'_path_blob',lambda *args:(b'{}',{}))
+    def prepare(*args,**kwargs):
+        seen.append(args[8]);return {'status':'held','writes':0} if len(seen)==1 else {'status':'prepared','writes':0,'files':{'p':'v'}}
+    def send(*args):
+        refs[module.REVIEW]=commit
+        return {'status':'committed_and_read_back','commit_sha':commit,'receipt_path':'config/content_review_mechanical_checkpoints/'+'e'*64+'.json',
+                'candidate_processing':True,'gate':'duplicates','native_completion_verified':False,'publication_verified':False}
+    result=module.checkpoint_one('.','secret',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,
+        inputs_reader=lambda *a:{'worker_state':{},'lifecycle':{},'reconciliation_manifests':{},'registry':[]},snapshot_reader=lambda *a:({},{}),
+        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,
+        planner=lambda *a,**k:{'selected':[{'collection':'weekly','candidate_id':'held','next_stage':'duplicates'},
+                                          {'collection':'sans','candidate_id':'clear','next_stage':'duplicates'}]},preparer=prepare,send=send)
+    assert seen==['held','clear'] and result['candidate_processing'] is True

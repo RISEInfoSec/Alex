@@ -48,13 +48,24 @@ def checkpoint_one(repo,token,review_head,main_head,owner,run_id,*,heads=read_he
             keeper.check()
             return {'status':'deferred','reason':'no_selected_duplicate_gate','candidate_processing':False,
                     'native_completion_verified':False,'lease_release_confirmed':False,'publication_verified':False}
-        item=candidates[0]
-        proposal=preparer(snapshot,confirmed,inputs,ledger,state,owner,run_id,item['collection'],item['candidate_id'],
-            observed_heads={'review':review_head,'main':main_head},source_attempts=attempts,source_progress=progress,at=clock(),heartbeat=heartbeat)
-        keeper.check()
-    if proposal.get('status')!='prepared' or proposal.get('writes')!=0 or not isinstance(proposal.get('files'),dict):
+        proposal=None
+        for index,item in enumerate(candidates):
+            if index:
+                current=heads(repo)
+                if current.get(REVIEW)!=review_head or current.get(MAIN)!=main_head:raise ValueError('Coordinator source heads changed')
+                fetch(repo,current,run_id)
+                raw,_=_path_blob(repo,current[HEARTBEAT],'config/content_review_detached_heartbeat.json')
+                heartbeat=json.loads(raw)
+            candidate=preparer(snapshot,confirmed,inputs,ledger,state,owner,run_id,item['collection'],item['candidate_id'],
+                observed_heads={'review':review_head,'main':main_head},source_attempts=attempts,source_progress=progress,at=clock(),heartbeat=heartbeat)
+            keeper.check()
+            if not isinstance(candidate,dict) or candidate.get('writes')!=0 or candidate.get('status') not in ('prepared','held'):
+                raise ValueError('Duplicate proposal is invalid')
+            if candidate['status']=='prepared':proposal=candidate;break
+    if proposal is None:
         return {'status':'deferred','reason':'duplicate_gate_held','candidate_processing':False,
                 'native_completion_verified':False,'lease_release_confirmed':False,'publication_verified':False}
+    if not isinstance(proposal.get('files'),dict):raise ValueError('Duplicate proposal files unavailable')
     current=heads(repo)
     if current.get(REVIEW)!=review_head or current.get(MAIN)!=main_head:raise ValueError('Coordinator source heads changed')
     response=send('duplicate',{'expectedHead':review_head,'expectedMain':main_head,'owner':owner,'runId':run_id,

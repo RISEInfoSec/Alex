@@ -113,12 +113,14 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
         verify_bytes((root/path).read_bytes(),proof['blob_sha'],proof['size'])
     eligible=[];held=[]
     retained_pending=_unretained_source_results(root,review_head,state,selected,inputs['manifests'])
+    if retained_pending:
+        items=[{'collection':item['collection'],'candidate_id':item['candidate_id'],
+                **retained_pending[(item['collection'],item['candidate_id'])]}
+               for item in selected if (item['collection'],item['candidate_id']) in retained_pending]
+        return {'status':'pending_source_retention','request':None,'pending':items,'coverage':choices['coverage'],
+                'provider_requests':0,'writes':0,'requires_live_recheck_before_dispatch':True}
     for item in selected:
         pair=(item['collection'],item['candidate_id'])
-        if pair in retained_pending:
-            held.append({'collection':pair[0],'candidate_id':pair[1],
-                         'reason':'source_result_requires_retention',**retained_pending[pair]})
-            continue
         try:
             prepare_handoff(root,[pair],state['current_run']['started_at'],owner,source_requests_used,at=now,coordinator_run_id=run_id)
             eligible.append(pair)

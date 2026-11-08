@@ -47,6 +47,12 @@ def reserve(repo,token,review_head,main_head,owner,run_id,*,heads=read_heads,fet
         # caller has not made source requests in this stage.
         proposal=planner(repo,review_head,main_head,refs[HEARTBEAT],snapshot,confirmed,owner,run_id,
                          observed_heads={'review':review_head,'main':main_head},source_requests_used=used,at=clock())
+        if proposal.get('status')=='pending_source_retention':
+            items=proposal.get('pending')
+            if not isinstance(items,list) or not 1<=len(items)<=5:raise ValueError('Pending source retention inventory invalid')
+            keeper.check()
+            return {'status':'source_retention_required','items':items,'candidate_processing':False,
+                    'source_request_reserved':False,'publication_verified':False}
         if proposal.get('status')!='prepared':
             keeper.check()
             return {'status':'deferred','reason':'source_plan_not_ready','candidate_processing':False,

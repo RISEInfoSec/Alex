@@ -35,3 +35,13 @@ def test_exhausted_budget_never_prepares_or_dispatches_source_work():
         pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,budget_reader=lambda *a:30,
         planner=lambda *a,**k:calls.append('plan'),send=lambda *a:calls.append('send'))
     assert result['reason']=='source_budget_exhausted' and result['source_request_reserved'] is False and calls==[]
+
+
+def test_accounted_source_evidence_is_selected_before_any_new_request():
+    review,main,beat='a'*40,'b'*40,'c'*40;refs={REVIEW:review,MAIN:main,HEARTBEAT:beat};calls=[]
+    item={'collection':'weekly','candidate_id':'x','request_id':'d'*64,'artifact_id':2,'native_run_id':1}
+    result=reserve('.','secret',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,snapshot_reader=lambda _:({},{}),
+        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,budget_reader=lambda *a:0,
+        planner=lambda *a,**k:{'status':'pending_source_retention','pending':[item]},
+        send=lambda *a:calls.append('sent'))
+    assert result['status']=='source_retention_required' and result['items']==[item] and calls==[]
