@@ -27,10 +27,10 @@ def fixture():
     return row,receipt,{'core_keywords':['cyber','osint']}
 
 
-def site(row,receipt,registry):
+def site(row,receipt,registry,inspect_existing_hold=False):
     script="const g=require('./tools/content_review/site_quality_source_corroboration.cjs');let s='';" \
-           "process.stdin.on('data',x=>s+=x).on('end',()=>{let v=JSON.parse(s);try{process.stdout.write(JSON.stringify(g.audit(v.row,'weekly',v.receipt,v.registry,Date.parse('2026-11-08T00:00:00Z'))))}catch(e){process.stdout.write(JSON.stringify({error:e.message}))}});"
-    proc=subprocess.run(['node','-e',script],cwd=ROOT,input=json.dumps({'row':row,'receipt':receipt,'registry':registry}),text=True,capture_output=True)
+           "process.stdin.on('data',x=>s+=x).on('end',()=>{let v=JSON.parse(s);try{process.stdout.write(JSON.stringify(g.audit(v.row,'weekly',v.receipt,v.registry,Date.parse('2026-11-08T00:00:00Z'),v.inspect))) }catch(e){process.stdout.write(JSON.stringify({error:e.message}))}});"
+    proc=subprocess.run(['node','-e',script],cwd=ROOT,input=json.dumps({'row':row,'receipt':receipt,'registry':registry,'inspect':inspect_existing_hold}),text=True,capture_output=True)
     assert proc.returncode==0,proc.stderr
     return json.loads(proc.stdout)
 
@@ -56,6 +56,33 @@ def test_corroboration_still_requires_the_existing_hash_bound_format_gate():
     with pytest.raises(ValueError,match='prior quality gates'):
         audit(row,'weekly',receipt,registry,now=NOW)
     assert 'error' in site(row,receipt,registry)
+
+
+def test_existing_quality_hold_can_be_inspected_without_releasing_or_rejudging_it():
+    row,receipt,registry=fixture();registry['core_keywords']=['detailed']
+    row['preflight']['checks']['quality']={'status':'held','content_sha256':row['content_sha256'],
+        'checked_at':'2026-11-07T23:59:00Z','evidence':{'quality_review_status':'hold_core_term_gate'}}
+    before=deepcopy(row)
+    assert audit(row,'weekly',receipt,registry,now=NOW)['reason']=='quality_hold_not_established'
+    result=audit(row,'weekly',receipt,registry,now=NOW,inspect_existing_hold=True)
+    assert result['status']=='source_text_corroborated' and result['existing_hold_preserved'] is True
+    assert result['core_absence_verified'] is False and result['gate_passed'] is False
+    assert result['abstract_complete_verified'] is False and result['writes']==0 and row==before
+    assert site(row,receipt,registry,True)==result
+
+
+@pytest.mark.parametrize('change',['stale','missing_evidence','mismatched_hash','truncated','unverified'])
+def test_existing_hold_inspection_requires_matching_current_evidence_and_reviewed_text(change):
+    row,receipt,registry=fixture()
+    q={'status':'held','content_sha256':row['content_sha256'],'checked_at':'2026-11-07T23:59:00Z','evidence':{'quality_review_status':'hold_core_term_gate'}}
+    row['preflight']['checks']['quality']=q
+    if change=='stale':q['stale']=True
+    if change=='missing_evidence':q['evidence']={}
+    if change=='mismatched_hash':q['content_sha256']='e'*64
+    if change=='truncated':row['abstract_truncated']=True
+    if change=='unverified':row.pop('abstract_integrity_status')
+    result=audit(row,'weekly',receipt,registry,now=NOW,inspect_existing_hold=True)
+    assert result['status']=='held' and result['writes']==0 and site(row,receipt,registry,True)==result
 
 
 @pytest.mark.parametrize('change',['not_present','truncated','unverified','metadata_mismatch','text_tampered','wrong_source','duplicate_evidence'])
