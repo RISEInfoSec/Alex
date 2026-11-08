@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "reconciliation_hold",
-  "lease": {
-    "owner": "alex-guarded-pilot",
-    "run_id": "manual-728ff163-ed3b-4c0f-9634-6f8f412eab76",
-    "acquired_at": "2026-11-08T16:35:03.470914+00:00",
-    "expires_at": "2026-11-08T17:05:03.470914+00:00"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "weekly": 3,
@@ -734,7 +729,7 @@
   },
   "current_run": {
     "run_id": "manual-728ff163-ed3b-4c0f-9634-6f8f412eab76",
-    "application_status": "running",
+    "application_status": "complete",
     "started_at": "2026-11-08T16:35:03.470914+00:00",
     "scheduled_for": null,
     "observed_at": "2026-11-08T16:35:03.470914+00:00",
@@ -748,7 +743,9 @@
       "kind": "manual",
       "authorization": "owner_request",
       "observed_at": "2026-11-08T16:35:03.470914+00:00"
-    }
+    },
+    "application_completed_at": "2026-11-08T16:39:42.900283+00:00",
+    "receipt": "config/content_review_run_receipts/manual-728ff163-ed3b-4c0f-9634-6f8f412eab76.json"
   },
   "last_heartbeat_at": "2026-11-08T16:35:03.470914+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
@@ -1048,6 +1045,14 @@
       "expires_at": "2026-11-08T14:01:21.732436+00:00",
       "status": "expired",
       "expiry_observed_at": "2026-11-08T14:45:06.326305+00:00"
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "manual-728ff163-ed3b-4c0f-9634-6f8f412eab76",
+      "acquired_at": "2026-11-08T16:35:03.470914+00:00",
+      "expires_at": "2026-11-08T17:05:03.470914+00:00",
+      "status": "released",
+      "released_at": "2026-11-08T16:39:42.900283+00:00"
     }
   ],
   "run_history": [
