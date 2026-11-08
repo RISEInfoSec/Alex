@@ -1,8 +1,9 @@
-from tools.content_review.coordinator_git_preflight import run
+from tools.content_review.coordinator_git_preflight import _exhausted,run
 
 
 def info(exhausted=False):
     return {'visible_processes':12,'zombies':3,'same_uid_processes':12,'unreadable_processes':0,
+            'same_uid_tasks':15,'unreadable_task_counts':0,
             'cgroup_current':15,'cgroup_max':100,'user_soft_limit':200,'capacity_exhausted':exhausted}
 
 
@@ -19,6 +20,12 @@ def test_exhausted_capacity_stops_before_any_git_access():
     calls=[];result=run('.',capacity_reader=lambda:info(True),heads=lambda *a:calls.append('heads'))
     assert result['status']=='blocked' and result['reason']=='process_capacity_exhausted'
     assert result['candidate_processing'] is False and calls==[]
+
+
+def test_capacity_uses_cgroup_tasks_and_per_user_threads():
+    assert _exhausted(98,100,None,1) is True
+    assert _exhausted(None,None,100,98) is True
+    assert _exhausted(90,100,100,90) is False
 
 
 def test_known_git_failure_is_safe_and_unknown_error_is_redacted():

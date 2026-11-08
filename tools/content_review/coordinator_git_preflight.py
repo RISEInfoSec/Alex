@@ -17,14 +17,29 @@ SAFE_ERRORS=SAFE_GIT_ERRORS|frozenset({'Coordinator Git object verification fail
     'Invalid coordinator fetch'})
 
 
+def _exhausted(current,maximum,soft,uid_tasks):
+    return ((current is not None and maximum is not None and maximum-current<MIN_PROCESS_SLOTS) or
+            (soft is not None and soft-uid_tasks<MIN_PROCESS_SLOTS))
+
+
 def capacity():
-    total=zombies=same_uid=unreadable=0;uid=os.getuid()
+    total=zombies=same_uid=same_uid_tasks=unreadable=unreadable_tasks=0;uid=os.getuid()
     for path in Path('/proc').iterdir():
         if not path.name.isdigit():continue
         try:
             stat=(path/'stat').read_text();tail=stat[stat.rfind(')')+2:].split()
             if not tail:raise ValueError('invalid process state')
-            total+=1;zombies+=tail[0]=='Z';same_uid+=path.stat().st_uid==uid
+            total+=1;zombies+=tail[0]=='Z'
+            if path.stat().st_uid==uid:
+                same_uid+=1
+                try:
+                    fields=(path/'status').read_text().splitlines()
+                    values=[line.split(':',1)[1].strip() for line in fields if line.startswith('Threads:')]
+                    if len(values)!=1 or int(values[0])<1:raise ValueError('invalid thread count')
+                    same_uid_tasks+=int(values[0])
+                except (OSError,ValueError,IndexError):
+                    # Keep a lower bound of one task for an unreadable process.
+                    same_uid_tasks+=1;unreadable_tasks+=1
         except FileNotFoundError:continue
         except (OSError,ValueError,IndexError):unreadable+=1
     def cgroup(name):
@@ -37,9 +52,9 @@ def capacity():
     try:soft,_=resource.getrlimit(resource.RLIMIT_NPROC)
     except (OSError,ValueError):soft=resource.RLIM_INFINITY
     soft=None if soft==resource.RLIM_INFINITY else soft
-    exhausted=((current is not None and maximum is not None and maximum-current<MIN_PROCESS_SLOTS) or
-               (soft is not None and soft-same_uid<MIN_PROCESS_SLOTS))
+    exhausted=_exhausted(current,maximum,soft,same_uid_tasks)
     return {'visible_processes':total,'zombies':zombies,'same_uid_processes':same_uid,'unreadable_processes':unreadable,
+            'same_uid_tasks':same_uid_tasks,'unreadable_task_counts':unreadable_tasks,
             'cgroup_current':current,'cgroup_max':maximum,'user_soft_limit':soft,'capacity_exhausted':exhausted}
 
 
