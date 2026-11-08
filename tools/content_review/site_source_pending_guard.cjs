@@ -6,6 +6,7 @@
 const {fingerprint,sha256}=require('./d1_fingerprint.cjs');
 const {pyJson}=require('./soups_intake_site_guard.cjs');
 const {complete,validateSnapshot}=require('./site_duplicate_semantics.cjs');
+const unresolved=require('./site_source_unresolved.cjs');
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const canonical=x=>Array.isArray(x)?x.map(canonical):object(x)?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
 const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
@@ -43,19 +44,25 @@ function validateSourcePending({before,after,receipt,request,discovery,snapshot,
   discovery.status!=='source_run_pending'&&sourceRunId===null||
   discovery.status==='source_run_failed'&&(typeof conclusion!=='string'||!/^[a-z_]{1,40}$/.test(conclusion))||
   discovery.status!=='source_run_failed'&&conclusion!==null)throw Error('Source pending run status invalid');
+ const failed=discovery.status==='source_run_failed',existing=before.source_unresolved_requests??[];
+ unresolved.validate(existing);
+ const failure=failed?unresolved.fromFailure(request,pending,discovery):null;
+ if(failed&&(existing.length>=1000||existing.some(x=>x.request_id===pending.request_id)))throw Error('Unresolved source failure already exists or exceeds the bound');
  const fields=['schema_version','kind','run_id','trigger','scheduled_for','started_at','completed_at','status','receipt_path','source_request_id',
   'origin_run_id','reservation_head','source_status','source_run_id','source_conclusion','source_requests','candidate_processing','gate_passed',
-  'native_completion_verified','publication_approved','scope_note'].sort(),path='config/content_review_run_receipts/'+runId+'.json';
+  'native_completion_verified','publication_approved','scope_note',...(failed?['origin_provider_requests']:[])].sort(),path='config/content_review_run_receipts/'+runId+'.json';
  if(!equal(Object.keys(receipt).sort(),fields)||receipt.schema_version!==1||receipt.kind!=='source_pending_deferral'||receipt.run_id!==runId||
   receipt.trigger!=='schedule'||receipt.status!=='deferred'||receipt.receipt_path!==path||receipt.source_request_id!==pending.request_id||
   receipt.origin_run_id!==pending.origin_run_id||receipt.reservation_head!==discovery.reservation_head||receipt.source_status!==discovery.status||
   receipt.source_run_id!==sourceRunId||receipt.source_conclusion!==conclusion||receipt.source_requests!==0||receipt.candidate_processing!==false||
   receipt.gate_passed!==false||receipt.native_completion_verified!==false||receipt.publication_approved!==false||
   time(receipt.started_at)!==start||time(receipt.scheduled_for)!==due||
-  receipt.scope_note!=='The source request remains pending; no candidate gate or publication is established.')throw Error('Source pending receipt invalid');
+  (failed?receipt.origin_provider_requests!==null||receipt.scope_note!=='The failed source request is held for reconciliation; origin provider usage is unknown.':
+   receipt.scope_note!=='The source request remains pending; no candidate gate or publication is established.'))throw Error('Source pending receipt invalid');
  const expected=structuredClone(before);expected.lease_history??=[];if(!Array.isArray(expected.lease_history))throw Error('Source pending lease history invalid');
  expected.lease_history.push({...lease,status:'released',released_at:receipt.completed_at});expected.lease=null;
  expected.current_run.application_status='deferred';expected.current_run.application_completed_at=receipt.completed_at;expected.current_run.receipt=path;
+ if(failed){expected.current_run.pending_source_request=null;expected.source_unresolved_requests=[...existing,failure];}
  if(!equal(expected,after))throw Error('Source pending changes unrelated state');
  return {status:'valid',receipt_path:path,candidate_processing:false,native_completion_verified:false,publication_verified:false};
 }

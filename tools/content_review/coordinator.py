@@ -10,6 +10,8 @@ import sys
 
 from tools.content_review.d1_reconcile import select_reconciled
 from tools.content_review.lifecycle import instant
+from tools.content_review.source_origin_backoff import origin as source_origin
+from tools.content_review.source_unresolved import validate as validate_unresolved
 
 INITIAL_LIMIT = 5
 MAX_CANDIDATES = 10000
@@ -75,12 +77,20 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     result = select_reconciled(snapshot, confirmed_snapshot, manifests, ledger,
                                limit=MAX_CANDIDATES, source_progress=source_progress,
                                source_attempts=source_attempts)
+    unresolved_keys,unresolved_hosts=validate_unresolved(state.get('source_unresolved_requests',[]))
+    def source_hold(item):
+        key=(item['collection'],item['candidate_id'])
+        if key in unresolved_keys:return True
+        if item['next_stage']!='source' or not unresolved_hosts:return False
+        try:return source_origin(index[key].get('source_url')) in unresolved_hosts
+        except ValueError:return False  # The source guard will reject the unsupported URL.
     # APWG and corpus audit still require their own execution adapters. Virus
     # Bulletin has independently checked duplicate and source-reservation paths;
     # do not select its later gates until those paths have been implemented.
     special = {c['id'] for c in registry if c.get('adapter') in ('apwg_pending', 'corpus_audit')}
     supported_stages={'duplicates','source','metadata'}
     eligible = [item for item in result['selected'] if item['collection'] not in special
+                and not source_hold(item)
                 and item['next_stage'] in supported_stages
                 and (item['collection'] != 'virusbulletin' or item['next_stage'] in ('duplicates', 'source'))]
     stage_eligible=[item for item in eligible if stages is None or item['next_stage'] in stages]
@@ -93,6 +103,7 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     executable = Counter(x['collection'] for x in eligible)
     unsupported_gates=Counter(x['collection'] for x in result['selected']
                               if x['collection'] not in special and x['next_stage'] not in supported_stages)
+    unresolved=Counter(x['collection'] for x in result['selected'] if source_hold(x))
     decisions = Counter(x['collection'] for x in result['reconciliation']['matched_decisions'])
     decided_keys = {(x['collection'], x['candidate_id']) for x in result['reconciliation']['matched_decisions']}
     held_keys = {(x['collection'], x['candidate_id']) for x in result['reconciliation']['held']}
@@ -121,6 +132,8 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
             reason = 'separate_collection_adapter_required'
         elif selected_counts[collection]:
             reason = 'selected_for_next_gate'
+        elif unresolved[collection] and not executable[collection]:
+            reason = 'unresolved_source_failure'
         elif unsupported_gates[collection] and not executable[collection]:
             reason = 'separate_gate_executor_required'
         elif stages is not None and executable[collection] and not any(x['collection']==collection for x in stage_eligible):
@@ -138,6 +151,7 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
         coverage.append({'collection': collection, 'eligible': available[collection],
                          'selected': selected_counts[collection], 'decision_holds': held[collection],
                          'unsupported_gate_count': unsupported_gates[collection],
+                         'unresolved_source_count': unresolved[collection],
                          'missing_lifecycle': missing_lifecycle[collection],
                          'unnumbered_intake': unnumbered_intake[collection],
                          'matched_review_decisions': decisions[collection],

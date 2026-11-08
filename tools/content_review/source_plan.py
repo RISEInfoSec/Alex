@@ -16,7 +16,8 @@ from tools.content_review.runtime_guard import before_work
 from tools.content_review.snapshot_integrity import verify_bytes
 from tools.content_review.source_handoff import prepare as prepare_handoff
 from tools.content_review.source_worker import Hold,MANIFESTS
-from tools.content_review.source_origin_backoff import active as backoff_active
+from tools.content_review.source_origin_backoff import active as backoff_active, origin as source_origin
+from tools.content_review.source_unresolved import validate as validate_unresolved
 from tools.content_review.verified_inputs import _path_blob,load_inputs
 
 
@@ -113,6 +114,7 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
         _,proof=_path_blob(root,review_head,path)
         verify_bytes((root/path).read_bytes(),proof['blob_sha'],proof['size'])
     eligible=[];held=[]
+    unresolved_keys,unresolved_hosts=validate_unresolved(state.get('source_unresolved_requests',[]))
     retained_pending=_unretained_source_results(root,review_head,state,selected,inputs['manifests'])
     if retained_pending:
         items=[{'collection':item['collection'],'candidate_id':item['candidate_id'],
@@ -126,6 +128,8 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
             manifest=inputs['manifests'][pair[0]]
             matches=[row for row in manifest.get('records',[])+manifest.get('preflight_records',[]) if row.get('candidate_id')==pair[1]]
             if len(matches)!=1:raise ValueError('Source candidate identity is ambiguous')
+            if pair in unresolved_keys or source_origin(matches[0].get('source_url')) in unresolved_hosts:
+                raise Hold('source_outcome_requires_reconciliation')
             if backoff_active(state.get('source_origin_backoff',{}),matches[0].get('source_url'),now):
                 raise Hold('source_origin_backoff_active')
             prepare_handoff(root,[pair],state['current_run']['started_at'],owner,source_requests_used,at=now,coordinator_run_id=run_id)

@@ -81,6 +81,18 @@ def test_retained_cooldown_blocks_redirect_origin_before_network(monkeypatch):
         tx.send('https://example.org/redirected-document')
     assert tx.sends==[] and tx.stopped=={}
 
+def test_unresolved_origin_blocks_redirect_before_dns_or_network(monkeypatch):
+    calls=[]
+    def check(url,resolve=True):
+        calls.append(resolve)
+        if resolve:pytest.fail('unexpected DNS or network')
+        return url
+    monkeypatch.setattr(s,'safe_url',check)
+    tx=s.Transport(deadline=1000,clock=lambda:0,sleep=lambda _:None,unresolved_origins={'example.org'})
+    with pytest.raises(s.Hold,match='source_outcome_requires_reconciliation'):
+        tx.send('https://EXAMPLE.ORG.:443/redirected-document')
+    assert calls==[False] and tx.sends==[] and tx.stopped=={}
+
 def test_unavailable_page_never_follows_navigation_pdf():
     x=s.extract(response(b'<title>Temporarily Unavailable For Review</title><p>Content review</p><a href="unrelated.pdf">DNS matrix</a>'))
     with pytest.raises(s.Hold,match='publisher_temporarily_withheld'):s.linked_pdf(x)

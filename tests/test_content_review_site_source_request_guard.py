@@ -52,6 +52,19 @@ def test_site_guard_refuses_active_origin_backoff_and_retained_holds(tmp_path):
     assert invoke(data).returncode!=0
 
 
+def test_site_guard_blocks_unresolved_origin_even_for_another_candidate(tmp_path):
+    from tests.test_content_review_source_unresolved import sample
+    from tools.content_review.source_unresolved import from_failure
+    data=value(tmp_path);request,pending,discovery=sample()
+    request['records']=request['records'][:1]
+    request['records'][0].update(candidate_id='different-candidate',url=data['request']['records'][0]['url'])
+    request['request_id']=digest({k:v for k,v in request.items() if k!='request_id'});pending['request_id']=request['request_id']
+    hold=from_failure(request,pending,discovery)
+    for state in (data['before'],data['after']):state['source_unresolved_requests']=[deepcopy(hold)]
+    result=invoke(data)
+    assert result.returncode!=0 and 'requires reconciliation' in result.stderr.lower()
+
+
 def test_reserved_soups_identity_allows_source_but_rejects_collision_and_review_state(tmp_path):
     data=value(tmp_path)
     data['manifests']['soups']=data['manifests'].pop('weekly')

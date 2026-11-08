@@ -83,6 +83,43 @@ def test_unimplemented_quality_gate_is_reported_without_starving_supported_work(
     assert result['selected']==[] and coverage['disposition']=='separate_gate_executor_required'
 
 
+def test_unresolved_source_failure_holds_affected_candidate_but_not_peer():
+    from tests.test_content_review_source_unresolved import sample
+    from tools.content_review.source_unresolved import from_failure
+    from tools.content_review.source_worker import digest
+    now,snap,manifests,ledger,registry,state=fixture()
+    request,pending,discovery=sample();request['records'][0].update(collection='weekly',candidate_id='fresh',content_sha256='c'*64)
+    request['request_id']=digest({k:v for k,v in request.items() if k!='request_id'});pending['request_id']=request['request_id']
+    state['source_unresolved_requests']=[from_failure(request,pending,discovery)]
+    args=(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run')
+    result=plan(*args,source_attempts={},source_progress={},at=now)
+    coverage=next(x for x in result['coverage'] if x['collection']=='weekly')
+    assert result['selected']==[] and coverage['disposition']=='unresolved_source_failure'
+    assert coverage['unresolved_source_count']==1
+    peer=deepcopy(manifests['weekly']['records'][1]);peer.update(candidate_id='other',review_number=3)
+    manifests['weekly']['records'].append(peer);ledger['records']['weekly:other']=deepcopy(ledger['records']['weekly:fresh'])
+    result=plan(*args,source_attempts={},source_progress={},at=now)
+    assert [x['candidate_id'] for x in result['selected']]==['other']
+
+
+def test_unresolved_origin_does_not_consume_bounded_source_selection_slots():
+    from tests.test_content_review_source_unresolved import sample
+    from tools.content_review.source_unresolved import from_failure
+    now,snap,manifests,ledger,registry,state=fixture();request,pending,discovery=sample()
+    state['source_unresolved_requests']=[from_failure(request,pending,discovery)]
+    row=manifests['weekly']['records'][1];row['source_url']='https://publisher.example/paper';digest=row['content_sha256']
+    row['preflight']={'checks':{'duplicates':{'status':'passed','content_sha256':digest,
+        'checked_at':now.isoformat(),'evidence':{'verified':True}}}}
+    for n in range(6):
+        peer=deepcopy(row);peer.update(candidate_id='blocked-'+str(n),review_number=n+3)
+        manifests['weekly']['records'].append(peer);ledger['records']['weekly:'+peer['candidate_id']]=deepcopy(ledger['records']['weekly:fresh'])
+    peer=deepcopy(row);peer.update(candidate_id='different-origin',review_number=9,source_url='https://other-unblocked.example/paper')
+    manifests['weekly']['records'].append(peer);ledger['records']['weekly:different-origin']=deepcopy(ledger['records']['weekly:fresh'])
+    result=plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},at=now,stages=('source',))
+    assert [x['candidate_id'] for x in result['selected']]==['different-origin']
+    assert next(x for x in result['coverage'] if x['collection']=='weekly')['unresolved_source_count']==7
+
+
 def test_superseded_decision_is_reported_as_hold_even_for_preflight_rows():
     now,snap,manifests,ledger,registry,state=fixture()
     old=deepcopy(snap['decisions'][0]);old.update(id='d-old',candidate_id='fresh',review_number=2,content_sha256='c'*64)

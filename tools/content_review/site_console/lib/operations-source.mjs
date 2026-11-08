@@ -94,6 +94,12 @@ export async function readOperations({fetcher=fetch,token='',now=Date.now(),cach
   }
   if(heartbeat.configured&&!heartbeat.verified&&worker.status==='Running')
    worker={...worker,status:'Degraded',issue:'The separate worker heartbeat is not verified. '+heartbeat.reason};
+  if(configured&&checkpoint&&checkpoint.source_unresolved_requests!==undefined){
+   const holds=checkpoint.source_unresolved_requests;
+   if(!Array.isArray(holds))worker={...worker,status:['Failed','Overdue'].includes(worker.status)?worker.status:'Degraded',issue:worker.issue+' Unresolved source request evidence is invalid.'};
+   else if(holds.length)worker={...worker,status:['Failed','Overdue'].includes(worker.status)?worker.status:'Degraded',
+    issue:worker.issue+' '+holds.length+' source request(s) have unresolved outcomes; affected candidates and origins are held for reconciliation.'};
+  }
   workers.unshift(worker);
   // Do not resurrect the legacy source-discovery worker row when a new target
   // is configured. Replacement processing is reported by its own evidence.

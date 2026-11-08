@@ -83,3 +83,20 @@ test('matching replacement activity is reported without claiming verification',a
  assert.notEqual(result.workers[0].status,'Operating normally');
  assert.equal(result.workers.some(w=>w.id==='source-discovery'),false);
 });
+
+test('unresolved source outcomes are visible without revealing their details',async()=>{
+ const now=Date.parse('2026-11-07T18:00:00Z'),target='Automation_new';
+ const encode=value=>Response.json({encoding:'base64',content:Buffer.from(JSON.stringify(value)).toString('base64')});
+ let holds=[{candidate_keys:[{candidate_id:'private-id'}],origin_hosts:['private.example']}];
+ const fetcher=async url=>{
+  if(url.includes('content_review_monitor_config.json'))return encode({target_automation_id:target});
+  if(url.includes('content_review_operations.json'))return encode({scheduler:{id:target}});
+  if(url.includes('content_review_worker_status.json'))return encode({current_run:{scheduler:{id:target}},source_unresolved_requests:holds});
+  if(url.includes('openalex_request_policy.json'))return encode({requests_enabled:true});
+  return Response.json({workflows:[]});
+ };
+ let result=await readOperations({fetcher,now});
+ assert.equal(result.workers[0].status,'Degraded');assert.match(result.workers[0].issue,/1 source request\(s\).*held for reconciliation/);
+ assert.doesNotMatch(JSON.stringify(result),/private-id|private\.example/);
+ holds={};result=await readOperations({fetcher,now});assert.match(result.workers[0].issue,/evidence is invalid/);
+});

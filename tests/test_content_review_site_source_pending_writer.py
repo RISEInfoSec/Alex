@@ -10,8 +10,10 @@ from tests.test_content_review_verified_inputs import git
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def request(repo):
-    values=fixture(repo);now,head,main,hb,native,snapshot,reservation,discovery=values;proposal=call(repo,values)
+def request(repo,failed=False):
+    values=fixture(repo);now,head,main,hb,native,snapshot,reservation,discovery=values
+    if failed:discovery.update(status='source_run_failed',source_run_id=123,conclusion='failure')
+    proposal=call(repo,values)
     before=json.loads(git(repo,'show',head+':config/content_review_worker_status.json'));rid=before['current_run']['pending_source_request']['request_id']
     paths=['config/content_review_worker_status.json','config/content_review_source_requests/'+rid+'.json'];files={}
     for path in paths:

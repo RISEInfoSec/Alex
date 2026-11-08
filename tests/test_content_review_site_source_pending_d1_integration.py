@@ -11,8 +11,8 @@ from tests.test_content_review_verified_inputs import git
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def request(repo):
-    value=original_request(repo);head=value['input']['expectedHead']
+def request(repo,failed=False):
+    value=original_request(repo,failed=failed);head=value['input']['expectedHead']
     content=subprocess.check_output(['git','-C',str(repo),'show',head+':config/content_review_monitor_config.json'])
     value['files']['config/content_review_monitor_config.json']={'sha':hashlib.sha1(b'blob '+str(len(content)).encode()+b'\0'+content).hexdigest(),'content':content.decode()}
     value['heartbeat']=json.loads(git(repo,'show','pending-heartbeat:config/content_review_detached_heartbeat.json'))
@@ -53,6 +53,9 @@ const discover=async({github,input,now})=>{const pulse=makeHeartbeatKeeper({gith
 let outcome;try{outcome={result:await writeSourcePending({db,github:api,getToken:()=> 'not-used',input:v.input,now:()=>v.now,discover,heartbeatFactory:()=>async()=>{}})}}
 catch(e){outcome={error:e.message}}
 outcome.commits=commits;outcome.heartbeat_updates=heartbeatUpdates;
+if(saved['config/content_review_worker_status.json']){
+ const state=JSON.parse(saved['config/content_review_worker_status.json']);outcome.unresolved=state.source_unresolved_requests||[];
+}
 outcome.fence=sqlite.prepare('SELECT phase FROM content_review_write_fence').all().map(x=>x.phase);
 if(mode==='ambiguous'){
  try{sqlite.prepare('INSERT INTO review_submissions VALUES (?,?,?,?,?,?,?,?,?)')
@@ -72,5 +75,16 @@ def test_source_pending_deferral_is_fenced_and_never_retried(tmp_path,mode):
         assert result.get('result',{}).get('status')=='committed_and_read_back',result
         assert result['result']['candidate_processing'] is False and result['result']['native_completion_verified'] is False
         assert result['heartbeat_updates']==1 and result['commits']==1 and result['fence']==[]
+    if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
+    if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True
+
+
+@pytest.mark.parametrize('mode',['success','d1change','ambiguous'])
+def test_failed_source_is_retained_under_real_d1_fence_without_guessing_usage(tmp_path,mode):
+    result=invoke(request(tmp_path,failed=True),mode)
+    if mode=='success':
+        assert result.get('result',{}).get('status')=='committed_and_read_back',result
+        assert result['result']['source_status']=='source_run_failed' and result['commits']==1 and result['fence']==[]
+        assert len(result['unresolved'])==1 and result['unresolved'][0]['origin_provider_requests'] is None
     if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
     if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True

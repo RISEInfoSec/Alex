@@ -7,6 +7,7 @@ const {fingerprint,sha256}=require('./d1_fingerprint.cjs');
 const {pyJson}=require('./soups_intake_site_guard.cjs');
 const {validateSnapshot,complete}=require('./site_duplicate_semantics.cjs');
 const sourceBackoff=require('./site_source_origin_backoff.cjs');
+const unresolved=require('./site_source_unresolved.cjs');
 const {identity:reviewIdentity}=require('./site_review_identity.cjs');
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const canonical=x=>Array.isArray(x)?x.map(canonical):object(x)?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
@@ -50,12 +51,14 @@ function validateSourceRequest({before,after,request,manifests,manifestHashes,le
  expected.current_run.pending_source_request={request_id:request.request_id,origin_run_id:runId,
   reserved_limit:request.source_request_limit,prepared_at:after.current_run.pending_source_request.prepared_at};
  if(!equal(expected,after))throw Error('Source reservation changes unrelated worker state');
- const seen=new Set();
+ const seen=new Set(),blocked=unresolved.validate(before.source_unresolved_requests??[]);
  for(const item of request.records){
   if(!object(item)||!equal(Object.keys(item).sort(),['candidate_id','collection','content_sha256','manifest_sha256','url'])||
    !COLLECTIONS.has(item.collection)||!ID.test(item.candidate_id||'')||!HASH.test(item.content_sha256||'')||
    !HASH.test(item.manifest_sha256||'')||item.manifest_sha256!==manifestHashes[item.collection]||!safeUrl(item.url))
    throw Error('Invalid source candidate');
+  if(blocked.keys.has(JSON.stringify([item.collection,item.candidate_id]))||blocked.hosts.has(sourceBackoff.origin(item.url)))
+   throw Error('Source outcome requires reconciliation');
   const identity=JSON.stringify([item.collection,item.candidate_id]);if(seen.has(identity))throw Error('Duplicate source candidate');seen.add(identity);
   const manifest=manifests[item.collection];if(!object(manifest)||!Array.isArray(manifest.records)||!Array.isArray(manifest.preflight_records??[]))
    throw Error('Source manifest unavailable');

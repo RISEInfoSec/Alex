@@ -4,6 +4,7 @@ The Site independently rediscovers the exact workflow, checks the transition,
 and rechecks D1 under its write fence before any commit.
 """
 from datetime import datetime,timezone
+from copy import deepcopy
 import hashlib
 import json
 import re
@@ -16,6 +17,7 @@ from tools.content_review.lifecycle import instant
 from tools.content_review.operations import find_automation,hourly_anchor
 from tools.content_review.source_result_guard import _verify_request_commit
 from tools.content_review.source_worker import digest
+from tools.content_review.source_unresolved import from_failure,validate as validate_unresolved
 from tools.content_review.verified_inputs import SHA,_git,_path_blob,load_inputs
 
 WORKER='config/content_review_worker_status.json'
@@ -60,14 +62,25 @@ def prepare(repo,review_head,main_head,heartbeat_head,native,snapshot,confirmed,
     checked=reconcile(snapshot,confirmed,{k:v.get('records',[]) for k,v in inputs['reconciliation_manifests'].items()})
     path='config/content_review_run_receipts/'+run_id+'.json'
     if _git(repo,'ls-tree','-z',review_head,'--',path):raise ValueError('Run receipt already exists')
+    failed=discovery['status']=='source_run_failed'
+    existing=state.get('source_unresolved_requests',[])
+    validate_unresolved(existing)
+    failure=from_failure(request,pending,discovery) if failed else None
+    if failed and (len(existing)>=1000 or any(x['request_id']==rid for x in existing)):
+        raise ValueError('Unresolved source failure already exists or exceeds the bound')
     updated=release(state,owner,run_id,at=now);updated['current_run']['application_status']='deferred'
     updated['current_run']['application_completed_at']=now.isoformat();updated['current_run']['receipt']=path
+    if failed:
+        updated['current_run']['pending_source_request']=None
+        updated['source_unresolved_requests']=deepcopy(existing)+[failure]
     receipt={'schema_version':1,'kind':'source_pending_deferral','run_id':run_id,'trigger':'schedule','scheduled_for':due.isoformat(),
        'started_at':started.isoformat(),'completed_at':now.isoformat(),'status':'deferred','receipt_path':path,'source_request_id':rid,
        'origin_run_id':pending['origin_run_id'],'reservation_head':reservation_head,'source_status':discovery['status'],
        'source_run_id':source_run,'source_conclusion':conclusion,'source_requests':0,'candidate_processing':False,'gate_passed':False,
        'native_completion_verified':False,'publication_approved':False,
-       'scope_note':'The source request remains pending; no candidate gate or publication is established.'}
+       'scope_note':('The failed source request is held for reconciliation; origin provider usage is unknown.' if failed else
+                     'The source request remains pending; no candidate gate or publication is established.')}
+    if failed:receipt['origin_provider_requests']=None
     files={WORKER:json.dumps(updated,ensure_ascii=False,indent=2)+'\n',path:json.dumps(receipt,ensure_ascii=False,indent=2)+'\n'}
     blobs={}
     for name,text in files.items():

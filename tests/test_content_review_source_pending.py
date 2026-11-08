@@ -46,6 +46,19 @@ def test_pending_source_releases_lease_and_preserves_pending_without_claiming_wo
     assert state['lease'] is None and state['current_run']['pending_source_request']['request_id']==receipt['source_request_id']
 
 
+def test_failed_source_releases_with_unknown_usage_and_retained_candidate_origin_holds(tmp_path):
+    values=list(fixture(tmp_path));values[-1].update(status='source_run_failed',source_run_id=123,conclusion='failure')
+    proposal=call(tmp_path,values)
+    receipt=json.loads(proposal['files'][proposal['receipt_path']]);state=json.loads(proposal['files']['config/content_review_worker_status.json'])
+    assert state['lease'] is None and state['current_run']['pending_source_request'] is None
+    assert len(state['source_unresolved_requests'])==1
+    hold=state['source_unresolved_requests'][0]
+    assert hold['origin_provider_requests'] is None and hold['source_run_id']==123
+    assert hold['candidate_keys'] and hold['origin_hosts']
+    assert receipt['origin_provider_requests'] is None and receipt['candidate_processing'] is False
+    assert receipt['publication_approved'] is False and proposal['writes']==0
+
+
 def test_pending_deferral_rejects_ready_artifact_or_unverified_native_run(tmp_path):
     values=list(fixture(tmp_path));values[-1]['status']='source_artifact_ready'
     with pytest.raises(ValueError,match='pending or failed'):call(tmp_path,values)
