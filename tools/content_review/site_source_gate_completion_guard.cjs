@@ -14,7 +14,7 @@ function validateSourceGateCompletion({before,after,receipt,owner,runId,verified
   'provider_requests','paid_requests','openalex_requests','candidate_processing','native_completion_verified','publication_approved','scope_note'].sort();
  const actionFields=['path','collection','candidate_id','content_sha256','gate'].sort();
  if(!equal(Object.keys(verifiedAction).sort(),actionFields)||!ID.test(verifiedAction.collection||'')||!ID.test(verifiedAction.candidate_id||'')||
-  !HASH.test(verifiedAction.content_sha256||'')||!['access','metadata'].includes(verifiedAction.gate)||
+  !HASH.test(verifiedAction.content_sha256||'')||!['format','access','metadata'].includes(verifiedAction.gate)||
   !/^config\/content_review_source_gate_checkpoints\/[0-9a-f]{64}\.json$/.test(verifiedAction.path||''))
   throw Error('Invalid verified source gate action');
  if(!equal(Object.keys(receipt).sort(),fields)||receipt.schema_version!==1||receipt.kind!=='source_gate_completion'||receipt.run_id!==runId||

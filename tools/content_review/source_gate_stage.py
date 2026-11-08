@@ -19,7 +19,7 @@ RECEIPT = re.compile(r'^config/content_review_source_receipts/[0-9a-f]{64}\.json
 def prepare(repo, snapshot, confirmed, inputs, ledger, state, owner, run_id, collection, candidate_id, gate,
             *, observed_heads, source_attempts, source_progress, at=None, heartbeat=None):
     now = at or datetime.now(timezone.utc)
-    if gate not in ('access', 'metadata') or not isinstance(inputs, dict) or not isinstance(observed_heads, dict):
+    if gate not in ('format', 'access', 'metadata') or not isinstance(inputs, dict) or not isinstance(observed_heads, dict):
         raise ValueError('Supported source gate and verified inputs required')
     if observed_heads != {'review': inputs.get('review_commit'), 'main': inputs.get('main_commit')}:
         raise ValueError('Source heads changed or are unavailable')

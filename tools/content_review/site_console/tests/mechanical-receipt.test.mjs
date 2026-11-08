@@ -24,10 +24,12 @@ test('stale identity, no-work, forged native claims or unrelated activity cannot
 });
 test('a retained-source receipt reports its gate without claiming native success or readiness',()=>{
  const r=receipt();r.kind='source_gate_completion';r.candidate_processing=true;
- r.completed_actions[0].path='config/content_review_source_gate_checkpoints/'+'a'.repeat(64)+'.json';r.completed_actions[0].gate='access';
- const value=mechanicalReceipt(state(),r,target);
- assert.equal(value.source_gate_passes,1);assert.equal(value.duplicate_gate_passes,0);
- assert.equal(value.native_completion_verified,false);assert.equal(value.candidate_counts_verified,false);assert.equal(value.newly_review_ready,0);
+ r.completed_actions[0].path='config/content_review_source_gate_checkpoints/'+'a'.repeat(64)+'.json';
+ for(const gate of ['format','access','metadata']){
+  r.completed_actions[0].gate=gate;const value=mechanicalReceipt(state(),r,target);
+  assert.equal(value.source_gate_passes,1);assert.equal(value.duplicate_gate_passes,0);
+  assert.equal(value.native_completion_verified,false);assert.equal(value.candidate_counts_verified,false);assert.equal(value.newly_review_ready,0);
+ }
  r.candidate_processing=false;assert.equal(mechanicalReceipt(state(),r,target),null);
 });
 

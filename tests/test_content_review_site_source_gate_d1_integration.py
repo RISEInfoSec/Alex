@@ -13,8 +13,8 @@ from tools.content_review.verified_inputs import load_inputs
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def request(repo):
-    value=original_request(repo);old=value['input']['expectedHead'];main=value['input']['expectedMain']
+def request(repo,gate='access'):
+    value=original_request(repo,gate=gate);old=value['input']['expectedHead'];main=value['input']['expectedMain']
     state=json.loads(value['files'][old+':config/content_review_worker_status.json']['content']);run=state['current_run']
     now=datetime.fromtimestamp(value['now']/1000,timezone.utc);started=run['started_at'];run['scheduled_for']=started
     run['scheduler']={'id':'Automation_worker','is_enabled':True,'observed_at':now.isoformat(),
@@ -26,7 +26,7 @@ def request(repo):
     git(repo,'checkout','-qb','source-gate-heartbeat');put(repo,'config/content_review_detached_heartbeat.json',beat)
     git(repo,'add','.');git(repo,'commit','-qm','heartbeat');git(repo,'checkout','-q',branch)
     inputs=load_inputs(repo,head,main);row=inputs['manifests']['weekly']['records'][0]
-    proposal=checkpoint(repo,value['snapshot'],deepcopy(value['snapshot']),inputs,inputs['lifecycle'],state,'worker','run','weekly',row['candidate_id'],'access',
+    proposal=checkpoint(repo,value['snapshot'],deepcopy(value['snapshot']),inputs,inputs['lifecycle'],state,'worker','run','weekly',row['candidate_id'],gate,
         observed_heads={'review':head,'main':main},source_attempts=state.get('source_attempts',{}),
         source_progress=state.get('source_last_progress',{}),at=now,heartbeat=beat)
     paths=['config/content_review_worker_status.json','config/content_review_monitor_config.json','config/content_review_candidate_lifecycle.json',
@@ -94,5 +94,16 @@ def test_source_gate_is_fenced_and_never_retried(tmp_path,mode):
         assert result.get('result',{}).get('status')=='committed_and_read_back',result
         assert result['result']['candidate_processing'] is True and result['result']['publication_verified'] is False
         assert result['heartbeat_updates']==1 and result['commits']==1 and result['fence']==[]
+    if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
+    if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True
+
+
+@pytest.mark.parametrize('mode',['success','d1change','ambiguous'])
+def test_explicit_format_gate_uses_the_same_real_d1_fence(tmp_path,mode):
+    result=invoke(request(tmp_path,gate='format'),mode)
+    if mode=='success':
+        assert result.get('result',{}).get('status')=='committed_and_read_back',result
+        assert result['result']['gate']=='format' and result['result']['publication_verified'] is False
+        assert result['commits']==1 and result['fence']==[]
     if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
     if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True

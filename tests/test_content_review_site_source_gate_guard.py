@@ -15,7 +15,7 @@ from tools.content_review.verified_inputs import load_inputs, _path_blob
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def bundle(repo):
+def bundle(repo,gate='access'):
     review,main,duplicate=fixture(repo)
     for path,content in duplicate['files'].items():put(repo,path,content)
     manifest=json.loads(duplicate['files']['config/weekly_review_manifest.json']);row=manifest['records'][0]
@@ -28,6 +28,8 @@ def bundle(repo):
     evidence={'requested_url':row['source_url'],'final_url':row['source_url'],'http_status':200,
               'retrieved_at':now.isoformat(),'body_sha256':'b'*64,'text':'Actual source text',
               'text_sha256':hashlib.sha256(b'Actual source text').hexdigest(),'container_type':'html','metadata':{}}
+    if gate=='format':evidence['metadata']={'citation_title':[row['title']],'citation_author':[row['authors']],
+        'citation_publication_date':[str(row['year'])],'citation_article_type':['research-article']}
     item={'collection':'weekly','candidate_id':'fresh','content_sha256':row['content_sha256']}
     source={'independently_verified':True,'artifact_sha256':'c'*64,
             'request':{'request_id':'d'*64,'records':[{**item,'url':row['source_url']}]},
@@ -36,7 +38,7 @@ def bundle(repo):
     put(repo,source_path,source);git(repo,'add','.');git(repo,'commit','-qm','retained source')
     head=git(repo,'rev-parse','HEAD');inputs=load_inputs(repo,head,main)
     prepared=prepare(repo,snapshot,deepcopy(snapshot),inputs,inputs['lifecycle'],inputs['worker_state'],
-        'worker','run','weekly','fresh','access',observed_heads={'review':head,'main':main},
+        'worker','run','weekly','fresh',gate,observed_heads={'review':head,'main':main},
         source_attempts=state['source_attempts'],source_progress=state['source_last_progress'],at=now)
     files=prepared['files'];receipt=json.loads(files[prepared['new_paths_must_be_absent'][0]])
     _,proof=_path_blob(repo,head,source_path)
@@ -61,6 +63,15 @@ def test_site_independently_validates_actual_source_gate_proposal(tmp_path):
     result=invoke(bundle(tmp_path))
     assert result.returncode==0,result.stderr
     assert json.loads(result.stdout)['candidate_processing'] is True
+
+
+def test_site_independently_validates_explicit_research_article_format(tmp_path):
+    value=bundle(tmp_path,gate='format');result=invoke(value)
+    assert result.returncode==0,result.stderr
+    assert value['after']['manifest']['records'][0]['preflight']['checks']['format']['status']=='passed'
+    forged=deepcopy(value)
+    forged['sourceReceipt']['result']['records'][0]['evidence'][0]['metadata']['citation_article_type']=['presentation']
+    assert invoke(forged).returncode!=0
 
 
 def test_reserved_soups_candidate_can_pass_source_gate_without_queue_promotion(tmp_path):

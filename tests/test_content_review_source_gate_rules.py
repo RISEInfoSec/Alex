@@ -38,6 +38,25 @@ def test_exact_publisher_evidence_passes_only_narrow_checks():
     assert result['classification_verified'] is False and result['publication_authorized'] is False
 
 
+@pytest.mark.parametrize('change',['valid','missing','slides','conflict','ambiguous','title','wrong_type','unicode','og_conflict','citation_conflict'])
+def test_only_unambiguous_publisher_research_article_type_can_pass_format(change):
+    row,receipt=sample();row['document_type']='research_paper'
+    metadata=receipt['result']['records'][0]['evidence'][0]['metadata'];metadata['citation_article_type']=['research-article']
+    if change=='missing':metadata.pop('citation_article_type')
+    if change=='slides':metadata['citation_article_type']=['conference presentation']
+    if change=='conflict':metadata['dc.type']=['slides']
+    if change=='ambiguous':metadata['citation_article_type']=['research-article','review-article']
+    if change=='title':metadata['citation_title']=['Another title']
+    if change=='wrong_type':row['verified_document_type']='slides'
+    if change=='unicode':metadata['citation_article_type']=['research article é']
+    if change=='og_conflict':metadata['og:type']=['video']
+    if change=='citation_conflict':metadata['citation_type']=['slides']
+    result=audit(row,'weekly',receipt,now=NOW)
+    assert result['format_verified'] is (change=='valid')
+    assert ('format' in result['checks']) is (change=='valid')
+    assert result['quality_verified'] is False and result['publication_authorized'] is False
+
+
 @pytest.mark.parametrize('field,value', [
     ('citation_title', ['A Different Study']),
     ('citation_author', ['Bob Researcher', 'Ada Example']),
@@ -87,7 +106,8 @@ def test_duplicate_source_evidence_is_held_and_non_ascii_metadata_is_conservativ
 
 def test_site_and_coordinator_independently_agree_on_adversarial_evidence():
     cases = []
-    for change in ('normal', 'title', 'author', 'year', 'doi', 'redirect', 'text', 'future', 'duplicate', 'unicode'):
+    for change in ('normal', 'title', 'author', 'year', 'doi', 'redirect', 'text', 'future', 'duplicate', 'unicode',
+                   'format','format_conflict','format_multiple','format_unicode','format_wrong_type','format_og_conflict'):
         row, receipt = sample()
         source = receipt['result']['records'][0]['evidence'][0]
         if change == 'title': source['metadata']['citation_title'] = ['Another title']
@@ -99,6 +119,13 @@ def test_site_and_coordinator_independently_agree_on_adversarial_evidence():
         if change == 'future': source['retrieved_at'] = '2026-11-09T00:00:00Z'
         if change == 'duplicate': receipt['result']['records'][0]['evidence'].append(deepcopy(source))
         if change == 'unicode': row['authors'] = 'Ada Éxample; Bob Researcher'
+        if change.startswith('format'):
+            row['document_type']='research_paper';source['metadata']['citation_article_type']=['research-article']
+        if change=='format_conflict':source['metadata']['dc.type']=['slides']
+        if change=='format_multiple':source['metadata']['citation_article_type'].append('editorial')
+        if change=='format_unicode':source['metadata']['citation_article_type']=['research article é']
+        if change=='format_wrong_type':row['verified_document_type']='presentation'
+        if change=='format_og_conflict':source['metadata']['og:type']=['video']
         cases.append({'row': row, 'receipt': receipt})
     script = "const fs=require('fs'),r=require('./tools/content_review/site_source_gate_rules.cjs');" \
              "const x=JSON.parse(fs.readFileSync(0,'utf8'));" \

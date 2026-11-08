@@ -1,6 +1,6 @@
 'use strict';
 
-// Independently derive only narrow access and citation-metadata checks from
+// Independently derive narrow access, citation and explicit-type checks from
 // a verified source artifact. The writer must verify provenance and D1 again.
 const {sha256}=require('./d1_fingerprint.cjs');
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
@@ -43,9 +43,18 @@ function audit(row,collection,receipt,now=Date.now()){
   const doiOK=!doi||(typeof doi==='string'&&Array.isArray(dois)&&dois.length===1&&typeof dois[0]==='string'&&doi.trim().toLowerCase()===dois[0].trim().toLowerCase());
   if(Array.isArray(titles)&&titles.length===1&&words(titles[0])===title&&expected.length>0&&expected.every(Boolean)&&
    JSON.stringify(expected)===JSON.stringify(actual)&&Array.isArray(dates)&&dates.length===1&&typeof dates[0]==='string'&&
-   new RegExp('^'+year+'(?:\\D|$)').test(dates[0])&&doiOK)
+   new RegExp('^'+year+'(?:\\D|$)').test(dates[0])&&doiOK){
    checks.metadata={status:'passed',evidence:{...proof,method:'exact publisher citation metadata'}};
+   const fields=['citation_article_type','citation_type','dc.type','dcterms.type'],tags=fields.filter(k=>Object.prototype.hasOwnProperty.call(metadata,k)).map(k=>metadata[k]);
+   const explicit=metadata.citation_article_type,accepted=new Set(['research article','research-article']);
+   const og=metadata['og:type'],ogOK=!Object.prototype.hasOwnProperty.call(metadata,'og:type')||
+    (Array.isArray(og)&&og.length===1&&typeof og[0]==='string'&&/^[\x20-\x7e]+$/.test(og[0])&&og[0].trim().toLowerCase()==='article');
+   if(row.document_type==='research_paper'&&[null,undefined,'','research_paper'].includes(row.verified_document_type)&&
+    Array.isArray(explicit)&&explicit.length===1&&tags.length>0&&ogOK&&tags.every(values=>Array.isArray(values)&&values.length===1&&
+      typeof values[0]==='string'&&/^[\x20-\x7e]+$/.test(values[0])&&accepted.has(values[0].trim().toLowerCase())))
+     checks.format={status:'passed',evidence:{...proof,method:'publisher explicitly identifies a research article'}};
+  }
  }
- return {status:'audited',checks,format_verified:false,quality_verified:false,classification_verified:false,publication_authorized:false};
+ return {status:'audited',checks,format_verified:!!checks.format,quality_verified:false,classification_verified:false,publication_authorized:false};
 }
 module.exports={audit};

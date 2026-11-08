@@ -102,7 +102,7 @@ def post(action, payload, token, *, opener=None):
     elif action == 'source_gate':
         receipt, gate = result.get('receipt_path'), result.get('gate')
         if (not isinstance(receipt, str) or not re.fullmatch(r'config/content_review_source_gate_checkpoints/[0-9a-f]{64}\.json', receipt) or
-            gate not in ('access', 'metadata') or result.get('candidate_processing') is not True or
+            gate not in ('format', 'access', 'metadata') or result.get('candidate_processing') is not True or
             result.get('native_completion_verified') is not False or result.get('publication_verified') is not False):
             return {'status': 'outcome_unknown', 'action': action, 'reconcile_before_retry': True}
         output.update(receipt_path=receipt, gate=gate, candidate_processing=True,

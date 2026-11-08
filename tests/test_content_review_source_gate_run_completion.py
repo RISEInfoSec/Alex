@@ -10,8 +10,8 @@ from tools.content_review.source_gate_run_completion import prepare
 from tools.content_review.verified_inputs import load_inputs
 
 
-def fixture(repo, *, pending=False):
-    value=source_fixture(repo);old=value['input']['expectedHead'];main=value['input']['expectedMain']
+def fixture(repo, *, pending=False,gate='access'):
+    value=source_fixture(repo,gate=gate);old=value['input']['expectedHead'];main=value['input']['expectedMain']
     state=json.loads(value['files'][old+':config/content_review_worker_status.json']['content'])
     prior=deepcopy(state['current_run']);now=(datetime.fromtimestamp(value['now']/1000,timezone.utc)+timedelta(seconds=1)).replace(microsecond=0)
     started=now.isoformat()
@@ -34,7 +34,7 @@ def fixture(repo, *, pending=False):
     git(repo,'checkout','-qb','completion-heartbeat');put(repo,'config/content_review_detached_heartbeat.json',beat)
     git(repo,'add','.');git(repo,'commit','-qm','heartbeat');hb=git(repo,'rev-parse','HEAD');git(repo,'checkout','-q',branch)
     inputs=load_inputs(repo,review,main);row=inputs['manifests']['weekly']['records'][0]
-    proposal=checkpoint(repo,value['snapshot'],deepcopy(value['snapshot']),inputs,inputs['lifecycle'],state,'worker','run2','weekly',row['candidate_id'],'access',
+    proposal=checkpoint(repo,value['snapshot'],deepcopy(value['snapshot']),inputs,inputs['lifecycle'],state,'worker','run2','weekly',row['candidate_id'],gate,
         observed_heads={'review':review,'main':main},source_attempts={},source_progress={},at=now,heartbeat=beat)
     for path,content in proposal['files'].items():put(repo,path,content)
     git(repo,'add','.');git(repo,'commit','-qm','source gate');review=git(repo,'rev-parse','HEAD')
@@ -59,6 +59,13 @@ def test_source_gate_completion_releases_with_truthful_receipt(tmp_path):
     receipt=json.loads(result['files'][result['receipt_path']]);state=json.loads(result['files']['config/content_review_worker_status.json'])
     assert receipt['completed_actions'][0]['gate']=='access' and receipt['candidate_processing'] is True
     assert receipt['native_completion_verified'] is False and receipt['publication_approved'] is False and state['lease'] is None
+
+
+def test_format_completion_retains_scope_and_never_authorizes_publication(tmp_path):
+    values=fixture(tmp_path,gate='format');result=call(tmp_path,values)
+    receipt=json.loads(result['files'][result['receipt_path']])
+    assert receipt['completed_actions'][0]['gate']=='format' and receipt['candidate_processing'] is True
+    assert receipt['native_completion_verified'] is False and receipt['publication_approved'] is False
 
 
 def test_native_mismatch_and_intervening_head_fail_closed(tmp_path):

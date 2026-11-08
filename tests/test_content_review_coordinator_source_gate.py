@@ -28,7 +28,7 @@ def test_held_source_does_not_starve_next_candidate(monkeypatch):
         return {'status':'committed_and_read_back','commit_sha':commit,'receipt_path':'config/content_review_source_gate_checkpoints/'+'e'*64+'.json',
                 'gate':'access','candidate_processing':True,'native_completion_verified':False,'publication_verified':False}
     result=checkpoint_one('.','token',review,main,'owner','run',preparer=prepare,send=send,**kw)
-    assert calls==[('held','access'),('held','metadata'),('ready','access')]
+    assert calls==[('held','format'),('held','access'),('held','metadata'),('ready','format'),('ready','access')]
     assert result['status']=='checkpoint_confirmed_run_incomplete' and result['candidate_processing'] is True
 
 

@@ -61,7 +61,7 @@ def prepare(repo,review_head,main_head,heartbeat_head,native,snapshot,confirmed,
     record,_=_json(repo,review_head,checkpoint_path)
     collection,candidate,digest,gate=record.get('collection'),record.get('candidate_id'),record.get('content_sha256'),record.get('gate')
     if (record.get('schema_version')!=1 or record.get('kind')!='source_gate_checkpoint' or record.get('run_id')!=run_id or record.get('status')!='passed'
-        or not isinstance(collection,str) or not isinstance(candidate,str) or not re.fullmatch(r'[0-9a-f]{64}',digest or '') or gate not in ('access','metadata')
+        or not isinstance(collection,str) or not isinstance(candidate,str) or not re.fullmatch(r'[0-9a-f]{64}',digest or '') or gate not in ('format','access','metadata')
         or record.get('source_main_commit')!=main_head or record.get('publication_approved') is not False
         or any(record.get(k)!=0 for k in ('provider_requests','paid_requests','openalex_requests'))):
         raise ValueError('Source gate checkpoint invalid')

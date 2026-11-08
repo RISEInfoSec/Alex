@@ -57,7 +57,7 @@ def checkpoint_one(repo, token, review_head, main_head, owner, run_id, *, heads=
             matches = [x for x in rows if x.get('candidate_id') == item['candidate_id']]
             if len(matches) != 1:
                 raise ValueError('Source gate candidate is ambiguous')
-            for gate in ('access', 'metadata'):
+            for gate in ('format', 'access', 'metadata'):
                 if current_pass(matches[0], gate):
                     continue
                 candidate = preparer(repo, snapshot, confirmed, inputs, ledger, state, owner, run_id, item['collection'], item['candidate_id'], gate,

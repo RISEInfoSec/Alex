@@ -11,8 +11,8 @@ from tools.content_review.source_gate_run_completion import prepare
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def request(repo, *, pending=False):
-    value=actual_request(repo,pending=pending);head=value['input']['expectedHead'];main=value['input']['expectedMain'];hb=git(repo,'rev-parse','completion-heartbeat')
+def request(repo, *, pending=False,gate='access'):
+    value=actual_request(repo,pending=pending,gate=gate);head=value['input']['expectedHead'];main=value['input']['expectedMain'];hb=git(repo,'rev-parse','completion-heartbeat')
     now=datetime.fromtimestamp(value['now']/1000,timezone.utc)
     proposal=prepare(repo,head,main,hb,value['native'],value['snapshot'],deepcopy(value['snapshot']),'worker','run2',value['path'],at=now)
     value['input'].update(checkpointCommit=head,files=proposal['files'])
@@ -90,3 +90,14 @@ def test_source_gate_completion_preserves_pending_source_under_real_d1_fence(tmp
     result=invoke(request(tmp_path,pending=True),'success')
     assert result.get('result',{}).get('status')=='committed_and_read_back',result
     assert result['pending_preserved'] is True and result['fence']==[] and result['commits']==1
+
+
+@pytest.mark.parametrize('mode',['success','d1change','ambiguous'])
+def test_format_completion_reaudits_artifact_and_fences_d1(tmp_path,mode):
+    result=invoke(request(tmp_path,gate='format'),mode)
+    if mode=='success':
+        assert result.get('result',{}).get('status')=='committed_and_read_back',result
+        assert result['result']['candidate_processing'] is True and result['result']['native_completion_verified'] is False
+        assert result['commits']==1 and result['fence']==[]
+    if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
+    if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True

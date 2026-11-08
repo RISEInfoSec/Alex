@@ -296,6 +296,10 @@ The retained-source gate selects only candidates with a hash-matched source
 receipt before applying its five-candidate ceiling. A separately held source
 request does not block local evaluation of an unrelated retained receipt; the
 Site still rechecks its original artifact and private decisions before writing.
+Its format path is deliberately narrow: matching publisher bibliographic
+metadata must explicitly identify a research article, and conflicting document
+types are held. It does not infer research-paper format from a PDF or page
+alone, and this path remains unverified in a scheduled live run.
 
 The planner reports quality, classification and admission work as requiring a
 separate executor until guarded paths exist; those candidates cannot consume

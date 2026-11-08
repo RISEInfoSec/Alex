@@ -23,12 +23,17 @@ def rebeat(repo,state,review,now):
     git(repo,'checkout','-q',branch);return head
 
 
-def request(repo):
+def request(repo,gate='access'):
     now,review,main,hb,snapshot,source,raw,run,artifact=setup(repo)
     result=json.loads(raw);item=source['records'][0];url=item['url'];text='Actual published source evidence.'
+    metadata={}
+    if gate=='format':
+        row=json.loads((repo/'config/weekly_review_manifest.json').read_text())['records'][0]
+        metadata={'citation_title':[row['title']],'citation_author':[row['authors']],
+                  'citation_publication_date':[str(row['year'])],'citation_article_type':['research-article']}
     result['records'][0].update(status='retrieved',next_action='Inspect retained evidence.',evidence=[{
         'requested_url':url,'final_url':url,'text':text,'text_sha256':hashlib.sha256(text.encode()).hexdigest(),
-        'body_sha256':'f'*64,'retrieved_at':now.isoformat(),'http_status':200,'container_type':'html','metadata':{}}])
+        'body_sha256':'f'*64,'retrieved_at':now.isoformat(),'http_status':200,'container_type':'html','metadata':metadata}])
     raw=json.dumps(result).encode();artifact['sha256']=hashlib.sha256(raw).hexdigest()
     guarded=call_guard(repo,now,review,main,hb,snapshot,source,raw,run,artifact)
     for path,content in guarded['bundle']['files'].items():put(repo,path,content)
@@ -47,7 +52,7 @@ def request(repo):
     state=json.loads((repo/'config/content_review_worker_status.json').read_text());hb=rebeat(repo,state,review,now)
     inputs=load_inputs(repo,review,main)
     bundle=gate_checkpoint(repo,snapshot,deepcopy(snapshot),inputs,inputs['lifecycle'],state,'worker','run',
-        item['collection'],item['candidate_id'],'access',observed_heads={'review':review,'main':main},
+        item['collection'],item['candidate_id'],gate,observed_heads={'review':review,'main':main},
         source_attempts=state.get('source_attempts',{}),source_progress=state.get('source_last_progress',{}),at=now,
         heartbeat=json.loads(git(repo,'show',hb+':config/content_review_detached_heartbeat.json')))
     reservation=run['head_sha'];parent=git(repo,'rev-parse',reservation+'^')

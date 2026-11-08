@@ -1,4 +1,4 @@
-"""Derive narrow access and bibliographic checks from retained source evidence.
+"""Derive narrow access, bibliographic and explicit-type checks from source evidence.
 
 This is a conservative, offline audit. A retrieval alone never proves format,
 quality, classification, readiness, or publication. The Site must independently
@@ -92,5 +92,19 @@ def audit(row, collection, receipt, *, now=None):
                 expected_names and all(expected_names) and expected_names == actual_names and
                 isinstance(dates, list) and len(dates) == 1 and isinstance(dates[0], str) and re.match(r'^' + year + r'(?:\D|$)', dates[0]) and doi_ok):
             checks['metadata'] = {'status': 'passed', 'evidence': {**proof, 'method': 'exact publisher citation metadata'}}
-    return {'status': 'audited', 'checks': checks, 'format_verified': False, 'quality_verified': False,
+            # Require an explicit research-article type on the same exact-match
+            # publisher record. Generic HTML/PDF containers, journals, talks,
+            # slides and ambiguous or conflicting type tags are insufficient.
+            tags=[metadata[k] for k in ('citation_article_type','citation_type','dc.type','dcterms.type') if k in metadata]
+            explicit=metadata.get('citation_article_type')
+            accepted={'research article','research-article'}
+            og=metadata.get('og:type')
+            og_ok=('og:type' not in metadata or (isinstance(og,list) and len(og)==1 and isinstance(og[0],str)
+                   and ASCII.fullmatch(og[0]) and og[0].strip().lower()=='article'))
+            if (row.get('document_type')=='research_paper' and row.get('verified_document_type') in (None,'','research_paper')
+                and isinstance(explicit,list) and len(explicit)==1 and tags and og_ok and
+                all(isinstance(values,list) and len(values)==1 and isinstance(values[0],str) and
+                    ASCII.fullmatch(values[0]) and values[0].strip().lower() in accepted for values in tags)):
+                checks['format']={'status':'passed','evidence':{**proof,'method':'publisher explicitly identifies a research article'}}
+    return {'status': 'audited', 'checks': checks, 'format_verified': 'format' in checks, 'quality_verified': False,
             'classification_verified': False, 'publication_authorized': False}

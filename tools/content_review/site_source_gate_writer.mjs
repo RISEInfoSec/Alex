@@ -36,7 +36,7 @@ export async function writeSourceGate({db,github,getToken,input,now=()=>Date.now
   ledger:JSON.parse(files[LEDGER]),stage:JSON.parse(files[STAGE]),state:JSON.parse(files[STATE])};}catch{throw Error('Source gate JSON invalid');}
  if(receipt?.run_id!==input.runId||receipt.source_review_commit!==input.expectedHead||receipt.source_main_commit!==input.expectedMain||
   !ID.test(receipt.collection||'')||!ID.test(receipt.candidate_id||'')||!HASH.test(receipt.content_sha256||'')||
-  !['access','metadata'].includes(receipt.gate)||!/^config\/content_review_source_receipts\/[0-9a-f]{64}\.json$/.test(receipt.source_receipt||''))
+  !['format','access','metadata'].includes(receipt.gate)||!/^config\/content_review_source_receipts\/[0-9a-f]{64}\.json$/.test(receipt.source_receipt||''))
   throw Error('Source gate receipt identity invalid');
  const requestId=receipt.source_receipt.split('/').pop().slice(0,-5),requestPath='config/content_review_source_requests/'+requestId+'.json';
  const expectedReceipt='config/content_review_source_gate_checkpoints/'+fingerprints.sha256(input.runId+'\0'+receipt.collection+':'+receipt.candidate_id+'\0'+receipt.content_sha256+'\0'+receipt.gate)+'.json';

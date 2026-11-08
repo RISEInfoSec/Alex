@@ -87,6 +87,8 @@ def test_source_gate_requires_confirmed_receipt_and_never_claims_publication():
     opener=Opener(Response(response));result=post('source_gate',{},'secret-value',opener=opener)
     assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-gate' and opener.requests[0][1]==180
     assert result['gate']=='access' and result['candidate_processing'] is True and result['publication_verified'] is False
+    response['gate']='format'
+    assert post('source_gate',{},'secret-value',opener=Opener(Response(response)))['gate']=='format'
     response['gate']='quality'
     assert post('source_gate',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
 

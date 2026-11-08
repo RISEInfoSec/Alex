@@ -18,7 +18,7 @@ export function mechanicalReceipt(checkpoint,receipt,target){
  if(!action||!ID.test(action.collection||'')||!ID.test(action.candidate_id||'')||
   !SHA.test(action.content_sha256||''))return null;
  const duplicate=action.gate==='duplicates'&&PATH.test(action.path||'');
- const source=receipt.kind==='source_gate_completion'&&receipt.candidate_processing===true&&['access','metadata'].includes(action.gate)&&SOURCE_PATH.test(action.path||'');
+ const source=receipt.kind==='source_gate_completion'&&receipt.candidate_processing===true&&['format','access','metadata'].includes(action.gate)&&SOURCE_PATH.test(action.path||'');
  if(!duplicate&&!source)return null;
  return {native_run_id:id,trigger:'schedule',observed_at:receipt.completed_at,local_candidates:1,duplicate_gate_passes:duplicate?1:0,
   source_requests:0,source_gate_passes:source?1:0,downstream_gate_passes:0,six_gate_completions:0,newly_review_ready:0,publications:0,

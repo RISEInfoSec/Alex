@@ -38,7 +38,7 @@ function validateSourceGate({before,after,receipt,sourceReceipt,sourceReceiptBlo
   'source_review_commit','source_main_commit','source_receipt','provider_requests','paid_requests','openalex_requests','publication_approved'].sort();
  const when=Date.parse(receipt.checked_at||'');
  if(!equal(Object.keys(receipt).sort(),fields)||receipt.schema_version!==1||receipt.kind!=='source_gate_checkpoint'||receipt.status!=='passed'||
-  !ID.test(receipt.run_id||'')||!ID.test(receipt.collection||'')||!ID.test(receipt.candidate_id||'')||!['access','metadata'].includes(receipt.gate)||
+  !ID.test(receipt.run_id||'')||!ID.test(receipt.collection||'')||!ID.test(receipt.candidate_id||'')||!['format','access','metadata'].includes(receipt.gate)||
   !HASH.test(receipt.content_sha256||'')||!SHA.test(receipt.source_review_commit||'')||!SHA.test(receipt.source_main_commit||'')||
   !/^config\/content_review_source_receipts\/[0-9a-f]{64}\.json$/.test(receipt.source_receipt||'')||
   !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{1,6})?\+00:00$/.test(receipt.checked_at||'')||

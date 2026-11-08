@@ -45,7 +45,7 @@ export async function verifySourceGateCheckpoint({github,getToken,input,checkpoi
  if(artifactReader)options.artifactReader=artifactReader;
  const result=await sourceAudit(options);await verify();
  if(result?.status!=='validated'||result.receipt_path!==path||result.candidate_processing!==true||result.publication_verified!==false||
-  !['access','metadata'].includes(result.gate)||!ID.test(result.collection||'')||!ID.test(result.candidate_id||'')||!/^[0-9a-f]{64}$/.test(result.content_sha256||''))
+  !['format','access','metadata'].includes(result.gate)||!ID.test(result.collection||'')||!ID.test(result.candidate_id||'')||!/^[0-9a-f]{64}$/.test(result.content_sha256||''))
   throw Error('Source checkpoint independent audit failed');
  return {path,collection:result.collection,candidate_id:result.candidate_id,content_sha256:result.content_sha256,gate:result.gate};
 }
