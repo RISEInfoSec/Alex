@@ -16,6 +16,10 @@ from tools.content_review.verified_inputs import SHA
 
 ID=re.compile(r'^[a-zA-Z0-9-]{1,100}$')
 RECEIPT=re.compile(r'^config/content_review_source_receipts/[0-9a-f]{64}\.json$')
+SAFE_SITE_REASONS=frozenset({'invalid_request','request_too_large','worker_not_verified','source_head_changed',
+    'decisions_changed','service_access_required','source_result_unavailable',
+    'heartbeat_unconfirmed_reconcile_ref','fence_state_unconfirmed','commit_unconfirmed_reconcile_fence',
+    'site_response_unavailable'})
 
 
 def account(repo,token,review_head,main_head,owner,run_id,source_run_id,artifact_id,*,heads=read_heads,fetch=fetch_heads,
@@ -51,10 +55,18 @@ def account(repo,token,review_head,main_head,owner,run_id,source_run_id,artifact
         raise ValueError('Source accounting proposal unavailable')
     refs=heads(repo)
     if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Source accounting heads changed')
+    # The final Git ref read can itself take longer than the Site's heartbeat
+    # freshness window. Renew after that read, then let the Site own all
+    # renewal during its independent verification and fenced write.
+    final=pulse_factory(repo,token,review_head,main_head,owner,run_id)()
+    if not isinstance(final,dict) or final.get('status')!='committed_and_read_back' or not SHA.fullmatch(final.get('commit_sha') or ''):
+        raise ValueError('Heartbeat outcome unconfirmed; reconcile before retrying')
     result=send('source_result',{'expectedHead':review_head,'expectedMain':main_head,'owner':owner,'runId':run_id,
                                 'sourceRunId':source_run_id,'artifactId':artifact_id,'files':bundle['files']},token)
     if not isinstance(result,dict) or result.get('status')!='committed_and_read_back':
         return {'status':'blocked','reason':'source_accounting_not_confirmed','reconcile_before_retry':True,
+                'site_reason':result.get('reason') if isinstance(result,dict) and isinstance(result.get('reason'),str) and result['reason'] in SAFE_SITE_REASONS else None,
+                'site_http_status':result.get('http_status') if isinstance(result,dict) and type(result.get('http_status')) is int and 400<=result['http_status']<=599 else None,
                 'source_workflow_verified':None,'candidate_processing':False,'publication_verified':False}
     commit,path=result.get('commit_sha'),result.get('receipt_path')
     if not SHA.fullmatch(commit or '') or not isinstance(path,str) or not RECEIPT.fullmatch(path) or result.get('source_workflow_verified') is not True or \

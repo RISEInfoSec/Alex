@@ -8,6 +8,7 @@ import json
 from tools.content_review.coordinator_heartbeat_transport import read_heads,fetch_heads,REVIEW,MAIN
 from tools.content_review.coordinator_lifecycle import complete as complete_mechanical
 from tools.content_review.coordinator_source_accounting import account
+from tools.content_review.coordinator_source_accounting import SAFE_SITE_REASONS
 from tools.content_review.coordinator_source_completion import complete as complete_source
 from tools.content_review.coordinator_source_discovery import discover_reserved
 from tools.content_review.coordinator_source_pending import defer
@@ -67,5 +68,7 @@ def source_pass(repo,token,native,review_head,main_head,owner,run_id,*,heads=rea
     accounted=accounting(repo,token,review_head,main_head,owner,run_id,source_run_id,artifact_id)
     if accounted.get('status')!='source_accounted' or accounted.get('heartbeat_rebound') is not True:
         return {'status':'blocked','reason':'source_accounting_unconfirmed','reconcile_before_retry':True,
+                'site_reason':accounted.get('site_reason') if isinstance(accounted.get('site_reason'),str) and accounted['site_reason'] in SAFE_SITE_REASONS else None,
+                'site_http_status':accounted.get('site_http_status') if type(accounted.get('site_http_status')) is int and 400<=accounted['site_http_status']<=599 else None,
                 'candidate_processing':False,'lease_release_confirmed':False,'native_completion_verified':False}
     return source_finish(repo,token,native,accounted['commit_sha'],main_head,owner,run_id,source_run_id,artifact_id)
