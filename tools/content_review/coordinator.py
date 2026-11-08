@@ -6,6 +6,7 @@ No network, provider calls, GitHub writes, or publication occur in this module.
 from collections import Counter
 from datetime import datetime, timezone
 import json
+import re
 import sys
 
 from tools.content_review.d1_reconcile import select_reconciled
@@ -17,7 +18,8 @@ MAX_CANDIDATES = 10000
 
 
 def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
-         owner, run_id, *, source_attempts, source_progress, at=None, heartbeat=None, review_head=None, stages=None):
+         owner, run_id, *, source_attempts, source_progress, at=None, heartbeat=None, review_head=None, stages=None,
+         retained_source_only=False):
     now = at or datetime.now(timezone.utc)
     if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError('Timezone-aware observation required')
@@ -45,6 +47,8 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     if stages is not None and (not isinstance(stages,(tuple,list)) or not stages or
                                any(not isinstance(x,str) or x not in valid_stages for x in stages) or len(stages)!=len(set(stages))):
         raise ValueError('Invalid bounded stage selection')
+    if type(retained_source_only) is not bool or (retained_source_only and (stages is None or set(stages)!={'source','metadata'})):
+        raise ValueError('Invalid retained-source selection')
     if (source_attempts != state.get('source_attempts', {}) or
             source_progress != state.get('source_last_progress', {})):
         raise ValueError('Collection scheduling history differs from current worker state')
@@ -77,12 +81,17 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
                                limit=MAX_CANDIDATES, source_progress=source_progress,
                                source_attempts=source_attempts)
     unresolved_keys,unresolved_hosts=validate_unresolved(state.get('source_unresolved_requests',[]))
+    def retained(item):
+        row=index[(item['collection'],item['candidate_id'])];source=row.get('source_processing')
+        return (isinstance(source,dict) and source.get('retrieval_status')=='retrieved' and
+                source.get('content_sha256')==row.get('content_sha256') and isinstance(source.get('receipt'),str) and
+                bool(re.fullmatch(r'config/content_review_source_receipts/[0-9a-f]{64}\.json',source['receipt'])))
     def source_hold(item):
         key=(item['collection'],item['candidate_id'])
         if key in unresolved_keys:return True
         # A failed workflow may have followed an unknown redirect. Until its
         # request history is reconciled, no source destination is provably safe.
-        return item['next_stage']=='source' and bool(unresolved_hosts)
+        return item['next_stage']=='source' and bool(unresolved_hosts) and not (retained_source_only and retained(item))
     # APWG and corpus audit still require their own execution adapters. Virus
     # Bulletin has independently checked duplicate and source-reservation paths;
     # do not select its later gates until those paths have been implemented.
@@ -91,6 +100,7 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     eligible = [item for item in result['selected'] if item['collection'] not in special
                 and not source_hold(item)
                 and item['next_stage'] in supported_stages
+                and (not retained_source_only or retained(item))
                 and (item['collection'] != 'virusbulletin' or item['next_stage'] in ('duplicates', 'source'))]
     stage_eligible=[item for item in eligible if stages is None or item['next_stage'] in stages]
     history=state.get('run_history',[])

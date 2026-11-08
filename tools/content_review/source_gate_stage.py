@@ -29,7 +29,7 @@ def prepare(repo, snapshot, confirmed, inputs, ledger, state, owner, run_id, col
         raise ValueError('Collection requires its separate adapter')
     selection = plan(snapshot, confirmed, inputs['reconciliation_manifests'], ledger, inputs['registry'], state, owner, run_id,
                      source_attempts=source_attempts, source_progress=source_progress, at=now,
-                     heartbeat=heartbeat, review_head=inputs['review_commit'])
+                     heartbeat=heartbeat, review_head=inputs['review_commit'],stages=('source','metadata'),retained_source_only=True)
     selected = [x for x in selection['selected'] if x['collection'] == collection and x['candidate_id'] == candidate_id]
     if len(selected) != 1 or selected[0]['next_stage'] not in ('source', 'metadata'):
         raise ValueError('Candidate is not selected for source evidence')

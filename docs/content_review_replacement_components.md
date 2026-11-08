@@ -292,6 +292,11 @@ attempt, not as source-retrieval progress. Dynamic inventories, unavailable
 executors and failures still need runtime observation; this change is not yet a
 deployed fairness guarantee.
 
+The retained-source gate selects only candidates with a hash-matched source
+receipt before applying its five-candidate ceiling. A separately held source
+request does not block local evaluation of an unrelated retained receipt; the
+Site still rechecks its original artifact and private decisions before writing.
+
 The planner reports quality, classification and admission work as requiring a
 separate executor until guarded paths exist; those candidates cannot consume
 the bounded slots for executable duplicate or source work. The Python and Site

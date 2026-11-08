@@ -142,6 +142,31 @@ def test_rotation_reaches_candidates_after_a_full_window_of_held_checks():
         plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},at=now)
 
 
+def test_retained_source_selection_is_fair_and_safe_under_an_unresolved_failure():
+    from tests.test_content_review_source_unresolved import sample
+    from tools.content_review.source_unresolved import from_failure
+    now,snap,manifests,ledger,registry,state=fixture();request,pending,discovery=sample()
+    state['source_unresolved_requests']=[from_failure(request,pending,discovery)]
+    original=manifests['weekly']['records'][1];digest=original['content_sha256']
+    retained=deepcopy(original);retained.update(candidate_id='retained-peer',review_number=3,
+        source_processing={'retrieval_status':'retrieved','content_sha256':digest,
+                           'receipt':'config/content_review_source_receipts/'+'d'*64+'.json'},
+        preflight={'checks':{'duplicates':{'status':'passed','content_sha256':digest,
+            'checked_at':now.isoformat(),'evidence':{'verified':True}}}})
+    manifests['weekly']['records'].append(retained);ledger['records']['weekly:retained-peer']=deepcopy(ledger['records']['weekly:fresh'])
+    for n in range(6):
+        peer=deepcopy(original);peer.update(candidate_id='duplicate-'+str(n),review_number=n+4)
+        manifests['weekly']['records'].append(peer);ledger['records']['weekly:'+peer['candidate_id']]=deepcopy(ledger['records']['weekly:fresh'])
+    args=(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run')
+    result=plan(*args,source_attempts={},source_progress={},at=now,stages=('source','metadata'),retained_source_only=True)
+    assert [x['candidate_id'] for x in result['selected']]==['retained-peer']
+    retained['source_processing']['receipt']='config/unsafe.json'
+    result=plan(*args,source_attempts={},source_progress={},at=now,stages=('source','metadata'),retained_source_only=True)
+    assert result['selected']==[]
+    with pytest.raises(ValueError,match='retained-source'):
+        plan(*args,source_attempts={},source_progress={},at=now,stages=('duplicates',),retained_source_only=True)
+
+
 def test_superseded_decision_is_reported_as_hold_even_for_preflight_rows():
     now,snap,manifests,ledger,registry,state=fixture()
     old=deepcopy(snap['decisions'][0]);old.update(id='d-old',candidate_id='fresh',review_number=2,content_sha256='c'*64)
