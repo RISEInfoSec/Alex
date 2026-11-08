@@ -26,12 +26,15 @@ def _state(repo,head):
 
 def source_pass(repo,token,native,review_head,main_head,owner,run_id,*,heads=read_heads,fetch=fetch_heads,state_reader=_state,
                 reservation_finder=find_reservation,reserver=reserve,discovery=discover_reserved,accounting=account,
-                retention=retain,source_finish=complete_source,pending_finish=defer,empty_finish=complete_mechanical):
+                retention=retain,source_finish=complete_source,pending_finish=defer,empty_finish=complete_mechanical,
+                quality_evidence=False):
+    if type(quality_evidence) is not bool:raise ValueError('Source evidence mode invalid')
     refs=heads(repo)
     if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Source cycle heads changed')
     fetch(repo,refs,run_id);state=state_reader(repo,review_head);pending=state['current_run'].get('pending_source_request')
     if pending is None:
-        prepared=reserver(repo,token,review_head,main_head,owner,run_id)
+        kwargs={'quality_evidence':True} if quality_evidence else {}
+        prepared=reserver(repo,token,review_head,main_head,owner,run_id,**kwargs)
         if prepared.get('status')=='source_retention_required':
             items=prepared.get('items')
             if not isinstance(items,list) or not 1<=len(items)<=5:raise ValueError('Source retention inventory invalid')

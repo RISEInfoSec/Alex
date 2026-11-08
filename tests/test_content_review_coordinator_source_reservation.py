@@ -45,3 +45,13 @@ def test_accounted_source_evidence_is_selected_before_any_new_request():
         planner=lambda *a,**k:{'status':'pending_source_retention','pending':[item]},
         send=lambda *a:calls.append('sent'))
     assert result['status']=='source_retention_required' and result['items']==[item] and calls==[]
+
+
+def test_quality_reservation_uses_same_budget_and_does_not_infer_gate_progress():
+    review,main,beat='a'*40,'b'*40,'c'*40;refs={REVIEW:review,MAIN:main,HEARTBEAT:beat};calls=[]
+    result=reserve('.','secret',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,
+        snapshot_reader=lambda _:({},{}),pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},
+        keeper_factory=Keeper,budget_reader=lambda *a:0,quality_evidence=True,
+        planner=lambda *a,**k:(calls.append(k) or {'status':'no_due_source_in_plan'}))
+    assert calls[0]['quality_evidence'] is True and calls[0]['source_requests_used']==0
+    assert result['status']=='deferred' and result['candidate_processing'] is False

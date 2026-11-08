@@ -29,10 +29,11 @@ def source_used(repo,head):
 
 def reserve(repo,token,review_head,main_head,owner,run_id,*,heads=read_heads,fetch=fetch_heads,snapshot_reader=read_snapshot,
             pulse_factory=DetachedHeartbeatPulse,keeper_factory=HeartbeatKeeper,planner=prepare_plan,guard=prepare_reservation,
-            send=post,clock=None,budget_reader=source_used):
+            send=post,clock=None,budget_reader=source_used,quality_evidence=False):
     if not SHA.fullmatch(review_head or '') or not SHA.fullmatch(main_head or '') or not ID.fullmatch(owner or '') or not ID.fullmatch(run_id or ''):
         raise ValueError('Invalid source coordinator identity or source heads')
     if not isinstance(token,str) or not token or '\n' in token or '\r' in token:raise ValueError('Source coordinator access unavailable')
+    if type(quality_evidence) is not bool:raise ValueError('Source evidence mode invalid')
     clock=clock or (lambda:datetime.now(timezone.utc));pulse=pulse_factory(repo,token,review_head,main_head,owner,run_id)
     with keeper_factory(pulse) as keeper:
         refs=heads(repo)
@@ -48,8 +49,9 @@ def reserve(repo,token,review_head,main_head,owner,run_id,*,heads=read_heads,fet
                     'source_request_reserved':False,'publication_verified':False}
         # The plan uses exact Git blobs and the on-branch source budget. The
         # caller has not made source requests in this stage.
+        kwargs={'quality_evidence':True} if quality_evidence else {}
         proposal=planner(repo,review_head,main_head,refs[HEARTBEAT],snapshot,confirmed,owner,run_id,
-                         observed_heads={'review':review_head,'main':main_head},source_requests_used=used,at=clock())
+                         observed_heads={'review':review_head,'main':main_head},source_requests_used=used,at=clock(),**kwargs)
         if proposal.get('status')=='pending_source_retention':
             items=proposal.get('pending')
             if not isinstance(items,list) or not 1<=len(items)<=5:raise ValueError('Pending source retention inventory invalid')

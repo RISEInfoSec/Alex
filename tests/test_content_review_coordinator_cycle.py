@@ -1,4 +1,4 @@
-from tools.content_review.coordinator_cycle import mechanical_pass, soups_intake_due, pending_rotation
+from tools.content_review.coordinator_cycle import mechanical_pass, soups_intake_due, pending_rotation, quality_evidence_due
 from tools.content_review.coordinator_heartbeat_transport import REVIEW, MAIN
 
 
@@ -118,6 +118,22 @@ def test_source_first_cycle_requests_evidence_only_when_no_retained_gate_is_read
     calls=[]
     result=mechanical_pass('.','secret',{},'worker','run',begin=lambda *a:{'status':'lease_started','review_head':'a'*40,'main_head':'b'*40},
         pending_checker=lambda *a:False,intake_selector=lambda *a:False,gate_selector=lambda *a:True,
+        quality_selector=lambda *a:False,
         source_gate=lambda *a:(calls.append('gate') or {'status':'deferred'}),
         source_runner=lambda *a:(calls.append('source') or {'status':'deferred','candidate_processing':False}))
     assert calls==['gate','source'] and result['candidate_processing'] is False
+
+
+def test_quality_source_rotation_is_bounded_and_does_not_claim_a_gate():
+    review,main='a'*40,'b'*40;refs={REVIEW:review,MAIN:main}
+    def due(n):
+        state={'current_run':{'run_id':'run'},'run_history':[{'run_id':str(i)} for i in range(n)]}
+        return quality_evidence_due('.',review,main,'run',heads=lambda _:refs,fetch=lambda *a:None,state_reader=lambda *a:state)
+    assert [n for n in range(20) if due(n)]==[3,11,19]
+    calls=[]
+    result=mechanical_pass('.','secret',{},'worker','run',
+        begin=lambda *a:{'status':'lease_started','review_head':review,'main_head':main},
+        pending_checker=lambda *a:False,intake_selector=lambda *a:False,gate_selector=lambda *a:True,
+        source_gate=lambda *a:{'status':'deferred'},quality_selector=lambda *a:True,
+        source_runner=lambda *a,**k:(calls.append(k) or {'status':'deferred','candidate_processing':False}))
+    assert calls==[{'quality_evidence':True}] and result['candidate_processing'] is False

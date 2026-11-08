@@ -40,3 +40,12 @@ def test_uncertain_source_write_stops_without_completion_or_retry():
         state_reader=lambda *a:{'current_run':{}},reserver=lambda *a:{'status':'blocked'},
         discovery=lambda *a:calls.append('discover'),pending_finish=lambda *a:calls.append('release'))
     assert result['reconcile_before_retry'] is True and result['lease_release_confirmed'] is False and calls==[]
+
+
+def test_quality_source_request_uses_the_existing_guarded_reservation_and_release():
+    review,main='a'*40,'b'*40;refs={REVIEW:review,MAIN:main};calls=[]
+    def reserve(*args,**kwargs):calls.append(kwargs);return {'status':'deferred','candidate_processing':False}
+    result=source_pass('.','secret',{},review,main,'worker','run',heads=lambda _:refs,fetch=lambda *a:None,
+        state_reader=lambda *a:{'current_run':{}},reserver=reserve,quality_evidence=True,
+        empty_finish=lambda *a:{'status':'deferred','candidate_processing':False,'lease_release_confirmed':True})
+    assert calls==[{'quality_evidence':True}] and result['candidate_processing'] is False
