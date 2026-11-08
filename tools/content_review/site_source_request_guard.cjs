@@ -7,6 +7,7 @@ const {fingerprint,sha256}=require('./d1_fingerprint.cjs');
 const {pyJson}=require('./soups_intake_site_guard.cjs');
 const {validateSnapshot,complete}=require('./site_duplicate_semantics.cjs');
 const sourceBackoff=require('./site_source_origin_backoff.cjs');
+const {identity:reviewIdentity}=require('./site_review_identity.cjs');
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const canonical=x=>Array.isArray(x)?x.map(canonical):object(x)?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
 const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
@@ -61,7 +62,7 @@ function validateSourceRequest({before,after,request,manifests,manifestHashes,le
   for(const k of ['title','authors','year','doi','source_url','abstract','document_type'])content[k]=field(row,k,'');
   if(row.content_sha256!==item.content_sha256||sha256(pyJson(content))!==item.content_sha256||row.source_url!==item.url||
    !['pending','unreviewed'].includes(field(row,'decision','pending'))||row.publication_status==='published_live_verified'||
-   row.publication_approved===true||!Number.isSafeInteger(row.review_number)||row.review_number<1||!pass(row,'duplicates')||
+   row.publication_approved===true||!pass(row,'duplicates')||
    (pass(row,'format')&&pass(row,'access'))||(row.source_processing?.content_sha256===item.content_sha256&&['retrieved','held'].includes(row.source_processing?.retrieval_status))||
    sourceBackoff.active(before.source_origin_backoff??{},item.url,when))
    throw Error('Source candidate is ineligible');
@@ -70,9 +71,8 @@ function validateSourceRequest({before,after,request,manifests,manifestHashes,le
    entry.attempts.some(a=>!object(a)||a.outcome!=='success')||
    (entry.next_retry_at&&(!Number.isFinite(Date.parse(entry.next_retry_at))||Date.parse(entry.next_retry_at)>when)))
    throw Error('Source lifecycle is outside guarded scope');
-  const number=row.review_number,batch=row.review_batch??row.batch??(item.collection==='soups'?(number<=100?Math.ceil(number/20):
-   number<=118?6:7+Math.floor((number-119)/20)):Math.ceil(number/20));
-  if(!Number.isSafeInteger(batch)||batch<1||snapshot.submissions.some(s=>s.collection===item.collection&&s.batch===batch)||
+  const {number,batch}=reviewIdentity(item.collection,row,manifest);
+  if(snapshot.submissions.some(s=>s.collection===item.collection&&s.batch===batch)||
    snapshot.decisions.some(d=>d.collection===item.collection&&(d.candidate_id===item.candidate_id||d.review_number===number))||
    snapshot.jobs.some(j=>j.collection===item.collection&&j.candidate_id===item.candidate_id))throw Error('Source candidate has review state');
  }

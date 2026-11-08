@@ -6,6 +6,7 @@
 // module neither authorizes nor writes a checkpoint.
 const {fingerprint,sha256}=require('./d1_fingerprint.cjs');
 const {pyJson}=require('./soups_intake_site_guard.cjs');
+const {identity}=require('./site_review_identity.cjs');
 const GATES=['format','access','metadata','duplicates','quality','schema'];
 const REASON='Initial mechanical checks incomplete; no new failed attempt inferred from a stored hold.';
 const SHA=/^[0-9a-f]{40}$/,HASH=/^[0-9a-f]{64}$/,ID=/^[a-zA-Z0-9-]{1,100}$/;
@@ -103,7 +104,7 @@ function validateDuplicate({before,after,receipt,snapshot,confirmed,audit,expect
  }
  if(found!==1||newRow.candidate_id!==id||oldRow.content_sha256!==content||newRow.content_sha256!==content||
   !['pending','unreviewed'].includes(field(oldRow,'decision','pending'))||oldRow.publication_status==='published_live_verified'||
-  oldRow.publication_approved===true||!Number.isSafeInteger(oldRow.review_number)||oldRow.review_number<1||
+  oldRow.publication_approved===true||
   !object(oldRow.preflight)||!object(oldRow.preflight.checks)||!object(newRow.preflight)||!object(newRow.preflight.checks)||
   pass(oldRow,'duplicates')||pass(oldRow,'format'))fail('Candidate is outside guarded duplicate scope');
  const contentFields={};for(const k of ['title','authors','year','doi','source_url','abstract','document_type'])contentFields[k]=field(oldRow,k,'');
@@ -117,9 +118,8 @@ function validateDuplicate({before,after,receipt,snapshot,confirmed,audit,expect
  // Conservatively hold every candidate with any historical decision, review
  // number collision, or submission for its collection/batch. The fence will
  // recheck the complete snapshot immediately before the atomic update.
- const batch=oldRow.review_batch??oldRow.batch??(collection==='soups'?(oldRow.review_number<=100?Math.ceil(oldRow.review_number/20):
-  oldRow.review_number<=118?6:7+Math.floor((oldRow.review_number-119)/20)):Math.ceil(oldRow.review_number/20));
- if(!Number.isSafeInteger(batch)||batch<1||snapshot.decisions.some(d=>d.collection===collection&&(d.candidate_id===id||d.review_number===oldRow.review_number))||
+ const {number,batch}=identity(collection,oldRow,before.manifest);
+ if(snapshot.decisions.some(d=>d.collection===collection&&(d.candidate_id===id||d.review_number===number))||
   snapshot.submissions.some(s=>s.collection===collection&&s.batch===batch)||snapshot.jobs.some(j=>j.collection===collection&&j.candidate_id===id))
   fail('Candidate has review state');
  const stateBefore=before.state,stateAfter=after.state;

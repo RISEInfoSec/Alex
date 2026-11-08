@@ -52,6 +52,30 @@ def test_site_guard_refuses_active_origin_backoff_and_retained_holds(tmp_path):
     assert invoke(data).returncode!=0
 
 
+def test_reserved_soups_identity_allows_source_but_rejects_collision_and_review_state(tmp_path):
+    data=value(tmp_path)
+    data['manifests']['soups']=data['manifests'].pop('weekly')
+    data['manifestHashes']['soups']=data['manifestHashes'].pop('weekly')
+    item=data['request']['records'][0];item['collection']='soups'
+    row=data['manifests']['soups']['records'][0]
+    row.pop('review_number',None);row.pop('review_batch',None);row.pop('batch',None)
+    row.update(reserved_review_number=201,reserved_review_batch=11)
+    data['ledger']['records']['soups:'+item['candidate_id']]=data['ledger']['records'].pop('weekly:'+item['candidate_id'])
+    resign(data)
+    result=invoke(data);assert result.returncode==0,result.stderr
+    collided=deepcopy(data)
+    collided['manifests']['soups']['records'].append({'candidate_id':'other','review_number':201})
+    assert invoke(collided).returncode!=0
+    reviewed=deepcopy(data)
+    for snap in (reviewed['snapshot'],reviewed['confirmed']):
+        snap['submissions']=[{'id':'s','user_id':'owner','collection':'soups','batch':11,'revision':1,
+                              'accepted':0,'rejected':1,'payload_hash':'a'*64}]
+        snap['decisions']=[{'id':'d','submission_id':'s','user_id':'owner','collection':'soups','batch':11,'revision':1,
+                            'candidate_id':item['candidate_id'],'review_number':201,'content_sha256':row['content_sha256'],'decision':'rejected'}]
+        for k in ('submissions','decisions'):snap['read_evidence'][k]['rows_received']=1
+    assert invoke(reviewed).returncode!=0
+
+
 @pytest.mark.parametrize('change',['url','openalex','hash','budget','state','snapshot','decision','retrieved','duplicate','expired'])
 def test_site_guard_rejects_unchecked_source_requests(tmp_path,change):
     data=value(tmp_path)

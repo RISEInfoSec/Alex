@@ -5,6 +5,7 @@
 // and must fence/recheck D1 immediately before any atomic Git update.
 const {fingerprint,sha256}=require('./d1_fingerprint.cjs');
 const {pyJson}=require('./soups_intake_site_guard.cjs');
+const {identity}=require('./site_review_identity.cjs');
 const {complete,validateSnapshot}=require('./site_duplicate_semantics.cjs');
 const sourceRules=require('./site_source_gate_rules.cjs');
 const GATES=['format','access','metadata','duplicates','quality','schema'];
@@ -58,7 +59,7 @@ function validateSourceGate({before,after,receipt,sourceReceipt,sourceReceiptBlo
  }
  if(found!==1||newRow.candidate_id!==id||oldRow.content_sha256!==content||newRow.content_sha256!==content||
   !['pending','unreviewed'].includes(field(oldRow,'decision','pending'))||oldRow.publication_status==='published_live_verified'||
-  oldRow.publication_approved===true||!Number.isSafeInteger(oldRow.review_number)||oldRow.review_number<1||
+  oldRow.publication_approved===true||
   !obj(oldRow.preflight)||!obj(oldRow.preflight.checks)||!obj(newRow.preflight)||!obj(newRow.preflight.checks)||pass(oldRow,gate)||
   oldRow.source_processing?.receipt!==receipt.source_receipt||oldRow.source_processing?.content_sha256!==content||
   oldRow.source_processing?.retrieval_status!=='retrieved')throw Error('Candidate is outside source gate scope');
@@ -73,9 +74,8 @@ function validateSourceGate({before,after,receipt,sourceReceipt,sourceReceiptBlo
  delete beforeCopy.preflight.checks[gate];delete afterCopy.preflight.checks[gate];
  const expectedGate={status:'passed',content_sha256:content,checked_at:at,evidence:gateEvidence};if(previous!==undefined)expectedGate.prior_evidence=previous;
  if(!equal(beforeCopy,afterCopy)||!equal(newRow.preflight.checks[gate],expectedGate))throw Error('Source gate or unrelated candidate data differs');
- const batch=oldRow.review_batch??oldRow.batch??(collection==='soups'?(oldRow.review_number<=100?Math.ceil(oldRow.review_number/20):
-  oldRow.review_number<=118?6:7+Math.floor((oldRow.review_number-119)/20)):Math.ceil(oldRow.review_number/20));
- if(!Number.isSafeInteger(batch)||batch<1||snapshot.decisions.some(d=>d.collection===collection&&(d.candidate_id===id||d.review_number===oldRow.review_number))||
+ const {number,batch}=identity(collection,oldRow,before.manifest);
+ if(snapshot.decisions.some(d=>d.collection===collection&&(d.candidate_id===id||d.review_number===number))||
   snapshot.submissions.some(s=>s.collection===collection&&s.batch===batch)||snapshot.jobs.some(j=>j.collection===collection&&j.candidate_id===id))
   throw Error('Candidate has review state');
  const stateBefore=before.state,stateAfter=after.state;

@@ -60,6 +60,48 @@ def test_site_independently_validates_real_python_duplicate_bundle(tmp_path):
     assert checked['publication_verified'] is False
 
 
+def test_reserved_soups_candidate_can_pass_duplicate_without_queue_promotion():
+    from tools.content_review.duplicate_checkpoint import prepare
+    now,snapshot,inputs,state,ledger=setup_bundle()
+    inputs['registry'][0].update(id='soups',adapter='soups',manifest_url='https://example.test/config/soups_review_manifest.json')
+    manifest=inputs['manifests'].pop('weekly');inputs['manifests']['soups']=manifest
+    row=manifest['records'][0];row.pop('review_number');row.update(reserved_review_number=201,reserved_review_batch=11)
+    entry=ledger['records'].pop('weekly:fresh');entry['collection']='soups';ledger['records']['soups:fresh']=entry
+    inputs['lifecycle']=deepcopy(ledger);inputs['preflight_status']['records'][0]['collection']='soups'
+    from tools.content_review.stage_summary import derive
+    inputs['preflight_status']['summary']=derive(inputs['preflight_status']['records'])
+    for proof in inputs['metadata']:
+        if proof.get('path')=='config/weekly_review_manifest.json':proof['path']='config/soups_review_manifest.json'
+    state['lease']['acquired_at']=now.isoformat();inputs['worker_state']=deepcopy(state)
+    proposed=prepare(snapshot,deepcopy(snapshot),inputs,ledger,state,'worker','run','soups','fresh',
+                     observed_heads={'review':'a'*40,'main':'b'*40},source_attempts={},source_progress={},at=now)
+    files=proposed['files'];receipt=json.loads(files[proposed['new_paths_must_be_absent'][0]])
+    after_manifest=json.loads(files['config/soups_review_manifest.json'])
+    evidence=after_manifest['records'][0]['preflight']['checks']['duplicates']['evidence']
+    checked={'before':{'manifest':manifest,'ledger':ledger,'stage':inputs['preflight_status'],'state':state,'policy':inputs['lifecycle_policy']},
+             'after':{'manifest':after_manifest,'ledger':json.loads(files['config/content_review_candidate_lifecycle.json']),
+                      'stage':json.loads(files['config/content_review_preflight_status.json']),
+                      'state':json.loads(files['config/content_review_worker_status.json'])},
+             'receipt':receipt,'snapshot':snapshot,'confirmed':deepcopy(snapshot),'expectedEvidence':evidence,
+             'audit':{'status':'clear','candidate_key_sha256':hashlib.sha256(('soups\0fresh\0'+row['content_sha256']).encode()).hexdigest(),
+                      'review_commit':'a'*40,'main_commit':'b'*40,'input_blobs':deepcopy(evidence['input_blobs']),
+                      'candidate_processing':False,'candidate_writes':0},'now':int(now.timestamp()*1000)}
+    result=invoke(checked);assert result.returncode==0,result.stderr
+    assert 'review_number' not in after_manifest['records'][0]
+    collision=deepcopy(checked)
+    for side in ('before','after'):
+        collision[side]['manifest']['records'].append({'candidate_id':'other','review_number':201})
+    assert invoke(collision).returncode!=0
+    reviewed=deepcopy(checked)
+    for snap in (reviewed['snapshot'],reviewed['confirmed']):
+        snap['submissions']=[{'id':'s','user_id':'owner','collection':'soups','batch':11,'revision':1,
+                              'accepted':0,'rejected':1,'payload_hash':'a'*64}]
+        snap['decisions']=[{'id':'d','submission_id':'s','user_id':'owner','collection':'soups','batch':11,'revision':1,
+                            'candidate_id':'fresh','review_number':201,'content_sha256':row['content_sha256'],'decision':'rejected'}]
+        for kind in ('submissions','decisions'):snap['read_evidence'][kind]['rows_received']=1
+    assert invoke(reviewed).returncode!=0
+
+
 def test_complete_unrelated_decision_and_job_are_preserved(tmp_path):
     value = bundle(tmp_path)
     for snap in (value['snapshot'], value['confirmed']):
