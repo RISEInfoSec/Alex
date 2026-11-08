@@ -43,6 +43,15 @@ test('artifact read authenticates GitHub and strips authorization on the signed 
  assert.ok(f.calls.filter(x=>x.url.startsWith('https://api.github.com/')).every(x=>x.opts.headers.Authorization==='Bearer secret-value'));
  assert.doesNotMatch(JSON.stringify(r),/secret-value|sig=private/);
 });
+test('artifact metadata reads do not overlap heartbeat renewals',async()=>{
+ const f=fixture();let renewing=false,overlaps=0;
+ const heartbeat=async()=>{
+  if(renewing){overlaps++;throw Error('Heartbeat renewal budget unavailable');}
+  renewing=true;try{await new Promise(resolve=>setImmediate(resolve));}finally{renewing=false;}
+ };
+ const result=await readSourceArtifact({getToken:()=> 'secret',runId:123,artifactId:456,fetcher:f.fetcher,heartbeat});
+ assert.equal(result.result_text,f.text);assert.equal(overlaps,0);
+});
 test('workflow failure, mismatched artifact or untrusted redirect stops before download',async()=>{
  for(const mode of ['failed_run','wrong_run','evil_redirect']){
   const f=fixture(mode);await assert.rejects(readSourceArtifact({getToken:()=> 'secret',runId:123,artifactId:456,fetcher:f.fetcher}));

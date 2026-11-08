@@ -55,7 +55,10 @@ export async function readSourceArtifact({getToken,runId,artifactId,fetcher=fetc
  async function metadata(path){await heartbeat();const r=await github(path);if(!r.ok)throw Error('GitHub Actions metadata unavailable');
   const data=await bounded(r,MAX_METADATA,heartbeat);try{return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(data));}
   catch{throw Error('GitHub Actions metadata invalid');}}
- const [run,artifact]=await Promise.all([metadata('actions/runs/'+runId),metadata('actions/artifacts/'+artifactId)]);
+ // Both metadata reads pulse the same heartbeat keeper. Await each read so
+ // the second cannot collide with an in-flight heartbeat renewal.
+ const run=await metadata('actions/runs/'+runId);
+ const artifact=await metadata('actions/artifacts/'+artifactId);
  if(run?.id!==runId||run.status!=='completed'||run.conclusion!=='success'||run.event!=='push'||run.head_branch!==BRANCH||run.path!==WORKFLOW||
   !SHA.test(run.head_sha||'')||!positive(run.run_attempt)||run.repository?.full_name!=='RISEInfoSec/Alex'||
   run.head_repository?.full_name!=='RISEInfoSec/Alex')throw Error('Source workflow run is not verified');
