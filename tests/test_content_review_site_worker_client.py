@@ -129,3 +129,13 @@ def test_source_completion_does_not_claim_candidate_or_native_completion():
     assert result['source_requests']==3 and result['candidate_processing'] is False and result['native_completion_verified'] is False
     response['candidate_processing']=True
     assert post('source_completion',{},'secret',opener=Opener(Response(response)))['status']=='outcome_unknown'
+
+
+def test_pending_source_release_preserves_deferred_status_without_claiming_work():
+    response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':'config/content_review_run_receipts/run.json',
+              'source_status':'source_run_pending','candidate_processing':False,'native_completion_verified':False,'publication_verified':False}
+    opener=Opener(Response(response));result=post('source_pending',{},'secret',opener=opener)
+    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-pending'
+    assert result['source_status']=='source_run_pending' and result['candidate_processing'] is False and result['native_completion_verified'] is False
+    response['source_status']='source_artifact_ready'
+    assert post('source_pending',{},'secret',opener=Opener(Response(response)))['status']=='outcome_unknown'
