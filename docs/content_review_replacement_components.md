@@ -280,6 +280,14 @@ attempt, not as source-retrieval progress. Passing no attempt history cannot pre
 collections from monopolizing subsequent passes; this change is not yet a
 deployed fairness guarantee.
 
+The planner reports quality, classification and admission work as requiring a
+separate executor until guarded paths exist; those candidates cannot consume
+the bounded slots for executable duplicate or source work. The Python and Site
+quality-hold rules independently identify a narrow zero-core-term condition,
+but only as a provisional hold with no score or gate pass. Existing quality
+evidence is held for reconciliation rather than repeated. These rules are not
+connected to a writer or scheduler.
+
 The repository verifier accepts only a native `completed` run with its canonical
 receipt path. `no_update`, dispatch, an empty pass and tests do not establish
 useful processing. `operations.py` reads the target scheduler identity from the

@@ -65,6 +65,24 @@ def test_stage_filter_selects_due_duplicates_before_the_five_candidate_ceiling()
         plan(*args,source_attempts={},source_progress={},at=now,stages=('unsupported',))
 
 
+def test_unimplemented_quality_gate_is_reported_without_starving_supported_work():
+    now,snap,manifests,ledger,registry,state=fixture()
+    row=manifests['weekly']['records'][1];digest=row['content_sha256']
+    row['preflight']={'checks':{g:{'status':'passed','content_sha256':digest,
+        'checked_at':now.isoformat(),'evidence':{'verified':True}} for g in ('duplicates','format','access','metadata')}}
+    peer=deepcopy(row);peer['candidate_id']='other';peer['review_number']=3;peer['preflight']={'checks':{}}
+    manifests['weekly']['records'].append(peer)
+    ledger['records']['weekly:other']={'state':'awaiting_initial_checks','first_seen_at':'2026-01-01'}
+    result=plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},at=now)
+    assert [x['candidate_id'] for x in result['selected']]==['other']
+    coverage=next(x for x in result['coverage'] if x['collection']=='weekly')
+    assert coverage['unsupported_gate_count']==1 and coverage['disposition']=='selected_for_next_gate'
+    ledger['records'].pop('weekly:other')
+    result=plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},at=now)
+    coverage=next(x for x in result['coverage'] if x['collection']=='weekly')
+    assert result['selected']==[] and coverage['disposition']=='separate_gate_executor_required'
+
+
 def test_superseded_decision_is_reported_as_hold_even_for_preflight_rows():
     now,snap,manifests,ledger,registry,state=fixture()
     old=deepcopy(snap['decisions'][0]);old.update(id='d-old',candidate_id='fresh',review_number=2,content_sha256='c'*64)

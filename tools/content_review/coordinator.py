@@ -79,7 +79,9 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     # Bulletin has independently checked duplicate and source-reservation paths;
     # do not select its later gates until those paths have been implemented.
     special = {c['id'] for c in registry if c.get('adapter') in ('apwg_pending', 'corpus_audit')}
+    supported_stages={'duplicates','source','metadata'}
     eligible = [item for item in result['selected'] if item['collection'] not in special
+                and item['next_stage'] in supported_stages
                 and (item['collection'] != 'virusbulletin' or item['next_stage'] in ('duplicates', 'source'))]
     stage_eligible=[item for item in eligible if stages is None or item['next_stage'] in stages]
     selected = [{**item, 'content_sha256': index[(item['collection'], item['candidate_id'])]['content_sha256']}
@@ -89,6 +91,8 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     available = Counter(x['collection'] for x in result['selected'])
     selected_counts = Counter(x['collection'] for x in selected)
     executable = Counter(x['collection'] for x in eligible)
+    unsupported_gates=Counter(x['collection'] for x in result['selected']
+                              if x['collection'] not in special and x['next_stage'] not in supported_stages)
     decisions = Counter(x['collection'] for x in result['reconciliation']['matched_decisions'])
     decided_keys = {(x['collection'], x['candidate_id']) for x in result['reconciliation']['matched_decisions']}
     held_keys = {(x['collection'], x['candidate_id']) for x in result['reconciliation']['held']}
@@ -117,6 +121,8 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
             reason = 'separate_collection_adapter_required'
         elif selected_counts[collection]:
             reason = 'selected_for_next_gate'
+        elif unsupported_gates[collection] and not executable[collection]:
+            reason = 'separate_gate_executor_required'
         elif stages is not None and executable[collection] and not any(x['collection']==collection for x in stage_eligible):
             reason = 'deferred_by_stage_filter'
         elif available[collection]:
@@ -131,6 +137,7 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
             reason = 'no_due_candidate_in_supplied_snapshot'
         coverage.append({'collection': collection, 'eligible': available[collection],
                          'selected': selected_counts[collection], 'decision_holds': held[collection],
+                         'unsupported_gate_count': unsupported_gates[collection],
                          'missing_lifecycle': missing_lifecycle[collection],
                          'unnumbered_intake': unnumbered_intake[collection],
                          'matched_review_decisions': decisions[collection],
