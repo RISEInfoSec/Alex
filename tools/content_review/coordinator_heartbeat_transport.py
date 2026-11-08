@@ -47,13 +47,15 @@ def read_heads(repo):
 
 
 def fetch_heads(repo,heads,run_id):
-    if not isinstance(run_id,str) or not ID.fullmatch(run_id) or set(heads)!=set(REFS):
+    if (not isinstance(run_id,str) or not ID.fullmatch(run_id) or not isinstance(heads,dict)
+        or set(heads)!=set(REFS) or any(not isinstance(heads[ref],str) or not SHA.fullmatch(heads[ref]) for ref in REFS)):
         raise ValueError('Invalid coordinator fetch')
     _check_remote(repo)
-    destinations={ref:'refs/codex/content-review/'+run_id+'/'+name for ref,name in zip(REFS,('review','main','heartbeat'))}
-    _run(repo,'fetch','--no-tags','--no-write-fetch-head','origin',*[ref+':'+destinations[ref] for ref in REFS])
-    for ref in REFS:
-        if _run(repo,'rev-parse',destinations[ref])!=heads[ref]:raise ValueError('Coordinator ref moved during fetch')
+    # Fetch the immutable observed objects, not moving branch names or shared
+    # destination refs. The heartbeat thread can advance its ref while the
+    # foreground reads snapshots; both must be able to fetch concurrently.
+    _run(repo,'fetch','--no-tags','--no-write-fetch-head','origin',*dict.fromkeys(heads[ref] for ref in REFS))
+    for sha in set(heads.values()):_run(repo,'cat-file','-e',sha+'^{commit}')
 
 
 class DetachedHeartbeatPulse:

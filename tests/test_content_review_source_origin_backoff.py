@@ -24,6 +24,22 @@ def test_429_cooldown_survives_into_later_runs_and_cannot_be_shortened():
     assert merge(previous,result(),REQUEST)==previous
 
 
+def test_host_spelling_and_legacy_default_ports_cannot_bypass_a_cooldown():
+    backoff={'publisher.example.:443':{'reason':'http_429','retry_not_before':'2026-11-08T18:00:00Z','source_request_id':'b'*64}}
+    assert active(backoff,'https://PUBLISHER.EXAMPLE/other',NOW)
+    assert active(backoff,'http://publisher.example.:80/other',NOW)
+    assert merge(backoff,result(),REQUEST)==backoff
+    value=result();value['request_log'][0]['url']='https://PUBLISHER.EXAMPLE.:443/paper'
+    value['origin_backoff']={'publisher.example.:443':value['origin_backoff']['publisher.example']}
+    assert active(merge({},value,REQUEST),'https://publisher.example/other',NOW)
+    code="const b=require('./tools/content_review/site_source_origin_backoff.cjs');let s='';" \
+         "process.stdin.on('data',x=>s+=x).on('end',()=>{let v=JSON.parse(s);process.stdout.write(JSON.stringify([b.active(v.previous,v.url,Date.parse(v.now)),b.merge({},v.result,v.id)]));});"
+    run=subprocess.run(['node','-e',code],input=json.dumps({'previous':backoff,'url':'http://publisher.example:80/x',
+                       'now':NOW.isoformat(),'result':value,'id':REQUEST}),text=True,capture_output=True,check=True)
+    enabled,actual=json.loads(run.stdout)
+    assert enabled is True and actual==merge({},value,REQUEST)
+
+
 @pytest.mark.parametrize('change',['missing','earlier','wrong_origin','wrong_reason','bad_time'])
 def test_missing_or_weakened_cooldown_fails_closed(change):
     value=result()

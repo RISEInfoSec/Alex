@@ -7,9 +7,10 @@ const obj=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const time=x=>typeof x==='string'?Date.parse(x):NaN;
 function origin(url){
  if(typeof url!=='string'||/[\r\n\t]/.test(url))throw Error('Unsupported source origin');
- const m=/^https?:\/\/([^/?#]+)/.exec(url);if(!m)throw Error('Unsupported source origin');
- const host=m[1].toLowerCase();let u;try{u=new URL(url);}catch{throw Error('Unsupported source origin');}
- if(!HOST.test(host)||u.username||u.password||(u.port&&!['80','443'].includes(u.port)))throw Error('Unsupported source origin');
+ const m=/^https?:\/\/([^/?#]+)/i.exec(url);if(!m)throw Error('Unsupported source origin');
+ const raw=m[1].toLowerCase();let u;try{u=new URL(url);}catch{throw Error('Unsupported source origin');}
+ if(!HOST.test(raw)||u.username||u.password||(u.port&&!['80','443'].includes(u.port)))throw Error('Unsupported source origin');
+ const host=u.hostname.toLowerCase().replace(/\.+$/,'');if(!host||!HOST.test(host))throw Error('Unsupported source origin');
  return host;
 }
 function merge(previous,result,requestId){
@@ -29,22 +30,26 @@ function merge(previous,result,requestId){
   if(!Number.isFinite(started)||Object.prototype.hasOwnProperty.call(failures,host))throw Error('Source failure timing or origin ambiguous');
   failures[host]={reason,started,header};
  }
- if(JSON.stringify(Object.keys(reported).sort())!==JSON.stringify(Object.keys(failures).sort()))throw Error('Source cooldowns do not match failure events');
+ const normalized={};for(const [host,value] of Object.entries(reported)){
+  const key=origin('https://'+host);if(Object.prototype.hasOwnProperty.call(normalized,key))throw Error('Source cooldown origins are ambiguous');normalized[key]=value;}
+ if(JSON.stringify(Object.keys(normalized).sort())!==JSON.stringify(Object.keys(failures).sort()))throw Error('Source cooldowns do not match failure events');
  const updated=structuredClone(previous);
  for(const [host,failure] of Object.entries(failures)){
-  const value=reported[host],deadline=time(value?.retry_not_before);
+  const value=normalized[host],deadline=time(value?.retry_not_before);
   if(!obj(value)||!Number.isFinite(deadline)||value.reason!==failure.reason||
    (Number.isFinite(failure.header)?deadline<failure.header:deadline<failure.started+3600000))
    throw Error('Source cooldown does not preserve provider deadline');
-  const old=time(updated[host]?.retry_not_before);
+  const old=Math.max(-Infinity,...Object.entries(updated).filter(([key])=>origin('https://'+key)===host).map(([,v])=>time(v.retry_not_before)));
   if(!Number.isFinite(old)||deadline>old)updated[host]={reason:failure.reason,retry_not_before:value.retry_not_before,source_request_id:requestId};
  }
  return updated;
 }
 function active(backoffs,url,now){
  if(!obj(backoffs)||!Number.isFinite(now))throw Error('Source backoff state invalid');
- const value=backoffs[origin(url)];if(value===undefined)return false;
- if(!obj(value)||!REASON.test(value.reason||'')||!Number.isFinite(time(value.retry_not_before)))throw Error('Source backoff state invalid');
- return time(value.retry_not_before)>now;
+ const host=origin(url),deadlines=[];
+ for(const [key,value] of Object.entries(backoffs)){
+  if(!HOST.test(key)||!obj(value)||!REASON.test(value.reason||'')||!Number.isFinite(time(value.retry_not_before)))throw Error('Source backoff state invalid');
+  if(origin('https://'+key)===host)deadlines.push(time(value.retry_not_before));}
+ return deadlines.some(deadline=>deadline>now);
 }
 module.exports={merge,active,origin};

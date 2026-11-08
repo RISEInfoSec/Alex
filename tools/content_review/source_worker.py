@@ -22,7 +22,7 @@ def file_digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 MANIFESTS={s:'config/'+s+'_review_manifest.json' for s in ('soups','weekly','first','m3aawg','bellingcat','sans','virusbulletin')}
 
 from tools.content_review.lifecycle import ensure_eligible, instant
-from tools.content_review.source_origin_backoff import active as origin_backoff_active
+from tools.content_review.source_origin_backoff import active as origin_backoff_active, origin as canonical_origin
 
 DIRECTORY = 'config/content_review_source_requests'
 WORKFLOW = '.github/workflows/content_review_sources.yml'
@@ -65,7 +65,7 @@ class Transport:
         self.sends=[];self.last={};self.robots={};self.stopped={};self.cache={}
         self.session.headers.update({'User-Agent':UA,'Accept':'text/html,application/pdf;q=0.9,*/*;q=0.1'})
     def send(self,url):
-        url=safe_url(url);origin=urlsplit(url).netloc
+        url=safe_url(url);origin=canonical_origin(url)
         if origin_backoff_active(self.origin_backoff,url,datetime.now(timezone.utc)):
             raise Hold('source_origin_backoff_active')
         if origin in self.stopped:raise Hold('origin_backoff: '+self.stopped[origin]['reason'])
@@ -116,7 +116,7 @@ class Transport:
         if rp and not rp.can_fetch(UA,url):raise Hold('robots_disallow')
         crawl=rp.crawl_delay(UA) if rp else None
         if crawl and crawl>2:
-            delay=max(0,crawl-(self.clock()-self.last.get(p.netloc,-100)))
+            delay=max(0,crawl-(self.clock()-self.last.get(canonical_origin(url),-100)))
             if self.clock()+delay+20>=self.deadline:raise Hold('crawl_delay_exceeds_budget')
             self.sleep(delay)
     def fetch(self,url):

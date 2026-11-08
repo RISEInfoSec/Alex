@@ -103,6 +103,14 @@ def test_reserved_soups_candidate_can_pass_source_gate_without_queue_promotion(t
     collision=deepcopy(data)
     for side in ('before','after'):collision[side]['manifest']['records'].append({'candidate_id':'other','review_number':201})
     assert invoke(collision).returncode!=0
+    reviewed=deepcopy(data)
+    for snap in (reviewed['snapshot'],reviewed['confirmed']):
+        snap['submissions']=[{'id':'s','user_id':'owner','collection':'soups','batch':11,'revision':1,
+                              'accepted':0,'rejected':1,'payload_hash':'a'*64}]
+        snap['decisions']=[{'id':'d','submission_id':'s','user_id':'owner','collection':'soups','batch':11,'revision':1,
+                            'candidate_id':'fresh','review_number':201,'content_sha256':row['content_sha256'],'decision':'rejected'}]
+        for kind in ('submissions','decisions'):snap['read_evidence'][kind]['rows_received']=1
+    assert invoke(reviewed).returncode!=0
 
 
 @pytest.mark.parametrize('change',['decision','hash','stage','history','state','progress','receipt','snapshot','evidence','source'])

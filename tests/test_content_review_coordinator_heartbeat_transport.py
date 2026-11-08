@@ -1,5 +1,7 @@
 from datetime import timedelta
 import json
+import subprocess
+from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 
@@ -37,3 +39,31 @@ def test_moved_head_or_ambiguous_write_stops_without_a_retry(tmp_path):
     heads[MAIN]=review
     with pytest.raises(ValueError,match='unconfirmed'):pulse()
     assert len(calls)==1
+
+
+def test_fetches_observed_commits_when_heartbeat_moves_and_calls_overlap(tmp_path,monkeypatch):
+    from tools.content_review import coordinator_heartbeat_transport as transport
+    remote=tmp_path/'remote.git';source=tmp_path/'source';checkout=tmp_path/'checkout'
+    subprocess.run(['git','init','--bare','-q',str(remote)],check=True)
+    subprocess.run(['git','init','-q',str(source)],check=True)
+    put(source,'data.txt','one');git(source,'add','.');git(source,'commit','-qm','one')
+    first=git(source,'rev-parse','HEAD')
+    git(source,'remote','add','origin',str(remote))
+    for ref in (REVIEW,MAIN,HEARTBEAT):git(source,'push','-q','origin','HEAD:'+ref)
+    subprocess.run(['git','clone','-q','--no-checkout',str(remote),str(checkout)],check=True)
+    put(source,'data.txt','two');git(source,'add','.');git(source,'commit','-qm','two')
+    second=git(source,'rev-parse','HEAD');git(source,'push','-q','origin','HEAD:'+HEARTBEAT)
+    old={REVIEW:first,MAIN:first,HEARTBEAT:first};new={REVIEW:first,MAIN:first,HEARTBEAT:second}
+    monkeypatch.setattr(transport,'_check_remote',lambda repo:None)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        list(pool.map(lambda observed:transport.fetch_heads(checkout,observed,'run'),[old,new]))
+    assert git(checkout,'cat-file','-t',first)=='commit'
+    assert git(checkout,'cat-file','-t',second)=='commit'
+    assert git(checkout,'for-each-ref','--format=%(refname)','refs/codex/content-review/')==''
+
+
+def test_fetch_rejects_unverified_object_identity(tmp_path,monkeypatch):
+    from tools.content_review import coordinator_heartbeat_transport as transport
+    monkeypatch.setattr(transport,'_check_remote',lambda repo:pytest.fail('No Git access expected'))
+    with pytest.raises(ValueError,match='Invalid coordinator fetch'):
+        transport.fetch_heads(tmp_path,{REVIEW:'a'*40,MAIN:'b'*40,HEARTBEAT:'--upload-pack=bad'},'run')

@@ -12,9 +12,12 @@ REASON=re.compile(r'^(?:http_(?:429|5[0-9]{2})|transport_[A-Za-z][A-Za-z0-9]*)$'
 
 def origin(url):
     try:
-        p=urlsplit(url);host=p.netloc.lower()
-        if p.scheme not in ('http','https') or not HOST.fullmatch(host) or p.username or p.password or p.port not in (None,80,443):
+        p=urlsplit(url);raw=p.netloc.lower()
+        if p.scheme not in ('http','https') or not HOST.fullmatch(raw) or p.username or p.password or p.port not in (None,80,443):
             raise ValueError('Unsupported source origin')
+        host=(p.hostname or '').lower().rstrip('.')
+        if not host or not HOST.fullmatch(host):raise ValueError('Unsupported source origin')
+        # Default ports and a trailing DNS root dot must not bypass a hold.
         return host
     except (TypeError,ValueError) as exc:
         raise ValueError('Unsupported source origin') from exc
@@ -40,14 +43,20 @@ def merge(previous,result,request_id):
         host=origin(event.get('url'));started=instant(event.get('started_at'))
         if not started or host in failures:raise ValueError('Source failure timing or origin ambiguous')
         failures[host]=(reason,started,instant(event.get('retry_not_before')))
-    if set(reported)!=set(failures):raise ValueError('Source cooldowns do not match failure events')
+    normalized_reported={}
+    for host,value in reported.items():
+        key=origin('https://'+host)
+        if key in normalized_reported:raise ValueError('Source cooldown origins are ambiguous')
+        normalized_reported[key]=value
+    if set(normalized_reported)!=set(failures):raise ValueError('Source cooldowns do not match failure events')
     updated=deepcopy(previous)
     for host,(reason,started,header_deadline) in failures.items():
-        value=reported[host];deadline=instant(value.get('retry_not_before')) if isinstance(value,dict) else None
+        value=normalized_reported[host];deadline=instant(value.get('retry_not_before')) if isinstance(value,dict) else None
         if not deadline or value.get('reason')!=reason or (header_deadline and deadline<header_deadline) or \
            (not header_deadline and deadline<started+timedelta(hours=1)):
             raise ValueError('Source cooldown does not preserve provider deadline')
-        existing=instant((updated.get(host) or {}).get('retry_not_before'))
+        existing=max((instant(value.get('retry_not_before')) for key,value in updated.items()
+                      if origin('https://'+key)==host),default=None)
         if not existing or deadline>existing:
             updated[host]={'reason':reason,'retry_not_before':value['retry_not_before'],'source_request_id':request_id}
     return updated
@@ -56,8 +65,9 @@ def merge(previous,result,request_id):
 def active(backoffs,url,now):
     if not isinstance(now,datetime) or now.tzinfo is None or now.utcoffset() is None or not isinstance(backoffs,dict):
         raise ValueError('Source backoff state invalid')
-    value=backoffs.get(origin(url))
-    if value is None:return False
-    if not isinstance(value,dict) or not REASON.fullmatch(value.get('reason') or '') or not instant(value.get('retry_not_before')):
-        raise ValueError('Source backoff state invalid')
-    return instant(value['retry_not_before'])>now
+    host=origin(url);deadlines=[]
+    for key,value in backoffs.items():
+        if not isinstance(key,str) or not HOST.fullmatch(key) or not isinstance(value,dict) or not REASON.fullmatch(value.get('reason') or '') or not instant(value.get('retry_not_before')):
+            raise ValueError('Source backoff state invalid')
+        if origin('https://'+key)==host:deadlines.append(instant(value['retry_not_before']))
+    return bool(deadlines and max(deadlines)>now)
