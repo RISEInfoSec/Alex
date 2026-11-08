@@ -118,13 +118,17 @@ def observe(root,native,at=None):
 def save(root,data):
     p=Path(root)/PATH;tmp=p.with_suffix('.tmp');tmp.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n');tmp.replace(p)
 
-def require_worker_lease(root,run_id,at=None):
-    state=json.loads((Path(root)/'config/content_review_worker_status.json').read_text())
+def require_worker_lease_state(state,run_id,at=None):
+    if not isinstance(state,dict):raise ValueError('A current matching single-writer lease is required')
     lease=state.get('lease') or {};expiry=instant(lease.get('expires_at'))
     current=instant(at) if isinstance(at,str) else at or datetime.now(timezone.utc)
     if lease.get('run_id')!=run_id or not expiry or expiry<=current:
         raise ValueError('A current matching single-writer lease is required')
     return state
+
+def require_worker_lease(root,run_id,at=None):
+    state=json.loads((Path(root)/'config/content_review_worker_status.json').read_text())
+    return require_worker_lease_state(state,run_id,at)
 
 def runtime_checkpoint(root,native,run_id,phase,at=None):
     """Publish a real native start/heartbeat before slow candidate work. No native success inference."""

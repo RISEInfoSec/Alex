@@ -62,6 +62,9 @@ def test_separate_heartbeat_and_policy_are_bound_to_immutable_heads(tmp_path):
     result=before_work(tmp_path,'run',20,AT,review_head=head,heartbeat_head=hb)
     assert result['allowed'] and result['heartbeat_source']=='separate_ref'
     assert result['work_seconds_remaining']==500
+    # A checkout predating the lease acquisition cannot supply or defeat the
+    # immutable, heartbeat-bound lease used by a scheduled coordinator.
     state['lease']['owner']='other';put(tmp_path,'config/content_review_worker_status.json',state)
-    with pytest.raises(ValueError,match='differs from the committed review head'):
-        before_work(tmp_path,'run',20,AT,review_head=head,heartbeat_head=hb)
+    assert before_work(tmp_path,'run',20,AT,review_head=head,heartbeat_head=hb)['allowed']
+    with pytest.raises(ValueError,match='matching single-writer lease'):
+        before_work(tmp_path,'other-run',20,AT,review_head=head,heartbeat_head=hb)

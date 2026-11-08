@@ -11,7 +11,7 @@ import math
 from datetime import datetime, timezone
 from pathlib import Path
 
-from tools.content_review.operations import require_worker_lease
+from tools.content_review.operations import require_worker_lease, require_worker_lease_state
 from tools.content_review.lifecycle import instant
 
 MODULES = ('requests', 'jsonschema', 'bs4', 'pypdf', 'pandas', 'openpyxl',
@@ -39,18 +39,20 @@ def before_work(root, run_id, seconds, at=None, *, review_head=None, heartbeat_h
     if not math.isfinite(seconds) or not 0 < seconds <= 20:
         raise ValueError('Work must be split into units bounded to at most20seconds')
     at = at or datetime.now(timezone.utc)
-    state = require_worker_lease(root, run_id, at)
+    if review_head is not None or heartbeat_head is not None:
+        if not review_head or not heartbeat_head:raise ValueError('Both immutable review and heartbeat heads are required')
+        from tools.content_review.verified_inputs import _path_blob
+        committed,_=_path_blob(root,review_head,'config/content_review_worker_status.json')
+        state=require_worker_lease_state(json.loads(committed),run_id,at)
+    else:
+        state = require_worker_lease(root, run_id, at)
     run = state.get('current_run') or {}
     if run.get('run_id') != run_id or run.get('application_status') != 'running':
         raise ValueError('Matching running application status required')
     started = instant(run.get('started_at'))
     heartbeat = instant(run.get('observed_at'))
     if review_head is not None or heartbeat_head is not None:
-        if not review_head or not heartbeat_head:raise ValueError('Both immutable review and heartbeat heads are required')
-        from tools.content_review.verified_inputs import _path_blob
         from tools.content_review.heartbeat_evidence import verify
-        committed,_=_path_blob(root,review_head,'config/content_review_worker_status.json')
-        if json.loads(committed)!=state:raise ValueError('Working lease differs from the committed review head')
         record,_=_path_blob(root,heartbeat_head,'config/content_review_detached_heartbeat.json')
         heartbeat=verify(json.loads(record),state,review_head,state['lease'].get('owner'),run_id,at=at)
     if not started or not heartbeat or started > heartbeat or heartbeat > at:
