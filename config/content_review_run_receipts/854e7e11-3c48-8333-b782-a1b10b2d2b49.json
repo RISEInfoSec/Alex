@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "run_id": "854e7e11-3c48-8333-b782-a1b10b2d2b49",
+  "trigger": "schedule",
+  "scheduled_for": "2026-11-08T03:45:00+00:00",
+  "started_at": "2026-11-08T03:40:09.679321+00:00",
+  "completed_at": "2026-11-08T03:46:08.381884+00:00",
+  "status": "complete",
+  "completed_actions": [
+    {
+      "path": "config/content_review_mechanical_checkpoints/1ddc678d0167e3de866fdcd5c5101d5bc10a30a3af81e5ef2c3a6fb0790877f9.json",
+      "collection": "m3aawg",
+      "candidate_id": "m3aawg-url-065b71fc7bd1d12933e1b3b0",
+      "content_sha256": "61ff3c0f92e5f702a9465c5921b52be1ca929ffa5835de20e04730a88988751f",
+      "gate": "duplicates"
+    }
+  ],
+  "receipt_path": "config/content_review_run_receipts/854e7e11-3c48-8333-b782-a1b10b2d2b49.json",
+  "provider_requests": 0,
+  "paid_requests": 0,
+  "openalex_requests": 0,
+  "publication_approved": false,
+  "native_completion_verified": false,
+  "scope_note": "Mechanical duplicate checks only; review readiness and publication are not established.",
+  "pilot": {
+    "attempted_candidate_ids": [
+      "m3aawg-url-065b71fc7bd1d12933e1b3b0"
+    ],
+    "newly_passed_checks": {
+      "duplicates": [
+        "m3aawg-url-065b71fc7bd1d12933e1b3b0"
+      ]
+    },
+    "requests": {
+      "source": 0,
+      "paid": 0,
+      "openalex": 0
+    },
+    "manual_admitted": [],
+    "all_six_completed": [],
+    "actual_publications": [],
+    "integrity_passed": null,
+    "checkpoint_failures": null,
+    "resolvable_gate_count": null,
+    "all_candidates_legitimately_held": null,
+    "remaining_blockers": [
+      "Subsequent gates and source work were not executed in this mechanical pass."
+    ]
+  }
+}

@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "checkpoint_failure",
-  "lease": {
-    "owner": "alex-guarded-pilot",
-    "run_id": "854e7e11-3c48-8333-b782-a1b10b2d2b49",
-    "acquired_at": "2026-11-08T03:43:05.159813+00:00",
-    "expires_at": "2026-11-08T04:13:05.159813+00:00"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "weekly": 3,
@@ -734,7 +729,7 @@
   },
   "current_run": {
     "run_id": "854e7e11-3c48-8333-b782-a1b10b2d2b49",
-    "application_status": "running",
+    "application_status": "complete",
     "started_at": "2026-11-08T03:40:09.679321+00:00",
     "scheduled_for": "2026-11-08T03:45:00+00:00",
     "observed_at": "2026-11-08T03:43:05.159813+00:00",
@@ -755,7 +750,9 @@
         "started_at": "2026-11-08T03:40:09.679321Z",
         "completed_at": null
       }
-    }
+    },
+    "application_completed_at": "2026-11-08T03:46:08.381884+00:00",
+    "receipt": "config/content_review_run_receipts/854e7e11-3c48-8333-b782-a1b10b2d2b49.json"
   },
   "last_heartbeat_at": "2026-11-08T03:43:05.159813+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
@@ -983,6 +980,14 @@
       "expires_at": "2026-11-08T03:54:15.504376+00:00",
       "status": "released",
       "released_at": "2026-11-08T03:29:40.645325+00:00"
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "854e7e11-3c48-8333-b782-a1b10b2d2b49",
+      "acquired_at": "2026-11-08T03:43:05.159813+00:00",
+      "expires_at": "2026-11-08T04:13:05.159813+00:00",
+      "status": "released",
+      "released_at": "2026-11-08T03:46:08.381884+00:00"
     }
   ],
   "run_history": [
