@@ -42,7 +42,11 @@ def post(action, payload, token, *, opener=None):
     request = urllib.request.Request(ORIGIN + PATHS[action], data=body, method='POST',
         headers={'OAI-Sites-Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Accept': 'application/json'})
     try:
-        timeout = 180 if action in ('source_gate', 'source_gate_completion') else 55 if action in ('duplicate', 'completion', 'source_result', 'source_retention', 'source_completion', 'source_pending') else 45
+        # Fenced candidate operations independently reread D1 and large Git
+        # inputs. A live duplicate audit reached the 55-second client limit
+        # and was canceled before the Site could finish. Keep a finite bound;
+        # lease and heartbeat operations retain their shorter limit.
+        timeout = 45 if action in ('lease','heartbeat') else 180
         with (opener or urllib.request.build_opener(NoRedirect)).open(request, timeout=timeout) as response:
             status = response.status
             raw = response.read(MAX_RESULT + 1)

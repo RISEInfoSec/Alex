@@ -42,6 +42,13 @@ def test_timeout_unknown_response_and_unconfirmed_write_require_reconciliation()
         assert result['status']=='outcome_unknown' and result['reconcile_before_retry'] is True
 
 
+def test_long_duplicate_timeout_remains_bounded_and_never_retries():
+    opener=Opener(TimeoutError())
+    result=post('duplicate',{},'secret-value',opener=opener)
+    assert len(opener.requests)==1 and opener.requests[0][1]==180
+    assert result['status']=='outcome_unknown' and result['reconcile_before_retry'] is True
+
+
 def test_explicit_rejection_is_blocked_and_never_claims_processing():
     result=post('soups_intake',{},'secret-value',opener=Opener(Response({'status':'blocked','reason':'worker_not_verified'},409)))
     assert result['status']=='blocked' and result['reconcile_before_retry'] is False
@@ -67,7 +74,7 @@ def test_duplicate_checkpoint_reports_only_a_confirmed_mechanical_gate():
               'candidate_processing':True,'native_completion_verified':False,'publication_verified':False}
     opener=Opener(Response(response));result=post('duplicate',{},'secret-value',opener=opener)
     assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-duplicate'
-    assert opener.requests[0][1]==55 and result['gate']=='duplicates' and result['candidate_processing'] is True
+    assert opener.requests[0][1]==180 and result['gate']=='duplicates' and result['candidate_processing'] is True
     assert result['native_completion_verified'] is False and result['publication_verified'] is False
     response['publication_verified']=True
     assert post('duplicate',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
@@ -88,7 +95,7 @@ def test_completed_run_receipt_does_not_claim_native_or_publication_success():
     response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':'config/content_review_run_receipts/run.json',
               'candidate_processing':True,'native_completion_verified':False,'publication_verified':False}
     opener=Opener(Response(response));result=post('completion',{},'secret-value',opener=opener)
-    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-completion' and opener.requests[0][1]==55
+    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-completion' and opener.requests[0][1]==180
     assert result['candidate_processing'] is True and result['native_completion_verified'] is False
     response['native_completion_verified']=True
     assert post('completion',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
@@ -117,7 +124,7 @@ def test_source_result_accounts_verified_workflow_without_claiming_a_gate_pass()
     response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':'config/content_review_source_receipts/'+'b'*64+'.json',
               'source_requests':3,'source_workflow_verified':True,'candidate_processing':False,'publication_verified':False}
     opener=Opener(Response(response));result=post('source_result',{},'secret-value',opener=opener)
-    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-result' and opener.requests[0][1]==55
+    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-result' and opener.requests[0][1]==180
     assert result['source_requests']==3 and result['source_workflow_verified'] is True and result['candidate_processing'] is False
     response['candidate_processing']=True
     assert post('source_result',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
@@ -134,7 +141,7 @@ def test_source_retention_reports_evidence_without_claiming_a_gate():
     response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':'config/content_review_source_checkpoints/'+'b'*64+'.json',
               'gate_passed':False,'candidate_processing':False,'publication_verified':False}
     opener=Opener(Response(response));result=post('source_retention',{},'secret-value',opener=opener)
-    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-retention' and opener.requests[0][1]==55
+    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-retention' and opener.requests[0][1]==180
     assert result['gate_passed'] is False and result['candidate_processing'] is False
     response['gate_passed']=True
     assert post('source_retention',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
