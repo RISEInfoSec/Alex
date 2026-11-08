@@ -2,7 +2,7 @@
 
 // Independently derive only narrow access and citation-metadata checks from
 // a verified source artifact. The writer must verify provenance and D1 again.
-const {createHash}=require('node:crypto');
+const {sha256}=require('./d1_fingerprint.cjs');
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const hash=x=>typeof x==='string'&&/^[0-9a-f]{64}$/.test(x);
 const words=x=>typeof x==='string'&&/^[\x20-\x7e]+$/.test(x)?x.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()||null:null;
@@ -29,7 +29,7 @@ function audit(row,collection,receipt,now=Date.now()){
  const origin=host(requested),matches=res[0].evidence.filter(e=>{
   if(!object(e)||e.requested_url!==requested||!origin||host(e.final_url)!==origin||e.http_status!==200||e.resource_unavailable===true||
    typeof e.text!=='string'||!e.text.trim()||!hash(e.body_sha256)||!hash(e.text_sha256)||
-   createHash('sha256').update(e.text,'utf8').digest('hex')!==e.text_sha256)return false;
+   sha256(e.text)!==e.text_sha256)return false;
   const stamp=utc(e.retrieved_at);return Number.isFinite(stamp)&&stamp<=now;
  });
  if(matches.length!==1)return {status:'held',reason:'source_access_unverified_or_ambiguous',checks:{}};
