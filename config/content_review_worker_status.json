@@ -99,7 +99,7 @@
     "source_release_holds": 6
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-11-08T17:35:46.948823+00:00",
+  "last_started_at": "2026-11-08T18:31:41.521279Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
@@ -728,26 +728,33 @@
     "additional_removed_record_corrected": 1
   },
   "current_run": {
-    "run_id": "manual-retention-65c5f8db-439e-4f00-a1fa-6e06a4e3756f",
-    "application_status": "complete",
-    "started_at": "2026-11-08T17:35:46.948823+00:00",
-    "scheduled_for": null,
-    "observed_at": "2026-11-08T17:35:46.948823+00:00",
+    "run_id": "eed6e8cf-85ec-832c-a140-c190620a6a5c",
+    "application_status": "failed",
+    "started_at": "2026-11-08T18:31:41.521279+00:00",
+    "scheduled_for": "2026-11-08T18:30:00+00:00",
+    "observed_at": "2026-11-08T18:35:02.148614+00:00",
     "request_counts": {
       "source": 0,
       "paid": 0,
       "openalex": 0
     },
     "scheduler": {
-      "id": "Automation_f2fb1ff46a048191a6322e964a4daa9b",
-      "kind": "manual",
-      "authorization": "owner_request",
-      "observed_at": "2026-11-08T17:35:46.948823+00:00"
+      "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+      "observed_at": "2026-11-08T18:35:02.148614+00:00",
+      "is_enabled": true,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261108T023000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+      "last_run": {
+        "id": "eed6e8cf-85ec-832c-a140-c190620a6a5c",
+        "recorded_status": "in_progress",
+        "scheduled_for": "2026-11-08T18:30:00Z",
+        "started_at": "2026-11-08T18:31:41.521279Z",
+        "completed_at": null
+      }
     },
-    "application_completed_at": "2026-11-08T17:37:34.495634+00:00",
-    "receipt": "config/content_review_run_receipts/manual-retention-65c5f8db-439e-4f00-a1fa-6e06a4e3756f.json"
+    "application_completed_at": "2026-11-08T18:54:01.788620+00:00",
+    "failure_code": "reconciliation_hold"
   },
-  "last_heartbeat_at": "2026-11-08T17:35:46.948823+00:00",
+  "last_heartbeat_at": "2026-11-08T18:35:02.148614+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
@@ -1061,6 +1068,14 @@
       "expires_at": "2026-11-08T18:05:46.948823+00:00",
       "status": "released",
       "released_at": "2026-11-08T17:37:34.495634+00:00"
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "eed6e8cf-85ec-832c-a140-c190620a6a5c",
+      "acquired_at": "2026-11-08T18:35:02.148614+00:00",
+      "expires_at": "2026-11-08T19:05:02.148614+00:00",
+      "status": "released",
+      "released_at": "2026-11-08T18:54:01.788620+00:00"
     }
   ],
   "run_history": [
@@ -1499,12 +1514,37 @@
       },
       "application_completed_at": "2026-11-08T16:39:42.900283+00:00",
       "receipt": "config/content_review_run_receipts/manual-728ff163-ed3b-4c0f-9634-6f8f412eab76.json"
+    },
+    {
+      "run_id": "manual-retention-65c5f8db-439e-4f00-a1fa-6e06a4e3756f",
+      "application_status": "complete",
+      "started_at": "2026-11-08T17:35:46.948823+00:00",
+      "scheduled_for": null,
+      "observed_at": "2026-11-08T17:35:46.948823+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "scheduler": {
+        "id": "Automation_f2fb1ff46a048191a6322e964a4daa9b",
+        "kind": "manual",
+        "authorization": "owner_request",
+        "observed_at": "2026-11-08T17:35:46.948823+00:00"
+      },
+      "application_completed_at": "2026-11-08T17:37:34.495634+00:00",
+      "receipt": "config/content_review_run_receipts/manual-retention-65c5f8db-439e-4f00-a1fa-6e06a4e3756f.json"
     }
   ],
   "source_attempts": {
     "m3aawg": {
       "at": "2026-11-08T16:35:25.570869+00:00",
       "run_id": "manual-728ff163-ed3b-4c0f-9634-6f8f412eab76",
+      "gate": "duplicates"
+    },
+    "bellingcat": {
+      "at": "2026-11-08T18:37:03.344381+00:00",
+      "run_id": "eed6e8cf-85ec-832c-a140-c190620a6a5c",
       "gate": "duplicates"
     }
   },
