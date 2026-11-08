@@ -288,7 +288,8 @@ filters for duplicate-due or source-due candidates before its five-candidate cei
 five are held, it ends that bounded pass and gives source work a later turn
 instead of silently inspecting a second set of candidates. A bounded rotation
 based on retained run history moves the selection window across a stable due
-inventory, including when no checkpoint can be made. It must persist
+inventory, including when no checkpoint can be made; each due collection gets
+one slot before any collection receives another. It must persist
 `source_attempts[collection].at` only after an actual candidate
 attempt under the lease, separately from `source_last_progress`, which changes
 only when source work actually progresses. A duplicate gate is recorded as an

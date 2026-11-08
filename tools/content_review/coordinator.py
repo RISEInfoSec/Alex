@@ -106,8 +106,21 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     history=state.get('run_history',[])
     if not isinstance(history,list) or any(not isinstance(x,dict) or not x.get('run_id') for x in history):
         raise ValueError('Run history is unavailable for candidate rotation')
-    offset=(len(history)*INITIAL_LIMIT)%len(stage_eligible) if stage_eligible else 0
-    rotated=stage_eligible[offset:]+stage_eligible[:offset]
+    groups={}
+    for item in stage_eligible:groups.setdefault(item['collection'],[]).append(item)
+    order=list(groups)
+    if order:
+        offset=len(history)%len(order);order=order[offset:]+order[:offset]
+        for collection in order:
+            values=groups[collection];start=(len(history)*INITIAL_LIMIT)%len(values)
+            groups[collection]=values[start:]+values[:start]
+    # Rotate within each collection, then take one from each before repeating.
+    # This avoids a large collection's trailing items consuming the full window.
+    rotated=[]
+    while len(rotated)<INITIAL_LIMIT and any(groups.values()):
+        for collection in order:
+            if groups[collection]:rotated.append(groups[collection].pop(0))
+            if len(rotated)>=INITIAL_LIMIT:break
     selected = [{**item, 'content_sha256': index[(item['collection'], item['candidate_id'])]['content_sha256']}
                 for item in rotated[:INITIAL_LIMIT]]
     # Report due work even when an executor is not yet available. Hiding it as

@@ -142,6 +142,23 @@ def test_rotation_reaches_candidates_after_a_full_window_of_held_checks():
         plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},at=now)
 
 
+def test_rotated_source_window_visits_each_due_collection_before_repeating():
+    now,snap,manifests,ledger,registry,state=fixture();row=manifests['weekly']['records'][1];digest=row['content_sha256']
+    row['preflight']={'checks':{'duplicates':{'status':'passed','content_sha256':digest,
+        'checked_at':now.isoformat(),'evidence':{'verified':True}}}}
+    for n in range(8):
+        peer=deepcopy(row);peer.update(candidate_id='weekly-'+str(n),review_number=n+3)
+        manifests['weekly']['records'].append(peer);ledger['records']['weekly:'+peer['candidate_id']]=deepcopy(ledger['records']['weekly:fresh'])
+    for name in ('first','sans','m3aawg','bellingcat'):
+        if not any(x['id']==name for x in registry):registry.append({'id':name,'adapter':'normalized'})
+        peer=deepcopy(row);peer.update(candidate_id=name+'-candidate',review_number=1)
+        manifests[name]={'records':[peer]};ledger['records'][name+':'+peer['candidate_id']]=deepcopy(ledger['records']['weekly:fresh'])
+    state['run_history']=[{'run_id':'old-'+str(n)} for n in range(7)]
+    result=plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},at=now,stages=('source',))
+    assert len(result['selected'])==5
+    assert {x['collection'] for x in result['selected']}=={'weekly','first','sans','m3aawg','bellingcat'}
+
+
 def test_retained_source_selection_is_fair_and_safe_under_an_unresolved_failure():
     from tests.test_content_review_source_unresolved import sample
     from tools.content_review.source_unresolved import from_failure
