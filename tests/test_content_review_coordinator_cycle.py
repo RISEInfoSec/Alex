@@ -63,6 +63,16 @@ def test_pending_rotation_covers_discovery_duplicate_and_retained_source():
     assert [turn(n) for n in range(6)]==['source','duplicate','source_gate']*2
 
 
+def test_first_followup_checks_originating_pending_source_before_rotation():
+    review,main='a'*40,'b'*40;refs={REVIEW:review,MAIN:main}
+    state={'current_run':{'run_id':'run','pending_source_request':{'origin_run_id':'previous'}},
+           'run_history':[{'run_id':'first'},{'run_id':'second'},{'run_id':'third'},{'run_id':'previous'}]}
+    def turn():return pending_rotation('.',review,main,'run',heads=lambda _:refs,fetch=lambda *a:None,state_reader=lambda *a:state)
+    assert turn()=='source'
+    state['run_history'].append({'run_id':'later'})
+    assert turn()=='source_gate'
+
+
 def test_pending_source_allows_a_retained_source_gate():
     calls=[]
     result=mechanical_pass('.','secret',{},'worker','run',

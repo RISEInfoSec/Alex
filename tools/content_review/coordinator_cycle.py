@@ -61,6 +61,12 @@ def pending_rotation(repo,review_head,main_head,run_id,*,heads=read_heads,fetch=
     if not isinstance(history,list) or any(not isinstance(x,dict) or not x.get('run_id') for x in history):
         raise ValueError('Run history unavailable for pending-source rotation')
     if state['current_run'].get('run_id')!=run_id:raise ValueError('Current pending-source run differs')
+    # Recheck the original reservation once on the immediately following run:
+    # its workflow may have finished after the originating pass deferred.
+    # Later pending passes rotate fairly so a slow workflow cannot starve peers.
+    pending=state['current_run'].get('pending_source_request')
+    if isinstance(pending,dict) and history and pending.get('origin_run_id')==history[-1].get('run_id'):
+        return 'source'
     return ('source','duplicate','source_gate')[len(history)%3]
 
 
