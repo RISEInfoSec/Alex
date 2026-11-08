@@ -29,6 +29,7 @@ jobs:
       - run: python -m pytest -q tests/test_content_review_quality_hold_rules.py
       - run: python -m pytest -q tests/test_content_review_quality_source_corroboration.py
       - run: python -m pytest -q tests/test_content_review_openalex_singleton_policy.py
+      - run: python -m pytest -q tests/test_content_review_classification_assessment_guard.py
       - run: python -m pytest -q tests/test_content_review_quality_lower_bound.py
       - run: python -m pytest -q tests/test_content_review_quality_source_eligibility.py
       - run: python -m pytest -q tests/test_content_review_source_unresolved.py
