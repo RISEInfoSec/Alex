@@ -14,6 +14,7 @@ import re
 from tools.content_review.lifecycle import instant
 from tools.content_review.source_handoff import verify
 from tools.content_review.source_worker import digest
+from tools.content_review.source_origin_backoff import merge as merge_backoff
 
 
 def prepare(state,request,result_bytes,native_run,artifact,owner,run_id,*,at=None):
@@ -53,6 +54,7 @@ def prepare(state,request,result_bytes,native_run,artifact,owner,run_id,*,at=Non
     used=result.get('requests')
     if type(used) is not int or not 0<=used<=30:
         raise ValueError('Source request count is invalid')
+    cooldowns=merge_backoff(state.get('source_origin_backoff',{}),result,request_id)
     history=current.get('accounted_source_requests',[])
     if not isinstance(history,list) or any(not isinstance(x,dict) for x in history):
         raise ValueError('Source request history is invalid')
@@ -67,6 +69,7 @@ def prepare(state,request,result_bytes,native_run,artifact,owner,run_id,*,at=Non
              'artifact_id':artifact['id'],'artifact_sha256':artifact['sha256'],'result':deepcopy(result)}
     if previous:
         if len(previous)!=1 or previous[0]!=entry:raise ValueError('Source request was already accounted with different evidence')
+        if cooldowns!=state.get('source_origin_backoff',{}):raise ValueError('Previously accounted source cooldown is missing')
         return {'status':'already_accounted','state':deepcopy(state),'receipt':receipt,'writes':0}
     pending=current.get('pending_source_request') or {}
     if (pending.get('origin_run_id')!=origin or pending.get('request_id')!=request_id
@@ -92,6 +95,7 @@ def prepare(state,request,result_bytes,native_run,artifact,owner,run_id,*,at=Non
     if same_run and used>30-counts['source']:raise ValueError('Source request budget would be exceeded')
     updated=deepcopy(state)
     if same_run:updated['current_run']['request_counts']['source']+=used
+    if cooldowns or 'source_origin_backoff' in updated:updated['source_origin_backoff']=cooldowns
     updated['current_run'].setdefault('accounted_source_requests',[]).append(entry)
     updated['current_run']['pending_source_request']=None
     return {'status':'prepared','state':updated,'receipt':receipt,

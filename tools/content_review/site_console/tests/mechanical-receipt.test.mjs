@@ -51,6 +51,26 @@ test('console reads the replacement receipt at an immutable head and labels it r
  assert.equal(result.processing.counts_independently_verified,false);assert.equal(result.processing.native_completion_verified,false);
  assert.notEqual(result.workers[0].status,'Operating normally');
 });
+test('console reports a source-gate receipt without inventing review readiness',async()=>{
+ const now=Date.parse(end),head='c'.repeat(40),sourceReceipt=receipt();
+ sourceReceipt.kind='source_gate_completion';sourceReceipt.candidate_processing=true;
+ sourceReceipt.completed_actions[0].path='config/content_review_source_gate_checkpoints/'+'a'.repeat(64)+'.json';
+ sourceReceipt.completed_actions[0].gate='metadata';
+ const fetcher=async url=>{
+  if(url.includes('/commits/codex%2Fsoups-corpus-review'))return Response.json({sha:head});
+  if(url.includes('content_review_monitor_config.json'))return encoded({target_automation_id:target});
+  if(url.includes('content_review_worker_status.json'))return encoded(state());
+  if(url.includes('content_review_run_receipts/'))return encoded(sourceReceipt);
+  if(url.includes('content_review_operations.json'))return encoded({scheduler:{id:target}});
+  if(url.includes('content_review_processing_health.json'))return encoded({});
+  if(url.includes('openalex_request_policy.json'))return encoded({requests_enabled:true});
+  return Response.json({workflows:[]});
+ };
+ const result=await readOperations({fetcher,now});
+ assert.equal(result.processing.source_gate_passes,1);assert.equal(result.processing.duplicate_gate_passes,0);
+ assert.equal(result.processing.newly_review_ready,0);assert.equal(result.processing.native_completion_verified,false);
+ assert.match(result.processing.status,/Source progress reported/);
+});
 test('a moving review head cannot promote a receipt into processing evidence',async()=>{
  const now=Date.parse(end);let reads=0;
  const fetcher=async url=>{

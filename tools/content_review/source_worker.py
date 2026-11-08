@@ -22,6 +22,7 @@ def file_digest(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 MANIFESTS={s:'config/'+s+'_review_manifest.json' for s in ('soups','weekly','first','m3aawg','bellingcat','sans','virusbulletin')}
 
 from tools.content_review.lifecycle import ensure_eligible, instant
+from tools.content_review.source_origin_backoff import active as origin_backoff_active
 
 DIRECTORY = 'config/content_review_source_requests'
 WORKFLOW = '.github/workflows/content_review_sources.yml'
@@ -58,12 +59,15 @@ def retry_at(value):
         except (ValueError,TypeError):return None
 
 class Transport:
-    def __init__(self, *, deadline, cap=30, session=None, clock=time.monotonic, sleep=time.sleep):
+    def __init__(self, *, deadline, cap=30, session=None, clock=time.monotonic, sleep=time.sleep, origin_backoff=None):
         self.deadline,self.cap,self.session,self.clock,self.sleep=deadline,cap,session or requests.Session(),clock,sleep
+        self.origin_backoff=origin_backoff if origin_backoff is not None else {}
         self.sends=[];self.last={};self.robots={};self.stopped={};self.cache={}
         self.session.headers.update({'User-Agent':UA,'Accept':'text/html,application/pdf;q=0.9,*/*;q=0.1'})
     def send(self,url):
         url=safe_url(url);origin=urlsplit(url).netloc
+        if origin_backoff_active(self.origin_backoff,url,datetime.now(timezone.utc)):
+            raise Hold('source_origin_backoff_active')
         if origin in self.stopped:raise Hold('origin_backoff: '+self.stopped[origin]['reason'])
         delay=max(0,2-(self.clock()-self.last.get(origin,-100)))
         if len(self.sends)>=self.cap or self.clock()+delay+20>=self.deadline:raise Hold('source_request_or_time_budget_exhausted')
@@ -243,6 +247,9 @@ def validate(root,path):
             raise ValueError('Matching single pending source request and budget are required')
     items=req['records']
     if not 1<=len(items)<=5 or len({i['candidate_id'] for i in items})!=len(items):raise ValueError('Initial pilot candidate ceiling/identity')
+    for item in items:
+        if origin_backoff_active(state.get('source_origin_backoff',{}),item.get('url'),now):
+            raise ValueError('Source origin cooldown is active')
     if req.get('purpose') == 'corpus_metadata_audit':
         validate_corpus_snapshot(root,req)
         return req
@@ -255,6 +262,9 @@ def validate(root,path):
         if len(matches)!=1:raise ValueError('Candidate missing/nonunique')
         row=matches[0];ensure_eligible(root,item['collection'],item['candidate_id'])
         if row['content_sha256']!=item['content_sha256'] or reviewed_digest(row)!=row['content_sha256']:raise ValueError('Candidate content changed')
+        evidence=row.get('source_processing',{})
+        if evidence.get('content_sha256')==row['content_sha256'] and evidence.get('retrieval_status') in ('retrieved','held'):
+            raise ValueError('Retained source evidence or hold must be resolved first')
         if row.get('decision','pending') not in ('pending','unreviewed'):raise ValueError('Decided candidate')
         if item['url']!=row['source_url']:
             ref=item.get('resume_receipt','')
@@ -270,7 +280,8 @@ def validate(root,path):
 
 def execute(root,path,output):
     req=validate(root,path);seconds=(instant(req['work_deadline'])-datetime.now(timezone.utc)).total_seconds()
-    tx=Transport(deadline=time.monotonic()+seconds,cap=min(30,req['source_request_limit']))
+    state=json.loads((root/'config/content_review_worker_status.json').read_text())
+    tx=Transport(deadline=time.monotonic()+seconds,cap=min(30,req['source_request_limit']),origin_backoff=state.get('source_origin_backoff',{}))
     result={'schema_version':1,'request_id':req['request_id'],'status':'running','records':[],'requests':0,'read_only':True,'provenance':{k:os.environ.get(k,'') for k in ('GITHUB_SHA','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_REF','GITHUB_WORKFLOW_REF')}}
     def checkpoint():
         result.update(requests=len(tx.sends),request_log=tx.sends,origin_backoff=tx.stopped,updated_at=datetime.now(timezone.utc).isoformat())

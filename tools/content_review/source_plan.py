@@ -16,6 +16,7 @@ from tools.content_review.runtime_guard import before_work
 from tools.content_review.snapshot_integrity import verify_bytes
 from tools.content_review.source_handoff import prepare as prepare_handoff
 from tools.content_review.source_worker import Hold,MANIFESTS
+from tools.content_review.source_origin_backoff import active as backoff_active
 from tools.content_review.verified_inputs import _path_blob,load_inputs
 
 
@@ -122,6 +123,11 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
     for item in selected:
         pair=(item['collection'],item['candidate_id'])
         try:
+            manifest=inputs['manifests'][pair[0]]
+            matches=[row for row in manifest.get('records',[])+manifest.get('preflight_records',[]) if row.get('candidate_id')==pair[1]]
+            if len(matches)!=1:raise ValueError('Source candidate identity is ambiguous')
+            if backoff_active(state.get('source_origin_backoff',{}),matches[0].get('source_url'),now):
+                raise Hold('source_origin_backoff_active')
             prepare_handoff(root,[pair],state['current_run']['started_at'],owner,source_requests_used,at=now,coordinator_run_id=run_id)
             eligible.append(pair)
         except (Hold,ValueError,KeyError,StopIteration) as exc:

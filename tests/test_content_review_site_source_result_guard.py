@@ -1,4 +1,5 @@
 from copy import deepcopy
+from datetime import timedelta
 import hashlib
 import json
 from pathlib import Path
@@ -43,6 +44,23 @@ def test_site_guard_matches_python_source_accounting_including_carried_request(l
     parsed=json.loads(result.stdout)
     assert parsed['status']=='valid' and parsed['source_requests']==2
     assert parsed['candidate_processing'] is False and parsed['publication_verified'] is False
+
+
+def test_site_guard_requires_the_full_observed_provider_cooldown():
+    now,state,request,raw,run,artifact=fixture();result=json.loads(raw)
+    result['request_log']=[{'url':'https://publisher.example/a','started_at':now.isoformat(),'http_status':429,
+                            'retry_not_before':(now+timedelta(hours=2)).isoformat()},{}]
+    result['origin_backoff']={'publisher.example':{'reason':'http_429','retry_not_before':(now+timedelta(hours=2)).isoformat()}}
+    raw=json.dumps(result).encode();artifact['sha256']=hashlib.sha256(raw).hexdigest()
+    proposal=prepare(state,request,raw,run,artifact,'worker','scheduler-run',at=now)
+    snap={'submissions':[],'decisions':[],'jobs':[]};snap['read_evidence']={k:{'complete':True,'rows_received':0,'truncated_values':0,'omitted_columns':0}
+                                                                         for k in ('submissions','decisions','jobs')}
+    artifact['archive_sha256']='e'*64
+    data={'before':state,'after':proposal['state'],'request':request,'receipt':proposal['receipt'],'nativeRun':run,'artifact':artifact,
+          'resultText':raw.decode(),'snapshot':snap,'confirmed':deepcopy(snap),'owner':'worker','runId':'scheduler-run','now':int(now.timestamp()*1000)}
+    assert invoke(data).returncode==0
+    data['after']['source_origin_backoff']['publisher.example']['retry_not_before']=now.isoformat()
+    assert invoke(data).returncode!=0
 
 
 @pytest.mark.parametrize('change',['artifact','archive','run','state','receipt','snapshot','provenance','count','pending','history'])

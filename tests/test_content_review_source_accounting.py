@@ -53,6 +53,19 @@ def test_changed_artifact_or_unverified_run_cannot_be_counted():
         call(now,state,request,raw,run,artifact)
 
 
+def test_accounting_persists_429_cooldown_and_rejects_missing_replay_state():
+    now,state,request,raw,run,artifact=fixture();result=json.loads(raw)
+    result['request_log']=[{'url':'https://publisher.example/a','started_at':now.isoformat(),'http_status':429,
+                            'retry_not_before':(now+timedelta(hours=2)).isoformat()},{}]
+    result['origin_backoff']={'publisher.example':{'reason':'http_429','retry_not_before':(now+timedelta(hours=2)).isoformat()}}
+    raw=json.dumps(result).encode();artifact['sha256']=hashlib.sha256(raw).hexdigest()
+    saved=call(now,state,request,raw,run,artifact)['state']
+    assert saved['source_origin_backoff']['publisher.example']['retry_not_before']==(now+timedelta(hours=2)).isoformat()
+    assert call(now,saved,request,raw,run,artifact)['status']=='already_accounted'
+    del saved['source_origin_backoff']
+    with pytest.raises(ValueError,match='cooldown is missing'):call(now,saved,request,raw,run,artifact)
+
+
 def test_partial_artifact_is_not_accounted_even_when_its_hash_matches():
     now,state,request,raw,run,artifact=fixture()
     result=json.loads(raw);result['status']='running';raw=json.dumps(result).encode()

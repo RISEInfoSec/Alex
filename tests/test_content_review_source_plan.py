@@ -129,6 +129,20 @@ def test_pending_request_prevents_a_second_dispatch_plan(tmp_path):
     assert second['status']=='pending_source_result' and second['request'] is None
 
 
+def test_active_provider_backoff_prevents_new_source_request(tmp_path):
+    now,review,main,hb,row,snap=fixture(tmp_path)
+    state=json.loads((tmp_path/'config/content_review_worker_status.json').read_text())
+    state['source_origin_backoff']={'example.org':{'reason':'http_429','retry_not_before':(now+timedelta(hours=1)).isoformat(),'source_request_id':'a'*64}}
+    put(tmp_path,'config/content_review_worker_status.json',state);git(tmp_path,'add','.');git(tmp_path,'commit','-qm','provider cooldown')
+    review=git(tmp_path,'rev-parse','HEAD');branch=git(tmp_path,'symbolic-ref','--short','HEAD')
+    beat=prepare_heartbeat(state,review,'worker','run',at=now)
+    git(tmp_path,'checkout','-q','heartbeat');put(tmp_path,'config/content_review_detached_heartbeat.json',beat)
+    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','heartbeat after cooldown');hb=git(tmp_path,'rev-parse','HEAD');git(tmp_path,'checkout','-q',branch)
+    result=call(tmp_path,now,review,main,hb,snap)
+    assert result['status']=='all_source_candidates_held' and result['request'] is None
+    assert result['held'][0]['reason']=='source_origin_backoff_active'
+
+
 def test_accounted_source_evidence_must_be_retained_before_another_request(tmp_path):
     from tests.test_content_review_source_retention import fixture as accounted_fixture
     now,review,main,hb,snapshot,request,raw,run,artifact=accounted_fixture(tmp_path)

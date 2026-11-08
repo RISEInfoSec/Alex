@@ -71,6 +71,16 @@ def test_exhausted_budget_sends_nothing(monkeypatch):
     with pytest.raises(s.Hold,match='budget_exhausted'):tx.send('https://example.org/paper')
     assert tx.sends==[]
 
+def test_retained_cooldown_blocks_redirect_origin_before_network(monkeypatch):
+    from datetime import datetime, timedelta, timezone
+    monkeypatch.setattr(s,'safe_url',lambda url,resolve=True:url)
+    until=(datetime.now(timezone.utc)+timedelta(hours=1)).isoformat()
+    tx=s.Transport(deadline=1000,clock=lambda:0,sleep=lambda _:None,
+                   origin_backoff={'example.org':{'reason':'http_429','retry_not_before':until}})
+    with pytest.raises(s.Hold,match='source_origin_backoff_active'):
+        tx.send('https://example.org/redirected-document')
+    assert tx.sends==[] and tx.stopped=={}
+
 def test_unavailable_page_never_follows_navigation_pdf():
     x=s.extract(response(b'<title>Temporarily Unavailable For Review</title><p>Content review</p><a href="unrelated.pdf">DNS matrix</a>'))
     with pytest.raises(s.Hold,match='publisher_temporarily_withheld'):s.linked_pdf(x)

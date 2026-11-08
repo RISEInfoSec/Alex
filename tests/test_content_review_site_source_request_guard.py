@@ -41,6 +41,17 @@ def test_site_guard_accepts_a_real_bounded_python_source_request(tmp_path):
     assert checked['candidate_processing'] is False and checked['publication_verified'] is False
 
 
+def test_site_guard_refuses_active_origin_backoff_and_retained_holds(tmp_path):
+    original=value(tmp_path);data=deepcopy(original)
+    backoff={'example.org':{'reason':'http_429','retry_not_before':'2099-01-01T00:00:00Z','source_request_id':'a'*64}}
+    data['before']['source_origin_backoff']=deepcopy(backoff);data['after']['source_origin_backoff']=deepcopy(backoff)
+    assert invoke(data).returncode!=0
+    data=deepcopy(original)
+    row=data['manifests']['weekly']['records'][0]
+    row['source_processing']={'content_sha256':row['content_sha256'],'retrieval_status':'held'}
+    assert invoke(data).returncode!=0
+
+
 @pytest.mark.parametrize('change',['url','openalex','hash','budget','state','snapshot','decision','retrieved','duplicate','expired'])
 def test_site_guard_rejects_unchecked_source_requests(tmp_path,change):
     data=value(tmp_path)

@@ -6,6 +6,7 @@
 const {fingerprint,sha256}=require('./d1_fingerprint.cjs');
 const {pyJson}=require('./soups_intake_site_guard.cjs');
 const {validateSnapshot,complete}=require('./site_duplicate_semantics.cjs');
+const sourceBackoff=require('./site_source_origin_backoff.cjs');
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const canonical=x=>Array.isArray(x)?x.map(canonical):object(x)?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
 const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
@@ -70,6 +71,8 @@ function validateSourceResult({before,after,request,receipt,nativeRun,artifact,r
   requests:result.requests,origin_run_id:origin,charged_to_current_run:sameRun};
  const expected=structuredClone(before);
  if(sameRun)expected.current_run.request_counts.source+=result.requests;
+ const cooldowns=sourceBackoff.merge(before.source_origin_backoff??{},result,request.request_id);
+ if(Object.keys(cooldowns).length||Object.prototype.hasOwnProperty.call(expected,'source_origin_backoff'))expected.source_origin_backoff=cooldowns;
  expected.current_run.accounted_source_requests??=[];expected.current_run.accounted_source_requests.push(entry);expected.current_run.pending_source_request=null;
  const nativeFields=['id','event','head_branch','path','status','conclusion','head_sha','run_attempt'];
  const expectedReceipt={schema_version:1,independently_verified:true,request,native_run:Object.fromEntries(nativeFields.map(k=>[k,nativeRun[k]])),

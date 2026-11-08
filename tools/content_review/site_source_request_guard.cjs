@@ -6,6 +6,7 @@
 const {fingerprint,sha256}=require('./d1_fingerprint.cjs');
 const {pyJson}=require('./soups_intake_site_guard.cjs');
 const {validateSnapshot,complete}=require('./site_duplicate_semantics.cjs');
+const sourceBackoff=require('./site_source_origin_backoff.cjs');
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const canonical=x=>Array.isArray(x)?x.map(canonical):object(x)?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
 const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
@@ -61,7 +62,8 @@ function validateSourceRequest({before,after,request,manifests,manifestHashes,le
   if(row.content_sha256!==item.content_sha256||sha256(pyJson(content))!==item.content_sha256||row.source_url!==item.url||
    !['pending','unreviewed'].includes(field(row,'decision','pending'))||row.publication_status==='published_live_verified'||
    row.publication_approved===true||!Number.isSafeInteger(row.review_number)||row.review_number<1||!pass(row,'duplicates')||
-   (pass(row,'format')&&pass(row,'access'))||(row.source_processing?.content_sha256===item.content_sha256&&row.source_processing?.retrieval_status==='retrieved'))
+   (pass(row,'format')&&pass(row,'access'))||(row.source_processing?.content_sha256===item.content_sha256&&['retrieved','held'].includes(row.source_processing?.retrieval_status))||
+   sourceBackoff.active(before.source_origin_backoff??{},item.url,when))
    throw Error('Source candidate is ineligible');
   const entry=ledger.records[item.collection+':'+item.candidate_id];
   if(!object(entry)||entry.state!=='awaiting_initial_checks'||!Array.isArray(entry.attempts)||

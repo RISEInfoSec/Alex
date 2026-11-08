@@ -24,7 +24,8 @@ def prepare(root,selections,started_at,lease_owner,source_requests_used=0,*,at=N
             raise ValueError('Candidate decision or reviewed content is no longer eligible')
         safe_url(row.get('source_url',''),resolve=False)
         ev=row.get('source_processing',{})
-        if ev.get('content_sha256')==row['content_sha256'] and ev.get('retrieval_status')=='retrieved':raise ValueError('Consume retained source evidence instead of downloading again')
+        if ev.get('content_sha256')==row['content_sha256'] and ev.get('retrieval_status') in ('retrieved','held'):
+            raise ValueError('Consume retained source evidence or resolve its hold instead of downloading again')
         result['records'].append({'collection':collection,'candidate_id':cid,'content_sha256':row['content_sha256'],'manifest_sha256':file_digest(p),'url':row['source_url']})
     result['request_id']=digest(result);return result
 
