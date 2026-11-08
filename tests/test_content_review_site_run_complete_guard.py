@@ -11,8 +11,8 @@ from tests.test_content_review_verified_inputs import git
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def value(repo):
-    data = fixture(repo)
+def value(repo, *, pending=False):
+    data = fixture(repo,pending=pending)
     result = call(repo, data)
     receipt = json.loads(result['files'][result['new_path']])
     return {'before':json.loads(git(repo,'show',data[1]+':config/content_review_worker_status.json')),
@@ -33,6 +33,15 @@ def test_site_guard_validates_real_completed_checkpoint_receipt(tmp_path):
     assert result.returncode==0,result.stderr
     assert json.loads(result.stdout)=={'status':'valid','candidate_processing':True,
                                        'native_completion_verified':False,'publication_verified':False}
+
+
+def test_site_guard_preserves_pending_source_and_rejects_mutated_history(tmp_path):
+    data=value(tmp_path,pending=True)
+    assert invoke(data).returncode==0
+    changed=deepcopy(data);changed['after']['current_run']['pending_source_request']=None
+    assert invoke(changed).returncode!=0
+    changed=deepcopy(data);changed['before']['run_history'][0]['pending_source_request']['request_id']='e'*64
+    assert invoke(changed).returncode!=0
 
 
 @pytest.mark.parametrize('change',['action','native','publication','history','state','request','empty','expired'])

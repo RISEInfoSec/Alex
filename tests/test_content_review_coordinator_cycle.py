@@ -32,8 +32,26 @@ def test_pending_source_is_resumed_before_new_duplicate_work():
     result=mechanical_pass('.','secret',{},'worker','run',
         begin=lambda *a:{'status':'lease_started','review_head':'a'*40,'main_head':'b'*40},
         pending_checker=lambda *a:True,checkpoint=lambda *a:calls.append('duplicate'),
+        gate_selector=lambda *a:False,
         source_runner=lambda *a:(calls.append('source') or {'status':'deferred','candidate_processing':False}))
     assert calls==['source'] and result['candidate_processing'] is False
+
+
+def test_pending_source_allows_alternating_duplicate_progress_and_preserves_fallback():
+    calls=[]
+    common=dict(begin=lambda *a:{'status':'lease_started','review_head':'a'*40,'main_head':'b'*40},
+        pending_checker=lambda *a:True,gate_selector=lambda *a:True,
+        source_runner=lambda *a:(calls.append('source') or {'status':'deferred'}),
+        finish=lambda *a:(calls.append('finish') or {'status':'application_complete','candidate_processing':True}))
+    result=mechanical_pass('.','secret',{},'worker','run',checkpoint=lambda *a:(calls.append('duplicate') or
+        {'status':'checkpoint_confirmed_run_incomplete','commit_sha':'c'*40,'receipt_path':'receipt'}),**common)
+    assert calls==['duplicate','finish'] and result['candidate_processing'] is True
+    calls.clear()
+    result=mechanical_pass('.','secret',{},'worker','run',checkpoint=lambda *a:(calls.append('duplicate') or {'status':'deferred'}),**common)
+    assert calls==['duplicate','source'] and result['status']=='deferred'
+    calls.clear()
+    result=mechanical_pass('.','secret',{},'worker','run',checkpoint=lambda *a:{'status':'blocked','reconcile_before_retry':True},**common)
+    assert result['reconcile_before_retry'] is True and calls==[]
 
 
 def test_intake_uses_guarded_checkpoint_then_truthful_no_work_release():

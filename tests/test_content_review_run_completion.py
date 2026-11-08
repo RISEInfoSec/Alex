@@ -18,10 +18,13 @@ from tools.content_review.verified_inputs import load_inputs
 from tools.content_review.work_plan import processing_progress
 
 
-def fixture(repo, *, with_checkpoint=True):
+def fixture(repo, *, with_checkpoint=True, pending=False):
     now, snapshot, inputs, state, ledger = setup_bundle()
     state['lease']=None
     state['current_run']={'run_id':'old','application_status':'complete','receipt':'preserved'}
+    if pending:
+        state['current_run']['pending_source_request']={'request_id':'d'*64,'origin_run_id':'old',
+            'reserved_limit':30,'prepared_at':now.isoformat()}
     worker='Automation_worker1'
     _, main, _=input_fixture(repo)
     for path, value in {
@@ -96,6 +99,21 @@ def test_empty_pass_is_deferred_and_never_verifies_as_completed_work(tmp_path):
     assert worker['current_run']['application_status']=='deferred' and worker['lease'] is None
     native=deepcopy(data[4]);native['run_details']['last_run'].update(recorded_status='completed',completed_at=(data[0]+timedelta(seconds=12)).isoformat())
     assert verified_completion(native,receipt) is None
+
+
+def test_duplicate_completion_preserves_prior_pending_source_reservation(tmp_path):
+    data=fixture(tmp_path,pending=True)
+    proposal=call(tmp_path,data)
+    before=json.loads(git(tmp_path,'show',data[1]+':config/content_review_worker_status.json'))
+    after=json.loads(proposal['files']['config/content_review_worker_status.json'])
+    assert after['current_run']['pending_source_request']==before['current_run']['pending_source_request']
+    assert after['lease'] is None and after['current_run']['application_status']=='complete'
+
+
+def test_pending_source_cannot_be_released_as_an_empty_duplicate_completion(tmp_path):
+    data=fixture(tmp_path,with_checkpoint=False,pending=True)
+    with pytest.raises(ValueError,match='Pending source reservation'):
+        call(tmp_path,data)
 
 
 def test_native_action_and_stale_heartbeat_fail_closed(tmp_path):

@@ -50,7 +50,19 @@ def mechanical_pass(repo,token,native,owner,run_id,*,begin=start,checkpoint=chec
     if started.get('status')!='lease_started':return started
     review,main=started['review_head'],started['main_head']
     if pending_checker(repo,review,main,run_id):
-        return source_runner(repo,token,native,review,main,owner,run_id)
+        # Preserve the existing source reservation, but do not let a slow or
+        # failed source workflow prevent unrelated local checks indefinitely.
+        # Alternate with source discovery; a deferred duplicate check falls
+        # through to discovery in the same run, and ambiguous writes stop.
+        if not gate_selector(repo,review,main,run_id):
+            return source_runner(repo,token,native,review,main,owner,run_id)
+        checked=checkpoint(repo,token,review,main,owner,run_id)
+        if checked.get('status')=='blocked':return checked
+        if checked.get('status')=='deferred':
+            return source_runner(repo,token,native,review,main,owner,run_id)
+        if checked.get('status')!='checkpoint_confirmed_run_incomplete':
+            raise ValueError('Unrecognized checkpoint outcome; reconcile before retrying')
+        return finish(repo,token,native,checked['commit_sha'],main,owner,run_id,checked['receipt_path'])
     if intake_selector(repo,review,main,run_id):
         intake=intake_runner(repo,token,review,main,owner,run_id)
         if intake.get('status')=='blocked':return intake

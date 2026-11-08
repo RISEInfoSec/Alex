@@ -16,8 +16,8 @@ from tools.content_review.run_completion import prepare
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def request(repo):
-    old=fixture(repo);now,checkpoint,main,_,native,snapshot,paths=old
+def request(repo, *, pending=False):
+    old=fixture(repo,pending=pending);now,checkpoint,main,_,native,snapshot,paths=old
     value=readback_data(repo,old)
     put(repo,'config/content_review_monitor_config.json',{'target_automation_id':'Automation_worker1',
                                                           'heartbeat_ref':'codex/content-review-heartbeat'})
@@ -84,6 +84,11 @@ const saved={},api={
 let outcome;try{outcome={result:await writeCompletion({db,github:api,input:v.input,now:()=>v.now})}}catch(e){outcome={error:e.message}}
 outcome.commits=commits;outcome.heartbeat_updates=heartbeatUpdates;
 outcome.fence=sqlite.prepare('SELECT phase FROM content_review_write_fence').all().map(x=>x.phase);
+if(saved['config/content_review_worker_status.json']){
+ const after=JSON.parse(saved['config/content_review_worker_status.json']);
+ const before=JSON.parse(v.files[v.input.expectedHead+':config/content_review_worker_status.json'].content);
+ outcome.pending_preserved=JSON.stringify(after.current_run.pending_source_request)===JSON.stringify(before.current_run.pending_source_request);
+}
 if(mode==='ambiguous'){
  try{sqlite.prepare('INSERT INTO review_submissions VALUES (?,?,?,?,?,?,?,?,?)')
   .run('blocked','user','weekly',1,1,0,1,'0'.repeat(64),v.heartbeat.started_at);outcome.blocked=false;}
@@ -104,3 +109,9 @@ def test_completion_reaudits_under_real_d1_fence(tmp_path,mode):
         assert result['result']['native_completion_verified'] is False and result['result']['publication_verified'] is False
     if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
     if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True
+
+
+def test_duplicate_completion_preserves_pending_source_under_real_d1_fence(tmp_path):
+    result=invoke(request(tmp_path,pending=True),'success')
+    assert result.get('result',{}).get('status')=='committed_and_read_back',result
+    assert result['pending_preserved'] is True and result['fence']==[] and result['commits']==1

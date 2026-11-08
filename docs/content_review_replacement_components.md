@@ -44,6 +44,11 @@ after independently supplied native workflow and artifact evidence agrees;
 `source_request_guard.py` and `source_result_guard.py` prepare two-file atomic
 bundles for a single pending request and its later verified receipt. The
 pending reservation survives a run transition with its original run identity.
+A pending source request no longer necessarily consumes every full-coordinator
+cycle: alternating cycles may checkpoint one eligible duplicate gate, while
+preserving the original reservation and run history. A deferred local check
+falls through to source discovery. This does not resolve a failed request,
+process all remaining gates, or establish fair coverage of every collection.
 A later run accepts the result only with matching original run and lease history;
 it records the original budget use without charging the later run or dispatching
 the request again. Missing or inconsistent history holds further source work.

@@ -72,8 +72,20 @@ def prepare(repo, review_head, main_head, heartbeat_head, native, snapshot, conf
     counts = run.get('request_counts')
     if not isinstance(counts, dict) or any(type(counts.get(k)) is not int or counts[k] != 0 for k in ('source', 'paid', 'openalex')):
         raise ValueError('Only zero-provider mechanical runs are currently supported')
-    if run.get('pending_source_request') is not None:
-        raise ValueError('Pending source requests require a separate completion adapter')
+    pending=run.get('pending_source_request')
+    if pending is not None:
+        # The pending reservation is carried forward unchanged; an empty run
+        # must use the source-pending adapter instead of claiming completion.
+        origin=pending.get('origin_run_id') if isinstance(pending,dict) else None
+        history=state.get('run_history')
+        matches=[x for x in history if isinstance(x,dict) and x.get('run_id')==origin] if isinstance(history,list) else []
+        if (not checkpoint_paths or not isinstance(pending,dict) or
+            not re.fullmatch(r'[0-9a-f]{64}',pending.get('request_id') or '') or
+            not isinstance(origin,str) or not re.fullmatch(r'[a-zA-Z0-9-]{1,100}',origin) or
+            type(pending.get('reserved_limit')) is not int or not 1<=pending['reserved_limit']<=30 or
+            not instant(pending.get('prepared_at')) or len(matches)!=1 or
+            matches[0].get('pending_source_request')!=pending):
+            raise ValueError('Pending source reservation cannot be preserved')
     inputs = load_inputs(repo, review_head, main_head)
     manifests = inputs['reconciliation_manifests']
     checked = reconcile(snapshot, confirmed_snapshot, {k: v.get('records', []) for k, v in manifests.items()})
