@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "reconciliation_hold",
-  "lease": {
-    "owner": "alex-guarded-pilot",
-    "run_id": "d46cc2e1-7970-832c-932e-fe6061a41735",
-    "acquired_at": "2026-11-08T19:34:58.929611+00:00",
-    "expires_at": "2026-11-08T20:04:58.929611+00:00"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "weekly": 3,
@@ -734,7 +729,7 @@
   },
   "current_run": {
     "run_id": "d46cc2e1-7970-832c-932e-fe6061a41735",
-    "application_status": "running",
+    "application_status": "failed",
     "started_at": "2026-11-08T19:31:24.266367+00:00",
     "scheduled_for": "2026-11-08T19:30:00+00:00",
     "observed_at": "2026-11-08T19:34:58.929611+00:00",
@@ -755,7 +750,9 @@
         "started_at": "2026-11-08T19:31:24.266367Z",
         "completed_at": null
       }
-    }
+    },
+    "application_completed_at": "2026-11-08T19:52:37.857711+00:00",
+    "failure_code": "reconciliation_hold"
   },
   "last_heartbeat_at": "2026-11-08T19:34:58.929611+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
@@ -1079,6 +1076,14 @@
       "expires_at": "2026-11-08T19:05:02.148614+00:00",
       "status": "released",
       "released_at": "2026-11-08T18:54:01.788620+00:00"
+    },
+    {
+      "owner": "alex-guarded-pilot",
+      "run_id": "d46cc2e1-7970-832c-932e-fe6061a41735",
+      "acquired_at": "2026-11-08T19:34:58.929611+00:00",
+      "expires_at": "2026-11-08T20:04:58.929611+00:00",
+      "status": "released",
+      "released_at": "2026-11-08T19:52:37.857711+00:00"
     }
   ],
   "run_history": [
