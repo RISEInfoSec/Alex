@@ -26,7 +26,7 @@ def invoke(value,mode):
 let raw='';for await(const chunk of process.stdin)raw+=chunk;const v=JSON.parse(raw),mode=v.mode;
 const hash=s=>crypto.createHash('sha1').update(`blob ${Buffer.byteLength(s)}\0`).update(s).digest('hex');
 const ok=x=>({isError:false,structuredContent:x});let head=v.input.expectedHead,phase='idle',commits=0,blobs=0,events=[],clock=v.now,lastPulse=clock,pulses=0;
-const committed='d'.repeat(40),tree='c'.repeat(40),api={
+let verified=[],checking=false;const committed='d'.repeat(40),tree='c'.repeat(40),api={
  fetchCommit:async({commit_sha})=>ok({commit:{sha:commit_sha==='main'?v.input.expectedMain:head}}),
  fetchFile:async({path})=>path==='config/content_review_worker_status.json'?(()=>{const content=JSON.stringify(v.before);return ok({sha:hash(content),content})})():
   ({isError:true,structuredContent:{error_code:'NOT_FOUND'}}),
@@ -40,13 +40,15 @@ const control=async({input})=>{events.push(input.action);
  if(input.action==='release'){phase='idle';return {status:'confirmed_and_released',commit_sha:committed}}};
 const read=async({heartbeat})=>{if(mode==='slow'||mode==='pulse_failure'){clock+=45000;await heartbeat()}return {snapshot:v.snapshot,confirmed_snapshot:v.snapshot,transactional_snapshot:false}};
 const verify=async()=>{if(mode==='unverified'||clock-lastPulse>40000)throw Error('Worker lease unavailable')};
-const check=async()=>{if(mode==='bad_checkpoint')throw Error('Checkpoint evidence invalid');return v.action};
+const check=async({path})=>{if(checking)throw Error('Concurrent checkpoint verification');checking=true;
+ verified.push(path);if(mode==='bad_checkpoint'||mode==='bad_second'&&verified.length===2)throw Error('Checkpoint evidence invalid');
+ const action=(v.actions||[v.action]).find(x=>x.path===path);checking=false;return action};
 const heartbeatFactory=()=>async()=>{if(mode==='pulse_failure')throw Error('heartbeat unavailable');pulses++;lastPulse=clock;return {renewed:true}};
 if(mode==='false_receipt'){const p='config/content_review_run_receipts/run.json',r=JSON.parse(v.input.files[p]);
  r.native_completion_verified=true;v.input.files[p]=JSON.stringify(r)}
 try{const result=await writeCompletion({db:{},github:api,input:v.input,now:()=>clock,read,control,verify,check,heartbeatFactory});
- process.stdout.write(JSON.stringify({result,commits,blobs,phase,events,pulses}));}
-catch(e){process.stdout.write(JSON.stringify({error:e.message,commits,blobs,phase,events,pulses}));}"""
+ process.stdout.write(JSON.stringify({result,commits,blobs,phase,events,pulses,verified}));}
+catch(e){process.stdout.write(JSON.stringify({error:e.message,commits,blobs,phase,events,pulses,verified}));}"""
     result=subprocess.run(['node','--input-type=module','-e',code],cwd=ROOT,input=json.dumps({**value,'mode':mode}),text=True,capture_output=True)
     assert result.returncode==0,result.stderr
     return json.loads(result.stdout)
@@ -57,6 +59,24 @@ def test_completion_writer_releases_only_a_verified_checkpoint(tmp_path):
     assert result.get('result',{}).get('status')=='committed_and_read_back',result
     assert result['result']['candidate_processing'] is True and result['result']['native_completion_verified'] is False
     assert result['result']['publication_verified'] is False and result['events']==['acquire','begin','release']
+
+
+def test_batch_completion_independently_checks_each_checkpoint_before_fencing(tmp_path):
+    value=request(tmp_path);first=value['action'];second={**first,'candidate_id':'other','collection':'m3aawg',
+        'path':'config/content_review_mechanical_checkpoints/'+'d'*64+'.json'}
+    value['actions']=[first,second];value['input']['checkpointCommits'][second['path']]='e'*40
+    path='config/content_review_run_receipts/run.json';receipt=json.loads(value['input']['files'][path])
+    receipt['completed_actions']=[first,second];receipt['pilot']['attempted_candidate_ids']=[first['candidate_id'],second['candidate_id']]
+    receipt['pilot']['newly_passed_checks']['duplicates']=[first['candidate_id'],second['candidate_id']]
+    value['input']['files'][path]=json.dumps(receipt)
+    result=invoke(value,'success')
+    assert result.get('result',{}).get('status')=='committed_and_read_back',result
+    assert result['verified']==[first['path'],second['path']] and result['events']==['acquire','begin','release']
+    failed=invoke(value,'bad_second')
+    assert 'error' in failed and failed['verified']==[first['path'],second['path']]
+    assert failed['events']==[] and failed['commits']==0 and failed['blobs']==0
+    missing=deepcopy(value);del missing['input']['checkpointCommits'][second['path']]
+    result=invoke(missing,'success');assert 'error' in result and result['verified']==[] and result['events']==[]
 
 
 @pytest.mark.parametrize('mode',['unverified','bad_checkpoint','false_receipt','busy','changed','ambiguous'])

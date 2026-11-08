@@ -44,6 +44,23 @@ def test_site_guard_preserves_pending_source_and_rejects_mutated_history(tmp_pat
     assert invoke(changed).returncode!=0
 
 
+def test_site_guard_requires_every_distinct_checkpoint_in_order(tmp_path):
+    data=value(tmp_path);first=data.pop('verifiedAction');second={**first,'candidate_id':'other',
+        'collection':'m3aawg','path':'config/content_review_mechanical_checkpoints/'+'d'*64+'.json'}
+    data['verifiedActions']=[first,second];data['receipt']['completed_actions']=[first,second]
+    data['receipt']['pilot']['attempted_candidate_ids']=[first['candidate_id'],second['candidate_id']]
+    data['receipt']['pilot']['newly_passed_checks']['duplicates']=[first['candidate_id'],second['candidate_id']]
+    assert invoke(data).returncode==0
+    for changed in ('omitted','reordered','duplicate_path','duplicate_candidate','extra_action'):
+        bad=deepcopy(data)
+        if changed=='omitted':bad['verifiedActions'].pop()
+        if changed=='reordered':bad['verifiedActions'].reverse()
+        if changed=='duplicate_path':bad['verifiedActions'][1]['path']=first['path']
+        if changed=='duplicate_candidate':bad['verifiedActions'][1]['candidate_id']=first['candidate_id']
+        if changed=='extra_action':bad['verifiedActions']*=3
+        assert invoke(bad).returncode!=0
+
+
 @pytest.mark.parametrize('change',['action','native','publication','history','state','request','empty','expired'])
 def test_site_guard_refuses_false_completion_claims(tmp_path,change):
     data=value(tmp_path)

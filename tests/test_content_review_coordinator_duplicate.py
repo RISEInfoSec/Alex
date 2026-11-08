@@ -68,6 +68,25 @@ def test_coordinator_skips_a_held_duplicate_and_checks_next_fair_candidate(monke
     assert seen==['held','clear'] and result['candidate_processing'] is True
 
 
+def test_backlog_skips_site_unsupported_candidate_without_a_write_then_checks_next(monkeypatch):
+    review,main,heartbeat,commit='a'*40,'b'*40,'c'*40,'d'*40;refs={module.REVIEW:review,module.MAIN:main,module.HEARTBEAT:heartbeat};seen=[]
+    monkeypatch.setattr(module,'_path_blob',lambda *args:(b'{}',{}))
+    def screen(repo,inputs,collection,candidate):seen.append(candidate);return 'unsupported' if candidate=='unsafe' else 'clear'
+    def send(*a):
+        refs[module.REVIEW]=commit
+        return {'status':'committed_and_read_back','commit_sha':commit,'receipt_path':'config/content_review_mechanical_checkpoints/'+'e'*64+'.json',
+                'candidate_processing':True,'gate':'duplicates','native_completion_verified':False,'publication_verified':False}
+    result=module.checkpoint_one('.','secret',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,
+        inputs_reader=lambda *a:{'worker_state':{},'lifecycle':{},'reconciliation_manifests':{},'registry':[]},snapshot_reader=lambda *a:({},{}),
+        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,only_collections=('m3aawg',),
+        max_candidates=2,return_examined=True,precheck=screen,
+        planner=lambda *a,**k:{'selected':[{'collection':'m3aawg','candidate_id':'unsafe','next_stage':'duplicates'},
+                                          {'collection':'m3aawg','candidate_id':'clear','next_stage':'duplicates'}]},
+        preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},send=send)
+    assert seen==['unsafe','clear'] and result['candidate_processing'] is True
+    assert result['_examined_private']==[('m3aawg','unsafe'),('m3aawg','clear')]
+
+
 def test_coordinator_preserves_only_safe_site_failure_reason(monkeypatch):
     review,main,heartbeat='a'*40,'b'*40,'c'*40;refs={module.REVIEW:review,module.MAIN:main,module.HEARTBEAT:heartbeat}
     monkeypatch.setattr(module,'_path_blob',lambda *args:(b'{}',{}))

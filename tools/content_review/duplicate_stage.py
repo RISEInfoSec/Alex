@@ -15,7 +15,7 @@ from tools.content_review.manifest_integrity import validate_update
 
 
 def evaluate(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
-             collection, candidate_id, *, observed_heads, source_attempts, source_progress, at=None, heartbeat=None):
+             collection, candidate_id, *, observed_heads, source_attempts, source_progress, at=None, heartbeat=None, only_collections=None,excluded_candidates=None):
     now = at or datetime.now(timezone.utc)
     if not isinstance(inputs, dict) or not isinstance(observed_heads, dict):
         raise ValueError('Verified input bundle and current heads are required')
@@ -42,7 +42,7 @@ def evaluate(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
     selection = plan(snapshot, confirmed_snapshot, normalized, ledger, inputs['registry'],
                      state, owner, run_id, source_attempts=source_attempts,
                      source_progress=source_progress, at=now, heartbeat=heartbeat, review_head=inputs['review_commit'],
-                     stages=('duplicates',))
+                     stages=('duplicates',),only_collections=only_collections,excluded_candidates=excluded_candidates)
     match = [x for x in selection['selected'] if x['collection'] == collection and x['candidate_id'] == candidate_id]
     if len(match) != 1 or match[0]['next_stage'] != 'duplicates':
         raise ValueError('Candidate is not selected for its duplicate gate')
@@ -67,11 +67,12 @@ def evaluate(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
 
 
 def propose_checkpoint(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
-                       collection, candidate_id, *, observed_heads, source_attempts, source_progress, at=None, heartbeat=None):
+                       collection, candidate_id, *, observed_heads, source_attempts, source_progress, at=None, heartbeat=None, only_collections=None,excluded_candidates=None):
     """Prepare an evidence-bound manifest change; never write or publish it."""
     result = evaluate(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
                       collection, candidate_id, observed_heads=observed_heads,
-                      source_attempts=source_attempts, source_progress=source_progress, at=at, heartbeat=heartbeat)
+                      source_attempts=source_attempts, source_progress=source_progress, at=at, heartbeat=heartbeat,only_collections=only_collections,
+                      excluded_candidates=excluded_candidates)
     if result['status'] != 'passed':
         return {'status': 'held', 'result': result, 'manifest': None, 'writes': 0}
     before = inputs['manifests'][collection]

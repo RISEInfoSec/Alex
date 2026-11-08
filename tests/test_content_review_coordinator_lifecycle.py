@@ -1,4 +1,5 @@
 from datetime import datetime,timezone
+import pytest
 
 from tools.content_review.coordinator_lifecycle import start,complete
 from tools.content_review.coordinator_heartbeat_transport import REVIEW,MAIN,HEARTBEAT
@@ -56,6 +57,27 @@ def test_unconfirmed_completion_preserves_only_allowlisted_site_diagnostics():
     assert result['site_reason']=='worker_not_verified' and result['site_http_status']==409 and result['reconcile_before_retry'] is True
     result=call({'status':'blocked','reason':'private provider detail','http_status':'private'})
     assert result['site_reason'] is None and result['site_http_status'] is None
+
+
+def test_batch_completion_requires_exact_checkpoint_commits_and_preserves_order():
+    review,main,beat,commit='a'*40,'b'*40,'c'*40,'d'*40;refs={REVIEW:review,MAIN:main,HEARTBEAT:beat}
+    paths=['config/content_review_mechanical_checkpoints/'+x*64+'.json' for x in ('e','f')]
+    commits={paths[0]:'1'*40,paths[1]:'2'*40};calls=[]
+    def prepare(*args,**kwargs):
+        assert args[-1]==paths
+        return {'status':'prepared','writes':0,'files':{'p':'v'}}
+    def send(action,payload,token):
+        assert action=='completion' and payload['checkpointCommits']==commits
+        calls.append(1);refs[REVIEW]=commit
+        return {'status':'committed_and_read_back','commit_sha':commit,'receipt_path':'config/content_review_run_receipts/run.json',
+                'candidate_processing':True,'native_completion_verified':False,'publication_verified':False}
+    kw=dict(heads=lambda _:dict(refs),fetch=lambda *a:None,snapshot_reader=lambda _:({},{}),
+        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,preparer=prepare,send=send)
+    for mapping in (None,{paths[0]:'1'*40},{**commits,'extra':'3'*40}):
+        with pytest.raises(ValueError,match='checkpoint'):
+            complete('.','secret',{},review,main,'worker','run',paths,checkpoint_commits=mapping,**kw)
+    result=complete('.','secret',{},review,main,'worker','run',paths,checkpoint_commits=commits,**kw)
+    assert result['status']=='application_complete' and result['checkpoint_count']==2 and calls==[1]
 
 
 def test_deferred_completion_releases_lease_without_claiming_processing():

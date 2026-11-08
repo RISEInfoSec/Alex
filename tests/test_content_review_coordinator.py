@@ -65,6 +65,34 @@ def test_stage_filter_selects_due_duplicates_before_the_five_candidate_ceiling()
         plan(*args,source_attempts={},source_progress={},at=now,stages=('unsupported',))
 
 
+def test_backlog_collection_filter_applies_before_ceiling_without_bypassing_decisions():
+    now,snap,manifests,ledger,registry,state=fixture()
+    registry.append({'id':'m3aawg','adapter':'normalized'})
+    for collection in ('first','m3aawg'):
+        rows=[]
+        for n in range(4):
+            cid=collection+'-'+str(n);rows.append({'candidate_id':cid,'review_number':n+1,'content_sha256':'e'*64,
+                'document_type':'research_paper','abstract':'','decision':'pending','preflight':{'checks':{}}})
+            ledger['records'][collection+':'+cid]={'state':'awaiting_initial_checks','first_seen_at':'2026-01-01'}
+        manifests[collection]={'records':rows}
+    result=plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},
+                at=now,stages=('duplicates',),only_collections=('first','m3aawg'))
+    assert len(result['selected'])==5 and {x['collection'] for x in result['selected']}=={'first','m3aawg'}
+    assert not any(x['candidate_id']=='decided' for x in result['selected'])
+    assert next(x for x in result['coverage'] if x['collection']=='weekly')['disposition']=='deferred_by_collection_filter'
+    excluded=[(result['selected'][0]['collection'],result['selected'][0]['candidate_id'])]
+    retried=plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},
+                 at=now,stages=('duplicates',),only_collections=('first','m3aawg'),excluded_candidates=excluded)
+    assert not any((x['collection'],x['candidate_id'])==excluded[0] for x in retried['selected'])
+    with pytest.raises(ValueError,match='candidate exclusions'):
+        plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},
+             at=now,excluded_candidates=excluded*2)
+    for bad in ((),('missing',),('first','first')):
+        with pytest.raises(ValueError,match='collection selection'):
+            plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},
+                 at=now,only_collections=bad)
+
+
 def test_unimplemented_quality_gate_is_reported_without_starving_supported_work():
     now,snap,manifests,ledger,registry,state=fixture()
     row=manifests['weekly']['records'][1];digest=row['content_sha256']

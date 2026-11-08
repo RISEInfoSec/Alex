@@ -20,7 +20,7 @@ MAX_CANDIDATES = 10000
 
 def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
          owner, run_id, *, source_attempts, source_progress, at=None, heartbeat=None, review_head=None, stages=None,
-         retained_source_only=False,quality_source_only=False):
+         retained_source_only=False,quality_source_only=False,only_collections=None,excluded_candidates=None):
     now = at or datetime.now(timezone.utc)
     if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError('Timezone-aware observation required')
@@ -60,6 +60,15 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     names = [c['id'] for c in registry]
     if len(names) != len(set(names)):
         raise ValueError('Duplicate collection in registry')
+    if only_collections is not None and (not isinstance(only_collections,(tuple,list)) or not only_collections or
+        any(not isinstance(x,str) or x not in names for x in only_collections) or len(only_collections)!=len(set(only_collections))):
+        raise ValueError('Invalid bounded collection selection')
+    if excluded_candidates is None:excluded_candidates=[]
+    if (not isinstance(excluded_candidates,(tuple,list)) or len(excluded_candidates)>5 or any(
+        not isinstance(x,(tuple,list)) or len(x)!=2 or not isinstance(x[0],str) or x[0] not in names or not isinstance(x[1],str) or not x[1] for x in excluded_candidates) or
+        len({tuple(x) for x in excluded_candidates})!=len(excluded_candidates)):
+        raise ValueError('Invalid bounded candidate exclusions')
+    excluded_keys={tuple(x) for x in excluded_candidates}
     if not isinstance(manifests, dict) or any(k not in names for k in manifests):
         raise ValueError('Manifest collection is not in the registry')
     index = {}
@@ -109,7 +118,9 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
                 and (not retained_source_only or retained(item))
                 and (not quality_source_only or quality_candidate(item))
                 and (item['collection'] != 'virusbulletin' or item['next_stage'] in ('duplicates', 'source'))]
-    stage_eligible=[item for item in eligible if stages is None or item['next_stage'] in stages]
+    stage_eligible=[item for item in eligible if (stages is None or item['next_stage'] in stages) and
+                    (only_collections is None or item['collection'] in only_collections) and
+                    (item['collection'],item['candidate_id']) not in excluded_keys]
     history=state.get('run_history',[])
     if not isinstance(history,list) or any(not isinstance(x,dict) or not x.get('run_id') for x in history):
         raise ValueError('Run history is unavailable for candidate rotation')
@@ -170,8 +181,11 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
             reason = 'unresolved_source_failure'
         elif unsupported_gates[collection] and not executable[collection]:
             reason = 'separate_gate_executor_required'
+        elif only_collections is not None and collection not in only_collections and executable[collection]:
+            reason = 'deferred_by_collection_filter'
         elif stages is not None and executable[collection] and not any(x['collection']==collection for x in stage_eligible):
-            reason = 'deferred_by_stage_filter'
+            reason = ('deferred_by_run_exclusions' if any(x['collection']==collection and x['next_stage'] in stages and
+                      (x['collection'],x['candidate_id']) in excluded_keys for x in eligible) else 'deferred_by_stage_filter')
         elif available[collection]:
             reason = 'deferred_by_candidate_ceiling'
         elif held[collection]:
