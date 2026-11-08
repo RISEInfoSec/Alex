@@ -8,7 +8,12 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "checkpoint_failure",
-  "lease": null,
+  "lease": {
+    "owner": "alex-guarded-pilot",
+    "run_id": "42fb90b1-0e9c-8330-b578-79f3eac7fe48",
+    "acquired_at": "2026-11-08T07:37:21.935276+00:00",
+    "expires_at": "2026-11-08T08:07:21.935276+00:00"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "weekly": 3,
@@ -99,7 +104,7 @@
     "source_release_holds": 6
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-11-08T06:44:32.266675Z",
+  "last_started_at": "2026-11-08T07:33:41.542431Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
@@ -728,11 +733,11 @@
     "additional_removed_record_corrected": 1
   },
   "current_run": {
-    "run_id": "8a73736f-71bc-8333-ae6c-70cc5156d92f",
-    "application_status": "failed",
-    "started_at": "2026-11-08T06:44:32.266675+00:00",
-    "scheduled_for": "2026-11-08T06:45:00+00:00",
-    "observed_at": "2026-11-08T06:47:46.073315+00:00",
+    "run_id": "42fb90b1-0e9c-8330-b578-79f3eac7fe48",
+    "application_status": "running",
+    "started_at": "2026-11-08T07:33:41.542431+00:00",
+    "scheduled_for": "2026-11-08T07:30:00+00:00",
+    "observed_at": "2026-11-08T07:37:21.935276+00:00",
     "request_counts": {
       "source": 0,
       "paid": 0,
@@ -740,21 +745,19 @@
     },
     "scheduler": {
       "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
-      "observed_at": "2026-11-08T06:47:46.073315+00:00",
+      "observed_at": "2026-11-08T07:37:21.935276+00:00",
       "is_enabled": true,
-      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261108T014500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261108T023000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
       "last_run": {
-        "id": "8a73736f-71bc-8333-ae6c-70cc5156d92f",
+        "id": "42fb90b1-0e9c-8330-b578-79f3eac7fe48",
         "recorded_status": "in_progress",
-        "scheduled_for": "2026-11-08T06:45:00Z",
-        "started_at": "2026-11-08T06:44:32.266675Z",
+        "scheduled_for": "2026-11-08T07:30:00Z",
+        "started_at": "2026-11-08T07:33:41.542431Z",
         "completed_at": null
       }
-    },
-    "application_completed_at": "2026-11-08T06:56:00.817104+00:00",
-    "failure_code": "checkpoint_failure"
+    }
   },
-  "last_heartbeat_at": "2026-11-08T06:47:46.073315+00:00",
+  "last_heartbeat_at": "2026-11-08T07:37:21.935276+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
@@ -1234,6 +1237,33 @@
       },
       "application_completed_at": "2026-11-08T05:47:29.333692+00:00",
       "receipt": "config/content_review_run_receipts/14aefcc0-3768-8333-9ec9-365b3eb25878.json"
+    },
+    {
+      "run_id": "8a73736f-71bc-8333-ae6c-70cc5156d92f",
+      "application_status": "failed",
+      "started_at": "2026-11-08T06:44:32.266675+00:00",
+      "scheduled_for": "2026-11-08T06:45:00+00:00",
+      "observed_at": "2026-11-08T06:47:46.073315+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "scheduler": {
+        "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+        "observed_at": "2026-11-08T06:47:46.073315+00:00",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261108T014500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+        "last_run": {
+          "id": "8a73736f-71bc-8333-ae6c-70cc5156d92f",
+          "recorded_status": "in_progress",
+          "scheduled_for": "2026-11-08T06:45:00Z",
+          "started_at": "2026-11-08T06:44:32.266675Z",
+          "completed_at": null
+        }
+      },
+      "application_completed_at": "2026-11-08T06:56:00.817104+00:00",
+      "failure_code": "checkpoint_failure"
     }
   ],
   "source_attempts": {
