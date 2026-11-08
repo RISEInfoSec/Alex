@@ -4,6 +4,7 @@ Uses the private Site's existing writer. The service token remains in memory;
 Git ref reads are restricted to the public repository and carry no token.
 """
 from datetime import datetime, timezone
+import errno
 import json
 from pathlib import Path
 import re
@@ -19,13 +20,44 @@ MAIN='refs/heads/main'
 HEARTBEAT='refs/heads/codex/content-review-heartbeat'
 REFS=(REVIEW,MAIN,HEARTBEAT)
 ID=re.compile(r'^[a-zA-Z0-9-]{1,100}$')
+GIT_OPERATIONS=('remote','ls_remote','fetch','cat_file','other')
+GIT_FAILURES=('timed_out','resource_unavailable','access_denied','rate_limited','network_unavailable','failed')
+SAFE_GIT_ERRORS=frozenset('Coordinator Git '+op+' '+reason for op in GIT_OPERATIONS for reason in GIT_FAILURES)
 
 
-def _run(repo,*args):
+def _run(repo,*args,input_text=None):
+    operation={'remote':'remote','ls-remote':'ls_remote','fetch':'fetch','cat-file':'cat_file'}.get(args[0] if args else '', 'other')
     try:
-        return subprocess.run(['git','-C',str(repo),*args],check=True,capture_output=True,text=True,timeout=45).stdout.strip()
+        return subprocess.run(['git','-C',str(repo),*args],input=input_text,check=True,capture_output=True,text=True,timeout=45).stdout.strip()
     except (OSError,subprocess.SubprocessError) as exc:
-        raise ValueError('Coordinator Git operation failed') from exc
+        reason='failed'
+        if isinstance(exc,subprocess.TimeoutExpired):reason='timed_out'
+        elif isinstance(exc,OSError) and exc.errno in (errno.EAGAIN,errno.ENOMEM,errno.EMFILE,errno.ENFILE):reason='resource_unavailable'
+        elif isinstance(exc,subprocess.CalledProcessError):
+            stderr=exc.stderr if isinstance(exc.stderr,str) else ''
+            text=stderr.lower()
+            if any(x in text for x in ('cannot fork','unable to fork','fork failed','resource temporarily unavailable','unable to create thread')):
+                reason='resource_unavailable'
+            elif '429' in text or 'rate limit' in text:reason='rate_limited'
+            elif any(x in text for x in ('authentication failed','permission denied','could not read username','403 forbidden','error: 403')):
+                reason='access_denied'
+            elif any(x in text for x in ('could not resolve','failed to connect','network is unreachable','connection timed out','connection refused','proxy error')):
+                reason='network_unavailable'
+        raise ValueError('Coordinator Git '+operation+' '+reason) from exc
+
+
+def _missing_commits(repo,shas):
+    """Inspect only exact commit IDs; reject unexpected or incomplete Git output."""
+    ordered=list(dict.fromkeys(shas))
+    output=_run(repo,'cat-file','--batch-check=%(objectname) %(objecttype)',input_text=''.join(x+'^{commit}\n' for x in ordered))
+    lines=output.splitlines()
+    if len(lines)!=len(ordered):raise ValueError('Coordinator Git object verification failed')
+    missing=[]
+    for sha,line in zip(ordered,lines):
+        if line==sha+' commit':continue
+        if line==sha+'^{commit} missing':missing.append(sha);continue
+        raise ValueError('Coordinator Git object verification failed')
+    return missing
 
 
 def _check_remote(repo):
@@ -51,11 +83,12 @@ def fetch_heads(repo,heads,run_id):
         or set(heads)!=set(REFS) or any(not isinstance(heads[ref],str) or not SHA.fullmatch(heads[ref]) for ref in REFS)):
         raise ValueError('Invalid coordinator fetch')
     _check_remote(repo)
-    # Fetch the immutable observed objects, not moving branch names or shared
-    # destination refs. The heartbeat thread can advance its ref while the
-    # foreground reads snapshots; both must be able to fetch concurrently.
-    _run(repo,'fetch','--no-tags','--no-write-fetch-head','origin',*dict.fromkeys(heads[ref] for ref in REFS))
-    for sha in set(heads.values()):_run(repo,'cat-file','-e',sha+'^{commit}')
+    # Reuse verified local commit objects. Fetch only missing immutable IDs,
+    # never moving refs or shared destination refs. This avoids repeatedly
+    # transferring already-present history during heartbeat and foreground work.
+    shas=list(dict.fromkeys(heads[ref] for ref in REFS));missing=_missing_commits(repo,shas)
+    if missing:_run(repo,'fetch','--no-tags','--no-write-fetch-head','origin',*missing)
+    if _missing_commits(repo,shas):raise ValueError('Coordinator Git object verification failed')
 
 
 class DetachedHeartbeatPulse:

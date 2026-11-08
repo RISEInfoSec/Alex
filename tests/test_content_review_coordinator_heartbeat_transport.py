@@ -1,4 +1,5 @@
 from datetime import timedelta
+import errno
 import json
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
@@ -67,3 +68,45 @@ def test_fetch_rejects_unverified_object_identity(tmp_path,monkeypatch):
     monkeypatch.setattr(transport,'_check_remote',lambda repo:pytest.fail('No Git access expected'))
     with pytest.raises(ValueError,match='Invalid coordinator fetch'):
         transport.fetch_heads(tmp_path,{REVIEW:'a'*40,MAIN:'b'*40,HEARTBEAT:'--upload-pack=bad'},'run')
+
+
+def test_fetch_reuses_verified_commits_and_fetches_only_missing_ids(tmp_path,monkeypatch):
+    from tools.content_review import coordinator_heartbeat_transport as transport
+    review,main,beat='a'*40,'b'*40,'c'*40;heads={REVIEW:review,MAIN:main,HEARTBEAT:beat};calls=[];present={review,main}
+    monkeypatch.setattr(transport,'_check_remote',lambda repo:None)
+    def run(repo,*args,input_text=None):
+        calls.append(args)
+        if args[0]=='cat-file':
+            ids=[x.removesuffix('^{commit}') for x in input_text.splitlines()]
+            return '\n'.join(x+' commit' if x in present else x+'^{commit} missing' for x in ids)
+        assert args[:4]==('fetch','--no-tags','--no-write-fetch-head','origin')
+        assert args[4:]==(beat,);present.add(beat);return ''
+    monkeypatch.setattr(transport,'_run',run)
+    transport.fetch_heads(tmp_path,heads,'run')
+    assert sum(c[0]=='fetch' for c in calls)==1
+    calls.clear();transport.fetch_heads(tmp_path,heads,'run')
+    assert all(c[0]=='cat-file' for c in calls)
+
+
+def test_unexpected_git_object_output_fails_without_fetch(tmp_path,monkeypatch):
+    from tools.content_review import coordinator_heartbeat_transport as transport
+    monkeypatch.setattr(transport,'_check_remote',lambda repo:None)
+    monkeypatch.setattr(transport,'_run',lambda *a,**k:'unexpected object output')
+    with pytest.raises(ValueError,match='object verification failed'):
+        transport.fetch_heads(tmp_path,{REVIEW:'a'*40,MAIN:'b'*40,HEARTBEAT:'c'*40},'run')
+
+
+@pytest.mark.parametrize('failure,detail',[
+    (subprocess.TimeoutExpired(['git'],45),'Coordinator Git fetch timed_out'),
+    (OSError(errno.EAGAIN,'secret private data'),'Coordinator Git fetch resource_unavailable'),
+    (subprocess.CalledProcessError(1,['git'],stderr='cannot fork: secret private data'),'Coordinator Git fetch resource_unavailable'),
+    (subprocess.CalledProcessError(1,['git'],stderr='Authentication failed: secret private data'),'Coordinator Git fetch access_denied'),
+    (subprocess.CalledProcessError(1,['git'],stderr='unexpected secret private data'),'Coordinator Git fetch failed'),
+])
+def test_git_failures_report_only_safe_fixed_categories(tmp_path,monkeypatch,failure,detail):
+    from tools.content_review import coordinator_heartbeat_transport as transport
+    def fail(*a,**k):raise failure
+    monkeypatch.setattr(transport.subprocess,'run',fail)
+    with pytest.raises(ValueError) as error:transport._run(tmp_path,'fetch','origin','private-argument')
+    assert str(error.value)==detail and str(error.value) in transport.SAFE_GIT_ERRORS
+    assert 'secret' not in str(error.value) and 'private' not in str(error.value)

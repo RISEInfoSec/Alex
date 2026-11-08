@@ -10,6 +10,7 @@ import sys
 import traceback
 
 from tools.content_review.coordinator_cycle import mechanical_pass
+from tools.content_review.coordinator_heartbeat_transport import SAFE_GIT_ERRORS
 
 LIMIT=1024*1024
 SAFE_MODULES={'coordinator_cli.py','coordinator_cycle.py','coordinator_lifecycle.py','coordinator_duplicate.py',
@@ -29,6 +30,8 @@ SAFE_ERRORS.update('Source artifact blocked: '+reason for reason in (
     'worker_not_verified','source_head_changed','heartbeat_unconfirmed_reconcile_ref',
     'source_artifact_unavailable','source_artifact_metadata_unavailable',
     'source_artifact_download_unavailable','source_artifact_invalid','source_artifact_history_unavailable'))
+SAFE_ERRORS.update(SAFE_GIT_ERRORS)
+SAFE_ERRORS.add('Coordinator Git object verification failed')
 
 
 def main():
