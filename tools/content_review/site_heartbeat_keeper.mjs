@@ -10,10 +10,10 @@ const SHA=/^[0-9a-f]{40}$/,ID=/^[a-zA-Z0-9-]{1,100}$/;
 const unwrap=(r,msg)=>{if(!r||r.isError||!r.structuredContent)throw Error(msg);return r.structuredContent;};
 
 export function makeHeartbeatKeeper({github,input,now=()=>Date.now(),commit=writer.commitHeartbeat,
- intervalMs=12000,maxRenewals=8}){
+ intervalMs=12000,maxRenewals=16}){
  if(!github||!input||!SHA.test(input.expectedHead||'')||!ID.test(input.owner||'')||!ID.test(input.runId||'')||
   typeof now!=='function'||typeof commit!=='function'||!Number.isSafeInteger(intervalMs)||intervalMs<10000||intervalMs>20000||
-  !Number.isSafeInteger(maxRenewals)||maxRenewals<1||maxRenewals>8)throw Error('Invalid heartbeat keeper');
+  !Number.isSafeInteger(maxRenewals)||maxRenewals<1||maxRenewals>16)throw Error('Invalid heartbeat keeper');
  const initial=now();if(!Number.isFinite(initial))throw Error('Invalid heartbeat clock');
  // A just-verified heartbeat can already be close to the 40-second limit.
  // Renew on the first audit pulse rather than assuming it was just written.

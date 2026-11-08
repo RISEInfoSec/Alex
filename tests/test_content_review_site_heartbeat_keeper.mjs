@@ -25,7 +25,7 @@ function fixture(mode='success'){
    if(mode==='ambiguous')throw Error('lost response');saved=additions[0].content;head=(updates===1?'d':'e').repeat(40);
    return ok({success:true,sha:head});},
  };
- const pulse=makeHeartbeatKeeper({github,input:{expectedHead:review,owner:'worker',runId:'run'},now:()=>now,maxRenewals:mode==='budget'?1:8});
+ const pulse=makeHeartbeatKeeper({github,input:{expectedHead:review,owner:'worker',runId:'run'},now:()=>now,maxRenewals:mode==='budget'?1:mode==='extended'?16:8});
  return {pulse,advance:n=>{now+=n},changeReview:()=>{reviewHead='f'.repeat(40)},get updates(){return updates},get saved(){return saved}};
 }
 test('bounded keeper renews exact lease on a separate ref and throttles writes',async()=>{
@@ -42,4 +42,11 @@ test('ambiguous heartbeat commit is never retried or presented as a clean reject
  const f=fixture('ambiguous');
  await assert.rejects(f.pulse(),/outcome unconfirmed; reconcile heartbeat branch/);
  await assert.rejects(f.pulse(),/outcome unconfirmed; reconcile heartbeat branch/);assert.equal(f.updates,1);
+});
+test('long bounded audits can renew through the timeout but cannot exceed their write budget',async()=>{
+ const f=fixture('extended');
+ for(let i=0;i<16;i++){await f.pulse();f.advance(12000)}
+ assert.equal(f.updates,16);
+ await assert.rejects(f.pulse(),/budget unavailable/);
+ assert.equal(f.updates,16);
 });
