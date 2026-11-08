@@ -52,3 +52,6 @@ def test_unparseable_provider_deadlines_never_get_a_guessed_recheck_time(headers
 def test_ambiguous_duplicate_header_and_naive_time_fail_closed():
     with pytest.raises(ValueError):defer_429({'Retry-After':'1','retry-after':'2'},at=NOW)
     with pytest.raises(ValueError):defer_429({},at=datetime(2026,11,8))
+    with pytest.raises(ValueError):defer_429({'Retry-After':'1'*4097},at=NOW)
+    with pytest.raises(ValueError):defer_429({str(i):'1' for i in range(65)},at=NOW)
+    with pytest.raises(ValueError):singleton('10.1234/'+'a'*151)

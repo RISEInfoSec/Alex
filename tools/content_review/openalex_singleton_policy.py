@@ -20,7 +20,7 @@ DOI = re.compile(r'^10\.[0-9]{4,9}/[A-Za-z0-9][A-Za-z0-9._-]{0,127}$')
 
 def singleton(identifier):
     """Construct a narrowly scoped work lookup without making a request."""
-    if not isinstance(identifier, str) or not identifier or identifier != identifier.strip():
+    if not isinstance(identifier, str) or not identifier or len(identifier) > 150 or identifier != identifier.strip():
         raise ValueError('A bounded OpenAlex work identity is required')
     if WORK.fullmatch(identifier):
         target = identifier.upper()
@@ -37,12 +37,13 @@ def singleton(identifier):
 def defer_429(headers, *, at=None):
     """Record a conservative earliest recheck; never make an automatic retry."""
     now = at or datetime.now(timezone.utc)
-    if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None or not isinstance(headers, dict):
+    if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None or not isinstance(headers, dict) or len(headers) > 64:
         raise ValueError('Timezone-aware rate-limit observation required')
     now = now.astimezone(timezone.utc)
     normalized = {}
     for key, value in headers.items():
-        if not isinstance(key, str) or not isinstance(value, str) or key.lower() in normalized:
+        if (not isinstance(key, str) or not key or len(key) > 128 or not isinstance(value, str) or
+                len(value) > 4096 or key.lower() in normalized):
             raise ValueError('Rate-limit headers invalid')
         normalized[key.lower()] = value.strip()
     candidates, incomplete = [], False
