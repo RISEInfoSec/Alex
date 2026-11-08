@@ -1,5 +1,5 @@
 """Quality source requests retain holds and fail closed before network access."""
-import json
+import hashlib,json
 from datetime import datetime,timedelta,timezone
 
 import pytest
@@ -39,6 +39,21 @@ def test_quality_source_request_requires_existing_hold_and_makes_no_network_call
     path,row=request(tmp_path);before=path.read_text();result=worker.validate(tmp_path,path)
     assert result['purpose']=='quality_evidence_reconciliation' and path.read_text()==before
     assert row['preflight']['checks']['quality']['status']=='held'
+
+
+def test_bounded_quality_source_artifact_keeps_manifest_and_hold_unchanged(tmp_path,monkeypatch):
+    monkeypatch.setattr(worker.socket,'getaddrinfo',lambda *a,**k:pytest.fail('unexpected network'))
+    path,row=request(tmp_path);manifest=tmp_path/'config/weekly_review_manifest.json';before=manifest.read_bytes()
+    body=b'<html><title>Research paper</title><p>Publisher evidence for the held paper.</p></html>'
+    def fetch(transport,url):
+        transport.sends.append({'url':url,'http_status':200})
+        return {'body':body,'final_url':url,'http_status':200,'headers':{'content-type':'text/html'},
+                'body_sha256':hashlib.sha256(body).hexdigest()}
+    monkeypatch.setattr(worker.Transport,'fetch',fetch)
+    artifact=tmp_path/'artifact'/'result.json';result=worker.execute(tmp_path,path,artifact)
+    assert result['status']=='complete' and result['requests']==1 and result['records'][0]['status']=='retrieved'
+    assert json.loads(artifact.read_text())==result and manifest.read_bytes()==before
+    assert row['preflight']['checks']['quality']['status']=='held' and row['decision']=='pending'
 
 
 @pytest.mark.parametrize('change',['decided','prior_gate','stale','already_retrieved','purpose'])
