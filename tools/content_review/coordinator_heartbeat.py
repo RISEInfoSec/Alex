@@ -5,10 +5,25 @@ and reconcile the heartbeat ref before attempting any candidate write. The
 Site's own keeper takes over only after this context has stopped.
 """
 from threading import Event, Lock, Thread
+import re
 
 
 class HeartbeatUnavailable(RuntimeError):
-    pass
+    def __init__(self,message,*,safe_cause=None):
+        super().__init__(message);self.safe_cause=safe_cause
+
+
+def _safe_cause(error):
+    """Expose only fixed diagnostic categories, never arbitrary exception text."""
+    value=str(error)
+    if re.fullmatch(r'Coordinator Git (?:remote|ls_remote|fetch|cat_file|other) (?:timed_out|resource_unavailable|access_denied|rate_limited|network_unavailable|failed)',value):
+        return value
+    if value in ('Coordinator source heads changed','Coordinator Git object verification failed',
+                 'Heartbeat outcome unconfirmed; reconcile ref','Heartbeat ref or source heads changed',
+                 'Heartbeat readback differs','Bounded heartbeat budget exhausted',
+                 'Heartbeat result is unconfirmed; reconcile before retrying'):
+        return value
+    return 'heartbeat_failure_unclassified'
 
 
 class HeartbeatKeeper:
@@ -52,7 +67,7 @@ class HeartbeatKeeper:
 
     def check(self):
         with self._lock:error=self._error
-        if error is not None:raise HeartbeatUnavailable('Heartbeat unconfirmed; reconcile before candidate writes') from None
+        if error is not None:raise HeartbeatUnavailable('Heartbeat unconfirmed; reconcile before candidate writes',safe_cause=_safe_cause(error)) from None
 
     def refresh(self):
         """Wait for any active pulse, then confirm a fresh bounded heartbeat."""

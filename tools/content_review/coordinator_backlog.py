@@ -11,6 +11,7 @@ import re
 
 from tools.content_review.coordinator_duplicate import checkpoint_one
 from tools.content_review.coordinator_lifecycle import start,complete
+from tools.content_review.coordinator_heartbeat import HeartbeatUnavailable,_safe_cause
 from tools.content_review.backlog_identity_precheck import inspect as identity_precheck
 from tools.content_review.lifecycle import instant
 from tools.content_review.verified_inputs import SHA
@@ -65,13 +66,15 @@ def run(repo,token,native,owner,run_id,*,begin=start,checkpoint=checkpoint_one,f
         try:
             result=checkpoint(repo,token,review,main,owner,run_id,only_collections=(target,),max_candidates=budget,
                               excluded_candidates=examined,precheck=identity_precheck,return_examined=True)
-        except Exception:
+        except Exception as exc:
             # A later failure must not erase checkpoints already confirmed by
             # exact-head readback. The failing operation may itself have an
             # ambiguous outcome, so no completion or retry is attempted.
+            safe_cause=_safe_cause(ValueError(exc.safe_cause)) if isinstance(exc,HeartbeatUnavailable) and isinstance(exc.safe_cause,str) else None
             return {'status':'blocked','reason':'backlog_error_reconcile_lease_and_refs',
                     'confirmed_checkpoint_count':len(commits),'confirmed_checkpoint_commits':dict(commits),
                     'candidate_processing':True if commits else None,'lease_release_confirmed':False,
+                    'safe_detail':safe_cause if isinstance(safe_cause,str) else None,
                     'reconcile_before_retry':True,'native_completion_verified':False,'publication_verified':False}
         if not isinstance(result,dict):raise ValueError('Backlog checkpoint response invalid')
         attempted=result.get('_examined_private')

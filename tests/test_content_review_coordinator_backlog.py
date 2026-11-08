@@ -58,6 +58,15 @@ def test_later_exception_preserves_previously_confirmed_checkpoint_for_reconcili
     assert 'private' not in json.dumps(result)
 
 
+def test_backlog_reports_safe_heartbeat_category_without_private_exception_text():
+    from tools.content_review.coordinator_heartbeat import HeartbeatUnavailable
+    def fail(*args,**kwargs):raise HeartbeatUnavailable('sensitive details',safe_cause='Coordinator Git fetch resource_unavailable')
+    result=run('.','secret',native(),'worker','run',begin=lambda *a:{'status':'lease_started','review_head':REVIEW,'main_head':MAIN},
+        checkpoint=fail,finish=lambda *a,**k:pytest.fail('failed heartbeat must not finalize'),clock=lambda:NOW)
+    assert result['safe_detail']=='Coordinator Git fetch resource_unavailable' and result['candidate_processing'] is None
+    assert 'sensitive' not in json.dumps(result) and result['reconcile_before_retry'] is True
+
+
 def test_held_and_unsupported_candidates_count_toward_the_five_item_ceiling():
     clock=[NOW];budgets=[];finished=[]
     def checkpoint(*args,**kwargs):

@@ -80,3 +80,13 @@ def test_refresh_after_ambiguous_heartbeat_never_retries():
         with HeartbeatKeeper(pulse,interval=1) as keeper:
             keeper.refresh()
     assert len(calls)==2
+
+
+def test_heartbeat_reports_only_allowlisted_failure_categories():
+    def fail(message):
+        def pulse():raise ValueError(message)
+        with pytest.raises(HeartbeatUnavailable) as caught:
+            with HeartbeatKeeper(pulse,interval=.01):pass
+        return caught.value.safe_cause
+    assert fail('Coordinator Git fetch resource_unavailable')=='Coordinator Git fetch resource_unavailable'
+    assert fail('private-candidate or token')=='heartbeat_failure_unclassified'
