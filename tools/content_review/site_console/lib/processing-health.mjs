@@ -5,6 +5,7 @@ export function processingHealth(evidence,now=Date.now()){
  const gateProgress=value=>positive(value)||(value&&typeof value==='object'&&!Array.isArray(value)&&Object.values(value).some(positive));
  let status=!fresh?'Status unknown — evidence stale or missing':positive(evidence?.publications)?'Publication reported; live receipt verification needed':positive(evidence?.newly_review_ready)?'Review readiness reported; independent verification needed':gateProgress(evidence?.downstream_gate_passes)?'Downstream gate progress reported; readiness unproven':gateProgress(evidence?.source_gate_passes)?'Source progress reported; readiness unproven':positive(evidence?.source_evidence_retained)?'Source evidence retention reported; gates unverified':positive(evidence?.source_holds_retained)?'Source hold recorded; gate unverified':positive(evidence?.duplicate_gate_passes)?'Duplicate check reported; other gates unverified':'No candidate progress independently confirmed';
  if(fresh&&evidence?.trigger==='owner_maintenance')status='Owner maintenance: '+status;
+ if(fresh&&evidence?.trigger==='manual')status='Manual test: '+status;
  return {...(evidence||{}),fresh,status,counts_independently_verified:false};
 }
 export function displayCount(value){

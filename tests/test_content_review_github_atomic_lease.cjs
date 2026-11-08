@@ -36,6 +36,26 @@ function fixture(){
 test('lease acquisition uses expected head and exact readback',async()=>{
  const f=fixture(),r=await commitLease(f);assert.equal(r.commit_sha,nextCommit);assert.equal(r.owner,'worker');assert.equal(f.writes(),1);
 });
+test('manual lease requires committed one-use permit before any Git update',async()=>{
+ function manual(){
+  const f=fixture(),state=JSON.parse(f.proposal.content),stamp='2026-11-06T23:50:20Z';
+  state.current_run.started_at=stamp;state.current_run.scheduled_for=null;state.current_run.observed_at=stamp;
+  state.current_run.scheduler={id:'Automation_worker',kind:'manual',authorization:'owner_request',observed_at:stamp};
+  state.last_started_at=stamp;state.last_heartbeat_at=stamp;
+  f.proposal.content=JSON.stringify(state)+'\n';f.proposal.blob_sha=gitHash(f.proposal.content);
+  const config={target_automation_id:'Automation_worker',manual_run_authorization:{run_id:'run',owner:'worker',scope:'duplicate_only',expires_at:'2026-11-07T00:04:00Z'}};
+  const original=f.api.fetchFile;f.api.fetchFile=async args=>{if(args.path==='config/content_review_monitor_config.json'){
+   const content=JSON.stringify(config);return ok({sha:gitHash(content),content});}return original(args);};
+  return {f,config};
+ }
+ const good=manual();assert.equal((await commitLease(good.f)).status,'committed_and_read_back');assert.equal(good.f.writes(),1);
+ for(const change of ['run','expired','scope','owner']){
+  const {f,config}=manual();if(change==='run')config.manual_run_authorization.run_id='other';
+  if(change==='expired')config.manual_run_authorization.expires_at='2026-11-06T23:50:19Z';
+  if(change==='scope')config.manual_run_authorization.scope='publication';if(change==='owner')config.manual_run_authorization.owner='other';
+  await assert.rejects(commitLease(f),/Manual authorization/);assert.equal(f.writes(),0,change);
+ }
+});
 test('Site-backed lease uses an exact-head atomic commit and verifies readback',async()=>{
  const f=fixture();let calls=0;
  f.api.commitOnBranch=async({branch_name,expected_sha,additions})=>{

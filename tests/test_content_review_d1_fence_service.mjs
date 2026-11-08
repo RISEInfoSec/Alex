@@ -66,6 +66,20 @@ test('a scheduler observation predating its run is rejected',async()=>{
  const f=fixture();f.state.current_run.scheduler.observed_at='2026-11-07T18:59:59Z';
  await assert.rejects(call(f,'acquire'),/worker lease or heartbeat/);assert.equal(f.current(),null);
 });
+test('manual work requires an exact unexpired permit and still fences changing decisions',async()=>{
+ const make=()=>{const f=fixture();f.state.current_run.scheduled_for=null;
+  f.state.current_run.scheduler={id:'Automation_worker1',kind:'manual',authorization:'owner_request',observed_at:'2026-11-07T19:00:20Z'};
+  f.config.manual_run_authorization={run_id:'run-1',owner:'worker',scope:'duplicate_only',expires_at:'2026-11-07T19:14:00Z'};return f;};
+ const f=make();assert.equal((await call(f,'acquire')).status,'acquired');f.snap.jobs.push({id:'private'});
+ await assert.rejects(call(f,'begin'),/decisions changed/);assert.equal((await call(f,'abort')).status,'aborted');
+ for(const mode of ['missing','expired','run','scope','owner']){
+  const q=make();if(mode==='missing')delete q.config.manual_run_authorization;
+  if(mode==='expired')q.config.manual_run_authorization.expires_at='2026-11-07T19:00:10Z';
+  if(mode==='run')q.config.manual_run_authorization.run_id='other';if(mode==='scope')q.config.manual_run_authorization.scope='publication';
+  if(mode==='owner')q.config.manual_run_authorization.owner='other';
+  await assert.rejects(call(q,'acquire'));assert.equal(q.current(),null,mode);
+ }
+});
 test('a retired target is rejected without consulting the heartbeat ref',async()=>{
  const f=fixture();f.config.target_automation_id='Automation_4eb2dd829aa88191b542d57f7008ebe3';
  const original=f.github.fetchCommit;let heartbeatReads=0;

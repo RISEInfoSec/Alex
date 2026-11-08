@@ -21,8 +21,9 @@ def _state(state, review_head, owner, run_id, now):
     if (lease.get('owner')!=owner or lease.get('run_id')!=run_id or not expiry or expiry<=now
         or not acquired or acquired>now or run.get('run_id')!=run_id or run.get('application_status')!='running'
         or not started or started>now or not isinstance(scheduler.get('id'),str) or not scheduler['id']
-        or (scheduler.get('last_run') or {}).get('id')!=run_id
-        or (scheduler.get('last_run') or {}).get('recorded_status')!='in_progress'):
+        or not ((scheduler.get('kind')=='manual' and scheduler.get('authorization')=='owner_request' and run.get('scheduled_for') is None)
+                or ((scheduler.get('last_run') or {}).get('id')==run_id and
+                    (scheduler.get('last_run') or {}).get('recorded_status')=='in_progress'))):
         raise ValueError('Matching unexpired native worker lease is required')
     return lease,run,scheduler
 

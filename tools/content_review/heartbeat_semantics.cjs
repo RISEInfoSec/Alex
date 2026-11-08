@@ -5,6 +5,7 @@ const RETIRED=new Set(['Automation_0ff7fb9b800481919b48ddb2593b8f88','Automation
 const time=v=>typeof v==='string'?Date.parse(v):NaN;
 const object=v=>!!v&&typeof v==='object'&&!Array.isArray(v);
 const keys=['schema_version','review_head','owner','run_id','scheduler_id','started_at','lease_acquired_at','lease_expires_at','observed_at'].sort();
+const {authorized:manualAuthorized}=require('./manual_authorization.cjs');
 
 function validateHeartbeat({state,config,record,previous,reviewHead,owner,runId,now}){
  const lease=state?.lease,run=state?.current_run,scheduler=run?.scheduler,target=config?.target_automation_id;
@@ -13,7 +14,8 @@ function validateHeartbeat({state,config,record,previous,reviewHead,owner,runId,
     typeof owner!=='string'||!owner||typeof runId!=='string'||!/^[a-zA-Z0-9-]+$/.test(runId)||
     !/^[0-9a-f]{40}$/.test(reviewHead||'')||typeof target!=='string'||!/^Automation_[a-zA-Z0-9]+$/.test(target)||RETIRED.has(target)||
     lease.owner!==owner||lease.run_id!==runId||run.run_id!==runId||run.application_status!=='running'||
-    scheduler.id!==target||scheduler.last_run?.id!==runId||scheduler.last_run?.recorded_status!=='in_progress'||
+    scheduler.id!==target||!(manualAuthorized(config,run,owner,runId,now)||
+     (scheduler.kind!=='manual'&&scheduler.last_run?.id===runId&&scheduler.last_run?.recorded_status==='in_progress'))||
     record.schema_version!==1||record.review_head!==reviewHead||record.owner!==owner||record.run_id!==runId||
     record.scheduler_id!==target||record.started_at!==run.started_at||record.lease_acquired_at!==lease.acquired_at||
     record.lease_expires_at!==lease.expires_at||!Number.isFinite(time(record.observed_at))||time(record.observed_at)>now||

@@ -75,3 +75,18 @@ def test_too_little_time_or_nonmatching_native_never_acquires_a_lease():
     with pytest.raises(ValueError,match='native backlog'):
         run('.','secret',native(),'worker','other',begin=lambda *a:called.append(1),clock=lambda:NOW)
     assert called==[]
+
+
+def test_manual_backlog_never_accepts_or_fabricates_native_observation():
+    seen=[]
+    def begin(repo,token,observation,owner,run_id):
+        assert observation is None;seen.append('begin');return {'status':'lease_started','review_head':REVIEW,'main_head':MAIN}
+    def checkpoint(*a,**k):
+        target=k['only_collections'][0];seen.append(target)
+        return {'status':'deferred','reason':'no_selected_duplicate_gate','_examined_private':[]}
+    def finish(repo,token,observation,*a,**k):
+        assert observation is None;seen.append('finish');return {'status':'deferred','lease_release_confirmed':True,'native_completion_verified':False}
+    result=run('.','secret',None,'worker','manual',begin=begin,checkpoint=checkpoint,finish=finish,clock=lambda:NOW,manual=True)
+    assert seen==['begin','m3aawg','first','finish'] and result['native_completion_verified'] is False
+    with pytest.raises(ValueError,match='native backlog'):
+        run('.','secret',native(),'worker','run',begin=begin,clock=lambda:NOW,manual=True)

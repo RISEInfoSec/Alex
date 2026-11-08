@@ -31,12 +31,12 @@ def _matching_native_runs(value,run_id):
     return found
 
 
-def run(repo,token,native,owner,run_id,*,begin=start,checkpoint=checkpoint_one,finish=complete,clock=None):
+def run(repo,token,native,owner,run_id,*,begin=start,checkpoint=checkpoint_one,finish=complete,clock=None,manual=False):
     clock=clock or (lambda:datetime.now(timezone.utc))
     now=clock();matches=_matching_native_runs(native,run_id)
-    if not isinstance(now,datetime) or now.tzinfo is None or now.utcoffset() is None or len(matches)!=1:
+    if not isinstance(now,datetime) or now.tzinfo is None or now.utcoffset() is None or type(manual) is not bool or (manual and native is not None) or (not manual and len(matches)!=1):
         raise ValueError('Matching native backlog observation required')
-    started=instant(matches[0].get('started_at'))
+    started=now if manual else instant(matches[0].get('started_at'))
     if not started or not 0<=(now-started).total_seconds()<240:
         return {'status':'blocked','reason':'insufficient_backlog_work_window','candidate_processing':False,
                 'lease_release_confirmed':False,'reconcile_before_retry':False,'native_completion_verified':False}

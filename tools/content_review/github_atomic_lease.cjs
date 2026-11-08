@@ -13,6 +13,7 @@ const {verifiedJson}=require('./verified_git_blob.cjs');
 const heartbeatReader=require('./github_read_heartbeat.cjs');
 const gitHash=require('./git_blob_sha1.cjs');
 const {validateHeartbeat}=require('./heartbeat_semantics.cjs');
+const {authorized:manualAuthorized}=require('./manual_authorization.cjs');
 
 function data(result, error) {
   if (!result || result.isError || !result.structuredContent) throw new Error(error);
@@ -31,7 +32,7 @@ async function commitLease({api, linkId, proposal, owner, runId, now=()=>Date.no
       typeof proposal.content !== 'string' || !proposal.base_blob || proposal.base_blob.path !== PATH ||
       proposal.base_blob.commit !== proposal.expected_head || !SHA.test(proposal.base_blob.blob_sha || ''))
     throw new Error('Lease proposal is invalid');
-  let state;
+  let state,manualSettings=null;
   try {state=JSON.parse(proposal.content);} catch {throw new Error('Lease state is invalid');}
   function requireFresh() {
     const t=now(), lease=state.lease || {}, current=state.current_run || {}, scheduler=current.scheduler || {};
@@ -47,10 +48,12 @@ async function commitLease({api, linkId, proposal, owner, runId, now=()=>Date.no
     }
     const observed=Date.parse(current.observed_at), expires=Date.parse(lease.expires_at), started=Date.parse(current.started_at);
     if (!Number.isFinite(t) || lease.owner !== owner || lease.run_id !== runId || current.run_id !== runId ||
-        current.application_status !== 'running' || scheduler.last_run?.id !== runId ||
-        scheduler.last_run?.recorded_status !== 'in_progress' || !Number.isFinite(observed) || observed > t || t-observed > 40000 ||
+        current.application_status !== 'running' || !(scheduler.kind==='manual'&&scheduler.authorization==='owner_request'&&current.scheduled_for===null ||
+        scheduler.last_run?.id===runId&&scheduler.last_run?.recorded_status==='in_progress') || !Number.isFinite(observed) || observed > t || t-observed > 40000 ||
         !Number.isFinite(expires) || expires <= t || !Number.isFinite(started) || started > t || t-started >= 600000)
       throw new Error('Lease, native run or heartbeat is stale or mismatched');
+    if(scheduler.kind==='manual'&&manualSettings&&!manualAuthorized(manualSettings,current,owner,runId,t))
+      throw new Error('Manual authorization expired before lease update');
   }
   requireFresh();
   const common={link_id:linkId,repository_full_name:REPOSITORY};
@@ -67,6 +70,9 @@ async function commitLease({api, linkId, proposal, owner, runId, now=()=>Date.no
     const settings=await verifiedJson({structuredContent:config});
     if(!settings||settings.target_automation_id!==state.current_run?.scheduler?.id)
       throw new Error('Native observation does not match configured worker');
+    if(state.current_run?.scheduler?.kind==='manual'&&!manualAuthorized(settings,state.current_run,owner,runId,now()))
+      throw new Error('Manual authorization unavailable');
+    if(state.current_run?.scheduler?.kind==='manual')manualSettings=settings;
     if(proposal.phase==='heartbeat'){
       const h=await heartbeatReader.readHeartbeat({api,linkId,gitBlobSha1:gitHash.gitBlobSha1});
       validateHeartbeat({state:previous,config:settings,record:h.record,previous:null,reviewHead:proposal.expected_head,owner,runId,now:now()});

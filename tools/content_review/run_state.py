@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from tools.content_review.lifecycle import instant
 
 
-def begin(state, owner, run_id, *, started_at, scheduled_for, at=None):
+def begin(state, owner, run_id, *, started_at, scheduled_for, at=None, manual=False):
     now = at or datetime.now(timezone.utc)
     if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError('Timezone-aware run observation required')
@@ -24,7 +24,7 @@ def begin(state, owner, run_id, *, started_at, scheduled_for, at=None):
     if (lease.get('owner') != owner or lease.get('run_id') != run_id or
             not expires or expires <= now):
         raise ValueError('A matching unexpired lease is required')
-    if not started or not scheduled or started > now or (now - started).total_seconds() >= 600:
+    if type(manual) is not bool or not started or (not manual and not scheduled) or (manual and scheduled_for is not None) or started > now or (now - started).total_seconds() >= 600:
         raise ValueError('Native run has no remaining bounded work window')
     history = state.get('run_history', [])
     if not isinstance(history, list) or any(not isinstance(x, dict) or not x.get('run_id') for x in history):
@@ -50,6 +50,6 @@ def begin(state, owner, run_id, *, started_at, scheduled_for, at=None):
     if previous is not None and not any(x['run_id'] == previous['run_id'] for x in history):
         result.setdefault('run_history', []).append(deepcopy(previous))
     result['current_run'] = {'run_id': run_id, 'application_status': 'running',
-                             'started_at': started.isoformat(), 'scheduled_for': scheduled.isoformat(),
+                             'started_at': started.isoformat(), 'scheduled_for': None if manual else scheduled.isoformat(),
                              'observed_at': now.isoformat()}
     return result

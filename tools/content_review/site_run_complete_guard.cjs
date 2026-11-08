@@ -28,7 +28,8 @@ function validateComplete({before,after,receipt,owner,runId,verifiedAction,verif
   requests:{source:0,paid:0,openalex:0},manual_admitted:[],all_six_completed:[],actual_publications:[],integrity_passed:null,
   checkpoint_failures:null,resolvable_gate_count:null,all_candidates_legitimately_held:null,
   remaining_blockers:['Subsequent gates and source work were not executed in this mechanical pass.']};
- if(!equal(Object.keys(receipt).sort(),fields)||receipt.schema_version!==1||receipt.run_id!==runId||receipt.trigger!=='schedule'||
+ const manual=run?.scheduler?.kind==='manual';
+ if(!equal(Object.keys(receipt).sort(),fields)||receipt.schema_version!==1||receipt.run_id!==runId||receipt.trigger!==(manual?'manual':'schedule')||
   receipt.status!=='complete'||!equal(receipt.completed_actions,actions)||receipt.receipt_path!=='config/content_review_run_receipts/'+runId+'.json'||
   receipt.provider_requests!==0||receipt.paid_requests!==0||receipt.openalex_requests!==0||receipt.publication_approved!==false||
   receipt.native_completion_verified!==false||receipt.scope_note!=='Mechanical duplicate checks only; review readiness and publication are not established.'||
@@ -36,7 +37,7 @@ function validateComplete({before,after,receipt,owner,runId,verifiedAction,verif
   run.application_status!=='running'||!equal(run.request_counts,{source:0,paid:0,openalex:0})||
   !Number.isFinite(time(stamp))||time(stamp)>now||now-time(stamp)>300000||
   !Number.isFinite(time(run.started_at))||time(run.started_at)>time(stamp)||time(receipt.started_at)!==time(run.started_at)||
-  !Number.isFinite(time(run.scheduled_for))||time(receipt.scheduled_for)!==time(run.scheduled_for)||
+  (manual?(run.scheduled_for!==null||receipt.scheduled_for!==null):(!Number.isFinite(time(run.scheduled_for))||time(receipt.scheduled_for)!==time(run.scheduled_for)))||
   !Number.isFinite(time(lease.acquired_at))||time(lease.acquired_at)>time(stamp)||
   !Number.isFinite(time(lease.expires_at))||time(lease.expires_at)<=now||
   (lease.renewed_at!=null&&(!Number.isFinite(time(lease.renewed_at))||time(lease.renewed_at)>time(stamp))))

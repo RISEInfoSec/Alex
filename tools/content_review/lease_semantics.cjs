@@ -15,6 +15,13 @@ const keys=(o,allowed)=>object(o)&&equal(Object.keys(o).sort(),allowed.slice().s
 
 function native(run,runId,now){
  const s=run?.scheduler,n=s?.last_run;
+ if(s?.kind==='manual'){
+  required(keys(s,['id','kind','authorization','observed_at'])&&typeof s.id==='string'&&/^Automation_[a-zA-Z0-9]+$/.test(s.id)&&!RETIRED.has(s.id)&&
+   s.authorization==='owner_request'&&run.scheduled_for===null&&sameTime(s.observed_at,run.observed_at)&&
+   Number.isFinite(time(run.observed_at))&&time(run.observed_at)<=now&&now-time(run.observed_at)<=40000&&
+   Number.isFinite(time(run.started_at))&&time(run.started_at)<=now&&now-time(run.started_at)<600000,'Manual observation shape or timing is invalid');
+  return;
+ }
  required(keys(s,['id','observed_at','is_enabled','schedule','last_run'])&&
   typeof s.id==='string'&&/^Automation_[a-zA-Z0-9]+$/.test(s.id)&&!RETIRED.has(s.id)&&s.is_enabled===true&&
   keys(n,['id','recorded_status','scheduled_for','started_at','completed_at'])&&n.id===runId&&
@@ -69,7 +76,7 @@ function validateTransition(before,after,phase,{owner,runId,now,detachedHeartbea
   native(run,runId,now);
   required(sameTime(run.observed_at,fresh.acquired_at),'Lease and run timestamps differ');
   expected.lease=structuredClone(fresh);expected.current_run=structuredClone(run);
-  expected.last_started_at=run.scheduler.last_run.started_at;expected.last_heartbeat_at=run.observed_at;
+  expected.last_started_at=run.scheduler.kind==='manual'?run.started_at:run.scheduler.last_run.started_at;expected.last_heartbeat_at=run.observed_at;
  }else if(phase==='heartbeat'){
   const h=detachedHeartbeat,priorFresh=Number.isFinite(time(current?.observed_at))&&time(current.observed_at)<=now&&now-time(current.observed_at)<=40000;
   const detachedFresh=object(h)&&/^[0-9a-f]{40}$/.test(reviewHead||'')&&h.schema_version===1&&h.review_head===reviewHead&&

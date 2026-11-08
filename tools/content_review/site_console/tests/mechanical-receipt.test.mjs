@@ -20,6 +20,13 @@ test('a bounded batch reports distinct duplicate checkpoints and rejects ambiguo
  second.candidate_id='second';second.path=r.completed_actions[0].path;assert.equal(mechanicalReceipt(state(),r,target),null);
  second.path=second.path.replace('a'.repeat(64),'c'.repeat(64));second.gate='metadata';assert.equal(mechanicalReceipt(state(),r,target),null);
 });
+test('manual receipt is labeled manual and never masquerades as a scheduled run',()=>{
+ const s=state(),r=receipt();s.current_run.scheduler.kind='manual';s.current_run.scheduled_for=null;
+ r.trigger='manual';r.scheduled_for=null;const value=mechanicalReceipt(s,r,target);
+ assert.equal(value.trigger,'manual');assert.equal(value.native_run_id,null);assert.equal(value.native_completion_verified,false);
+ assert.match(processingHealth(value,Date.parse(end)).status,/Manual test/);
+ r.trigger='schedule';assert.equal(mechanicalReceipt(s,r,target),null);
+});
 test('stale identity, no-work, forged native claims or unrelated activity cannot appear as processing',()=>{
  for(const change of ['identity','target','status','empty','native','cost','changed','badtime']){
   const s=state(),r=receipt();

@@ -121,6 +121,32 @@ def _proposal(repo, head, state_meta, updated, phase):
             'size': len(raw_new), 'requires_atomic_update_and_lease_readback': True, 'writes': 0}
 
 
+def prepare_manual(repo, head, owner, run_id, *, at=None):
+    """Prepare one explicitly authorized manual run; never invent native evidence."""
+    now=at or datetime.now(timezone.utc)
+    if (not isinstance(now,datetime) or now.tzinfo is None or now.utcoffset() is None or
+        not isinstance(head,str) or not SHA.fullmatch(head) or not isinstance(owner,str) or not owner or
+        not isinstance(run_id,str) or not re.fullmatch(r'[a-zA-Z0-9-]+',run_id)):
+        raise ValueError('Manual run identity invalid')
+    raw,meta=_path_blob(repo,head,WORKER);config_raw,_=_path_blob(repo,head,CONFIG)
+    state,config=json.loads(raw),json.loads(config_raw)
+    target=config.get('target_automation_id');permit=config.get('manual_run_authorization')
+    until=instant(permit.get('expires_at')) if isinstance(permit,dict) else None
+    if (not isinstance(target,str) or not re.fullmatch(r'Automation_[a-zA-Z0-9]+',target) or target in RETIRED_TARGETS or
+        not isinstance(permit,dict) or set(permit)!={'run_id','owner','expires_at','scope'} or
+        permit.get('run_id')!=run_id or permit.get('owner')!=owner or permit.get('scope')!='duplicate_only' or
+        not until or not 0<(until-now).total_seconds()<=900):
+        raise ValueError('Exact unexpired manual authorization required')
+    previous=state.get('current_run') or {}
+    if previous.get('pending_source_request') is not None:
+        raise ValueError('Pending source reservation needs separate reconciliation')
+    updated=begin(acquire(state,owner,run_id,at=now),owner,run_id,started_at=now.isoformat(),scheduled_for=None,at=now,manual=True)
+    updated['last_started_at']=now.isoformat();updated['current_run']['request_counts']={'source':0,'paid':0,'openalex':0}
+    updated['current_run']['scheduler']={'id':target,'kind':'manual','authorization':'owner_request','observed_at':now.isoformat()}
+    updated['last_heartbeat_at']=now.isoformat()
+    return _proposal(repo,head,meta,updated,'start')
+
+
 def reconcile_expired(repo, head, terminal, owner, run_id, *, at=None):
     """Prepare a stopped, expired lease for exact-head reconciliation.
 

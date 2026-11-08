@@ -60,7 +60,17 @@ def prepare(repo, review_head, main_head, heartbeat_head, native, snapshot, conf
     run = state.get('current_run') or {}
     started, due = instant(run.get('started_at')), instant(run.get('scheduled_for'))
     anchor = hourly_anchor((observed or {}).get('schedule', ''))
-    if (not observed or observed.get('is_enabled') is not True or (run.get('scheduler') or {}).get('id') != target or last.get('id') != run_id
+    manual=(run.get('scheduler') or {}).get('kind')=='manual'
+    permit=config.get('manual_run_authorization') if manual else None
+    until=instant(permit.get('expires_at')) if isinstance(permit,dict) else None
+    if manual:
+        if (native is not None or not isinstance(permit,dict) or set(permit)!={'run_id','owner','expires_at','scope'} or
+            permit.get('run_id')!=run_id or permit.get('owner')!=owner or permit.get('scope')!='duplicate_only' or
+            (run.get('scheduler') or {}).get('id')!=target or (run.get('scheduler') or {}).get('authorization')!='owner_request' or
+            run.get('scheduled_for') is not None or not started or not until or started>now or until<=now or
+            (until-started).total_seconds()>900 or (now-started).total_seconds()>600):
+            raise ValueError('Exact manual authorization and work window required')
+    elif (not observed or observed.get('is_enabled') is not True or (run.get('scheduler') or {}).get('id') != target or last.get('id') != run_id
         or last.get('recorded_status') != 'in_progress' or instant(last.get('started_at')) != started
         or instant(last.get('scheduled_for')) != due or not started or not due or not anchor
         or due < anchor or (due-anchor).total_seconds() % 3600 != 0 or started > now
@@ -169,8 +179,8 @@ def prepare(repo, review_head, main_head, heartbeat_head, native, snapshot, conf
     updated['current_run']['application_status'] = 'complete' if completed else 'deferred'
     updated['current_run']['application_completed_at'] = now.isoformat()
     updated['current_run']['receipt'] = receipt_path
-    receipt = {'schema_version': 1, 'run_id': run_id, 'trigger': 'schedule',
-               'scheduled_for': due.isoformat(), 'started_at': started.isoformat(), 'completed_at': now.isoformat(),
+    receipt = {'schema_version': 1, 'run_id': run_id, 'trigger': 'manual' if manual else 'schedule',
+               'scheduled_for': None if manual else due.isoformat(), 'started_at': started.isoformat(), 'completed_at': now.isoformat(),
                'status': 'complete' if completed else 'no_work', 'completed_actions': actions,
                'receipt_path': receipt_path, 'provider_requests': 0, 'paid_requests': 0, 'openalex_requests': 0,
                'publication_approved': False, 'native_completion_verified': False,

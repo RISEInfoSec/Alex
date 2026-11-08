@@ -9,7 +9,7 @@ import re
 
 from tools.content_review.coordinator_heartbeat import HeartbeatKeeper
 from tools.content_review.coordinator_heartbeat_transport import DetachedHeartbeatPulse,read_heads,fetch_heads,REVIEW,MAIN,HEARTBEAT
-from tools.content_review.lease_transition import prepare as prepare_lease
+from tools.content_review.lease_transition import prepare as prepare_lease, prepare_manual
 from tools.content_review.run_completion import prepare as prepare_completion
 from tools.content_review.site_reconcile_client import read_snapshot
 from tools.content_review.site_worker_client import post
@@ -36,6 +36,21 @@ def start(repo,token,native,owner,run_id,*,heads=read_heads,fetch=fetch_heads,pr
     current=heads(repo)
     if current.get(REVIEW)!=result['commit_sha'] or current.get(MAIN)!=refs[MAIN]:
         raise ValueError('Lease head changed; reconcile before retrying')
+    return {'status':'lease_started','review_head':result['commit_sha'],'main_head':refs[MAIN],
+            'native_observation_authenticated':False,'candidate_processing':False}
+
+
+def start_manual(repo,token,native,owner,run_id,*,heads=read_heads,fetch=fetch_heads,preparer=prepare_manual,send=post,clock=None):
+    _identity(token,owner,run_id);clock=clock or (lambda:datetime.now(timezone.utc))
+    if native is not None:raise ValueError('Manual run cannot include native scheduler evidence')
+    refs=heads(repo)
+    if not all(SHA.fullmatch(refs.get(k) or '') for k in (REVIEW,MAIN,HEARTBEAT)):raise ValueError('Coordinator source heads unavailable')
+    fetch(repo,refs,run_id);proposal=preparer(repo,refs[REVIEW],owner,run_id,at=clock())
+    result=send('lease',{'proposal':proposal,'owner':owner,'runId':run_id},token)
+    if not isinstance(result,dict) or result.get('status')!='committed_and_read_back' or not SHA.fullmatch(result.get('commit_sha') or ''):
+        return {'status':'blocked','reason':'lease_start_not_confirmed','reconcile_before_retry':True,'candidate_processing':False}
+    current=heads(repo)
+    if current.get(REVIEW)!=result['commit_sha'] or current.get(MAIN)!=refs[MAIN]:raise ValueError('Lease head changed; reconcile before retrying')
     return {'status':'lease_started','review_head':result['commit_sha'],'main_head':refs[MAIN],
             'native_observation_authenticated':False,'candidate_processing':False}
 

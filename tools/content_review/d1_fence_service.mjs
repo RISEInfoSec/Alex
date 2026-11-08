@@ -8,6 +8,7 @@ import reader from './site_d1_reader.cjs';
 import fingerprints from './d1_fingerprint.cjs';
 import heartbeatReader from './github_read_heartbeat.cjs';
 import gitHash from './git_blob_sha1.cjs';
+import manual from './manual_authorization.cjs';
 
 const REPO='RISEInfoSec/Alex',REVIEW='codex/soups-corpus-review',MAIN='main';
 const WORKER='config/content_review_worker_status.json',CONFIG='config/content_review_monitor_config.json';
@@ -45,11 +46,12 @@ async function context(github,input,now){
  const time=now(),started=instant(run.started_at),scheduled=instant(run.scheduled_for),nativeObserved=instant(scheduler.observed_at),
   acquired=instant(lease.acquired_at),expires=instant(lease.expires_at),observed=instant(h?.observed_at);
  if(lease.owner!==input.owner||lease.run_id!==input.runId||run.run_id!==input.runId||run.application_status!=='running'||
-    scheduler.id!==target||scheduler.is_enabled!==true||scheduler.last_run?.id!==input.runId||scheduler.last_run?.recorded_status!=='in_progress'||
+    scheduler.id!==target||!(manual.authorized(config,run,input.owner,input.runId,time)||
+      (scheduler.kind!=='manual'&&scheduler.is_enabled===true&&scheduler.last_run?.id===input.runId&&scheduler.last_run?.recorded_status==='in_progress'))||
     !h||h.schema_version!==1||h.review_head!==review||h.owner!==input.owner||h.run_id!==input.runId||h.scheduler_id!==target||
     h.started_at!==run.started_at||h.lease_acquired_at!==lease.acquired_at||h.lease_expires_at!==lease.expires_at||
-    !Number.isFinite(time)||started===null||scheduled===null||nativeObserved===null||
-    instant(scheduler.last_run?.started_at)!==started||instant(scheduler.last_run?.scheduled_for)!==scheduled||
+    !Number.isFinite(time)||started===null||nativeObserved===null||
+    (scheduler.kind!=='manual'&&(scheduled===null||instant(scheduler.last_run?.started_at)!==started||instant(scheduler.last_run?.scheduled_for)!==scheduled))||
     nativeObserved<started||nativeObserved>time||acquired===null||expires===null||observed===null||
     started>time||acquired>observed||observed<started||observed>time||time-observed>40000||
     time-started>600000||expires-time<=120000)
