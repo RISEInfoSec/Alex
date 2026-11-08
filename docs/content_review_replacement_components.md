@@ -260,6 +260,13 @@ Unverified source claims, no-work runs and checkpoint changes alone do not prove
 publication or unattended recovery. It fails closed on decision changes unless
 they can be separately reconciled. It is not yet an independent scheduled job.
 
+`corpus_audit_live_check.py` is a bounded read-only check of receipt-bound
+historical corpus decisions, the current D1 overlay and public-catalogue bytes.
+It reports aggregate exact-key comparisons only, with private rows kept in
+memory. A matching key is not identity proof and a nonmatch is not proof of
+absence. It does not change decisions, process candidates, hold a lease or
+authorize publication; it is not yet connected to the scheduled coordinator.
+
 `work_plan.select` rotates across eligible collections before revisiting a
 collection, even if another collection has stronger evidence. Within each
 collection it prefers supported, more complete evidence. The future coordinator
