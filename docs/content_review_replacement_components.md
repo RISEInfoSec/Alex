@@ -1,9 +1,11 @@
 # Unattended review replacement: validated components
 
-These components are not a deployed coordinator, scheduler or monitor. The old
-automations remain disabled. Do not enable a runner until the owner-private D1
-read path, single-writer lease, checkpoints, publication safeguards, bounded
-budgets and accurate native-run status have all been integrated and verified.
+These components do not yet constitute a deployed full hourly coordinator. The
+old automations remain disabled. A separate one-time duplicate-only pilot uses
+the deployed Site lease, heartbeat and fenced checkpoint routes; its result must
+be inspected and reconciled before another attempt. It is not full processing.
+Keep the full worker disabled until all collection paths, decision safeguards,
+bounded budgets and truthful status have been integrated and verified.
 
 `tools/content_review/d1_reconcile.py` validates two complete D1 reads, joins
 every immutable submission, decision and job, selects the latest completed
@@ -21,12 +23,14 @@ the separately held remote lease remains valid, including while connector calls
 are in flight. The reader itself neither acquires nor renews a lease. It returns private rows
 to the caller in memory and never writes or logs them.
 `select_reconciled` overlays matching decisions on disposable in-memory copies
-before choosing candidates and holds changed or conflicting decisions out of
-selection. It does not persist that overlay or acquire the writer lease.
+before choosing candidates and holds changed, conflicting or superseded
+historical decisions out of selection. It does not persist that overlay or
+acquire the writer lease.
 `coordinator.py` makes a five-candidate plan only after validating the current
 lease, heartbeat, D1 reads and registry. It lists an explicit disposition for
-every registered collection, reports APWG, the corpus audit and Virus Bulletin
-as requiring their separate adapters, and sets OpenAlex and paid requests to zero for the plan.
+every registered collection, reports APWG and the corpus audit as requiring
+separate execution adapters, permits Virus Bulletin's duplicate and source
+stages, and sets OpenAlex and paid requests to zero for the plan.
 Per-collection matching-decision counts are reconciliation observations, not
 processed work. Coverage reports due candidates that lack an executor, and
 reports a missing lifecycle entry for numbered candidates separately from
@@ -52,10 +56,14 @@ private decisions, live heartbeat and bounded work window. It neither writes the
 manifest nor passes a gate. `source_retention_checkpoint.py` recomputes that
 proposal and prepares an immutable checkpoint receipt with the manifest and
 unchanged worker state. The connector accepts only those paths and requires the
-live fence and readback; the scheduler is not yet connected to this path.
+live fence and readback; the full scheduled coordinator is not yet enabled.
 The connector writer can save those bundles only after the same live fence. The
 outputs still require an atomic leased write and readback; none of these
 planning modules dispatches a workflow or makes a provider request.
+Source failures preserve origin cooldowns across runs, including equivalent
+host spellings and default ports. SOUPS intake reservations can be checked
+without assigning an editorial review number; the independent guards reject
+number collisions and existing private review state under the D1 fence.
 `apwg_adapter.py` reproduces the Site's filtered APWG candidate IDs, content
 hashes and batches for decision reconciliation. APWG execution still needs a
 separate source/decision writer; normalization is not processing.
@@ -208,14 +216,16 @@ only after revalidating committed mechanical checkpoints, the reviewed hashes,
 two current D1 reads, a fresh detached heartbeat and the observed native run.
 It records an empty pass as `no_work`, never as successful processing. The
 atomic writer supports this two-file completion bundle with the final D1 and
-lease fence. These components are not connected to an installed scheduler.
+lease fence. The controlled duplicate pilot connects these components for its
+limited scope; it does not establish full scheduled recovery.
 `heartbeat_evidence.py`, `detached_heartbeat.py` and
 `github_atomic_heartbeat.cjs` prepare, verify and write liveness on a separate
-Git ref, bound to the exact review head and lease. The ref has been created,
-but no heartbeat writer is installed or scheduled. `github_read_heartbeat.cjs` independently reads the immutable
+Git ref, bound to the exact review head and lease. The private Site provides a
+heartbeat writer used by the controlled pilot; the full worker is not scheduled.
+`github_read_heartbeat.cjs` independently reads the immutable
 heartbeat blob and verifies its Git hash with `git_blob_sha1.cjs` before the
-live fence consumes it. Site version 37 can consume that evidence when configured and will
-show missing or stale evidence as degraded.
+live fence consumes it. The current private Site consumes that evidence when
+configured and shows missing or stale evidence as degraded.
 `runtime_guard.py` can use immutable review and heartbeat heads for each
 bounded work unit and reads its budget from the committed review policy. The
 caller must independently recheck both remote refs; local Git objects alone do
@@ -262,8 +272,9 @@ changes. The private Site's receipt and paused-OpenAlex fixes are deployed;
 Site version 39 also follows that configured target without inheriting the old
 worker's heartbeat or proof, and labels stored processing counts as reports
 rather than independently demonstrated results. A native result requiring
-action or reporting failure cannot verify a receipt. Actual replacement scheduler and monitor evidence
-remain outstanding.
+action or reporting failure cannot verify a receipt. Native scheduled-completion
+evidence remains incomplete. The current Site also displays the configured worker's
+limited scope rather than presenting a duplicate-only pilot as the full worker.
 
 On November 7 the owner explicitly released the OpenAlex pause and authorized
 overriding the unresolved 429 reconciliation hold without verified provider
