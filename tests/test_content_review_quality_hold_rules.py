@@ -15,7 +15,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def row():
     value={'candidate_id':'candidate','title':'A research title','authors':'A','year':2026,'doi':'',
            'source_url':'https://example.test/paper','abstract':'A well documented topic. '*6,
-           'document_type':'research_paper','decision':'pending'}
+           'document_type':'research_paper','decision':'pending','abstract_integrity_status':'verified_complete'}
     value['content_sha256']=reviewed_digest(value)
     value['preflight']={'checks':{g:{'status':'passed','content_sha256':value['content_sha256'],
         'checked_at':'2026-11-08T00:00:00Z','evidence':{'verified':True}} for g in ('format','access','metadata','duplicates')}}
@@ -50,18 +50,28 @@ def test_existing_matching_quality_hold_is_not_repeated():
 
 def test_existing_term_non_ascii_and_missing_complete_inputs_never_assert_absence():
     values=[]
-    for change in ('term','non_ascii','short','no_policy','empty_term'):
+    for change in ('term','non_ascii','short','no_policy','empty_term','unverified','truncated_flag','truncated_marker'):
         value=row();policy={'core_keywords':['cyber','osint']}
         if change=='term':value['title']='Cyber research';value['content_sha256']=reviewed_digest(value)
         if change=='non_ascii':value['abstract']+=' é';value['content_sha256']=reviewed_digest(value)
         if change=='short':value['abstract']='Short';value['content_sha256']=reviewed_digest(value)
         if change=='no_policy':policy['core_keywords']=[]
         if change=='empty_term':policy['core_keywords']=['']
+        if change=='unverified':value.pop('abstract_integrity_status')
+        if change=='truncated_flag':value['abstract_truncated']=True
+        if change=='truncated_marker':value['abstract']+=' [truncated]';value['content_sha256']=reviewed_digest(value)
         for check in value['preflight']['checks'].values():check['content_sha256']=value['content_sha256']
         values.append({'row':value,'registry':policy})
     expected=[audit(x['row'],x['registry']) for x in values]
     assert all(x['status']=='held' and x['gate_passed'] is False for x in expected)
     assert node(values)==expected
+
+
+def test_cached_official_abstract_is_accepted_as_complete():
+    value=row();value.pop('abstract_integrity_status');value['abstract_text_status']='cached_official_program_abstract'
+    policy={'core_keywords':['cyber']};result=audit(value,policy)
+    assert result['status']=='verified_core_term_absence'
+    assert node([{'row':value,'registry':policy}])==[result]
 
 
 @pytest.mark.parametrize('change',['decision','hash','prior_gate','empty_evidence','already_passed'])

@@ -29,7 +29,10 @@ def audit(row,registry):
     if previous is not None:
         return {'status':'held','reason':'existing_quality_evidence_requires_reconciliation','gate_passed':False,'writes':0}
     title,abstract=row.get('title'),row.get('abstract');terms=registry.get('core_keywords')
+    complete=(row.get('abstract_integrity_status')=='verified_complete' or
+              isinstance(row.get('abstract_text_status'),str) and row['abstract_text_status'].startswith('cached_official_program_abstract'))
     if (not isinstance(title,str) or not title.strip() or not isinstance(abstract,str) or len(abstract.strip())<100 or
+        not complete or row.get('abstract_truncated') or '[truncated]' in abstract or
         not ASCII.fullmatch(title) or not ASCII.fullmatch(abstract) or not isinstance(terms,list) or not terms or
         len(terms)>1000 or any(not isinstance(x,str) or not x or not ASCII.fullmatch(x) for x in terms)):
         return {'status':'held','reason':'quality_hold_inputs_outside_narrow_scope','gate_passed':False,'writes':0}

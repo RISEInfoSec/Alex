@@ -25,7 +25,9 @@ function audit(row,registry){
   return {status:'held',reason:'existing_quality_hold_requires_reconciliation',gate_passed:false,writes:0};
  if(previous!=null)return {status:'held',reason:'existing_quality_evidence_requires_reconciliation',gate_passed:false,writes:0};
  const {title,abstract}=row,terms=registry.core_keywords;
- if(!ascii(title)||!strip(title)||!ascii(abstract)||strip(abstract).length<100||!Array.isArray(terms)||!terms.length||terms.length>1000||
+ const complete=row.abstract_integrity_status==='verified_complete'||
+  typeof row.abstract_text_status==='string'&&row.abstract_text_status.startsWith('cached_official_program_abstract');
+ if(!ascii(title)||!strip(title)||!ascii(abstract)||strip(abstract).length<100||!complete||truthy(row.abstract_truncated)||abstract.includes('[truncated]')||!Array.isArray(terms)||!terms.length||terms.length>1000||
   terms.some(x=>!ascii(x)||!x))return {status:'held',reason:'quality_hold_inputs_outside_narrow_scope',gate_passed:false,writes:0};
  const clean=x=>strip(x.replace(/[\s\x1c-\x1f]+/g,' ')),text=(clean(title)+' '+clean(abstract)).toLowerCase();
  if(terms.some(term=>text.includes(term.toLowerCase())))
