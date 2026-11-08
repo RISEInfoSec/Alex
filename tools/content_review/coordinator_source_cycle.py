@@ -38,12 +38,13 @@ def source_pass(repo,token,native,review_head,main_head,owner,run_id,*,heads=rea
         if prepared.get('status')=='source_retention_required':
             items=prepared.get('items')
             if not isinstance(items,list) or not 1<=len(items)<=5:raise ValueError('Source retention inventory invalid')
-            item=items[0]
-            retained=retention(repo,token,review_head,main_head,owner,run_id,item['native_run_id'],item['artifact_id'],item['collection'],item['candidate_id'])
-            if retained.get('status')!='source_retained' or retained.get('heartbeat_rebound') is not True:
-                return {'status':'blocked','reason':'source_retention_unconfirmed','reconcile_before_retry':True,
-                        'candidate_processing':False,'lease_release_confirmed':False,'native_completion_verified':False}
-            return empty_finish(repo,token,native,retained['commit_sha'],main_head,owner,run_id,None)
+            # A no-work receipt says that no source work was performed. Do not
+            # retain evidence and then issue that misleading receipt. Wait for
+            # the independently verified retention-completion receipt instead.
+            completed=empty_finish(repo,token,native,review_head,main_head,owner,run_id,None)
+            if completed.get('status')=='deferred' and completed.get('lease_release_confirmed') is True:
+                return {**completed,'reason':'source_retention_completion_receipt_required'}
+            return completed
         if prepared.get('status')=='deferred':
             return empty_finish(repo,token,native,review_head,main_head,owner,run_id,None)
         if prepared.get('status')!='source_result_pending' or prepared.get('heartbeat_rebound') is not True:
