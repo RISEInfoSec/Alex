@@ -262,7 +262,7 @@ def validate(root,path):
     if req.get('purpose') == 'corpus_metadata_audit':
         validate_corpus_snapshot(root,req)
         return req
-    if req.get('purpose') not in (None,'candidate_source_evidence'):
+    if req.get('purpose') not in (None,'candidate_source_evidence','quality_evidence_reconciliation'):
         raise ValueError('Unsupported source request purpose')
     for item in items:
         p=root/MANIFESTS[item['collection']]
@@ -271,6 +271,9 @@ def validate(root,path):
         if len(matches)!=1:raise ValueError('Candidate missing/nonunique')
         row=matches[0];ensure_eligible(root,item['collection'],item['candidate_id'])
         if row['content_sha256']!=item['content_sha256'] or reviewed_digest(row)!=row['content_sha256']:raise ValueError('Candidate content changed')
+        if req.get('purpose')=='quality_evidence_reconciliation':
+            from tools.content_review.quality_source_eligibility import eligible
+            if eligible(row)['eligible'] is not True:raise ValueError('Quality source evidence is not eligible')
         evidence=row.get('source_processing',{})
         if evidence.get('content_sha256')==row['content_sha256'] and evidence.get('retrieval_status') in ('retrieved','held'):
             raise ValueError('Retained source evidence or hold must be resolved first')
