@@ -1,28 +1,23 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-07T02:49:50.091115+00:00",
+  "observed_at": "2026-11-08T15:12:54.607352+00:00",
   "scheduler": {
-    "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
-    "observed_at": "2026-11-07T02:49:50.091115+00:00",
+    "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+    "observed_at": "2026-11-08T15:12:54.607352+00:00",
     "is_enabled": false,
-    "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+    "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261108T023000\nRRULE:FREQ=HOURLY\nEND:VEVENT",
     "next_run_time": null,
     "expected_next_run_at": null,
     "last_run": {
-      "id": "843a2fa3-86f8-8322-8d96-177ef301072b",
-      "recorded_status": "failed",
-      "scheduled_for": "2026-11-07T02:45:00Z",
-      "started_at": "2026-11-07T02:45:51.361830Z",
-      "completed_at": "2026-11-07T02:46:56.224411Z"
+      "id": "da03fbe8-75e4-832c-a667-24de9d0472f1",
+      "recorded_status": "completed",
+      "scheduled_for": "2026-11-08T14:30:00Z",
+      "started_at": "2026-11-08T14:27:34.328294Z",
+      "completed_at": "2026-11-08T14:29:09.498630Z"
     },
-    "requires_user_action": true,
-    "last_verified_scheduled_success": {
-      "run_id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
-      "completed_at": "2026-11-05T16:53:29.391174Z",
-      "trigger": "schedule",
-      "evidence_verified": true,
-      "receipt": "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json"
-    }
+    "requires_user_action": false,
+    "result_is_failure_message": false,
+    "last_verified_scheduled_success": null
   },
   "source_discovery": {
     "observed_at": "2026-11-04T23:16:00.914Z",
@@ -134,6 +129,29 @@
       "application_receipt": "config/content_review_run_receipts/2026-11-02T220000Z-6f9ea16b.json",
       "disabled_observed_at": "2026-11-02T22:09:46Z",
       "pause_actor": "not available"
+    },
+    {
+      "id": "Automation_4eb2dd829aa88191b542d57f7008ebe3",
+      "observed_at": "2026-11-07T02:49:50.091115+00:00",
+      "is_enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261102T174500\nRRULE:FREQ=HOURLY\nEND:VEVENT",
+      "next_run_time": null,
+      "expected_next_run_at": null,
+      "last_run": {
+        "id": "843a2fa3-86f8-8322-8d96-177ef301072b",
+        "recorded_status": "failed",
+        "scheduled_for": "2026-11-07T02:45:00Z",
+        "started_at": "2026-11-07T02:45:51.361830Z",
+        "completed_at": "2026-11-07T02:46:56.224411Z"
+      },
+      "requires_user_action": true,
+      "last_verified_scheduled_success": {
+        "run_id": "715ebf8c-ec08-832e-b282-d98919e80fd8",
+        "completed_at": "2026-11-05T16:53:29.391174Z",
+        "trigger": "schedule",
+        "evidence_verified": true,
+        "receipt": "config/content_review_run_receipts/715ebf8c-ec08-832e-b282-d98919e80fd8.json"
+      }
     }
   ],
   "retired_scheduler_records": [
