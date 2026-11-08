@@ -6,6 +6,7 @@
 const {fingerprint,sha256}=require('./d1_fingerprint.cjs');
 const {pyJson}=require('./soups_intake_site_guard.cjs');
 const {validateSnapshot,complete}=require('./site_duplicate_semantics.cjs');
+const {identity:reviewIdentity}=require('./site_review_identity.cjs');
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const canonical=x=>Array.isArray(x)?x.map(canonical):object(x)?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
 const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
@@ -68,11 +69,10 @@ function validateSourceRetention({before,after,state,afterState,request,sourceRe
  if(old.length!==1)throw Error('Candidate missing or ambiguous');
  const row=old[0],content={};for(const k of ['title','authors','year','doi','source_url','abstract','document_type'])content[k]=field(row,k);
  if(!['pending','unreviewed'].includes(field(row,'decision','pending'))||row.content_sha256!==receipt.content_sha256||
-  sha256(pyJson(content))!==row.content_sha256||!Number.isSafeInteger(row.review_number)||row.review_number<1||
+  sha256(pyJson(content))!==row.content_sha256||
   row.publication_status==='published_live_verified'||row.publication_approved===true)throw Error('Candidate changed or is not pending');
- const batch=row.review_batch??row.batch??(receipt.collection==='soups'?(row.review_number<=100?Math.ceil(row.review_number/20):
-  row.review_number<=118?6:7+Math.floor((row.review_number-119)/20)):Math.ceil(row.review_number/20));
- if(!Number.isSafeInteger(batch)||batch<1||snapshot.decisions.some(d=>d.collection===receipt.collection&&(d.candidate_id===receipt.candidate_id||d.review_number===row.review_number))||
+ const {number,batch}=reviewIdentity(receipt.collection,row,before);
+ if(snapshot.decisions.some(d=>d.collection===receipt.collection&&(d.candidate_id===receipt.candidate_id||d.review_number===number))||
   snapshot.submissions.some(s=>s.collection===receipt.collection&&s.batch===batch)||snapshot.jobs.some(j=>j.collection===receipt.collection&&j.candidate_id===receipt.candidate_id))
   throw Error('Candidate has review state');
  const receiptPath='config/content_review_source_receipts/'+rid+'.json';

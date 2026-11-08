@@ -1,4 +1,5 @@
 from copy import deepcopy
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -49,6 +50,40 @@ def test_source_retention_preserves_existing_quality_hold(tmp_path):
     assert json.loads(result.stdout)['gate_passed'] is False
     new['preflight']['checks']['quality']['status']='passed'
     assert invoke(data).returncode!=0
+
+
+def reserved_soups(data):
+    from tools.content_review.source_worker import digest
+    req=data['request'];item=req['records'][0];item['collection']='soups'
+    req['request_id']=digest({k:v for k,v in req.items() if k!='request_id'});rid=req['request_id']
+    result=json.loads(data['resultText']);result['request_id']=rid;result['records'][0]['collection']='soups'
+    raw=json.dumps(result,ensure_ascii=False);sha=hashlib.sha256(raw.encode()).hexdigest();data['resultText']=raw
+    data['artifact']['sha256']=sha
+    data['sourceReceipt'].update(request=deepcopy(req),result=deepcopy(result),artifact_sha256=sha)
+    data['receipt'].update(collection='soups',request_id=rid,artifact_sha256=sha)
+    for state in (data['state'],data['afterState']):
+        entry=state['current_run']['accounted_source_requests'][0];entry['request_id']=rid;entry['artifact_sha256']=sha
+    for manifest in (data['before'],data['after']):
+        row=manifest['records'][0];row.pop('review_number',None);row.pop('review_batch',None);row.pop('batch',None)
+        row.update(reserved_review_number=121,reserved_review_batch=8)
+    data['after']['records'][0]['source_processing']['receipt']='config/content_review_source_receipts/'+rid+'.json'
+    return data
+
+
+def test_reserved_soups_retention_preserves_intake_identity_and_checks_decisions(tmp_path):
+    data=reserved_soups(value(tmp_path));result=invoke(data)
+    assert result.returncode==0,result.stderr
+    assert json.loads(result.stdout)['gate_passed'] is False
+    collision=deepcopy(data)
+    for manifest in (collision['before'],collision['after']):
+        manifest['records'].append({'candidate_id':'other','review_number':121})
+    assert invoke(collision).returncode!=0
+    reviewed=deepcopy(data)
+    reviewed['snapshot']['submissions']=[{'id':'s','user_id':'owner','collection':'soups','batch':8,
+        'revision':1,'accepted':0,'rejected':1,'payload_hash':'a'*64}]
+    reviewed['snapshot']['read_evidence']['submissions']['rows_received']=1
+    reviewed['confirmed']=deepcopy(reviewed['snapshot'])
+    assert invoke(reviewed).returncode!=0
 
 
 @pytest.mark.parametrize('change',['manifest','state','artifact','receipt','result','review','lease','lease_time','accounting'])
