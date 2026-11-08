@@ -3,6 +3,7 @@
 const SHA=/^[0-9a-f]{64}$/,ID=/^[a-zA-Z0-9-]{1,100}$/;
 const PATH=/^config\/content_review_mechanical_checkpoints\/[0-9a-f]{64}\.json$/;
 const SOURCE_PATH=/^config\/content_review_source_gate_checkpoints\/[0-9a-f]{64}\.json$/;
+const RETENTION_PATH=/^config\/content_review_source_checkpoints\/[0-9a-f]{64}\.json$/;
 const time=x=>typeof x==='string'?Date.parse(x):NaN;
 export function mechanicalReceipt(checkpoint,receipt,target){
  const run=checkpoint?.current_run,id=run?.run_id,actions=receipt?.completed_actions;
@@ -19,10 +20,12 @@ export function mechanicalReceipt(checkpoint,receipt,target){
   !SHA.test(action.content_sha256||''))return null;
  const duplicate=action.gate==='duplicates'&&PATH.test(action.path||'');
  const source=receipt.kind==='source_gate_completion'&&receipt.candidate_processing===true&&['format','access','metadata'].includes(action.gate)&&SOURCE_PATH.test(action.path||'');
- if(!duplicate&&!source)return null;
+ const retained=receipt.kind==='source_retention_completion'&&receipt.candidate_processing===true&&action.action==='source_evidence_retained'&&RETENTION_PATH.test(action.path||'');
+ if(!duplicate&&!source&&!retained)return null;
  return {native_run_id:id,trigger:'schedule',observed_at:receipt.completed_at,local_candidates:1,duplicate_gate_passes:duplicate?1:0,
-  source_requests:0,source_gate_passes:source?1:0,downstream_gate_passes:0,six_gate_completions:0,newly_review_ready:0,publications:0,
-  scope_note:source?'A retained-source gate checkpoint was reported in the run receipt. Other gates and native scheduler completion remain unverified.':
+  source_requests:0,source_evidence_retained:retained?1:0,source_gate_passes:source?1:0,downstream_gate_passes:0,six_gate_completions:0,newly_review_ready:0,publications:0,
+  scope_note:retained?'A source evidence retention checkpoint was reported. No gate pass or native scheduler completion is established.':
+   source?'A retained-source gate checkpoint was reported in the run receipt. Other gates and native scheduler completion remain unverified.':
    'A duplicate checkpoint was reported in the run receipt. Other gates and native scheduler completion remain unverified.',
   corrective_action:'Continue remaining checks; verify native completion separately.',receipt_source:'pinned_repository_receipt',
   candidate_counts_verified:false,native_completion_verified:false};

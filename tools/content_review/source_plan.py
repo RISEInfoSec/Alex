@@ -70,7 +70,8 @@ def _unretained_source_results(repo, review_head, state, selected, manifests):
             if not any(isinstance(version,dict) and version.get('receipt')==path and
                        version.get('content_sha256')==item['content_sha256'] for version in versions):
                 pending[(item['collection'],item['candidate_id'])]={'request_id':request_id,
-                    'artifact_id':entry.get('artifact_id'),'native_run_id':entry.get('native_run_id')}
+                    'artifact_id':entry.get('artifact_id'),'native_run_id':entry.get('native_run_id'),
+                    'result_status':evidence[0].get('status')}
     return pending
 
 def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapshot,owner,run_id,

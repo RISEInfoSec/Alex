@@ -18,7 +18,7 @@ const canonical=x=>Array.isArray(x)?x.map(canonical):x&&typeof x==='object'?Obje
 const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
 
 export async function writeSourceRetention({db,github,getToken,input,now=()=>Date.now(),read=reader.readStable,control=controlFence,
- verify=verifyWorkerContext,artifactReader=readSourceArtifact,heartbeatFactory=makeHeartbeatKeeper}){
+ verify=verifyWorkerContext,artifactReader=readSourceArtifact,heartbeatFactory=makeHeartbeatKeeper,auditOnly=false}){
  if(!db||!github||typeof getToken!=='function'||typeof now!=='function'||typeof read!=='function'||typeof control!=='function'||
   typeof verify!=='function'||typeof artifactReader!=='function'||typeof heartbeatFactory!=='function'||!input||typeof input!=='object'||Array.isArray(input)||
   JSON.stringify(Object.keys(input).sort())!==JSON.stringify(['artifactId','expectedHead','expectedMain','files','owner','runId','sourceRunId'])||
@@ -95,6 +95,8 @@ export async function writeSourceRetention({db,github,getToken,input,now=()=>Dat
   nativeRun:observed.native_run,artifact:observed.artifact,resultText:observed.result_text,snapshot:snapshots.snapshot,confirmed:snapshots.confirmed_snapshot,
   owner:input.owner,runId:input.runId,now:now()});
  if(checked.receipt_path!==receipts[0])throw Error('Source retention receipt verification differs');
+ if(auditOnly)return {status:'validated',receipt_path:receipts[0],collection:receipt.collection,candidate_id:receipt.candidate_id,
+  content_sha256:receipt.content_sha256,result_status:receipt.result_status,gate_passed:false,candidate_processing:false,publication_verified:false};
  const currentDetails=await details(input.expectedHead),additions=[];
  for(const path of paths.sort()){
   const expected=await verifier.blobIdentity(files[path],{limit:LIMIT}),blob=ok(await github.createBlob({repository_full_name:REPO,content:files[path],encoding:'utf-8'}),'Source retention blob failed');

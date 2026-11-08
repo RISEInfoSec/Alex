@@ -32,6 +32,16 @@ test('a retained-source receipt reports its gate without claiming native success
  }
  r.candidate_processing=false;assert.equal(mechanicalReceipt(state(),r,target),null);
 });
+test('a retention receipt reports evidence retained without claiming a gate',()=>{
+ const r=receipt();r.kind='source_retention_completion';r.candidate_processing=true;
+ r.completed_actions[0].path='config/content_review_source_checkpoints/'+'a'.repeat(64)+'.json';
+ delete r.completed_actions[0].gate;r.completed_actions[0].action='source_evidence_retained';
+ const value=mechanicalReceipt(state(),r,target);
+ assert.equal(value.source_evidence_retained,1);assert.equal(value.source_gate_passes,0);
+ assert.equal(value.native_completion_verified,false);assert.equal(value.newly_review_ready,0);
+ assert.match(processingHealth(value,Date.parse(end)).status,/Source evidence retention reported/);
+ r.candidate_processing=false;assert.equal(mechanicalReceipt(state(),r,target),null);
+});
 
 import {createHash} from 'node:crypto';
 import {readOperations} from '../lib/operations-source.mjs';

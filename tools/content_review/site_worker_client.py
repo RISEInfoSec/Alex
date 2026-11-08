@@ -23,7 +23,8 @@ PATHS = {'lease': '/api/content-review-lease', 'heartbeat': '/api/content-review
          'source_completion': '/api/content-review-source-completion',
          'source_pending': '/api/content-review-source-pending',
          'source_gate': '/api/content-review-source-gate',
-         'source_gate_completion': '/api/content-review-source-gate-completion'}
+         'source_gate_completion': '/api/content-review-source-gate-completion',
+         'source_retention_completion': '/api/content-review-source-retention-completion'}
 MAX_INPUT = 16 * 1024 * 1024
 MAX_RESULT = 16 * 1024
 SAFE_REASON = re.compile(r'^[a-z_]{1,80}$')
@@ -107,7 +108,7 @@ def post(action, payload, token, *, opener=None):
             return {'status': 'outcome_unknown', 'action': action, 'reconcile_before_retry': True}
         output.update(receipt_path=receipt, gate=gate, candidate_processing=True,
                       native_completion_verified=False, publication_verified=False)
-    elif action in ('completion', 'source_gate_completion'):
+    elif action in ('completion', 'source_gate_completion', 'source_retention_completion'):
         receipt = result.get('receipt_path')
         if (not isinstance(receipt, str) or not re.fullmatch(r'config/content_review_run_receipts/[a-zA-Z0-9-]{1,100}\.json', receipt) or
             result.get('candidate_processing') is not True or result.get('native_completion_verified') is not False or

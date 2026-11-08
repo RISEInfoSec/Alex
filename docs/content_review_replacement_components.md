@@ -326,6 +326,11 @@ them. Retrieval does not pass the quality gate or change a hold. The Site
 independently validates the reservation and rechecks private decisions under
 the write fence. Unique reserved SOUPS review identities remain reserved during
 source retention; collisions and existing review state stop the write.
+Retrieved source evidence is retained through a checkpoint followed by a
+dedicated completion receipt. The Site reconstructs the checkpoint, re-audits
+the source artifact and rechecks current decisions under the fence before lease
+release. This receipt records retention and does not claim a gate pass. A held
+source result still waits for its own truthful completion path.
 
 The repository verifier accepts only a native `completed` run with its canonical
 receipt path. `no_update`, dispatch, an empty pass and tests do not establish

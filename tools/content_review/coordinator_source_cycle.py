@@ -13,6 +13,7 @@ from tools.content_review.coordinator_source_discovery import discover_reserved
 from tools.content_review.coordinator_source_pending import defer
 from tools.content_review.coordinator_source_reservation import reserve
 from tools.content_review.coordinator_source_retention import retain
+from tools.content_review.coordinator_source_retention_completion import complete as complete_retention
 from tools.content_review.source_reservation_identity import find as find_reservation
 from tools.content_review.verified_inputs import _path_blob
 
@@ -26,7 +27,7 @@ def _state(repo,head):
 
 def source_pass(repo,token,native,review_head,main_head,owner,run_id,*,heads=read_heads,fetch=fetch_heads,state_reader=_state,
                 reservation_finder=find_reservation,reserver=reserve,discovery=discover_reserved,accounting=account,
-                retention=retain,source_finish=complete_source,pending_finish=defer,empty_finish=complete_mechanical,
+                retention=retain,retention_finish=complete_retention,source_finish=complete_source,pending_finish=defer,empty_finish=complete_mechanical,
                 quality_evidence=False):
     if type(quality_evidence) is not bool:raise ValueError('Source evidence mode invalid')
     refs=heads(repo)
@@ -38,13 +39,17 @@ def source_pass(repo,token,native,review_head,main_head,owner,run_id,*,heads=rea
         if prepared.get('status')=='source_retention_required':
             items=prepared.get('items')
             if not isinstance(items,list) or not 1<=len(items)<=5:raise ValueError('Source retention inventory invalid')
-            # A no-work receipt says that no source work was performed. Do not
-            # retain evidence and then issue that misleading receipt. Wait for
-            # the independently verified retention-completion receipt instead.
-            completed=empty_finish(repo,token,native,review_head,main_head,owner,run_id,None)
-            if completed.get('status')=='deferred' and completed.get('lease_release_confirmed') is True:
-                return {**completed,'reason':'source_retention_completion_receipt_required'}
-            return completed
+            item=items[0]
+            if item.get('result_status')!='retrieved':
+                completed=empty_finish(repo,token,native,review_head,main_head,owner,run_id,None)
+                if completed.get('status')=='deferred' and completed.get('lease_release_confirmed') is True:
+                    return {**completed,'reason':'source_hold_retention_completion_required'}
+                return completed
+            retained=retention(repo,token,review_head,main_head,owner,run_id,item['native_run_id'],item['artifact_id'],item['collection'],item['candidate_id'])
+            if retained.get('status')!='source_retained' or retained.get('heartbeat_rebound') is not True:
+                return {'status':'blocked','reason':'source_retention_unconfirmed','reconcile_before_retry':True,
+                        'candidate_processing':False,'lease_release_confirmed':False,'native_completion_verified':False}
+            return retention_finish(repo,token,native,retained['commit_sha'],main_head,owner,run_id,retained['receipt_path'])
         if prepared.get('status')=='deferred':
             return empty_finish(repo,token,native,review_head,main_head,owner,run_id,None)
         if prepared.get('status')!='source_result_pending' or prepared.get('heartbeat_rebound') is not True:

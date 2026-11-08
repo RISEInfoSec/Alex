@@ -1,3 +1,4 @@
+import pytest
 from tools.content_review.coordinator_source_cycle import source_pass
 from tools.content_review.coordinator_heartbeat_transport import REVIEW,MAIN
 
@@ -24,15 +25,26 @@ def test_pending_source_is_reused_and_never_redispatched():
     assert calls==['discover','defer'] and result['candidate_processing'] is False
 
 
-def test_source_retention_waits_for_truthful_completion_receipt():
+def test_held_source_retention_waits_for_truthful_completion_receipt():
     review,main='a'*40,'b'*40;refs={REVIEW:review,MAIN:main};calls=[]
-    item={'collection':'weekly','candidate_id':'x','native_run_id':1,'artifact_id':2,'request_id':'d'*64}
+    item={'collection':'weekly','candidate_id':'x','native_run_id':1,'artifact_id':2,'request_id':'d'*64,'result_status':'held'}
     def retain(*args):raise AssertionError('retention must wait for a truthful completion receipt')
     def finish(*args):calls.append('defer');assert args[3]==review and args[-1] is None;return {'status':'deferred','candidate_processing':False,'lease_release_confirmed':True}
     result=source_pass('.','secret',{},review,main,'worker','run',heads=lambda _:refs,fetch=lambda *a:None,
         state_reader=lambda *a:{'current_run':{}},reserver=lambda *a:{'status':'source_retention_required','items':[item]},retention=retain,empty_finish=finish)
     assert calls==['defer'] and result['candidate_processing'] is False
-    assert result['reason']=='source_retention_completion_receipt_required'
+    assert result['reason']=='source_hold_retention_completion_required'
+
+
+def test_retrieved_source_retention_uses_truthful_completion_receipt():
+    review,main,new='a'*40,'b'*40,'c'*40;refs={REVIEW:review,MAIN:main};calls=[]
+    item={'collection':'weekly','candidate_id':'x','native_run_id':1,'artifact_id':2,'request_id':'d'*64,'result_status':'retrieved'}
+    def retain(*args):calls.append('retain');return {'status':'source_retained','commit_sha':new,'receipt_path':'receipt','heartbeat_rebound':True}
+    def finish(*args):calls.append('complete');assert args[3]==new and args[-1]=='receipt';return {'status':'application_complete','candidate_processing':True,'lease_release_confirmed':True}
+    result=source_pass('.','secret',{},review,main,'worker','run',heads=lambda _:refs,fetch=lambda *a:None,
+        state_reader=lambda *a:{'current_run':{}},reserver=lambda *a:{'status':'source_retention_required','items':[item]},
+        retention=retain,retention_finish=finish,empty_finish=lambda *a:pytest.fail('no-work receipt would be false'))
+    assert calls==['retain','complete'] and result['candidate_processing'] is True
 
 
 def test_uncertain_source_write_stops_without_completion_or_retry():
