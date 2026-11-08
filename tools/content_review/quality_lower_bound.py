@@ -15,14 +15,19 @@ from tools.content_review.manifest_integrity import reviewed_digest
 ASCII=re.compile(r'^[\x20-\x7e]+$')
 
 
-def preview(row,weights,registry,*,year=None):
+def preview(row,weights,registry,*,year=None,preview_held=False):
     if not isinstance(row,dict) or not isinstance(weights,dict) or not isinstance(registry,dict):raise ValueError('Quality inputs required')
+    if type(preview_held) is not bool:raise ValueError('Quality preview mode invalid')
     if (row.get('decision','pending') not in ('pending','unreviewed') or row.get('publication_status')=='published_live_verified'
         or row.get('publication_approved') is True or row.get('document_type')!='research_paper'
         or not isinstance(row.get('content_sha256'),str) or not re.fullmatch(r'[0-9a-f]{64}',row['content_sha256'])
         or reviewed_digest(row)!=row['content_sha256']):raise ValueError('Quality candidate changed or is ineligible')
     if not all(current_pass(row,g) for g in ('format','access','metadata','duplicates')):raise ValueError('Prior gates are required')
-    if row.get('preflight',{}).get('checks',{}).get('quality') is not None:
+    previous=row.get('preflight',{}).get('checks',{}).get('quality')
+    existing=previous is not None
+    if existing and (not preview_held or not isinstance(previous,dict) or previous.get('status')!='held' or
+        previous.get('content_sha256')!=row['content_sha256'] or not previous.get('checked_at') or previous.get('stale') or
+        not isinstance(previous.get('evidence'),dict) or not previous['evidence']):
         return {'status':'held','reason':'existing_quality_evidence_requires_reconciliation','gate_passed':False,'writes':0}
     title,abstract=row.get('title'),row.get('abstract')
     complete=(row.get('abstract_integrity_status')=='verified_complete' or
@@ -65,8 +70,12 @@ def preview(row,weights,registry,*,year=None):
     # A tiny safety margin prevents cross-runtime floating-point boundaries
     # from being treated as a definite pass.
     passed=bool(core_pass and relevance*100>=weights['relevance_floor']+1e-7 and score>=threshold+1e-7)
-    return {'status':'lower_bound_meets_review_threshold' if passed else 'held',
+    result={'status':'lower_bound_meets_review_threshold' if passed else 'held',
             'reason':'provisional_lower_bound_only' if passed else 'lower_bound_does_not_establish_review_threshold',
             'lower_bound_score':score,'review_threshold':threshold,'relevance_score':relevance*100,
             'core_gate_passed':core_pass,'query_keyword_count':len(keywords),'citations_used_for_bound':0,
             'citation_count_claimed':False,'quality_score_is_final':False,'gate_passed':False,'publication_authorized':False,'writes':0}
+    if existing:
+        result.update(status='held',reason='existing_quality_hold_preserved',existing_hold_preserved=True,
+                      lower_bound_meets_review_threshold=passed)
+    return result

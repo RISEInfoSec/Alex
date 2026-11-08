@@ -29,7 +29,7 @@ def fixture():
 
 def site(cases):
     code="const m=require('./tools/content_review/site_quality_lower_bound.cjs');let s='';" \
-         "process.stdin.on('data',x=>s+=x).on('end',()=>process.stdout.write(JSON.stringify(JSON.parse(s).map(v=>{try{return m.preview(v.row,v.weights,v.registry,v.year)}catch(e){return {error:true}}}))));"
+         "process.stdin.on('data',x=>s+=x).on('end',()=>process.stdout.write(JSON.stringify(JSON.parse(s).map(v=>{try{return m.preview(v.row,v.weights,v.registry,v.year,v.previewHeld??false)}catch(e){return {error:true}}}))));"
     result=subprocess.run(['node','-e',code],cwd=ROOT,input=json.dumps(cases),text=True,capture_output=True,check=True)
     return json.loads(result.stdout)
 
@@ -62,6 +62,42 @@ def test_existing_or_incomplete_evidence_is_held_without_overwriting_it():
     assert preview(row,w,r,year=2026)['reason']=='existing_quality_evidence_requires_reconciliation'
     row=before;row['abstract_truncated']=True
     assert preview(row,w,r,year=2026)['reason']=='complete_ascii_source_text_required'
+
+
+def test_held_preview_requires_an_explicit_boolean_mode():
+    row,w,r=fixture()
+    with pytest.raises(ValueError,match='preview mode'):preview(row,w,r,year=2026,preview_held='yes')
+    assert 'error' in site([{'row':row,'weights':w,'registry':r,'year':2026,'previewHeld':'yes'}])[0]
+
+
+@pytest.mark.parametrize('meets',[True,False])
+def test_explicit_held_preview_preserves_hold_and_never_passes_gate(meets):
+    row,w,r=fixture()
+    if not meets:
+        row['title']='Ordinary research';row['abstract']='Ordinary material and general research. '*5
+        row['content_sha256']=reviewed_digest(row)
+        for gate in row['preflight']['checks'].values():gate['content_sha256']=row['content_sha256']
+    row['preflight']['checks']['quality']={'status':'held','content_sha256':row['content_sha256'],
+        'checked_at':'2026-01-01T00:00:00Z','evidence':{'quality_review_status':'hold_below_review_threshold'}}
+    before=deepcopy(row);value=preview(row,w,r,year=2026,preview_held=True)
+    assert value['status']=='held' and value['reason']=='existing_quality_hold_preserved'
+    assert value['existing_hold_preserved'] is True and value['lower_bound_meets_review_threshold'] is meets
+    assert value['gate_passed'] is False and value['publication_authorized'] is False and value['writes']==0 and row==before
+    assert site([{'row':row,'weights':w,'registry':r,'year':2026,'previewHeld':True}])==[value]
+
+
+@pytest.mark.parametrize('change',['wrong_hash','stale','no_time','no_evidence','passed'])
+def test_held_preview_refuses_stale_or_incomplete_existing_evidence(change):
+    row,w,r=fixture();q={'status':'held','content_sha256':row['content_sha256'],'checked_at':'now','evidence':{'proof':'present'}}
+    if change=='wrong_hash':q['content_sha256']='0'*64
+    if change=='stale':q['stale']=True
+    if change=='no_time':q.pop('checked_at')
+    if change=='no_evidence':q['evidence']={}
+    if change=='passed':q['status']='passed'
+    row['preflight']['checks']['quality']=q
+    value=preview(row,w,r,year=2026,preview_held=True)
+    assert value=={'status':'held','reason':'existing_quality_evidence_requires_reconciliation','gate_passed':False,'writes':0}
+    assert site([{'row':row,'weights':w,'registry':r,'year':2026,'previewHeld':True}])==[value]
 
 
 def test_independent_site_calculation_matches_policy_across_bounded_cases():

@@ -11,15 +11,19 @@ const clean=x=>x.replace(/ +/g,' ').trim();
 const stop=new Set(['a','an','and','at','by','for','from','in','of','on','or','the','to','with']);
 const escape=x=>x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 
-function preview(row,weights,registry,year=new Date().getUTCFullYear()){
+function preview(row,weights,registry,year=new Date().getUTCFullYear(),previewHeld=false){
  if(!obj(row)||!obj(weights)||!obj(registry))throw Error('Quality inputs required');
+ if(typeof previewHeld!=='boolean')throw Error('Quality preview mode invalid');
  const fields={};for(const k of ['title','authors','year','doi','source_url','abstract','document_type'])fields[k]=Object.hasOwn(row,k)?row[k]:'';
  if(!['pending','unreviewed'].includes(Object.hasOwn(row,'decision')?row.decision:'pending')||
   row.publication_status==='published_live_verified'||row.publication_approved===true||row.document_type!=='research_paper'||
   typeof row.content_sha256!=='string'||!/^[0-9a-f]{64}$/.test(row.content_sha256)||sha256(pyJson(fields))!==row.content_sha256)
   throw Error('Quality candidate changed or is ineligible');
  if(!['format','access','metadata','duplicates'].every(g=>pass(row,g)))throw Error('Prior gates are required');
- if(row.preflight?.checks?.quality!=null)return {status:'held',reason:'existing_quality_evidence_requires_reconciliation',gate_passed:false,writes:0};
+ const previous=row.preflight?.checks?.quality,existing=previous!=null;
+ if(existing&&(!previewHeld||!obj(previous)||previous.status!=='held'||previous.content_sha256!==row.content_sha256||
+  !truthy(previous.checked_at)||truthy(previous.stale)||!obj(previous.evidence)||!truthy(previous.evidence)))
+  return {status:'held',reason:'existing_quality_evidence_requires_reconciliation',gate_passed:false,writes:0};
  const {title,abstract}=row,complete=row.abstract_integrity_status==='verified_complete'||
   typeof row.abstract_text_status==='string'&&row.abstract_text_status.startsWith('cached_official_program_abstract');
  if(!ascii(title)||!title.trim()||!ascii(abstract)||abstract.trim().length<100||truthy(row.abstract_truncated)||
@@ -56,10 +60,13 @@ function preview(row,weights,registry,year=new Date().getUTCFullYear()){
  const threshold=recent?weights.preprint_review_threshold:weights.review_threshold;
  const score=Math.min(100,100*(0.2*weights.venue+relevance*weights.relevance)+(anchored?weights.title_anchor_bonus:0));
  const passed=corePassed&&relevance*100>=weights.relevance_floor+1e-7&&score>=threshold+1e-7;
- return {status:passed?'lower_bound_meets_review_threshold':'held',
+ const result={status:passed?'lower_bound_meets_review_threshold':'held',
   reason:passed?'provisional_lower_bound_only':'lower_bound_does_not_establish_review_threshold',
   lower_bound_score:score,review_threshold:threshold,relevance_score:relevance*100,core_gate_passed:corePassed,
   query_keyword_count:keywords.size,citations_used_for_bound:0,citation_count_claimed:false,quality_score_is_final:false,
   gate_passed:false,publication_authorized:false,writes:0};
+ if(existing)Object.assign(result,{status:'held',reason:'existing_quality_hold_preserved',existing_hold_preserved:true,
+  lower_bound_meets_review_threshold:passed});
+ return result;
 }
 module.exports={preview};
