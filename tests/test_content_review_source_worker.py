@@ -90,7 +90,7 @@ def test_unresolved_origin_blocks_redirect_before_dns_or_network(monkeypatch):
     monkeypatch.setattr(s,'safe_url',check)
     tx=s.Transport(deadline=1000,clock=lambda:0,sleep=lambda _:None,unresolved_origins={'example.org'})
     with pytest.raises(s.Hold,match='source_outcome_requires_reconciliation'):
-        tx.send('https://EXAMPLE.ORG.:443/redirected-document')
+        tx.send('https://OTHER.EXAMPLE.:443/redirected-document')
     assert calls==[False] and tx.sends==[] and tx.stopped=={}
 
 def test_unresolved_failure_keeps_unknown_usage_and_canonical_origin():

@@ -67,7 +67,7 @@ class Transport:
     def send(self,url):
         import requests
         url=safe_url(url,resolve=False);origin=canonical_origin(url)
-        if origin in self.unresolved_origins:raise Hold('source_outcome_requires_reconciliation')
+        if self.unresolved_origins:raise Hold('source_outcome_requires_reconciliation')
         url=safe_url(url)
         if origin_backoff_active(self.origin_backoff,url,datetime.now(timezone.utc)):
             raise Hold('source_origin_backoff_active')
@@ -253,6 +253,7 @@ def validate(root,path):
     items=req['records']
     if not 1<=len(items)<=5 or len({i['candidate_id'] for i in items})!=len(items):raise ValueError('Initial pilot candidate ceiling/identity')
     unresolved_keys,unresolved_hosts=validate_unresolved(state.get('source_unresolved_requests',[]))
+    if unresolved_hosts:raise ValueError('Source outcome requires reconciliation')
     for item in items:
         if (item.get('collection'),item.get('candidate_id')) in unresolved_keys or canonical_origin(item.get('url')) in unresolved_hosts:
             raise ValueError('Source outcome requires reconciliation')
