@@ -64,7 +64,7 @@ def prepare(repo, review_head, main_head, heartbeat_head, native, snapshot, conf
         or last.get('recorded_status') != 'in_progress' or instant(last.get('started_at')) != started
         or instant(last.get('scheduled_for')) != due or not started or not due or not anchor
         or due < anchor or (due-anchor).total_seconds() % 3600 != 0 or started > now
-        or (now-started).total_seconds() > 720
+        or (now-started).total_seconds() > (900 if checkpoint_paths else 720)
         or (latest.get('run_id') == run_id and (latest.get('requires_user_action') is True or latest.get('is_failure_message') is True))):
         raise ValueError('Matching in-progress native run is unavailable')
     heartbeat, _ = _json(repo, heartbeat_head, 'config/content_review_detached_heartbeat.json')

@@ -45,6 +45,19 @@ def test_unknown_completion_requires_reconciliation_without_retry():
     assert result['status']=='blocked' and result['reconcile_before_retry'] is True and result['lease_release_confirmed'] is False and calls==[1]
 
 
+def test_unconfirmed_completion_preserves_only_allowlisted_site_diagnostics():
+    review,main,beat='a'*40,'b'*40,'c'*40;refs={REVIEW:review,MAIN:main,HEARTBEAT:beat}
+    checkpoint='config/content_review_mechanical_checkpoints/'+'e'*64+'.json'
+    def call(response):
+        return complete('.','secret',{},review,main,'worker','run',checkpoint,heads=lambda _:dict(refs),fetch=lambda *a:None,
+            snapshot_reader=lambda _:({},{}),pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back','commit_sha':'f'*40},keeper_factory=Keeper,
+            preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},send=lambda *a:response)
+    result=call({'status':'blocked','reason':'worker_not_verified','http_status':409})
+    assert result['site_reason']=='worker_not_verified' and result['site_http_status']==409 and result['reconcile_before_retry'] is True
+    result=call({'status':'blocked','reason':'private provider detail','http_status':'private'})
+    assert result['site_reason'] is None and result['site_http_status'] is None
+
+
 def test_deferred_completion_releases_lease_without_claiming_processing():
     review,main,beat,commit='a'*40,'b'*40,'c'*40,'d'*40;refs={REVIEW:review,MAIN:main,HEARTBEAT:beat}
     def send(action,payload,token):

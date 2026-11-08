@@ -125,6 +125,19 @@ def test_native_action_and_stale_heartbeat_fail_closed(tmp_path):
         call(tmp_path,data,seconds=51)
 
 
+def test_recorded_checkpoint_can_finish_in_completion_window_but_not_after_it(tmp_path):
+    data=list(fixture(tmp_path));now,head=data[0],data[1]
+    state=json.loads(git(tmp_path,'show',head+':config/content_review_worker_status.json'))
+    heartbeat=prepare_heartbeat(state,head,'worker','run',at=now+timedelta(seconds=650))
+    branch=git(tmp_path,'symbolic-ref','--short','HEAD');git(tmp_path,'checkout','-q','heartbeat')
+    put(tmp_path,'config/content_review_detached_heartbeat.json',heartbeat);git(tmp_path,'add','.');git(tmp_path,'commit','-qm','fresh completion heartbeat')
+    data[3]=git(tmp_path,'rev-parse','HEAD');git(tmp_path,'checkout','-q',branch)
+    result=call(tmp_path,data,seconds=650)
+    assert result['status']=='prepared' and result['native_completion_verified'] is False
+    with pytest.raises(ValueError,match='native run'):
+        call(tmp_path,data,seconds=901)
+
+
 def test_unverified_or_duplicate_checkpoint_cannot_complete(tmp_path):
     data=fixture(tmp_path)
     with pytest.raises(ValueError,match='distinct mechanical checkpoints'):
