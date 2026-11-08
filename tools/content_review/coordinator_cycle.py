@@ -96,12 +96,10 @@ def mechanical_pass(repo,token,native,owner,run_id,*,begin=start,checkpoint=chec
     checked=checkpoint(repo,token,review,main,owner,run_id)
     if checked.get('status')=='blocked':return checked
     if checked.get('status')=='deferred':
-        source_checked=source_gate(repo,token,review,main,owner,run_id)
-        if source_checked.get('status')=='blocked':return source_checked
-        if source_checked.get('status')=='checkpoint_confirmed_run_incomplete':
-            return source_gate_finish(repo,token,native,source_checked['commit_sha'],main,owner,run_id,source_checked['receipt_path'])
-        if source_checked.get('status')!='deferred':raise ValueError('Unrecognized source gate outcome; reconcile before retrying')
-        return source_runner(repo,token,native,review,main,owner,run_id)
+        # The duplicate pass may have inspected five candidates already. Do
+        # not select a second set in this run; the next rotation gives source
+        # work its turn without exceeding the per-run candidate ceiling.
+        return finish(repo,token,native,review,main,owner,run_id,None)
     if checked.get('status')!='checkpoint_confirmed_run_incomplete':
         raise ValueError('Unrecognized checkpoint outcome; reconcile before retrying')
     return finish(repo,token,native,checked['commit_sha'],main,owner,run_id,checked['receipt_path'])

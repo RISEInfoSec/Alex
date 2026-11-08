@@ -48,6 +48,23 @@ def test_plan_covers_registered_routes_without_writes_or_openalex():
     assert manifests == before
 
 
+def test_stage_filter_selects_due_duplicates_before_the_five_candidate_ceiling():
+    now,snap,manifests,ledger,registry,state=fixture()
+    for index in range(6):
+        cid='source-'+str(index);digest='d'*64
+        manifests['weekly']['records'].append({'candidate_id':cid,'review_number':index+3,'content_sha256':digest,
+            'document_type':'research_paper','abstract':'a'*120,'decision':'pending','preflight':{'checks':{
+              'duplicates':{'status':'passed','content_sha256':digest,'checked_at':now.isoformat(),'evidence':{'ok':True}}}}})
+        ledger['records']['weekly:'+cid]={'state':'awaiting_initial_checks','first_seen_at':'2026-01-01'}
+    args=(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run')
+    ordinary=plan(*args,source_attempts={},source_progress={},at=now)
+    targeted=plan(*args,source_attempts={},source_progress={},at=now,stages=('duplicates',))
+    assert len(ordinary['selected'])==5 and all(x['next_stage']=='source' for x in ordinary['selected'])
+    assert [x['candidate_id'] for x in targeted['selected']]==['fresh'] and targeted['candidate_limit']==5
+    with pytest.raises(ValueError,match='stage selection'):
+        plan(*args,source_attempts={},source_progress={},at=now,stages=('unsupported',))
+
+
 def test_superseded_decision_is_reported_as_hold_even_for_preflight_rows():
     now,snap,manifests,ledger,registry,state=fixture()
     old=deepcopy(snap['decisions'][0]);old.update(id='d-old',candidate_id='fresh',review_number=2,content_sha256='c'*64)

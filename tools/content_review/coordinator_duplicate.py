@@ -46,7 +46,8 @@ def checkpoint_one(repo,token,review_head,main_head,owner,run_id,*,heads=read_he
         state,ledger=inputs['worker_state'],inputs['lifecycle']
         attempts,progress=state.get('source_attempts',{}),state.get('source_last_progress',{})
         selection=planner(snapshot,confirmed,inputs['reconciliation_manifests'],ledger,inputs['registry'],state,owner,run_id,
-                          source_attempts=attempts,source_progress=progress,at=clock(),heartbeat=heartbeat,review_head=review_head)
+                          source_attempts=attempts,source_progress=progress,at=clock(),heartbeat=heartbeat,review_head=review_head,
+                          stages=('duplicates',))
         candidates=[x for x in selection['selected'] if x.get('next_stage')=='duplicates']
         if not candidates:
             keeper.check()

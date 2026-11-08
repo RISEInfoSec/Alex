@@ -19,7 +19,8 @@ def test_no_supported_gate_is_deferred_and_ambiguous_checkpoint_never_retries_or
     def finish(*args):events.append(args[-1]);return {'status':'deferred','candidate_processing':False,'lease_release_confirmed':True}
     result=mechanical_pass('.','secret',{},'worker','run',begin=begin,checkpoint=lambda *a:{'status':'deferred'},finish=finish,
                            pending_checker=lambda *a:False,intake_selector=lambda *a:False,gate_selector=lambda *a:False,
-                           source_gate=lambda *a:{'status':'deferred'},source_runner=lambda *a:finish(*a,None))
+                           source_gate=lambda *a:(_ for _ in ()).throw(AssertionError('second candidate set')),
+                           source_runner=lambda *a:(_ for _ in ()).throw(AssertionError('second candidate set')))
     assert result['status']=='deferred' and events==[None]
     events.clear()
     result=mechanical_pass('.','secret',{},'worker','run',begin=begin,

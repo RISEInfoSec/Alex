@@ -16,7 +16,7 @@ MAX_CANDIDATES = 10000
 
 
 def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
-         owner, run_id, *, source_attempts, source_progress, at=None, heartbeat=None, review_head=None):
+         owner, run_id, *, source_attempts, source_progress, at=None, heartbeat=None, review_head=None, stages=None):
     now = at or datetime.now(timezone.utc)
     if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError('Timezone-aware observation required')
@@ -40,6 +40,10 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
         raise ValueError('A fresh matching start and heartbeat are required')
     if not isinstance(source_attempts, dict) or not isinstance(source_progress, dict):
         raise ValueError('Separate collection attempt and progress histories are required')
+    valid_stages={'duplicates','source','metadata','quality','classification_and_serialization','recommendation_and_admission'}
+    if stages is not None and (not isinstance(stages,(tuple,list)) or not stages or
+                               any(not isinstance(x,str) or x not in valid_stages for x in stages) or len(stages)!=len(set(stages))):
+        raise ValueError('Invalid bounded stage selection')
     if (source_attempts != state.get('source_attempts', {}) or
             source_progress != state.get('source_last_progress', {})):
         raise ValueError('Collection scheduling history differs from current worker state')
@@ -77,8 +81,9 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     special = {c['id'] for c in registry if c.get('adapter') in ('apwg_pending', 'corpus_audit')}
     eligible = [item for item in result['selected'] if item['collection'] not in special
                 and (item['collection'] != 'virusbulletin' or item['next_stage'] in ('duplicates', 'source'))]
+    stage_eligible=[item for item in eligible if stages is None or item['next_stage'] in stages]
     selected = [{**item, 'content_sha256': index[(item['collection'], item['candidate_id'])]['content_sha256']}
-                for item in eligible[:INITIAL_LIMIT]]
+                for item in stage_eligible[:INITIAL_LIMIT]]
     # Report due work even when an executor is not yet available. Hiding it as
     # zero would make the coverage report look complete while skipping a source.
     available = Counter(x['collection'] for x in result['selected'])
@@ -112,6 +117,8 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
             reason = 'separate_collection_adapter_required'
         elif selected_counts[collection]:
             reason = 'selected_for_next_gate'
+        elif stages is not None and executable[collection] and not any(x['collection']==collection for x in stage_eligible):
+            reason = 'deferred_by_stage_filter'
         elif available[collection]:
             reason = 'deferred_by_candidate_ceiling'
         elif held[collection]:

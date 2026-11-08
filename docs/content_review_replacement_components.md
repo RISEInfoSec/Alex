@@ -270,7 +270,10 @@ authorize publication; it is not yet connected to the scheduled coordinator.
 `work_plan.select` rotates across eligible collections before revisiting a
 collection, even if another collection has stronger evidence. Within each
 collection it prefers supported, more complete evidence. The future coordinator
-must persist `source_attempts[collection].at` only after an actual candidate
+filters for duplicate-due candidates before its five-candidate ceiling; if all
+five are held, it ends that bounded pass and gives source work a later turn
+instead of silently inspecting a second set of candidates. It must persist
+`source_attempts[collection].at` only after an actual candidate
 attempt under the lease, separately from `source_last_progress`, which changes
 only when source work actually progresses. A duplicate gate is recorded as an
 attempt, not as source-retrieval progress. Passing no attempt history cannot prevent repeated blocked

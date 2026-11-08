@@ -41,7 +41,8 @@ def evaluate(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id,
     if not isinstance(normalized,dict):raise ValueError('Invalid reconciliation manifests')
     selection = plan(snapshot, confirmed_snapshot, normalized, ledger, inputs['registry'],
                      state, owner, run_id, source_attempts=source_attempts,
-                     source_progress=source_progress, at=now, heartbeat=heartbeat, review_head=inputs['review_commit'])
+                     source_progress=source_progress, at=now, heartbeat=heartbeat, review_head=inputs['review_commit'],
+                     stages=('duplicates',))
     match = [x for x in selection['selected'] if x['collection'] == collection and x['candidate_id'] == candidate_id]
     if len(match) != 1 or match[0]['next_stage'] != 'duplicates':
         raise ValueError('Candidate is not selected for its duplicate gate')
