@@ -20,7 +20,7 @@ def test_accounting_serializes_heartbeat_with_site_artifact_and_result_writes():
         artifact_reader=artifact,snapshot_reader=lambda _:({},{}),pulse_factory=pulse_factory,keeper_factory=Keeper,
         preparer=lambda *a,**k:{'bundle':{'status':'prepared','writes':0,'files':{'p':'v'}}},send=send)
     assert result['status']=='source_accounted' and result['heartbeat_rebound'] is True
-    assert result['candidate_processing'] is False and calls==['artifact','account'] and pulses==[review,review,commit]
+    assert result['candidate_processing'] is False and calls==['artifact','account'] and pulses==[review,review,review,commit]
 
 
 def test_unknown_accounting_never_retries_or_claims_a_verified_result():

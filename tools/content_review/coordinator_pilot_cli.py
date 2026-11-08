@@ -17,9 +17,13 @@ SAFE_ERRORS = {
     'Native run requires user action', 'Another active lease must finish before acquisition',
     'An earlier run identity cannot be reused for acquisition', 'Prior running observation has no expired-lease evidence',
     'Lease head changed; reconcile before retrying', 'Checkpoint head changed; reconcile before retrying',
+    'A fresh matching start and heartbeat are required', 'Duplicate proposal is invalid', 'Duplicate proposal files unavailable',
+    'Checkpoint response is unconfirmed; reconcile before retrying', 'Heartbeat unconfirmed; reconcile before candidate writes',
 }
 SAFE_MODULES = {'coordinator_pilot_cli.py', 'coordinator_pilot.py', 'coordinator_lifecycle.py',
                 'coordinator_duplicate.py', 'coordinator_heartbeat_transport.py', 'lease_transition.py',
+                'coordinator_heartbeat.py', 'coordinator.py', 'duplicate_checkpoint.py', 'duplicate_stage.py',
+                'd1_reconcile.py', 'lifecycle.py', 'duplicate_evidence.py', 'manifest_integrity.py',
                 'lease.py', 'run_state.py', 'verified_inputs.py', 'site_worker_client.py'}
 
 

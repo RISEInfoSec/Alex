@@ -35,6 +35,7 @@ def intake(repo, token, review_head, main_head, owner, run_id, *, heads=read_hea
         fetch(repo, refs, run_id)
         inputs = inputs_reader(repo, review_head, main_head)
         snapshot, confirmed = snapshot_reader(token)
+        keeper.refresh()
         refs = heads(repo)
         if refs.get(REVIEW) != review_head or refs.get(MAIN) != main_head:
             raise ValueError('Intake source heads changed during snapshot')

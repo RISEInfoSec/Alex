@@ -17,7 +17,7 @@ def test_retention_uses_accounted_artifact_and_rebinds_heartbeat_without_passing
         artifact_reader=artifact,snapshot_reader=lambda _:({},{}),pulse_factory=pulse_factory,keeper_factory=Keeper,
         preparer=lambda *a,**k:{'status':'prepared'},checkpoint=lambda *a,**k:{'bundle':{'status':'prepared','writes':0,'files':{'p':'v'}}},send=send)
     assert result['status']=='source_retained' and result['heartbeat_rebound'] is True and result['gate_passed'] is False
-    assert events==[('pulse',review),('artifact',None),('pulse',review),('retain',None),('pulse',commit)]
+    assert events==[('pulse',review),('artifact',None),('pulse',review),('pulse',review),('retain',None),('pulse',commit)]
 
 
 def test_unknown_retention_requires_reconciliation_without_a_second_write():

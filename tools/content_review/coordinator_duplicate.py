@@ -37,6 +37,10 @@ def checkpoint_one(repo,token,review_head,main_head,owner,run_id,*,heads=read_he
         fetch(repo,current,run_id)
         inputs=inputs_reader(repo,review_head,main_head)
         snapshot,confirmed=snapshot_reader(token)
+        keeper.refresh()
+        current=heads(repo)
+        if current.get(REVIEW)!=review_head or current.get(MAIN)!=main_head:raise ValueError('Coordinator source heads changed')
+        fetch(repo,current,run_id)
         raw,_=_path_blob(repo,current[HEARTBEAT],'config/content_review_detached_heartbeat.json')
         heartbeat=json.loads(raw)
         state,ledger=inputs['worker_state'],inputs['lifecycle']

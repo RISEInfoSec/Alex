@@ -38,6 +38,9 @@ def account(repo,token,review_head,main_head,owner,run_id,source_run_id,artifact
         refs=heads(repo)
         if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Source accounting heads changed')
         fetch(repo,refs,run_id);snapshot,confirmed=snapshot_reader(token)
+        keeper.refresh();refs=heads(repo)
+        if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Source accounting heads changed')
+        fetch(repo,refs,run_id)
         proposal=preparer(repo,review_head,main_head,refs[HEARTBEAT],snapshot,confirmed,evidence['request_id'],evidence['result_bytes'],
             evidence['native_run'],evidence['artifact'],owner,run_id,observed_heads={'review':review_head,'main':main_head},at=clock())
         keeper.check()

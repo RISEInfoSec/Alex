@@ -54,3 +54,29 @@ def test_unknown_heartbeat_takes_precedence_over_a_concurrent_work_error():
             assert reached.wait(1)
             raise ValueError('local work failed')
     assert len(count)==2
+
+
+def test_foreground_refresh_never_overlaps_background_heartbeat():
+    lock=threading.Lock();active=[];overlap=[]
+    def pulse():
+        with lock:
+            active.append(1)
+            if len(active)>1:overlap.append(True)
+        threading.Event().wait(.02)
+        with lock:active.pop()
+        return {'status':'committed_and_read_back'}
+    with HeartbeatKeeper(pulse,interval=.005,max_pulses=8) as keeper:
+        threading.Event().wait(.01)
+        keeper.refresh()
+    assert overlap==[]
+
+
+def test_refresh_after_ambiguous_heartbeat_never_retries():
+    calls=[]
+    def pulse():
+        calls.append(1)
+        return {'status':'committed_and_read_back'} if len(calls)==1 else {'status':'outcome_unknown'}
+    with pytest.raises(HeartbeatUnavailable):
+        with HeartbeatKeeper(pulse,interval=1) as keeper:
+            keeper.refresh()
+    assert len(calls)==2

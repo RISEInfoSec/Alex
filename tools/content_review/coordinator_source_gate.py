@@ -36,6 +36,7 @@ def checkpoint_one(repo, token, review_head, main_head, owner, run_id, *, heads=
         fetch(repo, refs, run_id)
         inputs = inputs_reader(repo, review_head, main_head)
         snapshot, confirmed = snapshot_reader(token)
+        keeper.refresh()
         refs = heads(repo)
         if refs.get(REVIEW) != review_head or refs.get(MAIN) != main_head:
             raise ValueError('Source gate heads changed during snapshot')

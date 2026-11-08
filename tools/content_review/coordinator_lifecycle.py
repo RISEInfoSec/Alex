@@ -53,6 +53,9 @@ def complete(repo,token,native,review_head,main_head,owner,run_id,checkpoint_pat
         if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Completion source heads changed')
         fetch(repo,refs,run_id)
         snapshot,confirmed=snapshot_reader(token)
+        keeper.refresh();refs=heads(repo)
+        if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Completion source heads changed')
+        fetch(repo,refs,run_id)
         proposal=preparer(repo,review_head,main_head,refs[HEARTBEAT],native,snapshot,confirmed,owner,run_id,[checkpoint_path] if processed else [],at=clock())
         keeper.check()
     if proposal.get('status')!='prepared' or proposal.get('writes')!=0 or not isinstance(proposal.get('files'),dict):

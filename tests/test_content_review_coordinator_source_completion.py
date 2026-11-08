@@ -15,7 +15,7 @@ def test_source_completion_releases_lease_without_claiming_gate_or_native_comple
         artifact_reader=artifact,snapshot_reader=lambda _:({},{}),pulse_factory=pulse_factory,keeper_factory=Keeper,
         preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},send=send)
     assert result['status']=='deferred' and result['lease_release_confirmed'] is True and result['candidate_processing'] is False
-    assert result['native_completion_verified'] is False and events==['heartbeat','artifact','heartbeat','completion']
+    assert result['native_completion_verified'] is False and events==['heartbeat','artifact','heartbeat','heartbeat','completion']
 
 
 def test_unknown_completion_does_not_retry_or_claim_lease_release():

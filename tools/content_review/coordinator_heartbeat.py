@@ -16,17 +16,25 @@ class HeartbeatKeeper:
         if not callable(pulse) or not 0 < interval <= 20 or type(max_pulses) is not int or not 1 <= max_pulses <= 24:
             raise ValueError('Invalid bounded heartbeat configuration')
         self._pulse=pulse;self._interval=interval;self._max=max_pulses
-        self._stop=Event();self._lock=Lock();self._error=None;self._count=0;self._thread=None
+        self._stop=Event();self._lock=Lock();self._pulse_lock=Lock();self._error=None;self._count=0;self._thread=None
 
     def _once(self):
-        try:
-            result=self._pulse()
-            if not isinstance(result,dict) or result.get('status')!='committed_and_read_back':
-                raise HeartbeatUnavailable('Heartbeat result is unconfirmed; reconcile before retrying')
-            with self._lock:self._count+=1
-        except Exception as exc:
-            with self._lock:self._error=exc
-            self._stop.set()
+        # A foreground refresh and the background timer must never write the
+        # heartbeat ref concurrently. An uncertain pulse remains sticky.
+        with self._pulse_lock:
+            if self._stop.is_set():return
+            with self._lock:
+                if self._error is not None:return
+                if self._count>=self._max:
+                    self._error=HeartbeatUnavailable('Bounded heartbeat budget exhausted');self._stop.set();return
+            try:
+                result=self._pulse()
+                if not isinstance(result,dict) or result.get('status')!='committed_and_read_back':
+                    raise HeartbeatUnavailable('Heartbeat result is unconfirmed; reconcile before retrying')
+                with self._lock:self._count+=1
+            except Exception as exc:
+                with self._lock:self._error=exc
+                self._stop.set()
 
     def _loop(self):
         while not self._stop.wait(self._interval):
@@ -45,6 +53,10 @@ class HeartbeatKeeper:
     def check(self):
         with self._lock:error=self._error
         if error is not None:raise HeartbeatUnavailable('Heartbeat unconfirmed; reconcile before candidate writes') from None
+
+    def refresh(self):
+        """Wait for any active pulse, then confirm a fresh bounded heartbeat."""
+        self.check();self._once();self.check()
 
     def __exit__(self,exc_type,exc,tb):
         self._stop.set()

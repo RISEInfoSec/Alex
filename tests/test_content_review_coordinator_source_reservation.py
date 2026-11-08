@@ -16,7 +16,7 @@ def test_source_reservation_rebinds_heartbeat_but_does_not_claim_processing():
     result=reserve('.','secret',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,snapshot_reader=lambda _:({},{}),
         pulse_factory=pulse_factory,keeper_factory=Keeper,planner=lambda *a,**k:{'status':'prepared'},
         guard=lambda *a,**k:{'bundle':{'status':'prepared','writes':0,'files':{'p':'v'}}},send=send,budget_reader=lambda *a:4)
-    assert result['status']=='source_result_pending' and result['heartbeat_rebound'] is True and pulses==[review,commit] and calls==[1]
+    assert result['status']=='source_result_pending' and result['heartbeat_rebound'] is True and pulses==[review,review,commit] and calls==[1]
     assert result['source_workflow_verified'] is False and result['candidate_processing'] is False
 
 

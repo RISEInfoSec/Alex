@@ -37,6 +37,9 @@ def retain(repo,token,review_head,main_head,owner,run_id,source_run_id,artifact_
         refs=heads(repo)
         if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Source retention heads changed')
         fetch(repo,refs,run_id);snapshot,confirmed=snapshot_reader(token)
+        keeper.refresh();refs=heads(repo)
+        if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Source retention heads changed')
+        fetch(repo,refs,run_id)
         args=(repo,review_head,main_head,refs[HEARTBEAT],snapshot,confirmed,evidence['request_id'],evidence['result_bytes'],
               evidence['native_run'],evidence['artifact'],collection,candidate_id,owner,run_id)
         prepared=preparer(*args,observed_heads={'review':review_head,'main':main_head},at=clock())

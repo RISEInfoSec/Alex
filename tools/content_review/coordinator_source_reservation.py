@@ -38,6 +38,9 @@ def reserve(repo,token,review_head,main_head,owner,run_id,*,heads=read_heads,fet
         refs=heads(repo)
         if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Source coordinator heads changed')
         fetch(repo,refs,run_id);snapshot,confirmed=snapshot_reader(token);used=budget_reader(repo,review_head)
+        keeper.refresh();refs=heads(repo)
+        if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Source coordinator heads changed')
+        fetch(repo,refs,run_id)
         if type(used) is not int or not 0<=used<=30:raise ValueError('Source request accounting unavailable')
         if used==30:
             keeper.check()

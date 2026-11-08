@@ -10,6 +10,7 @@ class Keeper:
     def __init__(self,pulse):self.pulse=pulse
     def __enter__(self):Keeper.active=True;self.pulse();return self
     def check(self):assert Keeper.active
+    def refresh(self):self.check();self.pulse()
     def __exit__(self,*args):Keeper.active=False
 
 
@@ -77,3 +78,20 @@ def test_coordinator_preserves_only_safe_site_failure_reason(monkeypatch):
         preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},
         send=lambda *a:{'status':'blocked','reason':'worker_not_verified','http_status':409})
     assert result['site_reason']=='worker_not_verified' and result['http_status']==409 and result['reconcile_before_retry'] is True
+
+
+def test_snapshot_is_followed_by_fresh_heartbeat_readback(monkeypatch):
+    review,main,old,new='a'*40,'b'*40,'c'*40,'d'*40
+    refs={module.REVIEW:review,module.MAIN:main,module.HEARTBEAT:old};calls=[]
+    def pulse():
+        calls.append('pulse')
+        if len(calls)==2:refs[module.HEARTBEAT]=new
+        return {'status':'committed_and_read_back'}
+    def path_blob(repo,head,path):
+        assert head==new
+        return b'{}',{}
+    monkeypatch.setattr(module,'_path_blob',path_blob)
+    result=module.checkpoint_one('.','secret',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,
+        inputs_reader=lambda *a:{'worker_state':{},'lifecycle':{},'reconciliation_manifests':{},'registry':[]},snapshot_reader=lambda *a:({},{}),
+        pulse_factory=lambda *a:pulse,keeper_factory=Keeper,planner=lambda *a,**k:{'selected':[]})
+    assert result['status']=='deferred' and calls==['pulse','pulse']
