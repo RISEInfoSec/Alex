@@ -32,17 +32,17 @@ export async function writeSourceRetentionCompletion({db,github,getToken,input,n
  const head=async branch=>unwrap(await github.fetchCommit({repo_full_name:REPO,commit_sha:branch}),'Source retention completion branch unavailable').commit?.sha;
  const checkHeads=async()=>{const [a,b]=await Promise.all([head(REVIEW),head(MAIN)]);
   if(a!==input.expectedHead||b!==input.expectedMain)throw Error('Source retention completion head changed');};
- await checkHeads();await verify({github,input,now});
+ await checkHeads();await verify({github,input,now,manualScope:'source_retention_only'});
  const before=await verifier.verifiedJson(await github.fetchFile({repository_full_name:REPO,path:WORKER,ref:input.expectedHead,require_content:true}),{limit:LIMIT});
  const prior=await github.fetchFile({repository_full_name:REPO,path:receiptPath,ref:input.expectedHead});
  if(!prior?.isError||prior.structuredContent?.error_code!=='NOT_FOUND')throw Error('Source retention completion receipt already exists');
  const heartbeat=heartbeatFactory({github,input,now});
- const snapshots=await read({db,heartbeat:async()=>{await heartbeat();await verify({github,input,now});}});
+ const snapshots=await read({db,heartbeat:async()=>{await heartbeat();await verify({github,input,now,manualScope:'source_retention_only'});}});
  if(!snapshots||snapshots.transactional_snapshot!==false||fingerprints.fingerprint(snapshots.snapshot)!==fingerprints.fingerprint(snapshots.confirmed_snapshot))
   throw Error('Source retention completion decision snapshot changed');
  const verifiedAction=await check({github,getToken,input,checkpointCommit:input.checkpointCommit,path:action.path,
-  snapshot:snapshots.snapshot,confirmed:snapshots.confirmed_snapshot,heartbeat,verify:async()=>{await checkHeads();await verify({github,input,now});},now});
- await checkHeads();await verify({github,input,now});
+  snapshot:snapshots.snapshot,confirmed:snapshots.confirmed_snapshot,heartbeat,verify:async()=>{await checkHeads();await verify({github,input,now,manualScope:'source_retention_only'});},now});
+ await checkHeads();await verify({github,input,now,manualScope:'source_retention_only'});
  guard.validateSourceRetentionCompletion({before,after,receipt,owner:input.owner,runId:input.runId,verifiedAction,now:now()});
  const details=unwrap(await github.fetchCommitDetails({repository_full_name:REPO,commit_sha:input.expectedHead}),'Source retention completion base unavailable');
  if(details.sha!==input.expectedHead||!SHA.test(details.tree_sha||''))throw Error('Source retention completion base tree invalid');
@@ -58,19 +58,19 @@ export async function writeSourceRetentionCompletion({db,github,getToken,input,n
   d1Fingerprint:fingerprints.fingerprint(snapshots.snapshot)};
  let mayHaveFence=false,commitAttempted=false;
  try{
-  mayHaveFence=true;if((await control({db,github,input:fence,now})).status!=='acquired')throw Error('Source retention completion fence unavailable');
-  if((await control({db,github,input:{...fence,action:'begin'},now})).status!=='committing')throw Error('Source retention completion fence did not enter commit');
+  mayHaveFence=true;if((await control({db,github,input:fence,now,manualScope:'source_retention_only'})).status!=='acquired')throw Error('Source retention completion fence unavailable');
+  if((await control({db,github,input:{...fence,action:'begin'},now,manualScope:'source_retention_only'})).status!=='committing')throw Error('Source retention completion fence did not enter commit');
   commitAttempted=true;let update;
   try{update=await github.commitOnBranch({repository_full_name:REPO,branch_name:REVIEW,expected_sha:input.expectedHead,
    additions:paths.map(path=>({path,content:files[path]})),message:'Record source retention completion and release lease'});}catch{throw Error('Source retention completion outcome ambiguous');}
   const result=unwrap(update,'Source retention completion rejected or ambiguous');
   if(result.success!==true||!SHA.test(result.sha||''))throw Error('Source retention completion outcome ambiguous');
-  const released=await control({db,github,input:{...fence,action:'release'},now});
+  const released=await control({db,github,input:{...fence,action:'release'},now,manualScope:'source_retention_only'});
   if(released.status!=='confirmed_and_released'||released.commit_sha!==result.sha)throw Error('Source retention completion readback differs');
   return {status:'committed_and_read_back',commit_sha:result.sha,receipt_path:receiptPath,candidate_processing:receipt.candidate_processing,
    native_completion_verified:false,publication_verified:false};
  }catch(error){
-  if(mayHaveFence&&!commitAttempted){let aborted=false;try{aborted=(await control({db,github,input:{...fence,action:'abort'},now})).status==='aborted';}catch{}
+  if(mayHaveFence&&!commitAttempted){let aborted=false;try{aborted=(await control({db,github,input:{...fence,action:'abort'},now,manualScope:'source_retention_only'})).status==='aborted';}catch{}
    if(!aborted)throw Error('Source retention completion fence state unconfirmed; inspect fence');}
   if(commitAttempted)throw Error('Source retention completion outcome ambiguous or unconfirmed; reconcile branch and fence');throw error;
  }

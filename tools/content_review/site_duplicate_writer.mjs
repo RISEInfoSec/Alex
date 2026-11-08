@@ -42,7 +42,7 @@ export async function writeDuplicate({db,github,input,now=()=>Date.now(),read=re
  const head=async branch=>unwrap(await github.fetchCommit({repo_full_name:REPO,commit_sha:branch}),'Duplicate branch unavailable').commit?.sha;
  const checkHeads=async()=>{const [a,b]=await Promise.all([head(REVIEW),head(MAIN)]);
   if(a!==input.expectedHead||b!==input.expectedMain)throw Error('Duplicate source head changed');};
- await checkHeads();await verify({github,input,now});
+ await checkHeads();await verify({github,input,now,manualScope:'duplicate_only'});
  const registry=await jsonVerifier.verifiedJson(await github.fetchFile({repository_full_name:REPO,path:REGISTRY,ref:input.expectedHead,require_content:true}),{limit:LIMIT});
  const entries=Array.isArray(registry.collections)?registry.collections.filter(x=>x?.id===receipt.collection):[];
  if(entries.length!==1||entries[0].manifest_url!=='https://raw.githubusercontent.com/RISEInfoSec/Alex/'+REVIEW+'/'+manifests[0]||
@@ -52,7 +52,7 @@ export async function writeDuplicate({db,github,input,now=()=>Date.now(),read=re
  const heartbeat=heartbeatFactory({github,input,now});
  const evidence=await audit({github,expectedReview:input.expectedHead,expectedMain:input.expectedMain,
   collection:receipt.collection,candidateId:receipt.candidate_id,heartbeat});
- await verify({github,input,now});
+ await verify({github,input,now,manualScope:'duplicate_only'});
  const expectedEvidence={method:'complete immutable corpus, exclusions, registered collections and upstream inventories',
   review_commit:input.expectedHead,main_commit:input.expectedMain,input_blobs:evidence.input_blobs,
   matches:[],exclusions:[],upstream_aliases:[]};
@@ -61,7 +61,7 @@ export async function writeDuplicate({db,github,input,now=()=>Date.now(),read=re
   before[key]=await jsonVerifier.verifiedJson(await github.fetchFile({repository_full_name:REPO,path,ref:input.expectedHead,require_content:true}),{limit:LIMIT});
  const prior=await github.fetchFile({repository_full_name:REPO,path:receipts[0],ref:input.expectedHead});
  if(!prior?.isError||prior.structuredContent?.error_code!=='NOT_FOUND')throw Error('Duplicate receipt is not confirmed absent');
- const snapshots=await read({db,heartbeat:async()=>{await heartbeat();await verify({github,input,now});}});
+ const snapshots=await read({db,heartbeat:async()=>{await heartbeat();await verify({github,input,now,manualScope:'duplicate_only'});}});
  const verified=validator.validateDuplicate({before,after,receipt,snapshot:snapshots.snapshot,confirmed:snapshots.confirmed_snapshot,
   audit:evidence,expectedEvidence,now:now()});
  if(verified.receipt_path!==receipts[0])throw Error('Duplicate receipt verification differs');
@@ -83,20 +83,20 @@ export async function writeDuplicate({db,github,input,now=()=>Date.now(),read=re
  let mayHaveFence=false,commitAttempted=false;
  try{
   mayHaveFence=true;
-  if((await control({db,github,input:fence,now})).status!=='acquired')throw Error('Duplicate fence unavailable');
-  if((await control({db,github,input:{...fence,action:'begin'},now})).status!=='committing')throw Error('Duplicate fence did not enter commit');
+  if((await control({db,github,input:fence,now,manualScope:'duplicate_only'})).status!=='acquired')throw Error('Duplicate fence unavailable');
+  if((await control({db,github,input:{...fence,action:'begin'},now,manualScope:'duplicate_only'})).status!=='committing')throw Error('Duplicate fence did not enter commit');
   commitAttempted=true;let update;
   try{update=await github.commitOnBranch({repository_full_name:REPO,branch_name:REVIEW,expected_sha:input.expectedHead,
    additions:paths.map(path=>({path,content:files[path]})),message:'Checkpoint bounded content review evidence'});}
   catch{throw Error('Duplicate commit outcome ambiguous; fence remains held');}
   const result=unwrap(update,'Duplicate commit rejected or ambiguous; fence remains held');
   if(result.success!==true||!SHA.test(result.sha||''))throw Error('Duplicate commit outcome ambiguous; fence remains held');
-  const released=await control({db,github,input:{...fence,action:'release'},now});
+  const released=await control({db,github,input:{...fence,action:'release'},now,manualScope:'duplicate_only'});
   if(released.status!=='confirmed_and_released'||released.commit_sha!==result.sha)throw Error('Duplicate commit readback differs; reconcile fence');
   return {status:'committed_and_read_back',commit_sha:result.sha,receipt_path:receipts[0],gate:'duplicates',
    candidate_processing:true,native_completion_verified:false,publication_verified:false};
  }catch(error){
-  if(mayHaveFence&&!commitAttempted){let aborted=false;try{aborted=(await control({db,github,input:{...fence,action:'abort'},now})).status==='aborted';}catch{}
+  if(mayHaveFence&&!commitAttempted){let aborted=false;try{aborted=(await control({db,github,input:{...fence,action:'abort'},now,manualScope:'duplicate_only'})).status==='aborted';}catch{}
    if(!aborted)throw Error('Duplicate fence state unconfirmed; inspect fence');}
   if(commitAttempted)throw Error('Duplicate commit outcome ambiguous or unconfirmed; reconcile branch and fence');
   throw error;

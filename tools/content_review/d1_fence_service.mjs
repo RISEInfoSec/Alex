@@ -33,7 +33,7 @@ async function verifiedJson(github,path,ref){
  return result;
 }
 
-async function context(github,input,now){
+async function context(github,input,now,manualScope=null){
  const head=async branch=>unwrap(await github.fetchCommit({repo_full_name:REPO,commit_sha:branch}))?.commit?.sha;
  const [review,main]=await Promise.all([head(REVIEW),head(MAIN)]);
  if(review!==input.expectedHead||main!==input.expectedMain)throw Error('Source head changed');
@@ -46,7 +46,7 @@ async function context(github,input,now){
  const time=now(),started=instant(run.started_at),scheduled=instant(run.scheduled_for),nativeObserved=instant(scheduler.observed_at),
   acquired=instant(lease.acquired_at),expires=instant(lease.expires_at),observed=instant(h?.observed_at);
  if(lease.owner!==input.owner||lease.run_id!==input.runId||run.run_id!==input.runId||run.application_status!=='running'||
-    scheduler.id!==target||!(manual.authorized(config,run,input.owner,input.runId,time)||
+    scheduler.id!==target||!((manualScope!==null&&manual.authorized(config,run,input.owner,input.runId,time,manualScope))||
       (scheduler.kind!=='manual'&&scheduler.is_enabled===true&&scheduler.last_run?.id===input.runId&&scheduler.last_run?.recorded_status==='in_progress'))||
     !h||h.schema_version!==1||h.review_head!==review||h.owner!==input.owner||h.run_id!==input.runId||h.scheduler_id!==target||
     h.started_at!==run.started_at||h.lease_acquired_at!==lease.acquired_at||h.lease_expires_at!==lease.expires_at||
@@ -63,19 +63,21 @@ async function context(github,input,now){
 
 // Preliminary read-only check for Site operations before they create any Git
 // objects. A caller must still recheck under the decision fence before CAS.
-export async function verifyWorkerContext({github,input,now=()=>Date.now()}){
+export async function verifyWorkerContext({github,input,now=()=>Date.now(),manualScope=null}){
  if(!github||!input||typeof now!=='function'||!SHA.test(input.expectedHead||'')||!SHA.test(input.expectedMain||'')||
     typeof input.owner!=='string'||!/^[a-zA-Z0-9-]{1,100}$/.test(input.owner)||
-    typeof input.runId!=='string'||!/^[a-zA-Z0-9-]{1,100}$/.test(input.runId))
+    typeof input.runId!=='string'||!/^[a-zA-Z0-9-]{1,100}$/.test(input.runId)||
+    ![null,'duplicate_only','source_retention_only'].includes(manualScope))
   throw Error('Invalid worker context');
- return context(github,input,now);
+ return context(github,input,now,manualScope);
 }
 
-export async function controlFence({db,github,input,now=()=>Date.now(),inspect=inspectFence,readSnapshot=reader.readStable}){
+export async function controlFence({db,github,input,now=()=>Date.now(),inspect=inspectFence,readSnapshot=reader.readStable,manualScope=null}){
  if(!input||typeof input!=='object'||Array.isArray(input)||JSON.stringify(Object.keys(input).sort())!==JSON.stringify(KEYS)||
     !['acquire','begin','abort','release'].includes(input.action)||!SHA.test(input.expectedMain||'')||!SHA256.test(input.d1Fingerprint||''))
   throw Error('Invalid fence request');
- if(!db||!github||typeof now!=='function'||typeof inspect!=='function'||typeof readSnapshot!=='function')
+ if(!db||!github||typeof now!=='function'||typeof inspect!=='function'||typeof readSnapshot!=='function'||
+    ![null,'duplicate_only','source_retention_only'].includes(manualScope))
   throw Error('Fence dependencies unavailable');
  // Aborting only a preparing fence and releasing only an independently
  // confirmed commit remain possible even after the worker lease has expired.
@@ -84,7 +86,7 @@ export async function controlFence({db,github,input,now=()=>Date.now(),inspect=i
  const state=await inspect(db);
  if(input.action==='acquire'&&state.status!=='idle')throw Error('Decision fence unavailable');
  if(input.action==='begin'&&state.status!=='held')throw Error('Decision fence unavailable');
- const check=()=>context(github,input,now);
+ const check=()=>context(github,input,now,manualScope);
  await check();
  if(input.action==='acquire')return {status:await acquireFence(db,input,()=>new Date(now()))?'acquired':'not_changed'};
  const snapshots=await readSnapshot({db,heartbeat:check});

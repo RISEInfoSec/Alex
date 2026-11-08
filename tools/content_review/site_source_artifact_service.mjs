@@ -23,7 +23,7 @@ export async function readSourceEvidence({github,getToken,input,now=()=>Date.now
  const head=async branch=>unwrap(await github.fetchCommit({repo_full_name:REPO,commit_sha:branch}),'Source handoff branch unavailable').commit?.sha;
  const checkHeads=async()=>{const [a,b]=await Promise.all([head(REVIEW),head(MAIN)]);
   if(a!==input.expectedHead||b!==input.expectedMain)throw Error('Source handoff head changed');};
- await checkHeads();await verify({github,input,now});
+ await checkHeads();await verify({github,input,now,manualScope:'source_retention_only'});
  const state=await verifier.verifiedJson(await github.fetchFile({repository_full_name:REPO,path:WORKER,ref:input.expectedHead,require_content:true}),{limit:LIMIT});
  const pending=state?.current_run?.pending_source_request;
  const runs=[state?.current_run,...(Array.isArray(state?.run_history)?state.run_history:[])];
@@ -43,7 +43,7 @@ export async function readSourceEvidence({github,getToken,input,now=()=>Date.now
  const details=async sha=>unwrap(await github.fetchCommitDetails({repository_full_name:REPO,commit_sha:sha}),'Source handoff history unavailable');
  await findLinearAncestor({github,head:input.expectedHead,ancestor:reservation,heartbeat,details,
   linearError:'Source handoff reservation outside linear history',boundedError:'Source handoff reservation outside bounded history'});
- await checkHeads();await verify({github,input,now});
+ await checkHeads();await verify({github,input,now,manualScope:'source_retention_only'});
  return {status:'verified_source_artifact',request_id:requestId,native_run:observed.native_run,
   artifact:observed.artifact,result_text:observed.result_text,candidate_processing:false,publication_verified:false};
 }
