@@ -76,7 +76,7 @@ export async function writeSourcePending({db,github,getToken,input,now=()=>Date.
   if(committed.success!==true||!SHA.test(committed.sha||''))throw Error('Source pending commit outcome ambiguous');
   const released=await control({db,github,input:{...fence,action:'release'},now});
   if(released.status!=='confirmed_and_released'||released.commit_sha!==committed.sha)throw Error('Source pending commit readback differs');
-  return {status:'committed_and_read_back',commit_sha:committed.sha,receipt_path:receiptPath,source_status:observed.status,
+  return {status:'committed_and_read_back',commit_sha:committed.sha,receipt_path:receiptPath,source_status:receipt.source_status,
           candidate_processing:false,native_completion_verified:false,publication_verified:false};
  }catch(error){
   if(mayHaveFence&&!commitAttempted){let aborted=false;try{aborted=(await control({db,github,input:{...fence,action:'abort'},now})).status==='aborted';}catch{}

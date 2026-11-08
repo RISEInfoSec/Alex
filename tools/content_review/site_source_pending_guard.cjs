@@ -36,24 +36,37 @@ function validateSourcePending({before,after,receipt,request,discovery,snapshot,
    time(history[0].started_at)!==time(request.started_at))
    throw Error('Source pending original run unavailable');
  }
- if(!['source_run_pending','source_artifact_pending','source_run_failed'].includes(discovery.status)||
+ if(!['source_run_pending','source_artifact_pending','source_artifact_ready','source_run_failed'].includes(discovery.status)||
   !SHA.test(discovery.reservation_head||'')||discovery.candidate_processing!==false||discovery.source_workflow_verified!==false||discovery.publication_verified!==false)
   throw Error('Source pending discovery invalid');
- const sourceRunId=discovery.source_run_id??null,conclusion=discovery.conclusion??null;
+ const observedRun=discovery.source_run_id??null,observedConclusion=discovery.conclusion??null;
+ if(observedRun!==null&&(!Number.isSafeInteger(observedRun)||observedRun<1)||
+  discovery.status!=='source_run_pending'&&observedRun===null||
+  discovery.status==='source_artifact_ready'&&(!Number.isSafeInteger(discovery.artifact_id)||discovery.artifact_id<1)||
+  discovery.status==='source_run_failed'&&(typeof observedConclusion!=='string'||!/^[a-z_]{1,40}$/.test(observedConclusion))||
+  discovery.status!=='source_run_failed'&&observedConclusion!==null)throw Error('Source pending run status invalid');
+ // A source workflow may advance while the Site reads D1. Keep the original
+ // request pending on a monotonic transition; never claim a completed gate or
+ // consume an artifact here. A failed-outcome hold still requires exact proof.
+ const sourceRunId=receipt.source_run_id??null,conclusion=receipt.source_conclusion??null,claimed=receipt.source_status;
  if(sourceRunId!==null&&(!Number.isSafeInteger(sourceRunId)||sourceRunId<1)||
-  discovery.status!=='source_run_pending'&&sourceRunId===null||
-  discovery.status==='source_run_failed'&&(typeof conclusion!=='string'||!/^[a-z_]{1,40}$/.test(conclusion))||
-  discovery.status!=='source_run_failed'&&conclusion!==null)throw Error('Source pending run status invalid');
- const failed=discovery.status==='source_run_failed',existing=before.source_unresolved_requests??[];
+  sourceRunId!==null&&sourceRunId!==observedRun||
+  claimed==='source_run_pending'&&conclusion!==null||
+  claimed==='source_artifact_pending'&&(!['source_artifact_pending','source_artifact_ready'].includes(discovery.status)||sourceRunId===null||conclusion!==null)||
+  claimed==='source_run_failed'&&(discovery.status!=='source_run_failed'||sourceRunId!==observedRun||conclusion!==observedConclusion)||
+  !['source_run_pending','source_artifact_pending','source_run_failed'].includes(claimed))
+  throw Error('Source pending observation changed incompatibly');
+ const effective={...discovery,status:claimed,source_run_id:sourceRunId,conclusion};
+ const failed=claimed==='source_run_failed',existing=before.source_unresolved_requests??[];
  unresolved.validate(existing);
- const failure=failed?unresolved.fromFailure(request,pending,discovery):null;
+ const failure=failed?unresolved.fromFailure(request,pending,effective):null;
  if(failed&&(existing.length>=1000||existing.some(x=>x.request_id===pending.request_id)))throw Error('Unresolved source failure already exists or exceeds the bound');
  const fields=['schema_version','kind','run_id','trigger','scheduled_for','started_at','completed_at','status','receipt_path','source_request_id',
   'origin_run_id','reservation_head','source_status','source_run_id','source_conclusion','source_requests','candidate_processing','gate_passed',
   'native_completion_verified','publication_approved','scope_note',...(failed?['origin_provider_requests']:[])].sort(),path='config/content_review_run_receipts/'+runId+'.json';
  if(!equal(Object.keys(receipt).sort(),fields)||receipt.schema_version!==1||receipt.kind!=='source_pending_deferral'||receipt.run_id!==runId||
   receipt.trigger!=='schedule'||receipt.status!=='deferred'||receipt.receipt_path!==path||receipt.source_request_id!==pending.request_id||
-  receipt.origin_run_id!==pending.origin_run_id||receipt.reservation_head!==discovery.reservation_head||receipt.source_status!==discovery.status||
+  receipt.origin_run_id!==pending.origin_run_id||receipt.reservation_head!==discovery.reservation_head||receipt.source_status!==claimed||
   receipt.source_run_id!==sourceRunId||receipt.source_conclusion!==conclusion||receipt.source_requests!==0||receipt.candidate_processing!==false||
   receipt.gate_passed!==false||receipt.native_completion_verified!==false||receipt.publication_approved!==false||
   time(receipt.started_at)!==start||time(receipt.scheduled_for)!==due||

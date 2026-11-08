@@ -49,7 +49,8 @@ const saved={},api={
  commitOnBranch:async({branch_name,additions})=>{if(branch_name==='codex/content-review-heartbeat'){
    heartbeatUpdates++;heartbeatContent=additions[0].content;heartbeatHead='f'.repeat(40);return ok({success:true,sha:heartbeatHead});}
   commits++;if(mode==='ambiguous')throw Error('lost');for(const x of additions)saved[x.path]=x.content;head=commit;return ok({success:true,sha:commit})}};
-const discover=async({github,input,now})=>{const pulse=makeHeartbeatKeeper({github,input,now});await pulse();return v.discovery};
+const discover=async({github,input,now})=>{const pulse=makeHeartbeatKeeper({github,input,now});await pulse();
+ return mode==='advanced'?{...v.discovery,source_run_id:123}:v.discovery};
 let outcome;try{outcome={result:await writeSourcePending({db,github:api,getToken:()=> 'not-used',input:v.input,now:()=>v.now,discover,heartbeatFactory:()=>async()=>{}})}}
 catch(e){outcome={error:e.message}}
 outcome.commits=commits;outcome.heartbeat_updates=heartbeatUpdates;
@@ -88,3 +89,10 @@ def test_failed_source_is_retained_under_real_d1_fence_without_guessing_usage(tm
         assert len(result['unresolved'])==1 and result['unresolved'][0]['origin_provider_requests'] is None
     if mode=='d1change':assert 'decisions changed' in result['error'].lower() and result['commits']==0 and result['fence']==[]
     if mode=='ambiguous':assert 'ambiguous' in result['error'] and result['commits']==1 and result['fence']==['committing'] and result['blocked'] is True
+
+
+def test_workflow_start_during_d1_read_keeps_request_pending_under_fence(tmp_path):
+    result=invoke(request(tmp_path),'advanced')
+    assert result.get('result',{}).get('status')=='committed_and_read_back',result
+    assert result['result']['source_status']=='source_run_pending' and result['result']['candidate_processing'] is False
+    assert result['commits']==1 and result['fence']==[]

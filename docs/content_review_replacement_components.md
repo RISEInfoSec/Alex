@@ -50,6 +50,10 @@ and an eligible retained-source gate, while preserving the original reservation
 and run history. A deferred local check falls through to source discovery. This
 does not resolve a failed request, process all remaining gates, or establish
 fair coverage of every collection.
+If the source workflow advances during the Site's decision read, the Site may
+still record the earlier pending state when the same workflow identity is
+consistent. It retains the request, does not consume the artifact or claim a
+gate, and leaves the later status for a subsequent checked cycle.
 For a conclusively failed source workflow, a guarded deferral can instead retain
 the original request and an unresolved hold for its candidates and known
 origins. Provider usage and redirect destinations remain unknown; the source

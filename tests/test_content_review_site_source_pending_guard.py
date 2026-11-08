@@ -33,6 +33,34 @@ def test_site_guard_accepts_exact_pending_deferral_and_no_processing(tmp_path):
     checked=json.loads(result.stdout);assert checked['candidate_processing'] is False and checked['native_completion_verified'] is False
 
 
+@pytest.mark.parametrize('advanced',['started','artifact_pending','artifact_ready','failed'])
+def test_site_preserves_pending_request_when_workflow_advances(tmp_path,advanced):
+    data=value(tmp_path);observed=data['discovery'];observed['source_run_id']=123
+    if advanced=='artifact_pending':observed['status']='source_artifact_pending'
+    if advanced=='artifact_ready':observed.update(status='source_artifact_ready',artifact_id=456)
+    if advanced=='failed':observed.update(status='source_run_failed',conclusion='failure')
+    result=invoke(data);assert result.returncode==0,result.stderr
+    assert data['after']['current_run']['pending_source_request']==data['before']['current_run']['pending_source_request']
+    assert data['receipt']['candidate_processing'] is False and data['receipt']['source_status']=='source_run_pending'
+    changed=deepcopy(data);changed['receipt']['source_run_id']=999
+    assert invoke(changed).returncode!=0
+
+
+def test_failed_observation_cannot_be_forged_or_changed(tmp_path):
+    data=value(tmp_path,failed=True);data['discovery']['conclusion']='cancelled'
+    assert invoke(data).returncode!=0
+
+
+def test_artifact_pending_can_advance_only_for_the_same_completed_run(tmp_path):
+    data=value(tmp_path);data['receipt'].update(source_status='source_artifact_pending',source_run_id=123)
+    data['discovery'].update(status='source_artifact_ready',source_run_id=123,artifact_id=456)
+    result=invoke(data);assert result.returncode==0,result.stderr
+    changed=deepcopy(data);changed['discovery']['source_run_id']=999
+    assert invoke(changed).returncode!=0
+    changed=deepcopy(data);changed['discovery']['status']='source_run_pending';changed['discovery'].pop('artifact_id')
+    assert invoke(changed).returncode!=0
+
+
 def test_site_guard_holds_failed_source_and_rejects_unknown_usage_or_hold_tampering(tmp_path):
     data=value(tmp_path,failed=True);result=invoke(data)
     assert result.returncode==0,result.stderr
