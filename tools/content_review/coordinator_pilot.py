@@ -4,10 +4,24 @@ This narrow test does not establish that the full review worker is deployed.
 It uses the same lease, independently validated checkpoint and fenced release
 as the replacement.  Any uncertain write must be reconciled before another run.
 """
-from tools.content_review.coordinator_cycle import has_pending_source
+import json
+
 from tools.content_review.coordinator_duplicate import checkpoint_one
 from tools.content_review.coordinator_lifecycle import start, complete
-from tools.content_review.coordinator_heartbeat_transport import read_heads, REVIEW, MAIN
+from tools.content_review.coordinator_heartbeat_transport import read_heads, fetch_heads, REVIEW, MAIN
+from tools.content_review.verified_inputs import _path_blob
+
+
+def has_pending_source(repo, review_head, main_head, run_id, *, heads=read_heads, fetch=fetch_heads):
+    refs = heads(repo)
+    if refs.get(REVIEW) != review_head or refs.get(MAIN) != main_head:
+        raise ValueError('Pilot source heads changed')
+    fetch(repo, refs, run_id)
+    raw, _ = _path_blob(repo, review_head, 'config/content_review_worker_status.json')
+    state = json.loads(raw)
+    if not isinstance(state, dict) or not isinstance(state.get('current_run'), dict):
+        raise ValueError('Pilot worker state unavailable')
+    return state['current_run'].get('pending_source_request') is not None
 
 
 def run(repo, token, native, owner, run_id, *, heads=read_heads, begin=start, pending_checker=has_pending_source,

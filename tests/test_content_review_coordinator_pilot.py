@@ -1,4 +1,4 @@
-from tools.content_review.coordinator_pilot import run
+from tools.content_review.coordinator_pilot import run, has_pending_source
 from tools.content_review.coordinator_heartbeat_transport import REVIEW, MAIN
 
 HEADS = lambda repo: {REVIEW: 'old', MAIN: 'main'}
@@ -48,3 +48,10 @@ def test_pending_source_race_after_lease_fails_closed():
                  finish=lambda *a: (_ for _ in ()).throw(AssertionError('unexpected release')))
     assert result['reason'] == 'pending_source_changed_after_lease'
     assert result['reconcile_before_retry'] is True
+
+
+def test_pending_check_reads_exact_pinned_worker_state(monkeypatch):
+    refs={REVIEW:'a'*40,MAIN:'b'*40}
+    monkeypatch.setattr('tools.content_review.coordinator_pilot._path_blob',
+                        lambda *args:(b'{"current_run":{"pending_source_request":{"request_id":"x"}}}',{}))
+    assert has_pending_source('.',refs[REVIEW],refs[MAIN],'run',heads=lambda _:refs,fetch=lambda *a:None) is True
