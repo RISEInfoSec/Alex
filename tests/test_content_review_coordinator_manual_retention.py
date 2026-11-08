@@ -37,3 +37,15 @@ def test_unconfirmed_checkpoint_stops_without_completion_or_retry():
     result=run('repo','secret','owner','run',choose=lambda *a:next(choices),
         begin=lambda *a,**k:{'status':'lease_started','review_head':'c','main_head':'b'},checkpoint=checkpoint,finish=lambda *a:1/0)
     assert len(calls)==1 and result['status']=='blocked' and result['reconcile_before_retry'] is True
+
+
+def test_source_head_change_prevents_manual_lease_before_any_send():
+    import pytest
+    from tools.content_review.coordinator_lifecycle import start_manual
+    from tools.content_review.coordinator_heartbeat_transport import HEARTBEAT
+    refs={REVIEW:'a'*40,MAIN:'b'*40,HEARTBEAT:'c'*40};calls=[]
+    with pytest.raises(ValueError,match='changed before lease'):
+        start_manual('repo','secret',None,'worker','run',heads=lambda repo:refs,
+            fetch=lambda *args:calls.append('fetch'),send=lambda *args:calls.append('send'),
+            scope='source_retention_only',expected_review_head='d'*40,expected_main_head='b'*40)
+    assert calls==[]
