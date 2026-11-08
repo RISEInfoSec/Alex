@@ -50,7 +50,7 @@ async function context(github,input,now){
     h.started_at!==run.started_at||h.lease_acquired_at!==lease.acquired_at||h.lease_expires_at!==lease.expires_at||
     !Number.isFinite(time)||started===null||scheduled===null||nativeObserved===null||
     instant(scheduler.last_run?.started_at)!==started||instant(scheduler.last_run?.scheduled_for)!==scheduled||
-    nativeObserved>time||time-nativeObserved>90000||acquired===null||expires===null||observed===null||
+    nativeObserved<started||nativeObserved>time||acquired===null||expires===null||observed===null||
     started>time||acquired>observed||observed<started||observed>time||time-observed>40000||
     time-started>600000||expires-time<=120000)
   throw Error('Current worker lease or heartbeat is unavailable');

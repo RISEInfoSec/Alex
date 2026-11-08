@@ -65,3 +65,15 @@ def test_coordinator_skips_a_held_duplicate_and_checks_next_fair_candidate(monke
         planner=lambda *a,**k:{'selected':[{'collection':'weekly','candidate_id':'held','next_stage':'duplicates'},
                                           {'collection':'sans','candidate_id':'clear','next_stage':'duplicates'}]},preparer=prepare,send=send)
     assert seen==['held','clear'] and result['candidate_processing'] is True
+
+
+def test_coordinator_preserves_only_safe_site_failure_reason(monkeypatch):
+    review,main,heartbeat='a'*40,'b'*40,'c'*40;refs={module.REVIEW:review,module.MAIN:main,module.HEARTBEAT:heartbeat}
+    monkeypatch.setattr(module,'_path_blob',lambda *args:(b'{}',{}))
+    result=module.checkpoint_one('.','secret',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,
+        inputs_reader=lambda *a:{'worker_state':{},'lifecycle':{},'reconciliation_manifests':{},'registry':[]},snapshot_reader=lambda *a:({},{}),
+        pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back'},keeper_factory=Keeper,
+        planner=lambda *a,**k:{'selected':[{'collection':'weekly','candidate_id':'x','next_stage':'duplicates'}]},
+        preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},
+        send=lambda *a:{'status':'blocked','reason':'worker_not_verified','http_status':409})
+    assert result['site_reason']=='worker_not_verified' and result['http_status']==409 and result['reconcile_before_retry'] is True

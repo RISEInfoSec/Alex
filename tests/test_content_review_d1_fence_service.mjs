@@ -58,6 +58,14 @@ test('retired target, stale heartbeat or changed source never acquire a fence',a
   await assert.rejects(call(f,'acquire'));assert.equal(f.current(),null);
  }
 });
+test('a fresh detached heartbeat permits a long-running native-bound worker',async()=>{
+ const f=fixture();f.now=()=>at+180000;f.heartbeat.observed_at='2026-11-07T19:03:20Z';
+ assert.equal((await call(f,'acquire')).status,'acquired');
+});
+test('a scheduler observation predating its run is rejected',async()=>{
+ const f=fixture();f.state.current_run.scheduler.observed_at='2026-11-07T18:59:59Z';
+ await assert.rejects(call(f,'acquire'),/worker lease or heartbeat/);assert.equal(f.current(),null);
+});
 test('a retired target is rejected without consulting the heartbeat ref',async()=>{
  const f=fixture();f.config.target_automation_id='Automation_4eb2dd829aa88191b542d57f7008ebe3';
  const original=f.github.fetchCommit;let heartbeatReads=0;
