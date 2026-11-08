@@ -8,7 +8,7 @@ function audit(row,collection,receipt,registry,now=Date.now()){
  const hold=auditHold(row,registry);
  if(hold.status!=='verified_core_term_absence')return {status:'held',reason:'quality_hold_not_established',writes:0};
  const source=auditSource(row,collection,receipt,now),checks=source.checks||{};
- if(!['access','metadata','format'].every(g=>checks[g]?.status==='passed'))
+ if(!['access','metadata'].every(g=>checks[g]?.status==='passed'))
   return {status:'held',reason:'matching_publisher_evidence_required',writes:0};
  const proof=checks.metadata.evidence,records=receipt.result.records.filter(x=>obj(x)&&x.collection===collection&&
   x.candidate_id===row.candidate_id&&x.content_sha256===row.content_sha256);

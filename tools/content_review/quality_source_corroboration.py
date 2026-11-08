@@ -20,7 +20,7 @@ def audit(row, collection, receipt, registry, *, now=None):
         return {'status': 'held', 'reason': 'quality_hold_not_established', 'writes': 0}
     source = audit_source(row, collection, receipt, now=now)
     checks = source.get('checks', {})
-    if not all(checks.get(g, {}).get('status') == 'passed' for g in ('access', 'metadata', 'format')):
+    if not all(checks.get(g, {}).get('status') == 'passed' for g in ('access', 'metadata')):
         return {'status': 'held', 'reason': 'matching_publisher_evidence_required', 'writes': 0}
     proof = checks['metadata']['evidence']
     records = [x for x in receipt['result']['records'] if isinstance(x, dict) and

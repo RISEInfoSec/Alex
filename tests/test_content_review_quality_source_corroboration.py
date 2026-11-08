@@ -44,13 +44,26 @@ def test_source_match_corroborates_text_without_claiming_completeness_or_pass():
     assert site(row,receipt,registry)==result and (row,receipt,registry)==before
 
 
-@pytest.mark.parametrize('change',['not_present','truncated','unverified','bad_type','metadata_mismatch','text_tampered','wrong_source','duplicate_evidence'])
+def test_corroboration_does_not_infer_format_from_the_current_source():
+    row,receipt,registry=fixture();receipt['result']['records'][0]['evidence'][0]['metadata'].pop('citation_article_type')
+    result=audit(row,'weekly',receipt,registry,now=NOW)
+    assert result['status']=='source_text_corroborated' and result['gate_passed'] is False
+    assert site(row,receipt,registry)==result
+
+
+def test_corroboration_still_requires_the_existing_hash_bound_format_gate():
+    row,receipt,registry=fixture();row['preflight']['checks']['format']['status']='held'
+    with pytest.raises(ValueError,match='prior quality gates'):
+        audit(row,'weekly',receipt,registry,now=NOW)
+    assert 'error' in site(row,receipt,registry)
+
+
+@pytest.mark.parametrize('change',['not_present','truncated','unverified','metadata_mismatch','text_tampered','wrong_source','duplicate_evidence'])
 def test_unverified_or_ambiguous_inputs_never_corroborate(change):
     row,receipt,registry=fixture();source=receipt['result']['records'][0]['evidence'][0]
     if change=='not_present':source['text']='A different source text';source['text_sha256']=hashlib.sha256(source['text'].encode()).hexdigest()
     if change=='truncated':row['abstract_truncated']=True
     if change=='unverified':row.pop('abstract_integrity_status')
-    if change=='bad_type':source['metadata']['citation_article_type']=['slides']
     if change=='metadata_mismatch':source['metadata']['citation_title']=['Other paper']
     if change=='text_tampered':source['text']+=' changed'
     if change=='wrong_source':source['final_url']='https://unrelated.example/paper'
