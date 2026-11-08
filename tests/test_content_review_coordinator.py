@@ -48,6 +48,21 @@ def test_plan_covers_registered_routes_without_writes_or_openalex():
     assert manifests == before
 
 
+def test_superseded_decision_is_reported_as_hold_even_for_preflight_rows():
+    now,snap,manifests,ledger,registry,state=fixture()
+    old=deepcopy(snap['decisions'][0]);old.update(id='d-old',candidate_id='fresh',review_number=2,content_sha256='c'*64)
+    snap['decisions'].append(old);snap['submissions'][0]['rejected']=2
+    newer=deepcopy(snap['submissions'][0]);newer.update(id='s2',revision=2,rejected=1)
+    active=deepcopy(snap['decisions'][0]);active.update(id='d-new',submission_id='s2',revision=2)
+    snap['submissions'].append(newer);snap['decisions'].append(active)
+    for key in ('submissions','decisions'):snap['read_evidence'][key]['rows_received']=len(snap[key])
+    manifests['weekly']['preflight_records']=[manifests['weekly']['records'].pop()]
+    result=plan(snap,deepcopy(snap),manifests,ledger,registry,state,'worker','run',source_attempts={},source_progress={},at=now)
+    coverage=next(x for x in result['coverage'] if x['collection']=='weekly')
+    assert result['selected']==[] and coverage['decision_holds']==1
+    assert coverage['disposition']=='decision_reconciliation_hold'
+
+
 def test_stale_lease_heartbeat_or_decision_snapshot_blocks_planning():
     now, snap, manifests, ledger, registry, state = fixture()
     args = (snap, deepcopy(snap), manifests, ledger, registry, state, 'worker', 'run')

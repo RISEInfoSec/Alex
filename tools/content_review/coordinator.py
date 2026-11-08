@@ -84,10 +84,12 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     available = Counter(x['collection'] for x in result['selected'])
     selected_counts = Counter(x['collection'] for x in selected)
     executable = Counter(x['collection'] for x in eligible)
-    held = Counter(x['collection'] for x in result['reconciliation']['held'])
     decisions = Counter(x['collection'] for x in result['reconciliation']['matched_decisions'])
     decided_keys = {(x['collection'], x['candidate_id']) for x in result['reconciliation']['matched_decisions']}
     held_keys = {(x['collection'], x['candidate_id']) for x in result['reconciliation']['held']}
+    held_keys.update((x['collection'],x['candidate_id']) for x in snapshot['decisions']
+                     if (x['collection'],x['candidate_id']) in index and (x['collection'],x['candidate_id']) not in decided_keys)
+    held = Counter(collection for collection,_ in held_keys)
     entries = ledger.get('records') if isinstance(ledger, dict) else None
     if not isinstance(entries, dict):
         raise ValueError('Complete candidate lifecycle is required')

@@ -142,3 +142,18 @@ def test_selection_holds_candidates_with_missing_or_malformed_content_hashes():
     ledger = {'records': {'weekly:' + cid: {'state': 'awaiting_initial_checks', 'first_seen_at': '2026-01-01'}
                           for cid in ('a', 'b', 'c', 'd')}}
     assert select_reconciled(snapshot, deepcopy(snapshot), manifests, ledger)['selected'] == []
+
+
+def test_selection_preserves_superseded_decisions_in_preflight_inventory():
+    snapshot, rows = fixture()
+    later=deepcopy(snapshot['submissions'][0]);later.update(id='s2',revision=2,accepted=1,rejected=0)
+    active=deepcopy(snapshot['decisions'][0]);active.update(id='d-later',submission_id='s2',revision=2)
+    snapshot['submissions'].append(later);snapshot['decisions'].append(active)
+    snapshot['read_evidence']['submissions']['rows_received']+=1
+    snapshot['read_evidence']['decisions']['rows_received']+=1
+    candidate=deepcopy(rows['weekly'][1]);candidate.update(decision='pending',document_type='research_paper',abstract='')
+    manifests={'weekly':{'records':[rows['weekly'][0]],'preflight_records':[candidate]}}
+    ledger={'records':{'weekly:b':{'state':'awaiting_initial_checks','first_seen_at':'2026-01-01'}}}
+    before=deepcopy((snapshot,manifests))
+    assert select_reconciled(snapshot,deepcopy(snapshot),manifests,ledger)['selected']==[]
+    assert (snapshot,manifests)==before

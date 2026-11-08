@@ -190,6 +190,10 @@ def select_reconciled(snapshot, confirmed_snapshot, manifests, ledger, *, limit=
                         {k: v.get('records', []) for k, v in manifests.items()})
     decided = {(d['collection'], d['candidate_id']): d['decision'] for d in checked['matched_decisions']}
     held = {(d['collection'], d['candidate_id']) for d in checked['held']}
+    # The Site writers protect every recorded decision, including a decision
+    # superseded by a later batch revision. Do not repeatedly select one of
+    # those candidates when the independent writer must reject it.
+    historical = {(d['collection'], d['candidate_id']) for d in snapshot['decisions']}
     safe = deepcopy(manifests)
     for collection, manifest in safe.items():
         for section in ('records', 'preflight_records'):
@@ -203,6 +207,8 @@ def select_reconciled(snapshot, confirmed_snapshot, manifests, ledger, *, limit=
                     row['decision'] = 'hold_review_reconciliation'
                 elif key in decided:
                     row['decision'] = decided[key]
+                elif key in historical:
+                    row['decision'] = 'hold_review_reconciliation'
     selected = select(safe, ledger, limit=limit, source_progress=source_progress,
                       source_attempts=source_attempts)
     return {'selected': selected, 'reconciliation': checked}
