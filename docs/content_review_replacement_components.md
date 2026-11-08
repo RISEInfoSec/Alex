@@ -308,6 +308,11 @@ quality-hold rules independently identify a narrow zero-core-term condition,
 but only as a provisional hold with no score or gate pass. Existing quality
 evidence is held for reconciliation rather than repeated. These rules are not
 connected to a writer or scheduler.
+`quality_lower_bound.py` and its independent Site counterpart can preview a
+conservative score bound using verified text, zero citations, the least venue
+credit and no institution bonus. The result explicitly does not assert a final
+quality score, pass a gate, change a decision or authorize publication. These
+preview rules are not yet connected to a writer or scheduler.
 
 The repository verifier accepts only a native `completed` run with its canonical
 receipt path. `no_update`, dispatch, an empty pass and tests do not establish
