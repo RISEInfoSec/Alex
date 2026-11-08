@@ -89,7 +89,7 @@ const artifactReader=async()=>{if(mode==='artifact')throw Error('Artifact digest
 const heartbeatFactory=()=>async()=>({renewed:false});
 if(mode==='receipt'){const p=Object.keys(v.input.files).find(x=>x.includes('source_gate_checkpoints/')),r=JSON.parse(v.input.files[p]);
  r.publication_approved=true;v.input.files[p]=JSON.stringify(r)}
-try{const result=await writeSourceGate({db:{},github:api,getToken:()=> 'not-used',input:v.input,now:()=>v.now+clockOffset,read,control,verify,artifactReader,heartbeatFactory});
+try{const result=await writeSourceGate({db:{},github:api,getToken:()=> 'not-used',input:v.input,now:()=>v.now+clockOffset,read,control,verify,artifactReader,heartbeatFactory,auditOnly:mode==='audit'});
  process.stdout.write(JSON.stringify({result,commits,blobs,phase,events}));}
 catch(e){process.stdout.write(JSON.stringify({error:e.message,commits,blobs,phase,events}));}"""
     result=subprocess.run(['node','--input-type=module','-e',code],cwd=ROOT,input=json.dumps({**value,'mode':mode}),text=True,capture_output=True)
@@ -102,6 +102,12 @@ def test_source_gate_writer_fences_independently_verified_evidence(tmp_path):
     assert result.get('result',{}).get('status')=='committed_and_read_back',result
     assert result['result']['candidate_processing'] is True and result['result']['publication_verified'] is False
     assert result['events']==['acquire','begin','release'] and result['commits']==1
+
+
+def test_internal_source_gate_audit_never_commits_or_acquires_fence(tmp_path):
+    result=invoke(request(tmp_path),'audit')
+    assert result.get('result',{}).get('status')=='validated',result
+    assert result['events']==[] and result['commits']==0 and result['blobs']==0
 
 
 @pytest.mark.parametrize('mode',['tree','artifact','receipt','unverified','changed','ambiguous','expired'])

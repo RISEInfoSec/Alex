@@ -9,7 +9,7 @@ def test_pass_connects_lease_checkpoint_and_completion_without_claiming_native_s
     def finish(*args):
         events.append('finish');assert args[3:]==('c'*40,'b'*40,'worker','run','receipt')
         return {'status':'application_complete','candidate_processing':True,'lease_release_confirmed':True,'native_completion_verified':False}
-    result=mechanical_pass('.','secret',{},'worker','run',begin=begin,checkpoint=checkpoint,finish=finish,pending_checker=lambda *a:False,intake_selector=lambda *a:False)
+    result=mechanical_pass('.','secret',{},'worker','run',begin=begin,checkpoint=checkpoint,finish=finish,pending_checker=lambda *a:False,intake_selector=lambda *a:False,gate_selector=lambda *a:False)
     assert events==['start','checkpoint','finish'] and result['candidate_processing'] is True and result['native_completion_verified'] is False
 
 
@@ -18,11 +18,12 @@ def test_no_supported_gate_is_deferred_and_ambiguous_checkpoint_never_retries_or
     def begin(*args):return {'status':'lease_started','review_head':'a'*40,'main_head':'b'*40}
     def finish(*args):events.append(args[-1]);return {'status':'deferred','candidate_processing':False,'lease_release_confirmed':True}
     result=mechanical_pass('.','secret',{},'worker','run',begin=begin,checkpoint=lambda *a:{'status':'deferred'},finish=finish,
-                           pending_checker=lambda *a:False,intake_selector=lambda *a:False,source_runner=lambda *a:finish(*a,None))
+                           pending_checker=lambda *a:False,intake_selector=lambda *a:False,gate_selector=lambda *a:False,
+                           source_gate=lambda *a:{'status':'deferred'},source_runner=lambda *a:finish(*a,None))
     assert result['status']=='deferred' and events==[None]
     events.clear()
     result=mechanical_pass('.','secret',{},'worker','run',begin=begin,
-        checkpoint=lambda *a:{'status':'blocked','reconcile_before_retry':True},finish=finish,pending_checker=lambda *a:False,intake_selector=lambda *a:False)
+        checkpoint=lambda *a:{'status':'blocked','reconcile_before_retry':True},finish=finish,pending_checker=lambda *a:False,intake_selector=lambda *a:False,gate_selector=lambda *a:False)
     assert result['reconcile_before_retry'] is True and events==[]
 
 
@@ -63,3 +64,22 @@ def test_intake_rotation_uses_durable_run_history():
         state={'current_run':{'run_id':'run'},'run_history':[{'run_id':str(i)} for i in range(n)]}
         return soups_intake_due('.',review,main,'run',heads=lambda _:refs,fetch=lambda *a:None,state_reader=lambda *a:state)
     assert [n for n in range(19) if due(n)]==[0,9,18]
+
+
+def test_source_first_cycle_checkpoints_and_completes_one_source_gate():
+    calls=[]
+    result=mechanical_pass('.','secret',{},'worker','run',begin=lambda *a:{'status':'lease_started','review_head':'a'*40,'main_head':'b'*40},
+        pending_checker=lambda *a:False,intake_selector=lambda *a:False,gate_selector=lambda *a:True,
+        source_gate=lambda *a:(calls.append('gate') or {'status':'checkpoint_confirmed_run_incomplete','commit_sha':'c'*40,'receipt_path':'source-receipt'}),
+        source_gate_finish=lambda *a:(calls.append('finish') or {'status':'application_complete','candidate_processing':True}),
+        checkpoint=lambda *a:(_ for _ in ()).throw(AssertionError('unexpected duplicate')))
+    assert calls==['gate','finish'] and result['candidate_processing'] is True
+
+
+def test_source_first_cycle_requests_evidence_only_when_no_retained_gate_is_ready():
+    calls=[]
+    result=mechanical_pass('.','secret',{},'worker','run',begin=lambda *a:{'status':'lease_started','review_head':'a'*40,'main_head':'b'*40},
+        pending_checker=lambda *a:False,intake_selector=lambda *a:False,gate_selector=lambda *a:True,
+        source_gate=lambda *a:(calls.append('gate') or {'status':'deferred'}),
+        source_runner=lambda *a:(calls.append('source') or {'status':'deferred','candidate_processing':False}))
+    assert calls==['gate','source'] and result['candidate_processing'] is False

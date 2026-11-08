@@ -9,6 +9,8 @@ from tools.content_review.coordinator_lifecycle import start, complete
 from tools.content_review.coordinator_source_cycle import source_pass,_state
 from tools.content_review.coordinator_heartbeat_transport import read_heads,fetch_heads,REVIEW,MAIN
 from tools.content_review.coordinator_soups_intake import intake as run_soups_intake
+from tools.content_review.coordinator_source_gate import checkpoint_one as checkpoint_source_gate
+from tools.content_review.coordinator_source_gate_completion import complete as complete_source_gate
 
 
 def has_pending_source(repo,review_head,main_head,run_id,*,heads=read_heads,fetch=fetch_heads,state_reader=_state):
@@ -30,9 +32,20 @@ def soups_intake_due(repo,review_head,main_head,run_id,*,heads=read_heads,fetch=
     return len(history)%9==0
 
 
+def source_gate_first(repo,review_head,main_head,run_id,*,heads=read_heads,fetch=fetch_heads,state_reader=_state):
+    refs=heads(repo)
+    if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Coordinator source heads changed')
+    fetch(repo,refs,run_id);state=state_reader(repo,review_head);history=state.get('run_history',[])
+    if not isinstance(history,list) or any(not isinstance(x,dict) or not x.get('run_id') for x in history):
+        raise ValueError('Run history unavailable for gate rotation')
+    if state['current_run'].get('run_id')!=run_id:raise ValueError('Current gate run differs')
+    return len(history)%2==1
+
+
 def mechanical_pass(repo,token,native,owner,run_id,*,begin=start,checkpoint=checkpoint_one,finish=complete,
                     pending_checker=has_pending_source,source_runner=source_pass,
-                    intake_selector=soups_intake_due,intake_runner=run_soups_intake):
+                    intake_selector=soups_intake_due,intake_runner=run_soups_intake,
+                    gate_selector=source_gate_first,source_gate=checkpoint_source_gate,source_gate_finish=complete_source_gate):
     started=begin(repo,token,native,owner,run_id)
     if started.get('status')!='lease_started':return started
     review,main=started['review_head'],started['main_head']
@@ -45,9 +58,21 @@ def mechanical_pass(repo,token,native,owner,run_id,*,begin=start,checkpoint=chec
             if intake.get('heartbeat_rebound') is not True:raise ValueError('Intake heartbeat is unconfirmed')
             return finish(repo,token,native,intake['commit_sha'],main,owner,run_id,None)
         if intake.get('status')!='deferred':raise ValueError('Unrecognized intake outcome; reconcile before retrying')
+    if gate_selector(repo,review,main,run_id):
+        source_checked=source_gate(repo,token,review,main,owner,run_id)
+        if source_checked.get('status')=='blocked':return source_checked
+        if source_checked.get('status')=='checkpoint_confirmed_run_incomplete':
+            return source_gate_finish(repo,token,native,source_checked['commit_sha'],main,owner,run_id,source_checked['receipt_path'])
+        if source_checked.get('status')!='deferred':raise ValueError('Unrecognized source gate outcome; reconcile before retrying')
+        return source_runner(repo,token,native,review,main,owner,run_id)
     checked=checkpoint(repo,token,review,main,owner,run_id)
     if checked.get('status')=='blocked':return checked
     if checked.get('status')=='deferred':
+        source_checked=source_gate(repo,token,review,main,owner,run_id)
+        if source_checked.get('status')=='blocked':return source_checked
+        if source_checked.get('status')=='checkpoint_confirmed_run_incomplete':
+            return source_gate_finish(repo,token,native,source_checked['commit_sha'],main,owner,run_id,source_checked['receipt_path'])
+        if source_checked.get('status')!='deferred':raise ValueError('Unrecognized source gate outcome; reconcile before retrying')
         return source_runner(repo,token,native,review,main,owner,run_id)
     if checked.get('status')!='checkpoint_confirmed_run_incomplete':
         raise ValueError('Unrecognized checkpoint outcome; reconcile before retrying')

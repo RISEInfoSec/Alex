@@ -19,9 +19,9 @@ const canonical=x=>Array.isArray(x)?x.map(canonical):obj(x)?Object.fromEntries(O
 const equal=(a,b)=>JSON.stringify(canonical(a))===JSON.stringify(canonical(b));
 
 export async function writeSourceGate({db,github,getToken,input,now=()=>Date.now(),read=reader.readStable,control=controlFence,
- verify=verifyWorkerContext,artifactReader=readSourceArtifact,heartbeatFactory=makeHeartbeatKeeper}){
+ verify=verifyWorkerContext,artifactReader=readSourceArtifact,heartbeatFactory=makeHeartbeatKeeper,auditOnly=false}){
  if(!db||!github||typeof getToken!=='function'||typeof now!=='function'||typeof read!=='function'||typeof control!=='function'||
-  typeof verify!=='function'||typeof artifactReader!=='function'||typeof heartbeatFactory!=='function'||!obj(input)||
+  typeof verify!=='function'||typeof artifactReader!=='function'||typeof heartbeatFactory!=='function'||typeof auditOnly!=='boolean'||!obj(input)||
   JSON.stringify(Object.keys(input).sort())!==JSON.stringify(['expectedHead','expectedMain','files','owner','runId'])||
   !SHA.test(input.expectedHead||'')||!SHA.test(input.expectedMain||'')||!ID.test(input.owner||'')||!ID.test(input.runId||'')||!obj(input.files))
   throw Error('Invalid source gate request');
@@ -117,6 +117,10 @@ export async function writeSourceGate({db,github,getToken,input,now=()=>Date.now
  const validated=gateGuard.validateSourceGate({before,after,receipt,sourceReceipt:sourceReceipt.value,sourceReceiptBlob:sourceReceipt.sha,
   snapshot:snapshots.snapshot,confirmed:snapshots.confirmed_snapshot,now:now()});
  if(validated.receipt_path!==receipts[0])throw Error('Source gate validation differs');
+ // Internal-only audit for a later run-receipt verifier; HTTP routes never
+ // supply this option. The caller must separately verify the checkpoint tree.
+ if(auditOnly)return {status:'validated',receipt_path:receipts[0],gate:receipt.gate,collection:receipt.collection,
+  candidate_id:receipt.candidate_id,content_sha256:receipt.content_sha256,candidate_processing:true,publication_verified:false};
  const base=await details(input.expectedHead),additions=[];
  for(const path of paths.sort()){
   const sha=await verifier.blobIdentity(files[path],{limit:LIMIT}),blob=ok(await github.createBlob({repository_full_name:REPO,content:files[path],encoding:'utf-8'}),'Source gate blob creation failed');

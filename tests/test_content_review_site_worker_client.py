@@ -94,6 +94,14 @@ def test_completed_run_receipt_does_not_claim_native_or_publication_success():
     assert post('completion',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
 
 
+def test_source_gate_completion_uses_bounded_private_route_and_truthful_receipt():
+    response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':'config/content_review_run_receipts/run.json',
+              'candidate_processing':True,'native_completion_verified':False,'publication_verified':False}
+    opener=Opener(Response(response));result=post('source_gate_completion',{},'secret-value',opener=opener)
+    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-gate-completion' and opener.requests[0][1]==180
+    assert result['candidate_processing'] is True and result['native_completion_verified'] is False
+
+
 def test_source_reservation_does_not_claim_the_workflow_ran():
     response={'status':'committed_and_read_back','commit_sha':'a'*40,'request_path':'config/content_review_source_requests/'+'b'*64+'.json',
               'source_request_limit':30,'source_request_reserved':True,'source_workflow_verified':False,
