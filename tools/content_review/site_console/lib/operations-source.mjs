@@ -2,6 +2,7 @@ import {coordinatorHealth,workflowHealth,providerHealth,workflowMonitors,operati
 import {processingHealth} from './processing-health.mjs';
 import {mechanicalReceipt} from './mechanical-receipt.mjs';
 import {verifyDetachedHeartbeat} from './detached-heartbeat.mjs';
+import {sourceAccountingStatus} from './source-accounting-status.mjs';
 import gitVerification from './content-review/verified_git_blob.cjs';
 const base='https://api.github.com/repos/RISEInfoSec/Alex';
 const retiredWorkers=new Set(['Automation_0ff7fb9b800481919b48ddb2593b8f88','Automation_4eb2dd829aa88191b542d57f7008ebe3',
@@ -88,7 +89,9 @@ export async function readOperations({fetcher=fetch,token='',now=Date.now(),cach
     schedule_label:'Unverified',last_success_at:null,next_run_at:null,
     evidence_source:'Worker-reported repository evidence',last_attempt_source:worker.last_attempt_at?'Worker-reported start':null};
    if(worker.status==='Running')worker={...worker,issue:'The worker reports an active lease and heartbeat. Native scheduler start and completion have not been independently verified.'};
-   else if(worker.status==='Paused')worker={...worker,status:'Status unknown',issue:'The worker-reported schedule state has not been independently verified.'};
+   else if(worker.status==='Paused')worker={...worker,issue:'The latest worker-reported scheduler observation says paused.'+
+    (scopedCheckpoint?.current_run?.application_status==='failed'?' The last worker application failed and requires reconciliation.':'')+
+    ' The console cannot independently verify the native scheduler state.'};
    else if(['Failed','Overdue','Degraded'].includes(worker.status))worker={...worker,
     issue:'Worker-reported evidence: '+worker.issue+' Native scheduler status has not been independently verified.'};
   }
@@ -144,6 +147,21 @@ export async function readOperations({fetcher=fetch,token='',now=Date.now(),cach
   // Fetch the canonical receipt from a pinned review commit and confirm the
   // head did not move. Receipt-derived counts remain worker-reported evidence.
   const run=scopedCheckpoint?.current_run,receiptPath=run?.receipt;
+  let sourceAccounting=null;
+  const recentRuns=[scopedCheckpoint?.current_run,...(Array.isArray(scopedCheckpoint?.run_history)?[...scopedCheckpoint.run_history].reverse():[])];
+  const sourceEntry=recentRuns.flatMap(r=>Array.isArray(r?.accounted_source_requests)?r.accounted_source_requests:[]).find(x=>/^[0-9a-f]{64}$/.test(x?.request_id||''));
+  if(configured&&sourceEntry){
+   const pinned=await github('/commits/codex%2Fsoups-corpus-review');
+   if(/^[0-9a-f]{40}$/.test(pinned?.sha||'')){
+    const [pinnedState,pinnedConfig,sourceReceipt]=await Promise.all([
+     configJson('content_review_worker_status.json',pinned.sha,true),configJson('content_review_monitor_config.json',pinned.sha,true),
+     configJson('content_review_source_receipts/'+sourceEntry.request_id+'.json',pinned.sha,true)]);
+    const again=await github('/commits/codex%2Fsoups-corpus-review');
+    if(again?.sha===pinned.sha&&replacementTarget(pinnedConfig)===target)
+     sourceAccounting=sourceAccountingStatus(pinnedState,sourceReceipt,sourceEntry.request_id);
+    else refreshErrors.push('Review head or worker target changed while reading the source receipt.');
+   }
+  }
   if(configured&&['complete','deferred'].includes(run?.application_status)&&typeof currentRun==='string'&&/^[a-zA-Z0-9-]{1,100}$/.test(currentRun)&&
      receiptPath==='config/content_review_run_receipts/'+currentRun+'.json'){
    const pinned=await github('/commits/codex%2Fsoups-corpus-review');
@@ -158,7 +176,7 @@ export async function readOperations({fetcher=fetch,token='',now=Date.now(),cach
    }else refreshErrors.push('Review head unavailable for run receipt.');
   }
   const workerScope=configured&&typeof monitorConfig?.target_scope==='string'?monitorConfig.target_scope.trim().slice(0,240)||null:null;
-  return {checked_at:new Date(now).toISOString(),snapshot_at:scopedSnapshot?.observed_at||null,snapshot_available:!!scopedSnapshot,checkpoint_available:!!scopedCheckpoint,replacement_configured:configured,worker_scope:workerScope,refresh_id:refreshId,refresh_mode:'uncached_origin_read',refresh_errors:[...new Set(refreshErrors)],heartbeat,processing:processingHealth(scopedProcessing,now),workers,providers,summary:operationsSummary(workers,providers)};
+  return {checked_at:new Date(now).toISOString(),snapshot_at:scopedSnapshot?.observed_at||null,snapshot_available:!!scopedSnapshot,checkpoint_available:!!scopedCheckpoint,replacement_configured:configured,worker_scope:workerScope,refresh_id:refreshId,refresh_mode:'uncached_origin_read',refresh_errors:[...new Set(refreshErrors)],heartbeat,source_accounting:sourceAccounting,processing:processingHealth(scopedProcessing,now),workers,providers,summary:operationsSummary(workers,providers)};
  };
  return load();
 }
