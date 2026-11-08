@@ -38,6 +38,19 @@ def test_independent_guard_accepts_python_retention_without_passing_a_gate(tmp_p
     assert json.loads(result.stdout)['gate_passed'] is False
 
 
+def test_source_retention_preserves_existing_quality_hold(tmp_path):
+    data=value(tmp_path)
+    old=data['before']['records'][0];new=data['after']['records'][0]
+    held={'status':'held','content_sha256':old['content_sha256'],'checked_at':'2026-11-08T00:00:00Z',
+          'evidence':{'quality_review_status':'hold_core_term_gate'}}
+    old['preflight']['checks']['quality']=deepcopy(held)
+    new['preflight']['checks']['quality']=deepcopy(held)
+    result=invoke(data);assert result.returncode==0,result.stderr
+    assert json.loads(result.stdout)['gate_passed'] is False
+    new['preflight']['checks']['quality']['status']='passed'
+    assert invoke(data).returncode!=0
+
+
 @pytest.mark.parametrize('change',['manifest','state','artifact','receipt','result','review','lease','lease_time','accounting'])
 def test_independent_guard_rejects_unverified_or_unrelated_changes(tmp_path,change):
     d=value(tmp_path)

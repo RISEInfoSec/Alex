@@ -74,7 +74,7 @@ def _unretained_source_results(repo, review_head, state, selected, manifests):
     return pending
 
 def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapshot,owner,run_id,
-            *,observed_heads,source_requests_used=0,at=None):
+            *,observed_heads,source_requests_used=0,at=None,quality_evidence=False):
     now=at or datetime.now(timezone.utc);root=Path(repo)
     if not isinstance(now,datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError('Timezone-aware source planning time is required')
@@ -82,6 +82,7 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
         raise ValueError('Current source heads are unavailable or changed')
     if type(source_requests_used) is not int or not 0<=source_requests_used<30:
         raise ValueError('Source request budget is unavailable or exhausted')
+    if type(quality_evidence) is not bool:raise ValueError('Source evidence mode invalid')
     inputs=load_inputs(root,review_head,main_head);state=inputs['worker_state'];ledger=inputs['lifecycle']
     counts=(state.get('current_run') or {}).get('request_counts')
     if (not isinstance(counts,dict) or type(counts.get('source')) is not int or counts['source']!=source_requests_used
@@ -99,8 +100,9 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
     heartbeat=json.loads(heartbeat_raw)
     choices=plan(snapshot,confirmed_snapshot,inputs['reconciliation_manifests'],ledger,inputs['registry'],state,owner,run_id,
                  source_attempts=state.get('source_attempts',{}),source_progress=state.get('source_last_progress',{}),
-                 at=now,heartbeat=heartbeat,review_head=review_head,stages=('source',))
-    selected=[x for x in choices['selected'] if x['next_stage']=='source']
+                 at=now,heartbeat=heartbeat,review_head=review_head,stages=('quality',) if quality_evidence else ('source',),
+                 quality_source_only=quality_evidence)
+    selected=[x for x in choices['selected'] if x['next_stage']==('quality' if quality_evidence else 'source')]
     if not selected:
         return {'status':'no_due_source_in_plan','request':None,'coverage':choices['coverage'],
                 'provider_requests':0,'writes':0,'requires_live_recheck_before_dispatch':True}
@@ -132,7 +134,8 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
                 raise Hold('source_outcome_requires_reconciliation')
             if backoff_active(state.get('source_origin_backoff',{}),matches[0].get('source_url'),now):
                 raise Hold('source_origin_backoff_active')
-            prepare_handoff(root,[pair],state['current_run']['started_at'],owner,source_requests_used,at=now,coordinator_run_id=run_id)
+            prepare_handoff(root,[pair],state['current_run']['started_at'],owner,source_requests_used,at=now,coordinator_run_id=run_id,
+                            purpose='quality_evidence_reconciliation' if quality_evidence else 'candidate_source_evidence')
             eligible.append(pair)
         except (Hold,ValueError,KeyError,StopIteration) as exc:
             held.append({'collection':pair[0],'candidate_id':pair[1],
@@ -140,7 +143,8 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
     if not eligible:
         return {'status':'all_source_candidates_held','request':None,'held':held,'coverage':choices['coverage'],
                 'provider_requests':0,'writes':0,'requires_live_recheck_before_dispatch':True}
-    request=prepare_handoff(root,eligible,state['current_run']['started_at'],owner,source_requests_used,at=now,coordinator_run_id=run_id)
+    request=prepare_handoff(root,eligible,state['current_run']['started_at'],owner,source_requests_used,at=now,coordinator_run_id=run_id,
+                            purpose='quality_evidence_reconciliation' if quality_evidence else 'candidate_source_evidence')
     reserved=deepcopy(state)
     reserved['current_run']['pending_source_request']={'request_id':request['request_id'],
         'origin_run_id':run_id,'reserved_limit':request['source_request_limit'],'prepared_at':now.isoformat()}

@@ -6,7 +6,7 @@ import subprocess
 
 import pytest
 
-from tests.test_content_review_source_plan import fixture, call
+from tests.test_content_review_source_plan import fixture, call, quality_fixture
 from tools.content_review.source_worker import digest
 from tools.content_review.verified_inputs import load_inputs
 
@@ -20,6 +20,39 @@ def value(repo):
             'manifests':inputs['manifests'],'manifestHashes':{'weekly':hashlib.sha256((repo/'config/weekly_review_manifest.json').read_bytes()).hexdigest()},
             'ledger':inputs['lifecycle'],'snapshot':snapshot,'confirmed':deepcopy(snapshot),'owner':'worker','runId':'run',
             'now':int(now.timestamp()*1000)}
+
+
+def quality_value(repo):
+    from tools.content_review.source_plan import prepare
+    now,review,main,hb,row,snapshot=quality_fixture(repo)
+    proposal=prepare(repo,review,main,hb,snapshot,deepcopy(snapshot),'worker','run',
+                     observed_heads={'review':review,'main':main},at=now,quality_evidence=True)
+    inputs=load_inputs(repo,review,main)
+    return {'before':inputs['worker_state'],'after':proposal['reserved_state'],'request':proposal['request'],
+            'manifests':inputs['manifests'],'manifestHashes':{'weekly':hashlib.sha256((repo/'config/weekly_review_manifest.json').read_bytes()).hexdigest()},
+            'ledger':inputs['lifecycle'],'snapshot':snapshot,'confirmed':deepcopy(snapshot),'owner':'worker','runId':'run',
+            'now':int(now.timestamp()*1000)}
+
+
+def test_site_independently_checks_quality_evidence_request(tmp_path):
+    data=quality_value(tmp_path);result=invoke(data)
+    assert result.returncode==0,result.stderr
+    checked=json.loads(result.stdout)
+    assert checked['candidate_processing'] is False and checked['publication_verified'] is False
+    assert data['manifests']['weekly']['records'][0]['preflight']['checks']['quality']['status']=='held'
+
+
+@pytest.mark.parametrize('change',['decision','changed_snapshot','stale','quality_passed','prior_gate','retained','purpose'])
+def test_site_rejects_unsafe_quality_evidence_request(tmp_path,change):
+    data=quality_value(tmp_path);row=data['manifests']['weekly']['records'][0]
+    if change=='decision':row['decision']='rejected'
+    if change=='changed_snapshot':data['confirmed']['read_evidence']['decisions']['complete']=False
+    if change=='stale':row['preflight']['checks']['quality']['content_sha256']='f'*64
+    if change=='quality_passed':row['preflight']['checks']['quality']['status']='passed'
+    if change=='prior_gate':row['preflight']['checks']['access']['status']='held'
+    if change=='retained':row['source_processing']={'content_sha256':row['content_sha256'],'retrieval_status':'retrieved'}
+    if change=='purpose':data['request']['purpose']='unrelated';resign(data)
+    assert invoke(data).returncode!=0
 
 
 def invoke(data):

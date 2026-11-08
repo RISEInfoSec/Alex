@@ -5,7 +5,7 @@ import subprocess
 
 import pytest
 
-from tests.test_content_review_source_plan import fixture,call
+from tests.test_content_review_source_plan import fixture,call,quality_fixture
 from tests.test_content_review_source_request_guard import guarded
 from tests.test_content_review_verified_inputs import git,put
 from tools.content_review.heartbeat_evidence import prepare as prepare_heartbeat
@@ -14,8 +14,8 @@ from tools.content_review.verified_inputs import load_inputs
 ROOT=Path(__file__).resolve().parents[1]
 
 
-def request(repo):
-    now,review,main,hb,_,snapshot=fixture(repo)
+def request(repo,quality=False):
+    now,review,main,hb,_,snapshot=(quality_fixture if quality else fixture)(repo)
     inputs=load_inputs(repo,review,main);state=inputs['worker_state'];run=state['current_run'];started=run['started_at']
     run['scheduled_for']=started;run['scheduler']={'id':'Automation_worker','is_enabled':True,'observed_at':now.isoformat(),
         'last_run':{'id':'run','recorded_status':'in_progress','started_at':started,'scheduled_for':started}}
@@ -26,7 +26,12 @@ def request(repo):
     heartbeat=prepare_heartbeat(state,review,'worker','run',at=now)
     git(repo,'checkout','-qb','source-heartbeat');put(repo,'config/content_review_detached_heartbeat.json',heartbeat)
     git(repo,'add','.');git(repo,'commit','-qm','heartbeat');hb=git(repo,'rev-parse','HEAD');git(repo,'checkout','-q',branch)
-    proposal=call(repo,now,review,main,hb,snapshot);result=guarded(repo,now,review,main,hb,snapshot,proposal)
+    if quality:
+        from tools.content_review.source_plan import prepare
+        proposal=prepare(repo,review,main,hb,snapshot,deepcopy(snapshot),'worker','run',
+                         observed_heads={'review':review,'main':main},at=now,quality_evidence=True)
+    else:proposal=call(repo,now,review,main,hb,snapshot)
+    result=guarded(repo,now,review,main,hb,snapshot,proposal)
     old={}
     for path in ['config/content_review_worker_status.json','config/content_review_candidate_lifecycle.json',
                  'config/review_console.json','config/weekly_review_manifest.json','config/content_review_monitor_config.json']:

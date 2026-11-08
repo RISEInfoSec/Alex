@@ -6,12 +6,14 @@ from datetime import datetime, timezone, timedelta
 from tools.content_review.source_worker import digest, file_digest, records, MANIFESTS, WORKFLOW, BRANCH
 from tools.content_review.lifecycle import ensure_eligible, instant
 
-def prepare(root,selections,started_at,lease_owner,source_requests_used=0,*,at=None,coordinator_run_id=None):
+def prepare(root,selections,started_at,lease_owner,source_requests_used=0,*,at=None,coordinator_run_id=None,purpose='candidate_source_evidence'):
     root=Path(root);start=instant(started_at);now=at or datetime.now(timezone.utc)
     if not isinstance(now,datetime) or now.tzinfo is None or now.utcoffset() is None:raise ValueError('Timezone-aware work time required')
     if not start or start>now or now>=start+timedelta(seconds=600):raise ValueError('No work time remains; preserve completion reserve')
     if not 1<=len(selections)<=5 or not 0<=source_requests_used<30:raise ValueError('Initial pilot budgets exceeded')
+    if purpose not in ('candidate_source_evidence','quality_evidence_reconciliation'):raise ValueError('Unsupported source request purpose')
     result={'schema_version':1,'started_at':start.isoformat(),'work_deadline':(start+timedelta(seconds=600)).isoformat(),'lease_owner':lease_owner,'source_request_limit':30-source_requests_used,'records':[]}
+    if purpose=='quality_evidence_reconciliation':result['purpose']=purpose
     if coordinator_run_id is not None:
         if not isinstance(coordinator_run_id,str) or not coordinator_run_id:raise ValueError('Coordinator run identity is required')
         result['coordinator_run_id']=coordinator_run_id
@@ -22,6 +24,9 @@ def prepare(root,selections,started_at,lease_owner,source_requests_used=0,*,at=N
         from tools.content_review.source_worker import safe_url
         if row.get('decision','pending') not in ('pending','unreviewed') or reviewed_digest(row)!=row.get('content_sha256'):
             raise ValueError('Candidate decision or reviewed content is no longer eligible')
+        if purpose=='quality_evidence_reconciliation':
+            from tools.content_review.quality_source_eligibility import eligible
+            if eligible(row)['eligible'] is not True:raise ValueError('Quality source evidence is not eligible')
         safe_url(row.get('source_url',''),resolve=False)
         ev=row.get('source_processing',{})
         if ev.get('content_sha256')==row['content_sha256'] and ev.get('retrieval_status') in ('retrieved','held'):

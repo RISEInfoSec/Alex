@@ -51,6 +51,37 @@ def call(repo,now,review,main,hb,snap):
                    observed_heads={'review':review,'main':main},at=now)
 
 
+def quality_fixture(repo):
+    now,review,main,hb,row,snap=fixture(repo)
+    manifest=json.loads((repo/'config/weekly_review_manifest.json').read_text());row=manifest['records'][0]
+    for gate in ('format','access','metadata'):
+        row['preflight']['checks'][gate]={'status':'passed','content_sha256':row['content_sha256'],
+            'checked_at':now.isoformat(),'evidence':{'verified':True}}
+    row['preflight']['checks']['quality']={'status':'held','content_sha256':row['content_sha256'],
+        'checked_at':now.isoformat(),'evidence':{'quality_review_status':'hold_core_term_gate'}}
+    put(repo,'config/weekly_review_manifest.json',manifest);git(repo,'add','.');git(repo,'commit','-qm','quality hold')
+    review=git(repo,'rev-parse','HEAD');branch=git(repo,'symbolic-ref','--short','HEAD')
+    state=json.loads((repo/'config/content_review_worker_status.json').read_text());beat=prepare_heartbeat(state,review,'worker','run',at=now)
+    git(repo,'checkout','-q','heartbeat');put(repo,'config/content_review_detached_heartbeat.json',beat)
+    git(repo,'add','.');git(repo,'commit','-qm','quality heartbeat');hb=git(repo,'rev-parse','HEAD');git(repo,'checkout','-q',branch)
+    return now,review,main,hb,row,snap
+
+
+def test_quality_source_plan_preserves_hold_and_never_claims_a_gate(tmp_path):
+    from tools.content_review.source_request_guard import prepare as guard
+    from tools.content_review.source_worker import validate
+    now,review,main,hb,row,snap=quality_fixture(tmp_path);before=deepcopy(row)
+    result=prepare(tmp_path,review,main,hb,snap,deepcopy(snap),'worker','run',
+        observed_heads={'review':review,'main':main},at=now,quality_evidence=True)
+    assert result['status']=='prepared' and result['request']['purpose']=='quality_evidence_reconciliation'
+    assert result['writes']==0 and result['provider_requests']==0 and row==before
+    checked=guard(tmp_path,review,main,hb,snap,deepcopy(snap),'worker','run',result,at=now)
+    assert checked['writes']==0 and checked['proof']['requires_remote_head_d1_and_lease_recheck'] is True
+    path=tmp_path/'config/content_review_source_requests'/(result['request']['request_id']+'.json')
+    put(tmp_path,str(path.relative_to(tmp_path)),result['request']);put(tmp_path,'config/content_review_worker_status.json',result['reserved_state'])
+    assert validate(tmp_path,path)['purpose']=='quality_evidence_reconciliation'
+
+
 def test_source_request_is_hash_bound_and_never_dispatched(tmp_path,monkeypatch):
     import socket
     now,review,main,hb,row,snap=fixture(tmp_path)
@@ -62,6 +93,15 @@ def test_source_request_is_hash_bound_and_never_dispatched(tmp_path,monkeypatch)
     assert result['request']['coordinator_run_id']=='run'
     assert result['reserved_state']['current_run']['pending_source_request']['request_id']==result['request']['request_id']
     assert result['requires_atomic_reservation_and_live_recheck'] is True
+
+
+def test_source_plan_uses_committed_lease_when_checkout_predates_acquisition(tmp_path):
+    now,review,main,hb,row,snap=fixture(tmp_path)
+    state=json.loads((tmp_path/'config/content_review_worker_status.json').read_text())
+    state['lease']=None;state['current_run']=None
+    put(tmp_path,'config/content_review_worker_status.json',state)
+    result=call(tmp_path,now,review,main,hb,snap)
+    assert result['status']=='prepared' and result['writes']==0 and result['provider_requests']==0
 
 
 def test_d1_rejection_never_enters_a_source_request(tmp_path):

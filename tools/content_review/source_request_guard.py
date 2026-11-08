@@ -30,7 +30,8 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed,owner,r
     # snapshots, rather than trusting an arbitrary proposed request.
     expected=prepare_plan(repo,review_head,main_head,heartbeat_head,snapshot,confirmed,owner,run_id,
                           observed_heads={'review':review_head,'main':main_head},
-                          source_requests_used=counts.get('source'),at=prepared)
+                          source_requests_used=counts.get('source'),at=prepared,
+                          quality_evidence=request.get('purpose')=='quality_evidence_reconciliation')
     for key in ('status','request','reserved_state','held','coverage','d1_fingerprint_private'):
         if expected.get(key)!=proposal.get(key):raise ValueError('Source reservation differs from the verified plan')
     request_id=request.get('request_id')

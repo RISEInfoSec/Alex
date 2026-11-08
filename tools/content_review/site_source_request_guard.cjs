@@ -8,6 +8,7 @@ const {pyJson}=require('./soups_intake_site_guard.cjs');
 const {validateSnapshot,complete}=require('./site_duplicate_semantics.cjs');
 const sourceBackoff=require('./site_source_origin_backoff.cjs');
 const unresolved=require('./site_source_unresolved.cjs');
+const qualitySource=require('./site_quality_source_eligibility.cjs');
 const {identity:reviewIdentity}=require('./site_review_identity.cjs');
 const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const canonical=x=>Array.isArray(x)?x.map(canonical):object(x)?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
@@ -31,7 +32,9 @@ function validateSourceRequest({before,after,request,manifests,manifestHashes,le
   !ID.test(owner||'')||!ID.test(runId||'')||!Number.isFinite(now)||!complete(snapshot)||!complete(confirmed)||
   fingerprint(snapshot)!==fingerprint(confirmed))throw Error('Complete source reservation inputs required');
  validateSnapshot(snapshot);validateSnapshot(confirmed);
- const keys=['schema_version','started_at','work_deadline','lease_owner','source_request_limit','records','coordinator_run_id','request_id'].sort();
+ const quality=request.purpose==='quality_evidence_reconciliation';
+ if(Object.prototype.hasOwnProperty.call(request,'purpose')&&!quality)throw Error('Source request purpose invalid');
+ const keys=['schema_version','started_at','work_deadline','lease_owner','source_request_limit','records','coordinator_run_id','request_id',...(quality?['purpose']:[])].sort();
  const noId=Object.fromEntries(Object.entries(request).filter(([k])=>k!=='request_id'));
  const started=Date.parse(request.started_at||''),deadline=Date.parse(request.work_deadline||''),run=before.current_run||{},lease=before.lease||{};
  const counts=run.request_counts,when=Date.parse(after.current_run?.pending_source_request?.prepared_at||'');
@@ -69,9 +72,10 @@ function validateSourceRequest({before,after,request,manifests,manifestHashes,le
   if(row.content_sha256!==item.content_sha256||sha256(pyJson(content))!==item.content_sha256||row.source_url!==item.url||
    !['pending','unreviewed'].includes(field(row,'decision','pending'))||row.publication_status==='published_live_verified'||
    row.publication_approved===true||!pass(row,'duplicates')||
-   (pass(row,'format')&&pass(row,'access'))||(row.source_processing?.content_sha256===item.content_sha256&&['retrieved','held'].includes(row.source_processing?.retrieval_status))||
+   (!quality&&pass(row,'format')&&pass(row,'access'))||(row.source_processing?.content_sha256===item.content_sha256&&['retrieved','held'].includes(row.source_processing?.retrieval_status))||
    sourceBackoff.active(before.source_origin_backoff??{},item.url,when))
    throw Error('Source candidate is ineligible');
+  if(quality&&qualitySource.eligible(row).eligible!==true)throw Error('Quality source evidence is not eligible');
   const entry=ledger.records[item.collection+':'+item.candidate_id];
   if(!object(entry)||entry.state!=='awaiting_initial_checks'||!Array.isArray(entry.attempts)||
    entry.attempts.some(a=>!object(a)||a.outcome!=='success')||

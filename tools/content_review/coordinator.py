@@ -12,6 +12,7 @@ import sys
 from tools.content_review.d1_reconcile import select_reconciled
 from tools.content_review.lifecycle import instant
 from tools.content_review.source_unresolved import validate as validate_unresolved
+from tools.content_review.quality_source_eligibility import eligible as quality_source_eligible
 
 INITIAL_LIMIT = 5
 MAX_CANDIDATES = 10000
@@ -19,7 +20,7 @@ MAX_CANDIDATES = 10000
 
 def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
          owner, run_id, *, source_attempts, source_progress, at=None, heartbeat=None, review_head=None, stages=None,
-         retained_source_only=False):
+         retained_source_only=False,quality_source_only=False):
     now = at or datetime.now(timezone.utc)
     if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError('Timezone-aware observation required')
@@ -49,6 +50,8 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
         raise ValueError('Invalid bounded stage selection')
     if type(retained_source_only) is not bool or (retained_source_only and (stages is None or set(stages)!={'source','metadata'})):
         raise ValueError('Invalid retained-source selection')
+    if type(quality_source_only) is not bool or (quality_source_only and (retained_source_only or stages is None or set(stages)!={'quality'})):
+        raise ValueError('Invalid quality-source selection')
     if (source_attempts != state.get('source_attempts', {}) or
             source_progress != state.get('source_last_progress', {})):
         raise ValueError('Collection scheduling history differs from current worker state')
@@ -91,16 +94,20 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
         if key in unresolved_keys:return True
         # A failed workflow may have followed an unknown redirect. Until its
         # request history is reconciled, no source destination is provably safe.
-        return item['next_stage']=='source' and bool(unresolved_hosts) and not (retained_source_only and retained(item))
+        return (item['next_stage']=='source' or quality_source_only) and bool(unresolved_hosts) and not (retained_source_only and retained(item))
     # APWG and corpus audit still require their own execution adapters. Virus
     # Bulletin has independently checked duplicate and source-reservation paths;
     # do not select its later gates until those paths have been implemented.
     special = {c['id'] for c in registry if c.get('adapter') in ('apwg_pending', 'corpus_audit')}
-    supported_stages={'duplicates','source','metadata'}
+    supported_stages={'duplicates','source','metadata'}|({'quality'} if quality_source_only else set())
+    def quality_candidate(item):
+        try:return quality_source_eligible(index[(item['collection'],item['candidate_id'])])['eligible']
+        except (ValueError,TypeError,KeyError):return False
     eligible = [item for item in result['selected'] if item['collection'] not in special
                 and not source_hold(item)
                 and item['next_stage'] in supported_stages
                 and (not retained_source_only or retained(item))
+                and (not quality_source_only or quality_candidate(item))
                 and (item['collection'] != 'virusbulletin' or item['next_stage'] in ('duplicates', 'source'))]
     stage_eligible=[item for item in eligible if stages is None or item['next_stage'] in stages]
     history=state.get('run_history',[])

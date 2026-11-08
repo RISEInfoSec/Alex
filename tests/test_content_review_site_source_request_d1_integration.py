@@ -51,8 +51,9 @@ process.stdout.write(JSON.stringify(outcome));sqlite.close();"""
 
 
 @pytest.mark.parametrize('mode',['success','d1change','ambiguous'])
-def test_source_reservation_is_fenced_before_workflow_can_start(tmp_path,mode):
-    result=invoke(request(tmp_path),mode)
+@pytest.mark.parametrize('quality',[False,True])
+def test_source_reservation_is_fenced_before_workflow_can_start(tmp_path,mode,quality):
+    result=invoke(request(tmp_path,quality=quality),mode)
     if mode=='success':
         assert result.get('result',{}).get('status')=='committed_and_read_back',result
         assert result['result']['source_workflow_verified'] is False and result['result']['candidate_processing'] is False
