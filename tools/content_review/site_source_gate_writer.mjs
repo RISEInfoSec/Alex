@@ -60,10 +60,10 @@ export async function writeSourceGate({db,github,getToken,input,now=()=>Date.now
  if(!prior?.isError||prior.structuredContent?.error_code!=='NOT_FOUND')throw Error('Source gate receipt already exists');
  const sourceRunId=sourceReceipt.value.native_run?.id,artifactId=sourceReceipt.value.artifact_id;
  if(!Number.isSafeInteger(sourceRunId)||sourceRunId<1||!Number.isSafeInteger(artifactId)||artifactId<1)throw Error('Source artifact identity unavailable');
- const snapshots=await read({db,heartbeat:()=>verify({github,input,now})});
+ const heartbeat=heartbeatFactory({github,input,now});
+ const snapshots=await read({db,heartbeat:async()=>{await heartbeat();await verify({github,input,now});}});
  if(!snapshots||snapshots.transactional_snapshot!==false||fingerprints.fingerprint(snapshots.snapshot)!==fingerprints.fingerprint(snapshots.confirmed_snapshot))
   throw Error('Source gate decision snapshot changed');
- const heartbeat=heartbeatFactory({github,input,now});
  const observed=await artifactReader({getToken,runId:sourceRunId,artifactId,heartbeat});
  const native=observed.native_run,artifact=observed.artifact,reservation=native?.head_sha;
  if(!SHA.test(reservation||'')||native?.id!==sourceRunId||native.event!=='push'||native.head_branch!==REVIEW||

@@ -25,7 +25,7 @@ def invoke(value,mode):
     code=r"""import crypto from 'node:crypto';import {writeCompletion} from './tools/content_review/site_run_complete_writer.mjs';
 let raw='';for await(const chunk of process.stdin)raw+=chunk;const v=JSON.parse(raw),mode=v.mode;
 const hash=s=>crypto.createHash('sha1').update(`blob ${Buffer.byteLength(s)}\0`).update(s).digest('hex');
-const ok=x=>({isError:false,structuredContent:x});let head=v.input.expectedHead,phase='idle',commits=0,blobs=0,events=[];
+const ok=x=>({isError:false,structuredContent:x});let head=v.input.expectedHead,phase='idle',commits=0,blobs=0,events=[],clock=v.now,lastPulse=clock,pulses=0;
 const committed='d'.repeat(40),tree='c'.repeat(40),api={
  fetchCommit:async({commit_sha})=>ok({commit:{sha:commit_sha==='main'?v.input.expectedMain:head}}),
  fetchFile:async({path})=>path==='config/content_review_worker_status.json'?(()=>{const content=JSON.stringify(v.before);return ok({sha:hash(content),content})})():
@@ -38,15 +38,15 @@ const control=async({input})=>{events.push(input.action);
  if(input.action==='begin'){if(mode==='changed')throw Error('D1 changed');phase='committing';return {status:'committing'}}
  if(input.action==='abort'){phase='idle';return {status:'aborted'}}
  if(input.action==='release'){phase='idle';return {status:'confirmed_and_released',commit_sha:committed}}};
-const read=async()=>({snapshot:v.snapshot,confirmed_snapshot:v.snapshot,transactional_snapshot:false});
-const verify=async()=>{if(mode==='unverified')throw Error('Worker lease unavailable')};
+const read=async({heartbeat})=>{if(mode==='slow'||mode==='pulse_failure'){clock+=45000;await heartbeat()}return {snapshot:v.snapshot,confirmed_snapshot:v.snapshot,transactional_snapshot:false}};
+const verify=async()=>{if(mode==='unverified'||clock-lastPulse>40000)throw Error('Worker lease unavailable')};
 const check=async()=>{if(mode==='bad_checkpoint')throw Error('Checkpoint evidence invalid');return v.action};
-const heartbeatFactory=()=>async()=>({renewed:false});
+const heartbeatFactory=()=>async()=>{if(mode==='pulse_failure')throw Error('heartbeat unavailable');pulses++;lastPulse=clock;return {renewed:true}};
 if(mode==='false_receipt'){const p='config/content_review_run_receipts/run.json',r=JSON.parse(v.input.files[p]);
  r.native_completion_verified=true;v.input.files[p]=JSON.stringify(r)}
-try{const result=await writeCompletion({db:{},github:api,input:v.input,now:()=>v.now,read,control,verify,check,heartbeatFactory});
- process.stdout.write(JSON.stringify({result,commits,blobs,phase,events}));}
-catch(e){process.stdout.write(JSON.stringify({error:e.message,commits,blobs,phase,events}));}"""
+try{const result=await writeCompletion({db:{},github:api,input:v.input,now:()=>clock,read,control,verify,check,heartbeatFactory});
+ process.stdout.write(JSON.stringify({result,commits,blobs,phase,events,pulses}));}
+catch(e){process.stdout.write(JSON.stringify({error:e.message,commits,blobs,phase,events,pulses}));}"""
     result=subprocess.run(['node','--input-type=module','-e',code],cwd=ROOT,input=json.dumps({**value,'mode':mode}),text=True,capture_output=True)
     assert result.returncode==0,result.stderr
     return json.loads(result.stdout)
@@ -66,3 +66,11 @@ def test_completion_writer_fails_closed_across_the_fence(tmp_path,mode):
     if mode=='busy':assert result['commits']==0 and result['phase']=='idle'
     if mode=='changed':assert result['commits']==0 and result['events']==['acquire','begin','abort'] and result['phase']=='idle'
     if mode=='ambiguous':assert result['commits']==1 and result['phase']=='committing' and 'abort' not in result['events']
+
+
+def test_completion_renews_during_slow_decision_read_and_stops_if_renewal_fails(tmp_path):
+    value=request(tmp_path)
+    slow=invoke(value,'slow')
+    assert slow['result']['status']=='committed_and_read_back' and slow['pulses'] >= 1
+    failed=invoke(value,'pulse_failure')
+    assert 'heartbeat unavailable' in failed['error'] and failed['commits']==0 and failed['events']==[]

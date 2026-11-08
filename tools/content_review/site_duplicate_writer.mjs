@@ -61,7 +61,7 @@ export async function writeDuplicate({db,github,input,now=()=>Date.now(),read=re
   before[key]=await jsonVerifier.verifiedJson(await github.fetchFile({repository_full_name:REPO,path,ref:input.expectedHead,require_content:true}),{limit:LIMIT});
  const prior=await github.fetchFile({repository_full_name:REPO,path:receipts[0],ref:input.expectedHead});
  if(!prior?.isError||prior.structuredContent?.error_code!=='NOT_FOUND')throw Error('Duplicate receipt is not confirmed absent');
- const snapshots=await read({db,heartbeat:()=>verify({github,input,now})});
+ const snapshots=await read({db,heartbeat:async()=>{await heartbeat();await verify({github,input,now});}});
  const verified=validator.validateDuplicate({before,after,receipt,snapshot:snapshots.snapshot,confirmed:snapshots.confirmed_snapshot,
   audit:evidence,expectedEvidence,now:now()});
  if(verified.receipt_path!==receipts[0])throw Error('Duplicate receipt verification differs');

@@ -48,10 +48,10 @@ export async function writeSourceResult({db,github,getToken,input,now=()=>Date.n
  const before=(await readJson(WORKER,input.expectedHead)).value,currentRequest=await readJson(requestPath,input.expectedHead);
  const prior=await github.fetchFile({repository_full_name:REPO,path:receipts[0],ref:input.expectedHead});
  if(!prior?.isError||prior.structuredContent?.error_code!=='NOT_FOUND')throw Error('Source result receipt already exists');
- const snapshots=await read({db,heartbeat:()=>verify({github,input,now})});
+ const heartbeat=heartbeatFactory({github,input,now});
+ const snapshots=await read({db,heartbeat:async()=>{await heartbeat();await verify({github,input,now});}});
  if(!snapshots||snapshots.transactional_snapshot!==false||
   fingerprints.fingerprint(snapshots.snapshot)!==fingerprints.fingerprint(snapshots.confirmed_snapshot))throw Error('Source result decision snapshot changed');
- const heartbeat=heartbeatFactory({github,input,now});
  const observed=await artifactReader({getToken,runId:input.sourceRunId,artifactId:input.artifactId,heartbeat});
  const reservation=observed.native_run?.head_sha;if(!SHA.test(reservation||''))throw Error('Source result reservation unavailable');
  let cursor=input.expectedHead,reservationDetails=null;

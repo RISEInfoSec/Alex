@@ -38,10 +38,10 @@ export async function writeCompletion({db,github,input,now=()=>Date.now(),read=r
  const before=await verifier.verifiedJson(await github.fetchFile({repository_full_name:REPO,path:WORKER,ref:input.expectedHead,require_content:true}),{limit:LIMIT});
  const prior=await github.fetchFile({repository_full_name:REPO,path:receiptPath,ref:input.expectedHead});
  if(!prior?.isError||prior.structuredContent?.error_code!=='NOT_FOUND')throw Error('Completion receipt is not confirmed absent');
- const snapshots=await read({db,heartbeat:()=>verify({github,input,now})});
+ const heartbeat=heartbeatFactory({github,input,now});
+ const snapshots=await read({db,heartbeat:async()=>{await heartbeat();await verify({github,input,now});}});
  if(!snapshots||snapshots.transactional_snapshot!==false||
   fingerprints.fingerprint(snapshots.snapshot)!==fingerprints.fingerprint(snapshots.confirmed_snapshot))throw Error('Completion decision snapshot changed');
- const heartbeat=heartbeatFactory({github,input,now});
  const verifiedAction=await check({github,input,checkpointCommit:input.checkpointCommits[checkpointPath],path:checkpointPath,
   snapshot:snapshots.snapshot,confirmed:snapshots.confirmed_snapshot,heartbeat});
  await verify({github,input,now});
