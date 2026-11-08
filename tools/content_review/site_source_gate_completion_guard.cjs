@@ -23,7 +23,7 @@ function validateSourceGateCompletion({before,after,receipt,owner,runId,verified
   receipt.openalex_requests!==0||receipt.candidate_processing!==true||receipt.native_completion_verified!==false||receipt.publication_approved!==false||
   receipt.scope_note!=='One retained-source gate passed; other gates, review readiness and publication are not established.'||
   !object(lease)||lease.owner!==owner||lease.run_id!==runId||!object(run)||run.run_id!==runId||run.application_status!=='running'||
-  !equal(run.request_counts,{source:0,paid:0,openalex:0})||run.pending_source_request!=null||
+  !equal(run.request_counts,{source:0,paid:0,openalex:0})||
   !Number.isFinite(time(stamp))||time(stamp)>now||now-time(stamp)>300000||
   !Number.isFinite(time(run.started_at))||time(run.started_at)>time(stamp)||time(receipt.started_at)!==time(run.started_at)||
   !Number.isFinite(time(run.scheduled_for))||time(receipt.scheduled_for)!==time(run.scheduled_for)||
@@ -31,6 +31,14 @@ function validateSourceGateCompletion({before,after,receipt,owner,runId,verified
   !Number.isFinite(time(lease.expires_at))||time(lease.expires_at)<=now||
   (lease.renewed_at!=null&&(!Number.isFinite(time(lease.renewed_at))||time(lease.renewed_at)>time(stamp))))
   throw Error('Source gate completion evidence invalid');
+ const pending=run.pending_source_request;
+ if(pending!=null){
+  const history=Array.isArray(before.run_history)?before.run_history.filter(x=>x?.run_id===pending?.origin_run_id):[];
+  if(!object(pending)||!HASH.test(pending.request_id||'')||!ID.test(pending.origin_run_id||'')||
+   !Number.isSafeInteger(pending.reserved_limit)||pending.reserved_limit<1||pending.reserved_limit>30||
+   !Number.isFinite(time(pending.prepared_at))||history.length!==1||!equal(history[0].pending_source_request,pending))
+   throw Error('Pending source reservation cannot be preserved');
+ }
  const expected=structuredClone(before);expected.lease_history??=[];
  if(!Array.isArray(expected.lease_history))throw Error('Lease history invalid');
  expected.lease_history.push({...lease,status:'released',released_at:stamp});expected.lease=null;

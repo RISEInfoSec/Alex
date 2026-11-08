@@ -1,4 +1,4 @@
-from tools.content_review.coordinator_cycle import mechanical_pass, soups_intake_due
+from tools.content_review.coordinator_cycle import mechanical_pass, soups_intake_due, pending_rotation
 from tools.content_review.coordinator_heartbeat_transport import REVIEW, MAIN
 
 
@@ -32,7 +32,7 @@ def test_pending_source_is_resumed_before_new_duplicate_work():
     result=mechanical_pass('.','secret',{},'worker','run',
         begin=lambda *a:{'status':'lease_started','review_head':'a'*40,'main_head':'b'*40},
         pending_checker=lambda *a:True,checkpoint=lambda *a:calls.append('duplicate'),
-        gate_selector=lambda *a:False,
+        pending_selector=lambda *a:'source',
         source_runner=lambda *a:(calls.append('source') or {'status':'deferred','candidate_processing':False}))
     assert calls==['source'] and result['candidate_processing'] is False
 
@@ -40,7 +40,7 @@ def test_pending_source_is_resumed_before_new_duplicate_work():
 def test_pending_source_allows_alternating_duplicate_progress_and_preserves_fallback():
     calls=[]
     common=dict(begin=lambda *a:{'status':'lease_started','review_head':'a'*40,'main_head':'b'*40},
-        pending_checker=lambda *a:True,gate_selector=lambda *a:True,
+        pending_checker=lambda *a:True,pending_selector=lambda *a:'duplicate',
         source_runner=lambda *a:(calls.append('source') or {'status':'deferred'}),
         finish=lambda *a:(calls.append('finish') or {'status':'application_complete','candidate_processing':True}))
     result=mechanical_pass('.','secret',{},'worker','run',checkpoint=lambda *a:(calls.append('duplicate') or
@@ -52,6 +52,25 @@ def test_pending_source_allows_alternating_duplicate_progress_and_preserves_fall
     calls.clear()
     result=mechanical_pass('.','secret',{},'worker','run',checkpoint=lambda *a:{'status':'blocked','reconcile_before_retry':True},**common)
     assert result['reconcile_before_retry'] is True and calls==[]
+
+
+def test_pending_rotation_covers_discovery_duplicate_and_retained_source():
+    review,main='a'*40,'b'*40;refs={REVIEW:review,MAIN:main}
+    def turn(n):
+        state={'current_run':{'run_id':'run'},'run_history':[{'run_id':str(i)} for i in range(n)]}
+        return pending_rotation('.',review,main,'run',heads=lambda _:refs,fetch=lambda *a:None,state_reader=lambda *a:state)
+    assert [turn(n) for n in range(6)]==['source','duplicate','source_gate']*2
+
+
+def test_pending_source_allows_a_retained_source_gate():
+    calls=[]
+    result=mechanical_pass('.','secret',{},'worker','run',
+        begin=lambda *a:{'status':'lease_started','review_head':'a'*40,'main_head':'b'*40},
+        pending_checker=lambda *a:True,pending_selector=lambda *a:'source_gate',
+        source_gate=lambda *a:(calls.append('gate') or {'status':'checkpoint_confirmed_run_incomplete','commit_sha':'c'*40,'receipt_path':'receipt'}),
+        source_gate_finish=lambda *a:(calls.append('finish') or {'status':'application_complete','candidate_processing':True}),
+        source_runner=lambda *a:(_ for _ in ()).throw(AssertionError('unexpected source polling')))
+    assert calls==['gate','finish'] and result['candidate_processing'] is True
 
 
 def test_intake_uses_guarded_checkpoint_then_truthful_no_work_release():

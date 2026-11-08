@@ -46,8 +46,18 @@ def prepare(repo,review_head,main_head,heartbeat_head,native,snapshot,confirmed,
         raise ValueError('Matching in-progress native run unavailable')
     heartbeat,_=_json(repo,heartbeat_head,'config/content_review_detached_heartbeat.json')
     verify_heartbeat(heartbeat,state,review_head,owner,run_id,at=now)
-    if run.get('request_counts')!={'source':0,'paid':0,'openalex':0} or run.get('pending_source_request') is not None:
-        raise ValueError('Source gate completion requires zero-provider run and no pending request')
+    if run.get('request_counts')!={'source':0,'paid':0,'openalex':0}:
+        raise ValueError('Source gate completion requires zero provider requests')
+    pending=run.get('pending_source_request')
+    if pending is not None:
+        origin=pending.get('origin_run_id') if isinstance(pending,dict) else None
+        history=state.get('run_history')
+        matches=[x for x in history if isinstance(x,dict) and x.get('run_id')==origin] if isinstance(history,list) else []
+        if (not isinstance(pending,dict) or not re.fullmatch(r'[0-9a-f]{64}',pending.get('request_id') or '') or
+            not isinstance(origin,str) or not re.fullmatch(r'[a-zA-Z0-9-]{1,100}',origin) or
+            type(pending.get('reserved_limit')) is not int or not 1<=pending['reserved_limit']<=30 or
+            not instant(pending.get('prepared_at')) or len(matches)!=1 or matches[0].get('pending_source_request')!=pending):
+            raise ValueError('Pending source reservation cannot be preserved')
     record,_=_json(repo,review_head,checkpoint_path)
     collection,candidate,digest,gate=record.get('collection'),record.get('candidate_id'),record.get('content_sha256'),record.get('gate')
     if (record.get('schema_version')!=1 or record.get('kind')!='source_gate_checkpoint' or record.get('run_id')!=run_id or record.get('status')!='passed'

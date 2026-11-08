@@ -58,9 +58,9 @@ def test_readback_rejects_changed_tree_failed_audit_or_current_head(tmp_path,mod
     if mode in ('tree','head'):assert result['audits']==0
 
 
-def actual_request(tmp_path):
+def actual_request(tmp_path, *, pending=False):
     from tests.test_content_review_source_gate_run_completion import fixture
-    now,head,main,hb,native,snapshot,path=fixture(tmp_path)
+    now,head,main,hb,native,snapshot,path=fixture(tmp_path,pending=pending)
     row=json.loads(git(tmp_path,'show',head+':config/weekly_review_manifest.json'))['records'][0]
     source_path=row['source_processing']['receipt'];request_path=source_path.replace('_receipts/','_requests/')
     source=json.loads(git(tmp_path,'show',head+':'+source_path));result_text=json.dumps(source['result'])

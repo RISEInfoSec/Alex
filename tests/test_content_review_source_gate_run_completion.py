@@ -10,16 +10,20 @@ from tools.content_review.source_gate_run_completion import prepare
 from tools.content_review.verified_inputs import load_inputs
 
 
-def fixture(repo):
+def fixture(repo, *, pending=False):
     value=source_fixture(repo);old=value['input']['expectedHead'];main=value['input']['expectedMain']
     state=json.loads(value['files'][old+':config/content_review_worker_status.json']['content'])
     prior=deepcopy(state['current_run']);now=(datetime.fromtimestamp(value['now']/1000,timezone.utc)+timedelta(seconds=1)).replace(microsecond=0)
-    started=now.isoformat();state['run_history']=[prior];state['lease_history']=[]
+    started=now.isoformat()
+    reservation={'request_id':'d'*64,'origin_run_id':prior['run_id'],'reserved_limit':30,'prepared_at':started} if pending else None
+    if reservation is not None:prior['pending_source_request']=deepcopy(reservation)
+    state['run_history']=[prior];state['lease_history']=[]
     state['lease']={'owner':'worker','run_id':'run2','acquired_at':started,'expires_at':(now+timedelta(minutes=20)).isoformat()}
     state['current_run']={'run_id':'run2','application_status':'running','started_at':started,'scheduled_for':started,'observed_at':started,
         'scheduler':{'id':'Automation_worker','is_enabled':True,'observed_at':started,
                      'last_run':{'id':'run2','recorded_status':'in_progress','started_at':started,'scheduled_for':started}},
         'request_counts':{'source':0,'paid':0,'openalex':0}}
+    if reservation is not None:state['current_run']['pending_source_request']=deepcopy(reservation)
     state['source_attempts']={};state['source_last_progress']={}
     put(repo,'config/content_review_worker_status.json',state)
     put(repo,'config/content_review_monitor_config.json',{'target_automation_id':'Automation_worker','heartbeat_ref':'codex/content-review-heartbeat'})
@@ -80,3 +84,11 @@ def test_superseded_review_decision_still_blocks_source_completion(tmp_path):
     values[5]=snapshot
     with pytest.raises(ValueError,match='Reviewed candidate requires reconciliation'):
         call(tmp_path,values)
+
+
+def test_source_gate_completion_preserves_prior_pending_reservation(tmp_path):
+    values=fixture(tmp_path,pending=True);proposal=call(tmp_path,values)
+    before=json.loads(git(tmp_path,'show',values[1]+':config/content_review_worker_status.json'))
+    after=json.loads(proposal['files']['config/content_review_worker_status.json'])
+    assert after['current_run']['pending_source_request']==before['current_run']['pending_source_request']
+    assert after['lease'] is None and after['current_run']['application_status']=='complete'

@@ -42,27 +42,43 @@ def source_gate_first(repo,review_head,main_head,run_id,*,heads=read_heads,fetch
     return len(history)%2==1
 
 
+def pending_rotation(repo,review_head,main_head,run_id,*,heads=read_heads,fetch=fetch_heads,state_reader=_state):
+    """Bound the wait for source polling while other eligible checks proceed."""
+    refs=heads(repo)
+    if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Coordinator source heads changed')
+    fetch(repo,refs,run_id);state=state_reader(repo,review_head);history=state.get('run_history',[])
+    if not isinstance(history,list) or any(not isinstance(x,dict) or not x.get('run_id') for x in history):
+        raise ValueError('Run history unavailable for pending-source rotation')
+    if state['current_run'].get('run_id')!=run_id:raise ValueError('Current pending-source run differs')
+    return ('source','duplicate','source_gate')[len(history)%3]
+
+
 def mechanical_pass(repo,token,native,owner,run_id,*,begin=start,checkpoint=checkpoint_one,finish=complete,
                     pending_checker=has_pending_source,source_runner=source_pass,
                     intake_selector=soups_intake_due,intake_runner=run_soups_intake,
-                    gate_selector=source_gate_first,source_gate=checkpoint_source_gate,source_gate_finish=complete_source_gate):
+                    gate_selector=source_gate_first,source_gate=checkpoint_source_gate,source_gate_finish=complete_source_gate,
+                    pending_selector=pending_rotation):
     started=begin(repo,token,native,owner,run_id)
     if started.get('status')!='lease_started':return started
     review,main=started['review_head'],started['main_head']
     if pending_checker(repo,review,main,run_id):
         # Preserve the existing source reservation, but do not let a slow or
         # failed source workflow prevent unrelated local checks indefinitely.
-        # Alternate with source discovery; a deferred duplicate check falls
-        # through to discovery in the same run, and ambiguous writes stop.
-        if not gate_selector(repo,review,main,run_id):
+        # Rotate discovery, duplicate checks and retained source gates. A
+        # deferred local check falls through; ambiguous writes stop.
+        turn=pending_selector(repo,review,main,run_id)
+        if turn=='source':
             return source_runner(repo,token,native,review,main,owner,run_id)
-        checked=checkpoint(repo,token,review,main,owner,run_id)
+        if turn=='duplicate':checked=checkpoint(repo,token,review,main,owner,run_id)
+        elif turn=='source_gate':checked=source_gate(repo,token,review,main,owner,run_id)
+        else:raise ValueError('Invalid pending-source rotation')
         if checked.get('status')=='blocked':return checked
         if checked.get('status')=='deferred':
             return source_runner(repo,token,native,review,main,owner,run_id)
         if checked.get('status')!='checkpoint_confirmed_run_incomplete':
             raise ValueError('Unrecognized checkpoint outcome; reconcile before retrying')
-        return finish(repo,token,native,checked['commit_sha'],main,owner,run_id,checked['receipt_path'])
+        complete=finish if turn=='duplicate' else source_gate_finish
+        return complete(repo,token,native,checked['commit_sha'],main,owner,run_id,checked['receipt_path'])
     if intake_selector(repo,review,main,run_id):
         intake=intake_runner(repo,token,review,main,owner,run_id)
         if intake.get('status')=='blocked':return intake
