@@ -14,7 +14,7 @@ ASCII=re.compile(r'^[\x00-\x7f]*$')
 
 def audit(row,registry):
     if not isinstance(row,dict) or not isinstance(registry,dict):raise ValueError('Quality input and policy are required')
-    if (row.get('decision','pending') not in ('pending','unreviewed') or row.get('publication_status')=='published_live_verified'
+    if (row.get('decision','pending') not in ('pending','unreviewed') or row.get('document_type')!='research_paper' or row.get('publication_status')=='published_live_verified'
         or row.get('publication_approved') is True or not re.fullmatch(r'[0-9a-f]{64}',row.get('content_sha256') or '')
         or reviewed_digest(row)!=row['content_sha256']):
         raise ValueError('Quality candidate is ineligible or changed')

@@ -74,7 +74,7 @@ def test_cached_official_abstract_is_accepted_as_complete():
     assert node([{'row':value,'registry':policy}])==[result]
 
 
-@pytest.mark.parametrize('change',['decision','hash','prior_gate','empty_evidence','already_passed'])
+@pytest.mark.parametrize('change',['decision','hash','prior_gate','empty_evidence','already_passed','non_paper'])
 def test_changed_or_decided_candidates_and_unverified_prior_gates_fail_closed(change):
     value=row();policy={'core_keywords':['cyber']}
     if change=='decision':value['decision']='approved'
@@ -82,6 +82,9 @@ def test_changed_or_decided_candidates_and_unverified_prior_gates_fail_closed(ch
     if change=='prior_gate':value['preflight']['checks']['access']['status']='held'
     if change=='empty_evidence':value['preflight']['checks']['access']['evidence']={}
     if change=='already_passed':value['preflight']['checks']['quality']=deepcopy(value['preflight']['checks']['access'])
+    if change=='non_paper':
+        value['document_type']='dataset';value['content_sha256']=reviewed_digest(value)
+        for check in value['preflight']['checks'].values():check['content_sha256']=value['content_sha256']
     with pytest.raises(ValueError):audit(value,policy)
     assert 'error' in node([{'row':value,'registry':policy}])[0]
 

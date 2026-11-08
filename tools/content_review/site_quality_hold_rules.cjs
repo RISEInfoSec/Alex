@@ -14,7 +14,7 @@ const pass=(row,gate)=>{const c=row.preflight?.checks?.[gate];return obj(c)&&c.s
 function audit(row,registry){
  if(!obj(row)||!obj(registry))throw Error('Quality input and policy are required');
  const content={};for(const k of ['title','authors','year','doi','source_url','abstract','document_type'])content[k]=own(row,k);
- if(!['pending','unreviewed'].includes(own(row,'decision','pending'))||row.publication_status==='published_live_verified'||
+ if(!['pending','unreviewed'].includes(own(row,'decision','pending'))||row.document_type!=='research_paper'||row.publication_status==='published_live_verified'||
   row.publication_approved===true||!/^[0-9a-f]{64}$/.test(row.content_sha256||'')||sha256(pyJson(content))!==row.content_sha256)
   throw Error('Quality candidate is ineligible or changed');
  if(!['format','access','metadata','duplicates'].every(g=>pass(row,g)))throw Error('Current prior quality gates are required');
