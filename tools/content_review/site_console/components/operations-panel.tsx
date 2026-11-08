@@ -28,7 +28,7 @@ export default function OperationsPanel(){
   {!data&&!error&&<p role="status">Reading current operational evidence…</p>}
   {data&&<>
    <p>{stale?'Last reported: ':''}{main?.issue}</p>
-   {data.worker_scope&&<p>Current worker scope: {data.worker_scope}</p>}
+   {data.worker_scope&&<p>{stale?'Last reported worker scope':'Current worker scope'}: {data.worker_scope}</p>}
    {data.decision_write_fence?.status==='held'&&<p role="status"><strong>Review saving:</strong> Temporarily paused while a checkpoint is verified. Drafts remain available.</p>}
    {data.decision_write_fence?.status==='unverified'&&<p role="status"><strong>Review-saving protection:</strong> Its current status could not be verified.</p>}
    {data.replacement_configured&&<div className="monitor-evidence"><strong>Candidate processing: {stale?'Status unknown — stale evidence':data.processing?.status||'Status unknown'}</strong><p>Last reported pass: {displayCount(data.processing?.local_candidates)} candidates · {displayCount(data.processing?.duplicate_gate_passes)} duplicate checks · {displayCount(data.processing?.source_requests)} source requests · {displayCount(data.processing?.source_gate_passes)} new source gate passes · {displayCount(data.processing?.six_gate_completions)} complete preflights · {displayCount(data.processing?.newly_review_ready)} newly review-ready.</p><p>These counts are reported; this console has not independently verified them. Scheduler completion alone does not establish candidate progress.</p>{data.processing?.scope_note&&<p>Last reported context{data.processing?.fresh?'':' (may be stale)'}: {data.processing.scope_note}</p>}<p className="health-dates">Processing evidence: {date(data.processing?.observed_at)} · {data.processing?.corrective_action}</p></div>}
