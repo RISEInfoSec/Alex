@@ -22,11 +22,11 @@ function validateNoWork({before,after,receipt,owner,runId,now=Date.now()}){
   receipt.native_completion_verified!==false||receipt.scope_note!=='Mechanical duplicate checks only; review readiness and publication are not established.'||
   !equal(receipt.pilot,pilot)||!obj(lease)||lease.owner!==owner||lease.run_id!==runId||!obj(run)||run.run_id!==runId||
   run.application_status!=='running'||!equal(run.request_counts,{source:0,paid:0,openalex:0})||run.pending_source_request!=null||
-  !Number.isFinite(time(stamp))||time(stamp)>now||now-time(stamp)>40000||
-  !Number.isFinite(time(run.started_at))||time(run.started_at)>time(stamp)||time(receipt.started_at)!==time(run.started_at)||
+  !Number.isFinite(time(stamp))||time(stamp)>now||now-time(stamp)>180000||
+  !Number.isFinite(time(run.started_at))||time(run.started_at)>time(stamp)||now-time(run.started_at)>600000||time(receipt.started_at)!==time(run.started_at)||
   !Number.isFinite(time(run.scheduled_for))||time(receipt.scheduled_for)!==time(run.scheduled_for)||
   !Number.isFinite(time(lease.acquired_at))||time(lease.acquired_at)>time(stamp)||
-  !Number.isFinite(time(lease.expires_at))||time(lease.expires_at)<=now||
+  !Number.isFinite(time(lease.expires_at))||time(lease.expires_at)-now<=120000||
   (lease.renewed_at!=null&&(!Number.isFinite(time(lease.renewed_at))||time(lease.renewed_at)>time(stamp))))
   throw Error('No-work completion evidence invalid');
  const expected=structuredClone(before);

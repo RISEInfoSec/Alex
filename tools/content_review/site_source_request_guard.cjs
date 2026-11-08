@@ -37,8 +37,10 @@ function validateSourceRequest({before,after,request,manifests,manifestHashes,le
  if(!equal(Object.keys(request).sort(),keys)||request.schema_version!==1||!HASH.test(request.request_id||'')||
   sha256(pyJson(noId))!==request.request_id||request.lease_owner!==owner||request.coordinator_run_id!==runId||
   lease.owner!==owner||lease.run_id!==runId||run.run_id!==runId||run.application_status!=='running'||
+  !Number.isFinite(Date.parse(lease.acquired_at||''))||Date.parse(lease.acquired_at)>when||
+  !Number.isFinite(Date.parse(lease.expires_at||''))||Date.parse(lease.expires_at)-now<=120000||
   !Number.isFinite(started)||started!==Date.parse(run.started_at||'')||deadline-started!==600000||
-  !Number.isFinite(when)||when>now||now-when>40000||when<started||when>=deadline||
+  !Number.isFinite(when)||when>now||now-when>180000||when<started||when>=deadline||now>=deadline||
   !object(counts)||!Number.isSafeInteger(counts.source)||counts.source<0||counts.source>=30||
   !Number.isSafeInteger(counts.paid)||counts.paid<0||counts.paid>5||counts.openalex!==0||
   request.source_request_limit!==30-counts.source||run.pending_source_request!=null||

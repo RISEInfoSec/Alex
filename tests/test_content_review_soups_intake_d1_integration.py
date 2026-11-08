@@ -49,7 +49,7 @@ const saved={};const api={
  commitOnBranch:async({additions})=>{commitCount++;if(mode==='ambiguous')throw Error('lost');
   for(const x of additions)saved[x.path]=x.content;head=commit;return ok({success:true,sha:commit})}};
 const read=async()=>({snapshot:v.snapshot,confirmed_snapshot:v.snapshot,transactional_snapshot:false});
-let outcome;try{outcome={result:await writeIntake({db,github:api,input:v.input,now:()=>v.now,read})}}
+let outcome;try{outcome={result:await writeIntake({db,github:api,input:v.input,now:()=>v.now,read,heartbeatFactory:()=>async()=>{}})}}
 catch(e){outcome={error:e.message}};
 outcome.commits=commitCount;outcome.fence=sqlite.prepare('SELECT phase FROM content_review_write_fence').all().map(x=>x.phase);
 outcome.submissions=sqlite.prepare('SELECT COUNT(*) AS n FROM review_submissions').get().n;

@@ -34,7 +34,7 @@ const api={fetchCommit:async({commit_sha})=>ok({commit:{sha:commit_sha==='main'?
   .run('submission','user','soups',1,1,0,1,'0'.repeat(64),new Date(v.now).toISOString());return ok({sha:tree})},
  commitOnBranch:async({additions})=>{commits++;if(mode==='ambiguous')throw Error('lost');for(const a of additions)saved[a.path]=a.content;head=commit;return ok({success:true,sha:commit})}};
 const read=async()=>({snapshot:v.snapshot,confirmed_snapshot:v.snapshot,transactional_snapshot:false});
-let out;try{out={result:await writeNoWork({db,github:api,input:v.input,now:()=>v.now,read})}}catch(e){out={error:e.message}};
+let out;try{out={result:await writeNoWork({db,github:api,input:v.input,now:()=>v.now,read,heartbeatFactory:()=>async()=>({renewed:false})})}}catch(e){out={error:e.message}};
 out.commits=commits;out.fence=sqlite.prepare('SELECT phase FROM content_review_write_fence').all().map(x=>x.phase);
 out.submissions=sqlite.prepare('SELECT COUNT(*) AS n FROM review_submissions').get().n;
 process.stdout.write(JSON.stringify(out));sqlite.close();"""

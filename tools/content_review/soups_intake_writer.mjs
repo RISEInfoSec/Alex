@@ -2,6 +2,7 @@
 // from the existing Site credential; never accept API objects, callbacks,
 // private snapshots or a claimed proof from an HTTP caller.
 import {controlFence,verifyWorkerContext} from './d1_fence_service.mjs';
+import {makeHeartbeatKeeper} from './site_heartbeat_keeper.mjs';
 import reader from './site_d1_reader.cjs';
 import fingerprints from './d1_fingerprint.cjs';
 import jsonVerifier from './verified_git_blob.cjs';
@@ -13,8 +14,8 @@ const STAGE='config/content_review_preflight_status.json',POLICY='config/content
 const LIMIT=12*1024*1024,SHA=/^[0-9a-f]{40}$/,ID=/^[a-zA-Z0-9-]{1,100}$/;
 const unwrap=(x,msg)=>{if(!x||x.isError||!x.structuredContent)throw new Error(msg);return x.structuredContent;};
 
-export async function writeIntake({db,github,input,now=()=>Date.now(),read=reader.readStable,control=controlFence,verify=verifyWorkerContext}){
- if(!db||!github||typeof now!=='function'||typeof read!=='function'||typeof control!=='function'||typeof verify!=='function'||
+export async function writeIntake({db,github,input,now=()=>Date.now(),read=reader.readStable,control=controlFence,verify=verifyWorkerContext,heartbeatFactory=makeHeartbeatKeeper}){
+ if(!db||!github||typeof now!=='function'||typeof read!=='function'||typeof control!=='function'||typeof verify!=='function'||typeof heartbeatFactory!=='function'||
     !input||typeof input!=='object'||Array.isArray(input)||
     JSON.stringify(Object.keys(input).sort())!==JSON.stringify(['expectedHead','expectedMain','files','owner','runId'])||
     !SHA.test(input.expectedHead||'')||!SHA.test(input.expectedMain||'')||!ID.test(input.owner||'')||!ID.test(input.runId||'')||
@@ -37,8 +38,12 @@ export async function writeIntake({db,github,input,now=()=>Date.now(),read=reade
   if(a!==input.expectedHead||b!==input.expectedMain)throw new Error('Intake source head changed');};
  await checkHeads();
  await verify({github,input,now});
+ const heartbeat=heartbeatFactory({github,input,now});
+ const alive=async()=>{await heartbeat();await verify({github,input,now});};
+ await alive();
  const before={};
  for(const [key,path] of Object.entries({manifest:MANIFEST,ledger:LEDGER,stage:STAGE,policy:POLICY})){
+  await alive();
   const result=await github.fetchFile({repository_full_name:REPO,path,ref:input.expectedHead,require_content:true});
   before[key]=await jsonVerifier.verifiedJson(result,{limit:LIMIT});
  }
@@ -47,13 +52,14 @@ export async function writeIntake({db,github,input,now=()=>Date.now(),read=reade
  // This initial read is a preparation check, not evidence of a live lease.
  // controlFence independently checks the actual lease/heartbeat and repeats
  // the private snapshot while the decision fence is held.
- const snapshots=await read({db,heartbeat:checkHeads});
+ const snapshots=await read({db,heartbeat:async()=>{await alive();await checkHeads();}});
  validator.validateIntake({before,after,snapshot:snapshots.snapshot,confirmed:snapshots.confirmed_snapshot,receipt,now:now()});
  const privateFingerprint=fingerprints.fingerprint(snapshots.snapshot);
  const details=unwrap(await github.fetchCommitDetails({repository_full_name:REPO,commit_sha:input.expectedHead}),'Intake base commit unavailable');
  if(details.sha!==input.expectedHead||!SHA.test(details.tree_sha||''))throw new Error('Intake base tree unavailable');
  const additions=[];
  for(const path of paths.sort()){
+  await alive();
   const expected=await jsonVerifier.blobIdentity(files[path],{limit:LIMIT});
   const blob=unwrap(await github.createBlob({repository_full_name:REPO,content:files[path],encoding:'utf-8'}),'Intake blob creation failed');
   if(blob.sha!==expected)throw new Error('Intake blob mismatch');
@@ -61,7 +67,8 @@ export async function writeIntake({db,github,input,now=()=>Date.now(),read=reade
  }
  const tree=unwrap(await github.createTree({repository_full_name:REPO,base_tree_sha:details.tree_sha,tree_elements:additions}),'Intake tree creation failed');
  if(!SHA.test(tree.sha||''))throw new Error('Intake tree identity invalid');
- if(now()-Date.parse(receipt.prepared_at)>40000)throw new Error('Intake proposal expired before fence');
+ await alive();
+ if(now()-Date.parse(receipt.prepared_at)>180000)throw new Error('Intake proposal expired before fence');
  const fence={action:'acquire',operationId:crypto.randomUUID(),owner:input.owner,runId:input.runId,
   expectedHead:input.expectedHead,expectedMain:input.expectedMain,expectedTree:tree.sha,receiptPath:receipts[0],
   receiptBlob:additions.find(x=>x.path===receipts[0]).sha,d1Fingerprint:privateFingerprint};

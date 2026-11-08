@@ -86,7 +86,7 @@ function validateIntake({before,after,snapshot,confirmed,receipt,now=Date.now()}
  if(!equal(Object.keys(receipt).sort(),fields)||receipt.schema_version!==1||receipt.kind!=='soups_intake'||
   typeof receipt.run_id!=='string'||!/^[a-zA-Z0-9-]+$/.test(receipt.run_id)||
   !/^[0-9a-f]{40}$/.test(receipt.source_review_commit||'')||!/^[0-9a-f]{40}$/.test(receipt.source_main_commit||'')||
-  !Number.isFinite(when)||when>now||now-when>40000||!Array.isArray(selected)||selected.length<1||selected.length>5||
+  !Number.isFinite(when)||when>now||now-when>180000||!Array.isArray(selected)||selected.length<1||selected.length>5||
   selected.some(x=>typeof x!=='string')||!equal(selected,[...new Set(selected)].sort())||
   receipt.provider_requests!==0||receipt.paid_requests!==0||receipt.openalex_requests!==0||
   receipt.publication_approved!==false||receipt.candidate_processing!==false)fail('Intake receipt is invalid');

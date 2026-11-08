@@ -37,7 +37,7 @@ const saved={},api={
   .run('new-submission','user','weekly',1,1,0,1,'0'.repeat(64),v.heartbeat.started_at);return ok({sha:tree})},
  commitOnBranch:async({additions})=>{commits++;if(mode==='ambiguous')throw Error('lost');
   for(const x of additions)saved[x.path]=x.content;head=commit;return ok({success:true,sha:commit})}};
-let outcome;try{outcome={result:await writeSourceRequest({db,github:api,input:v.input,now:()=>v.now})}}catch(e){outcome={error:e.message}}
+let outcome;try{outcome={result:await writeSourceRequest({db,github:api,input:v.input,now:()=>v.now,heartbeatFactory:()=>async()=>({renewed:false})})}}catch(e){outcome={error:e.message}}
 outcome.commits=commits;outcome.fence=sqlite.prepare('SELECT phase FROM content_review_write_fence').all().map(x=>x.phase);
 if(mode==='ambiguous'){
  try{sqlite.prepare('INSERT INTO review_submissions VALUES (?,?,?,?,?,?,?,?,?)')

@@ -41,6 +41,6 @@ def test_no_work_completion_rejects_fabricated_evidence_or_lost_history(tmp_path
     if change=='private':value['receipt']['private_row']='not permitted'
     if change=='history':value['after']['run_history']=[]
     if change=='lease':value['after']['lease_history'][-1]['owner']='other'
-    if change=='timing':value['now']+=41000
+    if change=='timing':value['now']+=181000
     if change=='counts':value['before']['current_run']['request_counts']['paid']=1
     assert invoke(value).returncode!=0

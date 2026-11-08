@@ -50,7 +50,7 @@ const saved={},api={
    heartbeatUpdates++;heartbeatContent=additions[0].content;heartbeatHead='f'.repeat(40);return ok({success:true,sha:heartbeatHead});}
   commits++;if(mode==='ambiguous')throw Error('lost');for(const x of additions)saved[x.path]=x.content;head=commit;return ok({success:true,sha:commit})}};
 const discover=async({github,input,now})=>{const pulse=makeHeartbeatKeeper({github,input,now});await pulse();return v.discovery};
-let outcome;try{outcome={result:await writeSourcePending({db,github:api,getToken:()=> 'not-used',input:v.input,now:()=>v.now,discover})}}
+let outcome;try{outcome={result:await writeSourcePending({db,github:api,getToken:()=> 'not-used',input:v.input,now:()=>v.now,discover,heartbeatFactory:()=>async()=>{}})}}
 catch(e){outcome={error:e.message}}
 outcome.commits=commits;outcome.heartbeat_updates=heartbeatUpdates;
 outcome.fence=sqlite.prepare('SELECT phase FROM content_review_write_fence').all().map(x=>x.phase);

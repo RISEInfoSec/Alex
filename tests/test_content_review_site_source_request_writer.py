@@ -40,7 +40,7 @@ def invoke(value,mode):
     code=r"""import crypto from 'node:crypto';import {writeSourceRequest} from './tools/content_review/site_source_request_writer.mjs';
 let raw='';for await(const chunk of process.stdin)raw+=chunk;const v=JSON.parse(raw),mode=v.mode;
 const hash=s=>crypto.createHash('sha1').update(`blob ${Buffer.byteLength(s)}\0`).update(s).digest('hex');
-const ok=x=>({isError:false,structuredContent:x});let head=v.input.expectedHead,phase='idle',commits=0,blobs=0,events=[];
+const ok=x=>({isError:false,structuredContent:x});let head=v.input.expectedHead,phase='idle',commits=0,blobs=0,events=[],clock=v.now,pulses=0;
 const commit='d'.repeat(40),tree='c'.repeat(40),api={
  fetchCommit:async({commit_sha})=>ok({commit:{sha:commit_sha==='main'?v.input.expectedMain:head}}),
  fetchFile:async({path})=>Object.hasOwn(v.old,path)?ok(v.old[path]):({isError:true,structuredContent:{error_code:'NOT_FOUND'}}),
@@ -50,13 +50,14 @@ const commit='d'.repeat(40),tree='c'.repeat(40),api={
 const control=async({input})=>{events.push(input.action);if(input.action==='acquire'){phase='preparing';return {status:'acquired'}}
  if(input.action==='begin'){if(mode==='changed')throw Error('D1 changed');phase='committing';return {status:'committing'}}
  if(input.action==='abort'){phase='idle';return {status:'aborted'}}if(input.action==='release'){phase='idle';return {status:'confirmed_and_released',commit_sha:commit}}};
-const read=async()=>({snapshot:v.snapshot,confirmed_snapshot:v.snapshot,transactional_snapshot:false});
+const read=async({heartbeat})=>{if(mode==='long'||mode==='expired'){clock+=mode==='long'?45000:181000;await heartbeat();}
+ return {snapshot:v.snapshot,confirmed_snapshot:v.snapshot,transactional_snapshot:false}};
 const verify=async()=>{if(mode==='unverified')throw Error('Worker lease unavailable')};
 if(mode==='tampered'){const p=Object.keys(v.input.files).find(x=>x.includes('source_requests/')),r=JSON.parse(v.input.files[p]);
  r.records[0].url='https://different.example/';v.input.files[p]=JSON.stringify(r)}
-try{const result=await writeSourceRequest({db:{},github:api,input:v.input,now:()=>v.now,read,control,verify});
- process.stdout.write(JSON.stringify({result,commits,blobs,phase,events}));}
-catch(e){process.stdout.write(JSON.stringify({error:e.message,commits,blobs,phase,events}));}"""
+try{const result=await writeSourceRequest({db:{},github:api,input:v.input,now:()=>clock,read,control,verify,heartbeatFactory:()=>async()=>{pulses++;return {renewed:false}}});
+ process.stdout.write(JSON.stringify({result,commits,blobs,phase,events,pulses}));}
+catch(e){process.stdout.write(JSON.stringify({error:e.message,commits,blobs,phase,events,pulses}));}"""
     result=subprocess.run(['node','--input-type=module','-e',code],cwd=ROOT,input=json.dumps({**value,'mode':mode}),text=True,capture_output=True)
     assert result.returncode==0,result.stderr
     return json.loads(result.stdout)
@@ -68,6 +69,13 @@ def test_source_reservation_is_validated_and_reports_no_workflow_success(tmp_pat
     assert result['result']['source_request_reserved'] is True and result['result']['source_workflow_verified'] is False
     assert result['result']['candidate_processing'] is False and result['result']['publication_verified'] is False
     assert result['events']==['acquire','begin','release'] and result['commits']==1
+
+
+def test_long_source_snapshot_keeps_heartbeat_and_expires_without_writes(tmp_path):
+    value=request(tmp_path);slow=invoke(value,'long')
+    assert slow.get('result',{}).get('source_request_reserved') is True and slow['pulses']>=2
+    expired=invoke(value,'expired')
+    assert 'error' in expired and expired['commits']==0 and expired['events']==[]
 
 
 @pytest.mark.parametrize('mode',['tampered','unverified','changed','ambiguous'])

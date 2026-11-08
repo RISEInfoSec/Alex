@@ -2,6 +2,7 @@
 // source workflow; this writer never claims that the workflow ran or that a
 // candidate gate passed. The route constructs GitHub and D1 access itself.
 import {controlFence,verifyWorkerContext} from './d1_fence_service.mjs';
+import {makeHeartbeatKeeper} from './site_heartbeat_keeper.mjs';
 import reader from './site_d1_reader.cjs';
 import fingerprints from './d1_fingerprint.cjs';
 import verifier from './verified_git_blob.cjs';
@@ -13,8 +14,8 @@ const LIMIT=12*1024*1024,SHA=/^[0-9a-f]{40}$/,HASH=/^[0-9a-f]{64}$/,ID=/^[a-zA-Z
 const COLLECTIONS=new Set(['weekly','bellingcat','first','m3aawg','sans','soups','virusbulletin']);
 const unwrap=(x,msg)=>{if(!x||x.isError||!x.structuredContent)throw Error(msg);return x.structuredContent;};
 
-export async function writeSourceRequest({db,github,input,now=()=>Date.now(),read=reader.readStable,control=controlFence,verify=verifyWorkerContext}){
- if(!db||!github||typeof now!=='function'||typeof read!=='function'||typeof control!=='function'||typeof verify!=='function'||
+export async function writeSourceRequest({db,github,input,now=()=>Date.now(),read=reader.readStable,control=controlFence,verify=verifyWorkerContext,heartbeatFactory=makeHeartbeatKeeper}){
+ if(!db||!github||typeof now!=='function'||typeof read!=='function'||typeof control!=='function'||typeof verify!=='function'||typeof heartbeatFactory!=='function'||
   !input||typeof input!=='object'||Array.isArray(input)||
   JSON.stringify(Object.keys(input).sort())!==JSON.stringify(['expectedHead','expectedMain','files','owner','runId'])||
   !SHA.test(input.expectedHead||'')||!SHA.test(input.expectedMain||'')||!ID.test(input.owner||'')||!ID.test(input.runId||'')||
@@ -32,7 +33,11 @@ export async function writeSourceRequest({db,github,input,now=()=>Date.now(),rea
  const checkHeads=async()=>{const [a,b]=await Promise.all([head(REVIEW),head(MAIN)]);
   if(a!==input.expectedHead||b!==input.expectedMain)throw Error('Source reservation head changed');};
  await checkHeads();await verify({github,input,now});
+ const heartbeat=heartbeatFactory({github,input,now});
+ const alive=async()=>{await heartbeat();await verify({github,input,now});};
+ await alive();
  async function readJson(path){
+  await alive();
   const result=await github.fetchFile({repository_full_name:REPO,path,ref:input.expectedHead,require_content:true});
   const value=await verifier.verifiedJson(result,{limit:LIMIT}),bytes=new TextEncoder().encode(result.structuredContent.content);
   const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),x=>x.toString(16).padStart(2,'0')).join('');
@@ -51,7 +56,8 @@ export async function writeSourceRequest({db,github,input,now=()=>Date.now(),rea
  }
  const prior=await github.fetchFile({repository_full_name:REPO,path:requests[0],ref:input.expectedHead});
  if(!prior?.isError||prior.structuredContent?.error_code!=='NOT_FOUND')throw Error('Source reservation already exists');
- const snapshots=await read({db,heartbeat:()=>verify({github,input,now})});
+ const snapshots=await read({db,heartbeat:alive});
+ await alive();
  const result=guard.validateSourceRequest({before,after,request,manifests,manifestHashes,ledger,snapshot:snapshots.snapshot,
   confirmed:snapshots.confirmed_snapshot,owner:input.owner,runId:input.runId,now:now()});
  if(result.request_path!==requests[0])throw Error('Source reservation identity differs');
@@ -60,6 +66,7 @@ export async function writeSourceRequest({db,github,input,now=()=>Date.now(),rea
  if(details.sha!==input.expectedHead||!SHA.test(details.tree_sha||''))throw Error('Source reservation base tree invalid');
  const additions=[];
  for(const path of paths.sort()){
+  await alive();
   const expected=await verifier.blobIdentity(files[path],{limit:LIMIT});
   const blob=unwrap(await github.createBlob({repository_full_name:REPO,content:files[path],encoding:'utf-8'}),'Source reservation blob failed');
   if(blob.sha!==expected)throw Error('Source reservation blob mismatch');
@@ -67,7 +74,8 @@ export async function writeSourceRequest({db,github,input,now=()=>Date.now(),rea
  }
  const tree=unwrap(await github.createTree({repository_full_name:REPO,base_tree_sha:details.tree_sha,tree_elements:additions}),'Source reservation tree failed');
  if(!SHA.test(tree.sha||''))throw Error('Source reservation tree invalid');
- if(now()-Date.parse(after.current_run.pending_source_request.prepared_at)>40000)throw Error('Source reservation expired');
+ await alive();
+ if(now()-Date.parse(after.current_run.pending_source_request.prepared_at)>180000)throw Error('Source reservation expired');
  const fence={action:'acquire',operationId:crypto.randomUUID(),owner:input.owner,runId:input.runId,expectedHead:input.expectedHead,
   expectedMain:input.expectedMain,expectedTree:tree.sha,receiptPath:requests[0],receiptBlob:additions.find(x=>x.path===requests[0]).sha,
   d1Fingerprint:privateFingerprint};

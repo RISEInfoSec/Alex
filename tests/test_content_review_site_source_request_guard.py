@@ -90,7 +90,7 @@ def test_site_guard_rejects_unchecked_source_requests(tmp_path,change):
     if change=='retrieved':
         row=data['manifests']['weekly']['records'][0];row['source_processing']={'content_sha256':row['content_sha256'],'retrieval_status':'retrieved'}
     if change=='duplicate':data['request']['records'].append(deepcopy(data['request']['records'][0]));resign(data)
-    if change=='expired':data['now']+=41000
+    if change=='expired':data['now']+=181000
     if change=='decision':
         row=data['manifests']['weekly']['records'][0]
         for snap in (data['snapshot'],data['confirmed']):

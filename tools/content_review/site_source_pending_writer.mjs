@@ -1,6 +1,7 @@
 // Release a source-pending lease after independently rechecking GitHub status.
 // This preserves the request and never claims a gate or native completion.
 import {controlFence,verifyWorkerContext} from './d1_fence_service.mjs';
+import {makeHeartbeatKeeper} from './site_heartbeat_keeper.mjs';
 import {discoverSourceWorkflow} from './site_source_discovery_service.mjs';
 import reader from './site_d1_reader.cjs';
 import fingerprints from './d1_fingerprint.cjs';
@@ -11,9 +12,9 @@ const REPO='RISEInfoSec/Alex',REVIEW='codex/soups-corpus-review',MAIN='main';
 const WORKER='config/content_review_worker_status.json',LIMIT=12*1024*1024,SHA=/^[0-9a-f]{40}$/,HASH=/^[0-9a-f]{64}$/,ID=/^[a-zA-Z0-9-]{1,100}$/;
 const unwrap=(x,msg)=>{if(!x||x.isError||!x.structuredContent)throw Error(msg);return x.structuredContent;};
 export async function writeSourcePending({db,github,getToken,input,now=()=>Date.now(),read=reader.readStable,control=controlFence,
- verify=verifyWorkerContext,discover=discoverSourceWorkflow}){
+ verify=verifyWorkerContext,discover=discoverSourceWorkflow,heartbeatFactory=makeHeartbeatKeeper}){
  if(!db||!github||typeof getToken!=='function'||typeof now!=='function'||typeof read!=='function'||typeof control!=='function'||
-  typeof verify!=='function'||typeof discover!=='function'||!input||typeof input!=='object'||Array.isArray(input)||
+  typeof verify!=='function'||typeof discover!=='function'||typeof heartbeatFactory!=='function'||!input||typeof input!=='object'||Array.isArray(input)||
   JSON.stringify(Object.keys(input).sort())!==JSON.stringify(['expectedHead','expectedMain','files','owner','reservationHead','runId'])||
   !SHA.test(input.expectedHead||'')||!SHA.test(input.expectedMain||'')||!SHA.test(input.reservationHead||'')||
   !ID.test(input.owner||'')||!ID.test(input.runId||'')||!input.files||typeof input.files!=='object'||Array.isArray(input.files))
@@ -32,12 +33,16 @@ export async function writeSourcePending({db,github,getToken,input,now=()=>Date.
   if(a!==input.expectedHead||b!==input.expectedMain)throw Error('Source pending head changed');};
  const readJson=async path=>verifier.verifiedJson(await github.fetchFile({repository_full_name:REPO,path,ref:input.expectedHead,require_content:true}),{limit:LIMIT});
  await checkHeads();await verify({github,input,now});
+ const heartbeat=heartbeatFactory({github,input,now});
+ const alive=async()=>{await heartbeat();await verify({github,input,now});};
+ await alive();
  const before=await readJson(WORKER),request=await readJson(requestPath);
  const prior=await github.fetchFile({repository_full_name:REPO,path:receiptPath,ref:input.expectedHead});
  if(!prior?.isError||prior.structuredContent?.error_code!=='NOT_FOUND')throw Error('Source pending receipt already exists');
- const snapshots=await read({db,heartbeat:()=>verify({github,input,now})});
+ const snapshots=await read({db,heartbeat:async()=>{await alive();await checkHeads();}});
  if(!snapshots||snapshots.transactional_snapshot!==false||fingerprints.fingerprint(snapshots.snapshot)!==fingerprints.fingerprint(snapshots.confirmed_snapshot))
   throw Error('Source pending decision snapshot changed');
+ await alive();
  const observed=await discover({github,getToken,input:{expectedHead:input.expectedHead,expectedMain:input.expectedMain,owner:input.owner,
   runId:input.runId,reservationHead:input.reservationHead},now,verify});
  const checked=guard.validateSourcePending({before,after,receipt,request,discovery:observed,snapshot:snapshots.snapshot,
@@ -46,12 +51,14 @@ export async function writeSourcePending({db,github,getToken,input,now=()=>Date.
  const details=unwrap(await github.fetchCommitDetails({repository_full_name:REPO,commit_sha:input.expectedHead}),'Source pending base commit unavailable');
  if(details.sha!==input.expectedHead||!SHA.test(details.tree_sha||''))throw Error('Source pending base tree invalid');
  const additions=[];for(const path of paths.sort()){
+  await alive();
   const expected=await verifier.blobIdentity(files[path],{limit:LIMIT});
   const blob=unwrap(await github.createBlob({repository_full_name:REPO,content:files[path],encoding:'utf-8'}),'Source pending blob failed');
   if(blob.sha!==expected)throw Error('Source pending blob mismatch');additions.push({path,mode:'100644',type:'blob',sha:expected});
  }
  const tree=unwrap(await github.createTree({repository_full_name:REPO,base_tree_sha:details.tree_sha,tree_elements:additions}),'Source pending tree unavailable');
  if(!SHA.test(tree.sha||''))throw Error('Source pending tree invalid');
+ await alive();
  const completed=Date.parse(receipt.completed_at||''),started=Date.parse(before.current_run?.started_at||''),expires=Date.parse(before.lease?.expires_at||'');
  if(!Number.isFinite(completed)||!Number.isFinite(started)||!Number.isFinite(expires)||completed>now()||now()-completed>180000||now()-started>720000||expires<=now())
   throw Error('Source pending proposal expired before fence');
