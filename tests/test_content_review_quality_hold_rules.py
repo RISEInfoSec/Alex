@@ -79,7 +79,7 @@ def test_changed_or_decided_candidates_and_unverified_prior_gates_fail_closed(ch
 def test_python_and_site_agree_on_bounded_ascii_inputs():
     rng=random.Random(741);values=[]
     for _ in range(200):
-        value=row();value['abstract']=''.join(rng.choice('abcde XYZ \t\n') for _ in range(180));value['content_sha256']=reviewed_digest(value)
+        value=row();value['abstract']=''.join(rng.choice('abcde XYZ \t\n\x1c\x1d\x1e\x1f') for _ in range(180));value['content_sha256']=reviewed_digest(value)
         for check in value['preflight']['checks'].values():check['content_sha256']=value['content_sha256']
         terms=[''.join(rng.choice('abcde XYZ') for _ in range(rng.randint(1,6))) for _ in range(4)]
         values.append({'row':value,'registry':{'core_keywords':terms}})

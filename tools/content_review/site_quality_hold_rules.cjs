@@ -6,6 +6,8 @@ const {pyJson}=require('./soups_intake_site_guard.cjs');
 const obj=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const own=(o,k,def='')=>Object.prototype.hasOwnProperty.call(o,k)?o[k]:def;
 const ascii=x=>typeof x==='string'&&/^[\x00-\x7f]*$/.test(x);
+// Python's str.strip and re whitespace include ASCII information separators.
+const strip=x=>x.replace(/^[\s\x1c-\x1f]+|[\s\x1c-\x1f]+$/g,'');
 const truthy=x=>Array.isArray(x)?x.length>0:obj(x)?Object.keys(x).length>0:!!x;
 const pass=(row,gate)=>{const c=row.preflight?.checks?.[gate];return obj(c)&&c.status==='passed'&&
  c.content_sha256===row.content_sha256&&truthy(c.checked_at)&&truthy(c.evidence)&&!truthy(c.stale);};
@@ -23,9 +25,9 @@ function audit(row,registry){
   return {status:'held',reason:'existing_quality_hold_requires_reconciliation',gate_passed:false,writes:0};
  if(previous!=null)return {status:'held',reason:'existing_quality_evidence_requires_reconciliation',gate_passed:false,writes:0};
  const {title,abstract}=row,terms=registry.core_keywords;
- if(!ascii(title)||!title.trim()||!ascii(abstract)||abstract.trim().length<100||!Array.isArray(terms)||!terms.length||terms.length>1000||
+ if(!ascii(title)||!strip(title)||!ascii(abstract)||strip(abstract).length<100||!Array.isArray(terms)||!terms.length||terms.length>1000||
   terms.some(x=>!ascii(x)||!x))return {status:'held',reason:'quality_hold_inputs_outside_narrow_scope',gate_passed:false,writes:0};
- const clean=x=>x.replace(/\s+/g,' ').trim(),text=(clean(title)+' '+clean(abstract)).toLowerCase();
+ const clean=x=>strip(x.replace(/[\s\x1c-\x1f]+/g,' ')),text=(clean(title)+' '+clean(abstract)).toLowerCase();
  if(terms.some(term=>text.includes(term.toLowerCase())))
   return {status:'held',reason:'core_term_absence_not_established',gate_passed:false,writes:0};
  return {status:'verified_core_term_absence',quality_review_status:'hold_core_term_gate',core_term_hits:0,quality_score:null,
