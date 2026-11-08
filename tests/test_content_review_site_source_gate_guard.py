@@ -1,0 +1,79 @@
+from copy import deepcopy
+from datetime import timezone
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+
+import pytest
+from tests.test_content_review_checkpoint_guard import fixture
+from tests.test_content_review_duplicate_checkpoint import setup_bundle
+from tests.test_content_review_verified_inputs import git, put
+from tools.content_review.source_gate_checkpoint import prepare
+from tools.content_review.verified_inputs import load_inputs, _path_blob
+
+ROOT=Path(__file__).resolve().parents[1]
+
+
+def bundle(repo):
+    review,main,duplicate=fixture(repo)
+    for path,content in duplicate['files'].items():put(repo,path,content)
+    manifest=json.loads(duplicate['files']['config/weekly_review_manifest.json']);row=manifest['records'][0]
+    source_path='config/content_review_source_receipts/'+'d'*64+'.json'
+    row['source_processing']={'receipt':source_path,'retrieval_status':'retrieved','content_sha256':row['content_sha256']}
+    put(repo,'config/weekly_review_manifest.json',manifest)
+    state=json.loads(duplicate['files']['config/content_review_worker_status.json'])
+    now,snapshot,*_=setup_bundle();state['lease']['acquired_at']=now.isoformat()
+    put(repo,'config/content_review_worker_status.json',state)
+    evidence={'requested_url':row['source_url'],'final_url':row['source_url'],'http_status':200,
+              'retrieved_at':now.isoformat(),'body_sha256':'b'*64,'text':'Actual source text',
+              'text_sha256':hashlib.sha256(b'Actual source text').hexdigest(),'container_type':'html','metadata':{}}
+    item={'collection':'weekly','candidate_id':'fresh','content_sha256':row['content_sha256']}
+    source={'independently_verified':True,'artifact_sha256':'c'*64,
+            'request':{'request_id':'d'*64,'records':[{**item,'url':row['source_url']}]},
+            'result':{'request_id':'d'*64,'status':'complete','read_only':True,
+                      'records':[{**item,'status':'retrieved','evidence':[evidence]}]}}
+    put(repo,source_path,source);git(repo,'add','.');git(repo,'commit','-qm','retained source')
+    head=git(repo,'rev-parse','HEAD');inputs=load_inputs(repo,head,main)
+    prepared=prepare(repo,snapshot,deepcopy(snapshot),inputs,inputs['lifecycle'],inputs['worker_state'],
+        'worker','run','weekly','fresh','access',observed_heads={'review':head,'main':main},
+        source_attempts=state['source_attempts'],source_progress=state['source_last_progress'],at=now)
+    files=prepared['files'];receipt=json.loads(files[prepared['new_paths_must_be_absent'][0]])
+    _,proof=_path_blob(repo,head,source_path)
+    return {'before':{'manifest':inputs['manifests']['weekly'],'ledger':inputs['lifecycle'],
+                      'stage':inputs['preflight_status'],'state':inputs['worker_state'],'policy':inputs['lifecycle_policy']},
+            'after':{'manifest':json.loads(files['config/weekly_review_manifest.json']),
+                     'ledger':json.loads(files['config/content_review_candidate_lifecycle.json']),
+                     'stage':json.loads(files['config/content_review_preflight_status.json']),
+                     'state':json.loads(files['config/content_review_worker_status.json'])},
+            'receipt':receipt,'sourceReceipt':source,'sourceReceiptBlob':proof['blob_sha'],
+            'snapshot':snapshot,'confirmed':deepcopy(snapshot),'now':int(now.astimezone(timezone.utc).timestamp()*1000)}
+
+
+def invoke(value):
+    script="const g=require('./tools/content_review/site_source_gate_guard.cjs');let s='';" \
+           "process.stdin.on('data',x=>s+=x).on('end',()=>{try{process.stdout.write(JSON.stringify(g.validateSourceGate(JSON.parse(s))))}" \
+           "catch(e){process.stderr.write(e.message);process.exitCode=1}});"
+    return subprocess.run(['node','-e',script],cwd=ROOT,input=json.dumps(value),text=True,capture_output=True)
+
+
+def test_site_independently_validates_actual_source_gate_proposal(tmp_path):
+    result=invoke(bundle(tmp_path))
+    assert result.returncode==0,result.stderr
+    assert json.loads(result.stdout)['candidate_processing'] is True
+
+
+@pytest.mark.parametrize('change',['decision','hash','stage','history','state','progress','receipt','snapshot','evidence','source'])
+def test_site_rejects_forged_source_gate_or_unrelated_changes(tmp_path,change):
+    value=bundle(tmp_path)
+    if change=='decision':value['after']['manifest']['records'][0]['decision']='approved'
+    if change=='hash':value['after']['manifest']['records'][0]['title']='changed'
+    if change=='stage':value['after']['stage']['records'][0]['review_ready']=True
+    if change=='history':value['after']['ledger']['records']['weekly:fresh']['history']=[]
+    if change=='state':value['after']['state']['lease']['owner']='other'
+    if change=='progress':value['after']['state']['source_last_progress']['weekly']={'at':'invented'}
+    if change=='receipt':value['receipt']['publication_approved']=True
+    if change=='snapshot':value['confirmed']['read_evidence']['jobs']['complete']=False
+    if change=='evidence':value['after']['manifest']['records'][0]['preflight']['checks']['access']['evidence']['body_sha256']='0'*64
+    if change=='source':value['sourceReceipt']['result']['records'][0]['evidence'][0]['text']='tampered'
+    assert invoke(value).returncode!=0
