@@ -1,4 +1,4 @@
-from tools.content_review.coordinator_cycle import mechanical_pass, soups_intake_due, pending_rotation, quality_evidence_due
+from tools.content_review.coordinator_cycle import mechanical_pass, soups_intake_due, pending_rotation, quality_evidence_due, source_gate_first
 from tools.content_review.coordinator_heartbeat_transport import REVIEW, MAIN
 
 
@@ -111,7 +111,21 @@ def test_intake_rotation_uses_durable_run_history():
     def due(n):
         state={'current_run':{'run_id':'run'},'run_history':[{'run_id':str(i)} for i in range(n)]}
         return soups_intake_due('.',review,main,'run',heads=lambda _:refs,fetch=lambda *a:None,state_reader=lambda *a:state)
-    assert [n for n in range(19) if due(n)]==[0,9,18]
+    assert [n for n in range(19) if due(n)]==[0,4,8,12,16]
+
+
+def test_intake_rotation_preserves_source_and_quality_turns():
+    review,main='a'*40,'b'*40
+    refs={REVIEW:review,MAIN:main}
+    def invoke(selector,n):
+        state={'current_run':{'run_id':'run'},'run_history':[{'run_id':str(i)} for i in range(n)]}
+        return selector('.',review,main,'run',heads=lambda _:refs,fetch=lambda *a:None,state_reader=lambda *a:state)
+    for n in range(72):
+        intake=invoke(soups_intake_due,n);source=invoke(source_gate_first,n);quality=invoke(quality_evidence_due,n)
+        assert not (intake and source)
+        assert not (intake and quality)
+    assert sum(invoke(soups_intake_due,n) for n in range(72))==18
+    assert sum(not invoke(soups_intake_due,n) and not invoke(source_gate_first,n) for n in range(72))==18
 
 
 def test_source_first_cycle_checkpoints_and_completes_one_source_gate():

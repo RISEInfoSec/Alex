@@ -21,7 +21,7 @@ def has_pending_source(repo,review_head,main_head,run_id,*,heads=read_heads,fetc
 
 
 def soups_intake_due(repo,review_head,main_head,run_id,*,heads=read_heads,fetch=fetch_heads,state_reader=_state):
-    """Give intake one opportunity in nine native runs, without hiding holds."""
+    """Give bounded intake one of four turns, preserving source-first turns."""
     refs=heads(repo)
     if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Coordinator source heads changed')
     fetch(repo,refs,run_id)
@@ -29,7 +29,7 @@ def soups_intake_due(repo,review_head,main_head,run_id,*,heads=read_heads,fetch=
     if not isinstance(history,list) or any(not isinstance(x,dict) or not x.get('run_id') for x in history):
         raise ValueError('Run history unavailable for intake rotation')
     if state['current_run'].get('run_id')!=run_id:raise ValueError('Current intake run differs')
-    return len(history)%9==0
+    return len(history)%4==0
 
 
 def source_gate_first(repo,review_head,main_head,run_id,*,heads=read_heads,fetch=fetch_heads,state_reader=_state):
