@@ -25,11 +25,19 @@ export async function readSourceEvidence({github,getToken,input,now=()=>Date.now
  await checkHeads();await verify({github,input,now});
  const state=await verifier.verifiedJson(await github.fetchFile({repository_full_name:REPO,path:WORKER,ref:input.expectedHead,require_content:true}),{limit:LIMIT});
  const pending=state?.current_run?.pending_source_request;
- if(!pending||!HASH.test(pending.request_id||''))throw Error('No pending source request');
+ const runs=[state?.current_run,...(Array.isArray(state?.run_history)?state.run_history:[])];
+ const known=runs.flatMap(r=>Array.isArray(r?.accounted_source_requests)?r.accounted_source_requests:[]);
+ if(!HASH.test(pending?.request_id||'')&&!known.some(x=>x?.artifact_id===input.artifactId&&x?.native_run_id===input.sourceRunId))
+  throw Error('No pending or accounted source request');
  const heartbeat=heartbeatFactory({github,input,now});
  const observed=await artifactReader({getToken,runId:input.sourceRunId,artifactId:input.artifactId,heartbeat});
  let result;try{result=JSON.parse(observed.result_text)}catch{throw Error('Source artifact JSON invalid')}
- if(result?.request_id!==pending.request_id||!SHA.test(observed.native_run?.head_sha||''))throw Error('Source artifact does not match pending request');
+ const requestId=result?.request_id;
+ const entries=known.filter(x=>x?.request_id===requestId);
+ const accounted=entries.length===1&&entries[0].artifact_id===input.artifactId&&entries[0].native_run_id===input.sourceRunId&&
+  entries[0].artifact_sha256===observed.artifact?.sha256;
+ if(!HASH.test(requestId||'')||(!accounted&&pending?.request_id!==requestId)||!SHA.test(observed.native_run?.head_sha||''))
+  throw Error('Source artifact does not match a pending or accounted request');
  const reservation=observed.native_run.head_sha;let cursor=input.expectedHead,found=false;
  for(let i=0;i<20;i++){
   await heartbeat();const item=unwrap(await github.fetchCommitDetails({repository_full_name:REPO,commit_sha:cursor}),'Source handoff history unavailable');
@@ -38,6 +46,6 @@ export async function readSourceEvidence({github,getToken,input,now=()=>Date.now
  }
  if(!found)throw Error('Source handoff reservation outside bounded history');
  await checkHeads();await verify({github,input,now});
- return {status:'verified_source_artifact',request_id:pending.request_id,native_run:observed.native_run,
+ return {status:'verified_source_artifact',request_id:requestId,native_run:observed.native_run,
   artifact:observed.artifact,result_text:observed.result_text,candidate_processing:false,publication_verified:false};
 }
