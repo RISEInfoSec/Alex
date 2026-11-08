@@ -2,6 +2,7 @@
 // obtained independently; HTTP input may provide only the proposed files.
 import {controlFence,verifyWorkerContext} from './d1_fence_service.mjs';
 import {makeHeartbeatKeeper} from './site_heartbeat_keeper.mjs';
+import {findLinearAncestor} from './site_linear_history.mjs';
 import {readSourceArtifact} from './site_actions_artifact.mjs';
 import reader from './site_d1_reader.cjs';
 import fingerprints from './d1_fingerprint.cjs';
@@ -92,10 +93,8 @@ export async function writeSourceGate({db,github,getToken,input,now=()=>Date.now
  const accounted=runs.flatMap(r=>Array.isArray(r?.accounted_source_requests)?r.accounted_source_requests:[]).filter(x=>x?.request_id===requestId);
  if(accounted.length!==1||accounted[0].artifact_id!==artifactId||accounted[0].artifact_sha256!==artifact.sha256||
   accounted[0].native_run_id!==sourceRunId||accounted[0].requests!==result.requests)throw Error('Source gate accounting differs');
- let cursor=input.expectedHead,reservationDetails=null;
- for(let i=0;i<100;i++){await heartbeat();const item=await details(cursor);if(cursor===reservation){reservationDetails=item;break;}
-  if(item.parents.length!==1)throw Error('Source gate reservation outside linear history');cursor=item.parents[0];}
- if(!reservationDetails||reservationDetails.parents.length!==1)throw Error('Source gate reservation outside bounded history');
+ const reservationDetails=await findLinearAncestor({github,head:input.expectedHead,ancestor:reservation,heartbeat,details,
+  linearError:'Source gate reservation outside linear history',boundedError:'Source gate reservation outside bounded history'});
  const parent=reservationDetails.parents[0],reservedRequest=await readJson(requestPath,reservation),reservedState=await readJson(STATE,reservation),
   oldState=await readJson(STATE,parent),oldLedger=await readJson(LEDGER,parent),oldRegistry=(await readJson(REGISTRY,parent)).value;
  if(reservedRequest.sha!==sourceRequest.sha||!equal(reservedRequest.value,request))throw Error('Source gate reservation changed');

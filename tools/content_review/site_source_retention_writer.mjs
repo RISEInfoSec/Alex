@@ -8,6 +8,7 @@ import fingerprints from './d1_fingerprint.cjs';
 import verifier from './verified_git_blob.cjs';
 import requestGuard from './site_source_request_guard.cjs';
 import retentionGuard from './site_source_retention_guard.cjs';
+import {findLinearAncestor} from './site_linear_history.mjs';
 
 const REPO='RISEInfoSec/Alex',REVIEW='codex/soups-corpus-review',MAIN='main';
 const WORKER='config/content_review_worker_status.json',LEDGER='config/content_review_candidate_lifecycle.json',REGISTRY='config/review_console.json';
@@ -67,10 +68,8 @@ export async function writeSourceRetention({db,github,getToken,input,now=()=>Dat
   throw Error('Source retention decision snapshot changed');
  const observed=await artifactReader({getToken,runId:input.sourceRunId,artifactId:input.artifactId,heartbeat});
  const reservation=observed.native_run?.head_sha;if(!SHA.test(reservation||''))throw Error('Source retention reservation unavailable');
- let cursor=input.expectedHead,reservationDetails=null;
- for(let i=0;i<20;i++){await heartbeat();const item=await details(cursor);if(cursor===reservation){reservationDetails=item;break;}
-  if(item.parents.length!==1)throw Error('Source retention reservation outside linear history');cursor=item.parents[0];}
- if(!reservationDetails||reservationDetails.parents.length!==1)throw Error('Source retention reservation outside bounded history');
+ const reservationDetails=await findLinearAncestor({github,head:input.expectedHead,ancestor:reservation,heartbeat,details,
+  linearError:'Source retention reservation outside linear history',boundedError:'Source retention reservation outside bounded history'});
  const parent=reservationDetails.parents[0],reservedRequest=await readJson(requestPath,reservation),reservedState=await readJson(WORKER,reservation),
   oldState=await readJson(WORKER,parent),oldLedger=await readJson(LEDGER,parent),oldRegistry=(await readJson(REGISTRY,parent)).value;
  if(reservedRequest.sha!==sourceRequest.sha||!equal(reservedRequest.value,sourceRequest.value)||reservedRequest.value.request_id!==receipt.request_id)

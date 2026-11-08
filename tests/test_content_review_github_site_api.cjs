@@ -35,6 +35,20 @@ test('Site adapter sends exact-head atomic changes only to GitHub',async()=>{
  assert.equal(Buffer.from(input.fileChanges.additions[0].contents,'base64').toString(),'texte é');
  assert.equal(JSON.stringify(result).includes('test-secret'),false);
 });
+test('history pages are scoped to one immutable head and reject malformed proofs',async()=>{
+ const calls=[];let malformed=false;
+ const fetcher=async(url,options)=>{calls.push({url,options});return Response.json({data:{repository:{object:{history:{
+  nodes:[{oid:head,tree:{oid:blob},parents:{totalCount:1,nodes:[{oid:malformed?'bad':commit}]}}],
+  pageInfo:{hasNextPage:true,endCursor:'cursor-2'}}}}}})};
+ const api=createSiteGithubApi({getToken:()=> 'test-secret',fetcher});
+ const first=await api.fetchCommitHistoryPage({repository_full_name:repo,head,cursor:null});
+ assert.deepEqual(first.structuredContent,{commits:[{sha:head,tree_sha:blob,parents:[commit]}],has_next:true,end_cursor:'cursor-2'});
+ assert.equal(calls[0].url,'https://api.github.com/graphql');assert.equal(calls[0].options.redirect,'manual');
+ const variables=JSON.parse(calls[0].options.body).variables;assert.deepEqual(variables,{head,cursor:null});
+ malformed=true;assert.equal((await api.fetchCommitHistoryPage({repository_full_name:repo,head,cursor:'cursor-2'})).isError,true);
+ assert.equal((await api.fetchCommitHistoryPage({repository_full_name:'other/repo',head})).isError,true);
+ assert.equal(JSON.stringify(first).includes('test-secret'),false);
+});
 test('tree creation rejects arbitrary paths, modes and duplicate additions before network',async()=>{
  const {api,calls}=fixture(),entry={path:'config/state.json',mode:'100644',type:'blob',sha:blob};
  for(const elements of [[{...entry,path:'config/../secret.json'}],[{...entry,mode:'100755'}],[entry,entry],[],[{...entry,content:'arbitrary'}]])

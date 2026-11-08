@@ -5,6 +5,7 @@ import {verifyWorkerContext} from './d1_fence_service.mjs';
 import {makeHeartbeatKeeper} from './site_heartbeat_keeper.mjs';
 import {readSourceArtifact} from './site_actions_artifact.mjs';
 import verifier from './verified_git_blob.cjs';
+import {findLinearAncestor} from './site_linear_history.mjs';
 
 const REPO='RISEInfoSec/Alex',REVIEW='codex/soups-corpus-review',MAIN='main';
 const WORKER='config/content_review_worker_status.json',LIMIT=12*1024*1024;
@@ -38,13 +39,10 @@ export async function readSourceEvidence({github,getToken,input,now=()=>Date.now
   entries[0].artifact_sha256===observed.artifact?.sha256;
  if(!HASH.test(requestId||'')||(!accounted&&pending?.request_id!==requestId)||!SHA.test(observed.native_run?.head_sha||''))
   throw Error('Source artifact does not match a pending or accounted request');
- const reservation=observed.native_run.head_sha;let cursor=input.expectedHead,found=false;
- for(let i=0;i<20;i++){
-  await heartbeat();const item=unwrap(await github.fetchCommitDetails({repository_full_name:REPO,commit_sha:cursor}),'Source handoff history unavailable');
-  if(item.sha!==cursor||!Array.isArray(item.parents)||item.parents.some(x=>!SHA.test(x||'')))throw Error('Source handoff history invalid');
-  if(cursor===reservation){found=true;break;}if(item.parents.length!==1)throw Error('Source handoff reservation outside linear history');cursor=item.parents[0];
- }
- if(!found)throw Error('Source handoff reservation outside bounded history');
+ const reservation=observed.native_run.head_sha;
+ const details=async sha=>unwrap(await github.fetchCommitDetails({repository_full_name:REPO,commit_sha:sha}),'Source handoff history unavailable');
+ await findLinearAncestor({github,head:input.expectedHead,ancestor:reservation,heartbeat,details,
+  linearError:'Source handoff reservation outside linear history',boundedError:'Source handoff reservation outside bounded history'});
  await checkHeads();await verify({github,input,now});
  return {status:'verified_source_artifact',request_id:requestId,native_run:observed.native_run,
   artifact:observed.artifact,result_text:observed.result_text,candidate_processing:false,publication_verified:false};

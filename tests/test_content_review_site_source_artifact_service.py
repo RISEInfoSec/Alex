@@ -12,7 +12,7 @@ def invoke(value,mode):
     code=r"""import crypto from 'node:crypto';import {readSourceEvidence} from './tools/content_review/site_source_artifact_service.mjs';
 let raw='';for await(const chunk of process.stdin)raw+=chunk;const v=JSON.parse(raw),mode=v.mode,ok=x=>({isError:false,structuredContent:x});
 let reads=0,verifies=0;const api={fetchCommit:async({commit_sha})=>ok({commit:{sha:commit_sha==='main'?v.input.expectedMain:v.input.expectedHead}}),
- fetchCommitDetails:async({commit_sha})=>v.details?.[commit_sha]?ok(v.details[commit_sha]):ok({sha:commit_sha,parents:mode==='history'?[]:[v.source]}),
+ fetchCommitDetails:async({commit_sha})=>v.details?.[commit_sha]?ok(v.details[commit_sha]):ok({sha:commit_sha,tree_sha:'f'.repeat(40),parents:mode==='history'?[]:[v.source]}),
  fetchFile:async({path,ref})=>{const item=v.files[ref+':'+path];if(!item)return {isError:true};
   if(mode==='no_pending'&&path==='config/content_review_worker_status.json'){const state=JSON.parse(item.content);state.current_run.pending_source_request=null;
    const content=JSON.stringify(state),sha=crypto.createHash('sha1').update(`blob ${Buffer.byteLength(content)}\0`).update(content).digest('hex');return ok({sha,content});}return ok(item)}};
@@ -43,5 +43,17 @@ def test_handoff_blocks_unleased_or_wrong_artifact(tmp_path,mode):
 def test_handoff_keeps_an_accounted_artifact_available_for_retention(tmp_path):
     from tests.test_content_review_site_source_retention_writer import request as retention_request
     result=invoke(retention_request(tmp_path),'success')
+    assert result.get('status')=='verified_source_artifact',result
+    assert result['candidate_processing'] is False and result['publication_verified'] is False
+
+
+def test_handoff_can_verify_a_reservation_more_than_twenty_commits_behind(tmp_path):
+    value=request(tmp_path);old=value['input']['expectedHead'];parent=old;details={}
+    for number in range(1,26):
+        head=format(number,'040x');details[head]={'sha':head,'tree_sha':'e'*40,'parents':[parent]};parent=head
+    state='config/content_review_worker_status.json'
+    value['files'][parent+':'+state]=value['files'][old+':'+state]
+    value['input']['expectedHead']=parent;value['details']=details
+    result=invoke(value,'success')
     assert result.get('status')=='verified_source_artifact',result
     assert result['candidate_processing'] is False and result['publication_verified'] is False

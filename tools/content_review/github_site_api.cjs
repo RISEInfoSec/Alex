@@ -51,6 +51,26 @@ function createSiteGithubApi({getToken,fetcher=fetch,timeoutMs=20000}={}){
       value.parents.some(p=>!SHA.test(p?.sha||'')))return failure('READ_FAILED');
    return success({sha:value.sha,tree_sha:value.tree.sha,parents:value.parents.map(p=>p.sha)});
   },
+  async fetchCommitHistoryPage({repository_full_name,head,cursor=null}){
+   if(repository_full_name!==REPOSITORY||!SHA.test(head||'')||
+      !(cursor===null||typeof cursor==='string'&&cursor.length>0&&cursor.length<=512))return failure('INVALID_SCOPE');
+   // Only a fixed repository and immutable head are accepted. The small page
+   // contains commit identities and parent links, not file contents.
+   const query='query($head:String!,$cursor:String){repository(owner:"RISEInfoSec",name:"Alex"){object(expression:$head){... on Commit{history(first:50,after:$cursor){nodes{oid tree{oid} parents(first:2){totalCount nodes{oid}}} pageInfo{hasNextPage endCursor}}}}}}';
+   const result=await request('/graphql',{method:'POST',body:{query,variables:{head,cursor}}});
+   const history=result.data?.data?.repository?.object?.history,nodes=history?.nodes,info=history?.pageInfo;
+   if(result.data?.errors?.length||!Array.isArray(nodes)||nodes.length<1||nodes.length>50||
+      !info||typeof info.hasNextPage!=='boolean'||(info.hasNextPage&&(typeof info.endCursor!=='string'||!info.endCursor||info.endCursor.length>512)))
+    return failure('HISTORY_UNAVAILABLE');
+   const commits=[];
+   for(const node of nodes){const parents=node?.parents;
+    if(!SHA.test(node?.oid||'')||!SHA.test(node?.tree?.oid||'')||!Number.isSafeInteger(parents?.totalCount)||
+       parents.totalCount<0||parents.totalCount>2||!Array.isArray(parents.nodes)||parents.nodes.length!==parents.totalCount||
+       parents.nodes.some(p=>!SHA.test(p?.oid||'')))return failure('HISTORY_UNAVAILABLE');
+    commits.push({sha:node.oid,tree_sha:node.tree.oid,parents:parents.nodes.map(p=>p.oid)});
+   }
+   return success({commits,has_next:info.hasNextPage,end_cursor:info.hasNextPage?info.endCursor:null});
+  },
   async fetchFile({repository_full_name,path,ref,require_content=false}){
    if(repository_full_name!==REPOSITORY||!validReadPath(path)||!SHA.test(ref||'')||typeof require_content!=='boolean')return failure('INVALID_SCOPE');
    const result=await request(repoPath+'/contents/'+pathFor(path)+'?ref='+encodeURIComponent(ref));
