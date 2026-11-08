@@ -81,7 +81,13 @@ def run(repo,token,native,owner,run_id,*,begin=start,checkpoint=checkpoint_one,f
             reason=result.get('reason')
             if reason not in ('no_selected_duplicate_gate','duplicate_gate_held'):
                 raise ValueError('Backlog deferral invalid')
-            blocked.add(target);continue
+            # A held candidate is excluded from subsequent selections but does
+            # not establish that this whole collection has no other work.
+            # Stop the collection when selection is empty (or returns no
+            # examined identities), preventing an unproductive loop.
+            if reason=='no_selected_duplicate_gate' or not additions:
+                blocked.add(target)
+            continue
         if status!='checkpoint_confirmed_run_incomplete':raise ValueError('Backlog checkpoint outcome invalid')
         commit,path=result.get('commit_sha'),result.get('receipt_path')
         if (not isinstance(commit,str) or not SHA.fullmatch(commit) or commit==review or not isinstance(path,str) or
