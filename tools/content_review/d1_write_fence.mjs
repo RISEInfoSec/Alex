@@ -5,7 +5,7 @@
 // still finish after a client timeout. Reconcile it with a verified barrier.
 const SHA=/^[0-9a-f]{40}$/;
 const ID=/^[a-zA-Z0-9-]{1,100}$/;
-const RECEIPT=/^config\/content_review_(?:mechanical_checkpoints|source_requests|source_receipts|source_checkpoints|run_receipts|intake_receipts)\/[a-zA-Z0-9-]{1,100}\.json$/;
+const RECEIPT=/^config\/content_review_(?:mechanical_checkpoints|source_requests|source_receipts|source_checkpoints|source_gate_checkpoints|run_receipts|intake_receipts)\/[a-zA-Z0-9-]{1,100}\.json$/;
 const INSERT="INSERT INTO content_review_write_fence (fence_id,operation_id,owner,run_id,expected_head,expected_tree,receipt_path,receipt_blob_sha,phase,acquired_at) VALUES ('content-review',?,?,?,?,?,?,?,'preparing',?) ON CONFLICT(fence_id) DO NOTHING";
 const COMMIT="UPDATE content_review_write_fence SET phase='committing' WHERE fence_id='content-review' AND operation_id=? AND owner=? AND run_id=? AND expected_head=? AND expected_tree=? AND receipt_path=? AND receipt_blob_sha=? AND phase='preparing'";
 const ABORT="DELETE FROM content_review_write_fence WHERE fence_id='content-review' AND operation_id=? AND owner=? AND run_id=? AND expected_head=? AND expected_tree=? AND receipt_path=? AND receipt_blob_sha=? AND phase='preparing'";

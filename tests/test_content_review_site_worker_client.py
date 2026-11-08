@@ -73,6 +73,17 @@ def test_duplicate_checkpoint_reports_only_a_confirmed_mechanical_gate():
     assert post('duplicate',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
 
 
+def test_source_gate_requires_confirmed_receipt_and_never_claims_publication():
+    receipt='config/content_review_source_gate_checkpoints/'+'b'*64+'.json'
+    response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':receipt,'gate':'access',
+              'candidate_processing':True,'native_completion_verified':False,'publication_verified':False}
+    opener=Opener(Response(response));result=post('source_gate',{},'secret-value',opener=opener)
+    assert opener.requests[0][0].full_url==ORIGIN+'/api/content-review-source-gate' and opener.requests[0][1]==180
+    assert result['gate']=='access' and result['candidate_processing'] is True and result['publication_verified'] is False
+    response['gate']='quality'
+    assert post('source_gate',{},'secret-value',opener=Opener(Response(response)))['status']=='outcome_unknown'
+
+
 def test_completed_run_receipt_does_not_claim_native_or_publication_success():
     response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':'config/content_review_run_receipts/run.json',
               'candidate_processing':True,'native_completion_verified':False,'publication_verified':False}

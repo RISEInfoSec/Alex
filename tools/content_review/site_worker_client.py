@@ -21,7 +21,8 @@ PATHS = {'lease': '/api/content-review-lease', 'heartbeat': '/api/content-review
          'source_request': '/api/content-review-source-request', 'source_result': '/api/content-review-source-result',
          'source_retention': '/api/content-review-source-retention',
          'source_completion': '/api/content-review-source-completion',
-         'source_pending': '/api/content-review-source-pending'}
+         'source_pending': '/api/content-review-source-pending',
+         'source_gate': '/api/content-review-source-gate'}
 MAX_INPUT = 16 * 1024 * 1024
 MAX_RESULT = 16 * 1024
 SAFE_REASON = re.compile(r'^[a-z_]{1,80}$')
@@ -40,7 +41,8 @@ def post(action, payload, token, *, opener=None):
     request = urllib.request.Request(ORIGIN + PATHS[action], data=body, method='POST',
         headers={'OAI-Sites-Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Accept': 'application/json'})
     try:
-        with (opener or urllib.request.build_opener(NoRedirect)).open(request, timeout=55 if action in ('duplicate', 'completion', 'source_result', 'source_retention', 'source_completion', 'source_pending') else 45) as response:
+        timeout = 180 if action == 'source_gate' else 55 if action in ('duplicate', 'completion', 'source_result', 'source_retention', 'source_completion', 'source_pending') else 45
+        with (opener or urllib.request.build_opener(NoRedirect)).open(request, timeout=timeout) as response:
             status = response.status
             raw = response.read(MAX_RESULT + 1)
     except urllib.error.HTTPError as exc:
@@ -91,6 +93,14 @@ def post(action, payload, token, *, opener=None):
             result.get('native_completion_verified') is not False or result.get('publication_verified') is not False):
             return {'status': 'outcome_unknown', 'action': action, 'reconcile_before_retry': True}
         output.update(receipt_path=receipt, gate='duplicates', candidate_processing=True,
+                      native_completion_verified=False, publication_verified=False)
+    elif action == 'source_gate':
+        receipt, gate = result.get('receipt_path'), result.get('gate')
+        if (not isinstance(receipt, str) or not re.fullmatch(r'config/content_review_source_gate_checkpoints/[0-9a-f]{64}\.json', receipt) or
+            gate not in ('access', 'metadata') or result.get('candidate_processing') is not True or
+            result.get('native_completion_verified') is not False or result.get('publication_verified') is not False):
+            return {'status': 'outcome_unknown', 'action': action, 'reconcile_before_retry': True}
+        output.update(receipt_path=receipt, gate=gate, candidate_processing=True,
                       native_completion_verified=False, publication_verified=False)
     elif action == 'completion':
         receipt = result.get('receipt_path')
