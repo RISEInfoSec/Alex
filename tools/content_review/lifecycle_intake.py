@@ -46,6 +46,9 @@ def prepare(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id, 
          heartbeat=heartbeat, review_head=inputs['review_commit'])
     checked = reconcile(snapshot, confirmed_snapshot, {k: v.get('records', []) for k, v in manifests.items()})
     excluded = {(x['collection'], x['candidate_id']) for x in checked['matched_decisions'] + checked['held']}
+    # A later submission can supersede a decision without erasing its review
+    # history. Do not initialize a previously decided candidate as untouched.
+    excluded.update((x['collection'], x['candidate_id']) for x in snapshot['decisions'])
     metadata = {(x.get('commit'), x.get('path')) for x in inputs.get('metadata', []) if isinstance(x, dict)}
     groups, held = {}, Counter()
     for collection in registry:

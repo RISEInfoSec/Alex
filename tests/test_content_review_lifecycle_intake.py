@@ -57,6 +57,21 @@ def test_decided_candidate_and_unnumbered_intake_are_never_added():
     assert result['held']['unnumbered_intake_required'] == 1
 
 
+def test_superseded_review_decision_never_becomes_an_untouched_candidate():
+    now,snap,inputs,state,ledger=setup()
+    row=inputs['reconciliation_manifests']['weekly']['records'][0]
+    snap['submissions']=[dict(id='old',user_id='owner',collection='weekly',batch=1,revision=1,
+        accepted=0,rejected=1,payload_hash='a'*64),dict(id='new',user_id='owner',collection='weekly',batch=1,
+        revision=2,accepted=1,rejected=0,payload_hash='b'*64)]
+    snap['decisions']=[dict(id='decision',user_id='owner',submission_id='old',collection='weekly',batch=1,
+        revision=1,candidate_id='fresh',review_number=1,content_sha256=row['content_sha256'],decision='rejected'),
+        dict(id='later',user_id='owner',submission_id='new',collection='weekly',batch=1,
+        revision=2,candidate_id='other',review_number=2,content_sha256='c'*64,decision='approved')]
+    for name in ('submissions','decisions'):snap['read_evidence'][name]['rows_received']=len(snap[name])
+    result=call(now,snap,inputs,state,ledger)
+    assert result['status']=='no_numbered_lifecycle_entries_due' and result['writes']==0
+
+
 def test_stale_hash_snapshot_source_and_lease_fail_closed():
     now, snap, inputs, state, ledger = setup()
     inputs['reconciliation_manifests']['weekly']['records'][0]['title'] = 'Changed after review'
