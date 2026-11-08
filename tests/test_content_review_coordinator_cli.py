@@ -35,4 +35,13 @@ def test_uncertain_failure_redacts_error_and_requires_reconciliation(monkeypatch
     def fail(*args):raise RuntimeError('private error secret')
     code,out=run(monkeypatch,data,fail)
     assert code==1 and out['reconcile_before_retry'] is True and out['native_completion_verified'] is False and out['candidate_processing'] is None
+    assert out['error_type']=='RuntimeError' and out['safe_detail'] is None
     assert 'secret' not in json.dumps(out) and 'private error' not in json.dumps(out)
+
+
+def test_known_failure_reports_only_a_fixed_allowlisted_detail(monkeypatch):
+    data={'site_token':'secret','native':{},'owner':'worker','run_id':'run'}
+    def fail(*args):raise ValueError('Coordinator source heads changed')
+    code,out=run(monkeypatch,data,fail)
+    assert code==1 and out['error_type']=='ValueError' and out['safe_detail']=='Coordinator source heads changed'
+    assert 'secret' not in json.dumps(out)
