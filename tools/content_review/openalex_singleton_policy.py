@@ -73,7 +73,10 @@ def defer_429(headers, *, at=None):
                 incomplete = True
         else:
             incomplete = True
-    if not candidates or incomplete:
+    if incomplete:
+        return {'status': 'held', 'reason': 'provider_cooldown_requires_reconciliation',
+                'resume_not_before': None, 'automatic_retry': False, 'writes': 0}
+    if not candidates:
         candidates.append(datetime.combine(now.date()+timedelta(days=1), datetime.min.time(), timezone.utc))
     # Even an expired or zero provider value cannot schedule an immediate retry.
     resume = max([now + timedelta(seconds=60), *candidates])

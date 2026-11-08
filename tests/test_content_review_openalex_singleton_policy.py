@@ -28,9 +28,7 @@ def test_no_arbitrary_urls_or_query_operations_can_be_constructed(identity):
     ({'retry-after':'0'},'2026-11-08T13:01:00+00:00'),
     ({'Retry-After':'120','X-RateLimit-Reset':'3600'},'2026-11-08T14:00:00+00:00'),
     ({'Retry-After':'Sun, 08 Nov 2026 13:05:00 GMT'},'2026-11-08T13:05:00+00:00'),
-    ({'Retry-After':'172800','X-RateLimit-Reset':'invalid'},'2026-11-10T13:00:00+00:00'),
-    ({},'2026-11-09T00:00:00+00:00'),
-    ({'Retry-After':'invalid'},'2026-11-09T00:00:00+00:00')])
+    ({},'2026-11-09T00:00:00+00:00')])
 def test_rate_limit_never_retries_automatically_or_before_known_deadlines(headers,expected):
     result=defer_429(headers,at=NOW)
     assert result['status']=='held' and result['resume_not_before']==expected
@@ -41,6 +39,14 @@ def test_unreasonably_distant_cooldown_requires_reconciliation():
     result=defer_429({'Retry-After':'99999999'},at=NOW)
     assert result['status']=='held' and result['resume_not_before'] is None and result['automatic_retry'] is False
     assert defer_429({'Retry-After':'999999999'},at=NOW)['resume_not_before'] is None
+
+
+@pytest.mark.parametrize('headers',[{'Retry-After':'invalid'},
+    {'Retry-After':'172800','X-RateLimit-Reset':'invalid'}, {'Retry-After':'-1'}])
+def test_unparseable_provider_deadlines_never_get_a_guessed_recheck_time(headers):
+    result=defer_429(headers,at=NOW)
+    assert result['reason']=='provider_cooldown_requires_reconciliation'
+    assert result['resume_not_before'] is None and result['automatic_retry'] is False
 
 
 def test_ambiguous_duplicate_header_and_naive_time_fail_closed():
