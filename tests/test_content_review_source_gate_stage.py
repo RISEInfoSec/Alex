@@ -46,3 +46,30 @@ def test_missing_or_insufficient_retained_evidence_is_held(monkeypatch):
     row,receipt,inputs,args,kw=setup(monkeypatch)
     receipt['result']['records'][0]['evidence'][0]['text']='tampered'
     assert prepare(*args,**kw)['reason']=='source_gate_evidence_insufficient'
+
+
+def test_legacy_receipt_is_held_without_modifying_candidate_or_claiming_proof(monkeypatch):
+    row,receipt,inputs,args,kw=setup(monkeypatch); before=deepcopy(inputs)
+    result=receipt['result']
+    for key in ('origin_backoff','provenance','request_log','requests','schema_version','updated_at'):
+        result.setdefault(key, None)
+    receipt.clear()
+    receipt.update({'schema_version':1, 'independently_verified':True, 'verified_at':'2026-01-01T00:00:00Z',
+        'run':{key:None for key in ('conclusion','event','head_branch','head_sha','html_url','id','path','run_attempt','status')},
+        'result':result})
+    assert prepare(*args,**kw)=={'status':'held','reason':'legacy_source_provenance_unverified','writes':0}
+    assert inputs==before
+    receipt['unexpected_field']=True
+    with pytest.raises(ValueError,match='Verified source receipt is invalid'):
+        prepare(*args,**kw)
+
+
+def test_legacy_bare_source_result_is_held(monkeypatch):
+    row,receipt,inputs,args,kw=setup(monkeypatch); result=deepcopy(receipt['result'])
+    for key in ('origin_backoff','provenance','request_log','requests','schema_version','updated_at'):
+        result.setdefault(key, 1 if key=='schema_version' else None)
+    receipt.clear();receipt.update(result)
+    assert prepare(*args,**kw)=={'status':'held','reason':'legacy_source_provenance_unverified','writes':0}
+    receipt['read_only']=False
+    with pytest.raises(ValueError,match='Verified source receipt is invalid'):
+        prepare(*args,**kw)

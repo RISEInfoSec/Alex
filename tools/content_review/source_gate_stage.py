@@ -16,6 +16,28 @@ from tools.content_review.verified_inputs import _path_blob
 RECEIPT = re.compile(r'^config/content_review_source_receipts/[0-9a-f]{64}\.json$')
 
 
+def _legacy_receipt_without_provenance(receipt):
+    """Recognize the older retained result only to hold it, never to verify it."""
+    result_keys = {'origin_backoff', 'provenance', 'read_only', 'records', 'request_id', 'request_log',
+                   'requests', 'schema_version', 'status', 'updated_at'}
+    if (isinstance(receipt, dict) and set(receipt) == result_keys
+            and type(receipt.get('schema_version')) is int and receipt['schema_version'] == 1
+            and receipt.get('status') == 'complete' and receipt.get('read_only') is True
+            and isinstance(receipt.get('records'), list)):
+        return True
+    if not isinstance(receipt, dict) or set(receipt) != {
+        'schema_version', 'independently_verified', 'verified_at', 'run', 'result'
+    } or type(receipt.get('schema_version')) is not int or receipt['schema_version'] != 1:
+        return False
+    run, result = receipt.get('run'), receipt.get('result')
+    return (receipt.get('independently_verified') is True and isinstance(receipt.get('verified_at'), str)
+            and isinstance(run, dict) and set(run) == {
+                'conclusion', 'event', 'head_branch', 'head_sha', 'html_url', 'id', 'path', 'run_attempt', 'status'
+            } and isinstance(result, dict) and set(result) == result_keys
+            and result.get('status') == 'complete' and result.get('read_only') is True
+            and isinstance(result.get('records'), list))
+
+
 def prepare(repo, snapshot, confirmed, inputs, ledger, state, owner, run_id, collection, candidate_id, gate,
             *, observed_heads, source_attempts, source_progress, at=None, heartbeat=None):
     now = at or datetime.now(timezone.utc)
@@ -50,6 +72,8 @@ def prepare(repo, snapshot, confirmed, inputs, ledger, state, owner, run_id, col
         return {'status': 'held', 'reason': 'retained_source_unavailable', 'writes': 0}
     raw, proof = _path_blob(repo, inputs['review_commit'], path)
     receipt = json.loads(raw)
+    if _legacy_receipt_without_provenance(receipt):
+        return {'status': 'held', 'reason': 'legacy_source_provenance_unverified', 'writes': 0}
     result = audit(row, collection, receipt, now=now)
     check = result.get('checks', {}).get(gate)
     if not isinstance(check, dict) or check.get('status') != 'passed':
