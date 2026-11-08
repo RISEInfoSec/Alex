@@ -62,8 +62,17 @@ def run(repo,token,native,owner,run_id,*,begin=start,checkpoint=checkpoint_one,f
         # A held FIRST candidate must not use the M3AAWG pilot's whole budget.
         budget=LIMIT-len(examined)
         if target=='first' and 'm3aawg' not in blocked:budget=1
-        result=checkpoint(repo,token,review,main,owner,run_id,only_collections=(target,),max_candidates=budget,
-                          excluded_candidates=examined,precheck=identity_precheck,return_examined=True)
+        try:
+            result=checkpoint(repo,token,review,main,owner,run_id,only_collections=(target,),max_candidates=budget,
+                              excluded_candidates=examined,precheck=identity_precheck,return_examined=True)
+        except Exception:
+            # A later failure must not erase checkpoints already confirmed by
+            # exact-head readback. The failing operation may itself have an
+            # ambiguous outcome, so no completion or retry is attempted.
+            return {'status':'blocked','reason':'backlog_error_reconcile_lease_and_refs',
+                    'confirmed_checkpoint_count':len(commits),'confirmed_checkpoint_commits':dict(commits),
+                    'candidate_processing':True if commits else None,'lease_release_confirmed':False,
+                    'reconcile_before_retry':True,'native_completion_verified':False,'publication_verified':False}
         if not isinstance(result,dict):raise ValueError('Backlog checkpoint response invalid')
         attempted=result.get('_examined_private')
         if (not isinstance(attempted,list) or len(attempted)>budget or any(
@@ -75,6 +84,7 @@ def run(repo,token,native,owner,run_id,*,begin=start,checkpoint=checkpoint_one,f
         status=result.get('status')
         if status=='blocked':
             return {'status':'blocked','reason':'backlog_checkpoint_unconfirmed','confirmed_checkpoint_count':len(commits),
+                    'confirmed_checkpoint_commits':dict(commits),
                     'candidate_processing':True if commits else None,'lease_release_confirmed':False,
                     'reconcile_before_retry':True,'native_completion_verified':False,'publication_verified':False}
         if status=='deferred':
@@ -92,6 +102,7 @@ def run(repo,token,native,owner,run_id,*,begin=start,checkpoint=checkpoint_one,f
     remaining=600-(clock()-started).total_seconds()
     if remaining<240+60*max(0,len(commits)-1):
         return {'status':'blocked','reason':'insufficient_time_to_verify_completion','confirmed_checkpoint_count':len(commits),
+                'confirmed_checkpoint_commits':dict(commits),
                 'candidate_processing':bool(commits),'lease_release_confirmed':False,'reconcile_before_retry':True,
                 'native_completion_verified':False,'publication_verified':False}
     result=finish(repo,token,native,review,main,owner,run_id,list(commits) if commits else None,

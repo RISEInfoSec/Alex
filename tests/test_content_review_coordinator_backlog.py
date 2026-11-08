@@ -43,6 +43,21 @@ def test_ambiguous_checkpoint_stops_without_retry_or_completion():
     assert result['lease_release_confirmed'] is False and result['candidate_processing'] is None
 
 
+def test_later_exception_preserves_previously_confirmed_checkpoint_for_reconciliation():
+    calls=[];path='config/content_review_mechanical_checkpoints/'+'e'*64+'.json';commit='c'*40
+    def checkpoint(*a,**kw):
+        calls.append(kw['only_collections'][0])
+        if len(calls)==1:return {'status':'checkpoint_confirmed_run_incomplete','receipt_path':path,'commit_sha':commit,
+            'candidate_processing':True,'_examined_private':[('m3aawg','private-candidate')]}
+        raise RuntimeError('private data must not be included')
+    result=run('.','secret',native(),'worker','run',begin=lambda *a:{'status':'lease_started','review_head':REVIEW,'main_head':MAIN},
+        checkpoint=checkpoint,finish=lambda *a,**k:pytest.fail('ambiguous write must not be finalized'),clock=lambda:NOW)
+    assert calls==['m3aawg','first'] and result['status']=='blocked' and result['reconcile_before_retry'] is True
+    assert result['confirmed_checkpoint_count']==1 and result['confirmed_checkpoint_commits']=={path:commit}
+    assert result['candidate_processing'] is True and result['lease_release_confirmed'] is False
+    assert 'private' not in json.dumps(result)
+
+
 def test_held_and_unsupported_candidates_count_toward_the_five_item_ceiling():
     clock=[NOW];budgets=[];finished=[]
     def checkpoint(*args,**kwargs):
