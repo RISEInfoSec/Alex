@@ -62,9 +62,47 @@ test('a fresh detached heartbeat permits a long-running native-bound worker',asy
  const f=fixture();f.now=()=>at+180000;f.heartbeat.observed_at='2026-11-07T19:03:20Z';
  assert.equal((await call(f,'acquire')).status,'acquired');
 });
+test('only the internal completion path can use the bounded completion window',async()=>{
+ const atMinute=minutes=>{const f=fixture();const t=Date.parse('2026-11-07T19:00:00Z')+minutes*60000;
+  f.now=()=>t;f.heartbeat.observed_at=new Date(t).toISOString();return f;};
+ const candidate=atMinute(11);await assert.rejects(call(candidate,'acquire'));assert.equal(candidate.current(),null);
+ const completion=atMinute(11);completion.completionOnly=true;
+ assert.equal((await call(completion,'acquire')).status,'acquired');completion.snap.jobs.push({id:'private'});
+ await assert.rejects(call(completion,'begin'),/decisions changed/);assert.equal((await call(completion,'abort')).status,'aborted');
+ const late=atMinute(15.1);late.completionOnly=true;await assert.rejects(call(late,'acquire'));assert.equal(late.current(),null);
+ const stale=atMinute(11);stale.completionOnly=true;stale.heartbeat.observed_at='2026-11-07T19:00:20Z';
+ await assert.rejects(call(stale,'acquire'));assert.equal(stale.current(),null);
+ const supplied=atMinute(11);await assert.rejects(call(supplied,'acquire',{completionOnly:true}),/Invalid fence request/);
+});
 test('a scheduler observation predating its run is rejected',async()=>{
  const f=fixture();f.state.current_run.scheduler.observed_at='2026-11-07T18:59:59Z';
  await assert.rejects(call(f,'acquire'),/worker lease or heartbeat/);assert.equal(f.current(),null);
+});
+test('manual work requires an exact unexpired permit and still fences changing decisions',async()=>{
+ const make=()=>{const f=fixture();f.state.current_run.scheduled_for=null;
+  f.state.current_run.scheduler={id:'Automation_worker1',kind:'manual',authorization:'owner_request',observed_at:'2026-11-07T19:00:20Z'};
+  f.config.manual_run_authorization={run_id:'run-1',owner:'worker',scope:'duplicate_only',expires_at:'2026-11-07T19:14:00Z'};return f;};
+ const f=make();f.manualScope='duplicate_only';assert.equal((await call(f,'acquire')).status,'acquired');f.snap.jobs.push({id:'private'});
+ await assert.rejects(call(f,'begin'),/decisions changed/);assert.equal((await call(f,'abort')).status,'aborted');
+ for(const mode of ['missing','expired','run','scope','owner']){
+  const q=make();q.manualScope='duplicate_only';if(mode==='missing')delete q.config.manual_run_authorization;
+  if(mode==='expired')q.config.manual_run_authorization.expires_at='2026-11-07T19:00:10Z';
+  if(mode==='run')q.config.manual_run_authorization.run_id='other';if(mode==='scope')q.config.manual_run_authorization.scope='publication';
+  if(mode==='owner')q.config.manual_run_authorization.owner='other';
+  await assert.rejects(call(q,'acquire'));assert.equal(q.current(),null,mode);
+ }
+});
+test('manual permits cannot cross writer scopes or authorize unscoped operations',async()=>{
+ for(const permit of ['duplicate_only','source_retention_only']){
+  for(const scope of [null,'duplicate_only','source_retention_only']){
+   const f=fixture();f.state.current_run.scheduled_for=null;
+   f.state.current_run.scheduler={id:'Automation_worker1',kind:'manual',authorization:'owner_request',observed_at:'2026-11-07T19:00:20Z'};
+   f.config.manual_run_authorization={run_id:'run-1',owner:'worker',scope:permit,expires_at:'2026-11-07T19:14:00Z'};
+   f.manualScope=scope;
+   if(scope===permit)assert.equal((await call(f,'acquire')).status,'acquired');
+   else {await assert.rejects(call(f,'acquire'));assert.equal(f.current(),null);}
+  }
+ }
 });
 test('a retired target is rejected without consulting the heartbeat ref',async()=>{
  const f=fixture();f.config.target_automation_id='Automation_4eb2dd829aa88191b542d57f7008ebe3';

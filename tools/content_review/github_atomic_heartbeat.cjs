@@ -24,7 +24,7 @@ async function commitHeartbeat({api,linkId,proposal,now=()=>Date.now()}){
   const t=now(),at=Date.parse(record.observed_at),start=Date.parse(record.started_at),acquired=Date.parse(record.lease_acquired_at),expiry=Date.parse(record.lease_expires_at);
   if(record.schema_version!==1||record.review_head!==proposal.review_head||record.owner!==proposal.owner||record.run_id!==proposal.run_id||
      typeof record.scheduler_id!=='string'||!record.scheduler_id||!Number.isFinite(t)||!Number.isFinite(at)||at>t||t-at>40000||
-     !Number.isFinite(start)||start>at||t-start>=720000||!Number.isFinite(acquired)||acquired>at||!Number.isFinite(expiry)||expiry<=t)
+     !Number.isFinite(start)||start>at||t-start>=900000||!Number.isFinite(acquired)||acquired>at||!Number.isFinite(expiry)||expiry<=t)
    throw new Error('Heartbeat or underlying lease is stale or mismatched');
  }
  requireFresh();
