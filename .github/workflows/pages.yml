@@ -46,7 +46,9 @@ jobs:
           # to `main` so we deploy whatever's currently on the branch.
           ref: main
       - name: Generate and validate Pages artifact
-        run: python3 scripts/stage_site.py
+        run: |
+          revision="$(git rev-parse --verify HEAD)"
+          python3 scripts/stage_site.py --revision "$revision"
       - uses: actions/configure-pages@v6.0.0
       - uses: actions/upload-pages-artifact@v5.0.0
         with:

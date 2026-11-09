@@ -16,7 +16,9 @@ from scripts.check_seo import check
 from alex.publication_status import write_index
 
 
-def stage(root: Path, destination: Path) -> None:
+def stage(root: Path, destination: Path, revision: str | None = None) -> None:
+    if revision is not None and not re.fullmatch(r'[0-9a-f]{40}', revision):
+        raise ValueError('Site revision must be the full lowercase Git commit ID')
     # The public JSON is the accepted-corpus projection produced by publish.
     # Generate again at the artifact boundary, including direct main pushes.
     generate(root)
@@ -51,11 +53,24 @@ def stage(root: Path, destination: Path) -> None:
         html = re.sub(pattern, lambda _: named_collection_navigation(groups), html, count=1, flags=re.DOTALL)
         index.write_text(html, encoding="utf-8")
     check(destination, source_root=root)
+    if revision is not None:
+        placeholder = '<span data-site-version>Site version unavailable</span>'
+        label = f'<span data-site-version title="Git commit {revision}">Site version {revision[:12]}</span>'
+        pages = [destination / 'index.html', destination / 'data-license-v1.html',
+                 *sorted((destination / 'research').rglob('*.html'))]
+        for page in pages:
+            contents = page.read_text(encoding='utf-8')
+            if '<footer>' not in contents and 'http-equiv="refresh"' in contents:
+                continue  # Redirect-only pages have no visible footer.
+            if contents.count(placeholder) != 1:
+                raise ValueError(f'Expected one version placeholder in {page}')
+            page.write_text(contents.replace(placeholder, label), encoding='utf-8')
     print(f"Pages artifact validated: {destination}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.parse_args()
-    stage(ROOT, ROOT / "_site")
+    parser.add_argument('--revision', help='Full Git commit ID of the checked-out source')
+    args = parser.parse_args()
+    stage(ROOT, ROOT / "_site", revision=args.revision)
 

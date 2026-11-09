@@ -205,7 +205,8 @@ def test_both_pages_workflows_use_tested_staging_and_keep_deploy_controls():
     assert "group: pages\n  cancel-in-progress: true" in pages
     for workflow in (pages, pipeline):
         assert "ref: main" in workflow
-        assert "python3 scripts/stage_site.py" in workflow
+        assert 'git rev-parse --verify HEAD' in workflow
+        assert 'python3 scripts/stage_site.py --revision "$revision"' in workflow
         assert "path: _site" in workflow
     for filename in ("publish.yml", "pipeline.yml", "rebuild_site.yml", "apwg_approved_release.yml"):
         workflow = (ROOT / ".github/workflows" / filename).read_text()
@@ -426,6 +427,18 @@ def test_actual_artifact_includes_all_pages_and_preserves_downloads(tmp_path):
     (artifact / "research/categories/osint-methodology/index.html").unlink()
     with pytest.raises(AssertionError, match="Missing or stale"):
         check(artifact, source_root=tmp_path)
+
+    revision = 'a' * 40
+    stage(tmp_path, artifact, revision=revision)
+    for page in ('index.html', 'data-license-v1.html', 'research/index.html', 'research/bibliography/index.html'):
+        text = (artifact / page).read_text()
+        assert f'Site version {revision[:12]}' in text
+        assert f'Git commit {revision}' in text
+    assert 'Site version unavailable' in (tmp_path / 'index.html').read_text()
+    for name in ('papers.json', 'osint_cyber_papers.csv'):
+        assert (artifact / 'data' / name).read_bytes() == (ROOT / 'data' / name).read_bytes()
+    with pytest.raises(ValueError, match='full lowercase Git commit'):
+        stage(tmp_path, artifact, revision='not-a-commit')
 
 
 def test_named_source_navigation_is_alphabetical_and_publication_bound():
