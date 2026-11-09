@@ -171,6 +171,17 @@ stop the controller. Longer holds remain held for a later authorized invocation;
 no attempt is made to override them. A timed-out child process group is stopped
 before returning, so it cannot overlap a later pass.
 
+The OpenAlex governor also enforces a separate ceiling of 250 attempts shared
+by all passes and stages in one GitHub run. When that shared ceiling is reached,
+discovery records `openalex_run_request_budget`, saves partial progress and stops
+the controller without starting another pass. If a pass reaches its own 250-call
+limit first, one following pass may be needed to observe the shared limit; it
+cannot send additional OpenAlex requests under that run ID. This is not a
+provider cooldown and does not supply a retry deadline. A rerun of the same GitHub run retains the
+same ceiling. A later authorized invocation can resume the saved window only
+after checking the existing policy, provider holds and writer concurrency; it
+replays cached responses and does not make partial discovery publishable.
+
 Every invocation is keyed by GitHub run ID and attempt. Every child pass has a
 unique identity in both its discovery receipt and checkpoint. The controller
 checks the identity, window, saved response/task counts, exit status and request

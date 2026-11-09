@@ -116,6 +116,9 @@ class HttpClient:
         # actual HTTP call happens outside the lock.
         self._cache_lock = threading.Lock()
         self._openalex_hold = False
+        # Keep the boolean interface used by other pipelines, while allowing
+        # discovery to distinguish the shared run cap from a provider hold.
+        self._openalex_hold_reason = None
         # host -> time.monotonic() deadline. Set when a server asks us to wait
         # longer than _MAX_RETRY_AFTER; requests to that host return None
         # until the deadline passes.
@@ -186,6 +189,10 @@ class HttpClient:
         state_path = Path(os.getenv('ALEX_OPENALEX_STATE_PATH', str(CACHE.with_name(CACHE.name + '.openalex-policy'))))
         state_path.parent.mkdir(parents=True, exist_ok=True)
         with _OPENALEX_LOCK, state_path.with_suffix(state_path.suffix + '.lock').open('a') as lock:
+            # A concurrent call may have established a hold while this one
+            # was waiting for the shared lock. Preserve that original reason.
+            if self._openalex_hold:
+                return None
             fcntl.flock(lock, fcntl.LOCK_EX)
             try:
                 state = json.loads(state_path.read_text()) if state_path.exists() else {}
@@ -211,16 +218,17 @@ class HttpClient:
                 logger.warning('OpenAlex request budget checkpoint invalid; no request sent')
                 self._openalex_hold = True
                 return None
-            if attempts.get(run_id, 0) >= configured_limit:
-                logger.info('OpenAlex per-run request budget exhausted; no request sent')
-                self._openalex_hold = True
-                return None
             now = time.time()
             hold = policy.get('retry_not_before')
             hold_until = datetime.fromisoformat(hold.replace('Z', '+00:00')).timestamp() if hold else 0
             if now < max(hold_until, state.get('retry_not_before', 0)):
                 self._openalex_hold = True
                 logger.info('OpenAlex remains in backoff; no request sent')
+                return None
+            if attempts.get(run_id, 0) >= configured_limit:
+                logger.info('OpenAlex per-run request budget exhausted; no request sent')
+                self._openalex_hold_reason = 'openalex_run_request_budget'
+                self._openalex_hold = True
                 return None
             delay = max(0, state.get('last_request_at', 0) + policy['min_interval_seconds'] - now)
             self._before_openalex_wait(delay, min(timeout, policy['request_timeout_seconds']))
@@ -267,6 +275,9 @@ class HttpClient:
 
     def openalex_deferred(self) -> bool:
         return self._openalex_hold
+
+    def openalex_deferred_reason(self) -> str:
+        return self._openalex_hold_reason or 'openalex_cooldown'
 
     def on_openalex_deferred(self):
         pass
