@@ -38,7 +38,9 @@ def fingerprint(p):
 def apply(root: Path, request_id: str, identity: str, reviewed_hash: str):
     if not re.fullmatch(r'[a-f0-9-]{36}', request_id) or not re.fullmatch(r'[a-f0-9]{64}', reviewed_hash):
         raise ValueError('Invalid request identity or content hash')
-    from alex.editorial_exclusions import exclusion_keys, record_keys
+    import pandas as pd
+    from alex.editorial_exclusions import exclusion_keys, record_keys, filter_frame as filter_exclusions
+    from alex.metadata_holds import filter_frame as filter_metadata_holds
     receipt_path = root / 'data/deletion_receipts.json'
     receipts = json.loads(receipt_path.read_text()) if receipt_path.exists() else {'schema_version': 1, 'records': {}}
     if receipts.get('schema_version') != 1 or not isinstance(receipts.get('records'), dict):
@@ -61,20 +63,35 @@ def apply(root: Path, request_id: str, identity: str, reviewed_hash: str):
     corpus = root / 'data/accepted_classified.csv'
     with corpus.open(newline='', encoding='utf-8') as stream:
         reader = csv.DictReader(stream); fields = reader.fieldnames; rows = list(reader)
-    if len(rows) != len(papers):
+    # Public output is a projection of the canonical corpus: editorial
+    # exclusions and technical metadata holds intentionally retain their
+    # canonical rows while excluding them from publication. Use the same
+    # filters as the publisher, retaining original CSV indexes so the
+    # approved public record maps back to exactly one canonical row.
+    canonical = pd.read_csv(corpus)
+    if len(canonical) != len(rows):
+        raise ValueError('Canonical corpus could not be read consistently')
+    projected = filter_exclusions(canonical, root / 'config/corpus_exclusions.json')
+    projected = filter_metadata_holds(projected, root / 'config/corpus_metadata_holds.json')
+    indexes = list(projected.index)
+    if (len(indexes) != len(papers) or any(not isinstance(i, int) or i < 0 or i >= len(rows) for i in indexes)
+            or indexes != sorted(set(indexes))):
         raise ValueError('Canonical and public corpora differ; reconcile before deletion')
-    if len(rows) < 2:
+    if len(papers) < 2:
         raise ValueError('The final corpus record requires manual publication reconciliation')
-    for source, public in zip(rows, papers):
+    for canonical_index, public in zip(indexes, papers):
         # Canonical/source order is part of the existing publication projection.
+        source = rows[canonical_index]
         if source.get('title') != public.get('title') or source.get('authors', '') != public.get('author', '') or source.get('abstract', '') != public.get('summary', ''):
             raise ValueError('Canonical and public content are not aligned')
+    canonical_index = indexes[index]
     exclusion = {'candidate_id': 'private-deletion:' + request_id, 'title': paper['title'], 'year': paper.get('year', ''),
                  'doi': paper.get('doi', ''), 'source_url': paper.get('source_url') or paper.get('link') or '',
                  'decision': 'rejected', 'submission_id': request_id, 'reviewed_content_sha256': reviewed_hash,
                  'reason': 'Administrator confirmed deletion in the private ALEX workspace.'}
     keys = exclusion_keys(exclusion)
-    if any(record_keys(p) & keys for i, p in enumerate(papers) if i != index):
+    if (any(record_keys(p) & keys for i, p in enumerate(papers) if i != index)
+            or any(record_keys(row) & keys for i, row in enumerate(rows) if i != canonical_index)):
         raise ValueError('This exclusion would affect another record; manual reconciliation required')
     registry_path = root / 'config/corpus_exclusions.json'
     registry = json.loads(registry_path.read_text())
@@ -85,7 +102,7 @@ def apply(root: Path, request_id: str, identity: str, reviewed_hash: str):
     receipts['records'][request_id] = receipt
     # All validation precedes mutations. Git commits all generated outputs together.
     with corpus.open('w', newline='', encoding='utf-8') as stream:
-        writer = csv.DictWriter(stream, fieldnames=fields); writer.writeheader(); writer.writerows(rows[:index] + rows[index + 1:])
+        writer = csv.DictWriter(stream, fieldnames=fields); writer.writeheader(); writer.writerows(rows[:canonical_index] + rows[canonical_index + 1:])
     registry_path.write_text(json.dumps(registry, ensure_ascii=False, indent=2) + '\n')
     receipt_path.write_text(json.dumps(receipts, ensure_ascii=False, indent=2) + '\n')
     return {'request_id': request_id, 'removed': 1}

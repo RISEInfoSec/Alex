@@ -26,6 +26,28 @@ class PrivateDeletionTests(unittest.TestCase):
     def run_deletion(self):
         return apply(self.root, self.request, key(self.papers[0]), fingerprint(self.papers[0]))
 
+    def write_canonical(self, rows):
+        with (self.root / 'data/accepted_classified.csv').open('w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=self.rows[0].keys())
+            writer.writeheader(); writer.writerows(rows)
+
+    def hold(self, number, title='Held book', year=2024):
+        doi = f'10.5281/zenodo.{number}'
+        row = dict(title=title, authors='Author', abstract='Held text', year=year,
+                   doi=doi, source_url=f'https://example.org/{number}', extra='preserved')
+        policy = {'doi': doi, 'status': 'held_pending_supported_type_review',
+                  'verified_resource_type': 'Book', 'original_csv_row_sha256': 'a' * 64,
+                  'evidence': {'metadata_doi': doi, 'resource_type_general': 'Book',
+                               'source_url': 'https://api.datacite.org/dois/' + doi,
+                               'body_sha256': 'b' * 64, 'verified_source_receipt': 'verified'},
+                  'reason': 'Requires supported-type review'}
+        return row, policy
+
+    def write_holds(self, policies):
+        path = self.root / 'config/corpus_metadata_holds.json'
+        path.write_text(json.dumps({'schema_version': 1, 'authorization': 'test', 'records': policies}))
+        return path
+
     def test_exact_removal_preserves_other_rows_and_creates_durable_exclusion(self):
         from alex.editorial_exclusions import load_keys, record_keys
         self.assertEqual(self.run_deletion()['removed'], 1)
@@ -65,6 +87,50 @@ class PrivateDeletionTests(unittest.TestCase):
         rows[1]['title'] = self.papers[1]['title']; rows[1]['year'] = str(self.papers[1]['year'])
         with path.open('w', newline='') as f: writer = csv.DictWriter(f, fieldnames=fields); writer.writeheader(); writer.writerows(rows)
         with self.assertRaisesRegex(ValueError, 'another record'): self.run_deletion()
+
+    def test_public_projection_excludes_held_rows_without_deleting_them(self):
+        held = [self.hold(n, title=f'Held book {n}') for n in range(1, 6)]
+        original = [held[0][0], self.rows[0], held[1][0], self.rows[1],
+                    held[2][0], held[3][0], held[4][0]]
+        self.write_canonical(original)
+        hold_path = self.write_holds([policy for _, policy in held])
+        before_holds = hold_path.read_bytes()
+        self.assertEqual(self.run_deletion()['removed'], 1)
+        with (self.root / 'data/accepted_classified.csv').open(newline='') as f:
+            actual = list(csv.DictReader(f))
+        expected = [row for row in original if row is not self.rows[0]]
+        self.assertEqual(actual, [{k: str(v) for k, v in row.items()} for row in expected])
+        self.assertEqual(hold_path.read_bytes(), before_holds)
+        receipt = json.loads((self.root / 'data/deletion_receipts.json').read_text())['records'][self.request]
+        self.assertEqual((receipt['records_before'], receipt['records_after']), (7, 6))
+
+    def test_excluded_canonical_row_remains_untouched(self):
+        hidden = dict(title='Previously excluded', authors='Carol', abstract='Hidden', year=2023,
+                      doi='10.1000/excluded', source_url='https://example.org/excluded', extra='preserved')
+        self.write_canonical([hidden, *self.rows])
+        exclusion = {'title': hidden['title'], 'year': hidden['year'], 'doi': hidden['doi'],
+                     'decision': 'rejected', 'submission_id': 'prior', 'reviewed_content_sha256': 'c' * 64}
+        (self.root / 'config/corpus_exclusions.json').write_text(json.dumps({'schema_version': 1, 'records': [exclusion]}))
+        self.assertEqual(self.run_deletion()['removed'], 1)
+        with (self.root / 'data/accepted_classified.csv').open(newline='') as f:
+            actual = list(csv.DictReader(f))
+        self.assertEqual(actual, [{k: str(v) for k, v in row.items()} for row in [hidden, self.rows[1]]])
+
+    def test_unaccounted_projection_mismatch_fails_before_any_write(self):
+        self.write_canonical([self.rows[0], self.rows[1], dict(self.rows[1], title='Unexpected extra', doi='10.1000/extra')])
+        paths = [self.root / 'data/accepted_classified.csv', self.root / 'config/corpus_exclusions.json']
+        before = [path.read_bytes() for path in paths]
+        with self.assertRaisesRegex(ValueError, 'corpora differ'): self.run_deletion()
+        self.assertEqual([path.read_bytes() for path in paths], before)
+        self.assertFalse((self.root / 'data/deletion_receipts.json').exists())
+
+    def test_exclusion_collision_with_held_record_is_rejected(self):
+        hidden, policy = self.hold(12345, title=self.papers[0]['title'], year=self.papers[0]['year'])
+        self.write_canonical([hidden, *self.rows])
+        self.write_holds([policy])
+        before = (self.root / 'data/accepted_classified.csv').read_bytes()
+        with self.assertRaisesRegex(ValueError, 'another record'): self.run_deletion()
+        self.assertEqual((self.root / 'data/accepted_classified.csv').read_bytes(), before)
 
 
 if __name__ == '__main__': unittest.main()
