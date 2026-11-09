@@ -434,7 +434,7 @@ def test_actual_artifact_includes_all_pages_and_preserves_downloads(tmp_path):
         text = (artifact / page).read_text()
         assert f'Site version {revision[:12]}' in text
         assert f'Git commit {revision}' in text
-    assert 'Site version unavailable' in (tmp_path / 'index.html').read_text()
+    assert 'data-site-version' not in (tmp_path / 'index.html').read_text()
     for name in ('papers.json', 'osint_cyber_papers.csv'):
         assert (artifact / 'data' / name).read_bytes() == (ROOT / 'data' / name).read_bytes()
     with pytest.raises(ValueError, match='full lowercase Git commit'):

@@ -54,17 +54,16 @@ def stage(root: Path, destination: Path, revision: str | None = None) -> None:
         index.write_text(html, encoding="utf-8")
     check(destination, source_root=root)
     if revision is not None:
-        placeholder = '<span data-site-version>Site version unavailable</span>'
-        label = f'<span data-site-version title="Git commit {revision}">Site version {revision[:12]}</span>'
+        label = f'<br><span data-site-version title="Git commit {revision}">Site version {revision[:12]}</span>'
         pages = [destination / 'index.html', destination / 'data-license-v1.html',
                  *sorted((destination / 'research').rglob('*.html'))]
         for page in pages:
             contents = page.read_text(encoding='utf-8')
             if '<footer>' not in contents and 'http-equiv="refresh"' in contents:
                 continue  # Redirect-only pages have no visible footer.
-            if contents.count(placeholder) != 1:
-                raise ValueError(f'Expected one version placeholder in {page}')
-            page.write_text(contents.replace(placeholder, label), encoding='utf-8')
+            if contents.count('</footer>') != 1 or 'data-site-version' in contents:
+                raise ValueError(f'Expected one unversioned footer in {page}')
+            page.write_text(contents.replace('</footer>', label + '</footer>'), encoding='utf-8')
     print(f"Pages artifact validated: {destination}")
 
 
