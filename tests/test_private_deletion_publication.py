@@ -1,5 +1,8 @@
 import csv
 import json
+import os
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -131,6 +134,33 @@ class PrivateDeletionTests(unittest.TestCase):
         before = (self.root / 'data/accepted_classified.csv').read_bytes()
         with self.assertRaisesRegex(ValueError, 'another record'): self.run_deletion()
         self.assertEqual((self.root / 'data/accepted_classified.csv').read_bytes(), before)
+
+    def test_workflow_event_input_is_not_echoed_in_process_output(self):
+        identity, digest = key(self.papers[0]), fingerprint(self.papers[0])
+        event = self.root / 'event.json'
+        event.write_text(json.dumps({'inputs': {'request_id': self.request, 'identity': identity,
+                                               'reviewed_hash': digest}}))
+        env = dict(os.environ, GITHUB_EVENT_PATH=str(event))
+        script = Path(__file__).resolve().parents[1] / 'scripts/publish_private_deletion.py'
+        result = subprocess.run([sys.executable, str(script), '--workflow-event', '--root', str(self.root)],
+                                env=env, text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout), {'removed': 1, 'already_applied': False})
+        self.assertNotIn(identity, result.stdout + result.stderr)
+        self.assertNotIn(digest, result.stdout + result.stderr)
+
+    def test_bad_workflow_event_fails_before_any_write(self):
+        event = self.root / 'event.json'
+        event.write_text(json.dumps({'inputs': {'request_id': self.request}}))
+        env = dict(os.environ, GITHUB_EVENT_PATH=str(event))
+        script = Path(__file__).resolve().parents[1] / 'scripts/publish_private_deletion.py'
+        path = self.root / 'data/accepted_classified.csv'
+        before = path.read_bytes()
+        result = subprocess.run([sys.executable, str(script), '--workflow-event', '--root', str(self.root)],
+                                env=env, text=True, capture_output=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(path.read_bytes(), before)
+        self.assertFalse((self.root / 'data/deletion_receipts.json').exists())
 
 
 if __name__ == '__main__': unittest.main()

@@ -9,6 +9,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import re
 from pathlib import Path
 import sys
@@ -110,7 +111,27 @@ def apply(root: Path, request_id: str, identity: str, reviewed_hash: str):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--request-id', required=True); parser.add_argument('--identity', required=True)
-    parser.add_argument('--reviewed-hash', required=True); parser.add_argument('--root', type=Path, default=Path('.'))
+    parser.add_argument('--request-id'); parser.add_argument('--identity')
+    parser.add_argument('--reviewed-hash'); parser.add_argument('--root', type=Path, default=Path('.'))
+    parser.add_argument('--workflow-event', action='store_true')
     args = parser.parse_args()
-    print(json.dumps(apply(args.root, args.request_id, args.identity, args.reviewed_hash)))
+    if args.workflow_event:
+        if any(value is not None for value in (args.request_id, args.identity, args.reviewed_hash)):
+            parser.error('Workflow event inputs cannot be combined with explicit inputs')
+        event_path = os.environ.get('GITHUB_EVENT_PATH')
+        if not event_path:
+            parser.error('Workflow event is unavailable')
+        try:
+            event = json.loads(Path(event_path).read_text(encoding='utf-8'))
+            inputs = event['inputs']
+            values = [inputs[name] for name in ('request_id', 'identity', 'reviewed_hash')]
+        except (OSError, ValueError, KeyError, TypeError):
+            parser.error('Workflow event inputs are unavailable')
+        if not all(isinstance(value, str) and value for value in values):
+            parser.error('Workflow event inputs are invalid')
+        result = apply(args.root, *values)
+        print(json.dumps({'removed': result.get('removed', 0), 'already_applied': result.get('already_applied', False)}))
+    else:
+        if not all((args.request_id, args.identity, args.reviewed_hash)):
+            parser.error('Explicit request, identity, and reviewed hash are required')
+        print(json.dumps(apply(args.root, args.request_id, args.identity, args.reviewed_hash)))
