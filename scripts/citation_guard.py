@@ -83,7 +83,7 @@ def begin(root: Path):
         raise RuntimeError('Citation guard absent; reconcile prior attempts before requests')
     previous=_read(guard)
     current_sha=_sha(source)
-    prior_sha=previous.get('output_sha256')
+    prior_sha=previous.get('quality_output_sha256',previous.get('output_sha256'))
     if (previous.get('status')!='complete'
             or not isinstance(prior_sha,str) or not re.fullmatch(r'[0-9a-f]{64}',prior_sha)
             or (prior_sha!=current_sha and not _verified_discovery_transition(root,prior_sha,current_sha,run,attempt))):
@@ -118,6 +118,31 @@ def verify_start(root: Path, expected_sha: str):
             or record.get('run_attempt')!=attempt or record.get('input_sha256')!=expected_sha
             or not _verify_ack(root,record)):
         raise RuntimeError('Citation fence not acknowledged for this input; reconcile')
+
+
+def quality_begin(root: Path):
+    guard=root/'data/citation_run_guard.json';source=root/'data/discovery_candidates.csv'
+    marker=root/'data/.citation_quality_ack.json';run,attempt=_identity();record=_read(guard)
+    if (marker.exists() or record.get('status')!='complete' or record.get('run_id')!=run
+            or record.get('run_attempt')!=attempt or not source.is_file()
+            or record.get('quality_output_sha256',record.get('output_sha256'))!=_sha(source)):
+        raise RuntimeError('Quality input does not match completed citation output; reconcile')
+    _write(marker,{'schema_version':1,'run_id':run,'run_attempt':attempt,
+                   'guard_sha256':_sha(guard),'input_sha256':_sha(source)})
+
+
+def quality_complete(root: Path):
+    guard=root/'data/citation_run_guard.json';source=root/'data/discovery_candidates.csv'
+    marker=root/'data/.citation_quality_ack.json';run,attempt=_identity();record=_read(guard);ack=_read(marker)
+    if (record.get('status')!='complete' or record.get('run_id')!=run
+            or record.get('run_attempt')!=attempt or ack.get('run_id')!=run
+            or ack.get('run_attempt')!=attempt or ack.get('guard_sha256')!=_sha(guard)
+            or ack.get('input_sha256')!=record.get('quality_output_sha256',record.get('output_sha256'))
+            or not source.is_file()):
+        raise RuntimeError('Quality completion does not match its input; reconcile')
+    _write(guard,{**record,'quality_input_sha256':ack['input_sha256'],
+                  'quality_output_sha256':_sha(source)})
+    marker.unlink()
 
 
 def _verified_evidence(root: Path, input_sha: str, output_sha: str):
@@ -166,9 +191,10 @@ def complete(root: Path):
 
 if __name__=='__main__':
     import sys
-    if len(sys.argv)!=2 or sys.argv[1] not in ('begin','acknowledge','complete'):
-        raise SystemExit('Usage: citation_guard.py begin|acknowledge|complete')
+    if len(sys.argv)!=2 or sys.argv[1] not in ('begin','acknowledge','complete','quality-begin','quality-complete'):
+        raise SystemExit('Usage: citation_guard.py begin|acknowledge|complete|quality-begin|quality-complete')
     try:
-        {'begin':begin,'acknowledge':acknowledge,'complete':complete}[sys.argv[1]](Path.cwd())
+        {'begin':begin,'acknowledge':acknowledge,'complete':complete,
+         'quality-begin':quality_begin,'quality-complete':quality_complete}[sys.argv[1]](Path.cwd())
     except RuntimeError as exc:
         raise SystemExit(str(exc)) from None

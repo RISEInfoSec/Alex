@@ -161,7 +161,9 @@ jobs:
         run: scripts/state.sh pull
       - name: Quality gate
         run: |
+          python scripts/citation_guard.py quality-begin
           python -m alex.cli score
+          python scripts/citation_guard.py quality-complete
           scripts/state.sh push "Quality gate results"
           git add data/review_queue.csv
           git diff --cached --quiet || git commit -m "Quality gate results"

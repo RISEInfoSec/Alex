@@ -61,6 +61,43 @@ def test_start_requires_acknowledgement_bound_to_guard_and_input(root):
         citation_guard.verify_start(root,input_sha)
 
 
+def test_quality_output_is_bound_before_next_discovery(root,monkeypatch):
+    citation_guard.begin(root);citation_guard.acknowledge(root);evidence(root);citation_guard.complete(root)
+    citation_guard.quality_begin(root)
+    source=root/'data/discovery_candidates.csv';source.write_text('title\nQuality output\n')
+    citation_guard.quality_complete(root)
+    marker=json.loads((root/'data/citation_run_guard.json').read_text())
+    assert marker['quality_output_sha256']==citation_guard._sha(source)
+    assert marker['quality_input_sha256']==marker['output_sha256']
+    monkeypatch.setenv('GITHUB_RUN_ID','12346')
+    prior=citation_guard._sha(source)
+    source.write_text('title\nNext discovery\n')
+    receipt={'status':'complete','orchestration_pass_id':'12346:1:1','deferred_tasks':{}}
+    receipt_path=root/'data/discovery_run_receipt.json';receipt_path.write_text(json.dumps(receipt))
+    recovery={'schema_version':1,'status':'complete','run_id':'12346:1',
+              'starting_candidates_sha256':prior,'final_candidates_sha256':citation_guard._sha(source),
+              'passes':[{'status':'complete','returncode':0,'pass_id':'12346:1:1',
+                         'receipt':receipt,'receipt_sha256':citation_guard._sha(receipt_path)}]}
+    (root/'data/discovery_recovery_receipt.json').write_text(json.dumps(recovery))
+    citation_guard.begin(root)
+
+
+def test_quality_rejects_unverified_or_changed_input(root):
+    citation_guard.begin(root);citation_guard.acknowledge(root);evidence(root);citation_guard.complete(root)
+    source=root/'data/discovery_candidates.csv';source.write_text('title\nUnexpected\n')
+    with pytest.raises(RuntimeError,match='Quality input'):
+        citation_guard.quality_begin(root)
+
+
+def test_quality_completion_rejects_changed_guard(root):
+    citation_guard.begin(root);citation_guard.acknowledge(root);evidence(root);citation_guard.complete(root)
+    citation_guard.quality_begin(root)
+    guard=root/'data/citation_run_guard.json';record=citation_guard._read(guard)
+    record['output_sha256']='0'*64;citation_guard._write(guard,record)
+    with pytest.raises(RuntimeError,match='Quality completion'):
+        citation_guard.quality_complete(root)
+
+
 def test_changed_output_or_corrupt_guard_refuses_restart(root,monkeypatch):
     citation_guard.begin(root);citation_guard.acknowledge(root);evidence(root);citation_guard.complete(root)
     (root/'data/discovery_candidates.csv').write_text('title\nChanged\n')
