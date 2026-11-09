@@ -1,6 +1,15 @@
 name: Discover
 on:
   workflow_dispatch:
+    inputs:
+      expected_pipeline_state:
+        description: 'Optional exact pipeline-state commit required for a guarded continuation'
+        required: false
+        type: string
+      minimum_checkpoint_cache_hits:
+        description: 'Minimum exact cached OpenAlex singleton hits required before continuation'
+        required: false
+        type: string
 env:
   ALEX_OPENALEX_STATE_PATH: data/discovery_openalex_state.json
   ALEX_DISCOVERY_SYNC: "1"
@@ -27,6 +36,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - run: scripts/state.sh pull
+      - name: Verify guarded checkpoint replay
+        if: ${{ inputs.expected_pipeline_state != '' || inputs.minimum_checkpoint_cache_hits != '' }}
+        env:
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+          EXPECTED_PIPELINE_STATE: ${{ inputs.expected_pipeline_state }}
+          MINIMUM_CHECKPOINT_CACHE_HITS: ${{ inputs.minimum_checkpoint_cache_hits }}
+        run: python -m alex.pipelines.discovery_replay_preflight
       - env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
           CORE_API_KEY: ${{ secrets.CORE_API_KEY }}
