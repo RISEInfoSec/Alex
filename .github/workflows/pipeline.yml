@@ -102,15 +102,42 @@ jobs:
       - name: Pull pipeline state
         id: pipeline_state
         run: scripts/state.sh pull
+      - name: Fence citation attempt
+        id: citation_fence
+        run: |
+          python scripts/citation_guard.py begin
+          scripts/state.sh push "Fence citation attempt"
       - name: Citation chain
+        id: citation_chain
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
           python -m alex.cli chain
-      - name: Preserve candidates and provider cooldown
-        if: ${{ always() && steps.pipeline_state.outcome == 'success' }}
-        run: scripts/state.sh push "Preserve chain state and provider cooldown"
+      - name: Retain citation response evidence
+        id: citation_evidence
+        if: ${{ always() && steps.citation_chain.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: citation-responses-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/citation_response_evidence-*.jsonl
+          if-no-files-found: error
+      - name: Retain staged citation output
+        if: ${{ always() && steps.citation_chain.outcome == 'failure' }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: citation-staged-output-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/.citation-*.tmp
+          include-hidden-files: true
+          if-no-files-found: warn
+      - name: Preserve completed candidates and provider cooldown
+        if: ${{ always() && steps.pipeline_state.outcome == 'success' && steps.citation_chain.outcome == 'success' && steps.citation_evidence.outcome == 'success' }}
+        run: |
+          python scripts/citation_guard.py complete
+          scripts/state.sh push "Preserve chain state and provider cooldown"
+      - name: Preserve provider cooldown after incomplete chain
+        if: ${{ always() && steps.pipeline_state.outcome == 'success' && steps.citation_fence.outcome == 'success' && (steps.citation_chain.outcome != 'success' || steps.citation_evidence.outcome != 'success') }}
+        run: scripts/state.sh push-provider "Preserve provider cooldown after incomplete chain"
 
   score:
     needs: chain
@@ -168,15 +195,20 @@ jobs:
           git add data/accepted_harvested.csv
           git diff --cached --quiet || git commit -m "Harvest metadata"
           git push || (git pull --rebase --autostash && git push)
-      - name: Preserve candidates and provider cooldown
-        if: ${{ always() && steps.pipeline_state.outcome == 'success' }}
-        run: scripts/state.sh push "Preserve harvest state and provider cooldown"
+      # Harvest's client performs initial, periodic and final state syncs.
+      # Do not automatically retry a failed or ambiguous checkpoint push.
       - name: Retain harvest response evidence
         if: always()
         uses: actions/upload-artifact@v7.0.2
         with:
           name: harvest-responses-${{ github.run_id }}-${{ github.run_attempt }}
-          path: data/harvest_response_cache*.jsonl
+          path: |
+            data/harvest_response_cache*.jsonl
+            data/harvest_response_cache*.uncertain
+            data/.harvest-pending-*.csv
+            data/.harvest-prior-*.csv
+            data/discovery_openalex_state.json
+          include-hidden-files: true
           if-no-files-found: warn
 
   rescore:
@@ -211,6 +243,9 @@ jobs:
           # the deletion.
           scripts/state.sh push "Post-harvest rescore: ${SUMMARY:-no summary}"
           git add data/accepted_harvested.csv
+          if [ -e data/.harvest_output_lineage.json ]; then
+            git add data/.harvest_output_lineage.json
+          fi
           if [ -e data/.rescore_window.json ] || git ls-files --error-unmatch data/.rescore_window.json >/dev/null 2>&1; then
             git add -A data/.rescore_window.json
           fi

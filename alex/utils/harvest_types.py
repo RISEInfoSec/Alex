@@ -6,7 +6,7 @@ import json
 import pandas as pd
 
 from alex.metadata_holds import canonical_doi
-from alex.utils.harvest_checkpoint import digest
+from alex.utils.harvest_checkpoint import digest, file_sha256
 from alex.utils.text import clean, strip_html_tags
 
 
@@ -31,6 +31,7 @@ def restore_crossref_types(frame, root):
             request[2].add(_title(candidate.get('title')))
     types = {}
     complete = False
+    completed_output_sha256 = None
     with path.open(encoding='utf-8') as stream:
         header = json.loads(next(stream))
         if header.get('schema_version') != 1 or header.get('input_sha256') != hashlib.sha256(input_bytes).hexdigest():
@@ -80,10 +81,17 @@ def restore_crossref_types(frame, root):
                 complete = False
             elif event in ('begin','complete'):
                 complete = event == 'complete'
+                completed_output_sha256 = record.get('output_sha256') if complete else None
+                if complete and digest({'event':'complete', 'output_sha256':completed_output_sha256}) != record.get('sha256'):
+                    raise ValueError('Harvest completion integrity failed')
             else:
                 raise ValueError('Unknown harvest evidence record')
     if not complete:
         raise ValueError('Harvest type evidence is incomplete; do not rescore partial work')
+    output = root / 'data/accepted_harvested.csv'
+    if (not isinstance(completed_output_sha256, str) or not output.is_file()
+            or file_sha256(output) != completed_output_sha256):
+        raise ValueError('Harvest output does not match completed evidence')
     result = frame.copy()
     fields = ('harvest_crossref_type','harvest_crossref_type_source','harvest_crossref_type_evidence_sha256',
               'harvest_crossref_requested_doi')

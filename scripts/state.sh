@@ -17,6 +17,7 @@ BRANCH="${STATE_BRANCH:-pipeline-state}"
 REMOTE="${STATE_REMOTE:-origin}"
 FILES=(
   discovery_candidates.csv
+  citation_run_guard.json
   discovery_checkpoint.json
   discovery_run_receipt.json
   discovery_openalex_state.json
@@ -59,15 +60,26 @@ pull() {
 }
 
 push() {
-  local msg="${1:-Update pipeline state}" base="" tmp tree commit
+  local msg="${1:-Update pipeline state}" mode="${2:-all}" base="" tmp tree commit
+  local selected=("${FILES[@]}")
+  if [ "$mode" = "provider-only" ]; then
+    selected=(discovery_openalex_state.json)
+  elif [ "$mode" != "all" ]; then
+    echo "state: invalid push mode" >&2
+    return 2
+  fi
   [ -f "$BASE_FILE" ] && base="$(cat "$BASE_FILE")"
+  if [ "$mode" = "provider-only" ] && [ -z "$base" ]; then
+    echo "state: provider-only push requires a verified prior pull" >&2
+    return 1
+  fi
   tmp="$(mktemp -d)"
   trap 'rm -rf "$tmp"' RETURN
   export GIT_INDEX_FILE="$tmp/index"
   # Start from the pulled tree so a file this job never produced is carried
   # over rather than dropped.
   if [ -n "$base" ]; then git read-tree "$base"; else git read-tree --empty; fi
-  for f in "${FILES[@]}"; do
+  for f in "${selected[@]}"; do
     [ -f "data/$f" ] || continue
     gzip -n -c "data/$f" > "$tmp/$f.gz"  # -n: no timestamp, so unchanged => same blob
     git update-index --add --cacheinfo "100644,$(git hash-object -w "$tmp/$f.gz"),$f.gz"
@@ -92,5 +104,6 @@ push() {
 case "${1:-}" in
   pull) pull ;;
   push) push "${2:-}" ;;
-  *) echo "usage: $0 pull | push \"message\"" >&2; exit 2 ;;
+  push-provider) push "${2:-}" provider-only ;;
+  *) echo "usage: $0 pull | push \"message\" | push-provider \"message\"" >&2; exit 2 ;;
 esac

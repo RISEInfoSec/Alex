@@ -29,3 +29,11 @@ data/rescore_metrics.csv
 data/harvest_response_cache*.jsonl
 
 .alex_cache.json.openalex-policy*
+# Uncertain Harvest transactions and their retained local evidence
+data/harvest_response_cache*.uncertain
+data/.harvest-pending-*.csv
+data/.harvest-prior-*.csv
+# Citation evidence is retained by workflow artifact, not committed.
+data/citation_response_evidence-*.jsonl
+data/.citation-*.tmp
+data/citation_run_guard.json

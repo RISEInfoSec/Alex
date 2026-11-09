@@ -105,7 +105,8 @@ def _redact(exc: Exception) -> str:
 
 
 class HttpClient:
-    def __init__(self, mailto: str = "") -> None:
+    def __init__(self, mailto: str = "", *, use_disk_cache: bool = True) -> None:
+        self._use_disk_cache = use_disk_cache
         self.session = requests.Session()
         ua = "AlexResearchLibrary/2.1.1"
         if mailto:
@@ -123,7 +124,7 @@ class HttpClient:
         # longer than _MAX_RETRY_AFTER; requests to that host return None
         # until the deadline passes.
         self._blocked_until: dict[str, float] = {}
-        if CACHE.exists():
+        if use_disk_cache and CACHE.exists():
             try:
                 self.cache: dict[str, Any] = json.loads(CACHE.read_text(encoding="utf-8"))
             except Exception:
@@ -139,7 +140,8 @@ class HttpClient:
             logger.info("Purged %d stale None entries from cache", len(stale))
 
     def _save_cache(self) -> None:
-        CACHE.write_text(json.dumps(self.cache, ensure_ascii=False, indent=2), encoding="utf-8")
+        if self._use_disk_cache:
+            CACHE.write_text(json.dumps(self.cache, ensure_ascii=False, indent=2), encoding="utf-8")
 
     def _cache_get(self, key: str) -> Any:
         with self._cache_lock:
