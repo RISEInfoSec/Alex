@@ -135,6 +135,26 @@ class PrivateDeletionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'another record'): self.run_deletion()
         self.assertEqual((self.root / 'data/accepted_classified.csv').read_bytes(), before)
 
+    def test_two_sequential_deletions_preserve_held_record(self):
+        hidden, policy = self.hold(12345)
+        third = dict(id=3, title='Third record', author='Dana', year=2024.0, doi='10.1000/third',
+                     summary='Third content', source_url='https://example.org/third')
+        third_row = dict(title=third['title'], authors=third['author'], abstract=third['summary'],
+                         year=third['year'], doi=third['doi'], source_url=third['source_url'], extra='preserved')
+        self.papers.append(third); self.save_public()
+        self.write_canonical([hidden, self.rows[0], self.rows[1], third_row])
+        hold_path = self.write_holds([policy]); before_holds = hold_path.read_bytes()
+        self.assertEqual(self.run_deletion()['removed'], 1)
+        # The real workflow rebuilds the public projection after each deletion.
+        self.papers = self.papers[1:]; self.save_public()
+        second_request = '22222222-2222-4222-8222-222222222222'
+        self.assertEqual(apply(self.root, second_request, key(self.papers[0]), fingerprint(self.papers[0]))['removed'], 1)
+        with (self.root / 'data/accepted_classified.csv').open(newline='') as f:
+            actual = list(csv.DictReader(f))
+        self.assertEqual(actual, [{k: str(v) for k, v in row.items()} for row in [hidden, third_row]])
+        self.assertEqual(hold_path.read_bytes(), before_holds)
+        self.assertEqual(len(json.loads((self.root / 'config/corpus_exclusions.json').read_text())['records']), 2)
+
     def test_workflow_event_input_is_not_echoed_in_process_output(self):
         identity, digest = key(self.papers[0]), fingerprint(self.papers[0])
         event = self.root / 'event.json'
