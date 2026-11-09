@@ -417,3 +417,18 @@ def test_slow_checkpoint_shortens_child_runtime(setup):
     recovery = build(setup, invoke=invoke, publish=publish)
     assert recovery.run() == 0
     assert runtimes == [520]  # 900 total minus two100-second pushes and180 reserve.
+
+
+def test_completed_recovery_records_initial_and_final_candidate_hashes(setup):
+    import hashlib
+    root,clock,_=setup
+    source=root/'data/discovery_candidates.csv';source.write_bytes(b'title\nBefore\n')
+    initial=hashlib.sha256(source.read_bytes()).hexdigest()
+    def invoke(pass_id,runtime):
+        source.write_bytes(b'title\nAfter\n')
+        return result(root,clock,pass_id,runtime)
+    recovery=build(setup,invoke=invoke)
+    assert recovery.run()==0
+    receipt=json.loads((root/'data/discovery_recovery_receipt.json').read_text())
+    assert receipt['starting_candidates_sha256']==initial
+    assert receipt['final_candidates_sha256']==hashlib.sha256(source.read_bytes()).hexdigest()

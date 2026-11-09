@@ -15,7 +15,7 @@ def test_provider_hold_does_not_rewrite_candidates(tmp_path):
     path=data/'discovery_candidates.csv'
     pd.DataFrame([{'title':'Synthetic seed','citation_count':1}]).to_csv(path,index=False)
     before=path.read_bytes()
-    with patch('alex.utils.io.ROOT',tmp_path), patch('alex.pipelines.citation_chain.connector_config.load',return_value={}), patch('alex.utils.http._openalex_policy',return_value={'requests_enabled':False}), patch('alex.utils.http.HttpClient._send_request',side_effect=AssertionError('network forbidden')):
+    with patch('alex.utils.io.ROOT',tmp_path), patch('alex.pipelines.citation_chain.verify_citation_start'), patch('alex.pipelines.citation_chain.connector_config.load',return_value={}), patch('alex.utils.http._openalex_policy',return_value={'requests_enabled':False}), patch('alex.utils.http.HttpClient._send_request',side_effect=AssertionError('network forbidden')):
         with pytest.raises(citation_chain.CitationIncomplete,match='no output promoted'):
             citation_chain.run()
     assert path.read_bytes()==before
@@ -99,7 +99,7 @@ def test_later_exception_stops_queued_work_before_first_completes(tmp_path,monke
     def run():
         try: citation_chain.run()
         except Exception as exc: errors.append(exc)
-    with patch('alex.utils.io.ROOT',tmp_path), patch('alex.pipelines.citation_chain.connector_config.load',return_value={}),patch('alex.pipelines.citation_chain._chain_one_candidate',side_effect=work):
+    with patch('alex.utils.io.ROOT',tmp_path), patch('alex.pipelines.citation_chain.verify_citation_start'), patch('alex.pipelines.citation_chain.connector_config.load',return_value={}),patch('alex.pipelines.citation_chain._chain_one_candidate',side_effect=work):
         t=threading.Thread(target=run);t.start()
         assert second_failed.wait(4)
         assert stopped.wait(4)

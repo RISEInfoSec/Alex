@@ -51,16 +51,73 @@ def _identity():
     return run,attempt
 
 
+def _verified_discovery_transition(root: Path, previous_sha: str, current_sha: str, run: str, attempt: str):
+    try:
+        recovery=json.loads((root/'data/discovery_recovery_receipt.json').read_text(encoding='utf-8'))
+        receipt_path=root/'data/discovery_run_receipt.json'
+        raw=receipt_path.read_bytes();receipt=json.loads(raw)
+        passes=recovery.get('passes')
+        if not isinstance(passes,list) or not passes:
+            return False
+        last=passes[-1]
+        return (recovery.get('schema_version')==1 and recovery.get('status')=='complete'
+                and recovery.get('run_id')==f'{run}:{attempt}'
+                and recovery.get('starting_candidates_sha256')==previous_sha
+                and recovery.get('final_candidates_sha256')==current_sha
+                and last.get('status')=='complete' and last.get('returncode')==0
+                and last.get('receipt_sha256')==hashlib.sha256(raw).hexdigest()
+                and last.get('pass_id')==receipt.get('orchestration_pass_id')
+                and receipt.get('status')=='complete' and receipt.get('deferred_tasks')=={}
+                and last.get('receipt')==receipt)
+    except (OSError,ValueError,TypeError,AttributeError,KeyError):
+        return False
+
+
 def begin(root: Path):
     guard=root/'data/citation_run_guard.json';source=root/'data/discovery_candidates.csv'
+    if (root/'data/.citation_guard_ack.json').exists():
+        raise RuntimeError('Prior citation acknowledgement present; reconcile before requests')
     run,attempt=_identity()
     if not source.is_file(): raise RuntimeError('Citation input unavailable; no requests allowed')
     if not guard.is_file():
         raise RuntimeError('Citation guard absent; reconcile prior attempts before requests')
     previous=_read(guard)
-    if previous.get('status')!='complete' or previous.get('output_sha256')!=_sha(source):
+    current_sha=_sha(source)
+    prior_sha=previous.get('output_sha256')
+    if (previous.get('status')!='complete'
+            or not isinstance(prior_sha,str) or not re.fullmatch(r'[0-9a-f]{64}',prior_sha)
+            or (prior_sha!=current_sha and not _verified_discovery_transition(root,prior_sha,current_sha,run,attempt))):
         raise RuntimeError('Prior citation attempt incomplete or unverified; reconcile before requests')
-    _write(guard,{'schema_version':1,'status':'started','run_id':run,'run_attempt':attempt,'input_sha256':_sha(source)})
+    _write(guard,{'schema_version':1,'status':'started','run_id':run,'run_attempt':attempt,'input_sha256':current_sha})
+
+
+def acknowledge(root: Path):
+    guard=root/'data/citation_run_guard.json';source=root/'data/discovery_candidates.csv'
+    run,attempt=_identity();record=_read(guard)
+    if (record.get('status')!='started' or record.get('run_id')!=run
+            or record.get('run_attempt')!=attempt or not source.is_file()
+            or record.get('input_sha256')!=_sha(source)):
+        raise RuntimeError('Citation fence does not match this input; reconcile')
+    ack=root/'data/.citation_guard_ack.json'
+    if ack.exists(): raise RuntimeError('Citation acknowledgement already exists; reconcile')
+    _write(ack,{'schema_version':1,'status':'acknowledged','run_id':run,'run_attempt':attempt,
+                'guard_sha256':_sha(guard),'input_sha256':record['input_sha256']})
+
+
+def _verify_ack(root: Path, record):
+    run,attempt=_identity();guard=root/'data/citation_run_guard.json'
+    ack=_read(root/'data/.citation_guard_ack.json')
+    return (ack.get('status')=='acknowledged' and ack.get('run_id')==run
+            and ack.get('run_attempt')==attempt and ack.get('guard_sha256')==_sha(guard)
+            and ack.get('input_sha256')==record.get('input_sha256'))
+
+
+def verify_start(root: Path, expected_sha: str):
+    run,attempt=_identity();record=_read(root/'data/citation_run_guard.json')
+    if (record.get('status')!='started' or record.get('run_id')!=run
+            or record.get('run_attempt')!=attempt or record.get('input_sha256')!=expected_sha
+            or not _verify_ack(root,record)):
+        raise RuntimeError('Citation fence not acknowledged for this input; reconcile')
 
 
 def _verified_evidence(root: Path, input_sha: str, output_sha: str):
@@ -97,19 +154,21 @@ def complete(root: Path):
     guard=root/'data/citation_run_guard.json';source=root/'data/discovery_candidates.csv'
     run,attempt=_identity();previous=_read(guard)
     if (previous.get('status')!='started' or previous.get('run_id')!=run
-            or previous.get('run_attempt')!=attempt or not source.is_file()):
+            or previous.get('run_attempt')!=attempt or not source.is_file()
+            or not _verify_ack(root,previous)):
         raise RuntimeError('Citation guard does not match this run; reconcile')
     output_sha=_sha(source)
     evidence_name,evidence_sha=_verified_evidence(root,previous['input_sha256'],output_sha)
     _write(guard,{**previous,'status':'complete','output_sha256':output_sha,
                   'evidence_name':evidence_name,'evidence_sha256':evidence_sha})
+    (root/'data/.citation_guard_ack.json').unlink()
 
 
 if __name__=='__main__':
     import sys
-    if len(sys.argv)!=2 or sys.argv[1] not in ('begin','complete'):
-        raise SystemExit('Usage: citation_guard.py begin|complete')
+    if len(sys.argv)!=2 or sys.argv[1] not in ('begin','acknowledge','complete'):
+        raise SystemExit('Usage: citation_guard.py begin|acknowledge|complete')
     try:
-        (begin if sys.argv[1]=='begin' else complete)(Path.cwd())
+        {'begin':begin,'acknowledge':acknowledge,'complete':complete}[sys.argv[1]](Path.cwd())
     except RuntimeError as exc:
         raise SystemExit(str(exc)) from None

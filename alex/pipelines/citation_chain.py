@@ -17,6 +17,7 @@ from alex.utils.text import normalize_title, clean
 from alex.utils.scoring import query_keywords, title_matches_keywords
 from alex.utils import connector_config
 from alex.connectors import openalex, semantic_scholar
+from scripts.citation_guard import verify_start as verify_citation_start
 
 logger = logging.getLogger(__name__)
 
@@ -208,6 +209,10 @@ def run() -> None:
         raise CitationIncomplete('Citation input changed; no output promoted')
     if df.empty:
         raise CitationIncomplete('Empty citation input requires reconciliation')
+    try:
+        verify_citation_start(root_file(), input_sha256)
+    except (RuntimeError, OSError):
+        raise CitationIncomplete('Citation fence unverified; no source requests allowed') from None
 
     # Honour the connectors gate. S2 backward chaining issues up to 16 calls
     # per candidate (1 search + 5 references × 3 results); without an API key

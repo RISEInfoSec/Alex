@@ -24,6 +24,17 @@ def read_json(path, default=None):
     return json.loads(path.read_text()) if path.exists() else default
 
 
+def candidate_hash(root):
+    path = Path(root) / 'data/discovery_candidates.csv'
+    if not path.is_file():
+        return None
+    digest = hashlib.sha256()
+    with path.open('rb') as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def bounded_integer(value, upper):
     if type(value) is not int or not 0 < value <= upper:
         raise ValueError('Invalid recovery bound')
@@ -62,6 +73,7 @@ class Recovery:
             raise ValueError('Recovery invocation already recorded; reconcile before replay')
         self.record = {'schema_version': 1, 'run_id': identity, 'status': 'running',
                        'started_at': self.timestamp(), 'passes': [],
+                       'starting_candidates_sha256': candidate_hash(self.root),
                        'limits': {'max_passes': self.max_passes,
                                   'max_runtime_seconds': self.max_seconds,
                                   'max_cooldown_wait_seconds': self.max_wait,
@@ -265,6 +277,7 @@ class Recovery:
                 if code == 0:
                     self.record['status'] = 'complete'
                     self.record['completed_at'] = self.timestamp()
+                    self.record['final_candidates_sha256'] = candidate_hash(self.root)
                     self.save()
                     return 0
                 reasons = set(receipt['deferred_tasks'].values())

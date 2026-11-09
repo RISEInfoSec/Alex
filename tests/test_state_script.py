@@ -212,6 +212,7 @@ def test_completed_citation_fence_allows_verified_fresh_runner(remote,tmp_path,m
     runner=_clone(remote,tmp_path/'runner');assert _state(runner,'pull').returncode==0
     monkeypatch.setenv('GITHUB_RUN_ID','101');monkeypatch.setenv('GITHUB_RUN_ATTEMPT','1')
     citation_guard.begin(runner);assert _state(runner,'push','fence attempt').returncode==0
+    citation_guard.acknowledge(runner)
     _write(runner,'discovery_candidates.csv','title\nComplete\n')
     import json
     marker=json.loads((runner/'data/citation_run_guard.json').read_text())

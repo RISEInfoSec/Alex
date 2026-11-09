@@ -39,6 +39,7 @@ jobs:
         run: |
           python scripts/citation_guard.py begin
           scripts/state.sh push "Fence citation attempt"
+          python scripts/citation_guard.py acknowledge
       - if: ${{ !inputs.verify_literal_titles }}
         id: citation_chain
         env:

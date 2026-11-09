@@ -1842,6 +1842,7 @@ class TestCitationChainConnectorGating:
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
              patch("alex.connectors.semantic_scholar.search") as s2_search, \
              patch("alex.connectors.semantic_scholar.get_paper") as s2_paper, \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -1860,6 +1861,7 @@ class TestCitationChainConnectorGating:
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
              patch("alex.connectors.semantic_scholar.search") as s2_search, \
              patch("alex.connectors.semantic_scholar.get_paper") as s2_paper, \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -1877,6 +1879,7 @@ class TestCitationChainConnectorGating:
              patch("alex.connectors.openalex.search", return_value=[]), \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
              patch("alex.connectors.semantic_scholar.search", return_value=[]) as s2_search, \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -1894,6 +1897,7 @@ class TestCitationChainParallelismAndTuning:
         before = path.read_bytes()
         with patch('alex.utils.io.ROOT', tmp_path), \
              patch('alex.pipelines.citation_chain.connector_config.load', return_value={}), \
+             patch('alex.pipelines.citation_chain.verify_citation_start'), \
              patch('alex.pipelines.citation_chain.HttpClient'), \
              patch('alex.pipelines.citation_chain._chain_one_candidate', side_effect=ValueError('private synthetic failure')):
             with pytest.raises(citation_chain.CitationIncomplete):
@@ -1931,6 +1935,7 @@ class TestCitationChainParallelismAndTuning:
              patch("alex.pipelines.citation_chain.connector_config.load", return_value={}), \
              patch("alex.connectors.openalex.search", return_value=[]), \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"), \
              patch.object(ThreadPoolExecutor, "submit", tracking_submit):
             from alex.pipelines import citation_chain
@@ -1947,6 +1952,7 @@ class TestCitationChainParallelismAndTuning:
                    return_value={"connectors": {"openalex": {"citation_chain_search_limit": 1}}}), \
              patch("alex.connectors.openalex.search", return_value=[]) as oa_search, \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -1979,6 +1985,7 @@ class TestCitationChainParallelismAndTuning:
                    return_value={"connectors": {"openalex": {"citation_chain_cited_by_limit": 2}}}), \
              patch("alex.connectors.openalex.search", return_value=[mock_work]), \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=cited), \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -2009,6 +2016,7 @@ class TestCitationChainParallelismAndTuning:
                    return_value={"connectors": {"openalex": {"citation_chain_cited_by_limit": 7}}}), \
              patch("alex.connectors.openalex.search", return_value=[mock_work]), \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]) as fcb, \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -2071,6 +2079,7 @@ class TestCitationChainParallelismAndTuning:
              patch("alex.pipelines.citation_chain.connector_config.load", return_value={}), \
              patch("alex.connectors.openalex.search", return_value=[mock_work]), \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=duplicate_cited), \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
