@@ -96,7 +96,7 @@ class DiscoveryClient(HttpClient):
             self.last_sync = time.monotonic()
 
     def on_openalex_deferred(self):
-        raise DiscoveryDeferred('openalex_cooldown')
+        raise DiscoveryDeferred(self.openalex_deferred_reason())
 
     def _check_budget(self, url, wait=0, timeout=0):
         if self.sync_failed:
@@ -107,7 +107,7 @@ class DiscoveryClient(HttpClient):
             raise DiscoveryDeferred('request_budget')
         if urlsplit(url).hostname == 'api.openalex.org':
             if self._openalex_hold:
-                raise DiscoveryDeferred('openalex_cooldown')
+                raise DiscoveryDeferred(self.openalex_deferred_reason())
             if self.openalex_count >= self.max_openalex:
                 raise DiscoveryDeferred('openalex_request_budget')
 
@@ -173,7 +173,7 @@ class DiscoveryClient(HttpClient):
         status = self.local.last_status
         if value is None and status != 404:
             held_openalex = urlsplit(url).hostname == 'api.openalex.org' and self.openalex_deferred()
-            reason = 'openalex_cooldown' if held_openalex else 'request_failed'
+            reason = self.openalex_deferred_reason() if held_openalex else 'request_failed'
             if held_openalex:
                 self.blocked_sources['OpenAlex'] = reason
             with self.guard:
@@ -204,7 +204,7 @@ class DiscoveryClient(HttpClient):
         source = name.split(':', 1)[0]
         try:
             if source == 'OpenAlex' and self.openalex_deferred():
-                raise DiscoveryDeferred('openalex_cooldown')
+                raise DiscoveryDeferred(self.openalex_deferred_reason())
             if source in self.blocked_sources:
                 raise DiscoveryDeferred(self.blocked_sources[source])
             if time.monotonic() >= self.deadline:
@@ -216,7 +216,8 @@ class DiscoveryClient(HttpClient):
                 self._save()
             return result
         except Exception as exc:
-            if isinstance(exc, DiscoveryDeferred) and str(exc) in ('openalex_request_budget', 'openalex_cooldown'):
+            if isinstance(exc, DiscoveryDeferred) and str(exc) in (
+                    'openalex_request_budget', 'openalex_run_request_budget', 'openalex_cooldown'):
                 self.blocked_sources['OpenAlex'] = str(exc)
             with self.guard:
                 self.failures[name] = str(exc) if isinstance(exc, DiscoveryDeferred) else type(exc).__name__
@@ -228,7 +229,8 @@ class DiscoveryClient(HttpClient):
             done = len(self.state['tasks'])
             status = ('partial' if done else 'deferred') if self.failures else 'complete'
             if self.failures and all(v not in ('runtime_budget', 'request_budget',
-                    'openalex_request_budget', 'openalex_cooldown') for v in self.failures.values()) and not done:
+                    'openalex_request_budget', 'openalex_run_request_budget', 'openalex_cooldown')
+                    for v in self.failures.values()) and not done:
                 status = 'failed'
             self.state['status'] = status
             self.state['deferred_tasks'] = self.failures

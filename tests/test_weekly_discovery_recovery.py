@@ -78,6 +78,97 @@ def test_openalex_budget_shared_by_doi_and_search(setup):
     assert c.session.get.call_count == 1
 
 
+def test_shared_run_budget_is_distinct_and_preserves_checkpoint(setup, monkeypatch):
+    monkeypatch.setenv('GITHUB_RUN_ID', 'weekly-run')
+    state_path = setup / 'cache.json.openalex-policy'
+    original_state = {'request_attempts_by_run': {'weekly-run': 249}, 'retry_not_before': 0}
+    state_path.write_text(json.dumps(original_state))
+    c = client(setup, openalex_max_requests=250)
+    c.run_task('Crossref:completed', lambda: ['retained'])
+    c.session.get = MagicMock(return_value=response(body={'ids': {'doi': 'https://doi.org/10.1/a'}}))
+    c.run_task('OpenAlex:bulk', lambda: openalex.get_many_by_doi(c, ['10.1/a', '10.1/b']))
+    assert c.failures['OpenAlex:bulk'] == 'openalex_run_request_budget'
+    assert c.session.get.call_count == 1
+    assert c.openalex_deferred()
+    with pytest.raises(DiscoveryDeferred, match='openalex_run_request_budget'):
+        c.on_openalex_deferred()
+    with pytest.raises(DiscoveryDeferred, match='openalex_run_request_budget'):
+        c.get_json('https://api.openalex.org/works', params={'q': 'new'})
+    c.run_task('OpenAlex:later', lambda: pytest.fail('must not send'))
+    assert c.failures['OpenAlex:later'] == 'openalex_run_request_budget'
+    c.run_task('Crossref:independent', lambda: ['independent'])
+    with pytest.raises(DiscoveryIncomplete):
+        c.finish(setup / 'receipt.json', 0)
+    receipt = json.loads((setup / 'receipt.json').read_text())
+    assert receipt['status'] == 'partial'
+    assert receipt['actual_request_count'] == receipt['openalex_request_count'] == 1
+    assert receipt['window'] == {'from_date': '2026-10-26', 'until_date': '2026-11-02'}
+    assert c.state['tasks']['Crossref:completed'] == ['retained']
+    assert c.state['tasks']['Crossref:independent'] == ['independent']
+    assert len(c.state['responses']) == 1
+    assert json.loads(state_path.read_text())['request_attempts_by_run']['weekly-run'] == 250
+
+    # A GitHub retry has the same run ID and cannot replenish the run budget.
+    monkeypatch.setenv('GITHUB_RUN_ATTEMPT', '2')
+    retry = client(setup, openalex_max_requests=250)
+    retry.session.get = MagicMock()
+    retry.run_task('OpenAlex:later', lambda: openalex.search(retry, 'new'))
+    retry.session.get.assert_not_called()
+    assert retry.failures['OpenAlex:later'] == 'openalex_run_request_budget'
+
+
+def test_real_cooldown_is_not_mislabelled_as_run_budget(setup, monkeypatch):
+    monkeypatch.setenv('GITHUB_RUN_ID', 'weekly-run')
+    state_path = setup / 'cache.json.openalex-policy'
+    state_path.write_text(json.dumps({'request_attempts_by_run': {'weekly-run': 249}}))
+    c = client(setup, openalex_max_requests=250)
+    c.session.get = MagicMock(return_value=response(429, headers={'Retry-After': '7200'}))
+    c.run_task('OpenAlex:q', lambda: openalex.search(c, 'q'))
+    c.run_task('OpenAlex:later', lambda: openalex.search(c, 'other'))
+    assert set(c.failures.values()) == {'openalex_cooldown'}
+    assert c.session.get.call_count == 1
+    state = json.loads(state_path.read_text())
+    assert state['request_attempts_by_run']['weekly-run'] == 250
+    assert state['last_failure'] == 'HTTP429'
+    assert state['retry_not_before'] > http.time.time()
+
+
+def test_active_provider_hold_takes_precedence_over_exhausted_run_budget(setup, monkeypatch):
+    monkeypatch.setenv('GITHUB_RUN_ID', 'weekly-run')
+    state_path = setup / 'cache.json.openalex-policy'
+    original = {'request_attempts_by_run': {'weekly-run': 250},
+                'last_failure': 'HTTP429', 'retry_not_before': http.time.time() + 7200}
+    state_path.write_text(json.dumps(original))
+    c = client(setup, openalex_max_requests=250)
+    c.session.get = MagicMock()
+    c.run_task('OpenAlex:q', lambda: openalex.search(c, 'q'))
+    assert c.failures['OpenAlex:q'] == 'openalex_cooldown'
+    c.session.get.assert_not_called()
+    assert json.loads(state_path.read_text()) == original
+
+
+def test_single_pass_250_cap_followed_by_shared_run_cap_sends_nothing_more(setup, monkeypatch):
+    monkeypatch.setenv('GITHUB_RUN_ID', 'weekly-run')
+    monkeypatch.setattr(http, '_openalex_policy', lambda: {
+        'requests_enabled': True, 'min_interval_seconds': 0,
+        'request_timeout_seconds': 20, 'failure_cooldown_seconds': 3600,
+        'retry_not_before': None, 'max_openalex_requests_per_run': 250})
+    first = client(setup, max_requests=300, openalex_max_requests=250)
+    first.session.get = MagicMock(return_value=response())
+    for page in range(250):
+        first.get_json('https://api.openalex.org/works', params={'page': page})
+    with pytest.raises(DiscoveryDeferred, match='^openalex_request_budget$'):
+        first.get_json('https://api.openalex.org/works', params={'page': 250})
+    assert first.session.get.call_count == 250
+    following = client(setup, max_requests=300, openalex_max_requests=250)
+    following.session.get = MagicMock()
+    following.run_task('OpenAlex:remaining', lambda: following.get_json(
+        'https://api.openalex.org/works', params={'page': 250}))
+    assert following.failures['OpenAlex:remaining'] == 'openalex_run_request_budget'
+    following.session.get.assert_not_called()
+    assert json.loads((setup / 'cache.json.openalex-policy').read_text())['request_attempts_by_run']['weekly-run'] == 250
+
+
 def test_does_not_sleep_past_runtime_budget(setup, monkeypatch):
     c = client(setup, runtime_seconds=10)
     c.session.get = MagicMock()

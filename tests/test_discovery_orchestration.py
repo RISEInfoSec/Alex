@@ -83,6 +83,27 @@ def test_budget_partial_resumes_without_losing_cached_missing_result(setup):
         build(setup, invoke=invoke)
 
 
+def test_shared_run_budget_stops_without_another_pass(setup):
+    root, clock, _ = setup
+    calls = []
+    def invoke(pass_id, runtime):
+        calls.append(pass_id)
+        return result(root, clock, pass_id, runtime,
+                      reason='openalex_request_budget' if len(calls) == 1
+                      else 'openalex_run_request_budget')
+    recovery = build(setup, invoke=invoke)
+    assert recovery.run() == 1
+    assert len(calls) == 2
+    assert recovery.record['status'] == 'blocked'
+    assert recovery.record['reason'] == 'openalex_run_request_budget'
+    state = json.loads((root / 'data/discovery_checkpoint.json').read_text())
+    assert state['responses']['retained-404'] is None
+    assert all(key in state['responses'] for key in calls)
+    ledger = json.loads((root / 'data/discovery_recovery_ledger.json').read_text())
+    assert ledger['runs'][0]['reason'] == 'openalex_run_request_budget'
+    assert len(ledger['runs'][0]['passes']) == 2
+
+
 def test_interrupted_pass_preserves_results_for_next_invocation(setup):
     root, clock, _ = setup
     def interrupted(pass_id, runtime):

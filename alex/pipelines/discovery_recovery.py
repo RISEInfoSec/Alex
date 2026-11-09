@@ -271,8 +271,13 @@ class Recovery:
                 if any(r.get('http_status') in (401, 403) for r in receipt['requests']):
                     raise RecoveryStop('provider_access_or_quota_requires_review')
                 if not reasons or not reasons <= {'runtime_budget', 'request_budget',
-                                                  'openalex_request_budget', 'openalex_cooldown'}:
+                                                  'openalex_request_budget', 'openalex_run_request_budget',
+                                                  'openalex_cooldown'}:
                     raise RecoveryStop('non_recoverable_pass_failure')
+                # This limit is shared by all passes in the same GitHub run;
+                # another pass cannot replenish it. Preserve the checkpoint.
+                if 'openalex_run_request_budget' in reasons:
+                    raise RecoveryStop('openalex_run_request_budget')
                 if 'openalex_cooldown' in reasons:
                     if self.hold()[0] <= self.clock():
                         raise RecoveryStop('cooldown_without_future_deadline')

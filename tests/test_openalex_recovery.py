@@ -91,6 +91,37 @@ def test_concurrent_clients_never_overlap_openalex_calls(setup):
  assert state['maximum']==1
 
 
+def test_waiting_thread_preserves_429_on_last_run_budgeted_request(setup, monkeypatch):
+ import threading
+ entered, waiting = threading.Event(), threading.Event()
+ class ObservedLock:
+  def __init__(self): self.lock = threading.Lock()
+  def __enter__(self):
+   if self.lock.locked(): waiting.set()
+   self.lock.acquire()
+  def __exit__(self, *args): self.lock.release()
+ monkeypatch.setattr(http, '_OPENALEX_LOCK', ObservedLock())
+ monkeypatch.setenv('GITHUB_RUN_ID', 'weekly-run')
+ (setup/'cache.json.openalex-policy').write_text(json.dumps({'request_attempts_by_run': {'weekly-run': 249}}))
+ client = http.HttpClient()
+ def get(*args, **kwargs):
+  entered.set()
+  assert waiting.wait(3)
+  return response(429, {'Retry-After': '7200'})
+ client.session.get = MagicMock(side_effect=get)
+ with ThreadPoolExecutor(max_workers=2) as pool:
+  first = pool.submit(client.get_json, 'https://api.openalex.org/works', {'q':'one'})
+  assert entered.wait(3)
+  second = pool.submit(client.get_json, 'https://api.openalex.org/works', {'q':'two'})
+  assert first.result(timeout=5) is None
+  assert second.result(timeout=5) is None
+ assert client.session.get.call_count == 1
+ assert client.openalex_deferred_reason() == 'openalex_cooldown'
+ state = json.loads((setup/'cache.json.openalex-policy').read_text())
+ assert state['request_attempts_by_run']['weekly-run'] == 250
+ assert state['last_failure'] == 'HTTP429'
+
+
 def test_provider_evidence_survives_cooldown_and_later_success(setup, monkeypatch):
  now = [10000]
  monkeypatch.setattr(http.time, 'time', lambda: now[0])
