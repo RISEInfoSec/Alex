@@ -66,7 +66,7 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Verify every collection layout and existing search
         run: python scripts/check_collection_layouts.py
-      - name: Verify record sharing and deletion request controls
+      - name: Verify record sharing and public controls
         run: python scripts/check_record_actions.py
       - uses: actions/upload-artifact@v7.0.2
         if: always()

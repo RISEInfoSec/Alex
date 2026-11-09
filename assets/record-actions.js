@@ -42,11 +42,6 @@
     const matches = papers.filter(paper => keys(paper).includes(key));
     return matches.length === 1 ? matches[0] : null;
   }
-  function flagUrl(paper) {
-    const url = new URL('https://alex-research-review.neil-schwartzm917549.chatgpt.site/records');
-    url.searchParams.set('identity', keys(paper)[0]);
-    return url.href;
-  }
   function attach(container, paper) {
     const doc = container.ownerDocument;
     const actions = doc.createElement('div');
@@ -58,11 +53,6 @@
     copy.type = 'button';
     copy.className = 'secondary';
     copy.textContent = 'Copy link';
-    const flag = doc.createElement('a');
-    flag.href = flagUrl(paper);
-    flag.target = '_blank';
-    flag.rel = 'noopener noreferrer';
-    flag.textContent = 'Flag for deletion';
     const status = doc.createElement('span');
     status.setAttribute('role', 'status');
     const fallback = doc.createElement('input');
@@ -83,11 +73,11 @@
         status.textContent = 'Copy the selected link.';
       }
     });
-    actions.append(direct, copy, flag, status, fallback);
+    actions.append(direct, copy, status, fallback);
     const details = container.querySelector('details');
     container.insertBefore(actions, details);
   }
-  const api = {keys, publicUrl, resolve, flagUrl, attach};
+  const api = {keys, publicUrl, resolve, attach};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.AlexRecords = api;
 })(typeof window !== 'undefined' ? window : globalThis);

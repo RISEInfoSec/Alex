@@ -22,13 +22,8 @@ for (const [i, paper] of corpus.entries()) {
   assert.deepEqual([...url.searchParams.keys()], ['record']);
   assert.equal(identities.get(url.searchParams.get('record')).filter(p => api.keys(p)[0] === url.searchParams.get('record')).length, 1, 'Shared identity must resolve uniquely');
   if (i % 1000 === 0) assert.equal(api.resolve(reversed, url.searchParams.get('record')).title, paper.title);
-  const flag = new URL(api.flagUrl(paper));
-  assert.equal(flag.origin, 'https://alex-research-review.neil-schwartzm917549.chatgpt.site');
-  assert.equal(flag.pathname, '/records');
-  assert.deepEqual([...flag.searchParams.keys()], ['identity']);
-  assert.equal(flag.searchParams.get('identity'), url.searchParams.get('record'));
-  assert.ok(!flag.href.includes('github.com'));
 }
+assert.equal(api.flagUrl, undefined, 'Public record actions must not expose a deletion link');
 const example = {title: 'Example', year: 2026, author: 'A', source_url: 'https://example.org/paper#part'};
 const oldKey = new URL(api.publicUrl(example)).searchParams.get('record');
 assert.equal(api.resolve([{...example, doi: '10.1234/new'}], oldKey).title, 'Example');
@@ -55,11 +50,12 @@ function element(tag, doc) {
   api.attach(container, example);
   const [actions] = container.children;
   assert.equal(container.children.length, 1, 'No public removal-request disclaimer or form');
-  const [direct, copy, flag, status, fallback] = actions.children;
+  const [direct, copy, status, fallback] = actions.children;
+  assert.equal(actions.children.length, 4);
+  assert.ok(!actions.children.some(child => child.textContent === 'Flag for deletion'));
   await copy.listeners.click();
   assert.equal(sandbox.copied, api.publicUrl(example));
   assert.equal(status.textContent, 'Link copied.');
-  assert.equal(flag.href, api.flagUrl(example));
   assert.equal(direct.href, api.publicUrl(example));
   sandbox.navigator.clipboard.writeText = async () => {throw Error('denied');};
   await copy.listeners.click();
@@ -67,5 +63,5 @@ function element(tag, doc) {
   assert.equal(fallback.value, api.publicUrl(example));
   assert.ok(fallback.focused && fallback.selected);
   assert.equal(status.textContent, 'Copy the selected link.');
-  console.log('Record sharing and deletion flag tests passed for ' + corpus.length + ' records, clipboard success and fallback.');
+  console.log('Record sharing tests passed for ' + corpus.length + ' records, clipboard success and fallback; no public deletion control.');
 })().catch(error => {console.error(error); process.exitCode = 1;});
