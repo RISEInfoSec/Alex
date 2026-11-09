@@ -30,12 +30,8 @@ jobs:
           python-version: '3.11'
       - run: pip install -r requirements.txt
       - name: Apply the exact confirmed deletion and rebuild public outputs
-        env:
-          DELETION_REQUEST_ID: ${{ inputs.request_id }}
-          DELETION_IDENTITY: ${{ inputs.identity }}
-          DELETION_REVIEWED_HASH: ${{ inputs.reviewed_hash }}
         run: |
-          python scripts/publish_private_deletion.py --request-id "$DELETION_REQUEST_ID" --identity "$DELETION_IDENTITY" --reviewed-hash "$DELETION_REVIEWED_HASH"
+          python scripts/publish_private_deletion.py --workflow-event
           python -m alex.cli publish
           python scripts/stage_site.py
       - name: Commit the exclusion, corpus, receipt and rebuilt collections together
