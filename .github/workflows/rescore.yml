@@ -33,6 +33,9 @@ jobs:
           # empty-input rescore that unlinked the file also stages the
           # deletion.
           git add data/accepted_harvested.csv
+          if [ -e data/.harvest_output_lineage.json ]; then
+            git add data/.harvest_output_lineage.json
+          fi
           if [ -e data/.rescore_window.json ] || git ls-files --error-unmatch data/.rescore_window.json >/dev/null 2>&1; then
             git add -A data/.rescore_window.json
           fi

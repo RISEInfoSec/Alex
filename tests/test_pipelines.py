@@ -1139,6 +1139,95 @@ class TestClassify:
 
 
 class TestHarvest:
+    def test_interrupted_output_write_preserves_previous_csv(self, tmp_path, monkeypatch):
+        from alex.pipelines import harvest
+        output = tmp_path / 'accepted_harvested.csv'
+        output.write_bytes(b'previous completed output\n')
+        def interrupted(_frame, stream, **_kwargs):
+            stream.write('partial')
+            raise OSError('synthetic write interruption')
+        monkeypatch.setattr(pd.DataFrame, 'to_csv', interrupted)
+        with pytest.raises(OSError, match='synthetic'):
+            harvest._stage_complete_output(output, pd.DataFrame([{'title':'Synthetic'}]))
+        assert output.read_bytes() == b'previous completed output\n'
+        assert list(tmp_path.glob('.harvest-*.tmp')) == []
+
+    def test_held_provider_does_not_complete_or_replace_output(self, tmp_path, monkeypatch):
+        from alex.pipelines import harvest
+        from alex.utils.harvest_checkpoint import HarvestCheckpointError
+        data = tmp_path / 'data'; data.mkdir()
+        pd.DataFrame([{'title':'Synthetic', 'doi':'', 'authors':'', 'venue':'', 'abstract':''}]).to_csv(data/'accepted_candidates.csv', index=False)
+        output = data/'accepted_harvested.csv'
+        output.write_bytes(b'previous completed output\n')
+        monkeypatch.delenv('ALEX_DISCOVERY_SYNC', raising=False)
+        monkeypatch.delenv('ALEX_HARVEST_SYNC', raising=False)
+        monkeypatch.setattr('alex.utils.http.CACHE', tmp_path/'legacy.json')
+        monkeypatch.setattr('alex.utils.http.time.sleep', lambda _: None)
+        with patch('alex.utils.io.ROOT', tmp_path), \
+             patch('alex.pipelines.harvest.connector_config.load', return_value={}), \
+             patch('alex.utils.http._openalex_policy', return_value={'requests_enabled':False}), \
+             patch('alex.utils.http.HttpClient._send_request', side_effect=AssertionError('network forbidden')):
+            with pytest.raises(HarvestCheckpointError, match='Candidate harvest failed'):
+                harvest.run()
+        assert output.read_bytes() == b'previous completed output\n'
+        assert '\"event\":\"complete\"' not in (data/'harvest_response_cache.jsonl').read_text()
+
+    def test_candidate_failure_retains_real_checkpoint_without_completing(self, tmp_path, monkeypatch, caplog):
+        import json
+        from alex.pipelines import harvest
+        from alex.utils.harvest_checkpoint import HarvestCheckpointError
+        (tmp_path / 'data').mkdir()
+        pd.DataFrame([
+            {'title': 'Synthetic one', 'doi': '10.1/one', 'authors': 'A', 'venue': 'V', 'abstract': 'A'},
+            {'title': 'Synthetic two', 'doi': '10.1/two', 'authors': 'B', 'venue': 'V', 'abstract': 'B'},
+        ]).to_csv(tmp_path / 'data/accepted_candidates.csv', index=False)
+        output = tmp_path / 'data/accepted_harvested.csv'
+        output.write_text('title\nPreviously completed harvest\n')
+        before = output.read_bytes()
+        monkeypatch.delenv('ALEX_DISCOVERY_SYNC', raising=False)
+        monkeypatch.delenv('ALEX_HARVEST_SYNC', raising=False)
+        def one(client, row, *_args):
+            if row['title'] == 'Synthetic two':
+                raise ValueError('Synthetic two private failure')
+            client._cache_put('synthetic-request', {'value': 'synthetic-response'})
+            return row.to_dict()
+        with patch('alex.utils.io.ROOT', tmp_path), \
+             patch('alex.pipelines.harvest.connector_config.load', return_value={}), \
+             patch('alex.pipelines.harvest._harvest_one', side_effect=one), \
+             patch('requests.sessions.Session.request', side_effect=AssertionError('network forbidden')):
+            with pytest.raises(HarvestCheckpointError, match='Candidate harvest failed'):
+                harvest.run()
+        events = [json.loads(line).get('event') for line in (tmp_path / 'data/harvest_response_cache.jsonl').read_text().splitlines()[1:]]
+        assert 'response' in events
+        assert 'complete' not in events
+        assert output.read_bytes() == before
+        assert 'Synthetic two private failure' not in caplog.text
+
+    def test_candidate_failure_never_promotes_partial_harvest(self, tmp_path, caplog):
+        from alex.pipelines import harvest
+        from alex.utils.harvest_checkpoint import HarvestCheckpointError
+        (tmp_path / 'data').mkdir()
+        pd.DataFrame([
+            {'title': 'First private title', 'doi': '10.1/first', 'authors': 'A', 'venue': 'V', 'abstract': 'A'},
+            {'title': 'Second private title', 'doi': '10.1/second', 'authors': 'B', 'venue': 'V', 'abstract': 'B'},
+        ]).to_csv(tmp_path / 'data/accepted_candidates.csv', index=False)
+        output = tmp_path / 'data/accepted_harvested.csv'
+        output.write_text('title\nPreviously completed harvest\n')
+        before = output.read_bytes()
+        def one(_client, row, *_args):
+            if row['title'] == 'Second private title':
+                raise ValueError('Second private title and sensitive provider detail')
+            return row.to_dict()
+        with patch('alex.utils.io.ROOT', tmp_path), \
+             patch('alex.pipelines.harvest.connector_config.load', return_value={}), \
+             patch('alex.pipelines.harvest.HttpClient') as client, \
+             patch('alex.pipelines.harvest._harvest_one', side_effect=one):
+            with pytest.raises(HarvestCheckpointError, match='Candidate harvest failed'):
+                harvest.run()
+        assert output.read_bytes() == before
+        client.return_value.finish.assert_called_once_with(complete=False)
+        assert 'Second private title' not in caplog.text
+
     def test_checkpoint_failure_aborts_without_replacing_output(self, tmp_path):
         from alex.pipelines import harvest
         from alex.utils.harvest_checkpoint import HarvestCheckpointError
@@ -1153,7 +1242,7 @@ class TestHarvest:
              patch('alex.pipelines.harvest.connector_config.load',return_value={}), \
              patch('alex.pipelines.harvest.HttpClient'), \
              patch('alex.connectors.crossref.get_by_doi',side_effect=HarvestCheckpointError('state conflict')):
-            with pytest.raises(HarvestCheckpointError,match='state conflict'):
+            with pytest.raises(HarvestCheckpointError,match='Candidate harvest failed'):
                 harvest.run()
         assert output.read_bytes() == before
 
@@ -1256,18 +1345,16 @@ class TestHarvest:
             with pytest.raises(ValueError, match="Missing columns"):
                 harvest.run()
 
-    def test_harvest_empty_input_produces_empty_output(self, tmp_path):
-        # Upstream with no work to do must still produce an output file so
-        # the workflow's `git add` doesn't fail with "pathspec did not match".
-        (tmp_path / "data").mkdir(parents=True)
-
-        with patch("alex.utils.io.ROOT", tmp_path), \
-             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
-             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"):
-            from alex.pipelines import harvest
-            harvest.run()
-
-        assert (tmp_path / "data" / "accepted_harvested.csv").exists()
+    def test_missing_input_preserves_prior_output(self, tmp_path):
+        from alex.pipelines import harvest
+        from alex.utils.harvest_checkpoint import HarvestCheckpointError
+        (tmp_path / 'data').mkdir()
+        output = tmp_path / 'data/accepted_harvested.csv'
+        output.write_bytes(b'previous completed output\n')
+        with patch('alex.utils.io.ROOT', tmp_path):
+            with pytest.raises(HarvestCheckpointError, match='input missing'):
+                harvest.run()
+        assert output.read_bytes() == b'previous completed output\n'
 
     def _accepted_with_no_abstract(self, tmp_path):
         accepted = pd.DataFrame([{
@@ -1452,32 +1539,28 @@ class TestHarvestParallelism:
         # Input was Paper 0, 1, 2, 3, 4 — output must keep that order.
         assert list(out["title"]) == [f"Paper {i}" for i in range(5)]
 
-    def test_per_row_failure_drops_one_row_does_not_sink_stage(self, tmp_path):
-        # If _harvest_one raises for one row, the other rows must still
-        # land in the output. Surfaced via patching the per-row helper.
+    def test_per_row_failure_preserves_previous_output(self, tmp_path):
         self._accepted_csv(tmp_path, n=3)
-
+        output = tmp_path / "data" / "accepted_harvested.csv"
+        output.write_text("title\nPreviously completed harvest\n")
+        before = output.read_bytes()
         from alex.pipelines import harvest as harvest_mod
-        real_harvest_one = harvest_mod._harvest_one
+        from alex.utils.harvest_checkpoint import HarvestCheckpointError
 
-        def flaky_harvest_one(client, row, mailto, enable_s2, s2_key):
+        def fail_one(_client, row, *_args):
             if row.get("title") == "Paper 1":
                 raise RuntimeError("simulated transient failure")
-            return real_harvest_one(client, row, mailto, enable_s2, s2_key)
+            return row.to_dict()
 
         with patch("alex.utils.io.ROOT", tmp_path), \
-             patch("alex.utils.io.DATA_DIR", tmp_path / "data"), \
-             patch("alex.utils.io.CONFIG_DIR", tmp_path / "config"), \
              patch("alex.pipelines.harvest.connector_config.load", return_value={}), \
-             patch("alex.connectors.crossref.get_by_doi", return_value=None), \
-             patch("alex.connectors.openalex.search", return_value=[]), \
-             patch("alex.pipelines.harvest.HttpClient"), \
-             patch("alex.pipelines.harvest._harvest_one", side_effect=flaky_harvest_one):
-            harvest_mod.run()
+             patch("alex.pipelines.harvest.HttpClient") as client, \
+             patch("alex.pipelines.harvest._harvest_one", side_effect=fail_one):
+            with pytest.raises(HarvestCheckpointError, match="Candidate harvest failed"):
+                harvest_mod.run()
+        assert output.read_bytes() == before
+        client.return_value.finish.assert_called_once_with(complete=False)
 
-        out = pd.read_csv(tmp_path / "data" / "accepted_harvested.csv")
-        # 3 input - 1 failed = 2 output rows; the survivors keep their order.
-        assert list(out["title"]) == ["Paper 0", "Paper 2"]
 
 
 class TestDiscoveryAbstractEnrichment:
@@ -1759,6 +1842,7 @@ class TestCitationChainConnectorGating:
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
              patch("alex.connectors.semantic_scholar.search") as s2_search, \
              patch("alex.connectors.semantic_scholar.get_paper") as s2_paper, \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -1777,6 +1861,7 @@ class TestCitationChainConnectorGating:
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
              patch("alex.connectors.semantic_scholar.search") as s2_search, \
              patch("alex.connectors.semantic_scholar.get_paper") as s2_paper, \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -1794,6 +1879,7 @@ class TestCitationChainConnectorGating:
              patch("alex.connectors.openalex.search", return_value=[]), \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
              patch("alex.connectors.semantic_scholar.search", return_value=[]) as s2_search, \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -1803,6 +1889,21 @@ class TestCitationChainConnectorGating:
 
 class TestCitationChainParallelismAndTuning:
     """Per-candidate parallelism + configurable OpenAlex/S2 fan-out."""
+
+    def test_candidate_exception_never_replaces_input(self, tmp_path, caplog):
+        from alex.pipelines import citation_chain
+        self._candidates_csv(tmp_path, n=1)
+        path = tmp_path / 'data' / 'discovery_candidates.csv'
+        before = path.read_bytes()
+        with patch('alex.utils.io.ROOT', tmp_path), \
+             patch('alex.pipelines.citation_chain.connector_config.load', return_value={}), \
+             patch('alex.pipelines.citation_chain.verify_citation_start'), \
+             patch('alex.pipelines.citation_chain.HttpClient'), \
+             patch('alex.pipelines.citation_chain._chain_one_candidate', side_effect=ValueError('private synthetic failure')):
+            with pytest.raises(citation_chain.CitationIncomplete):
+                citation_chain.run()
+        assert path.read_bytes() == before
+        assert 'private synthetic failure' not in caplog.text
 
     def _candidates_csv(self, tmp_path, n=3):
         rows = [{
@@ -1834,6 +1935,7 @@ class TestCitationChainParallelismAndTuning:
              patch("alex.pipelines.citation_chain.connector_config.load", return_value={}), \
              patch("alex.connectors.openalex.search", return_value=[]), \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"), \
              patch.object(ThreadPoolExecutor, "submit", tracking_submit):
             from alex.pipelines import citation_chain
@@ -1850,6 +1952,7 @@ class TestCitationChainParallelismAndTuning:
                    return_value={"connectors": {"openalex": {"citation_chain_search_limit": 1}}}), \
              patch("alex.connectors.openalex.search", return_value=[]) as oa_search, \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]), \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -1882,6 +1985,7 @@ class TestCitationChainParallelismAndTuning:
                    return_value={"connectors": {"openalex": {"citation_chain_cited_by_limit": 2}}}), \
              patch("alex.connectors.openalex.search", return_value=[mock_work]), \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=cited), \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -1912,6 +2016,7 @@ class TestCitationChainParallelismAndTuning:
                    return_value={"connectors": {"openalex": {"citation_chain_cited_by_limit": 7}}}), \
              patch("alex.connectors.openalex.search", return_value=[mock_work]), \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=[]) as fcb, \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()
@@ -1974,6 +2079,7 @@ class TestCitationChainParallelismAndTuning:
              patch("alex.pipelines.citation_chain.connector_config.load", return_value={}), \
              patch("alex.connectors.openalex.search", return_value=[mock_work]), \
              patch("alex.connectors.openalex.fetch_cited_by", return_value=duplicate_cited), \
+             patch("alex.pipelines.citation_chain.verify_citation_start"), \
              patch("alex.pipelines.citation_chain.HttpClient"):
             from alex.pipelines import citation_chain
             citation_chain.run()

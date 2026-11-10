@@ -14,6 +14,8 @@ Output: data/accepted_harvested.csv   (filtered to auto-include tier)
 
 from __future__ import annotations
 import json
+import os
+import tempfile
 import logging
 from datetime import datetime, timezone
 from uuid import uuid4
@@ -24,6 +26,7 @@ from alex.utils.io import load_df, save_df, load_json, root_file
 from alex.utils.text import clean
 from alex.discovery_types import paper_route_hold
 from alex.utils.harvest_types import restore_crossref_types
+from alex.utils.harvest_checkpoint import file_sha256
 from alex.utils.scoring import (
     venue_score,
     citation_score,
@@ -71,7 +74,13 @@ def run() -> None:
             save_df(harvested_path, pd.DataFrame())
         return
 
+    harvest_output_sha256 = file_sha256(harvested_path)
     df = restore_crossref_types(df, root_file())
+    checkpoint_path = root_file('data', 'harvest_response_cache.jsonl')
+    harvest_input_sha256 = None
+    if checkpoint_path.is_file():
+        with checkpoint_path.open(encoding='utf-8') as stream:
+            harvest_input_sha256 = json.loads(next(stream))['input_sha256']
     whitelist = load_json(root_file("config", "venue_whitelist.json"))["high_trust"]
     registry = load_json(root_file("config", "query_registry.json"))
     queries = registry["queries"]
@@ -167,6 +176,23 @@ def run() -> None:
     # Filtered auto-include tier back into accepted_harvested.csv — this is
     # what classify reads next.
     save_df(harvested_path, accepted_df)
+    if harvest_input_sha256 is not None:
+        # Commit this proof with the rescore output, so the next harvest can
+        # distinguish a legitimate rescore from an unverified replacement.
+        lineage_path = root_file('data', '.harvest_output_lineage.json')
+        temporary = None
+        try:
+            with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', dir=lineage_path.parent,
+                                             prefix='.harvest-lineage-', suffix='.tmp', delete=False) as stream:
+                temporary = stream.name
+                json.dump({'schema_version':1, 'harvest_input_sha256':harvest_input_sha256,
+                           'harvest_output_sha256':harvest_output_sha256,
+                           'rescore_output_sha256':file_sha256(harvested_path)}, stream)
+                stream.write('\n'); stream.flush(); os.fsync(stream.fileno())
+            os.replace(temporary, lineage_path)
+        finally:
+            if temporary is not None and os.path.exists(temporary):
+                os.unlink(temporary)
     window_path.write_text(json.dumps({"run_id": run_id}), encoding="utf-8")
 
     promoted = len(accepted_df)

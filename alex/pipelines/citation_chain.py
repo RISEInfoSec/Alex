@@ -1,17 +1,174 @@
 from __future__ import annotations
 import logging
+import hashlib
+import json
+import uuid
 import os
-from concurrent.futures import ThreadPoolExecutor
+import tempfile
+import threading
+from pathlib import Path
+from urllib.parse import urlsplit
+from concurrent.futures import FIRST_EXCEPTION, ThreadPoolExecutor, wait
 from typing import Any
 import pandas as pd
-from alex.utils.io import load_df, save_df, load_json, root_file
-from alex.utils.http import HttpClient
+from alex.utils.io import load_df, load_json, root_file
+from alex.utils.http import HttpClient as BaseHttpClient
 from alex.utils.text import normalize_title, clean
 from alex.utils.scoring import query_keywords, title_matches_keywords
 from alex.utils import connector_config
 from alex.connectors import openalex, semantic_scholar
+from scripts.citation_guard import verify_start as verify_citation_start
 
 logger = logging.getLogger(__name__)
+
+
+class CitationIncomplete(RuntimeError):
+    """A chain cannot be treated as complete without its required evidence."""
+
+
+class HttpClient(BaseHttpClient):
+    """Fail closed for citation-chain requests while retaining ordinary 404s."""
+    def __init__(self, *args, evidence_path=None, evidence_context=None, **kwargs):
+        # Citation cache is per invocation only. The legacy file has no
+        # input identity or integrity evidence and may contain credentials.
+        super().__init__(*args, use_disk_cache=False, **kwargs)
+        self._citation_stop = threading.Event()
+        self._admission_lock = threading.RLock()
+        self.admitted_requests = 0
+        self._citation_local = threading.local()
+        self._evidence_lock = threading.RLock()
+        self.evidence_path = Path(evidence_path) if evidence_path is not None else None
+        if self.evidence_path is not None:
+            self.evidence_path.parent.mkdir(parents=True, exist_ok=True)
+            self._append_evidence({'event':'begin', 'schema_version':1,
+                                   'replay_allowed':False, 'context':evidence_context or {}}, create=True)
+
+    def _append_evidence(self, record, *, create=False):
+        if self.evidence_path is None:
+            return
+        try:
+            with self._evidence_lock, self.evidence_path.open('x' if create else 'a', encoding='utf-8') as stream:
+                stream.write(json.dumps(record, ensure_ascii=False, separators=(',', ':')) + '\n')
+                stream.flush(); os.fsync(stream.fileno())
+        except OSError:
+            self.stop()
+            raise CitationIncomplete('Citation evidence write failed; reconcile before retry') from None
+
+    def finish(self, *, complete, output_sha256=None):
+        self._append_evidence({'event':'prepared' if complete else 'incomplete',
+                               'output_sha256':output_sha256})
+
+    def stop(self):
+        with self._admission_lock:
+            self._citation_stop.set()
+
+    def check_active(self):
+        with self._admission_lock:
+            if self._citation_stop.is_set():
+                raise CitationIncomplete('Citation source incomplete; no further requests')
+
+    def _send_request(self, url, **kwargs):
+        # Calls admitted before stop may finish; no new call is admitted later.
+        with self._admission_lock:
+            self.check_active()
+            self.admitted_requests += 1
+        try:
+            return super()._send_request(url, **kwargs)
+        finally:
+            with self._admission_lock:
+                self.admitted_requests -= 1
+
+    def _request_with_retry(self, url, params, headers, timeout, max_attempts=3):
+        response = super()._request_with_retry(url, params, headers, timeout, max_attempts)
+        parsed = urlsplit(url)
+        is_paper = (parsed.hostname == 'api.semanticscholar.org'
+                    and parsed.path.startswith('/graph/v1/paper/')
+                    and parsed.path != '/graph/v1/paper/search')
+        if response is not None and response.status_code == 404 and is_paper:
+            self._citation_local.not_found = True
+            return response
+        if response is None or not 200 <= response.status_code < 300:
+            self.stop()
+            raise CitationIncomplete('Citation source incomplete; no output promoted')
+        return response
+
+    @staticmethod
+    def _allowed_url(url):
+        parsed = urlsplit(url)
+        return (parsed.scheme == 'https' and not parsed.username and not parsed.password
+                and parsed.port in (None, 443)
+                and ((parsed.hostname == 'api.openalex.org' and parsed.path.rstrip('/') == '/works')
+                     or (parsed.hostname == 'api.semanticscholar.org'
+                         and parsed.path.startswith('/graph/v1/paper/'))))
+
+    @staticmethod
+    def _valid_response(url, data):
+        if not isinstance(data, dict):
+            return False
+        parsed = urlsplit(url)
+        if parsed.hostname == 'api.openalex.org':
+            return isinstance(data.get('results'), list)
+        if parsed.path == '/graph/v1/paper/search':
+            return isinstance(data.get('data'), list)
+        return True
+
+    def _cache_put(self, key, data):
+        url = getattr(self._citation_local, 'url', None)
+        if url and not self._valid_response(url, data):
+            self.stop()
+            raise CitationIncomplete('Citation source evidence invalid; no output promoted')
+        if url and self.evidence_path is not None:
+            request = json.loads(key)
+            safe_request = {'url':request.get('url'), 'params':request.get('params'),
+                            'header_names':sorted((request.get('headers') or {}).keys())}
+            request_hash = hashlib.sha256(json.dumps(safe_request, sort_keys=True).encode()).hexdigest()
+            serialized = json.dumps(data, ensure_ascii=False, sort_keys=True)
+            secrets = list((request.get('headers') or {}).values()) + [os.getenv('OPENALEX_API_KEY','')]
+            if any(isinstance(secret, str) and secret and secret in serialized for secret in secrets):
+                self.stop()
+                raise CitationIncomplete('Citation response cannot be retained safely')
+            self._append_evidence({'event':'response', 'request_sha256':request_hash,
+                                   'response':data, 'sha256':hashlib.sha256(serialized.encode()).hexdigest()})
+        return super()._cache_put(key, data)
+
+    def get_json(self, url, params=None, headers=None, timeout=30):
+        if not self._allowed_url(url):
+            self.stop()
+            raise CitationIncomplete('Citation source URL invalid; no output promoted')
+        self._citation_local.not_found = False
+        self._citation_local.url = url
+        try:
+            data = super().get_json(url, params, headers, timeout)
+            if data is None and self._citation_local.not_found:
+                return None
+            if not self._valid_response(url, data):
+                self.stop()
+                raise CitationIncomplete('Citation source evidence invalid; no output promoted')
+            return data
+        except Exception:
+            self.stop()
+            raise
+        finally:
+            del self._citation_local.url
+
+
+
+def _stage_complete_candidates(path: Path, frame: pd.DataFrame) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', newline='',
+                                         dir=path.parent, prefix='.citation-',
+                                         suffix='.tmp', delete=False) as stream:
+            temporary = Path(stream.name)
+            frame.to_csv(stream, index=False)
+            stream.flush()
+            os.fsync(stream.fileno())
+        return temporary
+    except BaseException:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+        raise
 
 # Top-N candidates by citation_count we chain from. Higher-cited seeds yield
 # more useful chains; everything else gets exponentially smaller returns.
@@ -43,11 +200,19 @@ DEFAULT_SS_REFS_LIMIT = 5
 
 
 def run() -> None:
-    client = HttpClient(mailto=os.getenv("HARVEST_MAILTO", ""))
-    df = load_df(root_file("data", "discovery_candidates.csv"))
+    input_path = root_file("data", "discovery_candidates.csv")
+    if not input_path.is_file():
+        raise CitationIncomplete('Citation input missing; no output promoted')
+    input_sha256 = hashlib.sha256(input_path.read_bytes()).hexdigest()
+    df = load_df(input_path)
+    if hashlib.sha256(input_path.read_bytes()).hexdigest() != input_sha256:
+        raise CitationIncomplete('Citation input changed; no output promoted')
     if df.empty:
-        print("No discovery candidates to citation-chain.")
-        return
+        raise CitationIncomplete('Empty citation input requires reconciliation')
+    try:
+        verify_citation_start(root_file(), input_sha256)
+    except (RuntimeError, OSError):
+        raise CitationIncomplete('Citation fence unverified; no source requests allowed') from None
 
     # Honour the connectors gate. S2 backward chaining issues up to 16 calls
     # per candidate (1 search + 5 references × 3 results); without an API key
@@ -99,6 +264,12 @@ def run() -> None:
     sorted_df = sorted_df.sort_values("citation_count", ascending=False).head(CITATION_CHAIN_TOP_N)
 
     mailto = os.getenv("HARVEST_MAILTO", "")
+    registry_bytes = registry_path.read_bytes() if registry_path.exists() else b''
+    context = {'input_sha256':input_sha256,
+               'config_sha256':hashlib.sha256(json.dumps(config, sort_keys=True).encode()).hexdigest(),
+               'registry_sha256':hashlib.sha256(registry_bytes).hexdigest()}
+    evidence_path = root_file('data', 'citation_response_evidence-' + uuid.uuid4().hex + '.jsonl')
+    client = HttpClient(mailto=mailto, evidence_path=evidence_path, evidence_context=context)
 
     # Each candidate's chain is independent. Fan out across candidates so
     # independent provider calls overlap; each host remains serial under
@@ -106,23 +277,28 @@ def run() -> None:
     # in the main thread to keep dedup deterministic.
     candidate_titles = [clean(row.get("title")) for _, row in sorted_df.iterrows()]
     per_candidate_rows: list[list[dict]] = []
-    with ThreadPoolExecutor(max_workers=CITATION_CHAIN_WORKERS) as ex:
-        futures = [
-            ex.submit(
-                _chain_one_candidate,
-                client, title, mailto,
-                oa_search_limit, oa_cited_by_limit,
-                enable_s2, s2_key, ss_search_limit, ss_refs_limit,
-                topic_keywords,
+    def run_candidate(title):
+        try:
+            client.check_active()
+            return _chain_one_candidate(
+                client, title, mailto, oa_search_limit, oa_cited_by_limit,
+                enable_s2, s2_key, ss_search_limit, ss_refs_limit, topic_keywords,
             )
-            for title in candidate_titles
-        ]
-        for fut, title in zip(futures, candidate_titles):
-            try:
-                per_candidate_rows.append(fut.result())
-            except Exception as exc:
-                logger.warning("Citation chain failed for %r: %s", title, exc)
-                per_candidate_rows.append([])
+        except BaseException:
+            client.stop()
+            raise
+
+    with ThreadPoolExecutor(max_workers=CITATION_CHAIN_WORKERS) as ex:
+        futures = [ex.submit(run_candidate, title) for title in candidate_titles]
+        done, pending = wait(futures, return_when=FIRST_EXCEPTION)
+        if any(f.exception() is not None for f in done if not f.cancelled()):
+            client.stop()
+            for f in pending:
+                f.cancel()
+            ex.shutdown(wait=True, cancel_futures=True)
+            client.finish(complete=False)
+            raise CitationIncomplete('Citation chain incomplete; no output promoted') from None
+        per_candidate_rows = [f.result() for f in futures]
 
     # Dedup against the existing corpus + within this batch, in deterministic
     # order (matches the prior single-threaded behaviour: first occurrence wins).
@@ -140,7 +316,14 @@ def run() -> None:
         merged = pd.concat([df, pd.DataFrame(rows)], ignore_index=True)
     else:
         merged = df
-    save_df(root_file("data", "discovery_candidates.csv"), merged)
+    if hashlib.sha256(input_path.read_bytes()).hexdigest() != input_sha256:
+        client.finish(complete=False)
+        raise CitationIncomplete('Citation input changed; no output promoted')
+    staged = _stage_complete_candidates(input_path, merged)
+    client.finish(complete=True, output_sha256=hashlib.sha256(staged.read_bytes()).hexdigest())
+    # Promotion is the last state-changing operation. A failed stage is never
+    # allowed to publish this candidate file by the workflow's cleanup step.
+    os.replace(staged, input_path)
     print(f"Citation chaining added {len(rows)} candidates")
 
 

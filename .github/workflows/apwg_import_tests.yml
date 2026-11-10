@@ -41,7 +41,7 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
       - run: pip install -r requirements.txt
-      - run: python -m pytest -q tests/test_apwg_import.py tests/test_apwg_classification_review.py tests/test_apwg_pdf_abstracts.py tests/test_apwg_editorial_review.py tests/test_apwg_import_recommendation.py tests/test_apwg_abstract_checkpoint.py tests/test_apwg_release.py tests/test_pipelines.py
+      - run: python scripts/run_offline_tests.py -m pytest -q tests/test_apwg_import.py tests/test_apwg_classification_review.py tests/test_apwg_pdf_abstracts.py tests/test_apwg_editorial_review.py tests/test_apwg_import_recommendation.py tests/test_apwg_abstract_checkpoint.py tests/test_apwg_release.py tests/test_pipelines.py
   live_source_audit:
     # Read-only APWG/dblp coverage probe. Never changes accepted_classified.csv.
     # PRs run offline regressions only. Live scholarly lookups and the

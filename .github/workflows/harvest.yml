@@ -37,13 +37,18 @@ jobs:
           git add data/accepted_harvested.csv
           git diff --cached --quiet || git commit -m "Harvest metadata"
           git push
-      - name: Preserve candidates and provider cooldown
-        if: ${{ always() && steps.pipeline_state.outcome == 'success' }}
-        run: scripts/state.sh push "Preserve harvest state and provider cooldown"
+      # Harvest's client performs initial, periodic and final state syncs.
+      # Do not automatically retry a failed or ambiguous checkpoint push.
       - name: Retain harvest response evidence
         if: always()
         uses: actions/upload-artifact@v7.0.2
         with:
           name: harvest-responses-${{ github.run_id }}-${{ github.run_attempt }}
-          path: data/harvest_response_cache*.jsonl
+          path: |
+            data/harvest_response_cache*.jsonl
+            data/harvest_response_cache*.uncertain
+            data/.harvest-pending-*.csv
+            data/.harvest-prior-*.csv
+            data/discovery_openalex_state.json
+          include-hidden-files: true
           if-no-files-found: warn

@@ -40,8 +40,8 @@ concurrency:
 #
 # Discovery has a four-hour controller deadline and a five-hour job ceiling,
 # with each pass still capped at45 minutes. Other stages retain their original
-# shorter ceilings. The `report` job always runs last: it keeps the schedule
-# from being auto-disabled and opens/closes a failure issue.
+# shorter ceilings. The `report` job always runs last and opens/closes a
+# failure issue; it does not change workflow scheduling state.
 jobs:
   discover:
     runs-on: ubuntu-24.04
@@ -61,6 +61,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Pull pipeline state
         run: scripts/state.sh pull
+      - name: Verify prior checkpoint state before discovery
+        run: python -m scripts.pipeline_preflight
       - name: Discover
         env:
           ALEX_RESUME_DISCOVERY_RUN: ${{ inputs.resume_completed_discovery_run }}
@@ -102,15 +104,43 @@ jobs:
       - name: Pull pipeline state
         id: pipeline_state
         run: scripts/state.sh pull
+      - name: Fence citation attempt
+        id: citation_fence
+        run: |
+          python scripts/citation_guard.py begin
+          scripts/state.sh push "Fence citation attempt"
+          python scripts/citation_guard.py acknowledge
       - name: Citation chain
+        id: citation_chain
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
           python -m alex.cli chain
-      - name: Preserve candidates and provider cooldown
-        if: ${{ always() && steps.pipeline_state.outcome == 'success' }}
-        run: scripts/state.sh push "Preserve chain state and provider cooldown"
+      - name: Retain citation response evidence
+        id: citation_evidence
+        if: ${{ always() && steps.citation_chain.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: citation-responses-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/citation_response_evidence-*.jsonl
+          if-no-files-found: error
+      - name: Retain staged citation output
+        if: ${{ always() && steps.citation_chain.outcome == 'failure' }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: citation-staged-output-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/.citation-*.tmp
+          include-hidden-files: true
+          if-no-files-found: warn
+      - name: Preserve completed candidates and provider cooldown
+        if: ${{ always() && steps.pipeline_state.outcome == 'success' && steps.citation_chain.outcome == 'success' && steps.citation_evidence.outcome == 'success' }}
+        run: |
+          python scripts/citation_guard.py complete
+          scripts/state.sh push "Preserve chain state and provider cooldown"
+      - name: Preserve provider cooldown after incomplete chain
+        if: ${{ always() && steps.pipeline_state.outcome == 'success' && steps.citation_fence.outcome == 'success' && (steps.citation_chain.outcome != 'success' || steps.citation_evidence.outcome != 'success') }}
+        run: scripts/state.sh push-provider "Preserve provider cooldown after incomplete chain"
 
   score:
     needs: chain
@@ -133,7 +163,9 @@ jobs:
         run: scripts/state.sh pull
       - name: Quality gate
         run: |
+          python scripts/citation_guard.py quality-begin
           python -m alex.cli score
+          python scripts/citation_guard.py quality-complete
           scripts/state.sh push "Quality gate results"
           git add data/review_queue.csv
           git diff --cached --quiet || git commit -m "Quality gate results"
@@ -168,15 +200,20 @@ jobs:
           git add data/accepted_harvested.csv
           git diff --cached --quiet || git commit -m "Harvest metadata"
           git push || (git pull --rebase --autostash && git push)
-      - name: Preserve candidates and provider cooldown
-        if: ${{ always() && steps.pipeline_state.outcome == 'success' }}
-        run: scripts/state.sh push "Preserve harvest state and provider cooldown"
+      # Harvest's client performs initial, periodic and final state syncs.
+      # Do not automatically retry a failed or ambiguous checkpoint push.
       - name: Retain harvest response evidence
         if: always()
         uses: actions/upload-artifact@v7.0.2
         with:
           name: harvest-responses-${{ github.run_id }}-${{ github.run_attempt }}
-          path: data/harvest_response_cache*.jsonl
+          path: |
+            data/harvest_response_cache*.jsonl
+            data/harvest_response_cache*.uncertain
+            data/.harvest-pending-*.csv
+            data/.harvest-prior-*.csv
+            data/discovery_openalex_state.json
+          include-hidden-files: true
           if-no-files-found: warn
 
   rescore:
@@ -211,6 +248,9 @@ jobs:
           # the deletion.
           scripts/state.sh push "Post-harvest rescore: ${SUMMARY:-no summary}"
           git add data/accepted_harvested.csv
+          if [ -e data/.harvest_output_lineage.json ]; then
+            git add data/.harvest_output_lineage.json
+          fi
           if [ -e data/.rescore_window.json ] || git ls-files --error-unmatch data/.rescore_window.json >/dev/null 2>&1; then
             git add -A data/.rescore_window.json
           fi
@@ -353,10 +393,6 @@ jobs:
 
   report:
     # Runs after every run, whatever happened upstream.
-    #  - Keepalive: GitHub disables a schedule after 60 days without repo
-    #    activity. Every run failed before committing from 2026-07-20, so
-    #    both schedules were auto-disabled by 2026-09-28 and the failures
-    #    went unseen. Re-enabling via the API resets that timer.
     #  - Alert: a failed or cancelled stage opens an issue (or comments on
     #    the open one), so watchers hear about the first failure, not the
     #    tenth. The next clean run closes it.
@@ -365,7 +401,6 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
-      actions: write
       issues: write
     env:
       GH_TOKEN: ${{ github.token }}
@@ -373,11 +408,6 @@ jobs:
       NEEDS: ${{ toJSON(needs) }}
       RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
-      - name: Keep schedules enabled
-        run: |
-          for wf in pipeline.yml discover_manual_assist.yml; do
-            gh api -X PUT "repos/$GH_REPO/actions/workflows/$wf/enable"
-          done
       - name: Open, update or close the failure issue
         run: |
           label=pipeline-failure

@@ -21,10 +21,16 @@ def fixture(tmp_path, monkeypatch, kind='book-chapter', complete=True):
     frame=pd.DataFrame([row]);source=tmp_path/'data/accepted_candidates.csv'
     frame.to_csv(source,index=False)
     cache=tmp_path/'data/harvest_response_cache.jsonl'
-    client=HarvestClient(cache,hashlib.sha256(source.read_bytes()).hexdigest(),publish=lambda:None)
+    output=tmp_path/'data/accepted_harvested.csv'
+    frame.to_csv(output,index=False)
+    client=HarvestClient(cache,hashlib.sha256(source.read_bytes()).hexdigest(),publish=lambda:None,output_path=output)
     key=json.dumps({'url':'https://api.crossref.org/works/'+row['doi'],'params':{},'headers':{}},sort_keys=True)
     client._cache_put(key,{'message':{'DOI':row['doi'],'type':kind}})
-    client.finish(complete=complete)
+    if complete:
+        client.finish(complete=True, output_sha256=hashlib.sha256(output.read_bytes()).hexdigest())
+        client.confirm_output()
+    else:
+        client.finish(complete=False)
     monkeypatch.setattr('requests.sessions.Session.request',Mock(side_effect=AssertionError('No new source requests')))
     return frame,cache
 
@@ -129,3 +135,29 @@ def test_returned_doi_type_requires_exact_request_and_harvested_title(tmp_path,m
         assert restored['harvest_crossref_requested_doi']==original_doi
         assert restored['harvest_crossref_type']=='book-chapter'
         assert paper_route_hold(restored)
+
+
+def test_rescore_lineage_allows_verified_rollover_only(tmp_path,monkeypatch):
+    from alex.utils.harvest_checkpoint import HarvestCheckpointError
+    frame,cache=fixture(tmp_path,monkeypatch)
+    (tmp_path/'config').mkdir()
+    (tmp_path/'config/venue_whitelist.json').write_text(json.dumps({'high_trust':['IEEE']}))
+    (tmp_path/'config/query_registry.json').write_text(json.dumps({'queries':['OSINT','cybersecurity']}))
+    (tmp_path/'config/quality_weights.json').write_text(json.dumps({
+        'venue':.35,'citations':.40,'relevance':.25,'institution_bonus':10,
+        'auto_include_threshold':0,'review_threshold':0,'preprint_auto_include_threshold':0,
+        'preprint_review_threshold':0}))
+    monkeypatch.setattr(io,'ROOT',tmp_path)
+    rescore.run()
+    output=tmp_path/'data/accepted_harvested.csv'
+    lineage=tmp_path/'data/.harvest_output_lineage.json'
+    before=lineage.read_bytes()
+    proof=json.loads(before)
+    assert proof['rescore_output_sha256']==hashlib.sha256(output.read_bytes()).hexdigest()
+    proof['harvest_output_sha256']='0'*64
+    lineage.write_text(json.dumps(proof))
+    with pytest.raises(HarvestCheckpointError,match='output unverified'):
+        HarvestClient(cache,'2'*64,publish=lambda:None,output_path=output)
+    lineage.write_bytes(before)
+    resumed=HarvestClient(cache,'2'*64,publish=lambda:None,output_path=output)
+    assert resumed.path.with_name('harvest_response_cache_previous.jsonl').is_file()

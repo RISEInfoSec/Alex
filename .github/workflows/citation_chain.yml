@@ -33,7 +33,15 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - id: pipeline_state
         run: scripts/state.sh pull
+      - name: Fence citation attempt
+        id: citation_fence
+        if: ${{ !inputs.verify_literal_titles }}
+        run: |
+          python scripts/citation_guard.py begin
+          scripts/state.sh push "Fence citation attempt"
+          python scripts/citation_guard.py acknowledge
       - if: ${{ !inputs.verify_literal_titles }}
+        id: citation_chain
         env:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
@@ -45,9 +53,30 @@ jobs:
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: python -m scripts.verify_openalex_titles
-      - name: Preserve candidates and provider cooldown
-        if: ${{ always() && steps.pipeline_state.outcome == 'success' }}
-        run: scripts/state.sh push "Preserve chain state and provider cooldown"
+      - name: Retain citation response evidence
+        id: citation_evidence
+        if: ${{ always() && steps.citation_chain.outcome != 'skipped' }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: citation-responses-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/citation_response_evidence-*.jsonl
+          if-no-files-found: error
+      - name: Retain staged citation output
+        if: ${{ always() && steps.citation_chain.outcome == 'failure' }}
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: citation-staged-output-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/.citation-*.tmp
+          include-hidden-files: true
+          if-no-files-found: warn
+      - name: Preserve completed candidates and provider cooldown
+        if: ${{ always() && steps.pipeline_state.outcome == 'success' && steps.citation_chain.outcome == 'success' && steps.citation_evidence.outcome == 'success' }}
+        run: |
+          python scripts/citation_guard.py complete
+          scripts/state.sh push "Preserve chain state and provider cooldown"
+      - name: Preserve provider cooldown after incomplete chain
+        if: ${{ always() && steps.pipeline_state.outcome == 'success' && (inputs.verify_literal_titles || steps.citation_fence.outcome == 'success') && (steps.citation_chain.outcome != 'success' || steps.citation_evidence.outcome != 'success') }}
+        run: scripts/state.sh push-provider "Preserve provider cooldown after incomplete chain"
       - uses: actions/upload-artifact@v7.0.2
         if: ${{ always() && inputs.verify_literal_titles }}
         with:
