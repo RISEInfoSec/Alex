@@ -381,6 +381,9 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           ref: main
+          # Keep website implementation history separate from corpus updates.
+          fetch-depth: 0
+          filter: blob:none
       - name: Generate and validate Pages artifact
         run: |
           revision="$(git rev-parse --verify HEAD)"
