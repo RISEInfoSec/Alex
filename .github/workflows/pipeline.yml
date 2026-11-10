@@ -40,8 +40,8 @@ concurrency:
 #
 # Discovery has a four-hour controller deadline and a five-hour job ceiling,
 # with each pass still capped at45 minutes. Other stages retain their original
-# shorter ceilings. The `report` job always runs last: it keeps the schedule
-# from being auto-disabled and opens/closes a failure issue.
+# shorter ceilings. The `report` job always runs last and opens/closes a
+# failure issue; it does not change workflow scheduling state.
 jobs:
   discover:
     runs-on: ubuntu-24.04
@@ -61,6 +61,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Pull pipeline state
         run: scripts/state.sh pull
+      - name: Verify prior checkpoint state before discovery
+        run: python -m scripts.pipeline_preflight
       - name: Discover
         env:
           ALEX_RESUME_DISCOVERY_RUN: ${{ inputs.resume_completed_discovery_run }}
@@ -391,10 +393,6 @@ jobs:
 
   report:
     # Runs after every run, whatever happened upstream.
-    #  - Keepalive: GitHub disables a schedule after 60 days without repo
-    #    activity. Every run failed before committing from 2026-07-20, so
-    #    both schedules were auto-disabled by 2026-09-28 and the failures
-    #    went unseen. Re-enabling via the API resets that timer.
     #  - Alert: a failed or cancelled stage opens an issue (or comments on
     #    the open one), so watchers hear about the first failure, not the
     #    tenth. The next clean run closes it.
@@ -403,7 +401,6 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
-      actions: write
       issues: write
     env:
       GH_TOKEN: ${{ github.token }}
@@ -411,11 +408,6 @@ jobs:
       NEEDS: ${{ toJSON(needs) }}
       RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
     steps:
-      - name: Keep schedules enabled
-        run: |
-          for wf in pipeline.yml discover_manual_assist.yml; do
-            gh api -X PUT "repos/$GH_REPO/actions/workflows/$wf/enable"
-          done
       - name: Open, update or close the failure issue
         run: |
           label=pipeline-failure

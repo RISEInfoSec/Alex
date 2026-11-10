@@ -42,3 +42,15 @@ def test_pr_regression_suites_use_offline_child_subreaper():
     for name in ('classification_tests.yml','apwg_import_tests.yml','seo_foundation.yml'):
         text=(ROOT/'.github/workflows'/name).read_text()
         assert 'python scripts/run_offline_tests.py -m pytest' in text
+
+
+def test_weekly_checks_retained_state_before_discovery_and_does_not_enable_schedules():
+    jobs=load('pipeline.yml')['jobs']
+    steps=jobs['discover']['steps']
+    guard=next(i for i,s in enumerate(steps) if s.get('name')=='Verify prior checkpoint state before discovery')
+    discovery=next(i for i,s in enumerate(steps) if s.get('name')=='Discover')
+    assert guard < discovery
+    assert steps[guard]['run']=='python -m scripts.pipeline_preflight'
+    report_commands='\n'.join(s.get('run','') for s in jobs['report']['steps'])
+    assert '/enable' not in report_commands
+    assert 'actions' not in jobs['report']['permissions']
