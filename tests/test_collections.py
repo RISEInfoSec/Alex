@@ -2,8 +2,11 @@
 from __future__ import annotations
 
 import csv
+from datetime import datetime, timezone
 import json
+import os
 import shutil
+import subprocess
 from collections import Counter
 from pathlib import Path
 
@@ -15,7 +18,7 @@ from alex.collections import BASE, PAGE_SIZE, build, generate, load_editorial, p
 from alex.pipelines import publish
 from alex.taxonomy import CATEGORIES, INVESTIGATION_TYPES
 from scripts.check_seo import check
-from scripts.stage_site import stage
+from scripts.stage_site import stage, website_updated_at
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -207,6 +210,9 @@ def test_both_pages_workflows_use_tested_staging_and_keep_deploy_controls():
         assert "ref: main" in workflow
         assert 'git rev-parse --verify HEAD' in workflow
         assert 'python3 scripts/stage_site.py --revision "$revision"' in workflow
+        deploy = workflow.split('\n  deploy:', 1)[1]
+        assert 'fetch-depth: 0' in deploy
+        assert 'filter: blob:none' in deploy
         assert "path: _site" in workflow
     for filename in ("publish.yml", "pipeline.yml", "rebuild_site.yml", "apwg_approved_release.yml"):
         workflow = (ROOT / ".github/workflows" / filename).read_text()
@@ -429,16 +435,48 @@ def test_actual_artifact_includes_all_pages_and_preserves_downloads(tmp_path):
         check(artifact, source_root=tmp_path)
 
     revision = 'a' * 40
-    stage(tmp_path, artifact, revision=revision)
+    stage(tmp_path, artifact, revision=revision, updated_at='2026-11-10T10:30:00+00:00')
     for page in ('index.html', 'data-license-v1.html', 'research/index.html', 'research/bibliography/index.html'):
         text = (artifact / page).read_text()
-        assert f'Site version {revision[:12]}' in text
-        assert f'Git commit {revision}' in text
+        assert 'Site version v1.0' in text
+        assert 'Website updated: 2026-11-10 10:30 UTC' in text
+        assert 'datetime="2026-11-10T10:30:00Z"' in text
+        assert f'Site version {revision[:12]}' not in text
     assert 'data-site-version' not in (tmp_path / 'index.html').read_text()
     for name in ('papers.json', 'osint_cyber_papers.csv'):
         assert (artifact / 'data' / name).read_bytes() == (ROOT / 'data' / name).read_bytes()
     with pytest.raises(ValueError, match='full lowercase Git commit'):
         stage(tmp_path, artifact, revision='not-a-commit')
+
+
+def test_website_update_time_ignores_research_data_commits(tmp_path):
+    def git(*args, at=None):
+        env = os.environ.copy()
+        if at:
+            env.update(GIT_AUTHOR_DATE=at, GIT_COMMITTER_DATE=at)
+        return subprocess.check_output(
+            ['git', '-c', 'user.name=ALEX test', '-c', 'user.email=alex-test@example.invalid', *args],
+            cwd=tmp_path, env=env, text=True, stderr=subprocess.PIPE,
+        ).strip()
+
+    git('init', '-q')
+    (tmp_path / 'index.html').write_text('website')
+    (tmp_path / 'data').mkdir()
+    (tmp_path / 'data/papers.json').write_text('[]')
+    git('add', '.')
+    git('commit', '-qm', 'Website', at='2026-11-01T10:00:00+00:00')
+    (tmp_path / 'data/papers.json').write_text('[{}]')
+    git('add', 'data/papers.json')
+    git('commit', '-qm', 'Research collection', at='2026-11-02T10:00:00+00:00')
+    assert datetime.fromisoformat(website_updated_at(tmp_path, git('rev-parse', 'HEAD'))) == datetime(2026, 11, 1, 10, tzinfo=timezone.utc)
+    (tmp_path / 'index.html').write_text('website revision')
+    git('add', 'index.html')
+    git('commit', '-qm', 'Website revision', at='2026-11-03T10:00:00+00:00')
+    head = git('rev-parse', 'HEAD')
+    assert datetime.fromisoformat(website_updated_at(tmp_path, head)) == datetime(2026, 11, 3, 10, tzinfo=timezone.utc)
+    (tmp_path / '.git/shallow').write_text(head + '\n')
+    with pytest.raises(ValueError, match='Full Git history'):
+        website_updated_at(tmp_path, head)
 
 
 def test_named_source_navigation_is_alphabetical_and_publication_bound():

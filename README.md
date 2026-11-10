@@ -276,6 +276,15 @@ Until the first instrumented collection, the footer explicitly says the date and
 count are not yet recorded. An empty classified input preserves an existing public
 corpus and its collection status.
 
+The footer shows the website release in `config/site_version.json`, starting at
+v1.0, and the UTC time of the latest committed website implementation change.
+The staging script identifies those implementation paths in `SITE_IMPLEMENTATION_PATHS`;
+data-only commits and republishing the same website do not change that time.
+Both deploy jobs fetch Git history so staging can determine the time reliably.
+Update the version for an intentional website release: increment the major
+number for a significant redesign and the minor number for a feature release.
+The website version and update time are independent of collection status.
+
 ## Operations runbook
 
 The package is designed to be **production-oriented**, but actual performance depends on API keys, quotas, and data-source availability. Notes below cover the recurring operational tasks.

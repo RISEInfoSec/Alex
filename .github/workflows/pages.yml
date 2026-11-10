@@ -45,6 +45,10 @@ jobs:
           # start of the Publish run, before its bot commit landed. Pin
           # to `main` so we deploy whatever's currently on the branch.
           ref: main
+          # The site update time comes from the latest implementation change,
+          # not the latest research-data commit or deployment.
+          fetch-depth: 0
+          filter: blob:none
       - name: Generate and validate Pages artifact
         run: |
           revision="$(git rev-parse --verify HEAD)"
