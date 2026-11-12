@@ -1,4 +1,4 @@
-from tools.content_review.coordinator_cycle import mechanical_pass, soups_intake_due, pending_rotation, quality_evidence_due
+from tools.content_review.coordinator_cycle import mechanical_pass, soups_intake_due, pending_rotation, quality_evidence_due, source_gate_first
 from tools.content_review.coordinator_heartbeat_transport import REVIEW, MAIN
 
 
@@ -114,6 +114,19 @@ def test_intake_rotation_uses_durable_run_history():
         state={'current_run':{'run_id':'run'},'run_history':[{'run_id':str(i)} for i in range(n)]}
         return soups_intake_due('.',review,main,'run',heads=lambda _:refs,fetch=lambda *a:None,state_reader=lambda *a:state)
     assert [n for n in range(10) if due(n)]==[0,3,6,9]
+
+
+def test_intake_rotation_leaves_both_source_and_duplicate_opportunities():
+    review,main='a'*40,'b'*40;refs={REVIEW:review,MAIN:main}
+    turns=[]
+    for n in range(6):
+        state={'current_run':{'run_id':'run'},'run_history':[{'run_id':str(i)} for i in range(n)]}
+        kw={'heads':lambda _:refs,'fetch':lambda *a:None,'state_reader':lambda *a:state}
+        if soups_intake_due('.',review,main,'run',**kw):
+            turns.append('intake')
+        else:
+            turns.append('source' if source_gate_first('.',review,main,'run',**kw) else 'duplicate')
+    assert turns.count('intake') == turns.count('source') == turns.count('duplicate') == 2
 
 
 def test_intake_receipt_survives_unconfirmed_completion_without_claiming_release():
