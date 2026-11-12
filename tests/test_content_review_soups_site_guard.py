@@ -67,3 +67,10 @@ def test_site_guard_rejects_a_new_complete_review_decision(tmp_path):
     value['confirmed'] = deepcopy(snap)
     result = invoke(value)
     assert result.returncode != 0 and 'existing review state' in result.stderr
+
+
+def test_site_guard_independently_rejects_nonpaper_intake(tmp_path):
+    value = input_bundle(tmp_path)
+    value['before']['manifest']['records'][0]['document_type'] = 'poster'
+    result = invoke(value)
+    assert result.returncode != 0 and 'outside paper intake' in result.stderr
