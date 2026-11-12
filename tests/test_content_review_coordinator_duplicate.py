@@ -102,7 +102,10 @@ def test_backlog_skips_site_unsupported_candidate_without_a_write_then_checks_ne
     assert result['_examined_private']==[('m3aawg','unsafe'),('m3aawg','clear')]
 
 
-def test_coordinator_preserves_only_safe_site_failure_reason(monkeypatch):
+@pytest.mark.parametrize('reason', ['worker_not_verified','duplicate_audit_input_unavailable',
+                                   'duplicate_audit_input_invalid','duplicate_snapshot_unavailable',
+                                   'duplicate_blob_unavailable','duplicate_receipt_unavailable','worker_run_revoked'])
+def test_coordinator_preserves_only_safe_site_failure_reason(monkeypatch, reason):
     review,main,heartbeat='a'*40,'b'*40,'c'*40;refs={module.REVIEW:review,module.MAIN:main,module.HEARTBEAT:heartbeat}
     monkeypatch.setattr(module,'_path_blob',lambda *args:(b'{}',{}))
     result=module.checkpoint_one('.','secret',review,main,'worker','run',heads=lambda _:dict(refs),fetch=lambda *a:None,
@@ -110,8 +113,8 @@ def test_coordinator_preserves_only_safe_site_failure_reason(monkeypatch):
         pulse_factory=lambda *a:lambda:{'status':'committed_and_read_back','commit_sha':'f'*40},keeper_factory=Keeper,
         planner=lambda *a,**k:{'selected':[{'collection':'weekly','candidate_id':'x','next_stage':'duplicates'}]},
         preparer=lambda *a,**k:{'status':'prepared','writes':0,'files':{'p':'v'}},
-        send=lambda *a:{'status':'blocked','reason':'worker_not_verified','http_status':409})
-    assert result['site_reason']=='worker_not_verified' and result['http_status']==409 and result['reconcile_before_retry'] is True
+        send=lambda *a:{'status':'outcome_unknown','reason':reason,'http_status':409})
+    assert result['site_reason']==reason and result['http_status']==409 and result['reconcile_before_retry'] is True
 
 
 def test_snapshot_is_followed_by_fresh_heartbeat_readback(monkeypatch):
