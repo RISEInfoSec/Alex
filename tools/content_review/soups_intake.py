@@ -7,6 +7,7 @@ from collections import Counter
 from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 import json
+import re
 
 from tools.content_review.coordinator import plan
 from tools.content_review.d1_reconcile import reconcile
@@ -92,6 +93,23 @@ def prepare(snapshot, confirmed_snapshot, inputs, ledger, state, owner, run_id, 
             continue
         if ('soups', cid) in stage_keys:
             held['existing_preflight_stage_requires_reconciliation'] += 1; continue
+        # The owner has limited this SOUPS intake to paper candidates. The
+        # program's type is only a selection hint, not format verification;
+        # the existing format gate must still verify the actual resource.
+        if (row.get('verified_document_type') or row.get('document_type')) not in ('research_paper', 'research_paper_candidate'):
+            held['outside_soups_paper_intake'] += 1; continue
+        # The live Site writer accepts untouched rows only. Skip older
+        # assessed/intake records here instead of proposing a batch that the
+        # independent server-side guard must reject in its entirety.
+        observation = row.get('source_observation') or {}
+        access = row.get('access_decision') or {}
+        if (not isinstance(cid, str) or not re.fullmatch(r'soups-[a-zA-Z0-9-]+', cid)
+            or row.get('screening_status') != 'not_assessed' or 'preflight' in row
+            or any(row.get(k) for k in ('intake_at', 'discovered_at', 'assessment_date'))
+            or not isinstance(observation, dict) or observation.get('first_seen_at')
+            or not isinstance(access, dict) or (access.get('verified') and access.get('status') == 'restricted')
+            or (observation.get('tlp') and str(observation['tlp']).upper() not in ('TLP:CLEAR', 'TLP:WHITE'))):
+            held['outside_untouched_intake_scope'] += 1; continue
         if row.get('review_ready') is True or row.get('editorial_queue_eligible') is True or row.get('publication_approved') is True:
             held['inconsistent_readiness'] += 1; continue
         batches = {row[k] for k in ('review_batch', 'batch', 'reserved_review_batch') if row.get(k) is not None}
