@@ -60,6 +60,7 @@ from dataclasses import dataclass
 from html import unescape
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
+from urllib.parse import urlsplit
 
 import pandas as pd
 import requests
@@ -203,6 +204,10 @@ def choose_better(current: str, candidate: str) -> str:
 # HTTP client with cache
 # ----------------------------
 
+class ProviderCoordinationRequired(RuntimeError):
+    """An unfenced provider request must not be sent or cached as a miss."""
+
+
 class CachedHTTPClient:
     def __init__(self, cache_path: Path, mailto: Optional[str] = None):
         self.cache_path = cache_path
@@ -234,8 +239,18 @@ class CachedHTTPClient:
         if cache_key in self.cache:
             return self.cache[cache_key]
 
+        # This legacy script does not yet participate in the private shared
+        # OpenAlex coordinator. Existing cached responses remain readable; new
+        # provider sends fail closed without changing the cache.
+        if urlsplit(url).hostname == "api.openalex.org":
+            raise ProviderCoordinationRequired("OpenAlex requires the private shared coordinator")
+
         try:
-            response = self.session.get(url, params=params, timeout=REQUEST_TIMEOUT)
+            # Never follow a different source's redirect to an uncoordinated
+            # provider. A redirect is not an authoritative negative result.
+            response = self.session.get(url, params=params, timeout=REQUEST_TIMEOUT, allow_redirects=False)
+            if 300 <= response.status_code < 400:
+                raise ProviderCoordinationRequired("Redirect requires explicit provider coordination")
             if response.status_code == 200:
                 data = response.json()
                 self.cache[cache_key] = data
@@ -247,6 +262,8 @@ class CachedHTTPClient:
                 self.save_cache()
                 time.sleep(SLEEP_SECONDS)
                 return None
+        except ProviderCoordinationRequired:
+            raise
         except Exception:
             self.cache[cache_key] = None
             self.save_cache()
