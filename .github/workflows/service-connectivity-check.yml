@@ -1,0 +1,38 @@
+name: Service connectivity check
+on:
+  push:
+    branches: [codex/service-connectivity-check-20261112]
+permissions: {}
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Verify authenticated service read
+        env:
+          SERVICE_TOKEN: ${{ secrets.ALEX_SITE_SERVICE_BEARER }}
+        run: |
+          python3 - <<'PY'
+          import json, os, sys, urllib.error, urllib.request
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          token = os.environ.get('SERVICE_TOKEN', '')
+          if not token:
+              print('service credential unavailable')
+              sys.exit(1)
+          url = 'https://alex-research-review.neil-schwartzm917549.chatgpt.site/api/content-review-fence-status'
+          request = urllib.request.Request(url, headers={'OAI-Sites-Authorization': 'Bearer ' + token})
+          try:
+              with urllib.request.build_opener(NoRedirect).open(request, timeout=20) as response:
+                  data = json.load(response)
+                  if response.status != 200 or data.get('status') not in ('idle', 'held') or not isinstance(data.get('checkpoint_active'), bool):
+                      raise ValueError('unexpected_response')
+          except urllib.error.HTTPError as exc:
+              print('service read failed; HTTP', exc.code)
+              sys.exit(1)
+          except Exception as exc:
+              print('service read failed;', type(exc).__name__)
+              sys.exit(1)
+          print('authenticated service read verified')
+          PY
