@@ -26,6 +26,21 @@ _HOST_LOCKS_GUARD = threading.Lock()
 _HOST_LOCKS: dict[str, threading.Lock] = {}
 
 
+class _ProviderGuardedSession(requests.Session):
+    """Keep redirects and generic callers from bypassing the OpenAlex gate."""
+
+    def __init__(self):
+        super().__init__()
+        self._provider_context = threading.local()
+
+    def send(self, request, **kwargs):
+        host = (urlsplit(request.url).hostname or '').rstrip('.')
+        if (host == 'openalex.org' or host.endswith('.openalex.org')) and not getattr(
+                self._provider_context, 'approved_direct_send', False):
+            raise requests.exceptions.RequestException('OpenAlex requires the provider gate')
+        return super().send(request, **kwargs)
+
+
 def _host_lock(url):
     host = urlsplit(url).hostname or ""
     with _HOST_LOCKS_GUARD:
@@ -107,7 +122,7 @@ def _redact(exc: Exception) -> str:
 class HttpClient:
     def __init__(self, mailto: str = "", *, use_disk_cache: bool = True) -> None:
         self._use_disk_cache = use_disk_cache
-        self.session = requests.Session()
+        self.session = _ProviderGuardedSession()
         ua = "AlexResearchLibrary/2.1.1"
         if mailto:
             ua += f" (mailto:{mailto})"
@@ -245,8 +260,13 @@ class HttpClient:
                 temp.replace(state_path)
             save()
             try:
-                response = self._send_request(url, params=self._with_auth(url, params), headers=headers,
-                                            timeout=min(timeout, policy['request_timeout_seconds']))
+                self.session._provider_context.approved_direct_send = True
+                try:
+                    response = self._send_request(url, params=self._with_auth(url, params), headers=headers,
+                                                timeout=min(timeout, policy['request_timeout_seconds']),
+                                                allow_redirects=False)
+                finally:
+                    self.session._provider_context.approved_direct_send = False
             except requests.exceptions.RequestException as exc:
                 state['retry_not_before'] = time.time() + policy['failure_cooldown_seconds']
                 self._openalex_hold = True
@@ -258,7 +278,7 @@ class HttpClient:
             # Save even successful responses: remaining allowance and provider
             # reset evidence must survive the runner that received them.
             save()
-            if response.status_code in (401, 403, 429) or response.status_code >= 500:
+            if 300 <= response.status_code < 400 or response.status_code in (401, 403, 429) or response.status_code >= 500:
                 retry_after = self._parse_retry_after(response.headers.get('Retry-After'))
                 state['retry_not_before'] = time.time() + max(retry_after or 0, self._quota_reset_seconds(response), policy['failure_cooldown_seconds'])
                 self._openalex_hold = True
@@ -273,6 +293,8 @@ class HttpClient:
                 state['last_failure'] = 'quota_exhausted'
                 state['last_failure_response'] = state['last_response']
                 save()
+            if 300 <= response.status_code < 400:
+                return None
             return response
 
     def openalex_deferred(self) -> bool:
