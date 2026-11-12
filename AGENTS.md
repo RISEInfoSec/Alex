@@ -11,6 +11,32 @@ Notes for AI / automation agents working on this repo. Pairs with [`README.md`](
   singletons share the OpenAlex governor; partial discovery is not a successful
   weekly collection and must not release downstream publication.
 
+## Environment setup and persistence
+- In a managed cloud task, read the current cloud environment runtime skill and
+  inspect the attached executor's status before changing packages, network
+  settings or credentials. Ready bindings describe setup, not necessarily the
+  identity or permissions received by a remote service.
+- Before reinstalling Sites, check the retained credential-free bundle at
+  `/workspace/.environment-tools/sites/1.1.6`: confirm
+  `scripts/site-workflow.mjs` exists and passes `node --check`, and read its
+  `skills/sites/SKILL.md`. Follow the currently applicable Sites workflow.
+  Helper persistence does not imply authentication persistence; preserve usable
+  credentials and sign in only when required and already authorized.
+- If setup must change, use the supported environment setup flow, preserve
+  existing configuration, retain the complete credential-free bundle in the
+  published snapshot, and verify it in a newly attached executor. A successful
+  install in a setup session alone does not establish persistence.
+- GitHub CLI can be installed on macOS from the official GitHub CLI package if
+  Homebrew is unavailable. Check `gh --version` and `gh auth status` in a fresh
+  terminal without revealing tokens or device codes. GitHub App Actions access
+  and repository Secrets access are separate permissions; an integration 403
+  does not by itself prove a separately configured token lacks permission.
+- The owner-private ChatGPT Page titled **ALEX GitHub and Sites setup and
+  recovery runbook** records the verified setup, access workaround, security
+  handling and current limits. Find and read it when available; a Page is not
+  automatically loaded into every task. Keep secrets and signed URLs out of
+  repository files, logs and chat.
+
 ## Non-obvious rules
 - **Concurrency.** Parallelise *across* upstream sources, never *within* one. Free academic APIs (OpenAlex, Crossref, Zenodo, Semantic Scholar) keep serial pagination with `time.sleep(0.5)` between page fetches. Paid commercial APIs (OpenAI) are exempt from this rule.
 - **OpenAI quota = fatal.** `call_openai()` must raise on `insufficient_quota` / billing / 401 / 403 rather than fall back. Silent fallback once corrupted 1,499 papers as `Category="Other"`. Token usage must be tracked and printed at end of run. See `feedback_openai_integration` memory.
