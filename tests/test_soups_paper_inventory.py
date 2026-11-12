@@ -50,6 +50,19 @@ def test_denials_stop_and_preserve_actual_request_receipt(tmp_path):
     assert json.loads((output / 'paper-candidates.json').read_text()) == []
 
 
+def test_transport_error_is_recorded_without_exception_text(tmp_path):
+    from urllib.error import URLError
+    manifest, blob = source(tmp_path)
+    def get(opener, url):
+        raise URLError(OSError('sensitive diagnostic'))
+    output = tmp_path / 'output'
+    result = run(manifest, blob, output, get=get, sleep=lambda _: None)
+    assert result['status'] == 'blocked'
+    assert result['requests'][0]['error_type'] == 'URLError'
+    assert result['requests'][0]['error_reason_type'] == 'OSError'
+    assert 'sensitive diagnostic' not in (output / 'receipt.json').read_text()
+
+
 def test_unverified_manifest_and_unapproved_hosts_fail_before_requests(tmp_path):
     manifest, blob = source(tmp_path)
     with pytest.raises(ValueError, match='identity'):

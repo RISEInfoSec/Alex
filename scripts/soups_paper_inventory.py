@@ -79,7 +79,16 @@ def run(manifest, expected_blob, destination, *, get=fetch, now=time.monotonic, 
         last_send = now()
         entry = {'url': url, 'status': None}
         history.append(entry)
-        status, content_type, body = get(opener, url)
+        try:
+            status, content_type, body = get(opener, url)
+        except (OSError, UnicodeError, ValueError, KeyError, TypeError) as exc:
+            # Preserve a safe diagnostic without recording request headers or
+            # exception strings that might contain sensitive URL material.
+            entry['error_type'] = type(exc).__name__
+            reason = getattr(exc, 'reason', None)
+            if isinstance(reason, BaseException):
+                entry['error_reason_type'] = type(reason).__name__
+            raise
         entry['status'] = status
         return status, content_type, body
     def receipt(status, reason=None):
