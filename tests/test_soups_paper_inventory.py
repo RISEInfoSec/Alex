@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from scripts.soups_paper_inventory import run, validated_sources
+from scripts.soups_paper_inventory import decode_program, run, validated_sources
 
 
 def source(tmp_path):
@@ -12,6 +12,17 @@ def source(tmp_path):
         'source_url': 'https://www.usenix.org/conference/soups2025/accepted-papers'}]}))
     raw = manifest.read_bytes()
     return manifest, hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+
+
+def test_legacy_program_encoding_assumption_is_recorded_and_narrow():
+    raw = b'<html>Andr\xe9 Gagn\xe9</html>'
+    assert decode_program(raw, 'text/html', 2007) == ('<html>Andr\u00e9 Gagn\u00e9</html>', 'windows-1252-assumed')
+    with pytest.raises(UnicodeDecodeError):
+        decode_program(raw, 'text/html', 2006)
+    with pytest.raises(UnicodeDecodeError):
+        decode_program(b'<meta charset="utf-8">' + raw, 'text/html', 2007)
+    with pytest.raises(UnicodeDecodeError):
+        decode_program(raw, 'text/html; charset=utf-8', 2007)
 
 
 def test_paper_inventory_keeps_paper_without_doi_and_excludes_poster(tmp_path):

@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import time
 import urllib.error
 import urllib.request
@@ -65,6 +66,22 @@ def fetch(opener, url):
     return status, content_type, raw
 
 
+def decode_program(raw, content_type, year):
+    """Decode conservatively and identify the assumption in discovery evidence."""
+    match = re.search(r'charset\s*=\s*[\"\']?([\w.-]+)', content_type, re.I)
+    if match:
+        encoding = match.group(1)
+        return raw.decode(encoding), f'http:{encoding}'
+    try:
+        return raw.decode('utf-8'), 'utf-8'
+    except UnicodeDecodeError:
+        # The 2007 CMU program is unlabeled legacy HTML, observed with Latin
+        # accented author names. Preserve this assumption for later review.
+        if year != 2007 or re.search(rb'charset\s*=', raw[:4096], re.I):
+            raise
+        return raw.decode('windows-1252'), 'windows-1252-assumed'
+
+
 def run(manifest, expected_blob, destination, *, get=fetch, now=time.monotonic, sleep=time.sleep):
     sources = validated_sources(manifest, expected_blob)
     output = Path(destination)
@@ -118,8 +135,8 @@ def run(manifest, expected_blob, destination, *, get=fetch, now=time.monotonic, 
             status, content_type, raw = request(url)
             if status != 200 or 'html' not in content_type.lower():
                 return receipt('blocked', 'source_response_unavailable')
-            html = raw.decode('utf-8')
             (output / f'year-{year}.html').write_bytes(raw)
+            html, encoding = decode_program(raw, content_type, year)
             rows = (legacy_records if year < 2014 else usenix_records)(html, year, url)
             selected = [row for row in rows if row.get('document_type') == 'research_paper']
             for row in selected:
@@ -128,11 +145,12 @@ def run(manifest, expected_blob, destination, *, get=fetch, now=time.monotonic, 
                 seen.add(row['candidate_id']); papers.append(row)
             observations.append({'year': year, 'source_url': url, 'source_sha256': hashlib.sha256(raw).hexdigest(),
                                  'source_bytes': len(raw), 'paper_candidates': len(selected),
+                                 'source_encoding': encoding,
                                  'nonpaper_program_items': len(rows) - len(selected),
                                  'coverage': 'unverified' if selected else 'gap_or_no_papers_parsed'})
             receipt('in_progress')
         return receipt('discovery_complete_pending_coverage_and_format_verification')
-    except (OSError, UnicodeError, ValueError, KeyError, TypeError):
+    except (OSError, UnicodeError, ValueError, LookupError, TypeError):
         return receipt('blocked', 'source_read_or_parse_failed')
 
 
