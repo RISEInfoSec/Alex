@@ -10,8 +10,11 @@
   "authorization": "Owner explicitly approved PR118 bounded recovery pace on 2026-11-05: no more than1 serial OpenAlex request/second,250 OpenAlex/300 total requests and45 minutes per pass. Preserve timeout, cooldown, quota/owner holds and zero automatic OpenAlex retries; no paid plan enabled.",
   "previous_diagnostic_authorization": "User requested very slow individual OpenAlex queries until rate limits/timeouts are understood.",
   "authorized_at": "2026-11-05T19:09:04.043800+00:00",
-  "requests_enabled": true,
-  "reconciliation_hold": null,
+  "requests_enabled": false,
+  "reconciliation_hold": {
+    "reason": "Shared private provider coordination and response recording are not yet verified for all writers.",
+    "release_condition": "Verify authenticated shared coordination, durable response evidence and safe participation or fencing of every provider writer before resuming OpenAlex."
+  },
   "owner_hold_history": [
     {
       "retry_not_before": "2026-11-05T01:15:38Z",
