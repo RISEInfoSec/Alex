@@ -90,7 +90,7 @@ def recovery_policy_without_calendar_hold(monkeypatch):
     # Individual pacing tests cover the real hold separately. Generic auth
     # tests must not depend on the calendar date this suite is run.
     monkeypatch.setattr('alex.utils.http._openalex_policy', lambda: {
-        'min_interval_seconds':60,'request_timeout_seconds':20,
+        'requests_enabled':True,'min_interval_seconds':60,'request_timeout_seconds':20,
         'failure_cooldown_seconds':3600,'retry_not_before':None})
 
 class TestHttpClientCache:

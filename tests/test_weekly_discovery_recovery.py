@@ -14,7 +14,7 @@ from alex.utils.discovery_checkpoint import DiscoveryClient, DiscoveryDeferred, 
 def setup(tmp_path, monkeypatch):
     monkeypatch.setattr(http, 'CACHE', tmp_path / 'cache.json')
     monkeypatch.setattr(http, '_openalex_policy', lambda: {
-        'min_interval_seconds': 60, 'request_timeout_seconds': 20,
+        'requests_enabled': True, 'min_interval_seconds': 60, 'request_timeout_seconds': 20,
         'failure_cooldown_seconds': 3600, 'retry_not_before': None})
     monkeypatch.setattr(http.time, 'sleep', lambda _: None)
     monkeypatch.delenv('ALEX_DISCOVERY_SYNC', raising=False)
