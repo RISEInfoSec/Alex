@@ -138,7 +138,7 @@ def test_apwg_fresh_runner_honors_and_persists_shared_cooldown(remote,tmp_path,m
     path=audit/'data/discovery_openalex_state.json'
     monkeypatch.setenv('ALEX_OPENALEX_STATE_PATH',str(path))
     monkeypatch.setattr(http,'CACHE',tmp_path/'legacy.json')
-    monkeypatch.setattr(http,'_openalex_policy',lambda:{'min_interval_seconds':1,
+    monkeypatch.setattr(http,'_openalex_policy',lambda:{'requests_enabled':True,'min_interval_seconds':1,
         'request_timeout_seconds':20,'failure_cooldown_seconds':3600})
     blocked=http.HttpClient();send=Mock(side_effect=AssertionError('No provider request during inherited hold'))
     monkeypatch.setattr(blocked,'_send_request',send)

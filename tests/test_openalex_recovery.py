@@ -7,7 +7,7 @@ from alex.utils import http
 @pytest.fixture
 def setup(tmp_path,monkeypatch):
  monkeypatch.setattr(http,'CACHE',tmp_path/'cache.json')
- monkeypatch.setattr(http,'_openalex_policy',lambda:{'min_interval_seconds':60,'request_timeout_seconds':20,'failure_cooldown_seconds':3600,'retry_not_before':None})
+ monkeypatch.setattr(http,'_openalex_policy',lambda:{'requests_enabled':True,'min_interval_seconds':60,'request_timeout_seconds':20,'failure_cooldown_seconds':3600,'retry_not_before':None})
  monkeypatch.setattr(http.time,'sleep',lambda n:None)
  return tmp_path
 
@@ -55,6 +55,26 @@ def test_policy_hold_overrides_enabled_flag_before_network(setup,monkeypatch,hol
  assert client.get_json('https://api.openalex.org/works') is None
  client.session.get.assert_not_called()
 
+@pytest.mark.parametrize('policy',[{}, {'requests_enabled':None}, {'requests_enabled':1}, None, []])
+def test_missing_or_invalid_enabled_flag_never_authorizes_a_send(setup,monkeypatch,policy):
+ monkeypatch.setattr(http,'_openalex_policy',lambda:policy)
+ client=http.HttpClient();client.session.get=MagicMock(side_effect=AssertionError('provider request forbidden'))
+ assert client.get_json('https://api.openalex.org/works') is None
+ assert client.openalex_deferred();client.session.get.assert_not_called()
+
+def test_policy_change_during_pacing_stops_before_reservation_or_send(setup,monkeypatch):
+ monkeypatch.setattr(http.time,'time',lambda:10000)
+ state={'last_request_at':10000,'request_attempts_by_run':{}}
+ path=setup/'cache.json.openalex-policy';path.write_text(json.dumps(state))
+ current={'requests_enabled':True,'min_interval_seconds':60,'request_timeout_seconds':20,
+          'failure_cooldown_seconds':3600,'retry_not_before':None}
+ monkeypatch.setattr(http,'_openalex_policy',lambda:dict(current))
+ monkeypatch.setattr(http.time,'sleep',lambda _:current.update(requests_enabled=False))
+ client=http.HttpClient();client.session.get=MagicMock(side_effect=AssertionError('provider request forbidden'))
+ assert client.get_json('https://api.openalex.org/works') is None
+ assert client.openalex_deferred();client.session.get.assert_not_called()
+ assert json.loads(path.read_text())==state
+
 @pytest.mark.parametrize('failure',[429,503,'timeout'])
 def test_failure_stops_requests_and_cooldown_survives_new_client(setup,failure,monkeypatch):
  monkeypatch.setattr(http.time,'time',lambda:10000)
@@ -68,7 +88,7 @@ def test_failure_stops_requests_and_cooldown_survives_new_client(setup,failure,m
 
 
 def test_hold_deadline_prevents_even_first_request(setup,monkeypatch):
- monkeypatch.setattr(http,'_openalex_policy',lambda:{'min_interval_seconds':60,'request_timeout_seconds':20,'failure_cooldown_seconds':3600,'retry_not_before':'2999-01-01T00:00:00Z'})
+ monkeypatch.setattr(http,'_openalex_policy',lambda:{'requests_enabled':True,'min_interval_seconds':60,'request_timeout_seconds':20,'failure_cooldown_seconds':3600,'retry_not_before':'2999-01-01T00:00:00Z'})
  a=http.HttpClient();a.session.get=MagicMock();assert a.get_json('https://api.openalex.org/works') is None;a.session.get.assert_not_called()
 
 

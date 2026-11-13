@@ -197,8 +197,11 @@ class HttpClient:
         # this checkout. Independent runners must obey the worker checkpoint.
         if self._openalex_hold:
             return None
-        policy = _openalex_policy()
-        if (policy.get('requests_enabled') is False or policy.get('owner_pause') is not None
+        try:
+            policy = _openalex_policy()
+        except (OSError, ValueError, TypeError):
+            policy = None
+        if (not isinstance(policy, dict) or policy.get('requests_enabled') is not True or policy.get('owner_pause') is not None
                 or policy.get('reconciliation_hold') is not None):
             self._openalex_hold = True
             logger.warning('OpenAlex requests paused pending provider-state reconciliation; no request sent')
@@ -251,6 +254,17 @@ class HttpClient:
             self._before_openalex_wait(delay, min(timeout, policy['request_timeout_seconds']))
             if delay:
                 time.sleep(delay)
+            # A local policy may have changed while this client waited on the
+            # lock or the pacing delay. A changed or unreadable policy cannot
+            # authorize a send; the next run must start with fresh evidence.
+            try:
+                current_policy = _openalex_policy()
+            except (OSError, ValueError, TypeError):
+                current_policy = None
+            if current_policy != policy:
+                self._openalex_hold = True
+                logger.warning('OpenAlex policy changed or became unavailable; no request sent')
+                return None
             state['last_request_at'] = time.time()
             attempts[run_id] = attempts.get(run_id, 0) + 1
             state['request_attempts_by_run'] = attempts
