@@ -1,6 +1,6 @@
 import copy,json
 from datetime import timedelta
-import pytest,requests
+import pytest
 from tools.content_review import registry_worker as w
 
 @pytest.fixture
@@ -22,22 +22,16 @@ def test_missing_secret_never_sends_anonymous_request(packet,monkeypatch):
  result=w.execute(root,path,get=lambda *a,**k:pytest.fail('anonymous request'))
  assert result['requests']==0 and result['status']=='held'
 
-@pytest.mark.parametrize('status',[200,401,403,429,500])
-def test_one_exact_credentialed_request_and_complete_backoff(packet,monkeypatch,status):
- monkeypatch.setenv('OPENALEX_API_KEY','fixture-secret');root,path=packet;calls=[]
- class Response:
-  status_code=status;headers={'Retry-After':'86400'}
-  def json(self):return {'id':'https://openalex.org/W1','doi':'https://doi.org/10.1234/example','title':'Verified paper','cited_by_count':7}
- def get(url,**kw):
-  calls.append(kw);assert kw['params']['api_key']=='fixture-secret';assert url.endswith('/works/https://doi.org/10.1234/example') and 'filter' not in kw['params'];assert kw['timeout']==20 and kw['allow_redirects'] is False;return Response()
- result=w.execute(root,path,get=get);assert len(calls)==result['requests']==1;assert 'fixture-secret' not in json.dumps(result)
- assert result['status']==('complete' if status==200 else 'held')
- if status==429:assert w.datetime.fromisoformat(result['retry_not_before'])>w.now()+timedelta(hours=23)
+def test_even_a_permissive_policy_cannot_bypass_the_shared_coordinator(packet,monkeypatch):
+ monkeypatch.setenv('OPENALEX_API_KEY','fixture-secret');root,path=packet
+ result=w.execute(root,path,get=lambda *a,**k:pytest.fail('uncoordinated request'))
+ assert result['requests']==0 and result['status']=='held'
+ assert 'shared private coordinator' in result['error'] and 'fixture-secret' not in json.dumps(result)
 
-def test_timeout_never_retries_or_leaks_url(packet,monkeypatch):
- monkeypatch.setenv('OPENALEX_API_KEY','fixture-secret');root,path=packet;calls=[]
- def get(*a,**k):calls.append(1);raise requests.Timeout('URL with fixture-secret')
- result=w.execute(root,path,get=get);assert len(calls)==1 and 'fixture-secret' not in json.dumps(result)
+def test_registry_workflow_does_not_supply_provider_credentials():
+ from pathlib import Path
+ workflow=(Path(__file__).resolve().parents[1]/'.github/workflows/content_review_registry.yml').read_text()
+ assert 'OPENALEX_API_KEY' not in workflow and 'HARVEST_MAILTO' not in workflow
 
 def test_owner_pause_and_provider_hold_each_prevent_requests(packet,monkeypatch):
  root,path=packet;monkeypatch.setenv('OPENALEX_API_KEY','fixture-secret')

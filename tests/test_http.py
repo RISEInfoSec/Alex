@@ -1,6 +1,15 @@
 import json
+import pytest
+import requests
 from unittest.mock import patch, MagicMock
 from alex.utils.http import HttpClient
+
+@pytest.fixture(autouse=True)
+def mocked_transport_only(monkeypatch):
+    # The historical transport unit tests exercise fake responses; production
+    # provider fencing is tested separately without this fixture.
+    monkeypatch.setattr('alex.utils.http._uncoordinated_openalex',lambda _:False)
+    monkeypatch.setattr(requests.Session,'send',lambda *a,**k:pytest.fail('live network forbidden'))
 
 
 class TestHttpClientCache:

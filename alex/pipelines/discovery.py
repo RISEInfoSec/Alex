@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Callable
 import pandas as pd
 from alex.utils.io import load_json, load_df, save_df, root_file
-from alex.utils.http import HttpClient
+from alex.utils.http import HttpClient, ProviderCoordinationRequired
 from alex.utils.text import clean, normalize_title
 from alex.utils import connector_config
 from alex.connectors import openalex, crossref, semantic_scholar, core, arxiv, zenodo, github_search
@@ -176,6 +176,8 @@ def run() -> None:
             for fut, name in futures.items():
                 try:
                     results[name] = fut.result()
+                except ProviderCoordinationRequired:
+                    raise
                 except Exception as exc:
                     logger.warning("%s connector failed for query %r: %s", name, query, exc)
                     results[name] = []
