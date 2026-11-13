@@ -97,6 +97,29 @@ def test_retired_lifecycle_prevents_paid_request_and_replay(setup):
         worker.checked_row(root,request['records'][0])
 
 
+def test_virus_bulletin_request_uses_the_same_hash_and_gate_contract(setup,monkeypatch):
+    root,row,_,_=setup
+    row=copy.deepcopy(row);row['candidate_id']='vb-test'
+    (root/worker.MANIFESTS['virusbulletin']).write_text(json.dumps({'records':[row]}))
+    stage_path=root/'config/content_review_preflight_status.json';stage=json.loads(stage_path.read_text())
+    stage['records'].append({'collection':'virusbulletin','candidate_id':'vb-test','content_sha256':row['content_sha256'],
+                             'checks':copy.deepcopy(row['preflight']['checks'])})
+    stage_path.write_text(json.dumps(stage))
+    request=worker.make_request(root,[('virusbulletin','vb-test')])
+    item=request['records'][0]
+    assert item['collection']=='virusbulletin' and worker.checked_row(root,item)==row
+    path=root/worker.REQUEST_DIR/(request['request_id']+'.json');path.write_text(json.dumps(request))
+    run=run_proof(monkeypatch)
+    result=worker.execute(root,path,root/'.cache/vb-result.json',post=lambda *a,**kw:Response())
+    manifests,_,receipt=handoff.reconcile_result(root,request,result,run)
+    updated=manifests['virusbulletin']['records'][0]
+    assert updated['decision']=='pending' and updated['review_ready'] is False and receipt['corpus_modified'] is False
+    changed=copy.deepcopy(row);changed['decision']='rejected'
+    (root/worker.MANIFESTS['virusbulletin']).write_text(json.dumps({'records':[changed]}))
+    with pytest.raises(ValueError,match='Manifest snapshot changed'):
+        worker.checked_row(root,item)
+
+
 def test_paid_handoff_checkpoint_preserves_other_collections_and_unknown_gates(setup, monkeypatch):
     from tools.content_review.checkpoint import prepare
     root, row, request, path = setup

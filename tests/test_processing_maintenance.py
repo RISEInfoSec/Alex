@@ -62,3 +62,23 @@ def test_missing_counters_remain_unknown():
 def test_actual_schema_progress_is_not_local_only_stall():
     result=processing_progress([receipt("1",["x"],schema=1),receipt("2",["y"],schema=1)])
     assert result["status"]=="progress_requires_gate_evidence"
+
+def test_fair_rotation_includes_lower_readiness_sources_without_faking_progress(monkeypatch):
+    import tools.content_review.work_plan as plan
+    monkeypatch.setattr(plan, "current_pass", lambda row, gate: row.get("advanced", False) and gate != "schema")
+    collections = ["weekly", "soups", "first", "m3aawg", "bellingcat", "sans", "virusbulletin"]
+    manifests = {c: {"records": [{"candidate_id": c + str(i), "document_type": "research_paper",
+                  "abstract": "a" * 150, "advanced": c == "weekly"} for i in range(10)]} for c in collections}
+    ledger = {"records": {c + ":" + r["candidate_id"]: {"state": "awaiting_initial_checks",
+              "first_seen_at": "2026-01-01"} for c, m in manifests.items() for r in m["records"]}}
+    attempts, seen = {}, set()
+    progress = {"weekly": {"at": "2026-11-01"}}
+    original_progress = copy.deepcopy(progress)
+    for turn in range(2):
+        selected = select(manifests, ledger, limit=5, source_progress=progress, source_attempts=attempts)
+        assert len({x["collection"] for x in selected}) == 5
+        for row in selected:
+            seen.add(row["collection"])
+            attempts[row["collection"]] = {"at": "2026-11-0" + str(turn + 2)}
+    assert seen == set(collections)
+    assert progress == original_progress

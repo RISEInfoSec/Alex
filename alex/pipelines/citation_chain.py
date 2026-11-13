@@ -5,7 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 import pandas as pd
 from alex.utils.io import load_df, save_df, load_json, root_file
-from alex.utils.http import HttpClient
+from alex.utils.http import HttpClient, ProviderCoordinationRequired
 from alex.utils.text import normalize_title, clean
 from alex.utils.scoring import query_keywords, title_matches_keywords
 from alex.utils import connector_config
@@ -124,6 +124,8 @@ def run() -> None:
         for fut, title in zip(futures, candidate_titles):
             try:
                 per_candidate_rows.append(fut.result())
+            except ProviderCoordinationRequired:
+                raise
             except Exception as exc:
                 logger.warning("Citation chain failed for %r: %s", title, exc)
                 per_candidate_rows.append([])

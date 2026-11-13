@@ -19,6 +19,20 @@ CACHE = Path(__file__).resolve().parents[2] / ".alex_cache.json"
 # avoids ambiguity).
 _CACHE_MISS = object()
 
+def _uncoordinated_openalex(url: str) -> bool:
+    host = (urlsplit(url).hostname or '').rstrip('.')
+    return host == 'openalex.org' or host.endswith('.openalex.org')
+
+class ProviderCoordinationRequired(requests.exceptions.RequestException):
+    """An uncoordinated provider request cannot be treated as an empty result."""
+
+class _ProviderGuardedSession(requests.Session):
+    """Prevent generic requests and redirects from bypassing the hold."""
+    def send(self, request, **kwargs):
+        if _uncoordinated_openalex(request.url):
+            raise ProviderCoordinationRequired('OpenAlex requires the shared private coordinator')
+        return super().send(request, **kwargs)
+
 # Retry only on transient failures: server-side errors and rate limits. 4xx
 # responses other than 429 are deterministic — retrying them just wastes time
 # and quota.
@@ -57,7 +71,7 @@ def _redact(exc: Exception) -> str:
 
 class HttpClient:
     def __init__(self, mailto: str = "") -> None:
-        self.session = requests.Session()
+        self.session = _ProviderGuardedSession()
         ua = "AlexResearchLibrary/2.1.1"
         if mailto:
             ua += f" (mailto:{mailto})"
@@ -132,11 +146,15 @@ class HttpClient:
     ) -> requests.Response | None:
         """GET with retry on 429/5xx. Returns the final Response, or None on
         unrecoverable failure. Honours Retry-After when present."""
+        if _uncoordinated_openalex(url):
+            raise ProviderCoordinationRequired('OpenAlex requires the shared private coordinator')
         last_exc: Exception | None = None
         params = self._with_auth(url, params)
         for attempt in range(1, max_attempts + 1):
             try:
                 r = self.session.get(url, params=params, headers=headers, timeout=timeout)
+            except ProviderCoordinationRequired:
+                raise
             except requests.exceptions.RequestException as exc:
                 last_exc = exc
                 # Network-level failures (connection error, timeout) get the

@@ -1,11 +1,8 @@
-"""One credentialed, exact-DOI OpenAlex request; immutable review-only artifact."""
+"""Validate a registry request and preserve it under the provider hold."""
 import argparse,hashlib,json,os,re,subprocess
 from datetime import datetime,timezone,timedelta
-from email.utils import parsedate_to_datetime
 from pathlib import Path
-from urllib.parse import quote
 from tools.content_review.provider_policy import current as effective_provider_policy
-import requests
 
 DIRECTORY='config/content_review_registry_requests'
 BRANCH='codex/soups-corpus-review'
@@ -41,36 +38,9 @@ def execute(root,path,get=None):
  policy=effective_provider_policy(root);result['effective_policy']=policy
  if not policy['allowed']:
   result['error']=policy.get('reason','OpenAlex held by longest current provider/owner/pacing deadline.');return result
- key=os.environ.get('OPENALEX_API_KEY','')
- if not key:result['error']='Repository OPENALEX_API_KEY unavailable to isolated workflow; no anonymous request sent.';return result
- result['credential_path']='Existing repository OPENALEX_API_KEY secret -> OPENALEX_API_KEY environment -> api_key request parameter'
- params={'select':'id,doi,title,publication_year,authorships,cited_by_count','api_key':key}
- result['endpoint_type']='singleton_doi';result['shared_provider_limits_preserved']=True
- contact=os.environ.get('HARVEST_MAILTO','')
- if contact:params['mailto']=contact
- result['requests']=1
- try:
-  response=(get or requests.get)('https://api.openalex.org/works/https://doi.org/'+quote(req['doi'],safe='/'),params=params,headers={'User-Agent':'ALEX-ContentReview/1.0 (+https://github.com/RISEInfoSec/Alex)','Accept':'application/json'},timeout=20,allow_redirects=False)
- except requests.RequestException as exc:
-  result['error']='OpenAlex '+type(exc).__name__+'; provider stopped without retry.';return result
- result['http_status']=response.status_code
- result['rate_limit_headers']={k:v for k,v in response.headers.items() if k.lower().startswith('x-ratelimit-') or k.lower()=='retry-after'}
- if response.status_code!=200:
-  result['error']='OpenAlex HTTP'+str(response.status_code)+'; provider stopped without retry.'
-  retry=response.headers.get('Retry-After')
-  if retry:
-   try:
-    end=now()+timedelta(seconds=max(0,float(retry)))
-   except ValueError:
-    try:end=parsedate_to_datetime(retry).astimezone(timezone.utc)
-    except (ValueError,TypeError):end=None
-   if end:result['retry_not_before']=end.isoformat()
-  return result
- try:
-  work=response.json();assert work.get('doi','').lower()=='https://doi.org/'+req['doi'].lower()
-  count=work.get('cited_by_count');assert isinstance(count,int) and not isinstance(count,bool) and count>=0
-  result.update(status='complete',work={k:work.get(k) for k in ['id','doi','title','publication_year','authorships','cited_by_count']})
- except (ValueError,TypeError,AttributeError,AssertionError):result['error']='OpenAlex response failed exact identity/count validation.'
+ # This workflow has no authenticated shared coordinator or durable response
+ # recorder. A locally permissive policy cannot authorize an independent send.
+ result['error']='OpenAlex requires the shared private coordinator; no request sent.'
  return result
 
 def event_requests(root,event):

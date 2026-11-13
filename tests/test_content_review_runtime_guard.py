@@ -42,3 +42,29 @@ def test_reserve_lease_identity_and_future_timestamps_fail_closed(tmp_path,kwarg
 def test_invalid_unbounded_work_rejected(tmp_path,seconds):
     setup_state(tmp_path)
     with pytest.raises(ValueError):before_work(tmp_path,'run',seconds,AT)
+
+
+def test_separate_heartbeat_and_policy_are_bound_to_immutable_heads(tmp_path):
+    from tests.test_content_review_verified_inputs import git,put
+    from tools.content_review.heartbeat_evidence import prepare
+    state=setup_state(tmp_path,age=100,elapsed=100)
+    state['lease'].update(owner='worker',acquired_at=(AT-timedelta(seconds=110)).isoformat())
+    state['current_run']['scheduler']={'id':'Automation_worker','last_run':{'id':'run','recorded_status':'in_progress'}}
+    put(tmp_path,'config/content_review_worker_status.json',state)
+    git(tmp_path,'init','--quiet');git(tmp_path,'add','.');git(tmp_path,'commit','-qm','review')
+    head=git(tmp_path,'rev-parse','HEAD');branch=git(tmp_path,'symbolic-ref','--short','HEAD')
+    beat=prepare(state,head,'worker','run',at=AT-timedelta(seconds=1))
+    git(tmp_path,'checkout','-qb','heartbeat');put(tmp_path,'config/content_review_detached_heartbeat.json',beat)
+    git(tmp_path,'add','.');git(tmp_path,'commit','-qm','heartbeat')
+    hb=git(tmp_path,'rev-parse','HEAD');git(tmp_path,'checkout','-q',branch)
+    # A mutable working-tree policy cannot loosen the committed work budget.
+    put(tmp_path,'config/content_review_workflow.json',{'bounded_processing_pilot':{'total_runtime_seconds':99999,'checkpoint_reserve_seconds':1}})
+    result=before_work(tmp_path,'run',20,AT,review_head=head,heartbeat_head=hb)
+    assert result['allowed'] and result['heartbeat_source']=='separate_ref'
+    assert result['work_seconds_remaining']==500
+    # A checkout predating the lease acquisition cannot supply or defeat the
+    # immutable, heartbeat-bound lease used by a scheduled coordinator.
+    state['lease']['owner']='other';put(tmp_path,'config/content_review_worker_status.json',state)
+    assert before_work(tmp_path,'run',20,AT,review_head=head,heartbeat_head=hb)['allowed']
+    with pytest.raises(ValueError,match='matching single-writer lease'):
+        before_work(tmp_path,'other-run',20,AT,review_head=head,heartbeat_head=hb)

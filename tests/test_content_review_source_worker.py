@@ -15,6 +15,12 @@ def test_missing_fragment_does_not_use_whole_index():
 def test_fragment_scopes_candidate():
     x=s.extract(response(b'<section id="p1"><h2>First</h2><p>abstract</p><a href="first.pdf">PDF</a></section><section id="p2">Second</section>'),'p1')
     assert 'Second' not in x['text'] and x['links'][0]['url'].endswith('first.pdf')
+def test_duplicate_fragment_ids_are_held_instead_of_selecting_the_first():
+    body=b'<section><h3 id="same">First</h3></section><section><h3 id="same">Second</h3></section>'
+    with pytest.raises(s.Hold,match='candidate_fragment_ambiguous'):s.extract(response(body),'same')
+def test_one_anchor_with_matching_id_and_name_is_not_ambiguous():
+    x=s.extract(response(b'<section><a id="one" name="one">One record</a></section>'),'one')
+    assert 'One record' in x['text']
 def test_truncated_text_is_explicit():
     x=s.extract(response(b'<p>'+b'a'*40000+b'</p>'));assert not x['text_complete'] and len(x['text'])==36000
 @pytest.mark.parametrize('url',['file:///etc/passwd','https://u:p@example.org','https://example.org:8080','https://api.openalex.org/works'])
@@ -116,6 +122,17 @@ def test_unscoped_html_does_not_follow_arbitrary_pdf():
 def test_explicit_publisher_pdf_is_candidate_bound():
     x=s.extract(response(b'<meta name="citation_pdf_url" content="paper.pdf"><p>Article</p><a href="footer.pdf">Report</a>'))
     assert s.linked_pdf(x)=='https://example.org/paper.pdf'
+
+def test_first_historical_presentation_links_are_not_followed():
+    raw=response(b'<section id="item"><h3>Talk</h3><a href="file.pdf">Presentation</a></section>')
+    raw['final_url']='https://www.first.org/resources/papers/2025'
+    x=s.extract(raw,'item')
+    assert x['links'] and s.linked_pdf(x) is None
+    row={'source_url':'https://www.first.org/resources/papers/2025#item',
+         'source_observation':{'access_restriction':'Historical presentation files restricted; verify current FIRST policy before retrieval'}}
+    assert s.first_asset_restricted(row,'first','https://other.example/file.pdf')
+    assert not s.first_asset_restricted(row,'first',row['source_url'])
+    assert not s.first_asset_restricted(row,'weekly','https://other.example/file.pdf')
 
 
 def test_authoritative_json_title_is_preserved_without_silent_truncation():

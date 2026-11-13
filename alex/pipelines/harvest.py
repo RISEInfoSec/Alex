@@ -5,7 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 import pandas as pd
 from alex.utils.io import load_df, save_df, root_file, validate_columns
-from alex.utils.http import HttpClient
+from alex.utils.http import HttpClient, ProviderCoordinationRequired
 from alex.utils import connector_config
 from alex.connectors import crossref, openalex, semantic_scholar
 from alex.utils.text import clean
@@ -131,6 +131,8 @@ def run() -> None:
         for fut in futures:
             try:
                 harvested.append(fut.result())
+            except ProviderCoordinationRequired:
+                raise
             except Exception as exc:
                 # One bad row shouldn't sink the whole stage; drop it with a
                 # warning so the surviving rows still publish.

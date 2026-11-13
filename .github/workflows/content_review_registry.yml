@@ -32,10 +32,7 @@ jobs:
           python-version: '3.11'
       - run: pip install requests pytest
       - run: python -m pytest -q tests/test_content_review_registry_worker.py
-      - name: One exact lookup through existing supported credential mapping
-        env:
-          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
-          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+      - name: Preserve the held request without provider credentials
         run: python -m tools.content_review.registry_worker --event "$GITHUB_EVENT_PATH" --output .cache/content-review-registry/result.json
       - name: Verify no corpus or pipeline mutation
         if: always()

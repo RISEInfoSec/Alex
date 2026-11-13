@@ -11,7 +11,7 @@ import math
 from datetime import datetime, timezone
 from pathlib import Path
 
-from tools.content_review.operations import require_worker_lease
+from tools.content_review.operations import require_worker_lease, require_worker_lease_state
 from tools.content_review.lifecycle import instant
 
 MODULES = ('requests', 'jsonschema', 'bs4', 'pypdf', 'pandas', 'openpyxl',
@@ -35,18 +35,33 @@ def dependencies(importer=importlib.import_module):
             'If denied, report the actual permission/network failure; do not bypass it.'}
 
 
-def before_work(root, run_id, seconds, at=None):
+def before_work(root, run_id, seconds, at=None, *, review_head=None, heartbeat_head=None):
     if not math.isfinite(seconds) or not 0 < seconds <= 20:
         raise ValueError('Work must be split into units bounded to at most20seconds')
     at = at or datetime.now(timezone.utc)
-    state = require_worker_lease(root, run_id, at)
+    if review_head is not None or heartbeat_head is not None:
+        if not review_head or not heartbeat_head:raise ValueError('Both immutable review and heartbeat heads are required')
+        from tools.content_review.verified_inputs import _path_blob
+        committed,_=_path_blob(root,review_head,'config/content_review_worker_status.json')
+        state=require_worker_lease_state(json.loads(committed),run_id,at)
+    else:
+        state = require_worker_lease(root, run_id, at)
     run = state.get('current_run') or {}
     if run.get('run_id') != run_id or run.get('application_status') != 'running':
         raise ValueError('Matching running application status required')
-    started, heartbeat = instant(run.get('started_at')), instant(run.get('observed_at'))
+    started = instant(run.get('started_at'))
+    heartbeat = instant(run.get('observed_at'))
+    if review_head is not None or heartbeat_head is not None:
+        from tools.content_review.heartbeat_evidence import verify
+        record,_=_path_blob(root,heartbeat_head,'config/content_review_detached_heartbeat.json')
+        heartbeat=verify(json.loads(record),state,review_head,state['lease'].get('owner'),run_id,at=at)
     if not started or not heartbeat or started > heartbeat or heartbeat > at:
         raise ValueError('Valid actual start and heartbeat timestamps required')
-    policy = json.loads((Path(root)/'config/content_review_workflow.json').read_text())['bounded_processing_pilot']
+    if review_head:
+        policy_raw,_=_path_blob(root,review_head,'config/content_review_workflow.json')
+        policy=json.loads(policy_raw)['bounded_processing_pilot']
+    else:
+        policy=json.loads((Path(root)/'config/content_review_workflow.json').read_text())['bounded_processing_pilot']
     elapsed = (at-started).total_seconds()
     remaining = policy['total_runtime_seconds']-policy['checkpoint_reserve_seconds']-elapsed
     age = (at-heartbeat).total_seconds()
@@ -57,7 +72,8 @@ def before_work(root, run_id, seconds, at=None):
         raise ValueError('Fetch native state, publish/read back both running records, then recheck before work')
     return {'allowed': True, 'heartbeat_age_seconds': age,
             'bounded_work_seconds': seconds, 'work_seconds_remaining': remaining,
-            'heartbeat_published': False}
+            'heartbeat_published': False,
+            'heartbeat_source': 'separate_ref' if heartbeat_head else 'worker_checkpoint'}
 
 
 def candidate_readiness(root, selections):
@@ -85,6 +101,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=Path.cwd())
     parser.add_argument('--run-id')
+    parser.add_argument('--review-head');parser.add_argument('--heartbeat-head')
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--check-dependencies', action='store_true')
     mode.add_argument('--before-work-seconds', type=float)
@@ -103,7 +120,8 @@ def main():
         else:
             if not args.run_id:
                 parser.error('--run-id required for work-window checks')
-            result = before_work(args.root, args.run_id, args.before_work_seconds)
+            result = before_work(args.root, args.run_id, args.before_work_seconds,
+                                 review_head=args.review_head,heartbeat_head=args.heartbeat_head)
             code = 0
     except (ValueError, OSError, KeyError) as exc:
         result, code = {'allowed': False, 'reason': str(exc)}, 2
