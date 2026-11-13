@@ -8,3 +8,4 @@ def test_pull_request_checks_do_not_run_live_source_or_paid_work():
     assert "run_live_source_audit:\n        description:" in workflow
     assert "run_paid_classification:\n        description:" in workflow
     assert workflow.count('default: false') >= 2
+    assert 'OPENALEX_API_KEY' not in workflow

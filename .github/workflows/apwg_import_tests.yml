@@ -71,7 +71,6 @@ jobs:
           APWG_REVIEW_CSV: 'apwg_bibliographic_review.csv'
           APWG_MAX_CROSSREF_LOOKUPS: '200'
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
-          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
           set -euo pipefail
           python -m alex.cli apwg --dry-run | tee apwg_coverage_audit.json
