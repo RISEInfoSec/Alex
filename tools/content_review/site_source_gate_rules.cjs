@@ -7,8 +7,19 @@ const object=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const hash=x=>typeof x==='string'&&/^[0-9a-f]{64}$/.test(x);
 const words=x=>typeof x==='string'&&/^[\x20-\x7e]+$/.test(x)?x.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()||null:null;
 function host(value){
- try{const u=new URL(value);return u.protocol==='https:'&&u.hostname&&!u.username&&!u.password&&(!u.port||u.port==='443')?u.hostname.toLowerCase():null;}
+ try{const u=new URL(value),hostname=u.hostname.toLowerCase().replace(/\.+$/,'');return u.protocol==='https:'&&hostname&&!u.username&&!u.password&&(!u.port||u.port==='443')?hostname:null;}
  catch{return null;}
+}
+function firstPresentationListing(value){
+ try{
+  const url=new URL(value),hostname=url.hostname.toLowerCase().replace(/\.+$/,'');
+  if(!['http:','https:'].includes(url.protocol)||!['first.org','www.first.org'].includes(hostname))return false;
+  let path=url.pathname,stable=false;
+  for(let i=0;i<4;i++){if(/%(?![0-9a-fA-F]{2})/.test(path))return true;const next=decodeURIComponent(path);if(next===path){stable=true;break;}path=next;}
+  if(!stable||/[^\x20-\x7e]|[\\?#]/.test(path))return true;
+  const parts=[];for(const part of path.split('/')){if(!part||part==='.')continue;if(part==='..')parts.pop();else parts.push(part);}
+  return /^\/resources\/papers(?:\/\d{4})?\/?$/i.test('/'+parts.join('/'));
+ }catch{return true;}
 }
 function utc(value){
  if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|\+00:00)$/.test(value))return NaN;
@@ -37,7 +48,7 @@ function audit(row,collection,receipt,now=Date.now()){
   text_sha256:source.text_sha256,requested_url:requested,final_url:source.final_url,retrieved_at:source.retrieved_at};
  // A public FIRST listing is not evidence that its historical presentation
  // files are accessible, including when an older row has no restriction note.
- let listing=false;try{listing=/^\/resources\/papers(?:\/\d{4})?\/?$/i.test(decodeURIComponent(new URL(requested).pathname));}catch{listing=true;}
+ const listing=firstPresentationListing(requested);
  if(collection==='first'&&['first.org','www.first.org'].includes(origin)&&
     (listing||typeof row.source_observation?.access_restriction==='string'&&
     /historical presentation files restricted/i.test(row.source_observation.access_restriction)))

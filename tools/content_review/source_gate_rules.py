@@ -6,6 +6,7 @@ recompute these rules and fence D1 before a proposed gate can be committed.
 """
 from datetime import datetime, timezone
 import hashlib
+import posixpath
 import re
 from urllib.parse import urlsplit, unquote
 
@@ -25,9 +26,30 @@ def _https(value):
         p = urlsplit(value)
         if p.scheme != 'https' or not p.hostname or p.username or p.password or p.port not in (None, 443):
             return None
-        return p.hostname.lower()
+        return p.hostname.rstrip('.').lower() or None
     except (TypeError, ValueError):
         return None
+
+
+def first_presentation_listing(url):
+    """Conservatively recognize FIRST event listings before following assets."""
+    try:
+        parsed=urlsplit(url)
+        if parsed.scheme.lower() not in ('http','https') or (parsed.hostname or '').rstrip('.').lower() not in ('first.org','www.first.org'):
+            return False
+        path=parsed.path
+        for _ in range(4):
+            if re.search(r'%(?![0-9a-fA-F]{2})',path):return True
+            decoded=unquote(path,errors='strict')
+            if decoded==path:break
+            path=decoded
+        else:
+            return True
+        if any(ord(char)<32 or ord(char)>126 or char in '\\?#' for char in path):return True
+        path=posixpath.normpath('/'+path.lstrip('/'))
+        return bool(re.fullmatch(r'/resources/papers(?:/\d{4})?/?',path,re.I))
+    except (TypeError,ValueError,UnicodeError):
+        return True
 
 
 def audit(row, collection, receipt, *, now=None):
@@ -81,12 +103,7 @@ def audit(row, collection, receipt, *, now=None):
     # restriction annotation. A listing cannot prove access to its assets.
     observation = row.get('source_observation')
     restriction = observation.get('access_restriction') if isinstance(observation, dict) else None
-    path = urlsplit(requested).path
-    try:
-        listing = bool(re.search(r'%(?![0-9a-fA-F]{2})', path) or
-                       re.fullmatch(r'/resources/papers(?:/\d{4})?/?', unquote(path, errors='strict'), re.I))
-    except UnicodeDecodeError:
-        listing = True
+    listing = first_presentation_listing(requested)
     if (collection == 'first' and host in ('first.org', 'www.first.org') and
             (listing or isinstance(restriction, str) and re.search('historical presentation files restricted', restriction, re.I))):
         return {'status': 'held', 'reason': 'source_presentation_access_restricted', 'checks': {}}

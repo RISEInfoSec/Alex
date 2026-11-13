@@ -38,7 +38,7 @@ def test_exact_publisher_evidence_passes_only_narrow_checks():
     assert result['classification_verified'] is False and result['publication_authorized'] is False
 
 @pytest.mark.parametrize('annotation', [None, 'Historical presentation files restricted; verify current FIRST policy before retrieval'])
-@pytest.mark.parametrize('url', ['https://www.first.org/resources/papers/2025#example', 'https://www.first.org/resources/%70apers/2025#example', 'https://www.first.org/resources/%ZZ#example'])
+@pytest.mark.parametrize('url', ['https://www.first.org/resources/papers/2025#example', 'https://www.first.org/resources/%70apers/2025#example', 'https://www.first.org/resources/%ZZ#example', 'https://WWW.FIRST.ORG./RESOURCES/PAPERS/2025#example', 'https://www.first.org/resources/%2570apers/2025#example', 'https://www.first.org/resources/%252570apers/2025#example', 'https://www.first.org/resources//papers/2025#example', 'https://www.first.org/resources/%ff#example', 'https://www.first.org/resources/papers%3Fdownload#example', 'https://www.first.org/resources/papers%5C2025#example', 'https://www.first.org/resources/papers/../papers/2025#example'])
 def test_public_first_listing_does_not_clear_presentation_file_restriction(annotation, url):
     row,receipt=sample();row['source_url']=url
     if annotation:row['source_observation']={'access_restriction':annotation}
