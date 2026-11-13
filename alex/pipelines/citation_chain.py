@@ -12,7 +12,7 @@ from concurrent.futures import FIRST_EXCEPTION, ThreadPoolExecutor, wait
 from typing import Any
 import pandas as pd
 from alex.utils.io import load_df, load_json, root_file
-from alex.utils.http import HttpClient as BaseHttpClient
+from alex.utils.http import HttpClient as BaseHttpClient, ProviderCoordinationRequired
 from alex.utils.text import normalize_title, clean
 from alex.utils.scoring import query_keywords, title_matches_keywords
 from alex.utils import connector_config
@@ -145,6 +145,9 @@ class HttpClient(BaseHttpClient):
                 self.stop()
                 raise CitationIncomplete('Citation source evidence invalid; no output promoted')
             return data
+        except ProviderCoordinationRequired:
+            self.stop()
+            raise CitationIncomplete('OpenAlex shared coordination required; no output promoted') from None
         except Exception:
             self.stop()
             raise

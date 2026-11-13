@@ -7,6 +7,7 @@ from alex.utils import http
 @pytest.fixture
 def setup(tmp_path,monkeypatch):
  monkeypatch.setattr(http,'CACHE',tmp_path/'cache.json')
+ monkeypatch.setattr(http,'_shared_coordinator_unavailable',lambda:False)
  monkeypatch.setattr(http,'_openalex_policy',lambda:{'requests_enabled':True,'min_interval_seconds':60,'request_timeout_seconds':20,'failure_cooldown_seconds':3600,'retry_not_before':None})
  monkeypatch.setattr(http.time,'sleep',lambda n:None)
  return tmp_path

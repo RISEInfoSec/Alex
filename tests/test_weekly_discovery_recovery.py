@@ -13,6 +13,9 @@ from alex.utils.discovery_checkpoint import DiscoveryClient, DiscoveryDeferred, 
 @pytest.fixture
 def setup(tmp_path, monkeypatch):
     monkeypatch.setattr(http, 'CACHE', tmp_path / 'cache.json')
+    # These pacing and checkpoint tests use mock HTTP only. Production's
+    # shared-coordinator fence is tested independently without this override.
+    monkeypatch.setattr(http, '_shared_coordinator_unavailable', lambda: False)
     monkeypatch.setattr(http, '_openalex_policy', lambda: {
         'requests_enabled': True, 'min_interval_seconds': 60, 'request_timeout_seconds': 20,
         'failure_cooldown_seconds': 3600, 'retry_not_before': None})

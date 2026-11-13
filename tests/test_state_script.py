@@ -122,6 +122,9 @@ def test_apwg_fresh_runner_honors_and_persists_shared_cooldown(remote,tmp_path,m
     import json,time
     from unittest.mock import Mock
     from alex.utils import http
+    # This test uses a fake sender to exercise legacy cooldown persistence.
+    # The production shared-coordinator fence is tested independently.
+    monkeypatch.setattr(http,'_shared_coordinator_unavailable',lambda:False)
     workflow=(SCRIPT.parents[1]/'.github/workflows/pipeline.yml').read_text()
     job=workflow.split('\n  apwg:\n',1)[1].split('\n  publish:\n',1)[0]
     assert job.index('run: scripts/state.sh pull') < job.index('python -m alex.cli apwg')

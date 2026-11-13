@@ -3,6 +3,17 @@
 Updated 2026-11-05 after explicit owner approval of PR118. Applies to `python -m alex.cli discover`, the weekly
 `pipeline.yml` discovery stage and the manual `discover.yml` stage.
 
+## Current shared-coordination hold
+
+The shared provider coordinator and durable response recorder are not yet
+verified across production writers. Until they are integrated and verified,
+uncached OpenAlex requests are fenced in code even if a local policy says
+`requests_enabled: true`. Existing matching cached responses remain usable.
+An attempted request records a coordination hold; partial discovery cannot be
+reported as complete, and the recovery controller does not retry that hold.
+This fence preserves the existing reconciliation hold and does not enable a
+provider request, change a schedule, or authorize publication.
+
 ## Provider rules and endpoint choice
 
 Current primary sources, checked 2026-11-02:

@@ -26,6 +26,22 @@ _HOST_LOCKS_GUARD = threading.Lock()
 _HOST_LOCKS: dict[str, threading.Lock] = {}
 
 
+class ProviderCoordinationRequired(requests.exceptions.RequestException):
+    """An OpenAlex request requires the verified shared private coordinator."""
+
+
+def _openalex_host(url: str) -> bool:
+    host = (urlsplit(url).hostname or '').rstrip('.').lower()
+    return host == 'openalex.org' or host.endswith('.openalex.org')
+
+
+def _shared_coordinator_unavailable() -> bool:
+    # No production writer is yet wired to the shared recorder. This is a
+    # code-level fence, not an operator switch; a later verified integration
+    # must replace it rather than interpreting a policy toggle as readiness.
+    return True
+
+
 class _ProviderGuardedSession(requests.Session):
     """Keep redirects and generic callers from bypassing the OpenAlex gate."""
 
@@ -35,6 +51,8 @@ class _ProviderGuardedSession(requests.Session):
 
     def send(self, request, **kwargs):
         host = (urlsplit(request.url).hostname or '').rstrip('.')
+        if _openalex_host(request.url) and _shared_coordinator_unavailable():
+            raise ProviderCoordinationRequired('OpenAlex requires the shared private coordinator')
         if (host == 'openalex.org' or host.endswith('.openalex.org')) and not getattr(
                 self._provider_context, 'approved_direct_send', False):
             raise requests.exceptions.RequestException('OpenAlex requires the provider gate')
@@ -195,6 +213,10 @@ class HttpClient:
     def _openalex_request(self, url, params, headers, timeout):
         # Share pacing/backoff across threads, clients and CLI stages using
         # this checkout. Independent runners must obey the worker checkpoint.
+        if _openalex_host(url) and _shared_coordinator_unavailable():
+            self._openalex_hold = True
+            self._openalex_hold_reason = 'openalex_shared_coordinator_required'
+            raise ProviderCoordinationRequired('OpenAlex requires the shared private coordinator')
         if self._openalex_hold:
             return None
         try:
@@ -345,6 +367,10 @@ class HttpClient:
     ) -> requests.Response | None:
         """GET with retry on 429/5xx. Returns the final Response, or None on
         unrecoverable failure. Honours Retry-After when present."""
+        if _openalex_host(url) and _shared_coordinator_unavailable():
+            self._openalex_hold = True
+            self._openalex_hold_reason = 'openalex_shared_coordinator_required'
+            raise ProviderCoordinationRequired('OpenAlex requires the shared private coordinator')
         if urlsplit(url).hostname == 'api.openalex.org':
             return self._openalex_request(url, params, headers, timeout)
         # A delay in each worker does not serialize requests from other
@@ -364,6 +390,8 @@ class HttpClient:
         for attempt in range(1, max_attempts + 1):
             try:
                 r = self._send_request(url, params=params, headers=headers, timeout=timeout)
+            except ProviderCoordinationRequired:
+                raise
             except requests.exceptions.RequestException as exc:
                 last_exc = exc
                 # Network-level failures (connection error, timeout) get the

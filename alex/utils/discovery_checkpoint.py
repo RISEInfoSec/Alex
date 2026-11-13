@@ -14,7 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
 
-from alex.utils.http import HttpClient, _CACHE_MISS
+from alex.utils.http import HttpClient, ProviderCoordinationRequired, _CACHE_MISS
 
 logger = logging.getLogger(__name__)
 
@@ -216,11 +216,14 @@ class DiscoveryClient(HttpClient):
                 self._save()
             return result
         except Exception as exc:
+            if isinstance(exc, ProviderCoordinationRequired):
+                self.blocked_sources['OpenAlex'] = 'openalex_shared_coordinator_required'
             if isinstance(exc, DiscoveryDeferred) and str(exc) in (
                     'openalex_request_budget', 'openalex_run_request_budget', 'openalex_cooldown'):
                 self.blocked_sources['OpenAlex'] = str(exc)
             with self.guard:
-                self.failures[name] = str(exc) if isinstance(exc, DiscoveryDeferred) else type(exc).__name__
+                self.failures[name] = ('openalex_shared_coordinator_required' if isinstance(exc, ProviderCoordinationRequired)
+                                       else str(exc) if isinstance(exc, DiscoveryDeferred) else type(exc).__name__)
             logger.warning('Discovery task deferred: %s (%s)', name, self.failures[name])
             return []
 
@@ -229,7 +232,8 @@ class DiscoveryClient(HttpClient):
             done = len(self.state['tasks'])
             status = ('partial' if done else 'deferred') if self.failures else 'complete'
             if self.failures and all(v not in ('runtime_budget', 'request_budget',
-                    'openalex_request_budget', 'openalex_run_request_budget', 'openalex_cooldown')
+                    'openalex_request_budget', 'openalex_run_request_budget', 'openalex_cooldown',
+                    'openalex_shared_coordinator_required')
                     for v in self.failures.values()) and not done:
                 status = 'failed'
             self.state['status'] = status
