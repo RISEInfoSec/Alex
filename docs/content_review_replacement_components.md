@@ -7,6 +7,14 @@ be inspected and reconciled before another attempt. It is not full processing.
 Keep the full worker disabled until all collection paths, decision safeguards,
 bounded budgets and truthful status have been integrated and verified.
 
+The review branch's historical HTTP client, registry worker and metadata
+scripts now hold direct OpenAlex sends until the shared private provider
+coordinator exists. Redirects cannot bypass that hold, and discovery, citation,
+harvest and APWG stages propagate it instead of reporting an empty success.
+The registry workflow receives no OpenAlex credential. Existing cached
+responses remain readable. These fences preserve the current hold; they do
+not prove cross-runner coordination or permit another provider request.
+
 `tools/content_review/d1_reconcile.py` validates two complete D1 reads, joins
 every immutable submission, decision and job, selects the latest completed
 revision per owner/collection/batch and matches each active decision to the
