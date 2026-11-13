@@ -24,7 +24,7 @@ jobs:
           }
           async function main() {
             const origin = 'https://alex-research-review.neil-schwartzm917549.chatgpt.site';
-            const audience = origin + '/api/openalex-coordinator';
+            const audience = origin + '/api/private-workflow-identity-diagnostic';
             const u = new URL(process.env.ACTIONS_ID_TOKEN_REQUEST_URL);
             assert(u.protocol === 'https:', 'identity_url');
             u.searchParams.set('audience', audience);
@@ -56,10 +56,13 @@ jobs:
             const status = await json(origin + '/api/content-review-fence-status',
               {headers: {'OAI-Sites-Authorization': 'Bearer ' + process.env.SERVICE_TOKEN}});
             assert(['idle', 'held'].includes(status.status) && typeof status.checkpoint_active === 'boolean', 'service_status');
-            console.log('Signed workflow identity verified; private service read succeeded.');
-            console.log('Workflow-reference claim present:', typeof claims.job_workflow_ref === 'string');
+            const diagnostic = await json(origin + '/api/private-workflow-identity-diagnostic',
+              {method: 'POST', headers: {'OAI-Sites-Authorization': 'Bearer ' + process.env.SERVICE_TOKEN,
+                'Content-Type': 'application/json'}, body: JSON.stringify({identity_token: issued.value})});
+            assert(diagnostic.identity_verified === true && diagnostic.provider_access_authorized === false, 'site_identity');
+            console.log('Site independently verified workflow identity; provider access remains held.');
           }
           main().catch(e => { const safe = new Set(['http_status','response_size','identity_url','identity_missing','identity_format',
-            'identity_algorithm','identity_keys','identity_key','identity_signature','identity_time','identity_claims','service_credential','service_status']);
+            'identity_algorithm','identity_keys','identity_key','identity_signature','identity_time','identity_claims','service_credential','service_status','site_identity']);
             console.error('Probe failed:', safe.has(e.message) ? e.message : 'unexpected'); process.exitCode = 1; });
           NODE
