@@ -76,6 +76,14 @@ def audit(row, collection, receipt, *, now=None):
     proof = {'request_id': request.get('request_id'), 'artifact_sha256': receipt.get('artifact_sha256'),
              'body_sha256': source['body_sha256'], 'text_sha256': source['text_sha256'],
              'requested_url': requested, 'final_url': source['final_url'], 'retrieved_at': source['retrieved_at']}
+    # A public FIRST listing is not proof of access to its historical files.
+    # Preserve the source's explicit restriction pending a separately verified
+    # policy and asset-access proof.
+    observation = row.get('source_observation')
+    restriction = observation.get('access_restriction') if isinstance(observation, dict) else None
+    if (collection == 'first' and host in ('first.org', 'www.first.org') and
+            isinstance(restriction, str) and re.search('historical presentation files restricted', restriction, re.I)):
+        return {'status': 'held', 'reason': 'source_presentation_access_restricted', 'checks': {}}
     checks = {'access': {'status': 'passed', 'evidence': proof}}
     metadata = source.get('metadata')
     title, authors, year = _words(row.get('title')), row.get('authors'), str(row.get('year') or '')

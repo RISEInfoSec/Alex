@@ -35,6 +35,13 @@ function audit(row,collection,receipt,now=Date.now()){
  if(matches.length!==1)return {status:'held',reason:'source_access_unverified_or_ambiguous',checks:{}};
  const source=matches[0],proof={request_id:request.request_id,artifact_sha256:receipt.artifact_sha256,body_sha256:source.body_sha256,
   text_sha256:source.text_sha256,requested_url:requested,final_url:source.final_url,retrieved_at:source.retrieved_at};
+ // A public FIRST listing is not evidence that its historical presentation
+ // files are accessible. Preserve the source's explicit restriction until a
+ // separately validated policy and asset-access proof replaces it.
+ if(collection==='first'&&['first.org','www.first.org'].includes(origin)&&
+    typeof row.source_observation?.access_restriction==='string'&&
+    /historical presentation files restricted/i.test(row.source_observation.access_restriction))
+  return {status:'held',reason:'source_presentation_access_restricted',checks:{}};
  const checks={access:{status:'passed',evidence:proof}},metadata=source.metadata,title=words(row.title),authors=row.authors,year=String(row.year||'');
  if(source.container_type==='html'&&object(metadata)&&title&&typeof authors==='string'&&/^\d{4}$/.test(year)){
   const titles=metadata.citation_title??[],names=metadata.citation_author??[],dates=metadata.citation_publication_date??metadata.citation_date??[];

@@ -174,8 +174,11 @@ def extract(response, fragment=''):
             if name and tag.get('content'):metadata.setdefault(name.lower(),[]).append(tag['content'])
         section=soup
         if fragment:
-            anchor=soup.find(id=fragment) or soup.find(attrs={'name':fragment})
-            if anchor is None:raise Hold('candidate_fragment_not_found')
+            anchors=soup.find_all(id=fragment)+soup.find_all(attrs={'name':fragment})
+            anchors=list({id(anchor):anchor for anchor in anchors}.values())
+            if not anchors:raise Hold('candidate_fragment_not_found')
+            if len(anchors)!=1:raise Hold('candidate_fragment_ambiguous')
+            anchor=anchors[0]
             # FIRST item wrappers hold one contribution and its explicit asset links.
             section=anchor if anchor.name in ('article','section') else anchor.find_parent(['article','section']) or anchor.parent
             if anchor.name not in ('article','section') and len(section.get_text(' ',strip=True))<120:
@@ -194,12 +197,26 @@ def extract(response, fragment=''):
     if not out['text'].strip():raise Hold('no_extractable_text_ocr_required')
     return out
 
+def first_asset_restricted(row, collection, requested_url):
+    observation=row.get('source_observation')
+    restriction=observation.get('access_restriction') if isinstance(observation,dict) else None
+    return (collection=='first' and isinstance(restriction,str) and
+            bool(re.search('historical presentation files restricted',restriction,re.I)) and
+            requested_url!=row.get('source_url'))
+
 def linked_pdf(source):
     """Only publisher citation metadata or a verified candidate fragment binds assets.
 
     A global navigation/footer PDF never establishes candidate identity.
     """
     if source.get('resource_unavailable'):raise Hold('publisher_temporarily_withheld_for_review')
+    # FIRST's public event listings remain visible while historical presentation
+    # files are explicitly unavailable. A listing or a PDF link is not access
+    # permission; do not follow its assets without a separate policy repair.
+    origin=urlsplit(source.get('final_url',''))
+    if (origin.scheme=='https' and origin.hostname in ('first.org','www.first.org') and
+            re.fullmatch(r'/resources/papers(?:/\d{4})?/?',origin.path)):
+        return None
     if source['container_type']=='json':
         pdfs=[f.get('links',{}).get('self') for f in source.get('files',[])
               if str(f.get('key','')).lower().endswith('.pdf')]
@@ -278,6 +295,10 @@ def validate(root,path):
         if evidence.get('content_sha256')==row['content_sha256'] and evidence.get('retrieval_status') in ('retrieved','held'):
             raise ValueError('Retained source evidence or hold must be resolved first')
         if row.get('decision','pending') not in ('pending','unreviewed'):raise ValueError('Decided candidate')
+        # A resumed request must not use a retained listing link to bypass an
+        # existing restriction on the historical FIRST presentation asset.
+        if first_asset_restricted(row,item['collection'],item['url']):
+            raise ValueError('FIRST historical presentation access restricted')
         if item['url']!=row['source_url']:
             ref=item.get('resume_receipt','')
             if not re.fullmatch(r'config/content_review_source_receipts/[0-9a-f]{64}\.json',ref):raise ValueError('Unbound source URL')
