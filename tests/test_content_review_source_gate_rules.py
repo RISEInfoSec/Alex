@@ -37,9 +37,11 @@ def test_exact_publisher_evidence_passes_only_narrow_checks():
     assert result['format_verified'] is False and result['quality_verified'] is False
     assert result['classification_verified'] is False and result['publication_authorized'] is False
 
-def test_public_first_listing_does_not_clear_presentation_file_restriction():
-    row,receipt=sample();row['source_url']='https://www.first.org/resources/papers/2025#example'
-    row['source_observation']={'access_restriction':'Historical presentation files restricted; verify current FIRST policy before retrieval'}
+@pytest.mark.parametrize('annotation', [None, 'Historical presentation files restricted; verify current FIRST policy before retrieval'])
+@pytest.mark.parametrize('url', ['https://www.first.org/resources/papers/2025#example', 'https://www.first.org/resources/%70apers/2025#example', 'https://www.first.org/resources/%ZZ#example'])
+def test_public_first_listing_does_not_clear_presentation_file_restriction(annotation, url):
+    row,receipt=sample();row['source_url']=url
+    if annotation:row['source_observation']={'access_restriction':annotation}
     receipt['request']['records'][0].update(collection='first',url=row['source_url'])
     receipt['result']['records'][0]['collection']='first'
     evidence=receipt['result']['records'][0]['evidence'][0]

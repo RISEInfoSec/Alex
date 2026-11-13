@@ -7,7 +7,7 @@ recompute these rules and fence D1 before a proposed gate can be committed.
 from datetime import datetime, timezone
 import hashlib
 import re
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, unquote
 
 HASH = re.compile(r'^[0-9a-f]{64}$')
 ASCII = re.compile(r'^[\x20-\x7e]+$')
@@ -77,12 +77,18 @@ def audit(row, collection, receipt, *, now=None):
              'body_sha256': source['body_sha256'], 'text_sha256': source['text_sha256'],
              'requested_url': requested, 'final_url': source['final_url'], 'retrieved_at': source['retrieved_at']}
     # A public FIRST listing is not proof of access to its historical files.
-    # Preserve the source's explicit restriction pending a separately verified
-    # policy and asset-access proof.
+    # Hold known presentation listings even if an older row omitted the
+    # restriction annotation. A listing cannot prove access to its assets.
     observation = row.get('source_observation')
     restriction = observation.get('access_restriction') if isinstance(observation, dict) else None
+    path = urlsplit(requested).path
+    try:
+        listing = bool(re.search(r'%(?![0-9a-fA-F]{2})', path) or
+                       re.fullmatch(r'/resources/papers(?:/\d{4})?/?', unquote(path, errors='strict'), re.I))
+    except UnicodeDecodeError:
+        listing = True
     if (collection == 'first' and host in ('first.org', 'www.first.org') and
-            isinstance(restriction, str) and re.search('historical presentation files restricted', restriction, re.I)):
+            (listing or isinstance(restriction, str) and re.search('historical presentation files restricted', restriction, re.I))):
         return {'status': 'held', 'reason': 'source_presentation_access_restricted', 'checks': {}}
     checks = {'access': {'status': 'passed', 'evidence': proof}}
     metadata = source.get('metadata')
