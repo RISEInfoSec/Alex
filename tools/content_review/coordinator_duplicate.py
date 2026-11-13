@@ -98,7 +98,9 @@ def checkpoint_one(repo,token,review_head,main_head,owner,run_id,*,heads=read_he
                 'site_status':response.get('status') if isinstance(response,dict) and response.get('status') in ('blocked','outcome_unknown') else 'outcome_unknown',
                 'site_reason':response.get('reason') if isinstance(response,dict) and response.get('reason') in
                     ('invalid_request','worker_not_verified','source_head_changed','proposal_expired','decisions_changed','fence_not_idle',
-                     'duplicate_unavailable','heartbeat_unconfirmed_reconcile_ref','commit_unconfirmed_reconcile_fence') else None,
+                     'duplicate_unavailable','heartbeat_unconfirmed_reconcile_ref','commit_unconfirmed_reconcile_fence',
+                     'duplicate_audit_input_unavailable','duplicate_audit_input_invalid','duplicate_snapshot_unavailable',
+                     'duplicate_blob_unavailable','duplicate_receipt_unavailable','worker_run_revoked') else None,
                 'http_status':response.get('http_status') if isinstance(response,dict) and type(response.get('http_status')) is int else None,
                 'candidate_processing':None,'native_completion_verified':False,'lease_release_confirmed':False,'publication_verified':False})
     commit=response.get('commit_sha');receipt=response.get('receipt_path')

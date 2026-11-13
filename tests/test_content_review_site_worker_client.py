@@ -42,6 +42,13 @@ def test_timeout_unknown_response_and_unconfirmed_write_require_reconciliation()
         assert result['status']=='outcome_unknown' and result['reconcile_before_retry'] is True
 
 
+def test_duplicate_diagnostics_remain_fail_closed_and_do_not_retry():
+    opener=Opener(Response({'status':'blocked','reason':'duplicate_audit_input_unavailable'},409))
+    result=post('duplicate',{},'secret-value',opener=opener)
+    assert result['status']=='outcome_unknown' and result['reason']=='duplicate_audit_input_unavailable'
+    assert result['reconcile_before_retry'] is True and len(opener.requests)==1
+
+
 def test_long_duplicate_timeout_remains_bounded_and_never_retries():
     opener=Opener(TimeoutError())
     result=post('duplicate',{},'secret-value',opener=opener)

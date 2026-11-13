@@ -37,6 +37,19 @@ def test_exact_publisher_evidence_passes_only_narrow_checks():
     assert result['format_verified'] is False and result['quality_verified'] is False
     assert result['classification_verified'] is False and result['publication_authorized'] is False
 
+def test_public_first_listing_does_not_clear_presentation_file_restriction():
+    row,receipt=sample();row['source_url']='https://www.first.org/resources/papers/2025#example'
+    row['source_observation']={'access_restriction':'Historical presentation files restricted; verify current FIRST policy before retrieval'}
+    receipt['request']['records'][0].update(collection='first',url=row['source_url'])
+    receipt['result']['records'][0]['collection']='first'
+    evidence=receipt['result']['records'][0]['evidence'][0]
+    evidence.update(requested_url=row['source_url'],final_url='https://www.first.org/resources/papers/2025')
+    result=audit(row,'first',receipt,now=NOW)
+    assert result=={'status':'held','reason':'source_presentation_access_restricted','checks':{}}
+    script="const fs=require('fs'),r=require('./tools/content_review/site_source_gate_rules.cjs');const x=JSON.parse(fs.readFileSync(0,'utf8'));process.stdout.write(JSON.stringify(r.audit(x.row,'first',x.receipt,Date.parse('2026-11-08T00:00:00Z'))));"
+    checked=subprocess.run(['node','-e',script],input=json.dumps({'row':row,'receipt':receipt}),text=True,capture_output=True,check=True)
+    assert json.loads(checked.stdout)==result
+
 
 @pytest.mark.parametrize('change',['valid','missing','slides','conflict','ambiguous','title','wrong_type','unicode','og_conflict','citation_conflict'])
 def test_only_unambiguous_publisher_research_article_type_can_pass_format(change):

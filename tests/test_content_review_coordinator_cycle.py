@@ -1,4 +1,4 @@
-from tools.content_review.coordinator_cycle import mechanical_pass, soups_intake_due, pending_rotation, quality_evidence_due
+from tools.content_review.coordinator_cycle import mechanical_pass, soups_intake_due, pending_rotation, quality_evidence_due, source_gate_first
 from tools.content_review.coordinator_heartbeat_transport import REVIEW, MAIN
 
 
@@ -89,10 +89,12 @@ def test_intake_uses_guarded_checkpoint_then_truthful_no_work_release():
     result=mechanical_pass('.','secret',{},'worker','run',
         begin=lambda *a:{'status':'lease_started','review_head':'a'*40,'main_head':'b'*40},
         pending_checker=lambda *a:False,intake_selector=lambda *a:True,
-        intake_runner=lambda *a:{'status':'intake_confirmed','heartbeat_rebound':True,'commit_sha':'c'*40},
+        intake_runner=lambda *a:{'status':'intake_confirmed','heartbeat_rebound':True,'commit_sha':'c'*40,
+                                 'receipt_path':'intake-receipt','candidate_count':5},
         checkpoint=lambda *a:(_ for _ in ()).throw(AssertionError('unexpected duplicate')),
         finish=lambda *a:calls.append(a[3:]) or {'status':'deferred','candidate_processing':False,'lease_release_confirmed':True})
     assert calls==[('c'*40,'b'*40,'worker','run',None)] and result['candidate_processing'] is False
+    assert result['intake_receipt_path']=='intake-receipt' and result['intake_candidate_count']==5
 
 
 def test_unconfirmed_intake_never_finishes_or_moves_to_another_stage():
@@ -111,7 +113,31 @@ def test_intake_rotation_uses_durable_run_history():
     def due(n):
         state={'current_run':{'run_id':'run'},'run_history':[{'run_id':str(i)} for i in range(n)]}
         return soups_intake_due('.',review,main,'run',heads=lambda _:refs,fetch=lambda *a:None,state_reader=lambda *a:state)
-    assert [n for n in range(19) if due(n)]==[0,9,18]
+    assert [n for n in range(10) if due(n)]==[0,3,6,9]
+
+
+def test_intake_rotation_leaves_both_source_and_duplicate_opportunities():
+    review,main='a'*40,'b'*40;refs={REVIEW:review,MAIN:main}
+    turns=[]
+    for n in range(6):
+        state={'current_run':{'run_id':'run'},'run_history':[{'run_id':str(i)} for i in range(n)]}
+        kw={'heads':lambda _:refs,'fetch':lambda *a:None,'state_reader':lambda *a:state}
+        if soups_intake_due('.',review,main,'run',**kw):
+            turns.append('intake')
+        else:
+            turns.append('source' if source_gate_first('.',review,main,'run',**kw) else 'duplicate')
+    assert turns.count('intake') == turns.count('source') == turns.count('duplicate') == 2
+
+
+def test_intake_receipt_survives_unconfirmed_completion_without_claiming_release():
+    result=mechanical_pass('.','secret',{},'worker','run',
+        begin=lambda *a:{'status':'lease_started','review_head':'a'*40,'main_head':'b'*40},
+        pending_checker=lambda *a:False,intake_selector=lambda *a:True,
+        intake_runner=lambda *a:{'status':'intake_confirmed','heartbeat_rebound':True,'commit_sha':'c'*40,
+                                 'receipt_path':'intake-receipt','candidate_count':5},
+        finish=lambda *a:{'status':'blocked','reconcile_before_retry':True,'lease_release_confirmed':False})
+    assert result['reconcile_before_retry'] is True and result['lease_release_confirmed'] is False
+    assert result['intake_receipt_path']=='intake-receipt' and result['intake_candidate_count']==5
 
 
 def test_source_first_cycle_checkpoints_and_completes_one_source_gate():

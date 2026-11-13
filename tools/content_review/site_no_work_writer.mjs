@@ -28,9 +28,9 @@ export async function writeNoWork({db,github,input,now=()=>Date.now(),read=reade
  const head=async branch=>unwrap(await github.fetchCommit({repo_full_name:REPO,commit_sha:branch}),'No-work branch unavailable').commit?.sha;
  const checkHeads=async()=>{const [a,b]=await Promise.all([head(REVIEW),head(MAIN)]);
   if(a!==input.expectedHead||b!==input.expectedMain)throw Error('No-work source head changed');};
- await checkHeads();await verify({github,input,now,manualScope:'duplicate_only'});
+ await checkHeads();await verify({github,input,now,manualScope:'duplicate_only',completionOnly:true});
  const heartbeat=heartbeatFactory({github,input,now});
- const alive=async()=>{await heartbeat();await verify({github,input,now,manualScope:'duplicate_only'});};
+ const alive=async()=>{await heartbeat();await verify({github,input,now,manualScope:'duplicate_only',completionOnly:true});};
  await alive();
  const baseFile=await github.fetchFile({repository_full_name:REPO,path:WORKER,ref:input.expectedHead,require_content:true});
  const before=await jsonVerifier.verifiedJson(baseFile,{limit:LIMIT});
@@ -61,21 +61,21 @@ export async function writeNoWork({db,github,input,now=()=>Date.now(),read=reade
  let mayHaveFence=false,commitAttempted=false;
  try{
   mayHaveFence=true;
-  if((await control({db,github,input:fence,now,manualScope:'duplicate_only'})).status!=='acquired')throw Error('No-work fence unavailable');
-  if((await control({db,github,input:{...fence,action:'begin'},now,manualScope:'duplicate_only'})).status!=='committing')throw Error('No-work fence did not enter commit');
+  if((await control({db,github,input:fence,now,manualScope:'duplicate_only',completionOnly:true})).status!=='acquired')throw Error('No-work fence unavailable');
+  if((await control({db,github,input:{...fence,action:'begin'},now,manualScope:'duplicate_only',completionOnly:true})).status!=='committing')throw Error('No-work fence did not enter commit');
   commitAttempted=true;let update;
   try{update=await github.commitOnBranch({repository_full_name:REPO,branch_name:REVIEW,expected_sha:input.expectedHead,
     additions:paths.map(path=>({path,content:files[path]})),message:'Record no-work outcome and release review lease'});}
   catch{throw Error('No-work commit outcome ambiguous');}
   const result=unwrap(update,'No-work commit rejected or ambiguous');
   if(result.success!==true||!SHA.test(result.sha||''))throw Error('No-work commit outcome ambiguous');
-  const released=await control({db,github,input:{...fence,action:'release'},now,manualScope:'duplicate_only'});
+  const released=await control({db,github,input:{...fence,action:'release'},now,manualScope:'duplicate_only',completionOnly:true});
   if(released.status!=='confirmed_and_released'||released.commit_sha!==result.sha)throw Error('No-work commit readback differs');
   return {status:'committed_and_read_back',commit_sha:result.sha,receipt_path:receiptPath,
    candidate_processing:false,native_completion_verified:false,publication_verified:false};
  }catch(error){
   if(mayHaveFence&&!commitAttempted){
-   let aborted=false;try{aborted=(await control({db,github,input:{...fence,action:'abort'},now,manualScope:'duplicate_only'})).status==='aborted';}catch{}
+   let aborted=false;try{aborted=(await control({db,github,input:{...fence,action:'abort'},now,manualScope:'duplicate_only',completionOnly:true})).status==='aborted';}catch{}
    if(!aborted)throw Error('No-work fence state unconfirmed; inspect fence');
   }
   if(commitAttempted)throw Error('No-work commit outcome ambiguous or unconfirmed; reconcile branch and fence');

@@ -21,7 +21,7 @@ def has_pending_source(repo,review_head,main_head,run_id,*,heads=read_heads,fetc
 
 
 def soups_intake_due(repo,review_head,main_head,run_id,*,heads=read_heads,fetch=fetch_heads,state_reader=_state):
-    """Give intake one opportunity in nine native runs, without hiding holds."""
+    """Give intake one opportunity in three runs while preserving other work."""
     refs=heads(repo)
     if refs.get(REVIEW)!=review_head or refs.get(MAIN)!=main_head:raise ValueError('Coordinator source heads changed')
     fetch(repo,refs,run_id)
@@ -29,7 +29,7 @@ def soups_intake_due(repo,review_head,main_head,run_id,*,heads=read_heads,fetch=
     if not isinstance(history,list) or any(not isinstance(x,dict) or not x.get('run_id') for x in history):
         raise ValueError('Run history unavailable for intake rotation')
     if state['current_run'].get('run_id')!=run_id:raise ValueError('Current intake run differs')
-    return len(history)%9==0
+    return len(history)%3==0
 
 
 def source_gate_first(repo,review_head,main_head,run_id,*,heads=read_heads,fetch=fetch_heads,state_reader=_state):
@@ -101,7 +101,12 @@ def mechanical_pass(repo,token,native,owner,run_id,*,begin=start,checkpoint=chec
         if intake.get('status')=='blocked':return intake
         if intake.get('status')=='intake_confirmed':
             if intake.get('heartbeat_rebound') is not True:raise ValueError('Intake heartbeat is unconfirmed')
-            return finish(repo,token,native,intake['commit_sha'],main,owner,run_id,None)
+            completed = finish(repo,token,native,intake['commit_sha'],main,owner,run_id,None)
+            # Intake reserves numbers but does not pass a review gate. Keep its
+            # independently read-back receipt visible even when completion is
+            # deferred or requires reconciliation.
+            return {**completed, 'intake_receipt_path': intake['receipt_path'],
+                    'intake_candidate_count': intake['candidate_count']}
         if intake.get('status')!='deferred':raise ValueError('Unrecognized intake outcome; reconcile before retrying')
     if gate_selector(repo,review,main,run_id):
         source_checked=source_gate(repo,token,review,main,owner,run_id)

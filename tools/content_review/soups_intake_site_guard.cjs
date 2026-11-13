@@ -53,6 +53,8 @@ function selectedRow(row,policy,stamp){
   (row.access_decision?.verified&&row.access_decision.status==='restricted')||
   (row.source_observation?.tlp&&!['TLP:CLEAR','TLP:WHITE'].includes(String(row.source_observation.tlp).toUpperCase())))
   fail('SOUPS candidate is outside the untouched intake scope');
+ if(!['research_paper','research_paper_candidate'].includes(row.verified_document_type||row.document_type))
+  fail('SOUPS candidate is outside paper intake');
  const hashed={};for(const k of ['title','authors','year','doi','source_url','abstract','document_type'])hashed[k]=value(row,k,'');
  if(sha256(pyJson(hashed))!==row.content_sha256)fail('SOUPS reviewed-content hash mismatch');
  const p={version:1,initial_check_warning_hours:48,retry_days_after_initial:[1,3,7,14],maximum_total_attempts:5,

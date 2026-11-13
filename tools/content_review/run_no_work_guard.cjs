@@ -24,7 +24,7 @@ function validateNoWork({before,after,receipt,owner,runId,now=Date.now()}){
   !equal(receipt.pilot,pilot)||!obj(lease)||lease.owner!==owner||lease.run_id!==runId||!obj(run)||run.run_id!==runId||
   run.application_status!=='running'||!equal(run.request_counts,{source:0,paid:0,openalex:0})||run.pending_source_request!=null||
   !Number.isFinite(time(stamp))||time(stamp)>now||now-time(stamp)>180000||
-  !Number.isFinite(time(run.started_at))||time(run.started_at)>time(stamp)||now-time(run.started_at)>600000||time(receipt.started_at)!==time(run.started_at)||
+  !Number.isFinite(time(run.started_at))||time(run.started_at)>time(stamp)||now-time(run.started_at)>720000||time(receipt.started_at)!==time(run.started_at)||
   (manual?(run.scheduled_for!==null||receipt.scheduled_for!==null):(!Number.isFinite(time(run.scheduled_for))||time(receipt.scheduled_for)!==time(run.scheduled_for)))||
   !Number.isFinite(time(lease.acquired_at))||time(lease.acquired_at)>time(stamp)||
   !Number.isFinite(time(lease.expires_at))||time(lease.expires_at)-now<=120000||
