@@ -134,6 +134,47 @@ def test_first_historical_presentation_links_are_not_followed():
     assert not s.first_asset_restricted(row,'first',row['source_url'])
     assert not s.first_asset_restricted(row,'weekly','https://other.example/file.pdf')
 
+@pytest.mark.parametrize('listing',[
+    'https://FIRST.ORG./RESOURCES/PAPERS/2025',
+    'https://www.first.org/resources/%70apers/2025',
+    'https://www.first.org/resources/%2570apers/2025',
+    'https://www.first.org/resources/%252570apers/2025',
+    'https://www.first.org/resources//papers/2025',
+    'https://www.first.org/resources/papers/../papers/2025',
+    'https://www.first.org/resources/papers/%ZZ',
+    'https://www.first.org/resources/%ff',
+    'https://www.first.org/resources/papers%3Fdownload',
+    'https://www.first.org/resources/papers%5C2025',
+])
+def test_first_restricted_listing_variants_never_follow_assets_without_annotation(listing):
+    raw=response(b'<section id="item"><h3>Talk</h3><a href="file.pdf">Presentation</a></section>')
+    raw['final_url']=listing
+    extracted=s.extract(raw,'item')
+    assert extracted['links'] and s.linked_pdf(extracted) is None
+    row={'source_url':listing+'#item'}
+    assert s.first_asset_restricted(row,'first','https://other.example/file.pdf')
+    assert not s.first_asset_restricted(row,'first',row['source_url'])
+    assert not s.first_asset_restricted(row,'weekly','https://other.example/file.pdf')
+
+def test_first_listing_redirect_is_held_before_following_target(monkeypatch):
+    monkeypatch.setattr(s,'safe_url',lambda url,resolve=True:url)
+    tx=s.Transport(deadline=1000,clock=lambda:0,sleep=lambda _:None)
+    tx.permitted=lambda _:None
+    calls=[]
+    def send(url):
+        calls.append(url)
+        return 302,{'location':'https://first.org/restricted-presentation.pdf'},b''
+    tx.send=send
+    with pytest.raises(s.Hold,match='first_presentation_redirect_requires_policy'):
+        tx.fetch('https://www.first.org/resources/%70apers/2025')
+    assert calls==['https://www.first.org/resources/%70apers/2025']
+
+def test_first_listing_redirected_before_extraction_cannot_provide_linked_pdf():
+    source={'requested_url':'https://www.first.org/resources/papers/2025',
+            'final_url':'https://other.example/event', 'container_type':'html',
+            'metadata':{'citation_pdf_url':['https://other.example/file.pdf']}}
+    assert s.linked_pdf(source) is None
+
 
 def test_authoritative_json_title_is_preserved_without_silent_truncation():
     data={'id':123,'doi':'10.5281/zenodo.123','metadata':{'title':'a'*70000,'resource_type':{'type':'publication','subtype':'article'}},

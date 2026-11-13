@@ -21,6 +21,7 @@ MANIFESTS={s:'config/'+s+'_review_manifest.json' for s in ('soups','weekly','fir
 from tools.content_review.lifecycle import ensure_eligible, instant
 from tools.content_review.source_origin_backoff import active as origin_backoff_active, origin as canonical_origin
 from tools.content_review.source_unresolved import validate as validate_unresolved
+from tools.content_review.source_gate_rules import first_presentation_listing
 
 DIRECTORY = 'config/content_review_source_requests'
 WORKFLOW = '.github/workflows/content_review_sources.yml'
@@ -130,6 +131,8 @@ class Transport:
             self.permitted(url)
             status,headers,body=self.send(url);chain.append({'url':url,'http_status':status})
             if status in (301,302,303,307,308) and headers.get('location'):
+                if first_presentation_listing(original) or first_presentation_listing(url):
+                    raise Hold('first_presentation_redirect_requires_policy')
                 url=urljoin(url,headers['location']);continue
             if status!=200:raise Hold('source_http_'+str(status))
             result={'requested_url':original,'final_url':url,'http_status':status,'headers':headers,'redirects':chain,'body':body,'body_sha256':hashlib.sha256(body).hexdigest()}
@@ -200,8 +203,9 @@ def extract(response, fragment=''):
 def first_asset_restricted(row, collection, requested_url):
     observation=row.get('source_observation')
     restriction=observation.get('access_restriction') if isinstance(observation,dict) else None
-    return (collection=='first' and isinstance(restriction,str) and
-            bool(re.search('historical presentation files restricted',restriction,re.I)) and
+    return (collection=='first' and
+            (first_presentation_listing(row.get('source_url')) or
+             isinstance(restriction,str) and bool(re.search('historical presentation files restricted',restriction,re.I))) and
             requested_url!=row.get('source_url'))
 
 def linked_pdf(source):
@@ -213,9 +217,7 @@ def linked_pdf(source):
     # FIRST's public event listings remain visible while historical presentation
     # files are explicitly unavailable. A listing or a PDF link is not access
     # permission; do not follow its assets without a separate policy repair.
-    origin=urlsplit(source.get('final_url',''))
-    if (origin.scheme=='https' and origin.hostname in ('first.org','www.first.org') and
-            re.fullmatch(r'/resources/papers(?:/\d{4})?/?',origin.path)):
+    if first_presentation_listing(source.get('requested_url','')) or first_presentation_listing(source.get('final_url','')):
         return None
     if source['container_type']=='json':
         pdfs=[f.get('links',{}).get('self') for f in source.get('files',[])
