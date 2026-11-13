@@ -6,11 +6,13 @@ import pytest
 from scripts.harvest_osint_metadata import CachedHTTPClient, ProviderCoordinationRequired
 
 
-def test_uncached_openalex_is_blocked_without_sending_or_changing_cache(tmp_path):
+@pytest.mark.parametrize('url',['https://api.openalex.org/works','https://api.openalex.org./works',
+                                'https://openalex.org/works','https://other.openalex.org/works'])
+def test_uncached_openalex_is_blocked_without_sending_or_changing_cache(tmp_path,url):
     client = CachedHTTPClient(tmp_path / 'cache.json')
     client.session.get = Mock()
     with pytest.raises(ProviderCoordinationRequired):
-        client.get_json('https://api.openalex.org/works', {'search': 'example'})
+        client.get_json(url, {'search': 'example'})
     client.session.get.assert_not_called()
     assert not client.cache_path.exists()
 

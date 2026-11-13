@@ -242,7 +242,8 @@ class CachedHTTPClient:
         # This legacy script does not yet participate in the private shared
         # OpenAlex coordinator. Existing cached responses remain readable; new
         # provider sends fail closed without changing the cache.
-        if urlsplit(url).hostname == "api.openalex.org":
+        host = (urlsplit(url).hostname or "").rstrip(".")
+        if host == "openalex.org" or host.endswith(".openalex.org"):
             raise ProviderCoordinationRequired("OpenAlex requires the private shared coordinator")
 
         try:
