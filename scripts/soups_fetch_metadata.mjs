@@ -5,15 +5,21 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {requireCoordinatedProvider} from './provider_request_fence.mjs';
 const root = new URL('../', import.meta.url);
 const args = process.argv.slice(2);
 const directory = path.resolve(args.find(a=>!a.startsWith('--')) || '.cache/soups');
 await fs.mkdir(path.join(directory,'openalex'),{recursive:true});
 const manifest = JSON.parse(await fs.readFile(new URL('config/soups_review_manifest.json',root),'utf8'));
+const approved=manifest.records.filter(r=>r.decision==='approved');
+// Stop before even unrelated fetches when this invocation would require an
+// uncoordinated OpenAlex send; do not leave a partial evidence bundle.
+if(approved.length)requireCoordinatedProvider('https://api.openalex.org/works');
 const headers = {'User-Agent':'ALEX-SOUPS-review/1.0 (+https://github.com/RISEInfoSec/Alex)'};
 async function request(url, allowedOrigin) {
   let target = new URL(url);
   for(let hop=0;hop<8;hop++) {
+    requireCoordinatedProvider(target.href);
     if(target.origin!==allowedOrigin) throw new Error('External redirect held');
     await new Promise(r=>setTimeout(r,550));
     const response = await fetch(target,{headers,redirect:'manual',signal:AbortSignal.timeout(20000)});
@@ -31,7 +37,7 @@ JSON.parse(bibliography.buffer.toString());
 await fs.writeFile(path.join(directory,'crossref-historical.json'),bibliography.buffer);
 await fs.writeFile(path.join(directory,'crossref-receipt.json'),JSON.stringify({url:crossrefUrl,final_url:bibliography.final_url,retrieved_at:bibliography.retrieved_at,sha256:crypto.createHash('sha256').update(bibliography.buffer).digest('hex')},null,2));
 const receipts=[];
-for(const row of manifest.records.filter(r=>r.decision==='approved')) {
+for(const row of approved) {
   const url='https://api.openalex.org/works?search='+encodeURIComponent(row.title)+'&per-page=3&select=id,title,publication_year,authorships,cited_by_count,doi,primary_location,locations';
   const response=await request(url,'https://api.openalex.org');JSON.parse(response.buffer.toString());
   await fs.writeFile(path.join(directory,'openalex',row.candidate_id+'.json'),response.buffer);
