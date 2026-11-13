@@ -18,7 +18,8 @@ def test_site_identity_screen_is_read_only_and_never_authorizes_a_gate(monkeypat
     v['public'].append({'title':'Another paper','source_url':'https://example.test/item#different-anchor'})
     assert precheck.inspect('.',v,'m3aawg','c1')=='held'
     v=inputs();v['manifests']['m3aawg']['records'][0]['title']='Non-ASCII é'
-    assert precheck.inspect('.',v,'m3aawg','c1')=='unsupported'
+    assert precheck.inspect('.',v,'m3aawg','c1')=='clear'
+    v['public'].append({'title':'Non-ASCII e'});assert precheck.inspect('.',v,'m3aawg','c1')=='held'
 
 
 def test_site_identity_screen_fails_closed_when_node_or_inputs_are_unavailable(monkeypatch):
