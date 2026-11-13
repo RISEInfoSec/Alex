@@ -4,6 +4,10 @@ from alex.resource_types import POLICY, TYPES, HASH_FIELDS, digest, validate_ass
 from tools.content_review.typed_resource import validate_staging
 
 def prepare(row, assessment, tags, taxonomy_rationale, synopsis, stamp):
+    # All downstream validation must succeed before mutating the caller's
+    # manifest. A failed assessment must not leave a partially prepared row.
+    original=row
+    row=copy.deepcopy(row)
     stage=validate_staging(row)
     if stage['actual_type'] not in TYPES or row.get('decision','pending') not in ('pending','unreviewed'):
         raise ValueError('Only pending supported text resources can be prepared')
@@ -54,4 +58,6 @@ def prepare(row, assessment, tags, taxonomy_rationale, synopsis, stamp):
     row.update(target=corpus_value(row),target_schema=copy.deepcopy(checks['schema']),schema_retrieved_at=row.get('retrieved_at',''))
     row['preflight'].update(status='passed',content_sha256=h)
     row.update(preflight_blockers=[],preflight_status='passed')
-    return row
+    original.clear()
+    original.update(row)
+    return original
