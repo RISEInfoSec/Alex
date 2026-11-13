@@ -283,6 +283,8 @@ class Recovery:
                 reasons = set(receipt['deferred_tasks'].values())
                 if any(r.get('http_status') in (401, 403) for r in receipt['requests']):
                     raise RecoveryStop('provider_access_or_quota_requires_review')
+                if 'openalex_shared_coordinator_required' in reasons:
+                    raise RecoveryStop('openalex_shared_coordinator_required')
                 if not reasons or not reasons <= {'runtime_budget', 'request_budget',
                                                   'openalex_request_budget', 'openalex_run_request_budget',
                                                   'openalex_cooldown'}:

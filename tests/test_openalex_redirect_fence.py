@@ -35,7 +35,7 @@ def test_other_source_redirect_cannot_send_to_openalex():
         session.get('https://source.example/works')
         assert False, 'the redirect must fail before an OpenAlex send'
     except requests.exceptions.RequestException as exc:
-        assert str(exc) == 'OpenAlex requires the provider gate'
+        assert str(exc) == 'OpenAlex requires the shared private coordinator'
     assert adapter.sent == ['https://source.example/works']
 
 
@@ -49,6 +49,9 @@ def test_unrelated_source_redirects_still_work():
 
 def test_direct_openalex_redirect_is_not_followed_or_cached(tmp_path, monkeypatch):
     monkeypatch.setattr(http, 'CACHE', tmp_path / 'cache.json')
+    # This legacy transport test uses a fake response. The production fence is
+    # separately checked without bypass in test_main_openalex_shared_fence.py.
+    monkeypatch.setattr(http, '_shared_coordinator_unavailable', lambda: False)
     monkeypatch.setattr(http, '_openalex_policy', lambda: {
         'requests_enabled': True, 'min_interval_seconds': 0,
         'request_timeout_seconds': 20, 'failure_cooldown_seconds': 3600,

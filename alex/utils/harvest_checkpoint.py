@@ -13,7 +13,7 @@ import threading
 import time
 from urllib.parse import urlsplit
 
-from alex.utils.http import HttpClient, _CACHE_MISS
+from alex.utils.http import HttpClient, ProviderCoordinationRequired, _CACHE_MISS
 
 
 class HarvestCheckpointError(RuntimeError):
@@ -284,6 +284,9 @@ class HarvestClient(HttpClient):
                     return None
                 self.stop()
                 raise HarvestCheckpointError('Provider lookup incomplete; harvest held')
+            except ProviderCoordinationRequired:
+                self.stop()
+                raise HarvestCheckpointError('Provider lookup incomplete; shared OpenAlex coordinator required') from None
             finally:
                 del self.local.json_key
                 del self.local.json_url

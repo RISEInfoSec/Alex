@@ -20,7 +20,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 from alex.connectors import openalex, crossref
-from alex.utils.http import HttpClient
+from alex.utils.http import HttpClient, ProviderCoordinationRequired
 from alex.utils.io import load_df, root_file, save_df, save_json
 from alex.utils.text import clean, normalize_title
 
@@ -405,6 +405,8 @@ def enrich_openalex(client: HttpClient, records: list[dict], max_lookups: int) -
         attempted += 1
         try:
             results = openalex.search(client, row["title"], per_page=3, max_pages=1)
+        except ProviderCoordinationRequired:
+            raise
         except Exception as exc:
             LOG.warning("OpenAlex title lookup failed for %r: %s", row["title"], exc)
             continue
@@ -533,6 +535,8 @@ def enrich_crossref(client: HttpClient, records: list[dict], max_lookups: int) -
         try:
             candidates = ([crossref.get_by_doi(client, doi)] if doi else
                           crossref.search(client, row["title"], rows=5, max_pages=1))
+        except ProviderCoordinationRequired:
+            raise
         except Exception as exc:
             LOG.warning("Crossref verification error for %r: %s", row["title"], exc)
             row["doi_verification"] = "Crossref lookup failed"

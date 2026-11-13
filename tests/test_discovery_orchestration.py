@@ -230,6 +230,22 @@ def test_hard_pass_limit_remains_a_failure(setup):
     assert len(recovery.record['passes']) == 3
 
 
+def test_shared_coordinator_hold_stops_even_when_another_source_made_progress(setup):
+    root, clock, _ = setup
+    calls=[]
+    def invoke(pass_id, runtime):
+        calls.append(pass_id)
+        code=result(root, clock, pass_id, runtime, reason='openalex_shared_coordinator_required')
+        path=root/'data/discovery_run_receipt.json';receipt=json.loads(path.read_text())
+        receipt['requests'][0]['host']='api.crossref.org';receipt['openalex_request_count']=0
+        atomic_json(path,receipt)
+        return code
+    recovery=build(setup,invoke=invoke)
+    assert recovery.run()==1
+    assert len(calls)==1
+    assert recovery.record['reason']=='openalex_shared_coordinator_required'
+
+
 def test_recovery_time_budget_shortens_final_pass_then_stops(setup):
     root, clock, _ = setup
     calls = []
@@ -266,6 +282,8 @@ def test_real_discovery_crosses_request_cap_and_reuses_responses(setup, monkeypa
     atomic_json(root / 'config/query_registry.json', registry)
     monkeypatch.setattr(io, 'ROOT', root)
     monkeypatch.setattr(http, 'CACHE', root / 'cache.json')
+    # Exercise the historical pacing protocol with a mocked HTTP transport.
+    monkeypatch.setattr(http, '_shared_coordinator_unavailable', lambda: False)
     monkeypatch.setattr(http, '_openalex_policy', lambda: {
         'requests_enabled': True, 'min_interval_seconds': 0, 'request_timeout_seconds': 20,
         'failure_cooldown_seconds': 3600, 'retry_not_before': None})

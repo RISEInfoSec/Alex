@@ -88,7 +88,8 @@ def test_waiting_worker_rechecks_provider_hold(tmp_path, monkeypatch):
 @pytest.fixture(autouse=True)
 def recovery_policy_without_calendar_hold(monkeypatch):
     # Individual pacing tests cover the real hold separately. Generic auth
-    # tests must not depend on the calendar date this suite is run.
+    # tests use mocked transport; the production fence is tested separately.
+    monkeypatch.setattr('alex.utils.http._shared_coordinator_unavailable', lambda: False)
     monkeypatch.setattr('alex.utils.http._openalex_policy', lambda: {
         'requests_enabled':True,'min_interval_seconds':60,'request_timeout_seconds':20,
         'failure_cooldown_seconds':3600,'retry_not_before':None})
