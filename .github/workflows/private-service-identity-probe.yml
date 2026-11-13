@@ -1,0 +1,65 @@
+name: Private service identity probe
+on:
+  push:
+    branches: [codex/private-oidc-probe-1794591940865]
+permissions:
+  id-token: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Verify signed workflow identity and private service read
+        env:
+          SERVICE_TOKEN: ${{ secrets.ALEX_SITE_SERVICE_BEARER }}
+        run: |
+          node <<'NODE'
+          const crypto = require('node:crypto');
+          const assert = (condition, code) => { if (!condition) throw Error(code); };
+          async function json(url, options) {
+            const r = await fetch(url, {...options, redirect: 'manual', signal: AbortSignal.timeout(15000)});
+            assert(r.status === 200, 'http_status');
+            const t = await r.text(); assert(Buffer.byteLength(t) <= 65536, 'response_size');
+            return JSON.parse(t);
+          }
+          async function main() {
+            const origin = 'https://alex-research-review.neil-schwartzm917549.chatgpt.site';
+            const audience = origin + '/api/openalex-coordinator';
+            const u = new URL(process.env.ACTIONS_ID_TOKEN_REQUEST_URL);
+            assert(u.protocol === 'https:', 'identity_url');
+            u.searchParams.set('audience', audience);
+            const issued = await json(u, {headers: {Authorization: 'Bearer ' + process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN}});
+            assert(typeof issued.value === 'string' && issued.value.length < 32768, 'identity_missing');
+            const parts = issued.value.split('.'); assert(parts.length === 3, 'identity_format');
+            const header = JSON.parse(Buffer.from(parts[0], 'base64url'));
+            const claims = JSON.parse(Buffer.from(parts[1], 'base64url'));
+            assert(header.alg === 'RS256' && typeof header.kid === 'string' && !header.crit, 'identity_algorithm');
+            const jwks = await json('https://token.actions.githubusercontent.com/.well-known/jwks', {});
+            assert(Array.isArray(jwks.keys) && jwks.keys.length <= 50, 'identity_keys');
+            const matches = jwks.keys.filter(k => k.kid === header.kid && k.kty === 'RSA' && (!k.alg || k.alg === 'RS256'));
+            assert(matches.length === 1, 'identity_key');
+            const valid = crypto.verify('RSA-SHA256', Buffer.from(parts[0] + '.' + parts[1]),
+              crypto.createPublicKey({key: matches[0], format: 'jwk'}), Buffer.from(parts[2], 'base64url'));
+            assert(valid, 'identity_signature');
+            const now = Math.floor(Date.now() / 1000);
+            assert(claims.iss === 'https://token.actions.githubusercontent.com' && claims.aud === audience &&
+              Number.isSafeInteger(claims.iat) && Number.isSafeInteger(claims.exp) &&
+              claims.iat <= now + 60 && claims.iat >= now - 600 && claims.exp > now && claims.exp <= now + 600 &&
+              (!claims.nbf || Number.isSafeInteger(claims.nbf) && claims.nbf <= now + 60), 'identity_time');
+            assert(claims.repository_id === '1203144690' && claims.repository_owner_id === '269285480' &&
+              claims.repository === 'RISEInfoSec/Alex' && claims.ref === process.env.GITHUB_REF &&
+              claims.sha === process.env.GITHUB_SHA && claims.run_id === process.env.GITHUB_RUN_ID &&
+              claims.run_attempt === process.env.GITHUB_RUN_ATTEMPT && claims.event_name === 'push' &&
+              claims.workflow === 'Private service identity probe' &&
+              claims.sub === 'repo:RISEInfoSec/Alex:ref:' + process.env.GITHUB_REF, 'identity_claims');
+            assert(typeof process.env.SERVICE_TOKEN === 'string' && process.env.SERVICE_TOKEN.length > 0, 'service_credential');
+            const status = await json(origin + '/api/content-review-fence-status',
+              {headers: {'OAI-Sites-Authorization': 'Bearer ' + process.env.SERVICE_TOKEN}});
+            assert(['idle', 'held'].includes(status.status) && typeof status.checkpoint_active === 'boolean', 'service_status');
+            console.log('Signed workflow identity verified; private service read succeeded.');
+            console.log('Workflow-reference claim present:', typeof claims.job_workflow_ref === 'string');
+          }
+          main().catch(e => { const safe = new Set(['http_status','response_size','identity_url','identity_missing','identity_format',
+            'identity_algorithm','identity_keys','identity_key','identity_signature','identity_time','identity_claims','service_credential','service_status']);
+            console.error('Probe failed:', safe.has(e.message) ? e.message : 'unexpected'); process.exitCode = 1; });
+          NODE
