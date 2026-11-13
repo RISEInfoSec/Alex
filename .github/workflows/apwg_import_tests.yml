@@ -28,6 +28,15 @@ on:
       - '.github/workflows/apwg_approved_release.yml'
       - 'requirements.txt'
   workflow_dispatch:
+    inputs:
+      run_live_source_audit:
+        description: 'Explicitly run the public source audit'
+        type: boolean
+        default: false
+      run_paid_classification:
+        description: 'Explicitly run paid classification after the source audit'
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -46,7 +55,7 @@ jobs:
     # Read-only APWG/dblp coverage probe. Never changes accepted_classified.csv.
     # PRs run offline regressions only. Live scholarly lookups and the
     # downstream PDF/LLM review must be explicitly launched by a maintainer.
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_live_source_audit == true }}
     runs-on: ubuntu-24.04
     timeout-minutes: 18
     permissions:
@@ -64,7 +73,6 @@ jobs:
           APWG_REVIEW_CSV: 'apwg_bibliographic_review.csv'
           APWG_MAX_CROSSREF_LOOKUPS: '200'
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
-          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: |
           set -euo pipefail
           python -m alex.cli apwg --dry-run | tee apwg_coverage_audit.json
@@ -81,7 +89,7 @@ jobs:
     # A review-only taxonomy preview from the audit artifact. No public
     # corpus writes, and every label requires human/content review.
     needs: [test, live_source_audit]
-    if: ${{ github.event_name == 'workflow_dispatch' && needs.test.result == 'success' && needs.live_source_audit.result == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_paid_classification == true && needs.test.result == 'success' && needs.live_source_audit.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 22
     permissions:
