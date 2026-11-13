@@ -1,9 +1,9 @@
 'use strict';
 
-// Conservative negative identity check for ASCII candidates. A positive
+// Conservative negative identity check. A positive
 // result means "possible overlap", not a duplicate decision. This purposely
-// accepts fewer candidates than the Python audit: uncertain Unicode, encoded
-// entities, aliases and query parameters can only cause additional holds.
+// result means possible overlap. Uncertain Unicode and encoded entities are
+// represented by wildcards, so they can only cause additional holds.
 const ASCII=/^[\x00-\x7f]*$/;
 const space=/[\s\u001c-\u001f\u0085]+/gu;
 function clean(v){
@@ -16,7 +16,7 @@ function alnum(s){return s.toLowerCase().replace(/[^a-z0-9]/g,'');}
 function patternFromOther(s,{entities=false}={}){
  // Wildcards represent non-ASCII code points or whole possible entities.
  // ASCII punctuation is removed from both skeletons. If Python's normalized
- // key can equal an ASCII candidate, this pattern must cover its skeleton.
+ // keys can match, their possible ASCII skeletons must overlap.
  let out='';for(let i=0;i<s.length;i++){
   const c=s[i];
   if(entities&&c==='&'){out+='*';while(i+1<s.length&&!/\s/u.test(s[i+1]))i++;continue;}
@@ -37,6 +37,24 @@ function matches(pattern,value){
  while(pattern[j]==='*')j++;
  return j===pattern.length;
 }
+function patternsOverlap(a,b){
+ // Decide whether two wildcard patterns can match a common ASCII skeleton.
+ // Cap state exploration: expensive or unusual input remains held.
+ const pending=[[0,0]],seen=new Set();
+ while(pending.length){
+  const [i,j]=pending.pop(),key=i+','+j;if(seen.has(key))continue;seen.add(key);
+  if(seen.size>10000)return true;
+  if(i===a.length&&j===b.length)return true;
+  if(a[i]==='*'){
+   pending.push([i+1,j]);if(j<b.length&&b[j]!=='*')pending.push([i,j+1]);
+  }
+  if(b[j]==='*'){
+   pending.push([i,j+1]);if(i<a.length&&a[i]!=='*')pending.push([i+1,j]);
+  }
+  if(i<a.length&&j<b.length&&a[i]!=='*'&&b[j]!=='*'&&a[i]===b[j])pending.push([i+1,j+1]);
+ }
+ return false;
+}
 function doi(s){return s.toLowerCase().replace(/^(?:https?:\/\/(?:dx\.)?doi\.org\/|doi:\s*)/i,'').trim();}
 function urlParts(value){
  const m=/^https?:\/\/([^/?#]+)([^?#]*)/i.exec(value);if(!m)return null;
@@ -46,8 +64,8 @@ function urlParts(value){
 }
 function profile(row){
  if(!row||typeof row!=='object'||Array.isArray(row))throw Error('Candidate identity unavailable');
- const title=candidateText(row.title);if(!title||title.includes('&'))throw Error('Candidate title requires another identity adapter');
- const titleKey=alnum(title);if(!titleKey)throw Error('Candidate title identity unavailable');
+ const title=clean(row.title);if(!title)throw Error('Candidate title identity unavailable');
+ const titleKey=patternFromOther(title,{entities:true});if(!titleKey)throw Error('Candidate title identity unavailable');
  const doiValue=candidateText(row.doi),doiKey=doi(doiValue);
  const urls=[];
  for(const k of ['source_url','link']){
@@ -60,7 +78,9 @@ function profile(row){
 function possiblyMatches(candidate,other){
  if(!candidate||!other||typeof other!=='object'||Array.isArray(other))throw Error('Identity comparison unavailable');
  const title=clean(other.title);
- if(title&&matches(patternFromOther(title,{entities:true}),candidate.title))return true;
+ if(title){const pattern=patternFromOther(title,{entities:true});
+  const possible=!candidate.title.includes('*')?matches(pattern,candidate.title):!pattern.includes('*')?matches(candidate.title,pattern):patternsOverlap(pattern,candidate.title);
+  if(possible)return true;}
  const otherDoi=clean(other.doi);
  if(candidate.doi&&otherDoi){
   // A non-ASCII character in a DOI prefix may casefold into an ASCII prefix;

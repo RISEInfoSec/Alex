@@ -68,3 +68,38 @@ def test_ascii_candidates_cover_many_unicode_normalization_cases():
     for (candidate,other),result in zip(pairs,possible):
         assert record_keys(candidate)&record_keys(other)
         assert result,(candidate,other)
+
+
+def test_unicode_candidates_conservatively_cover_matching_python_keys():
+    rng=random.Random(9162);pairs=[]
+    variants=[('Straße','STRASSE'),('ﬀ','ff'),('K','k'),('café','CAFÉ'),
+              ('A &amp; B','A & B'),('one\u00a0two','one two'),('中','中')]
+    for _ in range(1800):
+        left,right=rng.choice(variants)
+        prefix=''.join(rng.choice('abCD12') for _ in range(rng.randrange(1,8)))
+        suffix=''.join(rng.choice('xyZ34') for _ in range(rng.randrange(1,8)))
+        a={'title':prefix+' '+left+' '+suffix};b={'title':prefix+' '+right+' '+suffix}
+        pairs.extend(((a,b),(b,a)))
+    pairs.extend([({'title':'Café analysis'},{'title':'Zebra report'}),
+                  ({'title':'研究'},{'title':'An unrelated title'})])
+    possible=compare(pairs);matched=0
+    for (candidate,other),result in zip(pairs,possible):
+        if record_keys(candidate)&record_keys(other):matched+=1;assert result,(candidate,other)
+    assert matched>3000
+    assert possible[-2] is False
+    assert possible[-1] is True  # A wholly uncertain title remains held.
+
+
+def test_unicode_candidates_match_normalized_python_forms():
+    rng=random.Random(9241);pairs=[]
+    for _ in range(6000):
+        cp=rng.randrange(1,0x110000)
+        if 0xd800<=cp<=0xdfff:continue
+        raw='A'+chr(cp)+'B'
+        title=next((k[6:] for k in record_keys({'title':raw}) if k.startswith('title:')),None)
+        if title:
+            pairs.extend((({'title':raw},{'title':title}),({'title':title},{'title':raw})))
+    possible=compare(pairs)
+    for (candidate,other),result in zip(pairs,possible):
+        assert record_keys(candidate)&record_keys(other)
+        assert result,(candidate,other)
