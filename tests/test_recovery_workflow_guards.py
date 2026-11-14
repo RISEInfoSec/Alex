@@ -21,7 +21,7 @@ def test_harvest_never_retries_an_uncertain_state_push():
 def test_failed_citation_preserves_only_provider_state():
     for name in ('pipeline.yml','citation_chain.yml'):
         jobs=load(name)['jobs']
-        job=jobs['chain'] if name=='pipeline.yml' else next(iter(jobs.values()))
+        job=jobs['chain']
         steps=job['steps']
         failure=next(step for step in steps if step.get('name')=='Preserve provider cooldown after incomplete chain')
         assert "steps.citation_chain.outcome != 'success'" in failure['if']
