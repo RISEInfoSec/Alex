@@ -204,6 +204,7 @@ def select_reconciled(snapshot, confirmed_snapshot, manifests, ledger, *, limit=
     # superseded by a later batch revision. Do not repeatedly select one of
     # those candidates when the independent writer must reject it.
     historical = {(d['collection'], d['candidate_id']) for d in snapshot['decisions']}
+    reviewed_numbers = {(d['collection'], d['review_number']) for d in snapshot['decisions']}
     # The Site's checkpoint and source writers also reject an entire submitted
     # review batch, including candidates without an individual decision. Keep
     # the planner in agreement so it doesn't repeatedly select unwritable work.
@@ -216,7 +217,11 @@ def select_reconciled(snapshot, confirmed_snapshot, manifests, ledger, *, limit=
                 _require(isinstance(row, dict) and isinstance(row.get('candidate_id'), str), 'Invalid selection candidate')
                 key = (collection, row['candidate_id'])
                 batch = _review_batch(collection, row)
+                number = row.get('review_number')
+                if collection == 'soups' and number is None:
+                    number = row.get('reserved_review_number')
                 if (key in held or batch is None or (collection, batch) in submitted_batches or
+                        (collection, number) in reviewed_numbers or
                         not isinstance(row.get('content_sha256'), str) or not HASH.fullmatch(row['content_sha256'])):
                     # work_plan treats anything other than pending/unreviewed as
                     # ineligible; no editorial decision is written or invented.

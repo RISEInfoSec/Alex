@@ -145,12 +145,14 @@ def test_selection_holds_unreviewed_candidates_in_a_submitted_batch():
     rows['weekly'].extend([
         dict(candidate_id='same-batch', content_sha256='c' * 64, review_number=3,
              document_type='research_paper', decision='pending'),
+        dict(candidate_id='colliding-number', content_sha256='e' * 64, review_number=1, review_batch=2,
+             document_type='research_paper', decision='pending'),
         dict(candidate_id='other-batch', content_sha256='d' * 64, review_number=21,
              document_type='research_paper', decision='pending'),
     ])
     manifests = {'weekly': {'records': rows['weekly']}}
     ledger = {'records': {'weekly:' + cid: {'state': 'awaiting_initial_checks', 'first_seen_at': '2026-01-01'}
-                          for cid in ('same-batch', 'other-batch')}}
+                          for cid in ('same-batch', 'colliding-number', 'other-batch')}}
     before = deepcopy((snapshot, manifests))
     result = select_reconciled(snapshot, deepcopy(snapshot), manifests, ledger)
     assert [row['candidate_id'] for row in result['selected']] == ['other-batch']
