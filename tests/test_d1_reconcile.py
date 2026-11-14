@@ -69,6 +69,8 @@ def test_soups_legacy_batch_and_apwg_unknown_batch_are_not_guessed():
     assert _review_batch('soups', {'review_number': 118}) == 6
     assert _review_batch('soups', {'review_number': 119}) == 7
     assert _review_batch('soups', {'review_number': 121, 'review_batch': 9}) == 9
+    assert _review_batch('soups', {'reserved_review_number': 201, 'reserved_review_batch': 11}) == 11
+    assert _review_batch('soups', {'reserved_review_number': 201, 'reserved_review_batch': 11, 'batch': 12}) is None
     assert _review_batch('apwg', {'review_number': 4}) is None
 
 
@@ -121,7 +123,7 @@ def test_missing_or_incomplete_reader_evidence_never_masquerades_as_an_empty_dat
 def test_selection_excludes_decided_and_changed_content_without_mutating_manifests():
     snapshot, rows = fixture()
     rows['weekly'][1]['content_sha256'] = 'c' * 64
-    rows['weekly'].append(dict(candidate_id='c', content_sha256='d' * 64, review_number=3,
+    rows['weekly'].append(dict(candidate_id='c', content_sha256='d' * 64, review_number=21,
                                document_type='research_paper', decision='pending', abstract=''))
     manifests = {'weekly': {'records': rows['weekly'], 'preflight_records': []}}
     original = deepcopy(manifests)
@@ -132,6 +134,23 @@ def test_selection_excludes_decided_and_changed_content_without_mutating_manifes
     assert result['reconciliation']['counts']['matched'] == 1
     assert result['reconciliation']['counts']['held'] == 1
     assert manifests == original
+
+
+def test_selection_holds_unreviewed_candidates_in_a_submitted_batch():
+    snapshot, rows = fixture()
+    rows['weekly'].extend([
+        dict(candidate_id='same-batch', content_sha256='c' * 64, review_number=3,
+             document_type='research_paper', decision='pending'),
+        dict(candidate_id='other-batch', content_sha256='d' * 64, review_number=21,
+             document_type='research_paper', decision='pending'),
+    ])
+    manifests = {'weekly': {'records': rows['weekly']}}
+    ledger = {'records': {'weekly:' + cid: {'state': 'awaiting_initial_checks', 'first_seen_at': '2026-01-01'}
+                          for cid in ('same-batch', 'other-batch')}}
+    before = deepcopy((snapshot, manifests))
+    result = select_reconciled(snapshot, deepcopy(snapshot), manifests, ledger)
+    assert [row['candidate_id'] for row in result['selected']] == ['other-batch']
+    assert (snapshot, manifests) == before
 
 
 def test_selection_holds_candidates_with_missing_or_malformed_content_hashes():

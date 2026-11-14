@@ -20,7 +20,7 @@ def fixture():
                                   'truncated_values': 0, 'omitted_columns': 0}
                              for k in ('submissions', 'decisions', 'jobs')}
     manifests = {'weekly': {'records': [dict(candidate_id='decided', review_number=1, content_sha256=h),
-                                       dict(candidate_id='fresh', review_number=2, content_sha256='c' * 64,
+                                       dict(candidate_id='fresh', review_number=2, review_batch=2, content_sha256='c' * 64,
                                             document_type='research_paper', abstract='', decision='pending')]}}
     ledger = {'records': {'weekly:' + c: {'state': 'awaiting_initial_checks', 'first_seen_at': '2026-01-01'}
                           for c in ('decided', 'fresh')}}
@@ -52,7 +52,7 @@ def test_stage_filter_selects_due_duplicates_before_the_five_candidate_ceiling()
     now,snap,manifests,ledger,registry,state=fixture()
     for index in range(6):
         cid='source-'+str(index);digest='d'*64
-        manifests['weekly']['records'].append({'candidate_id':cid,'review_number':index+3,'content_sha256':digest,
+        manifests['weekly']['records'].append({'candidate_id':cid,'review_number':index+3,'review_batch':2,'content_sha256':digest,
             'document_type':'research_paper','abstract':'a'*120,'decision':'pending','preflight':{'checks':{
               'duplicates':{'status':'passed','content_sha256':digest,'checked_at':now.isoformat(),'evidence':{'ok':True}}}}})
         ledger['records']['weekly:'+cid]={'state':'awaiting_initial_checks','first_seen_at':'2026-01-01'}

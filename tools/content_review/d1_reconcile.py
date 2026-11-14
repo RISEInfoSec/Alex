@@ -58,6 +58,12 @@ def _fingerprint(snapshot):
 
 def _review_batch(collection, row):
     """Match the Site's existing collection-specific batch contract."""
+    if collection == 'soups' and row.get('review_number') is None:
+        number, batch = row.get('reserved_review_number'), row.get('reserved_review_batch')
+        if (not _integer(number, 1) or not _integer(batch, 1) or
+                any(row.get(field) is not None and row[field] != batch for field in ('review_batch', 'batch'))):
+            return None
+        return batch
     # APWG's filtered Site view computes `batch` after applying its fallback;
     # an original falsey review_batch must not override that computed value.
     fields = ('batch', 'review_batch') if collection == 'apwg' else ('review_batch', 'batch')
@@ -194,6 +200,10 @@ def select_reconciled(snapshot, confirmed_snapshot, manifests, ledger, *, limit=
     # superseded by a later batch revision. Do not repeatedly select one of
     # those candidates when the independent writer must reject it.
     historical = {(d['collection'], d['candidate_id']) for d in snapshot['decisions']}
+    # The Site's checkpoint and source writers also reject an entire submitted
+    # review batch, including candidates without an individual decision. Keep
+    # the planner in agreement so it doesn't repeatedly select unwritable work.
+    submitted_batches = {(s['collection'], s['batch']) for s in snapshot['submissions']}
     safe = deepcopy(manifests)
     for collection, manifest in safe.items():
         for section in ('records', 'preflight_records'):
@@ -201,7 +211,9 @@ def select_reconciled(snapshot, confirmed_snapshot, manifests, ledger, *, limit=
             for row in manifest.get(section, []):
                 _require(isinstance(row, dict) and isinstance(row.get('candidate_id'), str), 'Invalid selection candidate')
                 key = (collection, row['candidate_id'])
-                if key in held or not isinstance(row.get('content_sha256'), str) or not HASH.fullmatch(row['content_sha256']):
+                batch = _review_batch(collection, row)
+                if (key in held or batch is None or (collection, batch) in submitted_batches or
+                        not isinstance(row.get('content_sha256'), str) or not HASH.fullmatch(row['content_sha256'])):
                     # work_plan treats anything other than pending/unreviewed as
                     # ineligible; no editorial decision is written or invented.
                     row['decision'] = 'hold_review_reconciliation'

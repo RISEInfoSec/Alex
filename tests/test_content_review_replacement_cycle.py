@@ -25,7 +25,7 @@ def test_synthetic_cycle_respects_decisions_lease_checkpoint_and_independent_mon
     h1, h2 = 'a' * 64, 'b' * 64
     decided = {'candidate_id': 'decided', 'review_number': 1, 'content_sha256': h1,
                'document_type': 'research_paper', 'decision': 'pending'}
-    fresh = {'candidate_id': 'fresh', 'review_number': 2, 'content_sha256': h2,
+    fresh = {'candidate_id': 'fresh', 'review_number': 21, 'content_sha256': h2,
              'document_type': 'research_paper', 'decision': 'pending', 'title': 'Different work',
              'authors': 'Author', 'year': 2026, 'abstract': '', 'preflight': {'checks': {}}}
     manifest = {'records': [decided, fresh], 'preflight_records': []}
