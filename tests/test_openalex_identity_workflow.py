@@ -32,6 +32,10 @@ def test_identity_only_dispatch_cannot_run_production_jobs():
             for job, dependency in [('chain','discover'),('score','chain'),('harvest','score'),('rescore','harvest'),
                                     ('classify','rescore'),('apwg','classify'),('publish','apwg'),('deploy','publish')]:
                 assert re.search(r'(?ms)^  '+job+r':\n(?:(?!^  [a-z_]+:\n).)*?^    needs: '+dependency+r'$',jobs)
+                section = re.split(r'(?m)^  [a-z_]+:\n', jobs.split('\n  '+job+':\n', 1)[1], maxsplit=1)[0]
+                assert not re.search(r'(?m)^    if:.*always\(\)', section)
+        else:
+            assert re.findall(r'(?m)^  ([a-z_]+):$', jobs) == ['identity', production_job]
     assert len(set(identity_jobs)) == 1
 
 
