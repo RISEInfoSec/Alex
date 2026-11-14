@@ -58,21 +58,25 @@ def _fingerprint(snapshot):
 
 def _review_batch(collection, row):
     """Match the Site's existing collection-specific batch contract."""
+    def safe_positive(value):
+        return _integer(value, 1) and value <= 9007199254740991
     if collection == 'soups' and row.get('review_number') is None:
         number, batch = row.get('reserved_review_number'), row.get('reserved_review_batch')
-        if (not _integer(number, 1) or not _integer(batch, 1) or
+        if (not safe_positive(number) or not safe_positive(batch) or
                 any(row.get(field) is not None and row[field] != batch for field in ('review_batch', 'batch'))):
             return None
         return batch
+    number = row.get('review_number')
+    if not safe_positive(number):
+        return None
     # APWG's filtered Site view computes `batch` after applying its fallback;
     # an original falsey review_batch must not override that computed value.
     fields = ('batch', 'review_batch') if collection == 'apwg' else ('review_batch', 'batch')
     for field in fields:
         explicit = row.get(field)
         if explicit is not None:
-            return explicit if _integer(explicit, 1) else None
-    number = row.get('review_number')
-    if not _integer(number, 1) or collection == 'apwg':
+            return explicit if safe_positive(explicit) else None
+    if collection == 'apwg':
         # APWG derives batches from filtered manifest positions; callers must
         # supply its normalized explicit batch, never guess that membership.
         return None

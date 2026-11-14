@@ -71,6 +71,10 @@ def test_soups_legacy_batch_and_apwg_unknown_batch_are_not_guessed():
     assert _review_batch('soups', {'review_number': 121, 'review_batch': 9}) == 9
     assert _review_batch('soups', {'reserved_review_number': 201, 'reserved_review_batch': 11}) == 11
     assert _review_batch('soups', {'reserved_review_number': 201, 'reserved_review_batch': 11, 'batch': 12}) is None
+    assert _review_batch('soups', {'reserved_review_number': 2**53, 'reserved_review_batch': 11}) is None
+    assert _review_batch('weekly', {'review_number': 2**53}) is None
+    assert _review_batch('weekly', {'review_number': 1, 'review_batch': 2**53}) is None
+    assert _review_batch('weekly', {'review_batch': 1}) is None
     assert _review_batch('apwg', {'review_number': 4}) is None
 
 
