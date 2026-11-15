@@ -49,7 +49,7 @@ jobs:
               request=urllib.request.Request(relay,data=json.dumps({'identity_token':token},separators=(',',':')).encode(),
                method='POST',headers={'OAI-Sites-Authorization':'Bearer '+bearer,'Content-Type':'application/json'})
               result=read_json(client,request)
-              if result!={'identity_verified':True,'provider_access_authorized':False,'global_fence_verified':False}:
+              if result!={'identity_verified':True,'recorder_schema_ready':True,'provider_hold_active':True,'provider_access_authorized':False,'global_fence_verified':False}:
                   raise ValueError('unavailable')
               print('RELAY_SIGNED_IDENTITY_VERIFIED')
           except BaseException:
