@@ -1,11 +1,11 @@
-name: Private workflow identity diagnostic
-run-name: ALEX private workflow identity diagnostic
+name: Private Site workflow identity diagnostic
+run-name: ALEX private Site workflow identity diagnostic
 on:
   workflow_dispatch:
 permissions:
   id-token: write
 concurrency:
-  group: alex-private-workflow-identity-diagnostic
+  group: alex-private-site-workflow-identity-diagnostic
   cancel-in-progress: false
 jobs:
   identity:
@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Verify signed GitHub job claims
         id: claims
+        env:
+          ALEX_SITE_SERVICE_BEARER: ${{ secrets.ALEX_SITE_SERVICE_BEARER }}
         run: |
           python - <<'PY'
           import base64,hashlib,hmac,json,os,signal,sys,time,urllib.parse,urllib.request,urllib.error
@@ -45,7 +47,7 @@ jobs:
               query=urllib.parse.parse_qsl(parsed.query,keep_blank_values=True)
               if any(k=='audience' for k,_ in query):
                   raise ValueError('invalid')
-              audience='https://alex-research-review.neil-schwartzm917549.chatgpt.site/api/private-openalex-unit'
+              audience='https://alex-research-review.neil-schwartzm917549.chatgpt.site/api/private-openalex-transport-probe'
               query.append(('audience',audience))
               url=urllib.parse.urlunsplit((parsed.scheme,parsed.netloc,parsed.path,urllib.parse.urlencode(query),''))
               client=urllib.request.build_opener(NoRedirect())
@@ -83,13 +85,21 @@ jobs:
               workflow_matches=claims.get('workflow_ref')==expected
               job_present=isinstance(claims.get('job_workflow_ref'),str) and bool(claims['job_workflow_ref'])
               job_matches=claims.get('job_workflow_ref')==expected
+              service=os.environ.get('ALEX_SITE_SERVICE_BEARER','')
+              if not service or '\n' in service or '\r' in service:
+                  raise ValueError('unavailable')
+              payload=json.dumps({'identity_token':token},separators=(',',':')).encode()
+              request=urllib.request.Request(audience,data=payload,method='POST',headers={'OAI-Sites-Authorization':'Bearer '+service,'Content-Type':'application/json'})
+              result=read_json(client,request)
+              if result.get('identity_verified') is not True or result.get('provider_access_authorized') is not False:
+                  raise ValueError('unavailable')
               with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as output:
                   output.write('workflow_ref_matches='+str(workflow_matches).lower()+'\n')
                   output.write('job_ref_present='+str(job_present).lower()+'\n')
                   output.write('job_ref_matches='+str(job_matches).lower()+'\n')
-              print('SIGNED_JOB_CLAIMS_VERIFIED')
+              print('SITE_SIGNED_JOB_CLAIMS_VERIFIED')
           except BaseException:
-              print('SIGNED_JOB_CLAIMS_UNAVAILABLE')
+              print('SITE_SIGNED_JOB_CLAIMS_UNAVAILABLE')
               sys.exit(1)
           PY
       - name: Workflow reference matches
