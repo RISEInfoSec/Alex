@@ -55,7 +55,10 @@ def run(env, *, opener=None, read_only=False, trace=None):
     bearer = env.get('ALEX_RECORDER_RELAY_BEARER', '')
     endpoint = urllib.parse.urlsplit(env.get('ACTIONS_ID_TOKEN_REQUEST_URL', ''))
     trace.update({'oidc_credential_present': bool(credential), 'relay_credential_present': bool(bearer),
-                  'oidc_https': endpoint.scheme == 'https',
+                  'oidc_credential_length_ok': len(credential) <= 4096, 'relay_credential_length_ok': len(bearer) <= 4096,
+                  'credentials_single_line': not any(c in credential + bearer for c in '\r\n'),
+                  'oidc_https': endpoint.scheme == 'https', 'oidc_no_userinfo': endpoint.username is None and endpoint.password is None,
+                  'oidc_port_allowed': endpoint.port in (None, 443), 'oidc_no_fragment': not endpoint.fragment,
                   'oidc_host_allowed': (endpoint.hostname or '').lower().endswith('.actions.githubusercontent.com')})
     if (not credential or not bearer or len(credential) > 4096 or len(bearer) > 4096
             or any(c in credential + bearer for c in '\r\n') or endpoint.scheme != 'https'
@@ -64,6 +67,7 @@ def run(env, *, opener=None, read_only=False, trace=None):
             or endpoint.port not in (None, 443) or endpoint.fragment):
         raise ValueError('unavailable')
     query = urllib.parse.parse_qsl(endpoint.query, keep_blank_values=True)
+    trace['oidc_audience_absent'] = not any(key == 'audience' for key, _ in query)
     if any(key == 'audience' for key, _ in query):
         raise ValueError('unavailable')
     query.append(('audience', AUDIENCE))
@@ -127,7 +131,7 @@ if __name__ == '__main__':
         error = 'http_' + str(exc.code) if isinstance(exc, urllib.error.HTTPError) else type(exc).__name__
         if error not in ('ValueError', 'TimeoutError', 'HardDeadline', 'URLError') and not re.fullmatch(r'http_[1-5][0-9][0-9]', error):
             error = 'unavailable'
-        safe = {key: trace[key] for key in ('oidc_credential_present', 'relay_credential_present', 'oidc_https', 'oidc_host_allowed') if key in trace}
+        safe = {key: value for key, value in trace.items() if key not in ('stage', 'write_result') and isinstance(value, bool)}
         print(json.dumps({'status': 'canary_unavailable_or_reconciliation_required', 'stage': trace.get('stage', 'setup'),
                           'write_result': trace.get('write_result', 'not_attempted'), 'error': error, 'checks': safe}, sort_keys=True, separators=(',', ':')))
         sys.exit(1)
