@@ -21,6 +21,10 @@ AUDIENCE = 'https://alex-research-review.neil-schwartzm917549.chatgpt.site/api/p
 HASH = re.compile(r'^[a-f0-9]{64}$')
 
 
+class HardDeadline(BaseException):
+    """A whole-process deadline must not be converted into a retry/read."""
+
+
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         raise urllib.error.HTTPError(req.full_url, code, 'redirect_refused', headers, fp)
@@ -89,7 +93,7 @@ def run(env, *, opener=None):
 
 
 def _deadline(*_args):
-    raise TimeoutError('deadline')
+    raise HardDeadline('deadline')
 
 
 if __name__ == '__main__':
