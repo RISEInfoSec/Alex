@@ -30,12 +30,12 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         raise urllib.error.HTTPError(req.full_url, code, 'redirect_refused', headers, fp)
 
 
-def _read(client, request, timeout):
+def _read(client, request, timeout, limit=8192):
     with client.open(request, timeout=timeout) as response:
         if response.status != 200:
             raise ValueError('unavailable')
-        raw = response.read(8193)
-    if len(raw) > 8192:
+        raw = response.read(limit + 1)
+    if len(raw) > limit:
         raise ValueError('unavailable')
     return json.loads(raw)
 
@@ -55,12 +55,12 @@ def run(env, *, opener=None, read_only=False, trace=None):
     bearer = env.get('ALEX_RECORDER_RELAY_BEARER', '')
     endpoint = urllib.parse.urlsplit(env.get('ACTIONS_ID_TOKEN_REQUEST_URL', ''))
     trace.update({'oidc_credential_present': bool(credential), 'relay_credential_present': bool(bearer),
-                  'oidc_credential_length_ok': len(credential) <= 4096, 'relay_credential_length_ok': len(bearer) <= 4096,
+                  'oidc_credential_length_ok': len(credential) <= 65536, 'relay_credential_length_ok': len(bearer) <= 4096,
                   'credentials_single_line': not any(c in credential + bearer for c in '\r\n'),
                   'oidc_https': endpoint.scheme == 'https', 'oidc_no_userinfo': endpoint.username is None and endpoint.password is None,
                   'oidc_port_allowed': endpoint.port in (None, 443), 'oidc_no_fragment': not endpoint.fragment,
                   'oidc_host_allowed': (endpoint.hostname or '').lower().endswith('.actions.githubusercontent.com')})
-    if (not credential or not bearer or len(credential) > 4096 or len(bearer) > 4096
+    if (not credential or not bearer or len(credential) > 65536 or len(bearer) > 4096
             or any(c in credential + bearer for c in '\r\n') or endpoint.scheme != 'https'
             or not (endpoint.hostname or '').lower().endswith('.actions.githubusercontent.com')
             or endpoint.username is not None or endpoint.password is not None
@@ -74,7 +74,7 @@ def run(env, *, opener=None, read_only=False, trace=None):
     url = urllib.parse.urlunsplit((endpoint.scheme, endpoint.netloc, endpoint.path, urllib.parse.urlencode(query), ''))
     client = opener or urllib.request.build_opener(NoRedirect())
     trace['stage'] = 'oidc'
-    issued = _read(client, urllib.request.Request(url, headers={'Authorization': 'Bearer ' + credential}), 15)
+    issued = _read(client, urllib.request.Request(url, headers={'Authorization': 'Bearer ' + credential}), 15, limit=32768)
     token = issued.get('value') if isinstance(issued, dict) else None
     if not isinstance(token, str) or not token or len(token) > 16384:
         raise ValueError('unavailable')
