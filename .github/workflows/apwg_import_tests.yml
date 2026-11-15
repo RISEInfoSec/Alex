@@ -1,11 +1,11 @@
-name: Private environment identity diagnostic
-run-name: ALEX private environment identity diagnostic
+name: Private relay identity diagnostic
+run-name: ALEX private relay identity diagnostic
 on:
   workflow_dispatch:
 permissions:
   id-token: write
 concurrency:
-  group: alex-private-environment-identity-diagnostic
+  group: alex-private-relay-identity-diagnostic
   cancel-in-progress: false
 jobs:
   identity:
@@ -13,113 +13,46 @@ jobs:
     environment: alex-openalex-identity-proof
     timeout-minutes: 2
     steps:
-      - name: Verify signed GitHub job claims
-        id: claims
+      - name: Verify relay accepts a GitHub-signed diagnostic identity
         env:
-          ALEX_SITE_SERVICE_BEARER: ${{ secrets.ALEX_SITE_SERVICE_BEARER }}
+          ALEX_RECORDER_RELAY_BEARER: ${{ secrets.ALEX_RECORDER_RELAY_BEARER }}
         run: |
           python - <<'PY'
-          import base64,hashlib,hmac,json,os,signal,sys,time,urllib.parse,urllib.request,urllib.error
+          import json,os,signal,sys,urllib.parse,urllib.request,urllib.error
           class NoRedirect(urllib.request.HTTPRedirectHandler):
               def redirect_request(self,req,fp,code,msg,headers,newurl):
                   raise urllib.error.HTTPError(req.full_url,code,'redirect_refused',headers,fp)
-          def deadline(*_):
-              raise TimeoutError('deadline')
-          def decode(s):
-              if not isinstance(s,str) or len(s)>16384:
-                  raise ValueError('invalid')
-              return base64.urlsafe_b64decode(s+'='*((4-len(s)%4)%4))
-          def read_json(client,request):
-              with client.open(request,timeout=15) as response:
-                  if response.status!=200:
-                      raise ValueError('unavailable')
-                  raw=response.read(65537)
-              if len(raw)>65536:
-                  raise ValueError('invalid')
+          def deadline(*_): raise TimeoutError('deadline')
+          def read_json(client,req):
+              with client.open(req,timeout=20) as response:
+                  if response.status!=200: raise ValueError('unavailable')
+                  raw=response.read(32769)
+              if len(raw)>32768: raise ValueError('unavailable')
               return json.loads(raw)
           try:
-              signal.signal(signal.SIGALRM,deadline);signal.alarm(35)
-              raw_url=os.environ.get('ACTIONS_ID_TOKEN_REQUEST_URL','')
-              credential=os.environ.get('ACTIONS_ID_TOKEN_REQUEST_TOKEN','')
-              parsed=urllib.parse.urlsplit(raw_url)
-              host=(parsed.hostname or '').lower()
-              if parsed.scheme!='https' or not host.endswith('.actions.githubusercontent.com') or parsed.username or parsed.password or parsed.fragment or not credential:
-                  raise ValueError('unavailable')
-              query=urllib.parse.parse_qsl(parsed.query,keep_blank_values=True)
-              if any(k=='audience' for k,_ in query):
-                  raise ValueError('invalid')
-              audience='https://alex-research-review.neil-schwartzm917549.chatgpt.site/api/private-github-app-cas-probe'
-              query.append(('audience',audience))
-              url=urllib.parse.urlunsplit((parsed.scheme,parsed.netloc,parsed.path,urllib.parse.urlencode(query),''))
+              signal.signal(signal.SIGALRM,deadline);signal.alarm(50)
+              relay='https://alex-recorder-relay.neil-schwartzm917549.chatgpt.site/api/private-relay-identity-proof'
+              endpoint=urllib.parse.urlsplit(os.environ.get('ACTIONS_ID_TOKEN_REQUEST_URL',''))
+              host=(endpoint.hostname or '').lower(); credential=os.environ.get('ACTIONS_ID_TOKEN_REQUEST_TOKEN','')
+              bearer=os.environ.get('ALEX_RECORDER_RELAY_BEARER','')
+              if (endpoint.scheme!='https' or not host.endswith('.actions.githubusercontent.com') or endpoint.username or
+                  endpoint.password or endpoint.fragment or not credential or not bearer or
+                  any(c in credential+bearer for c in '\r\n')): raise ValueError('unavailable')
+              query=urllib.parse.parse_qsl(endpoint.query,keep_blank_values=True)
+              if any(k=='audience' for k,_ in query): raise ValueError('unavailable')
+              query.append(('audience',relay))
+              url=urllib.parse.urlunsplit((endpoint.scheme,endpoint.netloc,endpoint.path,urllib.parse.urlencode(query),''))
               client=urllib.request.build_opener(NoRedirect())
               issued=read_json(client,urllib.request.Request(url,headers={'Authorization':'Bearer '+credential}))
-              token=issued.get('value','')
-              if not isinstance(token,str) or len(token)>16384:
-                  raise ValueError('invalid')
-              pieces=token.split('.')
-              if len(pieces)!=3:
-                  raise ValueError('invalid')
-              head=json.loads(decode(pieces[0]));claims=json.loads(decode(pieces[1]));signature=decode(pieces[2])
-              if head.get('alg')!='RS256' or not isinstance(head.get('kid'),str) or head.get('crit') is not None:
-                  raise ValueError('invalid')
-              jwks=read_json(client,urllib.request.Request('https://token.actions.githubusercontent.com/.well-known/jwks',headers={'Accept':'application/json'}))
-              if not isinstance(jwks.get('keys'),list) or len(jwks['keys'])>50:
-                  raise ValueError('invalid')
-              keys=[k for k in jwks['keys'] if k.get('kid')==head['kid'] and k.get('kty')=='RSA' and k.get('alg','RS256')=='RS256' and k.get('use','sig')=='sig']
-              if len(keys)!=1 or keys[0].get('e')!='AQAB':
-                  raise ValueError('invalid')
-              modulus=int.from_bytes(decode(keys[0]['n']),'big');size=(modulus.bit_length()+7)//8
-              if size<256 or len(signature)!=size:
-                  raise ValueError('invalid')
-              decoded=pow(int.from_bytes(signature,'big'),65537,modulus).to_bytes(size,'big')
-              digestinfo=bytes.fromhex('3031300d060960864801650304020105000420')+hashlib.sha256((pieces[0]+'.'+pieces[1]).encode()).digest()
-              padding=size-len(digestinfo)-3
-              if padding<8 or not hmac.compare_digest(decoded,b'\x00\x01'+b'\xff'*padding+b'\x00'+digestinfo):
-                  raise ValueError('invalid')
-              now=int(time.time())
-              if claims.get('iss')!='https://token.actions.githubusercontent.com' or claims.get('aud')!=audience or not all(type(claims.get(k)) is int for k in ('iat','nbf','exp')) or claims['iat']>now+60 or claims['iat']<now-600 or claims['nbf']>now+60 or claims['exp']<=now or claims['exp']>claims['iat']+600:
-                  raise ValueError('invalid')
-              repo=os.environ.get('GITHUB_REPOSITORY','');ref=os.environ.get('GITHUB_REF','')
-              expected=repo+'/.github/workflows/apwg_import_tests.yml@'+ref
-              if repo!='RISEInfoSec/Alex' or claims.get('repository')!=repo or claims.get('repository_id')!='1203144690' or claims.get('repository_owner_id')!='269285480' or claims.get('ref')!=ref or claims.get('sha')!=os.environ.get('GITHUB_SHA') or claims.get('run_id')!=os.environ.get('GITHUB_RUN_ID') or claims.get('event_name')!='workflow_dispatch':
-                  raise ValueError('invalid')
-              if claims.get('environment')!='alex-openalex-identity-proof' or claims.get('sub')!='repo:'+repo+':environment:alex-openalex-identity-proof':
-                  raise ValueError('invalid')
-              workflow_matches=claims.get('workflow_ref')==expected
-              job_present=isinstance(claims.get('job_workflow_ref'),str) and bool(claims['job_workflow_ref'])
-              job_matches=claims.get('job_workflow_ref')==expected
-              service=os.environ.get('ALEX_SITE_SERVICE_BEARER','')
-              if not service or '\n' in service or '\r' in service:
-                  raise ValueError('unavailable')
-              payload=json.dumps({'identity_token':token},separators=(',',':')).encode()
-              request=urllib.request.Request(audience,data=payload,method='POST',headers={'OAI-Sites-Authorization':'Bearer '+service,'Content-Type':'application/json'})
+              token=issued.get('value')
+              if not isinstance(token,str) or not token or len(token)>16384: raise ValueError('unavailable')
+              request=urllib.request.Request(relay,data=json.dumps({'identity_token':token},separators=(',',':')).encode(),
+               method='POST',headers={'OAI-Sites-Authorization':'Bearer '+bearer,'Content-Type':'application/json'})
               result=read_json(client,request)
-              if result.get('identity_verified') is not True or result.get('provider_access_authorized') is not False:
+              if result!={'identity_verified':True,'provider_access_authorized':False,'global_fence_verified':False}:
                   raise ValueError('unavailable')
-              with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as output:
-                  output.write('workflow_ref_matches='+str(workflow_matches).lower()+'\n')
-                  output.write('job_ref_present='+str(job_present).lower()+'\n')
-                  output.write('job_ref_matches='+str(job_matches).lower()+'\n')
-              print('SITE_SIGNED_JOB_CLAIMS_VERIFIED')
+              print('RELAY_SIGNED_IDENTITY_VERIFIED')
           except BaseException:
-              print('SITE_SIGNED_JOB_CLAIMS_UNAVAILABLE')
+              print('RELAY_SIGNED_IDENTITY_UNAVAILABLE')
               sys.exit(1)
           PY
-      - name: Workflow reference matches
-        if: steps.claims.outputs.workflow_ref_matches == 'true'
-        run: echo 'verified'
-      - name: Workflow reference does not match
-        if: steps.claims.outputs.workflow_ref_matches != 'true'
-        run: echo 'not verified'
-      - name: Job workflow reference is present
-        if: steps.claims.outputs.job_ref_present == 'true'
-        run: echo 'present'
-      - name: Job workflow reference is absent
-        if: steps.claims.outputs.job_ref_present != 'true'
-        run: echo 'absent'
-      - name: Job workflow reference matches
-        if: steps.claims.outputs.job_ref_matches == 'true'
-        run: echo 'verified'
-      - name: Job workflow reference does not match
-        if: steps.claims.outputs.job_ref_matches != 'true'
-        run: echo 'not verified'
