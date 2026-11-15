@@ -2,7 +2,13 @@ name: Private relay identity diagnostic
 run-name: ALEX private relay identity diagnostic
 on:
   workflow_dispatch:
+    inputs:
+      run_canary:
+        description: Run the isolated non-provider recorder canary
+        type: boolean
+        default: false
 permissions:
+  contents: read
   id-token: write
 concurrency:
   group: alex-private-relay-identity-diagnostic
@@ -56,3 +62,18 @@ jobs:
               print('RELAY_SIGNED_IDENTITY_UNAVAILABLE')
               sys.exit(1)
           PY
+
+  recorder_canary:
+    if: ${{ inputs.run_canary == true }}
+    runs-on: ubuntu-24.04
+    environment: alex-openalex-identity-proof
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Verify isolated recorder canary
+        env:
+          ALEX_RECORDER_RELAY_BEARER: ${{ secrets.ALEX_RECORDER_RELAY_BEARER }}
+        run: python scripts/openalex_canary_probe.py
