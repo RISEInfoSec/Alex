@@ -82,9 +82,11 @@ jobs:
                   raise ValueError('invalid')
               workflow_matches=claims.get('workflow_ref')==expected
               job_present=isinstance(claims.get('job_workflow_ref'),str) and bool(claims['job_workflow_ref'])
+              job_matches=claims.get('job_workflow_ref')==expected
               with open(os.environ['GITHUB_OUTPUT'],'a',encoding='utf-8') as output:
                   output.write('workflow_ref_matches='+str(workflow_matches).lower()+'\n')
                   output.write('job_ref_present='+str(job_present).lower()+'\n')
+                  output.write('job_ref_matches='+str(job_matches).lower()+'\n')
               print('SIGNED_JOB_CLAIMS_VERIFIED')
           except BaseException:
               print('SIGNED_JOB_CLAIMS_UNAVAILABLE')
@@ -102,3 +104,9 @@ jobs:
       - name: Job workflow reference is absent
         if: steps.claims.outputs.job_ref_present != 'true'
         run: echo 'absent'
+      - name: Job workflow reference matches
+        if: steps.claims.outputs.job_ref_matches == 'true'
+        run: echo 'verified'
+      - name: Job workflow reference does not match
+        if: steps.claims.outputs.job_ref_matches != 'true'
+        run: echo 'not verified'
