@@ -1,15 +1,16 @@
-name: Private Site workflow identity diagnostic
-run-name: ALEX private Site workflow identity diagnostic
+name: Private environment identity diagnostic
+run-name: ALEX private environment identity diagnostic
 on:
   workflow_dispatch:
 permissions:
   id-token: write
 concurrency:
-  group: alex-private-site-workflow-identity-diagnostic
+  group: alex-private-environment-identity-diagnostic
   cancel-in-progress: false
 jobs:
   identity:
     runs-on: ubuntu-24.04
+    environment: alex-openalex-identity-proof
     timeout-minutes: 2
     steps:
       - name: Verify signed GitHub job claims
@@ -47,7 +48,7 @@ jobs:
               query=urllib.parse.parse_qsl(parsed.query,keep_blank_values=True)
               if any(k=='audience' for k,_ in query):
                   raise ValueError('invalid')
-              audience='https://alex-research-review.neil-schwartzm917549.chatgpt.site/api/private-openalex-transport-probe'
+              audience='https://alex-research-review.neil-schwartzm917549.chatgpt.site/api/private-openalex-env-transport-probe'
               query.append(('audience',audience))
               url=urllib.parse.urlunsplit((parsed.scheme,parsed.netloc,parsed.path,urllib.parse.urlencode(query),''))
               client=urllib.request.build_opener(NoRedirect())
@@ -81,6 +82,8 @@ jobs:
               repo=os.environ.get('GITHUB_REPOSITORY','');ref=os.environ.get('GITHUB_REF','')
               expected=repo+'/.github/workflows/apwg_import_tests.yml@'+ref
               if repo!='RISEInfoSec/Alex' or claims.get('repository')!=repo or claims.get('repository_id')!='1203144690' or claims.get('repository_owner_id')!='269285480' or claims.get('ref')!=ref or claims.get('sha')!=os.environ.get('GITHUB_SHA') or claims.get('run_id')!=os.environ.get('GITHUB_RUN_ID') or claims.get('event_name')!='workflow_dispatch':
+                  raise ValueError('invalid')
+              if claims.get('environment')!='alex-openalex-identity-proof' or claims.get('sub')!='repo:'+repo+':environment:alex-openalex-identity-proof':
                   raise ValueError('invalid')
               workflow_matches=claims.get('workflow_ref')==expected
               job_present=isinstance(claims.get('job_workflow_ref'),str) and bool(claims['job_workflow_ref'])
