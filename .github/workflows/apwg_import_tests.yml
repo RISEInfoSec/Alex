@@ -7,6 +7,10 @@ on:
         description: Run the isolated non-provider recorder canary
         type: boolean
         default: false
+      inspect_canary:
+        description: Inspect the canary path without writing evidence
+        type: boolean
+        default: false
 permissions:
   contents: read
   id-token: write
@@ -64,7 +68,7 @@ jobs:
           PY
 
   recorder_canary:
-    if: ${{ inputs.run_canary == true }}
+    if: ${{ (inputs.run_canary == true || inputs.inspect_canary == true) && !(inputs.run_canary == true && inputs.inspect_canary == true) }}
     runs-on: ubuntu-24.04
     environment: alex-openalex-identity-proof
     timeout-minutes: 5
@@ -76,4 +80,10 @@ jobs:
       - name: Verify isolated recorder canary
         env:
           ALEX_RECORDER_RELAY_BEARER: ${{ secrets.ALEX_RECORDER_RELAY_BEARER }}
-        run: python scripts/openalex_canary_probe.py
+          ALEX_CANARY_READ_ONLY: ${{ inputs.inspect_canary }}
+        run: |
+          if [ "$ALEX_CANARY_READ_ONLY" = "true" ]; then
+            python scripts/openalex_canary_probe.py --read-only
+          else
+            python scripts/openalex_canary_probe.py
+          fi
