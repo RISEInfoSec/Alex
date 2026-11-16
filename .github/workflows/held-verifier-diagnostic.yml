@@ -15,7 +15,7 @@ jobs:
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository &&
       github.event.pull_request.head.ref == 'alex-held-verifier-diagnostic-20261116' &&
-      github.event.before == '868f9afaafd59179f5f050b60a0c639b58565a3d' &&
+      github.event.before == '31df6fdfd715c0dc62ed1366a266fa1931919a28' &&
       github.event.pull_request.base.sha == '4ae37fe691a770da5650c3de2419d53f80714f81' &&
       github.run_attempt == 1
     runs-on: ubuntu-24.04
