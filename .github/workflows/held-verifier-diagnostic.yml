@@ -1,0 +1,30 @@
+name: Held verifier runner diagnostic
+on:
+  pull_request:
+    types: [opened]
+    branches: [main]
+    paths:
+      - '.github/workflows/held-verifier-diagnostic.yml'
+      - 'scripts/diagnose_held_verifier.py'
+      - 'scripts/legacy_github_provenance_candidate.py'
+permissions:
+  actions: read
+  contents: read
+jobs:
+  read-only-diagnostic:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'alex-held-verifier-diagnostic-20261116' &&
+      github.event.pull_request.base.sha == '4ae37fe691a770da5650c3de2419d53f80714f81' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Exercise exact held verifier without provider calls
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -m scripts.diagnose_held_verifier
