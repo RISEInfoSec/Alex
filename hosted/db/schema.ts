@@ -17,3 +17,27 @@ export const receipts=sqliteTable('worker_receipts',{id:text('id').primaryKey(),
 export const previewFiles=sqliteTable('preview_files',{generation:text('generation').notNull(),name:text('name').notNull(),body:text('body').notNull(),bodyHash:text('body_hash').notNull()},t=>[primaryKey({columns:[t.generation,t.name]})]);
 export const previewGenerations=sqliteTable('preview_generations',{generation:text('generation').primaryKey(),manifest:text('manifest').notNull(),createdAt:real('created_at').notNull()});
 export const previewCurrent=sqliteTable('preview_current',{id:integer('id').primaryKey(),generation:text('generation').notNull().references(()=>previewGenerations.generation)});
+export const adapterCaptures = sqliteTable('adapter_captures', {
+  id: text('id').primaryKey(),
+  source: text('source').notNull(),
+  captureHash: text('capture_hash').notNull(),
+  capture: text('capture').notNull(),
+  status: text('status').notNull(),
+  reason: text('reason'),
+});
+export const adapterResults = sqliteTable('adapter_results', {
+  captureId: text('capture_id').notNull().references(() => adapterCaptures.id),
+  position: integer('position').notNull(),
+  result: text('result').notNull(),
+  resultHash: text('result_hash').notNull(),
+}, table => [primaryKey({columns: [table.captureId, table.position]})]);
+export const pilotReservations = sqliteTable('pilot_reservations', {
+  provider: text('provider').primaryKey(),
+  request: text('request').notNull(),
+  at: integer('at').notNull(),
+});
+export const pilotOutcomes = sqliteTable('pilot_outcomes', {
+  provider: text('provider').primaryKey().references(() => pilotReservations.provider),
+  receipt: text('receipt').notNull(),
+  receiptHash: text('receipt_hash').notNull(),
+});

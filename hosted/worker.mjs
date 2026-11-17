@@ -1,6 +1,8 @@
 import {POLICY,canonical,digest} from './checks.mjs';
 import {status,review,tick,readPreview} from './core.mjs';
 import BUILD from './data/build-meta.json' with {type:'json'};
+import {exportRecoverySnapshot} from './recovery-export.mjs';
+import {readCapture, readPilot, retainCapture, runCrossrefPilot} from './source-pilot.mjs';
 
 const PRIVATE={'Cache-Control':'private, no-store, max-age=0','Referrer-Policy':'same-origin','X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"};
 const json=(value,status=200)=>Response.json(value,{status,headers:PRIVATE});
@@ -25,6 +27,42 @@ function page(packet) {
 async function packet(db){const p=await status(db);p.packet_hash=await digest(p.candidates.map(c=>({id:c.id,content_hash:c.content_hash,state:c.state})));return p;}
 export default {async fetch(request,env) {
  const url=new URL(request.url);
+ if(url.pathname.startsWith('/api/source-captures')||url.pathname==='/api/source-pilot/crossref'){
+  const service=secretEqual(request.headers.get('x-alex-scheduler-key'),env.SCHEDULER_KEY);
+  if(!service&&!(request.method==='GET'&&user(request)))return json({error:'Staging source authorization required.'},403);
+  if(url.search)return json({error:'Query parameters are unsupported.'},405);
+  try {
+   if(url.pathname==='/api/source-pilot/crossref'){
+    if(request.method==='GET')return json(await readPilot(env.DB));
+    if(request.method==='POST'&&!(await smallBody(request,128)))return json(await runCrossrefPilot(env.DB,BUILD.implementation_hash));
+   }
+   if(url.pathname==='/api/source-captures'&&request.method==='POST'){
+    const capture=JSON.parse(await smallBody(request,768*1024));
+    return json(await retainCapture(env.DB,capture,BUILD.implementation_hash));
+   }
+   const id=url.pathname.match(/^\/api\/source-captures\/([0-9a-f]{64})$/)?.[1];
+   if(id&&request.method==='GET'){
+    const capture=await readCapture(env.DB,id);
+    return capture?json(capture):json({error:'Capture not found.'},404);
+   }
+   return json({error:'Staging source method unavailable.'},405);
+  }catch(error){
+   if(['request_too_large','invalid_capture_identity','capture_conflict'].includes(error.message)) return json({error:error.message},400);
+   if(error instanceof SyntaxError)return json({error:'Invalid JSON input.'},400);
+   return json({error:'Staging source request stopped. Inspect retained state before repeating.'},503);
+  }
+ }
+ if(url.pathname==='/api/recovery-snapshot'){
+  if(request.method!=='GET'||url.search)return json({error:'Use the recovery snapshot URL without parameters.'},405);
+  // Sites consumes its service bearer before dispatch. A distinct recovery
+  // key is also required for identity-less service access. Never synthesize
+  // a visitor identity for a service request.
+  if(!user(request)&&!secretEqual(request.headers.get('x-alex-scheduler-key'),env.SCHEDULER_KEY))return json({error:'Owner or recovery-service authorization required.'},401);
+  try{
+   const snapshot=await exportRecoverySnapshot(env.DB,{authorizedOwner:true});
+   return new Response(JSON.stringify(snapshot),{headers:{...PRIVATE,'Content-Type':'application/json; charset=utf-8','Content-Disposition':'attachment; filename="alex-staging-recovery-snapshot.json"'}});
+  }catch{return json({error:'A complete snapshot could not be acquired. No partial snapshot was returned.'},503);}
+ }
  if(url.pathname==='/api/worker'){
   if(request.method!=='POST'||!secretEqual(request.headers.get('x-alex-scheduler-key'),env.SCHEDULER_KEY))return json({error:'Scheduler authorization required.'},403);
   try{const event=JSON.parse(await smallBody(request,2048));if(typeof event.id!=='string'||!/^[-a-z0-9]{20,80}$/.test(event.id)||!Number.isSafeInteger(event.scheduledTime)||event.cron!=='* * * * *')return json({error:'Invalid scheduled event.'},400);
