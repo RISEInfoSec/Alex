@@ -94,3 +94,14 @@ allowlisted headers. It sends no redirects, retries, paid requests or document
 fetches. A missing outcome holds the reservation. A successful locator response
 goes through the retained capture parser and mechanical checks. An existing
 public identity stays held, with no new acceptance or publication.
+
+## Migration rehearsal
+
+From the repository root, run `python -m migration.rehearse --help` for the
+offline rehearsal. Supply a verified legacy SQLite restore, a pinned public
+checkout, the pinned review manifests, and the paginated live review
+projection. Use a new private output directory. The rehearsal preserves the
+public numeric IDs, binds decisions to their exact review content versions,
+and verifies a rollback copy against the original schema, implicit row IDs
+and row values. A sequential live projection is evidence for reconciliation.
+The final decision delta requires a separate fenced production read.
