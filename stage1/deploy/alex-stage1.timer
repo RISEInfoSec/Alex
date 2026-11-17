@@ -1,0 +1,10 @@
+[Unit]
+Description=ALEX isolated fixture processing timer
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+Unit=alex-stage1.service
+
+[Install]
+WantedBy=timers.target
