@@ -81,7 +81,8 @@ def identities(record):
 
 
 class Store:
-    def __init__(self, path):
+    def __init__(self, path, *, candidate_prefix='fixture-'):
+        self.candidate_prefix = candidate_prefix
         self.path = Path(path).resolve()
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.db = sqlite3.connect(self.path, timeout=10, isolation_level=None)
@@ -141,7 +142,7 @@ class Store:
                 if old_doi != new_doi or old_bib != new_bib:
                     raise ValueError('conflicting_doi_requires_review')
             else:
-                candidate_id = 'fixture-' + hashlib.sha256(keys[0].encode()).hexdigest()[:24]
+                candidate_id = self.candidate_prefix + hashlib.sha256(keys[0].encode()).hexdigest()[:24]
                 self.db.execute('INSERT INTO candidates VALUES (?,?,?,?,?)', (candidate_id, keys[0], payload, content_hash, 'discovered'))
                 self.enqueue(candidate_id, 'ingest')
             for key in keys:
