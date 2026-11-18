@@ -119,6 +119,10 @@ test('compiled runtime parses, records and checks every bounded adapter fixture 
   const corrupted=structuredClone(fixtures[0].capture);
   corrupted.response.body={};
   assert.equal((await mf.dispatchFetch(origin+'/api/source-captures',{method:'POST',headers,body:JSON.stringify(corrupted)})).status,400);
+  const apwgCorrection=structuredClone(fixtures.find(({capture})=>capture.archiveYear===2008).capture);
+  apwgCorrection.response.body=apwgCorrection.response.body.replace('Anti Phishing Phil: The Design and Evaluation of a Game That Teaches People Not to Fall for Phish','A different title for the same archive link');
+  apwgCorrection.response_sha256=await digest(apwgCorrection.response);
+  assert.equal((await mf.dispatchFetch(origin+'/api/source-captures',{method:'POST',headers,body:JSON.stringify(apwgCorrection)})).status,400);
   assert.equal(await db.prepare('SELECT count(*) AS n FROM adapter_captures').first('n'),fixtures.length);
   assert.equal(await db.prepare('SELECT count(*) AS n FROM pilot_reservations').first('n'),0);
   assert.equal(await db.prepare('SELECT count(*) AS n FROM decisions').first('n'),0);

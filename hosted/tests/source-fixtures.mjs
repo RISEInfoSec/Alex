@@ -12,7 +12,8 @@ export async function captureFixtures() {
     fixtures.push({capture: {source: name, collection: 'source-adapter-fixture',
       request: {provider: new URL(url).hostname, operation: typeof body === 'string' ? 'GET-raw' : 'GET-json',
         input: {url, params: options.params ?? {}}, contract: 'alex-stage2-recorded-v1'},
-      response, response_sha256: await digest(response), ...(options.year ? {archiveYear: options.year} : {})}, expected: [expected]});
+      response, response_sha256: await digest(response), ...(options.year ? {archiveYear: options.year} : {})},
+      expected: Array.isArray(expected) ? expected : [expected]});
   };
   await fixture('OpenAlex', 'https://api.openalex.org/works', {results: [{
     title:'Saved dataset', publication_year:2025, type:'dataset',
@@ -35,8 +36,21 @@ export async function captureFixtures() {
     {items:[{full_name:'synthetic/fixture',owner:{login:'synthetic'},description:'Saved code',html_url:'https://example.invalid/code',created_at:'2024-01-01'}]},
     {discovery_resource_type:'software',year:''});
   await fixture('APWG','https://ecrimeresearch.org/example/archive',
-    '<html><a href="https://apwg-craftcms-assets.s3.amazonaws.com/synthetic-stage2-paper.pdf">A saved cybersecurity paper title</a></html>',
-    {year:'',venue:'',apwg_year:2025,collection_source:'APWG.org eCrimes Research'},{year:2025});
+    '<h4><a href="https://apwg-craftcms-assets.s3.amazonaws.com/synthetic-stage2-paper.pdf">A saved cybersecurity paper title</a></h4>\n'
+    + '<p><strong>Fixture Author</strong> ; Coauthor Example</p>'
+    + '<h5><a href="https://ieeexplore.ieee.org/document/222222/">A second saved cybersecurity paper title</a></h5>'
+    + '<p>Anonymous Author(s)</p>',
+    [{year:'',venue:'',apwg_year:2025,collection_source:'APWG.org eCrimes Research',
+      authors:'Fixture Author; Coauthor Example',author_source:'APWG archive byline'},
+     {year:'',authors:'',author_source:''}], {year:2025});
+  await fixture('APWG','https://ecrimeresearch.org/2008-accepted-research-papers',
+    '<h4><a href="https://apwg-craftcms-assets.s3.amazonaws.com/media/Anti_Phishing-Phil.pdf">'
+    + 'Anti Phishing Phil: The Design and Evaluation of a Game That Teaches People Not to Fall for Phish</a></h4>',
+    {year:'2007',apwg_year:2008,doi:'10.1145/1280680.1280692',
+      original_apwg_title:'Anti Phishing Phil: The Design and Evaluation of a Game That Teaches People Not to Fall for Phish',
+      author_source:'Curated primary bibliographic evidence',
+      publication_year_source:'Independently verified original publication',
+      venue_evidence_url:'https://cups.cs.cmu.edu/soups/2007/program.html'}, {year:2008});
   await fixture('arXiv','http://export.arxiv.org/api/query',
     '<feed xmlns="http://www.w3.org/2005/Atom"><entry><id>https://arxiv.org/abs/2601.12345</id><title>Saved cybersecurity paper</title>'
     + '<summary>Saved abstract</summary><author><name>Synthetic Author</name></author><published>2026-01-02T00:00:00Z</published></entry></feed>',

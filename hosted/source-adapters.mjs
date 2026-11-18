@@ -1,6 +1,7 @@
 import {parse} from 'parse5';
 import {SaxesParser} from 'saxes';
 import {decodeHTML} from 'entities';
+import APWG_CORRECTIONS from './data/apwg-verified-corrections.json' with {type:'json'};
 import {POLICY, canonicalDoi, clean, digest, evaluate, excluded, identities, normalizeTitle} from './checks.mjs';
 import {normalizeCrossref} from './core.mjs';
 
@@ -118,24 +119,77 @@ function* elements(root) {
 const attr = (node, name) => node.attrs?.find(a => a.name === name)?.value;
 const text = node => clean([...elements(node)].filter(n => n.nodeName === '#text').map(n => n.value).join(' '));
 
+function apwgPaper(link, archiveUrl) {
+  const href = attr(link, 'href');
+  if (link.tagName !== 'a' || !href) return null;
+  let target;
+  try { target = new URL(href, archiveUrl); } catch { return null; }
+  const title = text(link);
+  if (title.length < 20 || title.split(' ').length < 4 || !['http:', 'https:'].includes(target.protocol) || target.username || target.password) return null;
+  const host = target.hostname.toLowerCase();
+  const path = target.pathname.toLowerCase();
+  const ieee = /^(www\.)?ieeexplore\.ieee\.org$/.test(host) && /\/(document|abstract)\//.test(path);
+  const pdf = path.endsWith('.pdf') && /\.(amazonaws\.com|apwg\.org|ecrimeresearch\.org)$/.test(host);
+  return ieee || pdf ? {title, url: target.href} : null;
+}
+
+function apwgByline(heading) {
+  const siblings = heading.parentNode.childNodes;
+  let index = siblings.indexOf(heading) + 1;
+  while (siblings[index]?.nodeName === '#text' && !clean(siblings[index].value)) index++;
+  const adjacent = siblings[index];
+  if (!['p', 'div', 'span', 'small'].includes(adjacent?.tagName)) return '';
+  const candidate = text(adjacent);
+  const words = candidate.split(' ').length;
+  const forbidden = /https?:\/\/|doi:|abstract|research papers|sponsor|@|\b(?:anonymous|university|school|laboratory|institute|college|faculty|department|email|united kingdom|united states|usa)\b/i;
+  if (!candidate || candidate.length > 260 || words > 35 || candidate.endsWith(';')
+      || (words > 6 && !candidate.includes(';')) || forbidden.test(candidate)) return '';
+  return candidate.replace(/\s*;\s*/g, '; ');
+}
+
+function correctApwgPaper(record) {
+  const matches = APWG_CORRECTIONS.entries.filter(entry => record.apwg_source_url.endsWith(entry.url_suffix));
+  if (!matches.length) return record;
+  if (matches.length !== 1) throw Error('conflicting_apwg_corrections');
+  const [entry] = matches;
+  const archiveTitles = entry.archive_titles ?? [entry.archive_title];
+  if (!archiveTitles.some(title => normalizeTitle(title) === normalizeTitle(record.title))) {
+    throw Error('apwg_correction_title_mismatch');
+  }
+  return {...record, title: entry.title, authors: entry.authors, doi: canonicalDoi(entry.doi),
+    year: String(entry.year), publication_year_source: 'Independently verified original publication',
+    publisher: entry.publisher, bibliographic_correction_source: entry.evidence_url,
+    original_apwg_title: record.title, author_source: 'Curated primary bibliographic evidence',
+    ...(entry.venue && entry.venue_evidence_url ? {venue: entry.venue,
+      venue_source: 'Curated independent publication venue evidence', venue_evidence_url: entry.venue_evidence_url} : {})};
+}
+
 function apwgRecords(body, url, archiveYear) {
-  if (!Number.isSafeInteger(archiveYear) || archiveYear < 2007 || archiveYear > POLICY.year) throw Error('invalid_apwg_archive_year');
+  if (!Number.isSafeInteger(archiveYear) || archiveYear < 2006 || archiveYear > POLICY.year) throw Error('invalid_apwg_archive_year');
+  const document = parse(body);
+  const bylines = new Map();
+  for (const heading of elements(document)) {
+    if (!/^h[3-5]$/.test(heading.tagName ?? '')) continue;
+    const link = [...elements(heading)].find(node => node.tagName === 'a' && attr(node, 'href'));
+    const paper = link && apwgPaper(link, url);
+    const byline = paper && apwgByline(heading);
+    if (byline) bylines.set(normalizeTitle(paper.title), byline);
+  }
   const candidates = new Map();
-  for (const link of elements(parse(body))) {
-    if (link.tagName !== 'a' || !attr(link, 'href')) continue;
-    const target = new URL(attr(link, 'href'), url);
-    const title = text(link);
-    if (title.length < 20 || title.split(' ').length < 4 || !['http:', 'https:'].includes(target.protocol) || target.username || target.password) continue;
-    const host = target.hostname.toLowerCase();
-    const path = target.pathname.toLowerCase();
-    const ieee = /^(www\.)?ieeexplore\.ieee\.org$/.test(host) && /\/(document|abstract)\//.test(path);
-    const pdf = path.endsWith('.pdf') && /\.(amazonaws\.com|apwg\.org|ecrimeresearch\.org)$/.test(host);
-    const key = normalizeTitle(title);
-    if (!(ieee || pdf) || !key || candidates.has(key)) continue;
-    candidates.set(key, {title, authors: '', year: '', doi: '', venue: '', abstract: '', publisher: '', author_source: '',
+  for (const link of elements(document)) {
+    const paper = apwgPaper(link, url);
+    if (!paper) continue;
+    const {title, url: paperUrl} = paper;
+    const originalTitle = normalizeTitle(title);
+    if (!originalTitle) continue;
+    const authors = bylines.get(originalTitle) ?? '';
+    const record = correctApwgPaper({title, authors, year: '', doi: '', venue: '', abstract: '', publisher: '',
+      author_source: authors ? 'APWG archive byline' : '',
       publication_year_source: '', venue_source: '', venue_evidence_url: '',
-      source_url: target.href, apwg_source_url: target.href, collection_url: url.href,
+      source_url: paperUrl, apwg_source_url: paperUrl, collection_url: url.href,
       collection_source: 'APWG.org eCrimes Research', apwg_year: archiveYear});
+    const key = normalizeTitle(record.title);
+    if (!candidates.has(key)) candidates.set(key, record);
   }
   if (!candidates.size) throw Error('apwg_no_paper_links');
   return [...candidates.values()];
