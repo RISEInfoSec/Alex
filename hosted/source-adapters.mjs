@@ -117,15 +117,16 @@ function* elements(root) {
 }
 
 const attr = (node, name) => node.attrs?.find(a => a.name === name)?.value;
-const text = node => clean([...elements(node)].filter(n => n.nodeName === '#text').map(n => n.value).join(' '));
+const text = (node, separator = ' ') => clean([...elements(node)].filter(n => n.nodeName === '#text').map(n => n.value).join(separator));
 
-function apwgPaper(link, archiveUrl) {
+function apwgPaper(link, archiveUrl, titleSeparator = '') {
   const href = attr(link, 'href');
   if (link.tagName !== 'a' || !href) return null;
   let target;
   try { target = new URL(href, archiveUrl); } catch { return null; }
-  const title = text(link);
-  if (title.length < 20 || title.split(' ').length < 4 || !['http:', 'https:'].includes(target.protocol) || target.username || target.password) return null;
+  const title = text(link, titleSeparator);
+  if (title.length < 20 || title.split(' ').length < 4 || !['http:', 'https:'].includes(target.protocol)
+      || target.username || target.password || target.port) return null;
   const host = target.hostname.toLowerCase();
   const path = target.pathname.toLowerCase();
   const ieee = /^(www\.)?ieeexplore\.ieee\.org$/.test(host) && /\/(document|abstract)\//.test(path);
@@ -171,7 +172,8 @@ function apwgRecords(body, url, archiveYear) {
   for (const heading of elements(document)) {
     if (!/^h[3-5]$/.test(heading.tagName ?? '')) continue;
     const link = [...elements(heading)].find(node => node.tagName === 'a' && attr(node, 'href'));
-    const paper = link && apwgPaper(link, url);
+    // The Python reference separates inline fragments for the byline lookup.
+    const paper = link && apwgPaper(link, url, ' ');
     const byline = paper && apwgByline(heading);
     if (byline) bylines.set(normalizeTitle(paper.title), byline);
   }
