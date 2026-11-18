@@ -9,16 +9,20 @@ from alex.utils.harvest_checkpoint import digest, file_sha256, verified_complete
 from scripts.citation_guard import _read
 
 
-def verify(root: Path):
-    data = root / 'data'
+def _verify_citation(data: Path):
     source = data / 'discovery_candidates.csv'
-    guard = _read(data / 'citation_run_guard.json')
+    guard_path = data / 'citation_run_guard.json'
+    if not guard_path.is_file():
+        raise RuntimeError('Citation guard invalid; completion record missing; reconcile before requests')
+    guard = _read(guard_path)
     expected = guard.get('quality_output_sha256', guard.get('output_sha256'))
     if (guard.get('status') != 'complete' or not source.is_file()
             or not re.fullmatch(r'[0-9a-f]{64}', str(expected or ''))
             or file_sha256(source) != expected):
         raise RuntimeError('Citation state unverified; reconcile before discovery')
 
+
+def _verify_harvest(data: Path):
     checkpoint = data / 'harvest_response_cache.jsonl'
     if checkpoint.with_name(checkpoint.name + '.uncertain').exists():
         raise RuntimeError('Harvest state uncertain; reconcile before discovery')
@@ -49,6 +53,8 @@ def verify(root: Path):
                 elif event in ('begin', 'complete'):
                     complete = event == 'complete'
                     output_sha = record.get('output_sha256') if complete else None
+                    if complete and record.keys() == {'event'}:
+                        raise RuntimeError('Harvest state unverified; legacy completion has no output hash; reconcile before discovery')
                     if complete and digest({'event': 'complete', 'output_sha256': output_sha}) != record.get('sha256'):
                         raise ValueError
                 else:
@@ -61,6 +67,18 @@ def verify(root: Path):
             raise ValueError
     except (OSError, ValueError, TypeError, KeyError, AttributeError, StopIteration):
         raise RuntimeError('Harvest state unverified; reconcile before discovery') from None
+
+
+def verify(root: Path):
+    data = root / 'data'
+    blockers = []
+    for verify_checkpoint in (_verify_citation, _verify_harvest):
+        try:
+            verify_checkpoint(data)
+        except RuntimeError as error:
+            blockers.append(str(error))
+    if blockers:
+        raise RuntimeError('\n'.join(blockers))
 
 
 if __name__ == '__main__':
