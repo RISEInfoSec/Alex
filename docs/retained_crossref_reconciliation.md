@@ -69,3 +69,46 @@ responses, conflicting outcomes, repeated input rows, wrong DOI, retained 404,
 missing evidence, uncertainty before/after reading, changed input/checkpoint,
 manifest integrity and create-only destinations. These are local/offline checks;
 they do not establish a live or unattended processing result.
+
+## Historical lineage investigation (19 November 2026)
+
+Native job history for Pipeline run `42171644273` identifies these retained
+objects. They can be read without another provider request:
+
+| Stage | Exact commit | Verified observation |
+| --- | --- | --- |
+| Citation output | `717d8505b3489836bc65c393ede0b64fce75a592` | The native job recorded 16 additions, but also three HTTP 400 failures; the old successful job status is not modern citation-completeness proof |
+| Harvest state | `b2ccf09843630ee13469607b4ff85b9fbae54ead` | Compressed accepted input and full response cache are byte-identical to current `pipeline-state` |
+| Harvest output | `4b7fb1ebba79a644882f7302782946f38f5b34f2` | The native harvest job retained all 8,292 output rows, then rebased/pushed this exact commit |
+| Rescore output | `14914c89d988693c128ca8593cf199476c4235b4` | 2,851 retained rows; its output blob `4107f8c90dd2a6cd623738ce15f6400ea294bc98` is identical to current main |
+| Modern attestation contract | `87ef9a43d08ef9b40a926e3f2224b7042a379036` | Citation guard and output-hashed harvest completion were introduced after the above run |
+
+Thus historical output provenance is recovered, but the old hashless completion
+marker is not silently upgraded. No current guard, completion marker or rescore
+lineage file is generated from these observations. They do not establish that
+every original outcome met today's checks.
+
+The November 9 discovery run `42661340713` retained artifact
+`13698005226`, ZIP SHA-256
+`2df9a4aad9b04bfb64033f62ce6f78e0e354a1ddf4e22bcfdec1f0e95cabc766`.
+The downloaded archive was rehashed; all three discovery receipt/ledger files
+match the corresponding current Git blobs. This proves discovery provenance,
+not a later citation run. Current discovery SHA-256
+`e4d68127a0b1e44aa3bc0ee1fbf0ba4a4d4fb725918f599101c2756e03aba446`
+differs from the November 6 citation output SHA-256
+`1fd0d7f3ffddbe951fd62d03dd3e2520332bf3f66dd855d1742a425fb5b8b90b`.
+The old citation job cannot attest that newer input.
+
+The three DOI differences are one trailing-separator difference and two changed
+suffixes on `book-chapter` responses. Their titles match, but the retained
+Crossref `relation` fields contain no alias proof or redirect chain. Do not strip
+a trailing DOI slash globally or equate different suffixes by title. All three
+remain explicit identity holds; their original input/cache bytes are preserved.
+
+Prospectively, harvest and this audit share the same strict DOI comparison.
+Harvest refuses missing, empty or mismatched returned metadata before changing
+DOI, authors, type, date, abstract or URL, and before trying another provider.
+The failure preserves the prior output and marks the attempted harvest
+incomplete. Explicit not-found responses retain their existing behavior. This
+repair neither changes historical records nor creates alias or publication
+authority.

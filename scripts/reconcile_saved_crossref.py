@@ -12,7 +12,7 @@ import re
 
 import pandas as pd
 
-from alex.pipelines.harvest import _is_crossref_indexed_doi
+from alex.pipelines.harvest import _is_crossref_indexed_doi, _same_crossref_work
 from alex.utils.harvest_checkpoint import digest, file_sha256
 from alex.utils.io import validate_columns
 from alex.utils.text import clean
@@ -81,7 +81,7 @@ def reconcile(input_csv: Path, checkpoint: Path, *, include_records=False):
         else:
             response = outcome['response'].get('message')
             returned = clean(response.get('DOI')) if isinstance(response, dict) else ''
-            status = 'verified_response' if returned.lower() == doi.lower() else 'identity_unverified'
+            status = 'verified_response' if _same_crossref_work(doi, response) else 'identity_unverified'
         counts[status] += 1
         if include_records:
             records.append({'input_record_index': position, 'doi': doi, 'outcome': status,
