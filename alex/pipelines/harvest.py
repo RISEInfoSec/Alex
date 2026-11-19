@@ -86,6 +86,17 @@ def _same_openalex_work(row: dict, work: dict) -> bool:
     return bool(title and title == normalize_title(clean(work.get("title"))))
 
 
+def _same_crossref_work(expected_doi: str, work: dict) -> bool:
+    """A returned DOI must attest the requested identity before any overlay.
+
+    Case differences are safe; a different suffix, URL wrapper or trailing
+    separator requires independent alias evidence, not a title-match guess.
+    """
+    returned = work.get('DOI') if isinstance(work, dict) else None
+    return (isinstance(returned, str) and bool(clean(expected_doi))
+            and clean(returned).lower() == clean(expected_doi).lower())
+
+
 def _harvest_one(
     client: HttpClient,
     row: dict | pd.Series,
@@ -106,7 +117,9 @@ def _harvest_one(
 
     if _is_crossref_indexed_doi(doi):
         cr = crossref.get_by_doi(client, doi)
-        if cr:
+        if cr is not None:
+            if not _same_crossref_work(doi, cr):
+                raise HarvestCheckpointError('Crossref DOI identity mismatch; reconcile retained response before reuse')
             best['harvest_crossref_type'] = clean(cr.get('type'))
             best["doi"] = clean(cr.get("DOI", doi))
             best["venue"] = crossref.venue(cr)

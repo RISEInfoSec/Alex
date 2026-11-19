@@ -1246,6 +1246,62 @@ class TestHarvest:
                 harvest.run()
         assert output.read_bytes() == before
 
+    @pytest.mark.parametrize('returned', ['10.1234/other', '10.1234/test/', '', None])
+    def test_crossref_identity_mismatch_blocks_overlay_and_provider_fallback(self, returned):
+        from alex.pipelines import harvest
+        from alex.utils.harvest_checkpoint import HarvestCheckpointError
+        row = {'doi': '10.1234/test', 'title': 'Preserved title', 'abstract': '',
+               'authors': 'Preserved author', 'year': 2026}
+        prior = dict(row)
+        response = {'DOI': returned, 'title': ['Preserved title'], 'type': 'book-chapter',
+                    'abstract': 'Unverified alternate identity'}
+        with patch('alex.connectors.crossref.get_by_doi', return_value=response), \
+             patch('alex.connectors.openalex.search') as oa, \
+             patch('alex.connectors.semantic_scholar.search') as ss:
+            with pytest.raises(HarvestCheckpointError, match='Crossref DOI identity mismatch'):
+                harvest._harvest_one(MagicMock(), row, '', True, 'unused-fixture')
+        assert row == prior
+        oa.assert_not_called()
+        ss.assert_not_called()
+
+    def test_crossref_identity_matching_is_case_insensitive_but_does_not_invent_aliases(self):
+        from alex.pipelines.harvest import _same_crossref_work
+        assert _same_crossref_work('10.1234/Test', {'DOI': '10.1234/test'})
+        assert not _same_crossref_work('10.1234/test/', {'DOI': '10.1234/test'})
+        assert not _same_crossref_work('10.1234/old', {'DOI': '10.1234/new'})
+        assert not _same_crossref_work('10.1234/test', {})
+        assert not _same_crossref_work('10.1234/test', None)
+
+    def test_empty_crossref_metadata_is_not_a_not_found_or_fallback_permit(self):
+        from alex.pipelines import harvest
+        from alex.utils.harvest_checkpoint import HarvestCheckpointError
+        with patch('alex.connectors.crossref.get_by_doi', return_value={}), \
+             patch('alex.connectors.openalex.search') as oa:
+            with pytest.raises(HarvestCheckpointError, match='Crossref DOI identity mismatch'):
+                harvest._harvest_one(MagicMock(), {'doi': '10.1234/test', 'abstract': ''}, '', False, '')
+        oa.assert_not_called()
+
+    def test_crossref_mismatch_preserves_prior_output_and_finishes_incomplete(self, tmp_path):
+        from alex.pipelines import harvest
+        from alex.utils.harvest_checkpoint import HarvestCheckpointError
+        data = tmp_path / 'data'
+        data.mkdir()
+        pd.DataFrame([{'doi': '10.1234/old', 'title': 'Retained input', 'authors': 'Owner',
+                       'venue': '', 'abstract': ''}]).to_csv(data / 'accepted_candidates.csv', index=False)
+        output = data / 'accepted_harvested.csv'
+        output.write_text('original output must remain unchanged\n')
+        before = output.read_bytes()
+        with patch('alex.utils.io.ROOT', tmp_path), \
+             patch('alex.pipelines.harvest.connector_config.load', return_value={}), \
+             patch('alex.pipelines.harvest.HttpClient') as client, \
+             patch('alex.connectors.crossref.get_by_doi', return_value={'DOI': '10.1234/new'}), \
+             patch('alex.connectors.openalex.search') as oa:
+            with pytest.raises(HarvestCheckpointError, match='Candidate harvest failed'):
+                harvest.run()
+        assert output.read_bytes() == before
+        assert client.return_value.finish.call_args.kwargs['complete'] is False
+        oa.assert_not_called()
+
     def test_harvest_crossref_fallback(self, tmp_path):
         """Harvest enriches papers via Crossref when DOI is present."""
         accepted = pd.DataFrame([{
