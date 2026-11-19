@@ -72,3 +72,17 @@ def test_preflight_accepts_verified_rescore_lineage(ready):
         'schema_version': 1, 'harvest_input_sha256': file_sha256(data / 'accepted_candidates.csv'),
         'harvest_output_sha256': prior, 'rescore_output_sha256': file_sha256(output)}))
     pipeline_preflight.verify(ready)
+
+
+def test_preflight_reports_both_historical_checkpoint_blockers(ready):
+    data = ready / 'data'
+    (data / 'citation_run_guard.json').unlink()
+    checkpoint = data / 'harvest_response_cache.jsonl'
+    lines = checkpoint.read_text().splitlines(keepends=True)
+    checkpoint.write_text(''.join(lines[:-1]) + '{"event":"complete"}\n')
+
+    with pytest.raises(RuntimeError) as failure:
+        pipeline_preflight.verify(ready)
+
+    assert 'Citation guard invalid; completion record missing' in str(failure.value)
+    assert 'Harvest state unverified; legacy completion has no output hash' in str(failure.value)
