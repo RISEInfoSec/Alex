@@ -6,6 +6,16 @@ from alex.pipelines import quality_gate, publish, rescore
 from alex.utils.io import validate_columns
 
 
+@pytest.fixture(autouse=True)
+def isolated_source_tier_registry(monkeypatch):
+    """Pipeline fixtures may replace ROOT without supplying the real registry."""
+    from pathlib import Path
+    from alex import source_tiers
+    registry = json.loads((Path(__file__).resolve().parents[1] / 'config' / 'source_tiers.json').read_text())['tiers']
+    monkeypatch.setattr(source_tiers, 'source_tiers', lambda: registry)
+    monkeypatch.setattr(rescore, 'source_tiers', lambda: registry)
+
+
 @pytest.mark.parametrize('stage', ['chain', 'harvest'])
 def test_literal_title_lookup_does_not_send_wildcard(stage):
     from alex.pipelines import citation_chain, harvest
