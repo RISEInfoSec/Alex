@@ -10,6 +10,11 @@ on:
         description: 'Minimum exact cached OpenAlex singleton hits required before continuation'
         required: false
         type: string
+      identity_only:
+        description: 'Verify the private coordinator connection without provider requests or data writes'
+        required: false
+        default: false
+        type: boolean
 env:
   ALEX_OPENALEX_STATE_PATH: data/discovery_openalex_state.json
   ALEX_DISCOVERY_SYNC: "1"
@@ -21,7 +26,34 @@ concurrency:
   group: pipeline
   cancel-in-progress: false
 jobs:
+  identity:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.identity_only }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Pin the diagnostic and source heads
+        shell: bash
+        run: |
+          test "$(git hash-object --no-filters scripts/openalex_writer_identity_probe.py)" = '64a8fb2f7f3b5c37ed29f1c180a36661591159c5'
+          head="$(git rev-parse HEAD)"
+          test "$head" = "$GITHUB_SHA"
+          state="$(git ls-remote --exit-code origin refs/heads/pipeline-state)"
+          [[ "$state" =~ ^([0-9a-f]{40})[[:space:]]refs/heads/pipeline-state$ ]]
+          printf 'ALEX_CHECKOUT_HEAD=%s\n' "$head" >> "$GITHUB_ENV"
+          printf 'ALEX_PIPELINE_STATE_HEAD=%s\n' "${BASH_REMATCH[1]}" >> "$GITHUB_ENV"
+      - name: Verify the private coordinator identity
+        env:
+          ALEX_SITE_SERVICE_BEARER: ${{ secrets.ALEX_SITE_SERVICE_BEARER }}
+        run: python -I scripts/openalex_writer_identity_probe.py
   discover:
+    if: ${{ !inputs.identity_only }}
     runs-on: ubuntu-24.04
     timeout-minutes: 300
     steps:

@@ -2,6 +2,11 @@ name: Pipeline
 on:
   workflow_dispatch:
     inputs:
+      identity_only:
+        description: 'Verify the private coordinator connection without provider requests or data writes'
+        required: false
+        default: false
+        type: boolean
       resume_completed_discovery_run:
         description: 'Prior run blocked only by the known completed-receipt rounding defect; replay with zero requests'
         type: string
@@ -43,7 +48,34 @@ concurrency:
 # shorter ceilings. The `report` job always runs last and opens/closes a
 # failure issue; it does not change workflow scheduling state.
 jobs:
+  identity:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.identity_only }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Pin the diagnostic and source heads
+        shell: bash
+        run: |
+          test "$(git hash-object --no-filters scripts/openalex_writer_identity_probe.py)" = '64a8fb2f7f3b5c37ed29f1c180a36661591159c5'
+          head="$(git rev-parse HEAD)"
+          test "$head" = "$GITHUB_SHA"
+          state="$(git ls-remote --exit-code origin refs/heads/pipeline-state)"
+          [[ "$state" =~ ^([0-9a-f]{40})[[:space:]]refs/heads/pipeline-state$ ]]
+          printf 'ALEX_CHECKOUT_HEAD=%s\n' "$head" >> "$GITHUB_ENV"
+          printf 'ALEX_PIPELINE_STATE_HEAD=%s\n' "${BASH_REMATCH[1]}" >> "$GITHUB_ENV"
+      - name: Verify the private coordinator identity
+        env:
+          ALEX_SITE_SERVICE_BEARER: ${{ secrets.ALEX_SITE_SERVICE_BEARER }}
+        run: python -I scripts/openalex_writer_identity_probe.py
   discover:
+    if: ${{ !inputs.identity_only }}
     runs-on: ubuntu-24.04
     timeout-minutes: 300
     steps:
@@ -400,7 +432,7 @@ jobs:
     #    the open one), so watchers hear about the first failure, not the
     #    tenth. The next clean run closes it.
     needs: [discover, chain, score, harvest, rescore, classify, apwg, publish, deploy]
-    if: always()
+    if: ${{ always() && !inputs.identity_only }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
