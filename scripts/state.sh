@@ -15,6 +15,7 @@ set -euo pipefail
 
 BRANCH="${STATE_BRANCH:-pipeline-state}"
 REMOTE="${STATE_REMOTE:-origin}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FILES=(
   discovery_candidates.csv
   citation_run_guard.json
@@ -30,6 +31,7 @@ FILES=(
   rejected_candidates.csv
   accepted_candidates.csv
   rescore_metrics.csv
+  source_relevance_review.csv
 )
 
 cd "$(git rev-parse --show-toplevel)"
@@ -75,6 +77,19 @@ push() {
   fi
   tmp="$(mktemp -d)"
   trap 'rm -rf "$tmp"' RETURN
+  # This state branch can be public. Reject unexpected/private queue columns
+  # before a full-state push, including a queue carried from the base tree.
+  # Provider-only recovery writes exactly one provider blob and preserves
+  # the old queue byte-for-byte, so unrelated local annotations cannot block it.
+  if [ "$mode" = "all" ]; then
+    if [ -f data/source_relevance_review.csv ]; then
+      python "$SCRIPT_DIR/validate_source_relevance_queue.py" data/source_relevance_review.csv
+    fi
+    if [ -n "$base" ] && git cat-file -e "$base:source_relevance_review.csv.gz" 2>/dev/null; then
+      git cat-file blob "$base:source_relevance_review.csv.gz" | gunzip > "$tmp/prior-source-relevance-review.csv"
+      python "$SCRIPT_DIR/validate_source_relevance_queue.py" "$tmp/prior-source-relevance-review.csv"
+    fi
+  fi
   export GIT_INDEX_FILE="$tmp/index"
   # Start from the pulled tree so a file this job never produced is carried
   # over rather than dropped.

@@ -9,7 +9,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 from alex.pipelines.apwg_import import _doi
-from alex.pipelines.apwg_editorial_review import decision_for
+from alex.pipelines.apwg_editorial_review import decision_for, official_url
 from alex.pipelines.apwg_import_recommendation import recommendation
 from alex.pipelines.apwg_quality_review import assess
 from alex.utils.text import clean, normalize_title
@@ -28,14 +28,19 @@ def mechanical_checks(row: dict) -> None:
             row.get('proposed_category') != entry['category'] or
             row.get('proposed_investigation_type') != entry['investigation_type']):
         raise ValueError('Release editorial identity/content/classification mismatch')
-    for key in ('title', 'authors', 'year', 'doi', 'venue', 'publisher', 'abstract', 'abstract_source', 'apwg_paper_url'):
+    for key in ('title', 'year', 'venue', 'abstract', 'abstract_source', 'apwg_paper_url'):
         value = clean(row.get(key))
         if not value or any(ord(c) < 32 or 0xe000 <= ord(c) <= 0xf8ff or c == '\ufffd' for c in value):
             raise ValueError('Release mechanical metadata/text defect: '+key)
-    if (not re.fullmatch(r'10\.\d{4,9}/\S+', _doi(row['doi'])) or
+    for key in ('authors', 'publisher', 'issuing_organization'):
+        if any(ord(c) < 32 or 0xe000 <= ord(c) <= 0xf8ff or c == '\ufffd' for c in clean(row.get(key))):
+            raise ValueError('Release mechanical metadata/text defect: '+key)
+    doi = _doi(row.get('doi'))
+    if (not any(clean(row.get(k)) for k in ('authors', 'publisher', 'issuing_organization')) or
+            (doi and not re.fullmatch(r'10\.\d{4,9}/\S+', doi)) or
             not row['year'].isdigit() or not 1900 <= int(row['year']) <= datetime.now(timezone.utc).year or
             len(clean(row['abstract'])) < 100 or
-            not re.match(r'https?://[^/\s]+/', row['apwg_paper_url']) or
+            not official_url(row['apwg_paper_url']) or
             clean(row.get('requires_bibliographic_review')).lower() == 'true' or
             clean(row.get('publication_year_conflict')) or
             clean(row.get('in_existing_alex_corpus')).lower() == 'true' or
@@ -46,7 +51,8 @@ def mechanical_checks(row: dict) -> None:
 def quality_exception_authorized(data: dict, row: dict, assessed: dict) -> bool:
     """One explicitly approved, digest-bound batch; never a general venue exemption."""
     approval = data.get('human_quality_authorization', {})
-    exception = approval.get('papers', {}).get(_doi(row.get('doi')))
+    identity = _doi(row.get('doi')) or 'url:' + official_url(row.get('apwg_paper_url'))
+    exception = approval.get('papers', {}).get(identity)
     if not exception:
         return False
     if (approval.get('approved') is not True or not approval.get('approval_basis') or
@@ -65,8 +71,12 @@ def apply_release(manifest: Path, corpus: Path, receipt: Path, write: bool = Fal
     if (data.get('publication_approved') is not True or not data.get('approval_basis') or
             len(rows) != data['expected_records'] or release_digest(rows) != data['records_sha256']):
         raise ValueError('Release authorization/content mismatch')
-    if len({_doi(r.get('doi')) for r in rows}) != len(rows) or any(not _doi(r.get('doi')) for r in rows):
-        raise ValueError('Release DOI identities must be unique and confirmed')
+    dois = [_doi(r.get('doi')) for r in rows if _doi(r.get('doi'))]
+    urls = [official_url(r.get('apwg_paper_url')) for r in rows]
+    titles = [normalize_title(r.get('title', '')) for r in rows]
+    if (len(set(dois)) != len(dois) or not all(urls) or len(set(urls)) != len(urls)
+            or not all(titles) or len(set(titles)) != len(titles)):
+        raise ValueError('Release identities must be unique and confirmed')
     for row in rows:
         mechanical_checks(row)
         # Preserve raw scores. An explicit batch-specific human decision may
@@ -88,9 +98,12 @@ def apply_release(manifest: Path, corpus: Path, receipt: Path, write: bool = Fal
         reader = csv.DictReader(f); fields = list(reader.fieldnames); existing = list(reader)
     titles = {normalize_title(r.get('title', '')) for r in existing}
     dois = {_doi(r.get('doi')) for r in existing if _doi(r.get('doi'))}
+    urls = {official_url(r.get(k)) for r in existing for k in ('source_url', 'apwg_source_url') if official_url(r.get(k))}
     additions = []
     for row in rows:
-        if _doi(row['doi']) in dois or normalize_title(row['title']) in titles:
+        doi = _doi(row.get('doi'))
+        url = official_url(row['apwg_paper_url'])
+        if (doi and doi in dois) or normalize_title(row['title']) in titles or url in urls:
             raise ValueError('An authorized addition already exists; reconcile before release: '+row['title'])
         new = {k: row.get(k, '') for k in (
             'title','authors','year','venue','publisher','doi','abstract','citation_count',
@@ -98,7 +111,7 @@ def apply_release(manifest: Path, corpus: Path, receipt: Path, write: bool = Fal
             'citation_snapshot_artifact','alternate_citation_count','alternate_citation_count_source',
             'apwg_year','publication_year_source','abstract_source')}
         new.update(Category=row['proposed_category'], Investigation_Type=row['proposed_investigation_type'],
-                   source_url=row.get('bibliographic_link') or 'https://doi.org/'+row['doi'],
+                   source_url=row.get('bibliographic_link') or ('https://doi.org/'+doi if doi else row['apwg_paper_url']),
                    collection_source='APWG.org eCrimes Research',
                    collection_url='https://ecrimeresearch.org/ecrime-research-papers',
                    apwg_source_url=row['apwg_paper_url'], retrieved_at=data['approval_date'],
@@ -113,7 +126,8 @@ def apply_release(manifest: Path, corpus: Path, receipt: Path, write: bool = Fal
                                ('relevance_score','quality_relevance_score'),('institution_score','quality_institution_score')]:
             new[target]=row[source]
         additions.append(new)
-        titles.add(normalize_title(row['title']));dois.add(_doi(row['doi']))
+        titles.add(normalize_title(row['title']));urls.add(url)
+        if doi: dois.add(doi)
     result={'release_id':data['release_id'],'records_sha256':data['records_sha256'],
             'source_artifact':data['source_artifact'],'records_before':len(existing),
             'records_added':len(additions),'records_after':len(existing)+len(additions),

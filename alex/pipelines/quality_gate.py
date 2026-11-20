@@ -2,6 +2,8 @@ from __future__ import annotations
 import logging
 from alex.editorial_exclusions import load_keys, record_keys
 from alex.discovery_types import paper_route_hold
+from alex.source_tiers import source_designation
+from alex.utils.text import clean
 from datetime import datetime, timezone
 
 import pandas as pd
@@ -28,7 +30,10 @@ def run() -> None:
     if df.empty:
         print("No discovery candidates to score.")
         return
-    validate_columns(df, ["title", "authors", "year", "venue", "doi", "citation_count"], "discovery_candidates.csv")
+    for optional in ("doi", "authors"):
+        if optional not in df.columns:
+            df[optional] = ""
+    validate_columns(df, ["title", "year", "venue", "citation_count"], "discovery_candidates.csv")
 
     whitelist = load_json(root_file("config", "venue_whitelist.json"))["high_trust"]
     registry = load_json(root_file("config", "query_registry.json"))
@@ -126,6 +131,10 @@ def run() -> None:
         out["title_anchor_bonus"] = round(title_bonus, 2)
         out["relevance_score"] = round(r * 100, 2)
         out["total_quality_score"] = round(total, 2)
+        designation = source_designation(row)
+        out["source_tier"] = designation["tier"]
+        out["source_tier_name"] = designation["source"]
+        out["source_review_priority"] = designation["priority"]
 
         # Anchor-term veto runs first. A paper without enough core
         # cyber/OSINT terms in title or abstract is rejected, regardless of
@@ -152,16 +161,30 @@ def run() -> None:
                 "No core cyber/OSINT term" if core_min == 1
                 else f"Below {core_min}-term core gate (untrusted source)"
             )
-            out["recommended_action"] = "reject"
-            rejected.append(out)
-            text_vetoed.append(idx)
+            if designation["tier"] == "trusted_curated":
+                out["recommended_action"] = "human review"
+                text = f'{clean(row.get("title"))} {clean(row.get("abstract"))}'.lower()
+                hits = [term for term in core_terms if term.lower() in text]
+                out["review_reason"] += f'; {len(hits)} matched, {core_min} required; trusted source: review actual relevance'
+                if out["relevance_score"] < relevance_floor:
+                    out["review_reason"] += f'; relevance score {out["relevance_score"]} below floor {relevance_floor}'
+                review.append(out)
+            else:
+                out["recommended_action"] = "reject"
+                rejected.append(out)
+                text_vetoed.append(idx)
         # Relevance veto runs *before* the threshold cascade. A paper with no
         # topic overlap cannot be saved by venue+citation prestige alone.
         elif out["relevance_score"] < relevance_floor:
             out["review_reason"] = "Below relevance floor"
-            out["recommended_action"] = "reject"
-            rejected.append(out)
-            text_vetoed.append(idx)
+            if designation["tier"] == "trusted_curated":
+                out["recommended_action"] = "human review"
+                out["review_reason"] += "; trusted source: review actual relevance"
+                review.append(out)
+            else:
+                out["recommended_action"] = "reject"
+                rejected.append(out)
+                text_vetoed.append(idx)
         elif total >= t_auto:
             out["review_reason"] = ""
             out["recommended_action"] = "auto-include"
@@ -179,6 +202,8 @@ def run() -> None:
     # Abstracts stay in discovery_candidates.csv (the source of truth) and in
     # the review/enrichment outputs that need them; the per-row diagnostics
     # files don't repeat them.
+    # Python's stable sort preserves intake order within each source tier.
+    review.sort(key=lambda item: item['source_review_priority'])
     save_df(root_file("data", "quality_metrics.csv"), _without_abstract(metrics))
     save_df(root_file("data", "review_queue.csv"), pd.DataFrame(review))
     save_df(root_file("data", "rejected_candidates.csv"), _without_abstract(rejected))

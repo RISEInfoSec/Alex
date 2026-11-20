@@ -52,7 +52,9 @@ def audit(source, run, artifact):
         if reviewed['quality_relevance_gate'] != 'pass': blockers.append('relevance_floor')
         if float(reviewed['quality_score']) < float(reviewed['quality_review_threshold']):
             blockers.append('below_review_threshold')
-        missing = [k for k in ('doi', 'authors', 'year', 'venue', 'abstract') if not row.get(k)]
+        missing = [k for k in ('year', 'venue', 'abstract', 'apwg_paper_url') if not row.get(k)]
+        if not any(row.get(k) for k in ('authors', 'publisher', 'issuing_organization')):
+            missing.append('authors_or_issuing_organization')
         if missing: blockers.append('missing_metadata')
         if str(row.get('requires_bibliographic_review')).lower() == 'true':
             blockers.append('bibliographic_review_flag')

@@ -6,6 +6,16 @@ from alex.pipelines import quality_gate, publish, rescore
 from alex.utils.io import validate_columns
 
 
+@pytest.fixture(autouse=True)
+def isolated_source_tier_registry(monkeypatch):
+    """Pipeline fixtures may replace ROOT without supplying the real registry."""
+    from pathlib import Path
+    from alex import source_tiers
+    registry = json.loads((Path(__file__).resolve().parents[1] / 'config' / 'source_tiers.json').read_text())['tiers']
+    monkeypatch.setattr(source_tiers, 'source_tiers', lambda: registry)
+    monkeypatch.setattr(rescore, 'source_tiers', lambda: registry)
+
+
 @pytest.mark.parametrize('stage', ['chain', 'harvest'])
 def test_literal_title_lookup_does_not_send_wildcard(stage):
     from alex.pipelines import citation_chain, harvest
@@ -2450,3 +2460,24 @@ def test_harvest_openalex_search_requires_identity(input_doi, returned_doi, retu
         assert result["source_url"] == row["source_url"]
         assert result["venue"] == row["venue"]
     s2.assert_not_called()
+
+
+def test_trusted_source_cannot_override_document_type_review(tmp_path, monkeypatch):
+    """Source-tier priority never turns a dataset into an approved paper."""
+    from alex.pipelines import quality_gate as gate
+    original = gate.root_file
+    monkeypatch.setattr(gate, 'root_file', lambda *parts: tmp_path.joinpath(*parts) if parts[0] == 'data' else original(*parts))
+    monkeypatch.setattr(gate, 'load_keys', lambda path: set())
+    (tmp_path / 'data').mkdir()
+    pd.DataFrame([{'title': 'Cybercrime phishing investigation dataset', 'authors': 'Researcher',
+                   'year': 2025, 'venue': 'eCrime', 'citation_count': 100,
+                   'abstract': 'Cybercrime and phishing investigation dataset.',
+                   'source_url': 'https://www.first.org/resources/example',
+                   'discovery_source': 'Crossref', 'discovery_resource_type': 'dataset'}]).to_csv(
+                       tmp_path / 'data' / 'discovery_candidates.csv', index=False)
+    gate.run()
+    review = pd.read_csv(tmp_path / 'data' / 'review_queue.csv')
+    assert len(review) == 1
+    assert review.iloc[0]['source_tier'] == 'trusted_curated'
+    assert review.iloc[0]['recommended_action'] == 'human review'
+    assert bool(review.iloc[0]['document_type_review_required'])

@@ -79,6 +79,52 @@ def test_round_trip_noop_and_carry_over(remote, tmp_path):
     _git(c, "cat-file", "-e", "origin/pipeline-state-prev:discovery_candidates.csv.gz")
 
 
+def test_source_relevance_queue_round_trips_and_survives_unrelated_writes(remote, tmp_path):
+    a = _clone(remote, tmp_path / "a")
+    queue = 'source_relevance_review_id,title,abstract,review_reason\n123,Example,Original evidence,Core term hold\n'
+    _write(a, "source_relevance_review.csv", queue)
+    assert _state(a, "push", "seed review queue").returncode == 0
+    b = _clone(remote, tmp_path / "b")
+    assert _state(b, "pull").returncode == 0
+    assert (b / "data" / "source_relevance_review.csv").read_text() == queue
+    (b / "data" / "source_relevance_review.csv").unlink()
+    _write(b, "discovery_candidates.csv", "title\nUnrelated job\n")
+    assert _state(b, "push", "unrelated state").returncode == 0
+    c = _clone(remote, tmp_path / "c")
+    assert _state(c, "pull").returncode == 0
+    assert (c / "data" / "source_relevance_review.csv").read_text() == queue
+
+
+def test_unexpected_private_queue_columns_block_state_push_without_mutation(remote, tmp_path):
+    a = _clone(remote, tmp_path / "a")
+    _write(a, "source_relevance_review.csv", 'source_relevance_review_id,title\n123,Example\n')
+    assert _state(a, "push", "safe base").returncode == 0
+    prior = _git(a, 'ls-remote', 'origin', 'refs/heads/pipeline-state')
+    private = 'source_relevance_review_id,title,reviewer_email\n123,Example,private@example.invalid\n'
+    _write(a, "source_relevance_review.csv", private)
+    result = _state(a, "push", "must not push")
+    assert result.returncode != 0 and 'source_relevance_queue_unexpected_columns' in result.stderr
+    assert (a/'data'/'source_relevance_review.csv').read_text() == private
+    assert _git(a, 'ls-remote', 'origin', 'refs/heads/pipeline-state') == prior
+
+
+def test_provider_only_recovery_does_not_publish_or_block_on_local_queue_annotations(remote, tmp_path):
+    a = _clone(remote, tmp_path / 'a')
+    safe='source_relevance_review_id,title\n123,Example\n'
+    _write(a,'source_relevance_review.csv',safe)
+    _write(a,'discovery_openalex_state.json','{"status":"initial"}')
+    assert _state(a,'push','safe base').returncode==0
+    private='source_relevance_review_id,title,reviewer_email\n123,Example,private@example.invalid\n'
+    _write(a,'source_relevance_review.csv',private)
+    _write(a,'discovery_openalex_state.json','{"status":"recovered"}')
+    assert _state(a,'push-provider','provider recovery').returncode==0
+    assert (a/'data'/'source_relevance_review.csv').read_text()==private
+    b=_clone(remote,tmp_path/'b')
+    assert _state(b,'pull').returncode==0
+    assert (b/'data'/'source_relevance_review.csv').read_text()==safe
+    assert (b/'data'/'discovery_openalex_state.json').read_text()=='{"status":"recovered"}'
+
+
 def test_stale_writer_is_rejected(remote, tmp_path):
     a = _clone(remote, tmp_path / "a")
     _write(a, "discovery_candidates.csv", "title\nA\n")
