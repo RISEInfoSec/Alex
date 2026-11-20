@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from functools import lru_cache
 from hashlib import sha256
+from urllib.parse import urlsplit, urlunsplit
 
 from alex.utils.io import load_json, root_file
 from alex.utils.text import clean, normalize_title
@@ -17,13 +18,41 @@ def decisions() -> dict[str, dict]:
     data = load_json(root_file("config", "apwg_editorial_decisions.json"))
     if data.get("publication_approved") is not False:
         raise ValueError("Editorial manifest cannot authorize publication")
-    return {entry["doi"].lower(): entry for entry in data["papers"] + data.get("held_papers", []) + data.get("rejected_papers", [])}
+    result = {}
+    for entry in data["papers"] + data.get("held_papers", []) + data.get("rejected_papers", []):
+        key = clean(entry.get("doi")).lower().removeprefix("https://doi.org/")
+        if not key:
+            key = "url:" + official_url(entry.get("apwg_paper_url") or entry.get("source_url"))
+            if key == "url:":
+                # Historical entries without an identity cannot authorize a match.
+                continue
+        if key in result:
+            raise ValueError("Ambiguous editorial identity")
+        result[key] = entry
+    return result
+
+
+def official_url(value: str | None) -> str:
+    try:
+        u = urlsplit(clean(value))
+        if u.scheme not in {"http", "https"} or not u.hostname or u.username or u.password:
+            return ""
+        return urlunsplit((u.scheme, u.netloc.lower(), u.path, u.query, u.fragment))
+    except ValueError:
+        return ""
 
 
 def reviewed_identity(row: dict) -> tuple[dict | None, str]:
     """Identify the reviewed publication without approving new abstract text."""
     doi = clean(row.get("doi")).lower().removeprefix("https://doi.org/")
-    entry = decisions().get(doi)
+    entry = decisions().get(doi) if doi else None
+    if entry is None:
+        url = official_url(row.get("apwg_paper_url"))
+        matches = [e for e in decisions().values() if url and official_url(e.get("apwg_paper_url") or e.get("source_url")) == url
+                   and (not doi or not clean(e.get("doi")) or clean(e.get("doi")).lower() == doi)]
+        if len(matches) > 1:
+            return None, "reviewed_identity_ambiguous"
+        entry = matches[0] if matches else None
     if entry is None:
         return None, "not_reviewed"
     if (normalize_title(row.get("title", "")) != normalize_title(entry["title"]) or
@@ -33,7 +62,7 @@ def reviewed_identity(row: dict) -> tuple[dict | None, str]:
 
 
 def decision_for(row: dict) -> tuple[dict | None, str]:
-    """Bind approval to DOI, title, year and the reviewed original abstract."""
+    """Bind approval to an explicitly reviewed identity and original abstract."""
     entry, status = reviewed_identity(row)
     if entry is None:
         return None, status

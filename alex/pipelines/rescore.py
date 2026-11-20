@@ -17,6 +17,7 @@ import json
 import os
 import tempfile
 import logging
+import hashlib
 from datetime import datetime, timezone
 from uuid import uuid4
 
@@ -25,6 +26,9 @@ import pandas as pd
 from alex.utils.io import load_df, save_df, load_json, root_file
 from alex.utils.text import clean
 from alex.discovery_types import paper_route_hold
+from alex.source_tiers import source_designation, source_tiers
+from alex.source_relevance_fields import evidence_fields, validate_queue
+from alex.editorial_exclusions import load_keys, record_keys
 from alex.utils.harvest_types import restore_crossref_types
 from alex.utils.harvest_checkpoint import file_sha256
 from alex.utils.scoring import (
@@ -41,6 +45,26 @@ from alex.utils.scoring import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+def _relevance_policy_hash(registry, weights, whitelist, tiers):
+    policy = {'registry': registry, 'weights': weights,
+              'venue_whitelist': whitelist, 'source_tiers': tiers}
+    serialized = json.dumps(policy, sort_keys=True, ensure_ascii=False, separators=(',', ':'))
+    return hashlib.sha256(serialized.encode()).hexdigest()
+
+
+def _relevance_review_id(row, source, core_min, reasons, policy_hash):
+    """Bind a review item to its content and scoring policy, not a run ID.
+
+    A changed venue, citations, author, source or scoring rule must produce a
+    new item; rerunning the same evidence should not duplicate the queue.
+    """
+    fields = evidence_fields(row)
+    evidence = {'record': fields, 'source': source, 'core_min': core_min,
+                'reasons': reasons, 'scoring_policy_sha256': policy_hash}
+    serialized = json.dumps(evidence, sort_keys=True, ensure_ascii=False, separators=(',', ':'))
+    return hashlib.sha256(serialized.encode()).hexdigest()
 
 _EMPTY_RESCORE_COLUMNS = [
     "title",
@@ -60,6 +84,7 @@ def run() -> None:
     harvested_path = root_file("data", "accepted_harvested.csv")
     metrics_path = root_file("data", "rescore_metrics.csv")
     window_path = root_file("data", ".rescore_window.json")
+    validate_queue(root_file('data', 'source_relevance_review.csv'))
     df = load_df(harvested_path)
     if df.empty:
         print("No harvested candidates to rescore.")
@@ -134,6 +159,52 @@ def run() -> None:
         rescored_rows.append(out)
 
     rescored = pd.DataFrame(rescored_rows)
+
+    # Retain post-harvest relevance vetoes for trusted-source review instead
+    # of silently losing them from the auto-include output. This is a
+    # generated evidence queue, never a human decision or publication grant.
+    exclusions = load_keys(root_file('config', 'corpus_exclusions.json'))
+    policy_hash = _relevance_policy_hash(registry, weights, whitelist, source_tiers())
+    relevance_reviews = []
+    for _, row in rescored.iterrows():
+        source = source_designation(row)
+        if source['tier'] != 'trusted_curated' or record_keys(row) & exclusions:
+            continue
+        v_pct = float(row.get('venue_score', 0) or 0)
+        i_pct = float(row.get('institution_score', 0) or 0)
+        core_min = 1 if (v_pct >= 100 or i_pct >= 70 or has_title_anchor(row.get('title', ''), title_anchor_terms)) else untrusted_core_min
+        core_pass = has_core_term(row.get('title', ''), row.get('abstract', ''), core_terms, core_min)
+        floor_pass = float(row['relevance_score']) >= relevance_floor
+        if core_pass and floor_pass:
+            continue
+        reasons = []
+        if not core_pass:
+            text = f'{clean(row.get("title"))} {clean(row.get("abstract"))}'.lower()
+            hits = [term for term in core_terms if term.lower() in text]
+            reasons.append(f'Core term matches {len(hits)} below required {core_min}; matches: {", ".join(hits) or "none"}')
+        if not floor_pass: reasons.append(f'Relevance score {row["relevance_score"]} below floor {relevance_floor}')
+        review_id = _relevance_review_id(row, source, core_min, reasons, policy_hash)
+        relevance_reviews.append({**evidence_fields(row), 'source_relevance_review_id':review_id, 'source_tier':source['tier'], 'source_tier_name':source['source'],
+                                  'source_review_priority':source['priority'], 'scoring_policy_sha256':policy_hash, 'review_reason':'; '.join(reasons),
+                                  'recommended_action':'human review'})
+    review_path = root_file('data', 'source_relevance_review.csv')
+    if relevance_reviews:
+        prior = load_df(review_path)
+        additions = pd.DataFrame(relevance_reviews)
+        if not prior.empty:
+            if 'source_relevance_review_id' not in prior.columns:
+                raise ValueError('Existing relevance queue has no stable review identity')
+            additions = additions[~additions['source_relevance_review_id'].isin(prior['source_relevance_review_id'])]
+            additions = pd.concat([prior, additions], ignore_index=True)
+        # Write a complete replacement atomically; preserve existing queue rows.
+        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', newline='', dir=review_path.parent,
+                                         prefix='.relevance-review-', suffix='.tmp', delete=False) as stream:
+            temporary_review = stream.name
+            additions.to_csv(stream,index=False)
+        try:
+            os.replace(temporary_review, review_path)
+        finally:
+            if os.path.exists(temporary_review): os.unlink(temporary_review)
 
     # Per-row auto-include threshold. Preprints on their own ladder. Anchor-term
     # and relevance-floor vetoes apply regardless of preprint vs regular — same

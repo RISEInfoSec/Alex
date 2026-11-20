@@ -919,7 +919,8 @@ def run(dry_run: bool = False) -> None:
                     "author_source": clean(item.get("author_source")),
                     "doi_verification": clean(item.get("doi_verification")),
                     "requires_bibliographic_review": (
-                        not bool(clean(item.get("authors")) and clean(item.get("doi")) and clean(item.get("year")))
+                        not bool((clean(item.get("authors")) or clean(item.get("publisher")) or clean(item.get("issuing_organization")))
+                                 and clean(item.get("year")) and clean(item.get("apwg_source_url")))
                         or bool(clean(item.get("publication_year_conflict")))
                     ),
                     "in_existing_alex_corpus": bool(corpus_title),

@@ -19,6 +19,7 @@ from alex.pipelines.apwg_quality_review import assess, load_policy
 from alex.pipelines.apwg_editorial_review import decision_for, normalized_abstract, apply_abstract_override, abstract_digest
 from alex.utils.io import root_file, load_json
 from alex.utils.text import clean
+from alex.source_tiers import source_designation
 
 REVIEW_WORKERS = 4
 
@@ -57,7 +58,7 @@ def clearly_non_phishing(row: dict) -> bool:
 
 def _available_fields() -> list[str]:
     return [
-        "title", "authors", "doi", "year", "apwg_year", "publisher",
+        "title", "authors", "doi", "year", "apwg_year", "publisher", "source_tier", "source_tier_name", "source_review_priority",
         "apwg_paper_url", "bibliographic_link", "doi_verification",
         "abstract", "abstract_source", "citation_count", "citation_count_source", "venue",
         "venue_source", "venue_evidence_url",
@@ -85,6 +86,8 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
     Unclear, off-schema, or fallback responses remain unclassified.
     """
     result = {field: clean(row.get(field, "")) for field in _available_fields()}
+    source = source_designation(row)
+    result.update(source_tier=source['tier'], source_tier_name=source['source'], source_review_priority=str(source['priority']))
     result.update({
         "proposed_category": "",
         "proposed_investigation_type": "",
@@ -150,8 +153,6 @@ def review_row(row: dict, classifier=None, policy=None) -> dict:
         issues.append("Citation data unavailable; score is conservative")
     if not result["venue"]:
         issues.append("Publication venue unavailable; no collection-derived venue assumed")
-    if not result["doi"]:
-        issues.append("DOI not confirmed")
     if not result["year"]:
         issues.append("Original publication year missing")
     if clean(row.get("publication_year_conflict")):

@@ -11,6 +11,7 @@ from collections import Counter
 from pathlib import Path
 from alex.pipelines.apwg_editorial_review import decision_for, decisions
 from alex.utils.text import clean, normalize_title
+from alex.source_tiers import source_designation
 
 
 def identity(row: dict) -> tuple[str, str, str]:
@@ -40,8 +41,12 @@ def recommendation(row: dict) -> tuple[str, str]:
             'hold_relevance_floor': 'Inspect query-term coverage and actual investigative relevance; no automatic exception',
             'hold_below_review_threshold': 'Verify citations, original year, venue and abstract; retain score hold',
         }
+        if q in {'hold_core_term_gate', 'hold_relevance_floor'} and source_designation(row)['tier'] == 'trusted_curated':
+            return q, 'Trusted curated source: human review of content relevance; '+actions[q]
         return q, actions.get(q, 'Individual quality review required')
-    metadata = (not all(clean(row.get(k)) for k in ('doi', 'authors', 'year', 'venue', 'abstract')) or
+    metadata = (not all(clean(row.get(k)) for k in ('year', 'venue', 'abstract')) or
+                (not clean(row.get('doi')) and not clean(row.get('apwg_paper_url'))) or
+                not any(clean(row.get(k)) for k in ('authors', 'publisher', 'issuing_organization')) or
                 clean(row.get('requires_bibliographic_review')).lower() == 'true' or
                 bool(clean(row.get('publication_year_conflict'))))
     if metadata:

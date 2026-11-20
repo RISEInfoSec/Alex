@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "tiers": {
+    "trusted_curated": {
+      "priority": 1,
+      "sources": [
+        {"name": "APWG", "hosts": ["apwg.org", "ecrimeresearch.org", "apwg-craftcms-assets.s3.amazonaws.com"]},
+        {"name": "SANS", "hosts": ["sans.org"]},
+        {"name": "FIRST", "hosts": ["first.org"]},
+        {"name": "M3AAWG", "hosts": ["m3aawg.org"]},
+        {"name": "Virus Bulletin", "hosts": ["virusbulletin.com"]}
+      ]
+    },
+    "established_broad_scope": {
+      "priority": 2,
+      "sources": [{"name": "SOUPS", "hosts": ["cups.cs.cmu.edu", "www.usenix.org"], "path_contains": ["/soups", "/conference/soups"]}]
+    },
+    "general_discovery": {"priority": 3, "sources": []}
+  }
+}
