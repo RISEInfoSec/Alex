@@ -1,0 +1,28 @@
+name: Verify live public ALEX library
+on:
+  push:
+    branches: ['maintenance/verify-series-public-20261123']
+permissions: {}
+jobs:
+  public-readback:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - name: Read public library, collection and corpus from the deployed domain
+        shell: python
+        run: |
+          import hashlib, json, urllib.request
+          origin = 'https://alex.riseinfosec.org'
+          for path, marker in [('/', 'Cybercrime'), ('/research/collections/soups/', 'SOUPS'), ('/data/papers.json', None)]:
+              request = urllib.request.Request(origin + path, headers={'User-Agent': 'ALEX production availability verification', 'Cache-Control': 'no-cache'})
+              with urllib.request.urlopen(request, timeout=40) as response:
+                  assert response.status == 200 and response.geturl() == origin + path
+                  data = response.read()
+              if marker:
+                  assert marker in data.decode('utf-8')
+              else:
+                  rows = json.loads(data)
+                  assert len(rows) == 3283
+                  print('Public papers', len(rows))
+                  assert hashlib.sha256(data).hexdigest() == '394248583d09e96f2cda7435b30ceea04429766a3cb8798aaf6d7ab39d5ea6e5'
+              print('HTTP 200', path, 'bytes', len(data), 'sha256', hashlib.sha256(data).hexdigest())
