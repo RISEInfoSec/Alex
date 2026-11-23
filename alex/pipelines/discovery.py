@@ -44,7 +44,7 @@ DISCOVER_MAX_PAGES = 10
 DEFAULT_CORE_CIRCUIT_BREAK = 3
 
 
-def run() -> None:
+def run(*, series: dict | None = None) -> None:
     config = connector_config.load()
     today = datetime.now(timezone.utc).date()
     window = {"from_date": (today - timedelta(days=DISCOVER_WINDOW_DAYS)).isoformat(),
@@ -69,8 +69,17 @@ def run() -> None:
         window = retained['window']
         # Cache hits are checked before this limit; a cache miss sends nothing.
         budgets['max_requests'] = budgets['openalex_max_requests'] = 0
+    if series is not None:
+        window = dict(series['window'])
+        config['connectors']['openalex'] = {'enabled': False}
+        budgets['openalex_max_requests'] = 0
+        if checkpoint.exists():
+            prior = load_json(checkpoint)
+            if (prior.get('series') != series or prior.get('window') != window
+                    or connector_config.is_enabled(prior['registry'], 'openalex')):
+                raise ValueError('Checkpoint is outside the approved series')
     client = DiscoveryClient(checkpoint, window, config,
-                             budgets, mailto=os.getenv("HARVEST_MAILTO", ""))
+                             budgets, mailto=os.getenv("HARVEST_MAILTO", ""), series=series)
     receipt = root_file("data", "discovery_run_receipt.json")
     try:
         count = _run(client)
@@ -398,7 +407,7 @@ def _run(client: DiscoveryClient) -> int:
     doi_set = sorted({str(row['doi']).lower() for row in enrichment_rows
                       if not row.get('abstract') and row.get('doi')})
     enrichment_key = hashlib.sha256(json.dumps(doi_set).encode()).hexdigest()
-    enriched = client.run_task("OpenAlex:abstract_enrichment:" + enrichment_key, enrich) if needed else []
+    enriched = client.run_task("OpenAlex:abstract_enrichment:" + enrichment_key, enrich) if needed and not client.state.get('series') else []
     abstracts = {normalize_title(row['title']): row['abstract'] for row in enriched if row.get('abstract')}
     for row in rows:
         if not row.get('abstract'):

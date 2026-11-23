@@ -35,7 +35,7 @@ def atomic_json(path, value):
 
 
 class DiscoveryClient(HttpClient):
-    def __init__(self, path: Path, window: dict, registry: dict, budgets: dict, mailto=''):
+    def __init__(self, path: Path, window: dict, registry: dict, budgets: dict, mailto='', *, series=None):
         super().__init__(mailto)
         self.cache.clear()  # The verified discovery checkpoint is the sole response cache.
         self.path = path
@@ -64,6 +64,8 @@ class DiscoveryClient(HttpClient):
         if not self.state:
             self.state = {'schema_version': 1, 'window': window, 'registry': registry,
                           'responses': {}, 'tasks': {}, 'status': 'in_progress'}
+        if series is not None:
+            self.state['series'] = series
         self.state['status'] = 'in_progress'
         self.state['orchestration_pass_id'] = os.getenv('ALEX_DISCOVERY_PASS_ID')
         self._save()
@@ -250,6 +252,14 @@ class DiscoveryClient(HttpClient):
                        'checkpoint_cache_hits': self.cache_hits, 'requests': self.requests,
                        'budgets': {'runtime_seconds': self.runtime_seconds,
                                    'max_requests': self.max_requests, 'openalex_max_requests': self.max_openalex}}
+            if 'series' in self.state:
+                receipt['series'] = self.state['series']
+                receipt['coverage_scope'] = 'configured sources excluding held OpenAlex'
+                receipt['all_source_coverage'] = 'incomplete'
+                candidate_file = self.path.parent / 'discovery_candidates.csv'
+                if candidate_file.is_file():
+                    with candidate_file.open('rb') as stream:
+                        receipt['candidate_file_sha256'] = hashlib.file_digest(stream, 'sha256').hexdigest()
             atomic_json(receipt_path, receipt)
             self.sync(force=True)
         if status != 'complete':

@@ -2481,3 +2481,35 @@ def test_trusted_source_cannot_override_document_type_review(tmp_path, monkeypat
     assert review.iloc[0]['source_tier'] == 'trusted_curated'
     assert review.iloc[0]['recommended_action'] == 'human review'
     assert bool(review.iloc[0]['document_type_review_required'])
+
+
+def test_scoped_weekly_series_never_enriches_through_openalex(tmp_path, monkeypatch):
+    from datetime import date
+    from alex.pipelines import discovery
+    from alex.utils import io
+    from scripts.weekly_series import window_manifest
+
+    monkeypatch.setattr(io, 'ROOT', tmp_path)
+    monkeypatch.setenv('ALEX_OPENALEX_STATE_PATH', str(tmp_path / 'governor.json'))
+    config = tmp_path / 'config'
+    config.mkdir()
+    (tmp_path / 'data').mkdir()
+    registry = {'queries': ['phishing'], 'connectors': {name: {'enabled': name in ('openalex', 'crossref')}
+                 for name in ('openalex', 'crossref', 'arxiv', 'github', 'zenodo', 'core', 'semantic_scholar')}}
+    (config / 'query_registry.json').write_text(json.dumps(registry))
+    monkeypatch.setattr(discovery.crossref, 'search', lambda *a, **kw: [
+        {'title': ['Reviewed paper'], 'DOI': '10.1234/test', 'URL': 'https://doi.org/10.1234/test'}])
+    for op in ('search', 'get_many_by_doi'):
+        monkeypatch.setattr(discovery.openalex, op, lambda *a, **kw: pytest.fail('OpenAlex called'))
+    series = window_manifest(date(2026, 11, 23))
+    discovery.run(series=series)
+    receipt = json.loads((tmp_path / 'data/discovery_run_receipt.json').read_text())
+    assert receipt['status'] == 'complete' and receipt['all_source_coverage'] == 'incomplete'
+    assert receipt['new_candidates'] == 1 and receipt['openalex_request_count'] == 0
+    assert receipt['series']['historical_pipeline']['status'] == 'incomplete'
+    checkpoint = tmp_path / 'data/discovery_checkpoint.json'
+    old = json.loads(checkpoint.read_text())
+    old.pop('series')
+    checkpoint.write_text(json.dumps(old))
+    with pytest.raises(ValueError, match='outside the approved series'):
+        discovery.run(series=series)

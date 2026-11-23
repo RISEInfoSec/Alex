@@ -34,6 +34,12 @@ FILES=(
   source_relevance_review.csv
 )
 
+series=false
+if [[ "$BRANCH" =~ ^weekly-series-v1/[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+  series=true
+  FILES=(series_window.json discovery_checkpoint.json discovery_candidates.csv discovery_run_receipt.json discovery_openalex_state.json)
+fi
+
 cd "$(git rev-parse --show-toplevel)"
 BASE_FILE="$(git rev-parse --git-dir)/alex-state-base"
 
@@ -81,7 +87,7 @@ push() {
   # before a full-state push, including a queue carried from the base tree.
   # Provider-only recovery writes exactly one provider blob and preserves
   # the old queue byte-for-byte, so unrelated local annotations cannot block it.
-  if [ "$mode" = "all" ]; then
+  if [ "$mode" = "all" ] && ! $series; then
     if [ -f data/source_relevance_review.csv ]; then
       python "$SCRIPT_DIR/validate_source_relevance_queue.py" data/source_relevance_review.csv
     fi
@@ -105,18 +111,40 @@ push() {
     echo "state: unchanged"
     return
   fi
-  commit="$(git commit-tree "$tree" -m "$msg")"
+  local parents=()
+  if $series && [ -n "$base" ]; then parents=(-p "$base"); fi
+  commit="$(git commit-tree "$tree" "${parents[@]}" -m "$msg")"
   # --force-with-lease against the pulled commit: a concurrent writer makes
   # this fail instead of being silently overwritten. Empty lease = "must not
   # exist yet" (first seed).
   local refs=("$commit:refs/heads/$BRANCH")
-  [ -n "$base" ] && refs+=("+$base:refs/heads/$BRANCH-prev")
+  if ! $series && [ -n "$base" ]; then refs+=("+$base:refs/heads/$BRANCH-prev"); fi
   git push --quiet --atomic --force-with-lease="refs/heads/$BRANCH:$base" "$REMOTE" "${refs[@]}"
   echo "$commit" > "$BASE_FILE"
   echo "state: pushed $BRANCH@${commit:0:7} ($msg)"
 }
 
 case "${1:-}" in
+  open-series)
+    $series || { echo "Expected a dated weekly-series-v1 branch" >&2; exit 1; }
+    # A clean Actions checkout must never provide legacy inputs to a new window.
+    for f in "${FILES[@]}"; do
+      [ ! -e "data/$f" ] || { echo "Existing local discovery state" >&2; exit 1; }
+    done
+    rc=0
+    git ls-remote --exit-code --heads "$REMOTE" "refs/heads/$BRANCH" >/dev/null || rc=$?
+    if [ "$rc" -eq 0 ]; then
+      pull
+      test -s data/series_window.json || { echo "Series marker missing" >&2; exit 1; }
+      base="$(cat "$BASE_FILE")"
+      if git rev-parse --verify -q "$base^" >/dev/null || [ "$(git ls-tree --name-only "$base" | wc -l)" -gt 1 ]; then
+        test -s data/discovery_checkpoint.json || { echo "Series checkpoint missing" >&2; exit 1; }
+      fi
+    elif [ "$rc" -eq 2 ]; then
+      test ! -e "$BASE_FILE" || { echo "Previous state checkout present" >&2; exit 1; }
+      mkdir -p data
+    else exit "$rc"; fi
+    ;;
   pull) pull ;;
   push) push "${2:-}" ;;
   push-provider) push "${2:-}" provider-only ;;

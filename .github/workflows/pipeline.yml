@@ -2,6 +2,14 @@ name: Pipeline
 on:
   workflow_dispatch:
     inputs:
+      series:
+        description: 'Run the independently checkpointed weekly discovery series'
+        type: boolean
+        default: true
+      week_ending:
+        description: 'Optional Monday ending a specific series window (YYYY-MM-DD)'
+        type: string
+        required: false
       resume_completed_discovery_run:
         description: 'Prior run blocked only by the known completed-receipt rounding defect; replay with zero requests'
         type: string
@@ -43,7 +51,43 @@ concurrency:
 # shorter ceilings. The `report` job always runs last and opens/closes a
 # failure issue; it does not change workflow scheduling state.
 jobs:
+  weekly-series:
+    if: ${{ github.event_name == 'schedule' || (inputs.series && !inputs.resume_completed_discovery_run) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Collect enabled sources in the isolated weekly window
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+          HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+          WEEK_ENDING: ${{ inputs.week_ending }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          created="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" --jq .created_at)"
+          python -m scripts.weekly_series --run-created-at "$created" --week-ending "$WEEK_ENDING"
+      - name: Retain the series receipt
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: weekly-series-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            data/series_window.json
+            data/discovery_run_receipt.json
+          if-no-files-found: error
+
   discover:
+    if: ${{ github.event_name == 'workflow_dispatch' && (!inputs.series || inputs.resume_completed_discovery_run != '') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 300
     steps:
@@ -400,7 +444,7 @@ jobs:
     #    the open one), so watchers hear about the first failure, not the
     #    tenth. The next clean run closes it.
     needs: [discover, chain, score, harvest, rescore, classify, apwg, publish, deploy]
-    if: always()
+    if: ${{ always() && needs.discover.result != 'skipped' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:

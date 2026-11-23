@@ -271,3 +271,22 @@ def test_completed_citation_fence_allows_verified_fresh_runner(remote,tmp_path,m
     fresh=_clone(remote,tmp_path/'fresh');assert _state(fresh,'pull').returncode==0
     monkeypatch.setenv('GITHUB_RUN_ID','102');citation_guard.begin(fresh)
     assert (fresh/'data/discovery_candidates.csv').read_text()=='title\nComplete\n'
+
+
+def test_weekly_series_keeps_legacy_separate_and_retains_history(remote, tmp_path, monkeypatch):
+    branch = 'weekly-series-v1/2026-11-23'
+    monkeypatch.setenv('STATE_BRANCH', branch)
+    a = _clone(remote, tmp_path / 'series')
+    assert _state(a, 'open-series').returncode == 0
+    _write(a, 'series_window.json', '{}')
+    _write(a, 'accepted_candidates.csv', 'legacy')
+    assert _state(a, 'push', 'seed series').returncode == 0
+    initial = _git(remote, 'rev-parse', branch).strip()
+    _write(a, 'discovery_checkpoint.json', '{"tasks":{}}')
+    assert _state(a, 'push', 'checkpoint').returncode == 0
+    assert _git(remote, 'rev-parse', branch+'^').strip() == initial
+    assert 'accepted_candidates' not in _git(remote, 'ls-tree', '--name-only', branch)
+    assert 'pipeline-state' not in _git(remote, 'for-each-ref', '--format=%(refname)')
+    b = _clone(remote, tmp_path / 'resume-series')
+    assert _state(b, 'open-series').returncode == 0
+    assert (b / 'data/discovery_checkpoint.json').read_text() == '{"tasks":{}}'

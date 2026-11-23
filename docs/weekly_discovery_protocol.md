@@ -362,3 +362,17 @@ a format-review disposition, not an editorial rejection or approval of a new
 resource route. Paper, proceedings-article, preprint and scholarly review types
 retain their existing quality rules. Exact technical publication holds continue
 to preserve their original accepted rows and exclude them from paid work.
+
+## Series beginning November 23, 2026
+
+The existing Monday 03:23 UTC Pipeline schedule now collects into a separate
+`weekly-series-v1/YYYY-MM-DD` branch per Monday ending date. The first window
+covers November 16 through 23. Earlier windows retain their prior history and
+incomplete citation and harvest status at `4d6467b1984da1903b9d4262f92b2d7e38cfeddc`.
+A series receipt measures the configured available sources. It also records that
+all-source coverage is incomplete and OpenAlex search, singleton lookups and
+abstract enrichment remain held. A collection receipt grants no publication
+authority. Candidate CSVs and response checkpoints are preserved on the window
+branch with its commit history. A failed source leaves an incomplete receipt.
+A manual dispatch with the same Monday resumes that window. Legacy recovery
+uses the separate manual path with its original checkpoint preflight.
