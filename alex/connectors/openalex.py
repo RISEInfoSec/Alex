@@ -152,11 +152,16 @@ def abstract(work: dict[str, Any]) -> str:
     by emitting each token at each of its positions.
     """
     inverted = work.get("abstract_inverted_index") or {}
-    if not inverted:
+    if not isinstance(inverted, dict) or not inverted:
         return ""
     positions: list[tuple[int, str]] = []
     for word, locs in inverted.items():
-        for pos in (locs or []):
+        # Older recorder evidence can contain a redaction in place of a
+        # position list. Keep the source for review and allow DOI enrichment
+        # to supply the missing abstract without emitting an incomplete text.
+        if not isinstance(locs, list) or any(type(pos) is not int or pos < 0 for pos in locs):
+            return ""
+        for pos in locs:
             positions.append((pos, word))
     positions.sort(key=lambda p: p[0])
     return " ".join(word for _, word in positions)
