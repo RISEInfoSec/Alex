@@ -95,6 +95,13 @@ class TestOpenAlexAccessors:
         assert openalex.abstract({"abstract_inverted_index": None}) == ""
         assert openalex.abstract({"abstract_inverted_index": {}}) == ""
 
+    def test_abstract_with_retained_redaction_remains_eligible_for_enrichment(self):
+        index = {"requires": [0], "authorization": "[redacted]", "today": [2]}
+        assert openalex.abstract({"abstract_inverted_index": index}) == ""
+        assert index["authorization"] == "[redacted]"
+        index["authorization"] = [1]
+        assert openalex.abstract({"abstract_inverted_index": index}) == "requires authorization today"
+
 
 class TestOpenAlexSearch:
     def test_empty_literal_title_never_broadens_to_all_works(self):
