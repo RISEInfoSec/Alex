@@ -3,16 +3,16 @@
 Updated 2026-11-05 after explicit owner approval of PR118. Applies to `python -m alex.cli discover`, the weekly
 `pipeline.yml` discovery stage and the manual `discover.yml` stage.
 
-## Current shared-coordination hold
+## Production OpenAlex access
 
-The shared provider coordinator and durable response recorder are not yet
-verified across production writers. Until they are integrated and verified,
-uncached OpenAlex requests are fenced in code even if a local policy says
-`requests_enabled: true`. Existing matching cached responses remain usable.
-An attempted request records a coordination hold; partial discovery cannot be
-reported as complete, and the recovery controller does not retry that hold.
-This fence preserves the existing reconciliation hold and does not enable a
-provider request, change a schedule, or authorize publication.
+The weekly series uses the owner-private recorder for OpenAlex search and DOI
+enrichment in windows ending on or after 2026-11-24. The GitHub discovery job
+receives a Site service credential and authenticates with its GitHub job
+identity. The provider credential is held by the private Site. Direct requests
+from other entry points remain fenced. The recorder checks current source,
+writer credentials, the shared reservation and the provider's response before
+returning data for a checkpoint. Any unresolved hold leaves a partial receipt.
+The first November 23 series checkpoint retains its original source policy.
 
 ## Provider rules and endpoint choice
 
@@ -376,3 +376,9 @@ authority. Candidate CSVs and response checkpoints are preserved on the window
 branch with its commit history. A failed source leaves an incomplete receipt.
 A manual dispatch with the same Monday resumes that window. Legacy recovery
 uses the separate manual path with its original checkpoint preflight.
+
+The extra November 24 window runs at 08:00 UTC (03:00 Toronto) with a
+seven-day publication date range, November 17 through November 24. It has a
+separate dated branch. The normal Monday 03:23 UTC collection continues.
+Both cron entries use GitHub's native schedule event. Manual resumption of a
+window retains its own checkpoint and provider evidence.

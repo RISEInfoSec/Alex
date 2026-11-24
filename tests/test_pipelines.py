@@ -2542,3 +2542,28 @@ def test_one_time_series_window_and_source_policy(monkeypatch, tmp_path):
     receipt = json.loads((tmp_path / 'data/discovery_run_receipt.json').read_text())
     assert receipt['status'] != 'complete' and receipt['openalex_request_count'] == 0
     assert 'openalex_shared_coordinator_required' in receipt['deferred_tasks'].values()
+
+
+def test_weekly_recorder_confirms_each_source_head_once(tmp_path, monkeypatch):
+    from alex.utils import weekly_openalex as oa
+    base = tmp_path / 'base'
+    base.write_text('1' * 40)
+    ops = []
+    def call(op, **kw):
+        ops.append((op, kw))
+        if op == 'request':
+            assert kw['item']['from_date'] == '2026-11-17'
+            assert 'mailto' not in kw['item']
+            return {'status': 'recorded'}
+        return {'status': 'snapshot_prepared' if op == 'prepare_snapshot' else 'snapshot_confirmed',
+                'sequence': 0, 'sha256': 'a' * 64}
+    monkeypatch.setattr(oa, 'call', call)
+    recorder = oa.WeeklyRecorder({'from_date':'2026-11-17','until_date':'2026-11-24'}, base)
+    def lookup():
+        recorder.request('https://api.openalex.org/works', {'search':'OSINT','page':1,'per-page':25},lambda:300)
+    lookup()
+    lookup()
+    base.write_text('2' * 40)
+    lookup()
+    assert [op for op,_ in ops] == ['prepare_snapshot','confirm_snapshot','request','request',
+                                    'prepare_snapshot','confirm_snapshot','request']

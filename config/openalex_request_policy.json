@@ -10,11 +10,8 @@
   "authorization": "Owner explicitly approved PR118 bounded recovery pace on 2026-11-05: no more than1 serial OpenAlex request/second,250 OpenAlex/300 total requests and45 minutes per pass. Preserve timeout, cooldown, quota/owner holds and zero automatic OpenAlex retries; no paid plan enabled.",
   "previous_diagnostic_authorization": "User requested very slow individual OpenAlex queries until rate limits/timeouts are understood.",
   "authorized_at": "2026-11-05T19:09:04.043800+00:00",
-  "requests_enabled": false,
-  "reconciliation_hold": {
-    "reason": "Shared private provider coordination and response recording are not yet verified for all writers.",
-    "release_condition": "Verify authenticated shared coordination, durable response evidence and safe participation or fencing of every provider writer before resuming OpenAlex."
-  },
+  "requests_enabled": true,
+  "reconciliation_hold": null,
   "owner_hold_history": [
     {
       "retry_not_before": "2026-11-05T01:15:38Z",
@@ -57,7 +54,16 @@
       "released_at": "2026-11-07T17:09:00Z",
       "release_basis": "Owner explicitly authorized overriding the unresolved HTTP 429 reconciliation hold without verified provider reset evidence.",
       "provider_reset_verified": false
+    },
+    {
+      "hold": {
+        "reason": "Shared private provider coordination and response recording are not yet verified for all writers.",
+        "release_condition": "Verify authenticated shared coordination, durable response evidence and safe participation or fencing of every provider writer before resuming OpenAlex."
+      },
+      "release_basis": "Owner lifted the weekly discovery hold on November 23, 2026. Only the authenticated private recorder may send. Other writer entry points remain fenced.",
+      "scope": "isolated_weekly_discovery"
     }
   ],
-  "max_openalex_requests_per_run": 250
+  "max_openalex_requests_per_run": 250,
+  "authorized_writer": "private_weekly_series_recorder"
 }

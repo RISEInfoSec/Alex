@@ -84,6 +84,8 @@ def run(*, series: dict | None = None) -> None:
                              budgets, mailto=os.getenv("HARVEST_MAILTO", ""), series=series)
     receipt = root_file("data", "discovery_run_receipt.json")
     try:
+        if client.recorder:
+            client.sync(force=True)
         count = _run(client)
     except Exception as exc:
         client.failures['pipeline'] = type(exc).__name__
@@ -409,7 +411,11 @@ def _run(client: DiscoveryClient) -> int:
     doi_set = sorted({str(row['doi']).lower() for row in enrichment_rows
                       if not row.get('abstract') and row.get('doi')})
     enrichment_key = hashlib.sha256(json.dumps(doi_set).encode()).hexdigest()
-    enriched = client.run_task("OpenAlex:abstract_enrichment:" + enrichment_key, enrich) if needed and (not client.state.get('series') or enable_openalex) else []
+    if needed and client.recorder:
+        client.sync(force=True)  # The private recorder verifies DOI eligibility against this CSV.
+    enriched = []
+    if needed and (not client.state.get('series') or enable_openalex):
+        enriched = client.run_task("OpenAlex:abstract_enrichment:" + enrichment_key, enrich)
     abstracts = {normalize_title(row['title']): row['abstract'] for row in enriched if row.get('abstract')}
     for row in rows:
         if not row.get('abstract'):

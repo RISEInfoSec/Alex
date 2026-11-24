@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
 
+from alex.utils.weekly_openalex import GatewayUnavailable, WeeklyRecorder, HASH, reason as recorder_reason
 from alex.utils.http import HttpClient, ProviderCoordinationRequired, _CACHE_MISS
 
 logger = logging.getLogger(__name__)
@@ -51,6 +52,8 @@ class DiscoveryClient(HttpClient):
         self.max_openalex = budgets.get('openalex_max_requests', 20)
         self.requests = []
         self.openalex_count = 0
+        self.recorder = None
+        self.uncertain_openalex_requests = 0
         self.blocked_sources = {}
         self.failures = {}
         self.cache_hits = 0
@@ -66,6 +69,9 @@ class DiscoveryClient(HttpClient):
                           'responses': {}, 'tasks': {}, 'status': 'in_progress'}
         if series is not None:
             self.state['series'] = series
+            if 'OpenAlex' not in series['held_sources'] and os.getenv('ALEX_WEEKLY_OPENALEX_GATEWAY') == '1':
+                self.recorder = WeeklyRecorder(window, path.parent.parent / '.git' / 'alex-state-base')
+                self.state.setdefault('candidate_titles', [])
         self.state['status'] = 'in_progress'
         self.state['orchestration_pass_id'] = os.getenv('ALEX_DISCOVERY_PASS_ID')
         self._save()
@@ -160,6 +166,45 @@ class DiscoveryClient(HttpClient):
                 self.state['last_attempt_requests'] = self.requests
                 self._save()
 
+    def _recorded_openalex(self, url, params):
+        # Keep the branch head and remaining HTTP budget stable while the
+        # private coordinator confirms the snapshot, reserves and records.
+        with self.guard:
+            self._check_budget(url)
+            try:
+                result = self.recorder.request(url, params or {}, lambda: self.deadline - time.monotonic())
+            except (GatewayUnavailable, OSError) as exc:
+                reason = str(exc) if isinstance(exc, GatewayUnavailable) else 'openalex_series_head_unavailable'
+                if reason == 'openalex_gateway_outcome_unknown':
+                    self.uncertain_openalex_requests += 1
+                self.blocked_sources['OpenAlex'] = reason
+                raise DiscoveryDeferred(reason) from None
+            status = result['status']
+            attempts = result.get('provider_attempts')
+            if type(attempts) is not int or attempts not in (0, 1):
+                self.uncertain_openalex_requests += 1
+                self.blocked_sources['OpenAlex'] = 'openalex_gateway_outcome_unknown'
+                raise DiscoveryDeferred('openalex_gateway_outcome_unknown')
+            http_status = result.get('http_status')
+            evidence = result.get('evidence_sha256')
+            request_id = result.get('request_id')
+            if attempts:
+                self.openalex_count += 1
+                self.requests.append({'host': 'api.openalex.org', 'transport': 'private_recorder',
+                    'http_status': http_status, 'endpoint_type': 'search' if urlsplit(url).path == '/works' else 'singleton',
+                    'recorded_at': datetime.now(timezone.utc).isoformat(), 'request_id': request_id,
+                    'evidence_sha256': evidence})
+                self.state['last_attempt_requests'] = self.requests
+                self._save()
+            if status not in ('recorded', 'replay') or not all(HASH.fullmatch(str(v)) for v in (evidence, request_id)):
+                reason = 'openalex_' + recorder_reason(result)
+                if status == 'reconciliation_required' and not attempts:
+                    self.uncertain_openalex_requests += 1
+                self.blocked_sources['OpenAlex'] = reason
+                raise DiscoveryDeferred(reason)
+            self.local.last_status = http_status
+            return result.get('response')
+
     def _read(self, method, url, params=None, headers=None, timeout=30):
         # Persist only a hash of request parameters; don't serialize auth headers.
         safe_params = {k: v for k, v in (params or {}).items() if k.lower() not in ('api_key', 'token')}
@@ -171,7 +216,10 @@ class DiscoveryClient(HttpClient):
         self.local.last_status = None
         with self.guard:
             self._check_budget(url)
-        value = getattr(super(), method)(url, params=params, headers=headers, timeout=timeout)
+        if self.recorder and method == 'get_json' and urlsplit(url).hostname == 'api.openalex.org':
+            value = self._recorded_openalex(url, params)
+        else:
+            value = getattr(super(), method)(url, params=params, headers=headers, timeout=timeout)
         status = self.local.last_status
         if value is None and status != 404:
             held_openalex = urlsplit(url).hostname == 'api.openalex.org' and self.openalex_deferred()
@@ -254,6 +302,8 @@ class DiscoveryClient(HttpClient):
                                    'max_requests': self.max_requests, 'openalex_max_requests': self.max_openalex}}
             if 'series' in self.state:
                 receipt['series'] = self.state['series']
+                if self.recorder:
+                    receipt['openalex_uncertain_request_count'] = self.uncertain_openalex_requests
                 receipt['coverage_scope'] = ('configured sources excluding held OpenAlex'
                     if 'OpenAlex' in self.state['series']['held_sources'] else 'configured sources including OpenAlex')
                 receipt['all_source_coverage'] = 'incomplete'
