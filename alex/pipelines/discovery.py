@@ -133,6 +133,7 @@ def _run(client: DiscoveryClient) -> int:
     until_date = client.state['window']['until_date']
     rows = []
     seen = set()
+    tracked_titles = set(client.state['candidate_titles'])
 
     # Load existing candidates to avoid re-adding known papers
     existing_path = root_file("data", "discovery_candidates.csv")
@@ -167,7 +168,9 @@ def _run(client: DiscoveryClient) -> int:
         }
         row.update(row_publication_fields(kwargs))
         rows.append(row)
-        client.state.setdefault('candidate_titles', []).append(key)
+        if key not in tracked_titles:
+            client.state['candidate_titles'].append(key)
+            tracked_titles.add(key)
 
     def persist_candidates():
         # Candidates first, then the checkpoint: replay after interruption is

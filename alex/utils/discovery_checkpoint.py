@@ -71,7 +71,12 @@ class DiscoveryClient(HttpClient):
             self.state['series'] = series
             if 'OpenAlex' not in series['held_sources'] and os.getenv('ALEX_WEEKLY_OPENALEX_GATEWAY') == '1':
                 self.recorder = WeeklyRecorder(window, path.parent.parent / '.git' / 'alex-state-base')
-                self.state.setdefault('candidate_titles', [])
+        # A prior pass can stop after tracking a title and before saving its CSV
+        # row. Retain every distinct title, in its original order, on resume.
+        titles = self.state.get('candidate_titles', [])
+        if not isinstance(titles, list) or any(not isinstance(title, str) for title in titles):
+            raise ValueError('Invalid discovery candidate title index')
+        self.state['candidate_titles'] = list(dict.fromkeys(titles))
         self.state['status'] = 'in_progress'
         self.state['orchestration_pass_id'] = os.getenv('ALEX_DISCOVERY_PASS_ID')
         self._save()

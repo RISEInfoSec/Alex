@@ -284,11 +284,18 @@ def test_resumed_discovery_preserves_candidates_and_enriches_new_arrivals(setup,
     assert list(saved['title']) == ['OSINT paper a']
     assert saved.iloc[0]['abstract'] == 'osint'
     assert json.loads((setup / 'data/discovery_run_receipt.json').read_text())['status'] == 'partial'
+    # A pre-repair checkpoint can already list a title whose CSV row is
+    # recovered later, and can repeat an existing title after an interruption.
+    checkpoint = setup / 'data/discovery_checkpoint.json'
+    retained = json.loads(checkpoint.read_text())
+    retained['candidate_titles'] += ['osint paper a', 'osint paper b']
+    checkpoint.write_text(json.dumps(retained))
     search.side_effect = [[paper('b')]]
     discovery.run()
     saved = pd.read_csv(setup / 'data/discovery_candidates.csv')
     assert list(saved['title']) == ['OSINT paper a', 'OSINT paper b']
     assert list(saved['abstract']) == ['osint', 'osint']
+    assert json.loads(checkpoint.read_text())['candidate_titles'] == ['osint paper a', 'osint paper b']
     assert search.call_count == 3  # q1 was not searched twice.
     assert enrich.call_args.args[1] == ['10.1/b']
     assert json.loads((setup / 'data/discovery_run_receipt.json').read_text())['status'] == 'complete'
