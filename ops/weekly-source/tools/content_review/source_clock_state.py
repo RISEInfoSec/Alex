@@ -44,7 +44,14 @@ def inspect(repo, run_id=None):
     with ThreadPoolExecutor(max_workers=3) as pool:
         active=sorted(set().union(*pool.map(active_status,
             ('queued','in_progress','waiting','pending','requested'))))
-    return {'review':review,'main':heads[REFS[1]],'heartbeat':heads[REFS[2]],'lease_owner':(state.get('lease') or {}).get('owner'),
+    recovered=bool(run_id and requested.get('application_status')=='failed' and
+        requested.get('failure_code')=='reconciliation_hold' and requested.get('application_completed_at') and
+        requested.get('request_counts')=={'source':0,'openalex':0,'paid':0} and not requested.get('pending_source_request') and
+        not requested.get('accounted_source_requests') and not state.get('lease') and
+        any(h.get('owner')=='weekly-source-processing' and h.get('run_id')==run_id and
+            h.get('status')=='released' and h.get('released_at')==requested.get('application_completed_at')
+            for h in state.get('lease_history',[])))
+    return {'reconciled_zero_request_failure':recovered,'review':review,'main':heads[REFS[1]],'heartbeat':heads[REFS[2]],'lease_owner':(state.get('lease') or {}).get('owner'),
             'lease_run':(state.get('lease') or {}).get('run_id'),'current_run':current.get('run_id'),
             'current_application':current.get('application_status'),'requested_run_observed':bool(rows or receipt),
             'requested_application_status':requested.get('application_status'),'receipt':receipt,

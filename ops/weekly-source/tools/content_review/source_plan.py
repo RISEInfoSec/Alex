@@ -114,7 +114,17 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
         def weekly_order(candidates):
             items = [{**item, 'content_sha256': weekly[item['candidate_id']]['content_sha256']} for item in candidates]
             retained_pending.update(_unretained_source_results(root, review_head, state, items, inputs['manifests']))
-            return source_priorities(items, weekly, prior_weekly, retained_pending, guard,
+            # A historical result that the Site cannot authorize must not
+            # prevent unrelated, previously unrequested papers from advancing.
+            from tools.content_review.weekly_reservation_history import reachable_reservations
+            origins={}
+            for key, result in retained_pending.items():
+                receipt_path='config/content_review_source_receipts/'+result['request_id']+'.json'
+                receipt=json.loads(_path_blob(root,review_head,receipt_path)[0])
+                origins[key]=receipt['native_run']['head_sha']
+            reachable=reachable_reservations(root,review_head,set(origins.values()))
+            verified_pending={k:v for k,v in retained_pending.items() if origins[k] in reachable}
+            return source_priorities(items, weekly, prior_weekly, verified_pending, guard,
                                      state.get('source_origin_backoff', {}), now)
 
     choices=plan(snapshot,confirmed_snapshot,inputs['reconciliation_manifests'],ledger,inputs['registry'],state,owner,run_id,

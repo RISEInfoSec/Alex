@@ -91,7 +91,7 @@ def run(repo, token, native):
             return {'status':'blocked','reason':'source_slot_already_armed','prior':prior,'lease_started':False}
         if prior['status']!='terminal_verified':
             proof=inspect(repo,prior['native_run_id'])
-            if (not proof['receipt'] or proof['lease_run'] or proof['current_application']=='running' or
+            if not proof.get('reconciled_zero_request_failure') and (not proof['receipt'] or proof['lease_run'] or proof['current_application']=='running' or
                     proof['receipt']['reported_status'] not in ('complete','deferred')):
                 return {'status':'blocked','reason':'prior_outcome_requires_reconciliation',
                         'prior':prior,'inspection':proof,'lease_started':False}
