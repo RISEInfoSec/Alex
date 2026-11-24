@@ -22,7 +22,6 @@ on:
         default: ''
   schedule:
     - cron: "23 3 * * 1"
-    - cron: "0 8 24 11 *" # 2026 only, checked against the native run creation date
 env:
   ALEX_OPENALEX_STATE_PATH: data/discovery_openalex_state.json
   ALEX_DISCOVERY_SYNC: "1"
