@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "kind": "weekly_original_pdf_access_recovery",
+  "source_review_commit": "a9a1bd9fc5c05d839614651015e460363599e415",
+  "completed_at": "2026-11-24T10:17:00+00:00",
+  "native_event": "push",
+  "workflow": ".github/workflows/weekly-original-verification.yml",
+  "native_run_id": 45373171334,
+  "native_run_attempt": 1,
+  "native_job_id": 138372354108,
+  "source_worker_commit": "4c4df5fadf63cfba8fc2009b1e3c66184f87f309",
+  "source_requests": 4,
+  "source_results": 2,
+  "source_holds": 0,
+  "openalex_requests": 0,
+  "new_access_passes": 2,
+  "newly_review_ready": 0,
+  "publication_approved": false,
+  "artifact_id": 14909089129,
+  "artifact_archive_sha256": "b3da00843940740344560c21ad79631059d0ec42fdb01fef43d63f4123739c56",
+  "result_sha256": "5b74e4e905850587b096ef0ae147f01e991bccd79305d9af5690b294bd85d898",
+  "records": [
+    {
+      "candidate_id": "weekly-2fb8d1268a016d82ab42dd40",
+      "content_sha256": "393002c9caaa2df2a29ec144a105b29944af28ec9d0ed2b56e87d2eb7da68780",
+      "gate": "access",
+      "source_receipt": "config/content_review_source_receipts/7667087097299841dbe562060d0fce5acb7b5dc358da33124685fd6845375afe.json",
+      "pdf": {
+        "requested_url": "https://www.advancelrf.org/wp-content/uploads/2026/09/Vol-8-No.-3-5.pdf",
+        "final_url": "https://www.advancelrf.org/wp-content/uploads/2026/09/Vol-8-No.-3-5.pdf",
+        "http_status": 200,
+        "body_sha256": "34537a0a833490a7dbdb4d0d5e6e90b3a5082ec5895e5dc9f64db1189e956802",
+        "text_sha256": "6f002a212e8990f6a840c8da44cbfe36cab6986e7807c997d61478c0a5ef7b74",
+        "byte_count": 246612,
+        "retrieved_at": "2026-11-24T10:16:54.006284+00:00",
+        "page_count": 13,
+        "title_present": true,
+        "doi_present": true,
+        "authors_present": true,
+        "complete_text": false
+      },
+      "remaining_checks": [
+        "format",
+        "metadata",
+        "schema"
+      ]
+    },
+    {
+      "candidate_id": "weekly-02db78e5dcf92cfe64dc4487",
+      "content_sha256": "1c9ba50bace101571c056d5f28a4f415298b4d575ffdbc149232af9fbbfea4ee",
+      "gate": "access",
+      "source_receipt": "config/content_review_source_receipts/37233ad86d473bc2b708f52b03200c0a1e7a18ae47f82917b3c42ef7d2cc6241.json",
+      "pdf": {
+        "requested_url": "https://www.ijisrt.com/assets/upload/files/IJISRT26MAY1257.pdf",
+        "final_url": "https://www.ijisrt.com/assets/upload/files/IJISRT26MAY1257.pdf",
+        "http_status": 200,
+        "body_sha256": "67ceb04bfbe5461b6f3eac7c0105f79b947953e463e6ffb9f0957cccb29ccaaf",
+        "text_sha256": "077bb4ad07781d408408375de995b444635fb0a4349eb16f03d603d327a6c591",
+        "byte_count": 393782,
+        "retrieved_at": "2026-11-24T10:16:57.790694+00:00",
+        "page_count": 5,
+        "title_present": true,
+        "doi_present": true,
+        "authors_present": true,
+        "complete_text": true
+      },
+      "remaining_checks": [
+        "format",
+        "metadata",
+        "schema"
+      ]
+    }
+  ],
+  "request_log": [
+    {
+      "url": "https://www.advancelrf.org/robots.txt",
+      "started_at": "2026-11-24T10:16:51.489736+00:00",
+      "http_status": 200,
+      "retry_not_before": null,
+      "bytes": 169
+    },
+    {
+      "url": "https://www.advancelrf.org/wp-content/uploads/2026/09/Vol-8-No.-3-5.pdf",
+      "started_at": "2026-11-24T10:16:53.758690+00:00",
+      "http_status": 200,
+      "retry_not_before": null,
+      "bytes": 246612
+    },
+    {
+      "url": "https://www.ijisrt.com/robots.txt",
+      "started_at": "2026-11-24T10:16:54.312280+00:00",
+      "http_status": 200,
+      "retry_not_before": null,
+      "bytes": 30
+    },
+    {
+      "url": "https://www.ijisrt.com/assets/upload/files/IJISRT26MAY1257.pdf",
+      "started_at": "2026-11-24T10:16:56.393283+00:00",
+      "http_status": 200,
+      "retry_not_before": null,
+      "bytes": 393782
+    }
+  ]
+}
