@@ -743,12 +743,7 @@
       "paid": 0,
       "openalex": 0
     },
-    "pending_source_request": {
-      "request_id": "139bae268c7eeb5242cdec784efa29bdcd6ec1aacaa8f2f3e4557e5d86883d44",
-      "origin_run_id": "7f11f154-6f28-8333-9ece-8ab884f091d2",
-      "reserved_limit": 30,
-      "prepared_at": "2026-11-24T13:19:48.333332+00:00"
-    },
+    "pending_source_request": null,
     "scheduler": {
       "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
       "observed_at": "2026-11-24T14:18:31.555993+00:00",
@@ -761,7 +756,18 @@
         "started_at": "2026-11-24T14:17:01.822529Z",
         "completed_at": null
       }
-    }
+    },
+    "accounted_source_requests": [
+      {
+        "request_id": "139bae268c7eeb5242cdec784efa29bdcd6ec1aacaa8f2f3e4557e5d86883d44",
+        "artifact_id": 14923077933,
+        "artifact_sha256": "ded203de01b2e965487a2d975e5dc16a66faa237b515f9088672d13059415906",
+        "native_run_id": 45402494901,
+        "requests": 16,
+        "origin_run_id": "7f11f154-6f28-8333-9ece-8ab884f091d2",
+        "charged_to_current_run": false
+      }
+    ]
   },
   "last_heartbeat_at": "2026-11-24T14:18:31.555993+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
@@ -1765,5 +1771,17 @@
       "gate": "duplicates"
     }
   },
-  "source_last_progress": {}
+  "source_last_progress": {},
+  "source_origin_backoff": {
+    "services.igi-global.com": {
+      "reason": "http_429",
+      "retry_not_before": "2026-11-24T14:21:51.509313+00:00",
+      "source_request_id": "139bae268c7eeb5242cdec784efa29bdcd6ec1aacaa8f2f3e4557e5d86883d44"
+    },
+    "www.aic.gov.au": {
+      "reason": "transport_ReadTimeout",
+      "retry_not_before": "2026-11-24T14:22:13.936058+00:00",
+      "source_request_id": "139bae268c7eeb5242cdec784efa29bdcd6ec1aacaa8f2f3e4557e5d86883d44"
+    }
+  }
 }

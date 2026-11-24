@@ -1,0 +1,379 @@
+{
+  "schema_version": 1,
+  "independently_verified": true,
+  "request": {
+    "schema_version": 1,
+    "started_at": "2026-11-24T13:17:01.315917+00:00",
+    "work_deadline": "2026-11-24T13:27:01.315917+00:00",
+    "lease_owner": "weekly-source-processing",
+    "source_request_limit": 30,
+    "records": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-fe8a016f8c175015995e7678",
+        "content_sha256": "95e36ec01fa534fa8ecf866a2c5b102d57ffc46c2e54c06a54cd3233bc874e86",
+        "manifest_sha256": "4a83ae61914db528736d4f61382e4d594f7bb85985176b8ac41feb4c69d20277",
+        "url": "https://doi.org/10.3390/risks14040096"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-fedafa22d1659db395c02b49",
+        "content_sha256": "d66e4e3de249d1cf5bb829d1d930900eefcab011d4215316db27873d9d8347a3",
+        "manifest_sha256": "4a83ae61914db528736d4f61382e4d594f7bb85985176b8ac41feb4c69d20277",
+        "url": "https://doi.org/10.1145/3829369"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-25c719c340f95f34cdc4f10e",
+        "content_sha256": "b3868b1cdf8cf27ea051fc507008c6ea542769373c5d420b0c1ee681b66a7871",
+        "manifest_sha256": "4a83ae61914db528736d4f61382e4d594f7bb85985176b8ac41feb4c69d20277",
+        "url": "https://doi.org/10.1201/9781003683292-12"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-be460fcb85bf8743df12f760",
+        "content_sha256": "a7022dbbd9ba36535d692e4b2590dfc0f29c430d218a2726f085693617eb0a7d",
+        "manifest_sha256": "4a83ae61914db528736d4f61382e4d594f7bb85985176b8ac41feb4c69d20277",
+        "url": "https://doi.org/10.4018/979-8-2600-2278-8.ch001"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-e922c25d5af5066aae59fa07",
+        "content_sha256": "f8d41e3ae22f72514cd8e2b988bf665cf6c209c2089435ac3b03a39f1acf176b",
+        "manifest_sha256": "4a83ae61914db528736d4f61382e4d594f7bb85985176b8ac41feb4c69d20277",
+        "url": "https://doi.org/10.52922/sr78359"
+      }
+    ],
+    "coordinator_run_id": "7f11f154-6f28-8333-9ece-8ab884f091d2",
+    "request_id": "139bae268c7eeb5242cdec784efa29bdcd6ec1aacaa8f2f3e4557e5d86883d44"
+  },
+  "native_run": {
+    "id": 45402494901,
+    "event": "push",
+    "head_branch": "codex/soups-corpus-review",
+    "path": ".github/workflows/content_review_sources.yml",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8da419d125a690271c16db20b65cf825d9909e07",
+    "run_attempt": 1
+  },
+  "artifact_id": 14923077933,
+  "artifact_sha256": "ded203de01b2e965487a2d975e5dc16a66faa237b515f9088672d13059415906",
+  "result": {
+    "schema_version": 1,
+    "request_id": "139bae268c7eeb5242cdec784efa29bdcd6ec1aacaa8f2f3e4557e5d86883d44",
+    "status": "complete",
+    "records": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-fe8a016f8c175015995e7678",
+        "content_sha256": "95e36ec01fa534fa8ecf866a2c5b102d57ffc46c2e54c06a54cd3233bc874e86",
+        "status": "held",
+        "evidence": [],
+        "reason": "robots_unavailable_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-fedafa22d1659db395c02b49",
+        "content_sha256": "d66e4e3de249d1cf5bb829d1d930900eefcab011d4215316db27873d9d8347a3",
+        "status": "held",
+        "evidence": [],
+        "reason": "source_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-25c719c340f95f34cdc4f10e",
+        "content_sha256": "b3868b1cdf8cf27ea051fc507008c6ea542769373c5d420b0c1ee681b66a7871",
+        "status": "held",
+        "evidence": [
+          {
+            "requested_url": "https://doi.org/10.1201/9781003683292-12",
+            "final_url": "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003683292-12/enhancing-ransomware-detection-feature-engineering-deep-learning-survey-modern-techniques-shweta-singh-deepak-kumar-verma-om-prakash-suthar-shiva-gupta",
+            "http_status": 200,
+            "headers": {
+              "content-type": "text/html; charset=UTF-8"
+            },
+            "redirects": [
+              {
+                "url": "https://doi.org/10.1201/9781003683292-12",
+                "http_status": 302
+              },
+              {
+                "url": "https://www.taylorfrancis.com/books/9781003683292/chapters/10.1201/9781003683292-12",
+                "http_status": 301
+              },
+              {
+                "url": "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003683292-12/enhancing-ransomware-detection-feature-engineering-deep-learning-survey-modern-techniques-shweta-singh-deepak-kumar-verma-om-prakash-suthar-shiva-gupta",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "4d18d8706bf91cb935d486a68a569adfb20e6fc75d97535a148dd57169a5ecef",
+            "retrieved_at": "2026-11-24T13:21:51.069430+00:00",
+            "byte_count": 55498,
+            "container_type": "html",
+            "metadata": {
+              "viewport": [
+                "width=device-width, initial-scale=1"
+              ],
+              "referrer": [
+                "no-referrer-when-downgrade"
+              ],
+              "twitter:card": [
+                "summary"
+              ],
+              "msapplication-tilecolor": [
+                "#00aacc"
+              ],
+              "theme-color": [
+                "#00aacc"
+              ],
+              "appversion": [
+                "v2.2.1, Tue Nov 24 2026 03:56:07 GMT+0000 (Coordinated Universal Time)"
+              ],
+              "og:title": [
+                "Enhancing Ransomware Detection through Feature Engineering and Deep Le"
+              ],
+              "description": [
+                "Ransomware is now a serious cybersecurity issue, resulting in significant losses of money and operations in most industries. They are not likely to identify"
+              ],
+              "og:url": [
+                "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003683292-12/enhancing-ransomware-detection-feature-engineering-deep-learning-survey-modern-techniques-shweta-singh-deepak-kumar-verma-om-prakash-suthar-shiva-gupta"
+              ],
+              "og:type": [
+                "books.book"
+              ],
+              "og:site_name": [
+                "Taylor & Francis"
+              ],
+              "og:description": [
+                "Ransomware is now a serious cybersecurity issue, resulting in significant losses of money and operations in most industries. They are not likely to identify"
+              ],
+              "og:image": [
+                "http://images.tandf.co.uk/common/jackets/crclarge/978100368/9781003683292.jpg"
+              ],
+              "og:image:secure_url": [
+                "https://images.tandf.co.uk/common/jackets/crclarge/978100368/9781003683292.jpg"
+              ],
+              "og:image:alt": [
+                "Enhancing Ransomware Detection through Feature Engineering and Deep Learning: A Survey of Modern Techniques"
+              ],
+              "audience": [
+                "all"
+              ],
+              "distribution": [
+                "global"
+              ],
+              "citation_title": [
+                "Enhancing Ransomware Detection through Feature Engineering and Deep Learning: A Survey of Modern Techniques"
+              ],
+              "citation_publisher": [
+                "CRC Press"
+              ],
+              "citation_pdf_url": [
+                "https://api.taylorfrancis.com/content/chapters/edit/download?identifierName=doi&identifierValue=10.1201/9781003683292-12&type=chapterpdf"
+              ],
+              "citation_doi": [
+                "10.1201/9781003683292-12"
+              ],
+              "citation_abstract": [
+                "Ransomware is now a serious cybersecurity issue, resulting in significant losses of money and operations in most industries. They are not likely to identify advanced and developing ransomware attacks as they are normally founded on the old-fashioned methods of detection, including signature-based and heuristic which is always temporal. So, the present study examined whether the ransomware detection may be enhanced by deep-learning models and sophisticated feature engineering approaches. Ransomware attacks are also one of the most harmful cyber attacks that have caused immense effects on individuals, corporations, and governments globally. Due to the inability of the traditional detection methods to cope with the more advanced patterns of attacks, the deep learning, and the techniques of feature engineering have demonstrated a high potential in enhancing the levels of detection accuracy of the ransomware. In this review, we will cover the latest developments with regards to deep learning models especially, logistic regression, Decision trees, support vegetable machine, Naive Bayes, convolutional neural networks, artificial neural networks and features engineering used to enhance ransomware detection. Additionally, we highlight the difficulties, restrictions, and potential avenues for further study in this emerging area. The chapter highlights why feature engineering is important in deep-learning applications, which sets the field to evolve in the future with respect to cybersecurity. Increased capability to identify ransomware leads to stronger and flexible security systems with improved finding."
+              ],
+              "citation_author": [
+                "Shweta Singh",
+                "Deepak Kumar Verma",
+                "Om Prakash Suthar",
+                "Shiva Gupta"
+              ],
+              "citation_xml_url": [
+                "https://api.taylorfrancis.com/content/chapters/edit/download?identifierName=doi&identifierValue=10.1201/9781003683292-12&type=chapterxml"
+              ],
+              "citation_inbook_title": [
+                "Artificial Intelligence in Cybersecurity"
+              ],
+              "citation_firstpage": [
+                "237"
+              ],
+              "citation_lastpage": [
+                "256"
+              ]
+            },
+            "title": "Enhancing Ransomware Detection through Feature Engineering and Deep Le",
+            "links": [
+              {
+                "text": "Skip to main content",
+                "url": "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003683292-12/enhancing-ransomware-detection-feature-engineering-deep-learning-survey-modern-techniques-shweta-singh-deepak-kumar-verma-om-prakash-suthar-shiva-gupta#main-content"
+              }
+            ],
+            "text": "Enhancing Ransomware Detection through Feature Engineering and Deep Le\nSkip to main content",
+            "text_complete": true,
+            "document_type": "unverified",
+            "fragment": "",
+            "resource_unavailable": false,
+            "text_sha256": "7c925ed1ffc82e9ad9f7ef4cd6d9d1ff469e406dd9640e6a8371d329fd47e6bf"
+          }
+        ],
+        "reason": "robots_unavailable_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-be460fcb85bf8743df12f760",
+        "content_sha256": "a7022dbbd9ba36535d692e4b2590dfc0f29c430d218a2726f085693617eb0a7d",
+        "status": "held",
+        "evidence": [],
+        "reason": "robots_unavailable_http_429",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-e922c25d5af5066aae59fa07",
+        "content_sha256": "f8d41e3ae22f72514cd8e2b988bf665cf6c209c2089435ac3b03a39f1acf176b",
+        "status": "held",
+        "evidence": [],
+        "reason": "ReadTimeout",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval."
+      }
+    ],
+    "requests": 16,
+    "read_only": true,
+    "provenance": {
+      "GITHUB_SHA": "8da419d125a690271c16db20b65cf825d9909e07",
+      "GITHUB_RUN_ID": "45402494901",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+      "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_sources.yml@refs/heads/codex/soups-corpus-review"
+    },
+    "request_log": [
+      {
+        "url": "https://doi.org/robots.txt",
+        "started_at": "2026-11-24T13:21:39.545760+00:00",
+        "http_status": 301,
+        "redirect_location": "https://www.doi.org/robots.txt",
+        "retry_not_before": null,
+        "bytes": 0
+      },
+      {
+        "url": "https://www.doi.org/robots.txt",
+        "started_at": "2026-11-24T13:21:39.610821+00:00",
+        "http_status": 404,
+        "retry_not_before": null,
+        "bytes": 7633
+      },
+      {
+        "url": "https://doi.org/10.3390/risks14040096",
+        "started_at": "2026-11-24T13:21:41.601298+00:00",
+        "http_status": 302,
+        "redirect_location": "https://www.mdpi.com/2227-9091/14/4/96",
+        "retry_not_before": null,
+        "bytes": 161
+      },
+      {
+        "url": "https://www.mdpi.com/robots.txt",
+        "started_at": "2026-11-24T13:21:41.760031+00:00",
+        "http_status": 403,
+        "retry_not_before": null,
+        "bytes": 380
+      },
+      {
+        "url": "https://doi.org/10.1145/3829369",
+        "started_at": "2026-11-24T13:21:43.702775+00:00",
+        "http_status": 302,
+        "redirect_location": "https://dl.acm.org/doi/10.1145/3829369",
+        "retry_not_before": null,
+        "bytes": 161
+      },
+      {
+        "url": "https://dl.acm.org/robots.txt",
+        "started_at": "2026-11-24T13:21:43.803468+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 814
+      },
+      {
+        "url": "https://dl.acm.org/doi/10.1145/3829369",
+        "started_at": "2026-11-24T13:21:45.895382+00:00",
+        "http_status": 403,
+        "retry_not_before": null,
+        "bytes": 5618
+      },
+      {
+        "url": "https://doi.org/10.1201/9781003683292-12",
+        "started_at": "2026-11-24T13:21:45.914447+00:00",
+        "http_status": 302,
+        "redirect_location": "https://www.taylorfrancis.com/books/9781003683292/chapters/10.1201/9781003683292-12",
+        "retry_not_before": null,
+        "bytes": 251
+      },
+      {
+        "url": "https://www.taylorfrancis.com/robots.txt",
+        "started_at": "2026-11-24T13:21:45.983117+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 15679
+      },
+      {
+        "url": "https://www.taylorfrancis.com/books/9781003683292/chapters/10.1201/9781003683292-12",
+        "started_at": "2026-11-24T13:21:48.060585+00:00",
+        "http_status": 301,
+        "redirect_location": "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003683292-12/enhancing-ransomware-detection-feature-engineering-deep-learning-survey-modern-techniques-shweta-singh-deepak-kumar-verma-om-prakash-suthar-shiva-gupta",
+        "retry_not_before": null,
+        "bytes": 0
+      },
+      {
+        "url": "https://www.taylorfrancis.com/chapters/edit/10.1201/9781003683292-12/enhancing-ransomware-detection-feature-engineering-deep-learning-survey-modern-techniques-shweta-singh-deepak-kumar-verma-om-prakash-suthar-shiva-gupta",
+        "started_at": "2026-11-24T13:21:50.486245+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 55498
+      },
+      {
+        "url": "https://api.taylorfrancis.com/robots.txt",
+        "started_at": "2026-11-24T13:21:51.145042+00:00",
+        "http_status": 403,
+        "retry_not_before": null,
+        "bytes": 42
+      },
+      {
+        "url": "https://doi.org/10.4018/979-8-2600-2278-8.ch001",
+        "started_at": "2026-11-24T13:21:51.365263+00:00",
+        "http_status": 302,
+        "redirect_location": "https://services.igi-global.com/resolvedoi/resolve.aspx?doi=10.4018/979-8-2600-2278-8.ch001",
+        "retry_not_before": null,
+        "bytes": 267
+      },
+      {
+        "url": "https://services.igi-global.com/robots.txt",
+        "started_at": "2026-11-24T13:21:51.427864+00:00",
+        "http_status": 429,
+        "retry_not_before": null,
+        "bytes": 1484
+      },
+      {
+        "url": "https://doi.org/10.52922/sr78359",
+        "started_at": "2026-11-24T13:21:53.399305+00:00",
+        "http_status": 302,
+        "redirect_location": "https://www.aic.gov.au/publications/sr/sr59",
+        "retry_not_before": null,
+        "bytes": 171
+      },
+      {
+        "url": "https://www.aic.gov.au/robots.txt",
+        "started_at": "2026-11-24T13:21:53.935592+00:00",
+        "error": "ReadTimeout"
+      }
+    ],
+    "origin_backoff": {
+      "services.igi-global.com": {
+        "reason": "http_429",
+        "retry_not_before": "2026-11-24T14:21:51.509313+00:00"
+      },
+      "www.aic.gov.au": {
+        "reason": "transport_ReadTimeout",
+        "retry_not_before": "2026-11-24T14:22:13.936058+00:00"
+      }
+    },
+    "updated_at": "2026-11-24T13:22:13.936796+00:00"
+  }
+}
