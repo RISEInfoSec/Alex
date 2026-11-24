@@ -121,7 +121,8 @@ class DetachedHeartbeatPulse:
         proposal=prepare(self.repo,self.review,before[HEARTBEAT],self.owner,self.run,at=self._clock())
         result=self._send('heartbeat',{'proposal':proposal},self._token)
         if not isinstance(result,dict) or result.get('status')!='committed_and_read_back' or not SHA.fullmatch(result.get('commit_sha') or ''):
-            raise ValueError('Heartbeat outcome unconfirmed; reconcile ref')
+            from tools.content_review.heartbeat_readback import confirm
+            result=confirm(self.repo,self._token,proposal,self.main,self._clock,self._heads,self._fetch)
         after=self._heads(self.repo)
         if after.get(REVIEW)!=self.review or after.get(MAIN)!=self.main or after.get(HEARTBEAT)!=result['commit_sha']:
             raise ValueError('Heartbeat ref or source heads changed')
