@@ -125,7 +125,8 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
                     (item['collection'],item['candidate_id']) not in excluded_keys]
     priorities = {}
     if weekly_source_order is not None:
-        if owner != 'weekly-source-processing' or tuple(stages or ()) != ('source',) or not callable(weekly_source_order):
+        if (owner != 'weekly-source-processing' or not callable(weekly_source_order) or
+            not (tuple(stages or ()) == ('source',) or retained_source_only and tuple(stages or ()) == ('source','metadata'))):
             raise ValueError('Weekly source ordering requires its bounded source pass')
         priorities = weekly_source_order(stage_eligible)
         stage_eligible = [item for item in stage_eligible if item['candidate_id'] in priorities]

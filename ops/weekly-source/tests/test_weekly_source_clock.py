@@ -145,3 +145,47 @@ def test_due_source_capacity_survives_retained_held_and_accounted_prior_slots():
             prior.add((cid,rows[cid]['content_sha256']))
         unseen-=set(batch)
     assert not unseen and not selected(order)
+
+
+def test_weekly_gate_opportunities_alternate_and_prioritize_pending_accounting():
+    from unittest.mock import Mock
+    from tools.content_review.weekly_source_gates import weekly_pass, OWNER
+    args=('repo','token',{},'review','main',OWNER,'native')
+    state={'current_run':{},'source_attempts':{},'run_history':[{'run_id':'previous'}]}
+    counted=[]
+    def source(*a,**kw):
+        counted.append('source')
+        return {'status':'source'}
+    gate=Mock(return_value={'status':'deferred','reason':'no_selected_source_gate'})
+    finish=Mock()
+    def step(**more):
+        return weekly_pass(*args,state_reader=lambda *a:state,gate=gate,complete_gate=finish,source=more.get('source',source),gate_evidence=lambda *a:True)
+    assert step()['status']=='source' and gate.call_count==1
+    state['current_run']['pending_source_request']={'request_id':'pending'}
+    assert step()['status']=='source' and gate.call_count==1
+    del state['current_run']['pending_source_request']
+    gate.return_value={'status':'blocked','reconcile_before_retry':True}
+    assert step()['status']=='blocked' and len(counted)==2
+    state['source_attempts']['weekly']={'run_id':'previous','gate':'access'}
+    assert step()['status']=='source' and gate.call_count==2
+    gate.return_value={'status':'checkpoint_confirmed_run_incomplete','commit_sha':'new','receipt_path':'proof'}
+    finish.return_value={'status':'application_complete'}
+    def no_sources(*args,**kwargs):
+        return kwargs['empty_finish'](*args,None)
+    assert step(source=no_sources)['status']=='application_complete'
+    assert finish.call_args.args[3]=='new'
+
+
+def test_transport_accepts_only_receipt_bound_held_completion():
+    from tests.test_content_review_site_worker_client import Opener,Response
+    from tools.content_review.site_worker_client import post
+    path='config/content_review_run_receipts/native.json'
+    body={'runId':'native','files':{path:json.dumps({'run_id':'native','status':'deferred','candidate_processing':False,
+                                           'completed_actions':[{'action':'source_hold_retained'}]})}}
+    response={'status':'committed_and_read_back','commit_sha':'a'*40,'receipt_path':path,'candidate_processing':False,
+              'native_completion_verified':False,'publication_verified':False}
+    def send(action,body):
+        return post(action,body,'fixture',opener=Opener(Response(response)))
+    assert send('source_retention_completion',body)['candidate_processing'] is False
+    assert send('source_retention_completion',{'runId':'unrelated','files':body['files']})['status']=='outcome_unknown'
+    assert send('source_gate_completion',body)['status']=='outcome_unknown'

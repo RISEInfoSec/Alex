@@ -4,18 +4,16 @@ import os
 import sys
 import traceback
 from datetime import datetime, timezone
-from functools import partial
 from pathlib import Path
 from uuid import UUID
 from urllib.request import Request, build_opener
 from urllib.error import HTTPError
 
 from tools.content_review.coordinator_source_pilot import run as run_source
-from tools.content_review.coordinator_source_cycle import source_pass
-from tools.content_review.coordinator_source_reservation import reserve
+from tools.content_review.weekly_source_gates import weekly_pass
 from tools.content_review.lifecycle import instant
 from tools.content_review.operations import find_automation, hourly_anchor
-from tools.content_review.site_reconcile_client import read_snapshot, NoRedirect
+from tools.content_review.site_reconcile_client import NoRedirect
 
 CLOCK = 'Automation_cf4416f7ec8881919355fc7406f9fc40'
 OWNER = 'weekly-source-processing'
@@ -106,11 +104,9 @@ def run(repo, token, native):
     clock_run(native, datetime.now(timezone.utc))
     # The original source cycle reconciles its one outstanding reservation before
     # preparing another. Every write uses the real Site writer and Git/D1 fence.
-    read = partial(read_snapshot, include_drafts=True)
-    scoped_reservation = partial(reserve, snapshot_reader=read)
     journal(record,run_id,'armed')
     result=run_source(repo, token, native, OWNER, run_id,
-                      source=partial(source_pass, reserver=scoped_reservation))
+                      source=weekly_pass)
     if result.get('status') in ('application_complete','deferred') and result.get('lease_release_confirmed') is True:
         check=inspect(repo,run_id)
         if check['receipt'] and not check['lease_run'] and check['current_application']!='running':
