@@ -2567,3 +2567,57 @@ def test_weekly_recorder_confirms_each_source_head_once(tmp_path, monkeypatch):
     lookup()
     assert [op for op,_ in ops] == ['prepare_snapshot','confirm_snapshot','request','request',
                                     'prepare_snapshot','confirm_snapshot','request']
+
+
+def test_weekly_job_identity_is_reused_only_with_time_for_a_recorder_operation(monkeypatch):
+    import base64
+    import json
+    from unittest.mock import Mock
+    from alex.utils import weekly_openalex as oa
+
+    def identity(expires):
+        payload = json.dumps({'aud': oa.GATEWAY, 'exp': expires}).encode()
+        return 'header.' + base64.urlsafe_b64encode(payload).decode().rstrip('=') + '.signature'
+
+    issue = Mock(side_effect=[identity(1200), identity(1400)])
+    clock = Mock(return_value=1000)
+    monkeypatch.setattr(oa, '_oidc', issue)
+    monkeypatch.setattr(oa.time, 'time', clock)
+    session = oa.JobIdentity()
+    first = session.get()
+    clock.return_value = 1074
+    assert session.get() == first and issue.call_count == 1
+    clock.return_value = 1075
+    assert session.get() != first and issue.call_count == 2
+
+
+def test_weekly_identity_failure_stops_before_the_recorder_post(monkeypatch):
+    from unittest.mock import Mock
+    from alex.utils import weekly_openalex as oa
+
+    monkeypatch.setenv('ACTIONS_ID_TOKEN_REQUEST_URL', 'https://example.invalid/identity')
+    monkeypatch.setenv('ACTIONS_ID_TOKEN_REQUEST_TOKEN', 'test')
+    monkeypatch.setenv('ALEX_SITE_SERVICE_BEARER', 'test')
+    monkeypatch.setattr(oa.requests, 'get', Mock(return_value=Mock(status_code=429)))
+    post = Mock()
+    monkeypatch.setattr(oa.requests, 'post', post)
+    with pytest.raises(oa.GatewayUnavailable, match='openalex_github_identity_http_429'):
+        oa.call('request', job_identity=oa.JobIdentity())
+    post.assert_not_called()
+
+
+def test_weekly_identity_service_retries_only_transient_issuance(monkeypatch):
+    from unittest.mock import Mock
+    from alex.utils import weekly_openalex as oa
+
+    monkeypatch.setenv('ACTIONS_ID_TOKEN_REQUEST_URL', 'https://example.invalid/identity')
+    monkeypatch.setenv('ACTIONS_ID_TOKEN_REQUEST_TOKEN', 'test')
+    recovered = Mock(status_code=200)
+    recovered.json.return_value = {'value': 'test-token'}
+    issue = Mock(side_effect=[Mock(status_code=503, headers={'Retry-After': '2'}), recovered])
+    monkeypatch.setattr(oa.requests, 'get', issue)
+    pause = Mock()
+    monkeypatch.setattr(oa.time, 'sleep', pause)
+    assert oa._oidc() == 'test-token'
+    assert issue.call_count == 2
+    pause.assert_called_once_with(2)
