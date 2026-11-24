@@ -85,17 +85,18 @@ def run(repo, token, native):
     run_id = clock_run(native, datetime.now(timezone.utc))
     from tools.content_review.source_clock_state import inspect
     record=Path(repo)/'.git'/'weekly-source-journal.json'
+    if record.exists() and json.loads(record.read_bytes())['native_run_id']==run_id:
+        return {'status':'blocked','reason':'source_slot_already_armed','lease_started':False}
+    from tools.content_review.weekly_stopped_source import reconcile_prior
+    state = reconcile_prior(repo,token,run_id,inspect(repo,run_id))
     if record.exists():
         prior=json.loads(record.read_bytes())
-        if prior['native_run_id']==run_id:
-            return {'status':'blocked','reason':'source_slot_already_armed','prior':prior,'lease_started':False}
         if prior['status']!='terminal_verified':
             proof=inspect(repo,prior['native_run_id'])
             if not proof.get('reconciled_zero_request_failure') and (not proof['receipt'] or proof['lease_run'] or proof['current_application']=='running' or
                     proof['receipt']['reported_status'] not in ('complete','deferred')):
                 return {'status':'blocked','reason':'prior_outcome_requires_reconciliation',
                         'prior':prior,'inspection':proof,'lease_started':False}
-    state = inspect(repo,run_id)
     if state['requested_run_observed'] or state['lease_run'] or state['current_application']=='running':
         return {'status':'blocked','reason':'previous_or_matching_run_requires_reconciliation',
                 'candidate_processing':False,'lease_started':False,'inspection':state}

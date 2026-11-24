@@ -49,7 +49,8 @@ def inspect(repo, run_id=None):
         requested.get('request_counts')=={'source':0,'openalex':0,'paid':0} and not requested.get('pending_source_request') and
         not requested.get('accounted_source_requests') and not state.get('lease') and
         any(h.get('owner')=='weekly-source-processing' and h.get('run_id')==run_id and
-            h.get('status')=='released' and h.get('released_at')==requested.get('application_completed_at')
+            ((h.get('status')=='released' and h.get('released_at')==requested.get('application_completed_at')) or
+             (h.get('status')=='expired' and h.get('expiry_observed_at')==requested.get('application_completed_at')))
             for h in state.get('lease_history',[])))
     return {'reconciled_zero_request_failure':recovered,'review':review,'main':heads[REFS[1]],'heartbeat':heads[REFS[2]],'lease_owner':(state.get('lease') or {}).get('owner'),
             'lease_run':(state.get('lease') or {}).get('run_id'),'current_run':current.get('run_id'),

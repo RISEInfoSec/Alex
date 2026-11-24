@@ -208,3 +208,13 @@ def test_expired_unavailable_or_unbound_artifacts_do_not_occupy_the_gate_slot():
         return m
     assert available_gate(candidates,saved,rows,'fixture',0,at,reader=read)=={'5':0}
     assert not available_gate(candidates,saved,rows,'fixture',0,at,reader=lambda *args:None)
+
+
+def test_duplicate_or_active_source_job_never_attempts_expiry():
+    from tools.content_review.weekly_stopped_source import reconcile_prior, OWNER
+    base = {'lease_run':'old','current_run':'old','lease_owner':OWNER,'active_source_job_runs':[],'pending_request':None}
+    with patch('tools.content_review.weekly_stopped_source.inspect') as inspect:
+        for updates in ({'lease_run':'new'}, {'active_source_job_runs':[1]}, {'pending_request':'pending'}, {'lease_owner':'another'}):
+            state = {**base, **updates}
+            assert reconcile_prior(None, None, 'new', state) is state
+        inspect.assert_not_called()
