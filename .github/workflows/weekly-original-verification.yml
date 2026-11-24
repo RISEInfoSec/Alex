@@ -1,0 +1,46 @@
+name: Verify two retained weekly paper originals
+on:
+  push:
+    branches: [codex/weekly-original-verification-20261124]
+    paths:
+      - .github/workflows/weekly-original-verification.yml
+permissions:
+  contents: read
+concurrency:
+  group: weekly-original-verification-20261124
+  cancel-in-progress: false
+jobs:
+  retained-originals:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+          path: operator
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: a9a1bd9fc5c05d839614651015e460363599e415
+          persist-credentials: false
+          path: review
+      - uses: actions/setup-python@v7.1.0
+        with:
+          python-version: '3.11'
+      - name: Install the review source worker's dependencies
+        run: python -m pip install -r review/requirements.txt pypdf beautifulsoup4
+      - name: Inspect the publisher-linked originals and retain their receipts
+        working-directory: review
+        env:
+          PYTHONPATH: .
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -eu
+          test "$(git ls-remote origin refs/heads/codex/soups-corpus-review | cut -f1)" = "$(git rev-parse HEAD)"
+          python ../operator/tools/content_review/inspect_weekly_original.py ../original-check.json
+      - uses: actions/upload-artifact@v7.0.2
+        if: always()
+        with:
+          name: weekly-originals-${{ github.run_id }}-${{ github.run_attempt }}
+          path: original-check.json
+          retention-days: 30
+          if-no-files-found: error
