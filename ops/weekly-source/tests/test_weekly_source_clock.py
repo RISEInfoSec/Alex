@@ -189,3 +189,22 @@ def test_transport_accepts_only_receipt_bound_held_completion():
     assert send('source_retention_completion',body)['candidate_processing'] is False
     assert send('source_retention_completion',{'runId':'unrelated','files':body['files']})['status']=='outcome_unknown'
     assert send('source_gate_completion',body)['status']=='outcome_unknown'
+
+
+def test_expired_unavailable_or_unbound_artifacts_do_not_occupy_the_gate_slot():
+    from tools.content_review.weekly_source_gates import available_gate
+    at,_=occurrence()
+    rows={str(i):{'source_processing':{'receipt':str(i)}} for i in range(8)}
+    saved={str(i):{'artifact_id':i+1,'native_run':{'id':100+i}} for i in range(8)}
+    candidates={cid:['access'] for cid in rows}
+    def read(run,aid):
+        m={'id':aid,'workflow_run':{'id':99+aid},'expires_at':'2026-12-01T00:00:00Z',
+           'digest':'sha256:'+'1'*64,'expired':False}
+        if aid==1:return None
+        if aid==2:m['expires_at']=at.isoformat()
+        if aid==3:m['workflow_run']['id']=99
+        if aid==4:m['expired']=True
+        if aid==5:del m['digest']
+        return m
+    assert available_gate(candidates,saved,rows,'fixture',0,at,reader=read)=={'5':0}
+    assert not available_gate(candidates,saved,rows,'fixture',0,at,reader=lambda *args:None)

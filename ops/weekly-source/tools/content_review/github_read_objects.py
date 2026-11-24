@@ -22,14 +22,14 @@ SHA = re.compile('[0-9a-f]{40}')
 MAX = 48 * 1024 * 1024
 
 
-def api(path):
+def api(path, *, timeout=30):
     # Scope is fixed by code. The managed read token is never placed on argv.
     headers = {'Accept': 'application/vnd.github+json', 'User-Agent': 'ALEX source coordinator object reader',
                'Cache-Control': 'no-cache'}
     token = os.environ.get('ALEX_GITHUB_TOKEN')
     if token:
         headers['Authorization'] = 'Bearer ' + token
-    with build_opener(NoRedirect).open(Request(ROOT + path, headers=headers), timeout=30) as response:
+    with build_opener(NoRedirect).open(Request(ROOT + path, headers=headers), timeout=timeout) as response:
         data = response.read(MAX + 1)
     if len(data) > MAX:
         raise ValueError('GitHub object response exceeds transport limit')

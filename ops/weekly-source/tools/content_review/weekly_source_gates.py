@@ -2,7 +2,11 @@
 import json
 import re
 from datetime import datetime, timezone
-from functools import partial
+from functools import partial, lru_cache
+from time import monotonic
+from urllib.error import HTTPError, URLError
+from tools.content_review.github_read_objects import api
+from tools.content_review.lifecycle import instant
 
 from tools.content_review.coordinator import plan
 from tools.content_review.coordinator_lifecycle import complete as finish_empty
@@ -23,6 +27,41 @@ GATES = ('format', 'access', 'metadata')
 RECEIPT = re.compile(r'config/content_review_source_receipts/[0-9a-f]{64}\.json')
 
 
+@lru_cache(maxsize=100)
+def artifact_metadata(run_id, artifact_id):
+    # Metadata is cached only for one genuine native slot. The Site writer
+    # independently downloads and verifies the actual artifact under its lease.
+    try:
+        return api('/actions/artifacts/'+str(artifact_id), timeout=3)
+    except (HTTPError, URLError, OSError, ValueError):
+        return None
+
+
+def available_gate(candidates, receipts, rows, run_id, rotation, at, *, reader=artifact_metadata):
+    if not candidates:
+        return {}
+    ids=list(candidates)
+    start=rotation % len(ids)
+    due=monotonic()+12
+    for cid in ids[start:]+ids[:start]:
+        if monotonic()>=due:
+            break
+        saved=receipts[rows[cid]['source_processing']['receipt']]
+        aid=saved.get('artifact_id')
+        native=(saved.get('native_run') or {}).get('id')
+        if type(aid) is not int or aid<1 or type(native) is not int or native<1:
+            continue
+        meta=reader(run_id,aid)
+        if not isinstance(meta,dict) or not isinstance(meta.get('workflow_run'),dict):
+            continue
+        expiry=instant(meta.get('expires_at'))
+        if (meta.get('id')==aid and meta['workflow_run'].get('id')==native and meta.get('expired') is False
+                and expiry and (expiry-at).total_seconds()>180 and
+                re.fullmatch(r'sha256:[0-9a-f]{64}',meta.get('digest') or '')):
+            return {cid:0}
+    return {}
+
+
 def supported_gates(repo, review, row, at, receipts):
     retained = row.get('source_processing') or {}
     path = retained.get('receipt', '')
@@ -30,8 +69,17 @@ def supported_gates(repo, review, row, at, receipts):
             or not isinstance(path, str) or not RECEIPT.fullmatch(path)):
         return []
     if path not in receipts:
-        raw, _ = _path_blob(repo, review, path)
-        receipts[path] = json.loads(raw)
+        try:
+            raw, _ = _path_blob(repo, review, path)
+        except ValueError as error:
+            if str(error) not in ('Required committed input is missing', 'Required committed input is not a regular file'):
+                raise
+            receipts[path] = None
+        else:
+            try:
+                receipts[path] = json.loads(raw)
+            except (ValueError, UnicodeDecodeError):
+                receipts[path] = None
     try:
         checks = audit(row, 'weekly', receipts[path], now=at)['checks']
     except ValueError:
@@ -86,7 +134,7 @@ def select_gates(repo, snapshot, confirmed, inputs, owner, run_id, *, at, heartb
             supported = supported_gates(repo, inputs['review_commit'], row, at, receipts)
             if supported:
                 available[cid] = supported
-        return {cid: 0 for cid in available}
+        return available_gate(available, receipts, rows, run_id, len(state.get('run_history', [])), at)
 
     choices = plan(snapshot, confirmed, inputs['reconciliation_manifests'], ledger, inputs['registry'], state,
                    owner, run_id, source_attempts=state.get('source_attempts', {}), source_progress=state.get('source_last_progress', {}),
