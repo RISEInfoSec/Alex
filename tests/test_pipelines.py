@@ -2513,3 +2513,32 @@ def test_scoped_weekly_series_never_enriches_through_openalex(tmp_path, monkeypa
     checkpoint.write_text(json.dumps(old))
     with pytest.raises(ValueError, match='outside the approved series'):
         discovery.run(series=series)
+
+
+def test_one_time_series_window_and_source_policy(monkeypatch, tmp_path):
+    from datetime import date
+    from alex.pipelines import discovery
+    from alex.utils.discovery_checkpoint import DiscoveryIncomplete
+    from alex.utils import io
+    from scripts.weekly_series import EXTRA_CRON, scheduled_window, window_manifest
+
+    created = '2026-11-24T08:03:34Z'
+    end = scheduled_window(created, EXTRA_CRON)
+    assert end == date(2026, 11, 24)
+    assert scheduled_window('2027-11-24T08:00:00Z', EXTRA_CRON) is None
+    assert scheduled_window('2026-11-30T03:23:52Z', '23 3 * * 1') == date(2026, 11, 30)
+    assert scheduled_window(created, '', '2026-11-24') == end
+    series = window_manifest(end)
+    assert series['window'] == {'from_date': '2026-11-17', 'until_date': '2026-11-24'}
+    assert not series['held_sources'] and not series['publication_authorized']
+    monkeypatch.setattr(io, 'ROOT', tmp_path)
+    (tmp_path / 'config').mkdir()
+    (tmp_path / 'data').mkdir()
+    registry = {'queries': ['OSINT'], 'connectors': {name: {'enabled': name == 'openalex'}
+                for name in ('openalex', 'crossref', 'arxiv', 'github', 'zenodo', 'core', 'semantic_scholar')}}
+    (tmp_path / 'config/query_registry.json').write_text(json.dumps(registry))
+    with pytest.raises(DiscoveryIncomplete):
+        discovery.run(series=series)
+    receipt = json.loads((tmp_path / 'data/discovery_run_receipt.json').read_text())
+    assert receipt['status'] != 'complete' and receipt['openalex_request_count'] == 0
+    assert 'openalex_shared_coordinator_required' in receipt['deferred_tasks'].values()

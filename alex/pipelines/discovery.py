@@ -71,12 +71,14 @@ def run(*, series: dict | None = None) -> None:
         budgets['max_requests'] = budgets['openalex_max_requests'] = 0
     if series is not None:
         window = dict(series['window'])
-        config['connectors']['openalex'] = {'enabled': False}
-        budgets['openalex_max_requests'] = 0
+        if 'OpenAlex' in series['held_sources']:
+            config['connectors']['openalex'] = {'enabled': False}
+            budgets['openalex_max_requests'] = 0
         if checkpoint.exists():
             prior = load_json(checkpoint)
             if (prior.get('series') != series or prior.get('window') != window
-                    or connector_config.is_enabled(prior['registry'], 'openalex')):
+                    or connector_config.is_enabled(prior['registry'], 'openalex')
+                    != connector_config.is_enabled(config, 'openalex')):
                 raise ValueError('Checkpoint is outside the approved series')
     client = DiscoveryClient(checkpoint, window, config,
                              budgets, mailto=os.getenv("HARVEST_MAILTO", ""), series=series)
@@ -407,7 +409,7 @@ def _run(client: DiscoveryClient) -> int:
     doi_set = sorted({str(row['doi']).lower() for row in enrichment_rows
                       if not row.get('abstract') and row.get('doi')})
     enrichment_key = hashlib.sha256(json.dumps(doi_set).encode()).hexdigest()
-    enriched = client.run_task("OpenAlex:abstract_enrichment:" + enrichment_key, enrich) if needed and not client.state.get('series') else []
+    enriched = client.run_task("OpenAlex:abstract_enrichment:" + enrichment_key, enrich) if needed and (not client.state.get('series') or enable_openalex) else []
     abstracts = {normalize_title(row['title']): row['abstract'] for row in enriched if row.get('abstract')}
     for row in rows:
         if not row.get('abstract'):

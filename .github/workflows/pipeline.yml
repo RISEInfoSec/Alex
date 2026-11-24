@@ -7,7 +7,7 @@ on:
         type: boolean
         default: true
       week_ending:
-        description: 'Optional Monday ending a specific series window (YYYY-MM-DD)'
+        description: 'Optional scheduled date ending a specific series window (YYYY-MM-DD)'
         type: string
         required: false
       resume_completed_discovery_run:
@@ -17,6 +17,7 @@ on:
         default: ''
   schedule:
     - cron: "23 3 * * 1"
+    - cron: "0 8 24 11 *" # 2026 only, checked against the native run creation date
 env:
   ALEX_OPENALEX_STATE_PATH: data/discovery_openalex_state.json
   ALEX_DISCOVERY_SYNC: "1"
@@ -70,14 +71,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GITHUB_TOKEN: ${{ github.token }}
           HARVEST_MAILTO: ${{ secrets.HARVEST_MAILTO }}
+          SERIES_CRON: ${{ github.event.schedule }}
           WEEK_ENDING: ${{ inputs.week_ending }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           created="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" --jq .created_at)"
-          python -m scripts.weekly_series --run-created-at "$created" --week-ending "$WEEK_ENDING"
+          python -m scripts.weekly_series --run-created-at "$created" --week-ending "$WEEK_ENDING" --cron "$SERIES_CRON"
       - name: Retain the series receipt
-        if: always()
+        if: ${{ always() && (failure() || hashFiles('data/series_window.json') != '') }}
         uses: actions/upload-artifact@v7.0.2
         with:
           name: weekly-series-${{ github.run_id }}-${{ github.run_attempt }}

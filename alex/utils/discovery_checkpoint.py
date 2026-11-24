@@ -254,7 +254,8 @@ class DiscoveryClient(HttpClient):
                                    'max_requests': self.max_requests, 'openalex_max_requests': self.max_openalex}}
             if 'series' in self.state:
                 receipt['series'] = self.state['series']
-                receipt['coverage_scope'] = 'configured sources excluding held OpenAlex'
+                receipt['coverage_scope'] = ('configured sources excluding held OpenAlex'
+                    if 'OpenAlex' in self.state['series']['held_sources'] else 'configured sources including OpenAlex')
                 receipt['all_source_coverage'] = 'incomplete'
                 candidate_file = self.path.parent / 'discovery_candidates.csv'
                 if candidate_file.is_file():
