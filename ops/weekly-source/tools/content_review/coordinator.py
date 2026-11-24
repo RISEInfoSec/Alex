@@ -20,7 +20,7 @@ MAX_CANDIDATES = 10000
 
 def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
          owner, run_id, *, source_attempts, source_progress, at=None, heartbeat=None, review_head=None, stages=None,
-         retained_source_only=False,quality_source_only=False,only_collections=None,excluded_candidates=None):
+         retained_source_only=False,quality_source_only=False,only_collections=None,excluded_candidates=None,weekly_source_order=None):
     now = at or datetime.now(timezone.utc)
     if not isinstance(now, datetime) or now.tzinfo is None or now.utcoffset() is None:
         raise ValueError('Timezone-aware observation required')
@@ -123,6 +123,12 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
     stage_eligible=[item for item in eligible if (stages is None or item['next_stage'] in stages) and
                     (only_collections is None or item['collection'] in only_collections) and
                     (item['collection'],item['candidate_id']) not in excluded_keys]
+    priorities = {}
+    if weekly_source_order is not None:
+        if owner != 'weekly-source-processing' or tuple(stages or ()) != ('source',) or not callable(weekly_source_order):
+            raise ValueError('Weekly source ordering requires its bounded source pass')
+        priorities = weekly_source_order(stage_eligible)
+        stage_eligible = [item for item in stage_eligible if item['candidate_id'] in priorities]
     history=state.get('run_history',[])
     if not isinstance(history,list) or any(not isinstance(x,dict) or not x.get('run_id') for x in history):
         raise ValueError('Run history is unavailable for candidate rotation')
@@ -134,6 +140,8 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
         for collection in order:
             values=groups[collection];start=(len(history)*INITIAL_LIMIT)%len(values)
             groups[collection]=values[start:]+values[:start]
+            if weekly_source_order is not None:
+                groups[collection].sort(key=lambda item: priorities[item['candidate_id']])
     # Rotate within each collection, then take one from each before repeating.
     # This avoids a large collection's trailing items consuming the full window.
     rotated=[]
@@ -185,6 +193,9 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
             reason = 'separate_gate_executor_required'
         elif only_collections is not None and collection not in only_collections and executable[collection]:
             reason = 'deferred_by_collection_filter'
+        elif weekly_source_order is not None and collection == 'weekly' and any(
+                x['collection'] == collection and x['next_stage'] == 'source' for x in eligible):
+            reason = 'weekly_source_evidence_or_eligibility_hold'
         elif stages is not None and executable[collection] and not any(x['collection']==collection for x in stage_eligible):
             reason = ('deferred_by_run_exclusions' if any(x['collection']==collection and x['next_stage'] in stages and
                       (x['collection'],x['candidate_id']) in excluded_keys for x in eligible) else 'deferred_by_stage_filter')

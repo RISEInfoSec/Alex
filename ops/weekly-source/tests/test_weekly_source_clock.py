@@ -88,3 +88,60 @@ def test_hidden_tty_preserves_large_json_and_never_echoes():
         assert b'accepted 32768' in output and marker.encode() not in output and b'xxxxxxxx' not in output
     finally:
         process.kill(); os.close(master); os.close(slave)
+
+
+def test_due_source_capacity_survives_retained_held_and_accounted_prior_slots():
+    from tools.content_review.coordinator import plan
+    from tools.content_review.manifest_integrity import reviewed_digest
+    from tools.content_review.weekly_source_checks import source_priorities
+    from tools.content_review.weekly_source_clock import OWNER
+    now, _ = occurrence()
+    snap = {k: [] for k in ('submissions','decisions','jobs')}
+    snap['read_evidence']={k:{'complete':True,'rows_received':0,'truncated_values':0,'omitted_columns':0} for k in snap}
+    rows={}
+    ledger={}
+    for i in range(18):
+        cid=f'weekly-{i:02d}'
+        row={'candidate_id':cid,'review_number':i+1,'review_batch':1,'document_type':'research_paper',
+             'abstract':'a'*120,'source_url':f'https://example.org/{i}','decision':'pending'}
+        sha=reviewed_digest(row)
+        row.update(content_sha256=sha,preflight={'checks':{'duplicates':{'status':'passed','content_sha256':sha,
+                                                             'checked_at':now.isoformat(),'evidence':{'ok':True}}}})
+        rows[cid]=row
+        ledger['weekly:'+cid]={'state':'awaiting_initial_checks','first_seen_at':'2026-01-01'}
+    state={'lease':{'owner':OWNER,'run_id':'run','expires_at':(now+timedelta(minutes=10)).isoformat()},
+           'current_run':{'run_id':'run','application_status':'running','started_at':now.isoformat(),'observed_at':now.isoformat()}}
+    prior=set()
+    pending={}
+    def held(row):
+        return row.get('publication_approved')
+    def order(candidates):
+        return source_priorities(candidates,rows,prior,pending,held,{},now)
+    def selected(routing=None):
+        res=plan(snap,snap,{'weekly':{'records':list(rows.values())}},{'records':ledger},[{'id':'weekly','adapter':'normalized'}],
+                 state,OWNER,'run',source_attempts={},source_progress={},at=now,stages=('source',),weekly_source_order=routing)
+        return [item['candidate_id'] for item in res['selected']]
+    first=selected()
+    assert len(first)==5
+    for i,cid in enumerate(first):
+        row=rows[cid]
+        prior.add((cid,row['content_sha256']))
+        row['source_processing']={'content_sha256':row['content_sha256'],'retrieval_status':'held' if i%2 else 'retrieved'}
+    archived=next(cid for cid in rows if cid not in first)
+    prior.add((archived,rows[archived]['content_sha256']))
+    pending[('weekly',archived)]={'result_status':'retrieved'}
+    # Original planner can fill all five with already-requested rows.
+    assert selected()==first
+    assert selected(order)[0]==archived
+    pending.clear()
+    rows[archived]['source_processing']={'content_sha256':rows[archived]['content_sha256'],'retrieval_status':'retrieved'}
+    unseen=set(rows)-set(first)-{archived}
+    # Re-clock on each pass and consume each immutable hash once.
+    for slot in range(4):
+        state.setdefault('run_history',[]).append({'run_id':f'finished-{slot}'})
+        batch=selected(order)
+        assert len(batch)==min(5,len(unseen)) and set(batch)<=unseen
+        for cid in batch:
+            prior.add((cid,rows[cid]['content_sha256']))
+        unseen-=set(batch)
+    assert not unseen and not selected(order)

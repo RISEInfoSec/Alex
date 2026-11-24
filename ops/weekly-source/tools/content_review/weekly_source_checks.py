@@ -62,3 +62,37 @@ def editorial_guard(snapshot, confirmed, public, exclusions):
             return 'weekly_candidate_published_approved_or_excluded'
         return None
     return reason
+
+
+def source_priorities(candidates, weekly, prior, pending, editorial, backoffs, now):
+    """Prioritize retained work, then fresh source work, before the five-item limit."""
+    from tools.content_review.manifest_integrity import reviewed_digest
+    from tools.content_review.source_origin_backoff import active
+    from tools.content_review.source_worker import Hold, safe_url
+    ranks = {}
+    for item in candidates:
+        cid = item['candidate_id']
+        row = weekly[cid]
+        content = row['content_sha256']
+        if item['collection'] != 'weekly' or item['next_stage'] != 'source':
+            raise ValueError('Unexpected weekly source candidate')
+        if editorial(row) or row.get('decision', 'pending') not in ('pending', 'unreviewed') or reviewed_digest(row) != content:
+            continue
+        if ('weekly', cid) in pending:
+            ranks[cid] = 0
+            continue
+        if (cid, content) in prior:
+            continue
+        versions = row.get('source_processing_history', [])
+        if not isinstance(versions, list):
+            raise ValueError('Invalid retained source history')
+        if any(isinstance(v, dict) and v.get('content_sha256') == content and
+               v.get('retrieval_status') in ('held', 'retrieved') for v in [row.get('source_processing'), *versions]):
+            continue
+        try:
+            safe_url(row.get('source_url', ''), resolve=False)
+        except (Hold, ValueError):
+            continue
+        if not active(backoffs, row['source_url'], now):
+            ranks[cid] = 1
+    return ranks

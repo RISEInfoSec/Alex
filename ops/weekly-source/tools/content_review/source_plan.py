@@ -99,10 +99,28 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
     before_work(root,run_id,20,now,review_head=review_head,heartbeat_head=heartbeat_head)
     heartbeat_raw,_=_path_blob(root,heartbeat_head,'config/content_review_detached_heartbeat.json')
     heartbeat=json.loads(heartbeat_raw)
+    weekly_order = None
+    prior_weekly = set()
+    retained_pending = {}
+    if owner == 'weekly-source-processing':
+        from tools.content_review.weekly_source_checks import historical_requests, editorial_guard, source_priorities
+        if quality_evidence:
+            raise ValueError('Weekly source clock only handles the source stage')
+        guard = editorial_guard(snapshot, confirmed_snapshot, inputs['public'], inputs['exclusion_keys'])
+        records = inputs['manifests']['weekly']
+        weekly = {r['candidate_id']: r for r in records.get('records', []) + records.get('preflight_records', [])}
+        prior_weekly = historical_requests(root, review_head)
+
+        def weekly_order(candidates):
+            items = [{**item, 'content_sha256': weekly[item['candidate_id']]['content_sha256']} for item in candidates]
+            retained_pending.update(_unretained_source_results(root, review_head, state, items, inputs['manifests']))
+            return source_priorities(items, weekly, prior_weekly, retained_pending, guard,
+                                     state.get('source_origin_backoff', {}), now)
+
     choices=plan(snapshot,confirmed_snapshot,inputs['reconciliation_manifests'],ledger,inputs['registry'],state,owner,run_id,
                  source_attempts=state.get('source_attempts',{}),source_progress=state.get('source_last_progress',{}),
                  at=now,heartbeat=heartbeat,review_head=review_head,stages=('quality',) if quality_evidence else ('source',),
-                 quality_source_only=quality_evidence)
+                 quality_source_only=quality_evidence,weekly_source_order=weekly_order)
     selected=[x for x in choices['selected'] if x['next_stage']==('quality' if quality_evidence else 'source')]
     if not selected:
         return {'status':'no_due_source_in_plan','request':None,'coverage':choices['coverage'],
@@ -118,25 +136,9 @@ def prepare(repo,review_head,main_head,heartbeat_head,snapshot,confirmed_snapsho
         verify_bytes((root/path).read_bytes(),proof['blob_sha'],proof['size'])
     eligible=[];held=[]
     unresolved_keys,unresolved_hosts=validate_unresolved(state.get('source_unresolved_requests',[]))
-    prior_weekly = set()
-    if owner == 'weekly-source-processing':
-        from tools.content_review.weekly_source_checks import historical_requests, editorial_guard
-        guard = editorial_guard(snapshot, confirmed_snapshot, inputs['public'], inputs['exclusion_keys'])
-        records = inputs['manifests']['weekly']
-        weekly = {r['candidate_id']: r for r in records.get('records', []) + records.get('preflight_records', [])}
-        current = []
-        for item in selected:
-            if item['collection'] != 'weekly':
-                raise ValueError('Weekly source plan selected another collection')
-            reason = guard(weekly[item['candidate_id']])
-            if reason:
-                held.append({'collection': 'weekly', 'candidate_id': item['candidate_id'], 'reason': reason})
-            else:
-                current.append(item)
-        selected = current
-        prior_weekly = historical_requests(root, review_head)
-    retained_pending=_unretained_source_results(root,review_head,state,selected,inputs['manifests'])
-    if retained_pending:
+    if weekly_order is None:
+        retained_pending = _unretained_source_results(root, review_head, state, selected, inputs['manifests'])
+    if any((item['collection'],item['candidate_id']) in retained_pending for item in selected):
         items=[{'collection':item['collection'],'candidate_id':item['candidate_id'],
                 **retained_pending[(item['collection'],item['candidate_id'])]}
                for item in selected if (item['collection'],item['candidate_id']) in retained_pending]
