@@ -1,0 +1,66 @@
+name: Restore November 24 discovery checkpoint
+on:
+  push:
+    branches: ['maintenance/restore-weekly-20261124-a0138c0']
+permissions:
+  contents: read
+jobs:
+  restore:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: a0138c0f58574a2b3998f1120c803e110ca9e3ef
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Restore and authenticate both discovery checkpoints
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = a0138c0f58574a2b3998f1120c803e110ca9e3ef
+          test "$(git rev-parse HEAD^)" = a7e20816bd19e0ab19f12e9431a28fc9e3ac11bd
+          test "$(git rev-parse HEAD:discovery_checkpoint.json.gz)" = fc6191406f61d8c490b2917829a8ba0f5c2fd1fc
+          test "$(git rev-parse HEAD^:discovery_checkpoint.json.gz)" = 18dd4c5744d591f9432dffb874919a70448940e2
+          mkdir -p backup/{terminal,source}
+          for f in discovery_checkpoint.json.gz discovery_candidates.csv.gz discovery_run_receipt.json.gz series_window.json.gz; do
+            git show "HEAD:$f" > "backup/terminal/$f"
+            test "$(git hash-object "backup/terminal/$f")" = "$(git rev-parse "HEAD:$f")"
+            gzip -t "backup/terminal/$f"
+          done
+          git show HEAD^:discovery_checkpoint.json.gz > backup/source/discovery_checkpoint.json.gz
+          test "$(git hash-object backup/source/discovery_checkpoint.json.gz)" = "$(git rev-parse HEAD^:discovery_checkpoint.json.gz)"
+          gzip -t backup/source/discovery_checkpoint.json.gz
+          git ls-tree HEAD > backup/terminal-tree.txt
+          git ls-tree HEAD^ > backup/source-tree.txt
+          tar -cf - backup | split -b 24M -d --additional-suffix=.bin - recovery-
+          sha256sum recovery-*.bin
+          test "$(ls recovery-*.bin | wc -l)" -le 4
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: restored-a0138c0-00
+          path: recovery-00.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: restored-a0138c0-01
+          path: recovery-01.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: restored-a0138c0-02
+          path: recovery-02.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: restored-a0138c0-03
+          path: recovery-03.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
