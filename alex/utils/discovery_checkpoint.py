@@ -35,11 +35,17 @@ def atomic_json(path, value):
     temp.replace(path)
 
 
+from alex.utils.weekly_doi_reconciliation import for_series
+
+
 class DiscoveryClient(HttpClient):
     def __init__(self, path: Path, window: dict, registry: dict, budgets: dict, mailto='', *, series=None):
         super().__init__(mailto)
         self.cache.clear()  # The verified discovery checkpoint is the sole response cache.
         self.path = path
+        self.doi_reconciliation = for_series(series, path.parent.parent)
+        self.recovery_urls = ({"https://api.openalex.org/works/https://doi.org/" + doi for doi in
+                               self.doi_reconciliation["authorized_new_dois"]} if self.doi_reconciliation else None)
         self.guard = threading.RLock()
         self.local = threading.local()
         self.started = time.monotonic()
@@ -218,6 +224,9 @@ class DiscoveryClient(HttpClient):
             if key in self.state['responses']:
                 self.cache_hits += 1
                 return self.state['responses'][key]
+        if (self.recovery_urls is not None and urlsplit(url).hostname == 'api.openalex.org'
+                and url not in self.recovery_urls):
+            raise DiscoveryDeferred('openalex_outside_approved_recovery_workset')
         self.local.last_status = None
         with self.guard:
             self._check_budget(url)
@@ -316,6 +325,9 @@ class DiscoveryClient(HttpClient):
                 if candidate_file.is_file():
                     with candidate_file.open('rb') as stream:
                         receipt['candidate_file_sha256'] = hashlib.file_digest(stream, 'sha256').hexdigest()
+            if self.doi_reconciliation:
+                receipt['unresolved_doi_evidence'] = self.doi_reconciliation['unresolved']
+                receipt['recovery_frozen_workset_sha256'] = self.doi_reconciliation['workset_sha256']
             atomic_json(receipt_path, receipt)
             self.sync(force=True)
         if status != 'complete':

@@ -13,6 +13,7 @@ from alex.utils.discovery_checkpoint import DiscoveryClient, DiscoveryIncomplete
 from alex.publication_dates import row_publication_fields, crossref_publication_fields
 from alex.utils.text import clean, normalize_title
 from alex.utils import connector_config
+from alex.utils.weekly_doi_reconciliation import selected_dois
 from alex.connectors import openalex, crossref, semantic_scholar, core, arxiv, zenodo, github_search
 
 logger = logging.getLogger(__name__)
@@ -418,7 +419,12 @@ def _run(client: DiscoveryClient) -> int:
         client.sync(force=True)  # The private recorder verifies DOI eligibility against this CSV.
     enriched = []
     if needed and (not client.state.get('series') or enable_openalex):
-        enriched = client.run_task("OpenAlex:abstract_enrichment:" + enrichment_key, enrich)
+        task = "OpenAlex:abstract_enrichment:" + enrichment_key
+        policy = client.doi_reconciliation if isinstance(client, DiscoveryClient) else None
+        if policy and policy['workset_task'] in client.state['tasks']:
+            # A completed recovery may already have filled some of the original abstracts.
+            task = policy['workset_task']
+        enriched = client.run_task(task, enrich)
     abstracts = {normalize_title(row['title']): row['abstract'] for row in enriched if row.get('abstract')}
     for row in rows:
         if not row.get('abstract'):
@@ -456,6 +462,9 @@ def _enrich_missing_abstracts(rows: list[dict], client: HttpClient, mailto: str)
     if not needed:
         return
 
+    policy = client.doi_reconciliation if isinstance(client, DiscoveryClient) else None
+    if isinstance(policy, dict):
+        needed = selected_dois(needed, policy)
     work_map = openalex.get_many_by_doi(client, needed, mailto)
     enriched = 0
     for row in rows:
