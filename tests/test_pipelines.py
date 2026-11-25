@@ -2621,3 +2621,45 @@ def test_weekly_identity_service_retries_only_transient_issuance(monkeypatch):
     assert oa._oidc() == 'test-token'
     assert issue.call_count == 2
     pause.assert_called_once_with(2)
+
+
+def test_weekly_doi_reconciliation_preserves_unresolved_receipt_and_window():
+    import hashlib
+    from alex.utils.weekly_doi_reconciliation import selected_dois, for_series
+    import pytest
+    from pathlib import Path
+    config = Path(__file__).resolve().parents[1]
+    series = {'series': 'weekly-series-v1', 'window': {'until_date': '2026-11-24'},
+              'publication_authorized': False}
+    policy = for_series(series, config)
+    assert len(set(policy['authorized_new_dois'])) == 107
+    assert '10.5281/zenodo.23179613' not in policy['authorized_new_dois']
+    assert policy['unresolved']['10.5281/zenodo.23179613']['evidence_sha256'] == '0e84df4ceb034f0d5d3d0f34f7d403f56ab25e2c1bb3b69d55f2e101262a041e'
+    assert for_series({**series, 'window': {'until_date': '2026-11-29'}}, config) is None
+    tiny = {'unresolved': {'10.1/b': {}}, 'authorized_new_dois': ['10.1/c'],
+            'workset_sha256': hashlib.sha256(b'10.1/a\n10.1/b\n10.1/c').hexdigest()}
+    assert selected_dois(['10.1/c', '10.1/a', '10.1/b'], tiny) == ['10.1/a', '10.1/c']
+    with pytest.raises(ValueError, match='workset changed'):
+        selected_dois(['10.1/a', '10.1/c'], tiny)
+
+
+def test_reconciled_doi_cache_miss_cannot_send_outside_owner_workset():
+    import hashlib
+    import json
+    from threading import RLock
+    from unittest.mock import Mock
+    import pytest
+    from alex.utils.discovery_checkpoint import DiscoveryClient, DiscoveryDeferred
+    client = object.__new__(DiscoveryClient)
+    client.guard = RLock()
+    client.cache_hits = 0
+    client.state = {'responses': {}}
+    client.recovery_urls = {'https://api.openalex.org/works/https://doi.org/10.1/new'}
+    client._recorded_openalex = Mock(side_effect=AssertionError('unexpected provider call'))
+    outside = 'https://api.openalex.org/works/https://doi.org/10.1/already-sent'
+    with pytest.raises(DiscoveryDeferred, match='outside_approved'):
+        client._read('get_json', outside)
+    key = hashlib.sha256(json.dumps(['get_json', outside, {}], sort_keys=True).encode()).hexdigest()
+    client.state['responses'][key] = {'id': 'verified-prior-result'}
+    assert client._read('get_json', outside) == {'id': 'verified-prior-result'}
+    client._recorded_openalex.assert_not_called()
