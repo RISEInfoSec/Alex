@@ -1,0 +1,66 @@
+name: Restore November 24 discovery checkpoint
+on:
+  push:
+    branches: ['maintenance/restore-weekly-20261124-b2741e0']
+permissions:
+  contents: read
+jobs:
+  restore:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: b2741e072366fd3855d5c5214b77efc614f08ca9
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Restore and authenticate both discovery checkpoints
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = b2741e072366fd3855d5c5214b77efc614f08ca9
+          test "$(git rev-parse HEAD^)" = 661cefd5b81a219912d4f2e37ab16471932793a0
+          test "$(git rev-parse HEAD:discovery_checkpoint.json.gz)" = d2d8a6ed72a7c29c734f133078dae4ed326d4e42
+          test "$(git rev-parse HEAD^:discovery_checkpoint.json.gz)" = 82a2bcff3a3bb9e845502856117a87bbb03e3186
+          mkdir -p backup/{terminal,source}
+          for f in discovery_checkpoint.json.gz discovery_candidates.csv.gz discovery_run_receipt.json.gz series_window.json.gz; do
+            git show "HEAD:$f" > "backup/terminal/$f"
+            test "$(git hash-object "backup/terminal/$f")" = "$(git rev-parse "HEAD:$f")"
+            gzip -t "backup/terminal/$f"
+          done
+          git show HEAD^:discovery_checkpoint.json.gz > backup/source/discovery_checkpoint.json.gz
+          test "$(git hash-object backup/source/discovery_checkpoint.json.gz)" = "$(git rev-parse HEAD^:discovery_checkpoint.json.gz)"
+          gzip -t backup/source/discovery_checkpoint.json.gz
+          git ls-tree HEAD > backup/terminal-tree.txt
+          git ls-tree HEAD^ > backup/source-tree.txt
+          tar -cf - backup | split -b 24M -d --additional-suffix=.bin - recovery-
+          sha256sum recovery-*.bin
+          test "$(ls recovery-*.bin | wc -l)" -le 4
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: restored-b2741e0-00
+          path: recovery-00.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: restored-b2741e0-01
+          path: recovery-01.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: restored-b2741e0-02
+          path: recovery-02.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: restored-b2741e0-03
+          path: recovery-03.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
