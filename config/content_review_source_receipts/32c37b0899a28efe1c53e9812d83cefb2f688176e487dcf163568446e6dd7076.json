@@ -1,0 +1,1653 @@
+{
+  "schema_version": 1,
+  "independently_verified": true,
+  "request": {
+    "schema_version": 1,
+    "started_at": "2026-11-26T05:13:56.989782+00:00",
+    "work_deadline": "2026-11-26T05:23:56.989782+00:00",
+    "lease_owner": "weekly-source-processing",
+    "source_request_limit": 30,
+    "records": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-bc92a562caf705ef01924918",
+        "content_sha256": "a4d2b4359136f0c6291cb12f196e765818c30e59793c36d4ca4bc4ab36774aa9",
+        "manifest_sha256": "d421e6fd19993381e27531adcfa712e09a5c118411913193cc827c20ab0fce3c",
+        "url": "https://doi.org/10.1016/j.chb.2026.109203"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-bd96756d802c4d0b7f6262d9",
+        "content_sha256": "e02c59f043da63a3ce0393b6f96c392aa136f11a83689d9c5aca712907e05dd0",
+        "manifest_sha256": "d421e6fd19993381e27531adcfa712e09a5c118411913193cc827c20ab0fce3c",
+        "url": "https://doi.org/10.37284/eajle.9.4.6056"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-c0696d804468d502083f4777",
+        "content_sha256": "d71cbe9639d34a3fb4afa9068ddff72302db86bcad452702e0f6da2913858f79",
+        "manifest_sha256": "d421e6fd19993381e27531adcfa712e09a5c118411913193cc827c20ab0fce3c",
+        "url": "https://doi.org/10.64388/irev10i1-1719396"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-c339e29c01ba6e327be23b92",
+        "content_sha256": "54655db1cbe0b005f1ffe0965b2b651de0bca7b77f52fc3085b4747817b4a890",
+        "manifest_sha256": "d421e6fd19993381e27531adcfa712e09a5c118411913193cc827c20ab0fce3c",
+        "url": "https://doi.org/10.47191/jefms/v9-i9-42"
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-c93b221f1bbf39ef09fa7d61",
+        "content_sha256": "cdea4cfed6ecbfca215a697b1f9e4015e1682e0918f72ee0316a17c226b72e5d",
+        "manifest_sha256": "d421e6fd19993381e27531adcfa712e09a5c118411913193cc827c20ab0fce3c",
+        "url": "https://doi.org/10.1002/mma.70903"
+      }
+    ],
+    "coordinator_run_id": "dc4e69a8-19a8-8327-9be0-6568d9dcdca6",
+    "request_id": "32c37b0899a28efe1c53e9812d83cefb2f688176e487dcf163568446e6dd7076"
+  },
+  "native_run": {
+    "id": 45761005838,
+    "event": "push",
+    "head_branch": "codex/soups-corpus-review",
+    "path": ".github/workflows/content_review_sources.yml",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "11b0586c2f9634a04ff042acf85107a3358752e9",
+    "run_attempt": 1
+  },
+  "artifact_id": 15089374054,
+  "artifact_sha256": "2bae12a78b2963e6b6c08345d4395ef613676ace3a2a41c78580e908f0974b3d",
+  "result": {
+    "schema_version": 1,
+    "request_id": "32c37b0899a28efe1c53e9812d83cefb2f688176e487dcf163568446e6dd7076",
+    "status": "complete",
+    "records": [
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-bc92a562caf705ef01924918",
+        "content_sha256": "a4d2b4359136f0c6291cb12f196e765818c30e59793c36d4ca4bc4ab36774aa9",
+        "status": "retrieved",
+        "evidence": [
+          {
+            "requested_url": "https://doi.org/10.1016/j.chb.2026.109203",
+            "final_url": "https://linkinghub.elsevier.com/retrieve/pii/S0747563226003006",
+            "http_status": 200,
+            "headers": {
+              "content-type": "text/html;charset=UTF-8"
+            },
+            "redirects": [
+              {
+                "url": "https://doi.org/10.1016/j.chb.2026.109203",
+                "http_status": 302
+              },
+              {
+                "url": "https://linkinghub.elsevier.com/retrieve/pii/S0747563226003006",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "006a0f4d6cffc54aa6304c3abe700d79a4678d530afcea4cfad3250b26202b79",
+            "retrieved_at": "2026-11-26T05:22:00.557269+00:00",
+            "byte_count": 2703,
+            "container_type": "html",
+            "metadata": {
+              "tdm-reservation": [
+                "1"
+              ],
+              "tdm-policy": [
+                "https://www.elsevier.com/tdm/tdmrep-policy.json"
+              ]
+            },
+            "title": "Redirecting",
+            "links": [],
+            "text": "Redirecting",
+            "text_complete": true,
+            "document_type": "unverified",
+            "fragment": "",
+            "resource_unavailable": false,
+            "text_sha256": "e55fb1a1d731153e943b68844af12dcce8bfac917c98ffdea64c80da0607dd47"
+          }
+        ],
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-bd96756d802c4d0b7f6262d9",
+        "content_sha256": "e02c59f043da63a3ce0393b6f96c392aa136f11a83689d9c5aca712907e05dd0",
+        "status": "retrieved",
+        "evidence": [
+          {
+            "requested_url": "https://doi.org/10.37284/eajle.9.4.6056",
+            "final_url": "https://journals.eanso.org/index.php/eajle/article/view/6056",
+            "http_status": 200,
+            "headers": {
+              "content-type": "text/html; charset=utf-8"
+            },
+            "redirects": [
+              {
+                "url": "https://doi.org/10.37284/eajle.9.4.6056",
+                "http_status": 302
+              },
+              {
+                "url": "https://journals.eanso.org/index.php/eajle/article/view/6056",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "f688992d91e364029fbb0c797e71c8f0322fda995ea7fa34e18135a7fa61bbcf",
+            "retrieved_at": "2026-11-26T05:22:04.123461+00:00",
+            "byte_count": 72934,
+            "container_type": "html",
+            "metadata": {
+              "viewport": [
+                "width=device-width, initial-scale=1.0"
+              ],
+              "generator": [
+                "Open Journal Systems 3.1.1.4"
+              ],
+              "gs_meta_revision": [
+                "1.1"
+              ],
+              "citation_journal_title": [
+                "East African Journal of Law and Ethics"
+              ],
+              "citation_journal_abbrev": [
+                "1"
+              ],
+              "citation_issn": [
+                "2707-5338"
+              ],
+              "citation_author": [
+                "Dickson Mutabazi"
+              ],
+              "citation_author_institution": [
+                "University of Iringa"
+              ],
+              "citation_title": [
+                "Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging"
+              ],
+              "citation_date": [
+                "2026/10/21"
+              ],
+              "citation_volume": [
+                "9"
+              ],
+              "citation_issue": [
+                "4"
+              ],
+              "citation_firstpage": [
+                "250"
+              ],
+              "citation_lastpage": [
+                "266"
+              ],
+              "citation_doi": [
+                "10.37284/eajle.9.4.6056"
+              ],
+              "citation_abstract_html_url": [
+                "https://journals.eanso.org/index.php/eajle/article/view/6056"
+              ],
+              "citation_keywords": [
+                "Cybercrimes Act",
+                "Mobile Money Fraud",
+                "Unsolicited Messaging",
+                "Phishing Tanzania",
+                "Cybercrime Enforcement"
+              ],
+              "citation_pdf_url": [
+                "https://journals.eanso.org/index.php/eajle/article/download/6056/6367"
+              ],
+              "dc.creator.personalname": [
+                "Dickson Mutabazi"
+              ],
+              "dc.date.created": [
+                "2026-10-21"
+              ],
+              "dc.date.datesubmitted": [
+                "2026-10-21"
+              ],
+              "dc.date.issued": [
+                "2026-10-03"
+              ],
+              "dc.date.modified": [
+                "2026-10-21"
+              ],
+              "dc.description": [
+                "This article evaluates how far Tanzania’s Cybercrimes Act prevents, detects, and secures the prosecution of mobile money fraud that begins with an unsolicited message. It combines a doctrinal reading of sections 12 and 20 of the Act and its investigative provisions with empirical data collected in Dodoma through semi-structured interviews and open-ended questionnaires administered to twenty respondents from law enforcement, regulatory bodies, telecommunications companies, Parliament, academia and victims of fraud. The Act gives investigators a usable legal foundation, yet 65 per cent of respondents rated it less than effective. Section 12 is built around the manipulation of computer data or systems and fits awkwardly with schemes in which the victim is persuaded to make the transfer personally, while section 20 predates AI-generated voice calls, deepfakes, QR code scams and spoofed sender names, none of which the Act mentions. Enforcement is further weakened by thin forensic capacity, slow information sharing between agencies and service providers, and low digital literacy among users; no reported decision applying either provision to this kind of fraud could be found. The article argues that the problem is one of design as well as enforcement: an offence built around the manipulation of machines cannot be relied upon to punish the manipulation of people. It offers what appears to be the first focused legal assessment of this fraud vector in Tanzania and proposes legislative, institutional, and awareness-based reforms, including a technology-neutral offence of causing loss by electronic deception, mandatory fraud reporting by operators, a victim compensation mechanism that does not depend on conviction, stronger forensic capacity and sustained public education"
+              ],
+              "dc.format": [
+                "application/pdf"
+              ],
+              "dc.identifier": [
+                "6056"
+              ],
+              "dc.identifier.pagenumber": [
+                "250-266"
+              ],
+              "dc.identifier.doi": [
+                "10.37284/eajle.9.4.6056"
+              ],
+              "dc.identifier.uri": [
+                "https://journals.eanso.org/index.php/eajle/article/view/6056"
+              ],
+              "dc.language": [
+                "en"
+              ],
+              "dc.rights": [
+                "Copyright (c) 2026 Dickson Mutabazi",
+                "http://creativecommons.org/licenses/by/4.0"
+              ],
+              "dc.source": [
+                "East African Journal of Law and Ethics"
+              ],
+              "dc.source.issn": [
+                "2707-5338"
+              ],
+              "dc.source.issue": [
+                "4"
+              ],
+              "dc.source.volume": [
+                "9"
+              ],
+              "dc.source.uri": [
+                "https://journals.eanso.org/index.php/eajle"
+              ],
+              "dc.subject": [
+                "Cybercrimes Act",
+                "Mobile Money Fraud",
+                "Unsolicited Messaging",
+                "Phishing Tanzania",
+                "Cybercrime Enforcement"
+              ],
+              "dc.title": [
+                "Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging"
+              ],
+              "dc.type": [
+                "Text.Serial.Journal"
+              ],
+              "dc.type.articletype": [
+                "Articles"
+              ]
+            },
+            "title": "Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging\n\t\t\t\t\t\t\t| East African Journal of Law and Ethics",
+            "links": [
+              {
+                "text": "Skip to main content",
+                "url": "https://journals.eanso.org/index.php/eajle/article/view/6056#pkp_content_main"
+              },
+              {
+                "text": "Skip to main navigation menu",
+                "url": "https://journals.eanso.org/index.php/eajle/article/view/6056#pkp_content_nav"
+              },
+              {
+                "text": "Skip to site footer",
+                "url": "https://journals.eanso.org/index.php/eajle/article/view/6056#pkp_content_footer"
+              },
+              {
+                "text": "",
+                "url": "https://journals.eanso.org/index.php/eajle/index"
+              },
+              {
+                "text": "East African Journal of Law and Ethics",
+                "url": "https://journals.eanso.org/index.php/eajle/index"
+              },
+              {
+                "text": "2707-532X",
+                "url": "https://portal.issn.org/resource/ISSN/2707-532X"
+              },
+              {
+                "text": "2707-5338",
+                "url": "https://portal.issn.org/resource/ISSN/2707-5338"
+              },
+              {
+                "text": "Home",
+                "url": "https://journals.eanso.org"
+              },
+              {
+                "text": "About",
+                "url": "https://journals.eanso.org/index.php/eajle/about"
+              },
+              {
+                "text": "About our journals",
+                "url": "https://journals.eanso.org/index.php/index/about-journals"
+              },
+              {
+                "text": "Editorial Board",
+                "url": "https://journals.eanso.org/index.php/index/editorial-board"
+              },
+              {
+                "text": "Make a Submission",
+                "url": "https://journals.eanso.org/index.php/index/make-a-submission"
+              },
+              {
+                "text": "Peer-review Process",
+                "url": "https://journals.eanso.org/index.php/index/peer-review-process"
+              },
+              {
+                "text": "Journals",
+                "url": "https://journals.eanso.org/index.php/eajle/issue/current"
+              },
+              {
+                "text": "Current",
+                "url": "https://journals.eanso.org/index.php/eajle/issue/current"
+              },
+              {
+                "text": "Archives",
+                "url": "https://journals.eanso.org/index.php/eajle/issue/archive"
+              },
+              {
+                "text": "Applicable Fees",
+                "url": "https://journals.eanso.org/index.php/index/applicable-fee"
+              },
+              {
+                "text": "All Journals",
+                "url": "https://journals.eanso.org"
+              },
+              {
+                "text": "Tracker",
+                "url": "https://tracker.eanso.org"
+              },
+              {
+                "text": "FAQ",
+                "url": "https://journals.eanso.org/index.php/index/faq"
+              },
+              {
+                "text": "Contact Us",
+                "url": "https://journals.eanso.org/index.php/eajle/article/view/6056"
+              },
+              {
+                "text": "Send us an email",
+                "url": "https://journals.eanso.org/cdn-cgi/l/email-protection#c3a6a7aab7acb183a6a2adb0acedacb1a4"
+              },
+              {
+                "text": "Chat on WhatsApp",
+                "url": "https://wa.link/uluzvg"
+              },
+              {
+                "text": "Give us a call",
+                "url": "tel:+254777662111"
+              },
+              {
+                "text": "Follow us on Facebook",
+                "url": "https://facebook.com/EANSOJournals"
+              },
+              {
+                "text": "Find us on Twitter",
+                "url": "https://www.twitter.com/EANS0Journals"
+              },
+              {
+                "text": "Connect on LinkedIn",
+                "url": "http://www.linkedin.com/eanso"
+              },
+              {
+                "text": "More ways",
+                "url": "https://journals.eanso.org/index.php/index/contact-us"
+              },
+              {
+                "text": "Start Here",
+                "url": "https://journals.eanso.org/index.php/index/start"
+              },
+              {
+                "text": "Search",
+                "url": "https://journals.eanso.org/index.php/eajle/search/search"
+              },
+              {
+                "text": "",
+                "url": "https://journals.eanso.org/index.php/eajle/article/view/6056"
+              },
+              {
+                "text": "Register",
+                "url": "https://journals.eanso.org/index.php/eajle/user/register"
+              },
+              {
+                "text": "Login",
+                "url": "https://journals.eanso.org/index.php/eajle/login"
+              },
+              {
+                "text": "",
+                "url": "https://facebook.com/EANSOJournals"
+              },
+              {
+                "text": "",
+                "url": "https://www.twitter.com/EANS0Journals"
+              },
+              {
+                "text": "",
+                "url": "http://www.linkedin.com/eanso"
+              },
+              {
+                "text": "",
+                "url": "https://wa.link/uluzvg"
+              },
+              {
+                "text": "",
+                "url": "https://journals.eanso.org/cdn-cgi/l/email-protection#acc9c8c5d8c3deecc9cdc2dfc382c3decb"
+              },
+              {
+                "text": "",
+                "url": "tel:+254777662111"
+              },
+              {
+                "text": "Home",
+                "url": "https://journals.eanso.org/index.php/eajle/index"
+              },
+              {
+                "text": "Archives",
+                "url": "https://journals.eanso.org/index.php/eajle/issue/archive"
+              },
+              {
+                "text": "Vol 9 No 4 (2026): East African Journal of Law and Ethics",
+                "url": "https://journals.eanso.org/index.php/eajle/issue/view/256"
+              },
+              {
+                "text": "https://doi.org/10.37284/eajle.9.4.6056",
+                "url": "https://doi.org/10.37284/eajle.9.4.6056"
+              },
+              {
+                "text": "",
+                "url": "https://www.facebook.com/sharer/sharer.php?u=https://doi.org/10.37284/eajle.9.4.6056"
+              },
+              {
+                "text": "",
+                "url": "https://twitter.com/intent/tweet?text=I recommend that you read this article. Follow this DOI https://doi.org/10.37284/eajle.9.4.6056 to see it. Thank you in advance.&url=https://doi.org/10.37284/eajle.9.4.6056&via=EANSO Journals"
+              },
+              {
+                "text": "",
+                "url": "https://www.linkedin.com/shareArticle?mini=true&url=https://doi.org/10.37284/eajle.9.4.6056&title=Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging&summary=Hi! I recommend that you read this article titled Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging. Follow this DOI https://doi.org/10.37284/eajle.9.4.6056 to see it. Thank you in advance.&source=EANSO%20Journals"
+              },
+              {
+                "text": "",
+                "url": "https://api.whatsapp.com/send?text=Hi! I recommend that you read this article titled *Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging*. Follow this DOI https://doi.org/10.37284/eajle.9.4.6056 to see it. Thank you in advance."
+              },
+              {
+                "text": "",
+                "url": "https://journals.eanso.org/cdn-cgi/l/email-protection#67581412050d0204135a2615130e040b0247150204080a0a020903020347010815471e0812410508031e5a2e47150204080a0a02090347130f0613471e0812471502060347130f0e14470615130e040b0247130e130b0203472211060b1206130e090047130f02472201010204130e110209021414470801473306091d06090e0685e7fe1447241e05021504150e0a021447260413470e0947371502110209130e09004b472302130204130e0900470609034737150814020412130e0900472a08050e0b02472a0809021e47211506120347330f150812000f47320914080b0e040e130203472a02141406000e0900494721080b0b081047130f0e144723282e470f131317145d484803080e49081500485657495450555f534802060d0b02495e4953495157525147130847140202470e134947330f06090c471e0812470e09470603110609040249"
+              },
+              {
+                "text": "",
+                "url": "https://telegram.me/share/url?url=https://doi.org/10.37284/eajle.9.4.6056&text=Hi! I recommend that you read this article titled Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging. Follow this DOI https://doi.org/10.37284/eajle.9.4.6056 to see it. Thank you in advance."
+              },
+              {
+                "text": "",
+                "url": "https://pinterest.com/pin/create/button/?url=https://doi.org/10.37284/eajle.9.4.6056&media=Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging&description=Hi! I recommend that you read this article titled Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging. Follow this DOI https://doi.org/10.37284/eajle.9.4.6056 to see it. Thank you in advance."
+              },
+              {
+                "text": "https://tanzlii.org/akn/tz/act/2015/14",
+                "url": "https://tanzlii.org/akn/tz/act/2015/14"
+              },
+              {
+                "text": "",
+                "url": "https://journals.eanso.org/index.php/eajle/issue/view/256"
+              },
+              {
+                "text": "Download Article",
+                "url": "https://journals.eanso.org/index.php/eajle/article/view/6056/6367"
+              },
+              {
+                "text": "ACM",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/get/acm-sig-proceedings?submissionId=6056"
+              },
+              {
+                "text": "ACS",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/get/acs-nano?submissionId=6056"
+              },
+              {
+                "text": "APA",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/get/apa?submissionId=6056"
+              },
+              {
+                "text": "ABNT",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/get/associacao-brasileira-de-normas-tecnicas?submissionId=6056"
+              },
+              {
+                "text": "Chicago",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/get/chicago-author-date?submissionId=6056"
+              },
+              {
+                "text": "Harvard",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/get/harvard-cite-them-right?submissionId=6056"
+              },
+              {
+                "text": "IEEE",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/get/ieee?submissionId=6056"
+              },
+              {
+                "text": "MLA",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/get/modern-language-association?submissionId=6056"
+              },
+              {
+                "text": "Turabian",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/get/turabian-fullnote-bibliography?submissionId=6056"
+              },
+              {
+                "text": "Vancouver",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/get/vancouver?submissionId=6056"
+              },
+              {
+                "text": "Endnote/Zotero/Mendeley (RIS)",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/download/ris?submissionId=6056"
+              },
+              {
+                "text": "BibTeX",
+                "url": "https://journals.eanso.org/index.php/eajle/citationstylelanguage/download/bibtex?submissionId=6056"
+              },
+              {
+                "text": "Vol 9 No 4 (2026): East African Journal of Law and Ethics",
+                "url": "https://journals.eanso.org/index.php/eajle/issue/view/256"
+              },
+              {
+                "text": "",
+                "url": "http://creativecommons.org/licenses/by/4.0/"
+              },
+              {
+                "text": "Creative Commons Attribution 4.0 International License",
+                "url": "http://creativecommons.org/licenses/by/4.0/"
+              },
+              {
+                "text": "View PlumX Citation Metrics",
+                "url": "https://plu.mx/plum/a/?doi=https://doi.org/10.37284/eajle.9.4.6056"
+              },
+              {
+                "text": "Make a Submission",
+                "url": "https://journals.eanso.org/index.php/index/make-a-submission"
+              },
+              {
+                "text": "Authors Guidelines",
+                "url": "https://journals.eanso.org/index.php/index/make-a-submission"
+              },
+              {
+                "text": "Editorial Board",
+                "url": "https://journals.eanso.org/index.php/index/editorial-board"
+              },
+              {
+                "text": "Peer-Review Process",
+                "url": "https://journals.eanso.org/index.php/index/peer-review-process"
+              },
+              {
+                "text": "Manuscript Template",
+                "url": "https://journals.eanso.org/public/site/EANSO-Journals-Submission-Template.doc"
+              },
+              {
+                "text": "Frequent Questions",
+                "url": "https://journals.eanso.org/index.php/index/faq"
+              },
+              {
+                "text": "All Journals",
+                "url": "https://journals.eanso.org"
+              },
+              {
+                "text": "English",
+                "url": "https://journals.eanso.org/index.php/eajle/user/setLocale/en_US?source=%2Findex.php%2Feajle%2Farticle%2Fview%2F6056"
+              },
+              {
+                "text": "Kiswahili",
+                "url": "https://journals.eanso.org/index.php/eajle/user/setLocale/sw_KE?source=%2Findex.php%2Feajle%2Farticle%2Fview%2F6056"
+              },
+              {
+                "text": "Français",
+                "url": "https://journals.eanso.org/index.php/eajle/user/setLocale/fr_FR?source=%2Findex.php%2Feajle%2Farticle%2Fview%2F6056"
+              },
+              {
+                "text": "العربية",
+                "url": "https://journals.eanso.org/index.php/eajle/user/setLocale/ar_IQ?source=%2Findex.php%2Feajle%2Farticle%2Fview%2F6056"
+              },
+              {
+                "text": "website accessibility",
+                "url": "https://userway.org"
+              },
+              {
+                "text": "Home",
+                "url": "https://journals.eanso.org/"
+              },
+              {
+                "text": "Submit a Manuscript",
+                "url": "https://journals.eanso.org/index.php/index/make-a-submission"
+              },
+              {
+                "text": "Search",
+                "url": "https://journals.eanso.org/index.php/index/search/search"
+              },
+              {
+                "text": "About",
+                "url": "https://journals.eanso.org/index.php/index/about-journals"
+              },
+              {
+                "text": "Contact",
+                "url": "https://journals.eanso.org/index.php/index/contact-us"
+              },
+              {
+                "text": "Tracker",
+                "url": "https://tracker.eanso.org/"
+              },
+              {
+                "text": "Editorial Board",
+                "url": "https://journals.eanso.org/index.php/index/editorial-board"
+              },
+              {
+                "text": "FAQ",
+                "url": "https://journals.eanso.org/index.php/index/faq"
+              },
+              {
+                "text": "2707-532X",
+                "url": "https://portal.issn.org/resource/ISSN/2707-532X"
+              },
+              {
+                "text": "2707-5338",
+                "url": "https://portal.issn.org/resource/ISSN/2707-5338"
+              },
+              {
+                "text": "https://doi.org/10.37284/2707-5338",
+                "url": "https://doi.org/10.37284/2707-5338"
+              },
+              {
+                "text": "",
+                "url": "https://facebook.com/EANSOJournals"
+              },
+              {
+                "text": "",
+                "url": "https://www.twitter.com/EANS0Journals"
+              },
+              {
+                "text": "",
+                "url": "http://www.linkedin.com/eanso"
+              },
+              {
+                "text": "",
+                "url": "https://wa.link/uluzvg"
+              },
+              {
+                "text": "",
+                "url": "https://journals.eanso.org/cdn-cgi/l/email-protection#f396979a879c81b396929d809cdd9c8194"
+              },
+              {
+                "text": "",
+                "url": "tel:+254777662111"
+              },
+              {
+                "text": "Creative Commons Attribution 4.0 International License",
+                "url": "http://creativecommons.org/licenses/by/4.0/"
+              },
+              {
+                "text": "[email protected]",
+                "url": "https://journals.eanso.org/cdn-cgi/l/email-protection"
+              }
+            ],
+            "text": "Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging\n\t\t\t\t\t\t\t| East African Journal of Law and Ethics\nSkip to main content\nSkip to main navigation menu\nSkip to site footer\nSearch\nEvaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging\nDickson Mutabazi\nUniversity of Iringa\nDOI:\nhttps://doi.org/10.37284/eajle.9.4.6056\nKeywords:\nCybercrimes Act, \t\t\t\t\t\t\t\t\t\t\t\t\tMobile Money Fraud, \t\t\t\t\t\t\t\t\t\t\t\t\tUnsolicited Messaging, \t\t\t\t\t\t\t\t\t\t\t\t\tPhishing Tanzania, \t\t\t\t\t\t\t\t\t\t\t\t\tCybercrime Enforcement\nShare Article:\nAbstract\nThis article evaluates how far Tanzania’s Cybercrimes Act prevents, detects, and secures the prosecution of mobile money fraud that begins with an unsolicited message. It combines a doctrinal reading of sections 12 and 20 of the Act and its investigative provisions with empirical data collected in Dodoma through semi-structured interviews and open-ended questionnaires administered to twenty respondents from law enforcement, regulatory bodies, telecommunications companies, Parliament, academia and victims of fraud. The Act gives investigators a usable legal foundation, yet 65 per cent of respondents rated it less than effective. Section 12 is built around the manipulation of computer data or systems and fits awkwardly with schemes in which the victim is persuaded to make the transfer personally, while section 20 predates AI-generated voice calls, deepfakes, QR code scams and spoofed sender names, none of which the Act mentions. Enforcement is further weakened by thin forensic capacity, slow information sharing between agencies and service providers, and low digital literacy among users; no reported decision applying either provision to this kind of fraud could be found. The article argues that the problem is one of design as well as enforcement: an offence built around the manipulation of machines cannot be relied upon to punish the manipulation of people. It offers what appears to be the first focused legal assessment of this fraud vector in Tanzania and proposes legislative, institutional, and awareness-based reforms, including a technology-neutral offence of causing loss by electronic deception, mandatory fraud reporting by operators, a victim compensation mechanism that does not depend on conviction, stronger forensic capacity and sustained public education\nDownloads\nDownload data is not yet available.\nReferences\nBank of Tanzania Act, Cap 197 [R.E. 2023]\nBank of Tanzania (Financial Consumer Protection) Regulations 2019, as amended by GN No 784 of 2020\nConstitution of the United Republic of Tanzania 1977\nCybercrimes Act, Cap 443 [R.E. 2023]\nElectronic and Postal Communications Act, Cap 306 [R.E. 2023]\nElectronic and Postal Communications (SIM Card Registration) Regulations 2020\nElectronic Transactions Act, Cap 442 [R.E. 2023]\nEvidence Act, Cap 6 [R.E. 2023]\nNational Payment Systems Act, Cap 437 [R.E. 2023]\nNational Payment Systems (Electronic Money) Regulations 2015\nPenal Code, Cap 16 [R.E. 2023]\nPersonal Data Protection Act, Cap 44 [R.E. 2023]\nPolice Force and Auxiliary Services Act, Cap 322 [R.E. 2023]\nTanzania Communications Regulatory Authority Act, Cap 172 [R.E. 2023]\nLegislation (Other Jurisdictions)\nComputer Misuse and Cybercrimes Act 2018 (Kenya)\nCybercrimes (Prohibition, Prevention, etc.) Act 2015 (Nigeria)\nFraud Act 2006 (UK)\nInternational and Regional Instruments\nAfrican Union Convention on Cyber Security and Personal Data Protection (adopted 27 June 2014, entered into force 8 June 2023)\nConvention on Cybercrime (adopted 23 November 2001, entered into force 1 July 2004) ETS No 185\nBooks\nAkinbowale O, Mashigo M and Zerihun M, Understanding and Mitigating Cyberfraud in Africa (AVARSITY 2024)\nBooth WC and others, The Craft of Research (4th edn, University of Chicago Press 2016)\nFuller LL, The Morality of Law (rev edn, Yale University Press 1969)\nGoldbarsht D and de Koker L (eds), Financial Technology and the Law: Combating Financial Crime (Springer 2022)\nHart HLA, The Concept of Law (3rd edn, Oxford University Press 2012)\nHolt TJ, Bossler AM and Seigfried-Spellar KC, Cybercrime and Digital Forensics: An Introduction (3rd edn, Routledge 2022)\nKothari CR, Research Methodology: Methods and Techniques (2nd rev edn, New Age International 2004)\nMajamba HI and Mwaburi AJ, Harmonisation of Cybercrimes Legal Frameworks within the East African Community (University of Dar es Salaam School of Law 2020)\nOerlemans J-J, Investigating Cybercrime (Leiden University 2017)\nSibe TR and Kaunert C, Cybercrime, Digital Forensic Readiness, and Financial Crime Investigation in Nigeria (Springer 2024)\nJournal Articles and Conference Papers\nAker JC and Mbiti IM, ‘Mobile Phones and Economic Development in Africa’ (2010) 24(3) Journal of Economic Perspectives 207\nBraun V and Clarke V, ‘Using Thematic Analysis in Psychology’ (2006) 3(2) Qualitative Research in Psychology 77\nHutchinson T and Duncan N, ‘Defining and Describing What We Do: Doctrinal Legal Research’ (2012) 17(1) Deakin Law Review 83\nMassawe ER and Mshana AJ, ‘Preventing and Combating Cybercrime: Case of Investigation Unit of Tanzania Police’ (2023) European Journal of Theoretical and Applied Sciences 1187\nMoses N, Semlambo A and Sabaya D, ‘The Impacts of Cybercrime on the Growth of Mobile Money Services in Tanzania: A Case of Kongwa District’ (2023) 6(11) International Journal of Business Management\nMsengi I, ‘The Role of Law Enforcement in Combating Financial Cybercrime in Tanzania: Examining the Laws and Practice’ (2024) 7(1) East African Journal of Law and Ethics 1\nNashon S, ‘Assessing the Implementation of the Cybercrimes Act in Combating Cybercrimes in Tanzania’ (2025) 15(4) International Journal of Current Science 1\nPaelo A, ‘A Comparison of the Mobile Financial Services Sector in Kenya, Tanzania and Uganda’ (Annual Competition and Economic Regulation Conference, Dar es Salaam, 2017)\nPallangyo H, ‘Cyber Security Challenges, its Emerging Trends on Latest Information and Communication Technology and Cyber Crime in Mobile Money Transaction Services’ (2022) 41(2) Tanzania Journal of Engineering and Technology 189\nSalim A, ‘Assessment of Mobile Money Transaction Frauds and Consequences Confronting Zanzibar Telecom Service Providers’ (2022) 22(20) Asian Journal of Economics, Business and Accounting 16\nShelimo H, ‘Strengthening Tanzania’s Legal Framework against Phishing Attacks: Lessons from Nigeria’ (2025) 8(1) East African Journal of Law and Ethics 1\nReports and Online Sources\nPayment Systems Regulator, ‘Specific Direction 20: Faster Payments APP Scams Reimbursement Requirement’ (PSR 2024)\nTanzania Legal Information Institute, ‘Cybercrimes Act, 2015’ <\nhttps://tanzlii.org/akn/tz/act/2015/14\n> accessed 27 September 2026\nUnited Nations Conference on Trade and Development, Mobile Money for Business Development in the East African Community (United Nations 2012)\nDownload Article\nPublished\n21 October, 2026\nHow to Cite\nMutabazi, D. (2026). Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting Mobile Money Fraud Through Unsolicited Messaging.\nEast African Journal of Law and Ethics\n,\n9\n(4), 250-266. https://doi.org/10.37284/eajle.9.4.6056\nMore Citation Formats\nACM\nACS\nAPA\nABNT\nChicago\nHarvard\nIEEE\nMLA\nTurabian\nVancouver\nDownload Citation\nEndnote/Zotero/Mendeley (RIS)\nBibTeX\nIssue\nVol 9 No 4 (2026): East African Journal of Law and Ethics\nSection\nArticles\nCopyright (c) 2026 Dickson Mutabazi\nThis work is licensed under a\nCreative Commons Attribution 4.0 International License\n.\nView PlumX Citation Metrics\nMake a Submission\nInformation\nAuthors Guidelines\nEditorial Board\nPeer-Review Process\nManuscript Template\nFrequent Questions\nAll Journals\nLanguage\nEnglish\nKiswahili\nFrançais\nالعربية\nPartners and Indexes\nPause\nHome\nSubmit a Manuscript\nSearch\nAbout\nContact\nTracker\nEditorial Board\nFAQ\nEast African Journal of Law and Ethics\nPrint ISSN:\n2707-532X\n| Online ISSN:\n2707-5338\nDOI:\nhttps://doi.org/10.37284/2707-5338\n|\n|\n|\n|\n|\nAll articles are Open Access and licensed under the\nCreative Commons Attribution 4.0 International License\nCopyright  © 2026, East African Nature and Science Organization, All Rights Reserved\nP. O. Box 3975 - 00100, Nairobi, Kenya |\n[email protected]\n|\n+254 777 662 111 |\n+254 700 562 111\nAdvancing Africa through research",
+            "text_complete": true,
+            "document_type": "unverified",
+            "fragment": "",
+            "resource_unavailable": false,
+            "text_sha256": "ce1d0ebedb302a88afb5936e61a8497b270434e5fe8e2ae0bd9a4d0a7392507d"
+          },
+          {
+            "requested_url": "https://journals.eanso.org/index.php/eajle/article/download/6056/6367",
+            "final_url": "https://journals.eanso.org/index.php/eajle/article/download/6056/6367",
+            "http_status": 200,
+            "headers": {
+              "content-type": "application/pdf"
+            },
+            "redirects": [
+              {
+                "url": "https://journals.eanso.org/index.php/eajle/article/download/6056/6367",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "44496253de9dc751aaec61237a05476df4b552adf785d2758563250bd62c2946",
+            "retrieved_at": "2026-11-26T05:22:08.245416+00:00",
+            "byte_count": 480837,
+            "container_type": "pdf",
+            "page_count": 17,
+            "pages_inspected": 6,
+            "pdf_metadata": {
+              "/Author": "user",
+              "/Creator": "Microsoft® Word LTSC",
+              "/CreationDate": "D:20261021171505+03'00'",
+              "/ModDate": "D:20261021171505+03'00'",
+              "/Producer": "Microsoft® Word LTSC"
+            },
+            "text": "East African Journal of Law and Ethics, Volume 9, Issue 4, 2026 \nArticle DOI: https://doi.org/10.37284/eajle.9.4.6056 \n \n250 | This work is licensed under a Creative Commons Attribution 4.0 International License. \n \n \n \n \n \n \nEast African Journal of Law and Ethics \neajle.eanso.org \nVolume 9, Issue 4, 2026 \nPrint ISSN: 2707-532X| Online ISSN: 2707-5338 \nTitle DOI: https://doi.org/10.37284/2707-5338 \n \n \n \nEAST AFRICAN \nNATURE & \nSCIENCE \nORGANIZATION \nOriginal Article \nEvaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, \nDetecting and Prosecuting Mobile Money Fraud Through Unsolicited \nMessaging \nDickson Mutabazi1* \n1 University of Iringa, P. O. Box 200, Iringa, Tanzania. \n* Author for Correspondence ORCID ID; https://orcid.org/0009-0006-2580-420X; Email: mdtigalyoma@gmail.com                  \n \nArticle DOI: https://doi.org/10.37284/eajle.9.4.6056 \n \nDate Published: \n \n21 October 2026 \nKeywords: \n \nCybercrimes Act, \nMobile Money Fraud, \nUnsolicited \nMessaging,  \nPhishing Tanzania, \nCybercrime \nEnforcement. \nABSTRACT \nThis article evaluates how far Tanzania’s Cybercrimes Act prevents, \ndetects, and secures the prosecution of mobile money fraud that begins with \nan unsolicited message. It combines a doctrinal reading of sections 12 and \n20 of the Act and its investigative provisions with empirical data collected \nin Dodoma through semi-structured interviews and open-ended \nquestionnaires administered to twenty respondents from law enforcement, \nregulatory bodies, telecommunications companies, Parliament, academia \nand victims of fraud. The Act gives investigators a usable legal foundation, \nyet 65 per cent of respondents rated it less than effective. Section 12 is built \naround the manipulation of computer data or systems and fits awkwardly \nwith schemes in which the victim is persuaded to make the transfer \npersonally, while section 20 predates AI-generated voice calls, deepfakes, \nQR code scams and spoofed sender names, none of which the Act mentions. \nEnforcement is further weakened by thin forensic capacity, slow \ninformation sharing between agencies and service providers, and low \ndigital literacy among users; no reported decision applying either provision \nto this kind of fraud could be found. The article argues that the problem is \none of design as well as enforcement: an offence built around the \nmanipulation of machines cannot be relied upon to punish the manipulation \nof people. It offers what appears to be the first focused legal assessment of \nthis fraud vector in Tanzania and proposes legislative, institutional, and \nawareness-based reforms, including a technology-neutral offence of \ncausing loss by electronic deception, mandatory fraud reporting by \noperators, a victim compensation mechanism that does not depend on \nconviction, stronger forensic capacity and sustained public education. \n \nAPA CITATION \nMutabazi, D.  (2026). Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting \nMobile Money Fraud Through Unsolicited Messaging. East African Journal of Law and Ethics, 9(4), 250-266. \nhttps://doi.org/10.37284/eajle.9.4.6056. \nCHICAGO CITATION \nMutabazi, Dickson. 2026. “Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and \nProsecuting Mobile Money Fraud Through Unsolicited Messaging”. East African Journal of Abdulswamad Haji Sunnaf \nLaw and Ethics, 9 (4), 250-266. https://doi.org/10.37284/eajle.9.4.6056.   \n\nEast African Journal of Law and Ethics, Volume 9, Issue 4, 2026 \nArticle DOI: https://doi.org/10.37284/eajle.9.4.6056 \n \n251 | This work is licensed under a Creative Commons Attribution 4.0 International License. \n \nHARVARD CITATION \nMutabazi, D. (2026). “Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and \nProsecuting Mobile Money Fraud Through Unsolicited Messaging”, East African Journal of Law and Ethics, 9(4), pp. 250-\n266. doi: 10.37284/eajle.9.4.6056 \n \nIEEE CITATION \nD. Mutabazi, “Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting \nMobile Money Fraud Through Unsolicited Messaging”, EAJLE, vol. 9, no. 4, pp. 250-266, Oct. 2026. \nMLA CITATION \nMutabazi, Dickson. “Evaluating the Effectiveness of Tanzania’s Cybercrimes Act in Preventing, Detecting and Prosecuting \nMobile Money Fraud Through Unsolicited Messaging”, East African Journal of Law and Ethics, Vol. 9, no. 4, Oct. 2026, \npp. 250-266, doi:10.37284/eajle.9.4.6056. \nINTRODUCTION \nFew innovations have changed everyday \neconomic life in Tanzania as quickly as mobile \nmoney. M-Pesa, Airtel Money, Mixx by Yas \n(formerly Tigo Pesa) and HaloPesa allow people \nwithout bank accounts to send and receive money, \npay bills, buy goods and save, using a basic \nhandset and a dense network of agents.1 For many \nrural households, a mobile wallet is the first \nformal financial account they have held, and the \ngains for financial inclusion have been \nsubstantial. Kenya, Uganda and Tanzania are \namong the few countries in the world where \nmobile money accounts outnumber bank \naccounts, and the service has grown from simple \ntransfers into savings, credit and even insurance \nproducts.2 \nThe features that make the service attractive, \nnamely speed, reach and simplicity, have also \nmade it a target. A large share of losses now \ncomes not from breaking into operators’ systems, \nbut from messages the user never asked for: a text \nclaiming that money was sent by mistake, a call \nfrom someone posing as customer care, a \nWhatsApp link promising a prize or an instant \nloan. Smishing is phishing by SMS; vishing uses \nvoice calls; spoofing disguises the sender’s \nnumber or name so that the message appears to \ncome from a trusted institution.3 What unites these \n \n1 A Paelo, ‘A Comparison of the Mobile Financial Services Sector in \nKenya, Tanzania and Uganda’ (Annual Competition and Economic \nRegulation Conference, Dar es Salaam, 2017). \n2 Jenny C Aker and Isaac M Mbiti, ‘Mobile Phones and Economic \nDevelopment in Africa’ (2010) 24(3) Journal of Economic \nPerspectives 207, 217–23. \n3 Thomas J Holt, Adam M Bossler and Kathryn C Seigfried-Spellar, \nCybercrime and Digital Forensics: An Introduction (3rd edn, \nRoutledge 2022) 112–18. \n4 O Akinbowale, M Mashigo and M Zerihun, Understanding and \nMitigating Cyberfraud in Africa (AVARSITY 2024) 48–70. \nschemes is that they work on the person rather \nthan the machine. The fraudster’s tool is \npersuasion, and it is frequently the victim who \ndiscloses the PIN or one-time password, or who \npresses ‘send’.4 \nThe harm is not confined to individual losses. \nEach successful scam erodes public confidence in \ndigital payments, and that confidence is what \nfinancial inclusion rests on.5 Studies in Tanzania \nhave found that users who fear fraud reduce their \nuse of the service or change how they use it, which \nslows the very adoption that policy seeks to \nencourage.6 This raises a question of legal design. \nTanzania’s principal weapon against such conduct \nis the Cybercrimes Act, but a statute written \nlargely to punish interference with computers may \nnot sit comfortably with fraud that depends on \ndeception and on the victim’s own action. \nWhether the Act, as drafted and as applied, is \nequal to that task is the subject of this article. \nBackground \nMany jurisdictions struggled to respond to online \ntransaction crime because their criminal law had \nno settled definition of it and did not explain how \nit differed from ordinary fraud. The international \nanswer, reflected in the Council of Europe’s \nConvention on Cybercrime, was to create a \ndistinct offence of computer-related fraud defined \n5 Haruni Pallangyo, ‘Cyber Security Challenges, its Emerging \nTrends on Latest Information and Communication Technology and \nCyber Crime in Mobile Money Transaction Services’ (2022) 41(2) \nTanzania Journal of Engineering and Technology 189, 194–201. \n6 N Moses, A Semlambo and D Sabaya, ‘The Impacts of Cybercrime \non the Growth of Mobile Money Services in Tanzania: A Case of \nKongwa District’ (2023) 6(11) International Journal of Business \nManagement. \nEast African Journal of Law and Ethics, Volume 9, Issue 4, 2026 \nArticle DOI: https://doi.org/10.37284/eajle.9.4.6056 \n \n252 | This work is licensed under a Creative Commons Attribution 4.0 International License. \n \nby reference to the manipulation of computer data \nor systems.7 African regional instruments \nfollowed a similar path, and within the East \nAfrican Community the pressure to harmonise \nnational frameworks encouraged states to adopt \ncomparable definitions.8 \nParliament enacted the Cybercrimes Act in 2015, \nand it now appears as Cap 443 in the 2023 Revised \nEdition. The Act applies to both Mainland \nTanzania and Tanzania Zanzibar and is designed \nto criminalise offences relating to computer \nsystems and to provide for the investigation of \nsuch offences and the use of electronic evidence. \nTwo provisions are central here. Section 12 \ncreates the offence of computer-related fraud, \ncommitted where a person, with fraudulent or \ndishonest intent, causes loss of property to another \nthrough the input, alteration, deletion, delaying or \nsuppression of computer data or through \ninterference with the functioning of a computer \nsystem. Section 20 prohibits a person, with intent \nto commit an offence under the Act, from \ninitiating, relaying or retransmitting unsolicited \nmessages or falsifying header information in \nthem.9 The Act was preceded by the introduction \nof compulsory SIM card registration, which was \nintended to remove the anonymity on which \ntelephone fraud had depended.10 \nOn paper these provisions seem to reach the \nconduct described above, yet fraud continues to \ngrow. Part of the explanation lies in the pace of \ntechnological change. When the Bill was debated, \nthe typical scam was a clumsily worded text \nmessage. Fraudsters can now imitate the voice of \na relative or a bank officer with artificial \nintelligence, circulate deepfake videos endorsing \nbogus investment schemes, direct victims to QR \ncodes that trigger payments, and make messages \n \n7 Convention on Cybercrime (adopted 23 November 2001, entered \ninto force 1 July 2004) ETS No 185, art 8. \n8 African Union Convention on Cyber Security and Personal Data \nProtection (adopted 27 June 2014, entered into force 8 June 2023). \n9 Cybercrimes Act, Cap 443 [R.E. 2023], ss 2, 12(1) and 20(1). \n10 Electronic and Postal Communications (SIM Card Registration) \nRegulations 2020, made under the Electronic and Postal \nCommunications Act, Cap 306 [R.E. 2023]. \n11 David Goldbarsht and Louis de Koker (eds), Financial Technology \nand the Law: Combating Financial Crime (Springer 2022) 28–40. \nappear under the sender names of genuine \ninstitutions.11 Weaknesses in the registration of \nSIM cards by freelance agents also allow lines to \nbe activated in the names of people who never \nasked for them.12 \nThe Act mentions none of these techniques, and \nthe 2023 revision consolidated the text without \nadding new offences. The result is a widening gap \nbetween a static statute and constantly shifting \ncriminal methods. Meanwhile, the practical \nburden falls on a small number of investigators \nand prosecutors who must fit new schemes within \nold definitions.13 Whether that gap is best closed \nby amending the text, by reading existing \nprovisions broadly, or by strengthening the \ninstitutions that apply them is the underlying \npolicy problem this article addresses. \nResearch Question \nThe study is guided by one question: how \neffective is the Cybercrimes Act in preventing, \ndetecting and prosecuting mobile money fraud \nresulting from unsolicited messaging in \nTanzania? \nAnswering it requires attention to two related \nmatters, namely whether the text of the Act \nreaches the conduct in question and whether the \ninstitutions responsible for applying it are able to \ndo so in practice.14 The first is a question of \nstatutory interpretation; the second is a question of \nimplementation that can only be answered by \nasking those who work with the Act. \nSignificance and Scope \nScholarship on cybercrime in Tanzania has \ngrown, but it tends either to treat the Cybercrimes \nAct as a whole or to approach mobile money fraud \nfrom a technical or commercial angle.15 Few \n12 Abdul Salim, ‘Assessment of Mobile Money Transaction Frauds \nand Consequences Confronting Zanzibar Telecom Service \nProviders’ (2022) 22(20) Asian Journal of Economics, Business and \nAccounting 16, 21–29. \n13 Innocent Msengi, ‘The Role of Law Enforcement in Combating \nFinancial Cybercrime in Tanzania: Examining the Laws and \nPractice’ (2024) 7(1) East African Journal of Law and Ethics 1. \n14 Cybercrimes Act, ss 12, 20 and 31–38. \n15 S Nashon, ‘Assessing the Implementation of the Cybercrimes Act \nin Combating Cybercrimes in Tanzania’ (2025) 15(4) International \nJournal of Current Science 1, 12–19; Pallangyo, ‘Cyber Security \nChallenges’ 189. \nEast African Journal of Law and Ethics, Volume 9, Issue 4, 2026 \nArticle DOI: https://doi.org/10.37284/eajle.9.4.6056 \n \n253 | This work is licensed under a Creative Commons Attribution 4.0 International License. \n \nstudies isolate the unsolicited message as the point \nat which the fraud begins and ask whether the \noffences Parliament created are suited to it. The \nfindings should therefore be of use to Parliament, \nthe Tanzania Communications Regulatory \nAuthority (TCRA), the Bank of Tanzania (BoT), \nthe Personal Data Protection Commission \n(PDPC), investigators, prosecutors, mobile \nmoney operators and the Judiciary, which has yet \nto interpret sections 12 and 20 in this context. \nThe scope is deliberately narrow. Although the \nAct applies throughout the United Republic, the \nstudy is confined to Mainland Tanzania, with \nprimary data collected in Dodoma. Legally, it \nconcentrates on sections 12 and 20 and the \nprocedural powers that support them, read \nalongside complementary statutes on electronic \ntransactions, communications, payment systems \nand data protection.16 It examines both doctrinal \nadequacy, that is, whether the text reaches the \nconduct, and practical implementation, that is, \nwhether the institutions can apply it. \nLITERATURE REVIEW \nAkinbowale, Mashigo and Zerihun show that \ncyberfraud in African financial systems relies \nheavily on phishing and social engineering, and \nthat users’ limited awareness matters to fraudsters \nas much as any technical weakness; they also \nstress that detection tools, internal controls and \nuser education must work together. Goldbarsht \nand de Koker make a related point about \nregulation: financial technology opens new routes \nto crime that cannot be closed by technology \nalone, only by laws, compliance duties and \nenforcement that develop alongside the \nplatforms.17 Tanzanian studies bring these \nobservations closer to home. Salim’s study of \ntelecom providers in Zanzibar identifies \n \n16 Electronic Transactions Act, Cap 442 [R.E. 2023]; National \nPayment Systems Act, Cap 437 [R.E. 2023]; Personal Data \nProtection Act, Cap 44 [R.E. 2023]. \n17 Akinbowale, Mashigo and Zerihun, Understanding and Mitigating \nCyberfraud in Africa 48–70; Goldbarsht and de Koker, Financial \nTechnology and the Law 17–34. \n18 Salim, ‘Assessment of Mobile Money Transaction Frauds’ 21–29; \nPallangyo, ‘Cyber Security Challenges’ 194–201; Moses, Semlambo \nand Sabaya, ‘The Impacts of Cybercrime on the Growth of Mobile \nMoney Services in Tanzania’. \nfraudulent SMS and calls impersonating operators \nas the most frequently reported forms of mobile \nmoney fraud and notes that fraud has risen despite \nSIM registration and awareness messages. \nPallangyo attributes the vulnerability of mobile \nmoney services to weak security systems, poorly \ntrained agents, and limited user awareness, and \nMoses, Semlambo and Sabaya find in Kongwa \nDistrict that fear of fraud changes the way people \nuse the service.18 \nOn the legal side, Shelimo compares Tanzania’s \nresponse to phishing with Nigeria’s and criticises \nvague definitions and limited investigative \ncapacity; Nashon reviews the implementation of \nthe Cybercrimes Act and points to shortages of \ntrained personnel and slow judicial processes; and \nMsengi examines how law enforcement officers \nhandle financial cybercrime, highlighting \ndeficient forensic tools, thin budgets and weak \ncollaboration with technology companies.19 \nMassawe and Mshana reach similar conclusions \nfrom inside the Police Force’s investigation unit, \nwhile Sibe and Kaunert show, from the Nigerian \nexperience, that forensic readiness is often the \ndecisive factor in whether financial cybercrime \ncan be prosecuted at all.20 Together, these studies \ndocument the prevalence and mechanics of \nmobile money fraud and the general weaknesses \nof enforcement, but none of them tests whether the \nparticular offences in the Cybercrimes Act are \nadequate for fraud that begins with an unsolicited \nmessage. \nThat is the gap this article addresses. The existing \nwork either treats cybercrime broadly, as Nashon \nand Msengi do, or studies mobile money fraud \nfrom a technical, commercial or behavioural \nstandpoint, as Salim, Pallangyo and Moses and \nothers do. Shelimo comes closest, but her concern \n19 Helen Shelimo, ‘Strengthening Tanzania’s Legal Framework \nagainst Phishing Attacks: Lessons from Nigeria’ (2025) 8(1) East \nAfrican Journal of Law and Ethics 1, 3–6; Nashon, ‘Assessing the \nImplementation of the Cybercrimes Act’ 12–19; Msengi, ‘The Role \nof Law Enforcement in Combating Financial Cybercrime in \nTanzania’. \n20 E R Massawe and A J Mshana, ‘Preventing and Combating \nCybercrime: Case of Investigation Unit of Tanzania Police’ (2023) \nEuropean Journal of Theoretical and Applied Sciences 1187; T R \nSibe and C Kaunert, Cybercrime, Digital Forensic Readiness, and \nFinancial Crime Investigation in Nigeria (Springer 2024) 57–83. \nEast African Journal of Law and Ethics, Volume 9, Issue 4, 2026 \nArticle DOI: https://doi.org/10.37284/eajle.9.4.6056 \n \n254 | This work is licensed under a Creative Commons Attribution 4.0 International License. \n \nis phishing in general and the comparison with \nNigeria rather than the meeting point between \nunsolicited messages and mobile money \nplatforms, while Majamba and Mwaburi are \nconcerned with regional harmonisation rather \nthan with the fit between particular offences and \nparticular frauds.21 No study appears to have read \nsections 12 and 20 closely against the techniques \nnow used to defraud mobile money users, and then \ntested that reading against the experience of those \nwho investigate, prosecute, regulate and suffer \nfrom the fraud. This article does both. It pairs a \ndoctrinal analysis of the two provisions and their \nprocedural support with interview and \nquestionnaire data from police investigators, \npublic prosecutors, regulators, \ntelecommunications officers, legislators, a legal \nscholar, an artificial intelligence expert and \nvictims. To the author’s knowledge, it is the first \nfocused legal assessment of this fraud vector in \nTanzania. \nCONCEPTUAL FRAMEWORK \nCybercrime \nHolt, Bossler and Seigfried-Spellar describe \ncybercrime as criminal activity committed \nthrough computers, networks or other digital \ndevices, whether the device is the target of the \noffence or the means of committing it, and they \nobserve that the most damaging cybercrimes \nincreasingly exploit human trust rather than \ntechnical flaws.22 The category covers offences as \ndifferent as unauthorised access, data \ninterference, identity theft, online fraud and the \nunlawful interception of communications. It \nsupplies the wider legal setting within which \nmobile money fraud occurs, and in Tanzania it is \ngoverned principally by the Cybercrimes Act, \nwhich groups these offences in Part II.23 \n \n21 Shelimo, ‘Strengthening Tanzania’s Legal Framework against \nPhishing Attacks’ 1–8; Hamudi I Majamba and Abdallah J Mwaburi, \nHarmonisation of Cybercrimes Legal Frameworks within the East \nAfrican Community (University of Dar es Salaam School of Law \n2020). \n22 Holt, Bossler and Seigfried-Spellar, Cybercrime and Digital \nForensics 4–10, 112–18. \n23 Cybercrimes Act, ss 4–29. \n24 National Payment Systems Act; National Payment Systems \n(Electronic Money) Regulations 2015. \nMobile Money \nMobile money is electronically stored monetary \nvalue, linked to a mobile phone account and \nissued by a licensed provider, that can be used to \ntransfer funds, make payments and save without a \nconventional bank account.24 The account is \nidentified by the SIM card and phone number \nrather than by a bank account number, while the \ncorresponding cash is held in trust in a \ncommercial bank.25 Because it rides on existing \nmobile networks and agents, it reaches people \nwhom banks have never served, which explains \nboth its value to users and its attraction to \nfraudsters. \nMobile Money Fraud \nMobile money fraud means any deceptive act \ncommitted through a mobile money platform for \nfinancial gain. Its common forms include \nphishing, smishing, spoofing, SIM swap fraud and \nfake customer care calls.26 Unlike conventional \ntheft, it usually involves no force and often no \ntechnical intrusion; it relies on persuading the \nvictim to act against his or her own interest.27 \nUnsolicited Messaging \nAn unsolicited message is an electronic \ncommunication sent without the recipient’s prior \nrequest or consent, and the Act itself defines \nunsolicited messages in exactly these terms.28 \nSuch messages reach users through SMS, \nWhatsApp, social media and fraudulent calls. Not \nevery unsolicited message is unlawful; the \nconcern here is with those used to open a \nfraudulent exchange. In Tanzania, the typical \nmessage announces a prize, a mistaken transfer, \nan approved loan or an urgent need to ‘verify’ the \naccount.29 Unsolicited messaging is the principal \n25 United Nations Conference on Trade and Development, Mobile \nMoney for Business Development in the East African Community \n(United Nations 2012) 1–5. \n26 Holt, Bossler and Seigfried-Spellar, Cybercrime and Digital \nForensics 112–35. \n27 Akinbowale, Mashigo and Zerihun, Understanding and Mitigating \nCyberfraud in Africa 48–70. \n28 Cybercrimes Act, s 20(3). \n29 Salim, ‘Assessment of Mobile Money Transaction Frauds’ 21–29. \nEast African Journal of Law and Ethics, Volume 9, Issue 4, 2026 \nArticle DOI: https://doi.org/10.37284/eajle.9.4.6056 \n \n255 | This work is licensed under a Creative Commons Attribution 4.0 International License. \n \nmechanism through which the fraud is initiated \nand is regulated by section 20. \nEffectiveness of the Cybercrimes Act \nEffectiveness refers to the extent to which the Act \nachieves its objectives of preventing, detecting, \ninvestigating, prosecuting and deterring \ncybercrime. Following Goldbarsht and de Koker, \nit depends on five interrelated factors: legislative \nadequacy, institutional capacity, technological \ncapability, cooperation among stakeholders and \npublic awareness.30 Fuller’s account of the \nmorality of law explains why the first factor \ncannot be traded off against the others: a statute \nmay be clearly drafted yet ineffective if the \ninstitutions cannot apply it, and strong institutions \ncannot compensate for a rule that fails to describe \nthe conduct it is meant to punish. Hart adds that a \nrule of primary obligation also needs secondary \nrules and officials able to recognise, apply and \nchange it.31 Effectiveness is therefore the central \nevaluative concept of the study, and it links the \nother four: mobile money is the platform, the \nunsolicited message is the mechanism, fraud is the \nharm and cybercrime law is the response. \nMETHODOLOGY \nResearch Design \nThe study adopted a mixed-methods design that \ncombined doctrinal legal analysis with empirical \ndata collection. Doctrinal research identifies, \nanalyses, and synthesises the content of the law,32 \nand it can show what the Act says and where its \ntext is ambiguous or silent. It cannot, however, \nshow whether investigators and prosecutors are \nactually able to use the Act. The empirical \ncomponent was included to capture those \nimplementation problems and to test the doctrinal \nreading against practice.33 \nStudy Area \nFieldwork took place in Dodoma City. Dodoma \nwas chosen because it is the seat of Parliament and \nthe place where the Police Cybercrime Unit, \nTCRA, the PDPC, the BoT, and other relevant \nbodies maintain headquarters or regional offices, \nwhich made it possible to reach most categories of \nrespondents in one location. \nPopulation and Sample \nThe sample comprised twenty respondents, \ndistributed as shown in Table 1. Purposive \nsampling was used to select respondents with \nspecialised knowledge of cybercrime law, \nregulation and enforcement, and random selection \nwas used for victim respondents.34 The \ncombination allowed the study to obtain informed \ninstitutional views while also hearing from \nordinary users who had experienced fraud. \n \nTable 1: Distribution of Respondents \nCategory of respondent Number \nMembers of Parliament 2 \nOfficers of the Personal Data Protection Commission 2 \nOfficers of the Tanzania Communications Regulatory Authority 2 \nOfficers of the Tanzania Computer Emergency Response Team (TZ-CERT) 2 \nPolice officers, Cybercrime Unit 2 \nPublic prosecutors 2 \nOfficers of telecommunications companies (Vodacom, Airtel, Mixx by Yas) 3 \nLegal scholar 1 \nArtificial intelligence expert 1 \n \n30 Goldbarsht and de Koker, Financial Technology and the Law 97–\n120. \n31 Lon L Fuller, The Morality of Law (rev edn, Yale University Press \n1969) 63–65; H L A Hart, The Concept of Law (3rd edn, Oxford \nUniversity Press 2012) 91–99. \n32 Terry Hutchinson and Nigel Duncan, ‘Defining and Describing \nWhat We Do: Doctrinal Legal Research’ (2012) 17(1) Deakin Law \nReview 83. \n33 Wayne C Booth and others, The Craft of Research (4th edn, \nUniversity of Chicago Press 2016) 16–30. \n34 C R Kothari, Research Methodology: Methods and Techniques \n(2nd rev edn, New Age International 2004) 59. ",
+            "text_complete": false,
+            "document_type": "unverified",
+            "text_sha256": "85d2d4dd4d95038d518c070b366f598c4fb437a62a7654605c3380f695761cc2"
+          }
+        ],
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-c0696d804468d502083f4777",
+        "content_sha256": "d71cbe9639d34a3fb4afa9068ddff72302db86bcad452702e0f6da2913858f79",
+        "status": "retrieved",
+        "evidence": [
+          {
+            "requested_url": "https://doi.org/10.64388/irev10i1-1719396",
+            "final_url": "https://www.irejournals.com/paper-details/1719396",
+            "http_status": 200,
+            "headers": {
+              "content-type": "text/html; charset=UTF-8"
+            },
+            "redirects": [
+              {
+                "url": "https://doi.org/10.64388/irev10i1-1719396",
+                "http_status": 302
+              },
+              {
+                "url": "https://www.irejournals.com/paper-details/1719396",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "415a887a3d816593ca4950f87089e0070b60542106d6b4b27df80e28a8a5b96a",
+            "retrieved_at": "2026-11-26T05:22:11.445881+00:00",
+            "byte_count": 44719,
+            "container_type": "html",
+            "metadata": {
+              "viewport": [
+                "width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes"
+              ],
+              "description": [
+                "Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS). IRE Journals."
+              ],
+              "keywords": [
+                "Cyber Crime, Digital Evidence, BNS 2023, BSA 2023, BNSS 2023, Electronic Records, Cyber Forensics, Digital Justice, Artificial Intelligence, Blockchain, and Cyber Security., ire journals, science and engineering journal"
+              ],
+              "author": [
+                "IRE Journals (www.irejournals.com)"
+              ],
+              "robots": [
+                "index,follow"
+              ],
+              "distribution": [
+                "Global"
+              ],
+              "og:title": [
+                "Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS)"
+              ],
+              "og:site_name": [
+                "IRE Journals"
+              ],
+              "og:type": [
+                "Website"
+              ],
+              "og:url": [
+                "https://www.irejournals.com/paper-details/1719396"
+              ],
+              "og:image": [
+                "https://www.irejournals.com/images/logo.png"
+              ],
+              "og:description": [
+                "Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS). IRE Journals."
+              ],
+              "citation_issn": [
+                "2456-8880"
+              ],
+              "citation_title": [
+                "Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS)"
+              ],
+              "citation_author": [
+                "Kunal Gupta"
+              ],
+              "citation_publication_date": [
+                "2026-06-30"
+              ],
+              "citation_journal_title": [
+                "Iconic Research And Engineering Journals"
+              ],
+              "citation_volume": [
+                "10"
+              ],
+              "citation_issue": [
+                "1"
+              ],
+              "citation_firstpage": [
+                "1"
+              ],
+              "citation_lastpage": [
+                "14"
+              ],
+              "citation_abstract": [
+                "The Bharatiya Nyaya Sanhita (BNS), Bharatiya Nagarik Suraksha Sanhita (BNSS), and Bharatiya Sakshya Adhiniyam (BSA) are the biggest paradigm shift in the Indian approach towards crime, procedure and evidence. This research paper brings a detailed doctrinal and analytical analysis of the legal regime for cyber crimes and digital evidence under these three changing legislations in place of Indian Evidence Act, Indian Penal Code and Code of Criminal Procedure that has remained unchanged for more than one hundred and fifty years. The study traces the evolution of norms from IPC/IT Act to BNS, and breaks down the legislation related to online fraud, identity theft, phishing, cyberstalking, digital impersonation, ransomware, deepfake misuse and social media offences. Critically reviews the requirements for admissibility of electronic records in the BSA, 2023, including Sections 61–63, which cover certification, expert testimony rules, and metadata, cloud data and forensic outputs. The paper also discusses procedural safeguards to ensure integrity of the digital evidence collection procedures, the chain of custody and the role of cyber forensic laboratories in the BNSS. The study highlights the ongoing anxieties of courts regarding the reliability of electronic evidence as identified through an analysis of landmark cases, namely, Anvar P.V. v. P.K. Basheer (2014), Arjun Panditrao Khotkar v. Kailash Kushanrao Gorantyal (2020), and further cases. It then addresses border issues, such as cross-border jurisdiction, encryption, AI-generated content authentication, preservation of evidence using blockchain, and data privacy issues stemming from the Digital Personal Data Protection Act, 2023. The paper ends with a multi-dimensional framework of reform which brings together technological, legislative and institutional suggestions for India to build a strong digital justice framework."
+              ],
+              "citation_pdf_url": [
+                "https://www.irejournals.com/formatedpaper/1719396.pdf"
+              ],
+              "citation_publisher": [
+                "Iconic Research And Engineering Journals"
+              ],
+              "citation_fulltext_html_url": [
+                "https://www.irejournals.com/paper-details/1719396"
+              ],
+              "dc.title": [
+                "Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS)"
+              ],
+              "dc.creator": [
+                "Kunal Gupta"
+              ],
+              "dc.issued": [
+                "2026/06/30"
+              ],
+              "dc.identifier": [
+                "https://www.irejournals.com/paper-details/1719396"
+              ],
+              "dc.type": [
+                "Text"
+              ],
+              "citation_journal_abbrev": [
+                "IRE Journals"
+              ],
+              "citation_online_date": [
+                "2026/06/30"
+              ],
+              "citation_language": [
+                "en"
+              ],
+              "citation_doi": [
+                "10.64388/IREV10I1-1719396"
+              ],
+              "citation_public_url": [
+                "https://doi.org/10.64388/IREV10I1-1719396"
+              ],
+              "twitter:card": [
+                "summary"
+              ],
+              "twitter:site": [
+                "@irejournal"
+              ],
+              "twitter:title": [
+                "IRE Journals - Iconic Research, Science and Engineering Journal"
+              ],
+              "twitter:description": [
+                "IRE Journals is international science and engineering journal. Publish research papers and scientific articles in international research journal - IRE Journals. Best academic journal to publish research paper."
+              ],
+              "twitter:image": [
+                "http://www.irejournals.com/images/logo.png"
+              ]
+            },
+            "title": "Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS)",
+            "links": [
+              {
+                "text": "[email protected]",
+                "url": "https://www.irejournals.com/cdn-cgi/l/email-protection"
+              },
+              {
+                "text": "IRE IRE Journals Iconic Research and Engineering Journals",
+                "url": "https://www.irejournals.com/"
+              },
+              {
+                "text": "Home",
+                "url": "https://www.irejournals.com/"
+              },
+              {
+                "text": "Track Paper Status",
+                "url": "https://www.irejournals.com/track-paper"
+              },
+              {
+                "text": "Research Writing 101",
+                "url": "https://www.irejournals.com/how-to-write-a-research-paper"
+              },
+              {
+                "text": "Research Reading 101",
+                "url": "https://www.irejournals.com/how-to-read-a-research-paper"
+              },
+              {
+                "text": "Author Guidelines",
+                "url": "https://www.irejournals.com/authors-guideline"
+              },
+              {
+                "text": "How to Publish Paper?",
+                "url": "https://www.irejournals.com/how-to-publish-paper"
+              },
+              {
+                "text": "Processing Charges",
+                "url": "https://www.irejournals.com/processing-charges"
+              },
+              {
+                "text": "FAQs",
+                "url": "https://www.irejournals.com/faqs"
+              },
+              {
+                "text": "Call for Paper",
+                "url": "https://www.irejournals.com/call-for-paper"
+              },
+              {
+                "text": "Reviewer Board",
+                "url": "https://www.irejournals.com/reviewer-board"
+              },
+              {
+                "text": "Join as Reviewer",
+                "url": "https://www.irejournals.com/"
+              },
+              {
+                "text": "Download Paper Format",
+                "url": "https://www.irejournals.com/File/IRE_Manuscript_Fromat.doc"
+              },
+              {
+                "text": "Download Copyright Form",
+                "url": "https://www.irejournals.com/File/IRE_Copyrights_Form.pdf"
+              },
+              {
+                "text": "Submit Paper",
+                "url": "https://www.irejournals.com/submit-paper"
+              },
+              {
+                "text": "Current Issue",
+                "url": "https://www.irejournals.com/current-issue"
+              },
+              {
+                "text": "Past Issues",
+                "url": "https://www.irejournals.com/past-issue"
+              },
+              {
+                "text": "Contact",
+                "url": "https://www.irejournals.com/contact-us"
+              },
+              {
+                "text": "Track / Sign in",
+                "url": "https://www.irejournals.com/track-paper"
+              },
+              {
+                "text": "Home",
+                "url": "https://www.irejournals.com/"
+              },
+              {
+                "text": "Current Issue",
+                "url": "https://www.irejournals.com/current-issue"
+              },
+              {
+                "text": "Download Paper",
+                "url": "https://www.irejournals.com/formatedpaper/1719396.pdf"
+              },
+              {
+                "text": "10.64388/IREV10I1-1719396",
+                "url": "https://doi.org/10.64388/IREV10I1-1719396"
+              },
+              {
+                "text": "Full Text PDF",
+                "url": "https://www.irejournals.com/formatedpaper/1719396.pdf"
+              },
+              {
+                "text": "Front Page",
+                "url": "https://www.irejournals.com/paper-details/1719396"
+              },
+              {
+                "text": "Back Page",
+                "url": "https://www.irejournals.com/paper-details/1719396"
+              },
+              {
+                "text": "",
+                "url": "https://in.linkedin.com/in/irejournals"
+              },
+              {
+                "text": "",
+                "url": "https://wa.me/917433024337"
+              },
+              {
+                "text": "Track Your Paper",
+                "url": "https://www.irejournals.com/track-paper"
+              },
+              {
+                "text": "Submit Paper",
+                "url": "https://www.irejournals.com/submit-paper"
+              },
+              {
+                "text": "Research Writing 101",
+                "url": "https://www.irejournals.com/how-to-write-a-research-paper"
+              },
+              {
+                "text": "Research Reading 101",
+                "url": "https://www.irejournals.com/how-to-read-a-research-paper"
+              },
+              {
+                "text": "Author Guidelines",
+                "url": "https://www.irejournals.com/authors-guideline"
+              },
+              {
+                "text": "Processing Charges",
+                "url": "https://www.irejournals.com/processing-charges"
+              },
+              {
+                "text": "FAQs",
+                "url": "https://www.irejournals.com/faqs"
+              },
+              {
+                "text": "Current Issue",
+                "url": "https://www.irejournals.com/current-issue"
+              },
+              {
+                "text": "Past / Archive Issues",
+                "url": "https://www.irejournals.com/past-issue"
+              },
+              {
+                "text": "Reviewer Board",
+                "url": "https://www.irejournals.com/reviewer-board"
+              },
+              {
+                "text": "Join as Reviewer",
+                "url": "https://www.irejournals.com/"
+              },
+              {
+                "text": "Privacy Policy",
+                "url": "https://www.irejournals.com/privacy-policy"
+              },
+              {
+                "text": "Terms & Conditions",
+                "url": "https://www.irejournals.com/terms-and-conditions"
+              },
+              {
+                "text": "Contact Us",
+                "url": "https://www.irejournals.com/contact-us"
+              },
+              {
+                "text": "[email protected]",
+                "url": "https://www.irejournals.com/cdn-cgi/l/email-protection"
+              },
+              {
+                "text": "Privacy Policy",
+                "url": "https://www.irejournals.com/privacy-policy"
+              },
+              {
+                "text": "Terms & Conditions",
+                "url": "https://www.irejournals.com/terms-and-conditions"
+              },
+              {
+                "text": "Refund Policy",
+                "url": "https://www.irejournals.com/terms-and-conditions"
+              }
+            ],
+            "text": "Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS)\nInternational Peer-Reviewed Journal\n•\nOpen Access\n•\nISSN 2456-8880\n[email protected]\n•\n+91-7433024337\nHome\n/\nCurrent Issue\n/\nPaper 1719396\n1719396\nVol 10 · Issue 1\nDownload Paper\nCyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS)\nKunal Gupta\nSubject area:\nArts, Social Sciences and Humanities  ·\nArea of research:\nCyber Crime and Digital Evidence\nDOI:\n10.64388/IREV10I1-1719396\nAbstract\nThe Bharatiya Nyaya Sanhita (BNS), Bharatiya Nagarik Suraksha Sanhita (BNSS), and Bharatiya Sakshya Adhiniyam (BSA) are the biggest paradigm shift in the Indian approach towards crime, procedure and evidence. This research paper brings a detailed doctrinal and analytical analysis of the legal regime for cyber crimes and digital evidence under these three changing legislations in place of Indian Evidence Act, Indian Penal Code and Code of Criminal Procedure that has remained unchanged for more than one hundred and fifty years. The study traces the evolution of norms from IPC/IT Act to BNS, and breaks down the legislation related to online fraud, identity theft, phishing, cyberstalking, digital impersonation, ransomware, deepfake misuse and social media offences. Critically reviews the requirements for admissibility of electronic records in the BSA, 2023, including Sections 61–63, which cover certification, expert testimony rules, and metadata, cloud data and forensic outputs. The paper also discusses procedural safeguards to ensure integrity of the digital evidence collection procedures, the chain of custody and the role of cyber forensic laboratories in the BNSS. The study highlights the ongoing anxieties of courts regarding the reliability of electronic evidence as identified through an analysis of landmark cases, namely, Anvar P.V. v. P.K. Basheer (2014), Arjun Panditrao Khotkar v. Kailash Kushanrao Gorantyal (2020), and further cases. It then addresses border issues, such as cross-border jurisdiction, encryption, AI-generated content authentication, preservation of evidence using blockchain, and data privacy issues stemming from the Digital Personal Data Protection Act, 2023. The paper ends with a multi-dimensional framework of reform which brings together technological, legislative and institutional suggestions for India to build a strong digital justice framework.\nKeywords\nCyber Crime, Digital Evidence, BNS 2023, BSA 2023, BNSS 2023, Electronic Records, Cyber Forensics, Digital Justice, Artificial Intelligence, Blockchain, and Cyber Security.\nReferences\n[1] National Crime Records Bureau, Crime in India 2023: Cyber Crime Report (Ministry of Home Affairs, 2024).\n[2] Information Technology Act, 2000 (Act 21 of 2000), as amended in 2008.\n[3] Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023).\n[4] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[5] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[6] Indian Penal Code, 1860 (Act 45 of 1860).\n[7] Indian Evidence Act, 1872 (Act 1 of 1872).\n[8] Code of Criminal Procedure, 1973 (Act 2 of 1974).\n[9] Indian Penal Code, 1860 (Act 45 of 1860).\n[10] Indian Penal Code, 1860 (Act 45 of 1860).\n[11] Information Technology Act, 2000 (Act 21 of 2000), as amended in 2008.\n[12] Shreya Singhal v. Union of India, (2015) 5 SCC 1 (Supreme Court of India).\n[13] Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023).\n[14] Tukaram S. Dighole v. Manikrao Shivaji Kokate, (2010) 4 SCC 329 (Supreme Court of India).\n[15] Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023).\n[16] Information Technology Act, 2000 (Act 21 of 2000), as amended in 2008.\n[17] Avnish Bajaj v. State (NCT of Delhi), (2008) 150 DLT 769 (Delhi High Court).\n[18] Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023).\n[19] National Crime Records Bureau, Crime in India 2023: Cyber Crime Report (Ministry of Home Affairs, 2024).\n[20] Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023).\n[21] Shreya Singhal v. Union of India, (2015) 5 SCC 1 (Supreme Court of India).\n[22] Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023).\n[23] Information Technology Act, 2000 (Act 21 of 2000), as amended in 2008.\n[24] Indian Evidence Act, 1872 (Act 1 of 1872).\n[25] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[26] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[27] Indian Evidence Act, 1872 (Act 1 of 1872).\n[28] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[29] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[30] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[31] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[32] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[33] Information Technology Act, 2000 (Act 21 of 2000), as amended in 2008.\n[34] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[35] Arjun Panditrao Khotkar v. Kailash Kushanrao Gorantyal, (2020) 7 SCC 1 (Constitution Bench).\n[36] Tomaso Bruno v. State of U.P., (2015) 7 SCC 178 (Supreme Court of India).\n[37] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[38] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[39] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[40] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[41] Code of Criminal Procedure, 1973 (Act 2 of 1974).\n[42] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[43] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[44] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[45] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[46] National Crime Records Bureau, Crime in India 2023: Cyber Crime Report (Ministry of Home Affairs, 2024).\n[47] Ministry of Home Affairs, Report of the Expert Committee on Cyber Crime Investigation Standards (2022).\n[48] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[49] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[50] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[51] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[52] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[53] Anvar P.V. v. P.K. Basheer, (2014) 10 SCC 473 (Supreme Court of India).\n[54] State (NCT of Delhi) v. Navjot Sandhu, (2005) 11 SCC 600 (Supreme Court of India).\n[55] Anvar P.V. v. P.K. Basheer, (2014) 10 SCC 473 (Supreme Court of India).\n[56] Arjun Panditrao Khotkar v. Kailash Kushanrao Gorantyal, (2020) 7 SCC 1 (Constitution Bench).\n[57] Arjun Panditrao Khotkar v. Kailash Kushanrao Gorantyal, (2020) 7 SCC 1 (Constitution Bench).\n[58] Sonu v. State of Maharashtra, (2021) SCC Online Bom 887 (Bombay High Court).\n[59] V.D. Swamy v. State, (2022) SCC Online Mad 2341 (Madras High Court).\n[60] Shakti Vahini v. Union of India, (2018) 7 SCC 192 (Supreme Court of India).\n[61] Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023).\n[62] Information Technology Act, 2000 (Act 21 of 2000), as amended in 2008.\n[63] Council of Europe, Convention on Cybercrime (Budapest Convention), ETS No. 185 (2001).\n[64] Information Technology Act, 2000 (Act 21 of 2000), as amended in 2008.\n[65] Vineeth V.S. v. State, (2021) 5 KHC 367 (Kerala High Court).\n[66] Digital Personal Data Protection Act, 2023 (Act 22 of 2023).\n[67] Digital Personal Data Protection Act, 2023 (Act 22 of 2023).\n[68] Digital Personal Data Protection Act, 2023 (Act 22 of 2023).\n[69] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[70] Ministry of Home Affairs, Report of the Expert Committee on Cyber Crime Investigation Standards (2022).\n[71] National Crime Records Bureau, Crime in India 2023: Cyber Crime Report (Ministry of Home Affairs, 2024).\n[72] Ministry of Home Affairs, Report of the Expert Committee on Cyber Crime Investigation Standards (2022).\n[73] Council of Europe, Convention on Cybercrime (Budapest Convention), ETS No. 185 (2001).\n[74] Digital Personal Data Protection Act, 2023 (Act 22 of 2023).\n[75] UNODC, Comprehensive Study on Cybercrime (United Nations Office on Drugs and Crime, 2013, updated 2022).\n[76] Information Technology Act, 2000 (Act 21 of 2000), as amended in 2008.\n[77] UNODC, Comprehensive Study on Cybercrime (United Nations Office on Drugs and Crime, 2013, updated 2022).\n[78] Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023).\n[79] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[80] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[81] Information Technology Act, 2000 (Act 21 of 2000), as amended in 2008.\n[82] Digital Personal Data Protection Act, 2023 (Act 22 of 2023).\n[83] Council of Europe, Convention on Cybercrime (Budapest Convention), ETS No. 185 (2001).\n[84] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[85] Ministry of Home Affairs, Report of the Expert Committee on Cyber Crime Investigation Standards (2022).\n[86] Ministry of Home Affairs, Report of the Expert Committee on Cyber Crime Investigation Standards (2022).\n[87] Digital Personal Data Protection Act, 2023 (Act 22 of 2023).\n[88] Ministry of Home Affairs, Report of the Expert Committee on Cyber Crime Investigation Standards (2022).\n[89] Ministry of Home Affairs, Report of the Expert Committee on Cyber Crime Investigation Standards (2022).\n[90] Law Commission of India, 248th Report: Obsolescence of the Evidence Act and Need for Reform (2014).\n[91] CERT-In, Annual Report 2023-24 (Ministry of Electronics and Information Technology, 2024).\n[92] Ministry of Home Affairs, Report of the Expert Committee on Cyber Crime Investigation Standards (2022).\n[93] Council of Europe, Convention on Cybercrime (Budapest Convention), ETS No. 185 (2001).\n[94] UNODC, Comprehensive Study on Cybercrime (United Nations Office on Drugs and Crime, 2013, updated 2022).\n[95] Law Commission of India, 248th Report: Obsolescence of the Evidence Act and Need for Reform (2014).\n[96] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[97] Law Commission of India, 248th Report: Obsolescence of the Evidence Act and Need for Reform (2014).\n[98] CERT-In, Annual Report 2023-24 (Ministry of Electronics and Information Technology, 2024).\n[99] Law Commission of India, 248th Report: Obsolescence of the Evidence Act and Need for Reform (2014).\n[100] Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023).\n[101] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[102] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[103] National Crime Records Bureau, Crime in India 2023: Cyber Crime Report (Ministry of Home Affairs, 2024).\n[104] Ministry of Home Affairs, Report of the Expert Committee on Cyber Crime Investigation Standards (2022).\n[105] Bharatiya Nyaya Sanhita, 2023 (Act 45 of 2023).\n[106] Bharatiya Nagarik Suraksha Sanhita, 2023 (Act 46 of 2023).\n[107] Bharatiya Sakshya Adhiniyam, 2023 (Act 47 of 2023).\n[108] Parliamentary Standing Committee on Home Affairs, 227th Report on the Bharatiya Nyaya Sanhita Bill, 2023 (Rajya Sabha Secretariat, 2023).\nHow to cite this paper\nIRE Journals\nIEEE\nAPA\nMLA\nBibTeX\nKunal Gupta \"Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS)\" Iconic Research And Engineering Journals Volume 10 Issue 1 2026 Page 1-14 https://doi.org/10.64388/IREV10I1-1719396\nCopy citation\nKunal Gupta \"Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS)\"\nIconic Research And Engineering Journals\n, vol. 10, no. 1, Jul. 2026, doi: https://doi.org/10.64388/IREV10I1-1719396\nCopy citation\nKunal Gupta (2026). Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS). Iconic Research And Engineering Journals, 10(1). doi: https://doi.org/10.64388/IREV10I1-1719396\nCopy citation\nKunal Gupta \"Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS)\" Iconic Research And Engineering Journals, vol. 10, no. 1, Jul. 2026. Crossref, https://doi.org/10.64388/IREV10I1-1719396\nCopy citation\n@article{1719396,\n      author = {Kunal Gupta},\n      title = {Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS)},\n      journal = {Iconic Research And Engineering Journals},\n      year = {2026},\n      volume = {10},\n      number = {1},\n      pages = {1-14},\n      issn = {2456-8880},\n      url = {https://www.irejournals.com/formatedpaper/1719396.pdf},\n      abstract = {The Bharatiya Nyaya Sanhita (BNS), Bharatiya Nagarik Suraksha Sanhita (BNSS), and Bharatiya Sakshya Adhiniyam (BSA) are the biggest paradigm shift in the Indian approach towards crime, procedure and evidence. This research paper brings a detailed doctrinal and analytical analysis of the legal regime for cyber crimes and digital evidence under these three changing legislations in place of Indian Evidence Act, Indian Penal Code and Code of Criminal Procedure that has remained unchanged for more than one hundred and fifty years. The study traces the evolution of norms from IPC/IT Act to BNS, and breaks down the legislation related to online fraud, identity theft, phishing, cyberstalking, digital impersonation, ransomware, deepfake misuse and social media offences. Critically reviews the requirements for admissibility of electronic records in the BSA, 2023, including Sections 61–63, which cover certification, expert testimony rules, and metadata, cloud data and forensic outputs. The paper also discusses procedural safeguards to ensure integrity of the digital evidence collection procedures, the chain of custody and the role of cyber forensic laboratories in the BNSS. The study highlights the ongoing anxieties of courts regarding the reliability of electronic evidence as identified through an analysis of landmark cases, namely, Anvar P.V. v. P.K. Basheer (2014), Arjun Panditrao Khotkar v. Kailash Kushanrao Gorantyal (2020), and further cases. It then addresses border issues, such as cross-border jurisdiction, encryption, AI-generated content authentication, preservation of evidence using blockchain, and data privacy issues stemming from the Digital Personal Data Protection Act, 2023. The paper ends with a multi-dimensional framework of reform which brings together technological, legislative and institutional suggestions for India to build a strong digital justice framework.},\n      keywords = {Cyber Crime, Digital Evidence, BNS 2023, BSA 2023, BNSS 2023, Electronic Records, Cyber Forensics, Digital Justice, Artificial Intelligence, Blockchain, and Cyber Security.},\n      month = {July},\n      doi = {https://doi.org/10.64388/IREV10I1-1719396}\n  }\nCopy BibTeX\nArticle information\nPaper ID\n1719396\nSubject area\nArts, Social Sciences and Humanities\nVolume\nVolume 10\nIssue\nIssue 1\nMonth\nJuly\nYear\n2026\nPages\n1-14\nPublished\n30-06-2026\nDOI\n10.64388/IREV10I1-1719396\nISSN\n2456-8880\nAccess\nOpen Access\nDownloads\nFull Text PDF\nFront Page\nBack Page",
+            "text_complete": true,
+            "document_type": "unverified",
+            "fragment": "",
+            "resource_unavailable": false,
+            "text_sha256": "eeb83d2dc4a285a6fd98e2ff5fe0ccda0cd95a56cbd08d08de284bf8ab30d51d"
+          },
+          {
+            "requested_url": "https://www.irejournals.com/formatedpaper/1719396.pdf",
+            "final_url": "https://www.irejournals.com/formatedpaper/1719396.pdf",
+            "http_status": 200,
+            "headers": {
+              "content-type": "application/pdf",
+              "last-modified": "Fri, 23 Oct 2026 14:43:23 GMT",
+              "etag": "\"623af-65e83009178e4\""
+            },
+            "redirects": [
+              {
+                "url": "https://www.irejournals.com/formatedpaper/1719396.pdf",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "6e4a566eae01c2b7c7c33371ff613004063f033d66ec99b4cee8dbc25300ca3d",
+            "retrieved_at": "2026-11-26T05:22:15.013070+00:00",
+            "byte_count": 402351,
+            "container_type": "pdf",
+            "page_count": 14,
+            "pages_inspected": 6,
+            "pdf_metadata": {
+              "/Title": "Cyber Crime and Digital Evidence Under Bharatiya Nyaya Sanhita (BNS)",
+              "/Author": "IREJournals;KUNAL GUPTA",
+              "/Keywords": "IRE Journals;Iconic Research and Engineering Journals",
+              "/Creator": "Microsoft® Word 2021",
+              "/CreationDate": "D:20260630143246+05'30'",
+              "/ModDate": "D:20260630143246+05'30'",
+              "/Producer": "Microsoft® Word 2021"
+            },
+            "text": "© JULY 2026 | IRE Journals | Volume 10 Issue 1 | ISSN: 2456-8880 \nDOI: https://doi.org/10.64388/IREV10I1-1719396 \n \nIRE 1719396          ICONIC RESEARCH AND ENGINEERING JOURNALS 1 \nCyber Crime and Digital Evidence Under Bharatiya \nNyaya Sanhita (BNS) \n \nKUNAL GUPTA \nBhartiya Vidyapeth University \n \nAbstract- The Bharatiya Nyaya Sanhita (BNS), Bharatiya \nNagarik Suraksha Sanhita (BNSS), and Bharatiya \nSakshya Adhiniyam (BSA) are the biggest paradigm shift \nin the Indian approach towards crime, procedure and \nevidence. This research paper brings a detailed doctrinal \nand analytical analysis of the legal regime for cyber \ncrimes and digital evidence under these three changing \nlegislations in place of Indian Evidence Act, Indian Penal \nCode and Code of Criminal Procedure that has remained \nunchanged for more than one hundred and fifty years. \nThe study traces the evolution of norms from IPC/IT Act \nto BNS, and breaks down the legislation related to online \nfraud, identity theft, phishing, cyberstalking, digital \nimpersonation, ransomware, deepfake misuse and social \nmedia offences. Critically reviews the requirements for \nadmissibility of electronic records in the BSA, 2023, \nincluding Sections 61–63, which cover certification, \nexpert testimony rules, and metadata, cloud data and \nforensic outputs. The paper also discusses procedural \nsafeguards to ensure integrity of the digital evidence \ncollection procedures, the chain of custody and the role of \ncyber forensic laboratories in the BNSS. The study \nhighlights the ongoing anxieties of courts regarding the \nreliability of electronic evidence as identified through an \nanalysis of landmark cases, namely, Anvar P.V. v. P.K. \nBasheer (2014), Arjun Panditrao Khotkar v. Kailash \nKushanrao Gorantyal (2020), and further cases. It then \naddresses border issues, such as cross-border jurisdiction, \nencryption, AI-generated content authentication, \npreservation of evidence using blockchain, and data \nprivacy issues stemming from the Digital Personal Data \nProtection Act, 2023. The paper ends with a multi-\ndimensional framework of reform which brings together \ntechnological, legislative and institutional suggestions for \nIndia to build a strong digital justice framework. \n \nKeywords: Cyber Crime, Digital Evidence, BNS 2023, \nBSA 2023, BNSS 2023, Electronic Records, Cyber \nForensics, Digital Justice, Artificial Intelligence, \nBlockchain, and Cyber Security. \n \n \n \n \nI. INTRODUCTION \n \nThe digitalization of society has led to a rapid \nincrease in cybercrime over the last decades, putting \ncurrent laws unable to meet the challenges of the 21st \ncentury criminal threat. India as one of the fastest-\ngrowing digital economies in the world with more \nthan 900 million internet users and a Unified \nPayments interface (UPI) system that handled \nbillions of transactions last year makes it \nexceptionally vulnerable to cyber criminality. As \nindicated in the latest report of the National Crime \nRecords Bureau (NCRB) on Cyber Crime Report \n2023, the number of cybercrime complaints has \nincreased by 113.7% compared to 2021, with 15.92 \nlakh complaints made.  \n \nIn this background, Parliament passed three ground-\nbreaking legislations in 2023 – Bharatiya Nyaya \nSanhita, 2023 (BNS), Bharatiya Nagrik Suraksha \nSanhita, 2023 (BNSS) and Bharatiya Sakshya \nAdhiniyam, 2023 (BSA), effective from 1 July 2024. \nThese laws superseded the Indian Penal Code, 1860 \n(IPC), Code of Criminal Procedure, 1973 (CrPC), \nand Indian Evidence Act, 1872 (IEA) respectively. \nThe BNS trilogy complements and significantly \nrestructures the substantive and procedural \nframework for the investigation of digital offences, in \naddition to the Information Technology Act, 2000 (IT \nAct) and its Amendment in 2008.   \n      \nThis research paper consists of nine parts. This \nIntroduction is followed by Section 2 which traces \nthe history of cybercrime law in India. Section 3 \ndeals with the mapping of cyber offences as provided \nin the BNS with cross reference analysis to IT Act. \nSection 4 dissects the admissibility of digital \nevidence under the BSA. The BNSS procedural \nsafeguards are explored in Section 5. Section 6 \nexamines key case law. Explores frontier \n© JULY 2026 | IRE Journals | Volume 10 Issue 1 | ISSN: 2456-8880 \nDOI: https://doi.org/10.64388/IREV10I1-1719396 \n \nIRE 1719396          ICONIC RESEARCH AND ENGINEERING JOURNALS 2 \ntechnological challenges for Section 7. Section 8 \noutlines comparative frameworks internationally. A \ncomprehensive reform architecture is proposed in \nSection 9 and the conclusion in Section 10. \n \nII. EVOLUTION OF CYBERCRIME \nREGULATION: FROM IPC TO BNS \n \n2.1 The IPC Era: Analogical Application and Its \nLimits \nBefore the Information Technology Act, 2000, the \nlaw enforcement authorities and courts in India had \nbeen making use of IPC, 1860 in an analogical \nmanner to deal with cyber-enabled offences. The \nVictorian-era IPC sections of 420 (cheating), 463 \n(forgery), 499 (defamation) and 354A (sexual \nharassment) were all put to the test for crimes they \ncould not have foreseen. This resulted in doctrinal \nincoherence – in State of Tamil Nadu v. Suhas Katti \n(2004), the Supreme Court found IPC's provisions for \ncyberspace offences as inadequate and called for \nspecialised legislation.  \n \nThere were three basic constraints with this time. The \nfirst being territorial jurisdiction principles under \nsection 2 of IPC were unable to cope with the \n'borderless' aspect of cyberspace. Second, the term \n‘document’ in Section 29 IPC was expanded by the \ncourts, but still not clear with regard to electronic \ndocuments. Third, the lack of computer-specific \nmens rea – such as knowledge of vulnerability to a \nsystem, for example – imposed new challenges for \nprosecutors which defence counsel exploited \nsystematically.  \n \n2.2 The IT Act Framework: Partial Codification \nThe Information Technology Act, 2000 (as amended \nin 2008) enacted specific offences for hacking \n(Section 66), identity theft (Section 66C), phishing \n(Section 66D), cyber stalking (Section 66A – \nsubsequently struck down in Shreya Singhal v. Union \nof India, 2015), voyeurism (Section 66E) and \npublication of obscene material in electronic form \n(Section 67). Section 65 was dedicated to tampering \nwith computer source documents. But the scope of \nthe IT Act was not full as it could not cover \nransomware, deepfakes, cryptocurrency fraud, social \nengineering or the whole category of offences \nthrough the social media platforms.  \n \nThe Supreme Court held that the definition of \n‘grossly offensive' in Section 66A of IT Act was \nvague and that it denied freedom of expression as \nguaranteed under Article 19(1)(a) of the Constitution \nof India in Shreya Singhal case.In the Shreya Singhal \ncase [(2015) 5 SCC 1] the Supreme Court struck \ndown the critical provision of Section 66A of the IT \nAct, which made communication of a “grossly \noffensive” message a criminal offense, for \nunconstitutional vagueness and disproportionate \ninterference with Article 19(1)(a) of the Constitution. \nThis judgment highlighted a huge lacuna in the \nIndian cyber law ecosystem, as there wasn't anything \nfor the enforcement agencies to take action against \nincitement to violence, hate speech and harassment in \nthe digital world.  \n \n2.3 The BNS, 2023: A New Architecture \nThe Bharatiya Nyaya Sanhita, 2023 does not \nspecifically address the issue of cyber crimes and \nrather also adds to the existing definitions of offence \ncategories with cyber elements and also includes a \nfew new clauses with cyber dimensions. The key \nchanges from the IPC are: (i) explicit reference to \nelectronic and digital as means of commission for a \nnumber of offences; (ii) increased penalties for \noffences involving digital platforms; (iii) inclusion of \ndeepfake and AI generated content in the fraud and \ndefamation offences; and (iv) a new alternative \nsentence of community service — a provision with \nindirect ramifications for minor cyber offences.  \n \nTable 1: Comparative Mapping of Cyber Offences: \nIPC/IT Act to BNS Framework \nOffence \nCategory \nIPC / IT Act \nProvision \nBNS / IT Act \n2023 Equivalent \nOnline Fraud & \nCheating \nS.420 IPC, \nS.66D IT Act \nS.318 BNS \n(enhanced digital \ndimension) \nIdentity Theft S.66C IT Act S.319 BNS read \nwith S.66C IT \nAct \nCyberstalking / \nHarassment \nS.354D IPC, \nS.66A \n(struck \nS.78 BNS \n(stalking), S.75 \nBNS \n© JULY 2026 | IRE Journals | Volume 10 Issue 1 | ISSN: 2456-8880 \nDOI: https://doi.org/10.64388/IREV10I1-1719396 \n \nIRE 1719396          ICONIC RESEARCH AND ENGINEERING JOURNALS 3 \ndown) \nDigital \nImpersonation \nS.66C, \nS.66D IT Act \nS.319 BNS, \nS.336 BNS \nDefamation via \nDigital Media \nS.499–500 \nIPC \nS.356 BNS \nChild \nPornography / \nCSAM \nS.67B IT \nAct, POCSO \nAct \nS.67B IT Act, \nS.96 POCSO \nData Breach / \nHacking \nS.66 IT Act S.66 IT Act \n(continued) \nExtortion via \nDigital Means \nS.383 IPC S.308 BNS \nDeepfake Fraud No specific \nprovision \nS.318 + S.356 \nBNS \n(interpretive) \n \nIII. CYBER OFFENCES UNDER THE \nBHARATIYA NYAYA SANHITA, 2023 \n \n3.1 Online Fraud and Financial Cybercrime \nSection 318 BNS brings together the definitions of \ncheating, and explicitly expands them to digital \ntransactions. The section makes it criminal to induce \na person to deliver or to change or destroy a valuable \nsecurity by any deceitful act, such as electronic \ncommunication. Financial cybercrime — which \nincludes UPI fraud, OTP theft, phishing, vishing and \ncard-not-present fraud — is clearly covered by \nSection 318 under Section 66D of IT Act \n(punishment for cheating by personation using \ncomputer resources). The BNS codifies the Supreme \nCourt's rulings in Tukaram S. Dighole v. Manikrao \nShivaji Kokate [(2010) 4 SCC 329] in affirming that \nelectronic communication can be the \"deceptive \ninducement\" necessary for cheatings.  \n \nRansomware attacks involve more than one \nprovision: BNS Section 308 BNS (extortion), BNS \nSection 66 IT Act (hacking), and possibly BNS \nSection 385 BNS (putting persons in fear of injury). \nHowever, a lack of a specific ransomware offence \ndoes make prosecuting the composite mens rea of \nthese provisions challenging.   \n \n3.2 Identity Theft and Digital Impersonation \nSection 319 BNS Cheating by personation is covered \nin Section 319 BNS, which has been updated from \nSection 416 IPC to include digital identity fraud. This \nis in addition to Section 66C of the IT Act (identity \ntheft using electronic signature, password or other \nunique identification feature). The Delhi High Court \nin Avnish Bajaj v. State (NCT of Delhi) [(2008) 150 \nDLT 769] had grappled with the intermediary \nliability issue for hosted identity-fraudulent content, \nwhich section 79 of the IT Act and the 2023 \nIntermediary Guidelines partially address.  \n \nThe biggest threat that is currently facing us is deep \nfake fraud. Unlike the BNS or the IT Act, there is no \nspecific provision that addresses the use of AI-\ngenerated synthetic media – photorealistic video \nfabrication of real people. The current legal response \nconsists of Section 319 BNS (personation) \nincorporated with Section 356 BNS (defamation) \nwith Section 67A IT Act (obscene electronic content \nof a sexual nature) and civil remedies under the new \nright to one's likeness. The problem is severe: \nGlobally, deepfake pornography of women has more \nthan tripled in the last 5 years alone, from 2019 to \n2024, and warrants immediate legislative measures.   \n \n3.3 Cyberstalking and Online Harassment \nSection 78 BNS clearly draws in online \ncommunication and digital surveillance under its \ndefinition, which is a major improvement over \nSection 354D IPC, which was progressive but lacked \nspecificity of digital modes. Section 75 BNS deals \nspecifically with sexual harassment, where digital \nplatforms are used, with more severe penalties. In the \ncase of Shilpa Mittal v State of Maharashtra, the \nBombay High Court highlighted the mental trauma \nthat can be caused by the continuous harassment on \nthe internet and the importance of the BNS's wider \ninterpretation of the term.  \n \nThe provisions of the BNS does not completely fill \nthe existing lacuna in the provisions of the IT Act due \nto the invalidation of Section 66A of the IT Act. In \nthe absence of these some portions are replaced by \nthe provisions of Section 353(2) BNS (statements \nconducing to public mischief) and Section 197 BNS \n(imputations prejudicial to national integration), but \ntheir constitutional validity and scope is debatable in \nlight of the Shreya Singhal framework. The BNS \ndrafters have not reached a clear conclusion as to the \n© JULY 2026 | IRE Journals | Volume 10 Issue 1 | ISSN: 2456-8880 \nDOI: https://doi.org/10.64388/IREV10I1-1719396 \n \nIRE 1719396          ICONIC RESEARCH AND ENGINEERING JOURNALS 4 \nbalance between criminalizing harmful online speech \nand Article 19(1)(a) protections for free expression.  \n \n3.4 Social Media Offences and Platform \nAccountability \nThe BNS defines social media offences as \ndefamation by electronic communication (Section \n356), criminal intimidation by electronic \ncommunication (Section 351), incitement through \nelectronic communication (Section 353) and \nobscenity (Section 294 BNS read with Section 67 IT \nAct). One of the most important is Section 336 BNS \nwhich makes any act that poses a risk to personal \nsafety, life and health illegal, such as coordinated \nonline harassment campaigns, doxxing (public \ndisclosure of private information) and swatting. \n \nAccountability of the platform for user-generated \ncontent remains largely under the Regulation of \nsections 79 of the IT Act and Information \nTechnology (Intermediary Guidelines and Digital \nMedia Ethics Code) Rules 2021. The BNS does not \nchange this and establishes an additional liability risk \nto the downstream parties where platforms can \ndemonstrably not perform their duty of care and \noffences leading to a death or grievous hurt are \ndirectly caused by the content they host.   \n \nIV. DIGITAL EVIDENCE UNDER THE \nBHARATIYA SAKSHYA ADHINIYAM, \n2023 \n \n4.1 Framework and Definitional Architecture \nBharatiya Sakshya Adhiniyam, 2023 is the most \nprofound overhaul of the evidence law in India since \nthe Indian Evidence Act of 1872. Digital justice, as a \nkey element of the BSA, is a comprehensive \ndefinitional and admissibility regime for electronic \nrecords, which overcomes some doctrinal ambiguities \nthat had arisen with the amended Evidence Act \nprovisions (Sections 65A and 65B IEA) inserted in \n2000.   \n \nSection 2(1)(d) BSA expressly defines ‘document' as \nincluding electronic and digital records, emails, log \ndata from servers, locational data, SMS/messaging \napplication data, voice messages, video messages, \nelectronic contracts, website content and anything \nstored or processed in a digital format. The broad \ndefinition addresses the previous judicial confusion \nover the definition of ‘documents' for evidentiary \npurposes regarding certain types of digital data, such \nas metadata, cache files, and ephemeral \ncommunications.  \n \n4.2 Admissibility of Electronic Records: Sections 61–\n63 BSA \nThese provisions are the BSA's central provisions on \nadmissibility of electronic records, which \nconsiderably restructure the provisions of Sections \n65A and 65B of the IEA. The new framework makes \nthe following key modifications:   \n \n• The admissibility of documents was previously \nsplit between ‘primary’ evidence and ‘secondary’ \nevidence which gave rise to complicated \nadmissibility hierarchies, but section 61 BSA now \nunites them under a single umbrella, provided \nthey meet the conditions set out in that section.  \n• Section 62 BSA states the requirements for \nadmissibility of electronic records: (a) the \ncomputer/device output is generated by a person \nwith lawful control over the computer in the \nnormal course of that person's activities; (b) the \ncomputer or device is operating properly, or if \nnot, that the operating error does not affect the \noutput; (c) the information contained in the record \nis regularly entered in the computer in the normal \ncourse of the activities of the person; and (d) a \ncertificate of compliance signed by a responsible \nofficial is obtained.  \n• Section 63 BSA covers how to ensure the \nauthenticity of electronic records and provides \nstandards for multi-factor authentication, which \ninclude digital signatures, hash values and \nmetadata verification.  \n \nAn innovation feature of Section 62 BSA is that it \nexplicitly recognises cloud computing environments, \nin contrast to the previous Section 65B IEA. The \nformer provision had caused some interpretative \ndifficulty in instances where evidence may be stored \non distributed cloud servers, where the BSA's more \ngeneral language referring to 'computer resource' as \ndefined by the IT Act covers the situation.   \n \n© JULY 2026 | IRE Journals | Volume 10 Issue 1 | ISSN: 2456-8880 \nDOI: https://doi.org/10.64388/IREV10I1-1719396 \n \nIRE 1719396          ICONIC RESEARCH AND ENGINEERING JOURNALS 5 \n4.3 Certificate Requirement: Continuing and New \nChallenges \nThe certificate requirement, which is perhaps the \nmost litigated element of the admissibility of \nelectronic evidence in India, has been considerably \nclarified by the BSA and remains a jurisprudential \ncontentious element. The certificate required by \nSection 62(2) BSA shall be signed by a person in a \nresponsible official position in connection with the \noperation of the relevant device and shall contain: (i) \na description of the manner of production of the \nelectronic record; (ii) particulars of the device in \nquestion; and (iii) a statement that to the best of the \nsignatory's knowledge and belief, the conditions of \nSection 62(1) are met.  \n \nThe Supreme Court in the Arjun Panditrao Khotkar \nvs. Kailash Kushanrao Gorantyal supreme court case \n(2020) 7 SCC 1, has held that the certificate under \nSection 65B(4) IEA (now Section 62 BSA) is a sine \nqua non and cannot be waived even by the courts for \nthe admissibility of electronic records. The Court also \nexplained that the certificate must be tendered at the \ntime of electronic record's deposition and cannot be \ntendered later. The BSA formalizes this holding and \nadds the beneficial rule that, when it is impossible to \nobtain a certificate from the certificate-maker (e.g., in \nthe case of a foreign server), the court may be \nsatisfied with secondary evidence or draw \nappropriate inferences.  \n \n4.4 Types of Digital Evidence: Specific Evidentiary \nStandards \n4.4.1 Metadata and Log Files \nMtadata — includes file creation dates, modification \nlogs, author information, EXIF data in photographs, \nrouting information in email messages, system log \nfiles and more. The BSA does not mention the term \n‘metadata’ directly, but it does discuss this concept \nby the general term ‘electronic record’ and the \nauthentication requirements in Section 63. In view of \nthe evidentiary value of metadata, courts have \nincreasingly accepted it as evidence with proper \ncertification: In Dharambir v. CBI [(2008) 150 DLT \n393], the Delhi High Court allowed computer-\ngenerated logs as evidence with appropriate \ncertification. \n \n4.4.2 CCTV Footage and Video Evidence \nCCTV footage has specific challenges with \nauthenticity: it can be compromised by compression, \nlow resolution, editing of the time stamp, and \nconversion of the format of the footage. Where a \nBSA Section 79 (presumption as to electronic \nagreements and records) or a BSA Section 81 \n(presumption as to electronic messages) is in effect, \nthe system is subject to these presumptions. In \nTomaso Bruno v. State of U.P. [(2015) 7 SCC 178], \nthe Supreme Court accepted CCTV footage as \nevidence of corroboration and stressed the need for a \nchain of custody and expert analysis of the footage.  \n \n4.4.3 Mobile Device Data and Social Media \nCommunications \nOne of the most vibrant fields of digital evidence law \nis the preservation and admission of mobile device \ninformation: call history, WhatsApp conversations, \ndeleted text messages retrieved via mobile device \nforensics, geospatial data, and so on. The Madras \nHigh Court in the case of Dharani Sugars and \nChemicals Ltd. v. Union of India noted that \nWhatsApp messages can be admissible with the \nproper certification but it has to be established that \nthe extraction of such messages is done in a manner \nthat is proper and proper linkage with the accused has \nbeen done. While the BSA's Section 62 framework is \nuniform across mobile-extracted data, practical issues \nof end-to-end encryption can lead to being able to \nextract metadata but not necessarily the content of a \nmessage.  \n \n4.4.4 Cloud-Stored Evidence \nCloud computing's distributed and multi-\njurisdictional design presents significant issues for \ndigital evidence law. Amazon Web Services, Google \nCloud, Microsoft Azure and other providers may \nstore data on servers in different countries, which \ncould raise issues around territorial jurisdiction in \ngathering evidence, potential issues with foreign data \nprotection laws (such as the GDPR) and whether the \nIndian procedural rules would apply to foreign \nservice providers. The BSA's Section 62 takes a \npragmatic approach and allows the 'person in control' \nof the computer resource to certify it without having \nto specify any particular physical location of a server, \nthereby addressing the jurisdiction issue somewhat.   \n© JULY 2026 | IRE Journals | Volume 10 Issue 1 | ISSN: 2456-8880 \nDOI: https://doi.org/10.64388/IREV10I1-1719396 \n \nIRE 1719396          ICONIC RESEARCH AND ENGINEERING JOURNALS 6 \nV. PROCEDURAL SAFEGUARDS UNDER \nTHE BHARATIYA NAGARIK SURAKSHA \nSANHITA, 2023 \n5.1 Search, Seizure, and Preservation of Digital \nEvidence \nThe Bharatiya Nagarik Suraksha Sanhita, 2023 brings \nin significantly updated provisions regarding the \nsearch and seizure of electronic evidence to fill in \nsome major gaps in the previous CrPC provisions, \nwhich were drafted before the extensive use of \ncomputers in criminal activity. Section 94 BNSS \nprovides for the compelling production of documents \nand digital records, and there are new sub-provisions \nthat specifically cover electronic devices, cloud \naccounts and remote servers.    \n \nThe current section 185 BNSS is complemented by \nsection 186, which introduces for the first time the \nnotion of digital search warrants, that is court orders \nthat permit access to electronic devices, email \naccounts, cloud storage and encrypted data. The \nprocedural requirements are: particular identification \nof the target device, specification of the categories of \ndata sought, the limitation of the scope of the search \nover the course of time and required videography of \nthe search process. Section 105 BNSS's videography \nrequirement also has an impact on digital evidence \nbecause it will result in a contemporaneous record of \nthe forensic acquisition process, which will enhance \nchain-of-custody integrity.   \n \n5.2 Chain of Custody and Digital Forensic Standards \nThe chain of custody, a documented continuous chain \nof possession, condition and location from the time of \nseizure to court presentation, is critical to the \nintegrity of digital evidence. The BNSS introduces \nSection 530 which requires the preparation of a \n'Digital Evidence Recovery Sheet' (DERS) at the \ntime of electronic device seizure, including \nidentification of device (IMEI, serial number, MAC \naddress), condition of device, storage capacity and \ncontents, device encryption, and forensic acquisition \ntechnique used.  \n \nIn addition, the BNSS requires, in Section 531, that \nall digital evidence handling be done with write-\nblocking equipment to ensure that any original data is \nnot accidentally altered, and that a forensic image \n(bit-for-bit copy) be created prior to any analysis with \nhash values (MD5 or SHA-256) also calculated for \nboth the original image and the forensic image to \nensure that they are identical. Such a codification of \ngood practice forensics is welcome progress, but the \nsuccess or otherwise of the law will rely heavily on \nthe equipment available and the training of country-\nwide police forensic units, which is a shortage in \nsmaller states and union territories.    \n \n5.3 Trial Procedure and Electronic Evidence \nPresentation \nSection 353(3) of the BNSS allows for electronic \nevidence to be presented at trial, allowing witnesses \nto testify via video link and documents to be \ndisplayed electronically, with proper authentication. \nWith electronic filing of case documents and \nchargesheets under Section 530 BNSS, an all \nelectronic evidentiary system in principle has been \nmade possible by the BSA's electronic record \nprovisions.    \n \nPerhaps most importantly, the BNSS has introduced a \nrequirement for the mandatory forensic investigation \nof offences, where seven or more years imprisonment \nwill be imposed, in Section 176(3): this includes the \nfilming of the investigation of any crime scene by a \nforensic team. This is a measure which is in its main \nform directed at physical crime scenes, but which \npractitioners interpret as covering digital crime \nscenes (servers, devices, networks) in light of the \ndefinition of 'crime scene' as being integrated in the \nBNSS's Explanation to Section 176.  \n \nVI. LANDMARK JUDICIAL PRECEDENTS \nON DIGITAL EVIDENCE \n \n6.1 Anvar P.V. v. P.K. Basheer: The Foundational \nRuling \nThe three-judge bench interpretation by the Supreme \nCourt in Anvar P.V. v. P.K. Basheer [(2014) 10 SCC \n473] has basically changed the rules of admissibility \nof electronic evidence in India. In State (NCT of \nDelhi) v. Navjot Sandhu (2005), the earlier division \nbench had clarified that secondary evidence \nprovisions will be applicable in the admission of \nelectronic evidence, which does not require the \nSection 65B certificate. The Court held otherwise, ",
+            "text_complete": false,
+            "document_type": "unverified",
+            "text_sha256": "cb88399149803f5d2cd5cd05c298804717cc7415b99796cfa127fc4c3f3df14f"
+          }
+        ],
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-c339e29c01ba6e327be23b92",
+        "content_sha256": "54655db1cbe0b005f1ffe0965b2b651de0bca7b77f52fc3085b4747817b4a890",
+        "status": "retrieved",
+        "evidence": [
+          {
+            "requested_url": "https://doi.org/10.47191/jefms/v9-i9-42",
+            "final_url": "https://ijefm.co.in/v9i9/42.php",
+            "http_status": 200,
+            "headers": {
+              "content-type": "text/html; charset=UTF-8"
+            },
+            "redirects": [
+              {
+                "url": "https://doi.org/10.47191/jefms/v9-i9-42",
+                "http_status": 302
+              },
+              {
+                "url": "https://ijefm.co.in/v9i9/42.php",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "2cc92cdcfb03d4100e8a2a4e5f284c40f17cec86e1bbc7131465b6c7181225bb",
+            "retrieved_at": "2026-11-26T05:22:18.565118+00:00",
+            "byte_count": 28216,
+            "container_type": "html",
+            "metadata": {
+              "citation_title": [
+                "Deepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can Vulnerability–Trust–Resilience Framework Be Applied in the United States of America?"
+              ],
+              "citation_author": [
+                "Nenbee, Simeon Gbimoiye (PhD)",
+                "Golley, Israel Tega",
+                "Mgbataogu, Ifeanyi Sunday (PhD)"
+              ],
+              "citation_author_affiliation": [
+                "Department of Economics, University of Port Harcourt",
+                "Graduate School of Economics and Management University of Port Harcourt, https://orcid.org/0009-0008-2609-8612",
+                "Department of Finance and Banking, University of Port Harcourt"
+              ],
+              "citation_journal_title": [
+                "JOURNAL OF ECONOMICS, FINANCE AND MANAGEMENT STUDIES"
+              ],
+              "citation_volume": [
+                "9"
+              ],
+              "citation_issue": [
+                "9"
+              ],
+              "citation_firstpage": [
+                "4998"
+              ],
+              "citation_lastpage": [
+                "5011"
+              ],
+              "citation_publication_date": [
+                "2026-09-29"
+              ],
+              "citation_year": [
+                "2026"
+              ],
+              "citation_issn": [
+                "2644-0504"
+              ],
+              "citation_doi": [
+                "10.47191/jefms/v9-i9-42"
+              ],
+              "citation_abstract": [
+                "Generative artificial intelligence has made convincing synthetic identities, voices, images, and video cheaper and easier to produce. Financial institutions now face attacks directed not only at technical authentication, but also at the social cues through which customers and employees decide whom to trust. This study combines descriptive analysis of public United States fraud statistics with directed qualitative content analysis of 18 (eighteen) authoritative regulatory, law-enforcement, standards, and policy documents published between 2019 and 2025. Eight response mechanisms were coded: accountable ownership, identity verification, deepfake detection and provenance, transaction monitoring, human authentication and escalation, customer information, incident response and information sharing, and third-party governance. Incident response appeared in about 94% of the corpus while identity verification stood at 89%. Human authentication and transaction monitoring were present in 83% and 72%, respectively. Half of the documents addressed provenance or deepfake detection, whereas only 39% connected counter-fraud controls with customer communication. Public loss data confirm a rapidly worsening fraud environment but do not identify losses caused specifically by deepfakes, producing an attribution-denominator problem. The proposed Vulnerability–Trust–Resilience (VTR) framework shows how synthetic media can turn weaknesses in authentication and judgment into financial loss and wider distrust. Resilience therefore depends on layered verification, transaction-context controls, empowered human escalation, rapid recovery, and carefully calibrated communication—not on a single detector. It is therefore recommend that there is need to urgently develop testable propositions, a managerial scorecard, and a reproducible engagement agenda by the government to forestall the growing incidence of deekfake enabled financial fraud in the financial sector of the economy."
+              ],
+              "citation_pdf_url": [
+                "https://ijefm.co.in/v9i9/Doc/42.pdf"
+              ],
+              "citation_language": [
+                "en"
+              ]
+            },
+            "title": "Deepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can Vulnerability–Trust–Resilience Framework Be Applied in the United States of America?",
+            "links": [
+              {
+                "text": "editor@ijefm.co.in",
+                "url": "https://mail.google.com/mail/?view=cm&fs=1&to=editor@ijefm.co.in"
+              },
+              {
+                "text": "ISSN[Online] : 2644-0504  ||  ISSN[Print] : 2644-0490",
+                "url": "https://ijefm.co.in/index.php"
+              },
+              {
+                "text": "",
+                "url": "https://www.instagram.com/jefms__publication/"
+              },
+              {
+                "text": "",
+                "url": "https://www.linkedin.com/in/journal-of-economics-finance-and-management-studies-52ba351b9/"
+              },
+              {
+                "text": "JEFMS Journal",
+                "url": "https://ijefm.co.in/index.php"
+              },
+              {
+                "text": "Home",
+                "url": "https://ijefm.co.in/index.php"
+              },
+              {
+                "text": "Call for paper",
+                "url": "https://ijefm.co.in/callforpaper.php"
+              },
+              {
+                "text": "Indexing",
+                "url": "https://ijefm.co.in/indexed.php"
+              },
+              {
+                "text": "Issue",
+                "url": "https://ijefm.co.in/v9i9/42.php"
+              },
+              {
+                "text": "current",
+                "url": "https://ijefm.co.in/current.php"
+              },
+              {
+                "text": "archive",
+                "url": "https://ijefm.co.in/archive.php"
+              },
+              {
+                "text": "Editorial",
+                "url": "https://ijefm.co.in/v9i9/42.php"
+              },
+              {
+                "text": "Eligibility",
+                "url": "https://ijefm.co.in/eligibility.php"
+              },
+              {
+                "text": "Apply Now",
+                "url": "https://ijefm.co.in/apply.php"
+              },
+              {
+                "text": "Board Members",
+                "url": "https://ijefm.co.in/member.php"
+              },
+              {
+                "text": "Author Desk",
+                "url": "https://ijefm.co.in/v9i9/42.php"
+              },
+              {
+                "text": "AUTHOR'S GUIDLINES",
+                "url": "https://ijefm.co.in/authordesk.php"
+              },
+              {
+                "text": "DOWNLOADS",
+                "url": "https://ijefm.co.in/v9i9/42.php"
+              },
+              {
+                "text": "MANUSCRIPT TEMPLETE",
+                "url": "https://ijefm.co.in/Doc/manuscript.doc"
+              },
+              {
+                "text": "COPYRIGHT FORM",
+                "url": "https://ijefm.co.in/Doc/Cform.pdf"
+              },
+              {
+                "text": "COVER PAGE",
+                "url": "https://ijefm.co.in/Doc/cover.pdf"
+              },
+              {
+                "text": "PUBLICATION ETHICS",
+                "url": "https://ijefm.co.in/publicationethics.php"
+              },
+              {
+                "text": "REVIEWER POLICY",
+                "url": "https://ijefm.co.in/reviewerpolicy.php"
+              },
+              {
+                "text": "REVIEWER GUIDELINES",
+                "url": "https://ijefm.co.in/reviewerguidelines.php"
+              },
+              {
+                "text": "PLAGIARISM POLICIES",
+                "url": "https://ijefm.co.in/plagarism.php"
+              },
+              {
+                "text": "WITHDRAWAL POLICIES",
+                "url": "https://ijefm.co.in/withdraw.php"
+              },
+              {
+                "text": "Submission",
+                "url": "https://ijefm.co.in/submission.php"
+              },
+              {
+                "text": "Contact",
+                "url": "https://ijefm.co.in/contact.php"
+              },
+              {
+                "text": "Home",
+                "url": "https://ijefm.co.in/index.php"
+              },
+              {
+                "text": "Deepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can Vulnerability–Trust–Resilience Framework Be Applied in the United States of America?",
+                "url": "https://ijefm.co.in/v9i9/42.php"
+              },
+              {
+                "text": "https://doi.org/10.47191/jefms/v9-i9-42",
+                "url": "https://doi.org/10.47191/jefms/v9-i9-42"
+              },
+              {
+                "text": "Google Scholar",
+                "url": "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=Deepfake+Enabled+Financial+Fraud+and+Consumer+Trust+in+Digital+Finance%3A+Can+Vulnerability%E2%80%93Trust%E2%80%93Resilience+Framework+Be+Applied+in+the+United+States+of+America%3F&btnG="
+              },
+              {
+                "text": "Article Pdf",
+                "url": "javascript:void(0)"
+              },
+              {
+                "text": "https://doi.org/10.47191/jefms/v9-i9-42",
+                "url": "https://doi.org/10.47191/jefms/v9-i9-42"
+              },
+              {
+                "text": "Creative Commons Attribution–NonCommercial 4.0 International (CC BY-NC 4.0)",
+                "url": "https://creativecommons.org/licenses/by-nc/4.0/"
+              },
+              {
+                "text": "",
+                "url": "https://www.researchgate.net/journal/Journal-of-Economics-Finance-and-Management-Studies-2644-0490"
+              },
+              {
+                "text": "Submit Article",
+                "url": "https://ijefm.co.in/submission.php"
+              },
+              {
+                "text": "",
+                "url": "https://ijefm.co.in/assets/img/clients/2026.jpeg"
+              },
+              {
+                "text": "",
+                "url": "https://www.scilit.com/sources/26014"
+              },
+              {
+                "text": "Author's Guidelines",
+                "url": "https://ijefm.co.in/authordesk.php"
+              },
+              {
+                "text": "Call For Paper",
+                "url": "https://ijefm.co.in/callforpaper.php"
+              },
+              {
+                "text": "Online Submission",
+                "url": "https://ijefm.co.in/submission.php"
+              },
+              {
+                "text": "Publication Ethics",
+                "url": "https://ijefm.co.in/publicationethics.php"
+              },
+              {
+                "text": "Reviewer Policy",
+                "url": "https://ijefm.co.in/reviewerpolicy.php"
+              },
+              {
+                "text": "Reviewer Guidelines",
+                "url": "https://ijefm.co.in/reviewerguidelines.php"
+              },
+              {
+                "text": "Plagiarism Policies",
+                "url": "https://ijefm.co.in/plagarism.php"
+              },
+              {
+                "text": "Withdrawal Policies",
+                "url": "https://ijefm.co.in/withdraw.php"
+              },
+              {
+                "text": "Manuscript Template",
+                "url": "https://ijefm.co.in/Doc/manuscript.doc"
+              },
+              {
+                "text": "CopyRight Form",
+                "url": "https://ijefm.co.in/Doc/Cform.pdf"
+              },
+              {
+                "text": "Cover Pages",
+                "url": "https://ijefm.co.in/Doc/cover.pdf"
+              },
+              {
+                "text": "Submission Open",
+                "url": "https://ijefm.co.in/submission.php"
+              },
+              {
+                "text": "Join Our Editor Board",
+                "url": "https://ijefm.co.in/apply.php"
+              },
+              {
+                "text": "ONLINE SUBMISSION",
+                "url": "https://ijefm.co.in/submission.php"
+              },
+              {
+                "text": "EDITORIAL BOARD",
+                "url": "https://ijefm.co.in/board.php"
+              },
+              {
+                "text": "CURRENT ISSUE",
+                "url": "https://ijefm.co.in/current.php"
+              },
+              {
+                "text": "ARCHIVE",
+                "url": "https://ijefm.co.in/archive.php"
+              },
+              {
+                "text": "CALL FOR PAPER",
+                "url": "https://ijefm.co.in/callforpaper.php"
+              },
+              {
+                "text": "CONTACT US",
+                "url": "https://ijefm.co.in/contact.php"
+              },
+              {
+                "text": "",
+                "url": "https://ijefm.co.in/v9i9/42.php"
+              },
+              {
+                "text": "",
+                "url": "https://ijefm.co.in/v9i9/42.php"
+              },
+              {
+                "text": "",
+                "url": "https://ijefm.co.in/v9i9/42.php"
+              },
+              {
+                "text": "",
+                "url": "https://ijefm.co.in/v9i9/42.php"
+              },
+              {
+                "text": "",
+                "url": "https://ijefm.co.in/v9i9/42.php"
+              },
+              {
+                "text": "",
+                "url": "https://ijefm.co.in/v9i9/42.php"
+              }
+            ],
+            "text": "Deepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can Vulnerability–Trust–Resilience Framework Be Applied in the United States of America?\neditor@ijefm.co.in\nISSN[Online] : 2644-0504  ||  ISSN[Print] : 2644-0490\nVolume 09 Issue 09 September 2026\nHome\nSeptember 2026\nDeepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can Vulnerability–Trust–Resilience Framework Be Applied in the United States of America?\n1\nNenbee, Simeon Gbimoiye (PhD),\n2\nGolley, Israel Tega,\n3\nMgbataogu, Ifeanyi Sunday (PhD)\n1\nDepartment of Economics, University of Port Harcourt\n2\nGraduate School of Economics and Management University of Port Harcourt, https://orcid.org/0009-0008-2609-8612\n3\nDepartment of Finance and Banking, University of Port Harcourt\nhttps://doi.org/10.47191/jefms/v9-i9-42\nGoogle Scholar\nArticle Pdf\nABSTRACT:\nGenerative artificial intelligence has made convincing synthetic identities, voices, images, and video cheaper and easier to produce. Financial institutions now face attacks directed not only at technical authentication, but also at the social cues through which customers and employees decide whom to trust. This study combines descriptive analysis of public United States fraud statistics with directed qualitative content analysis of 18 (eighteen) authoritative regulatory, law-enforcement, standards, and policy documents published between 2019 and 2025. Eight response mechanisms were coded: accountable ownership, identity verification, deepfake detection and provenance, transaction monitoring, human authentication and escalation, customer information, incident response and information sharing, and third-party governance. Incident response appeared in about 94% of the corpus while identity verification stood at 89%. Human authentication and transaction monitoring were present in 83% and 72%, respectively. Half of the documents addressed provenance or deepfake detection, whereas only 39% connected counter-fraud controls with customer communication. Public loss data confirm a rapidly worsening fraud environment but do not identify losses caused specifically by deepfakes, producing an attribution-denominator problem. The proposed Vulnerability–Trust–Resilience (VTR) framework shows how synthetic media can turn weaknesses in authentication and judgment into financial loss and wider distrust. Resilience therefore depends on layered verification, transaction-context controls, empowered human escalation, rapid recovery, and carefully calibrated communication—not on a single detector. It is therefore recommend that there is need to urgently develop testable propositions, a managerial scorecard, and a reproducible engagement agenda by the government to forestall the growing incidence of deekfake enabled financial fraud in the financial sector of the economy.\nKEYWORDS:\nDeepfake fraud; consumer trust; digital finance; identity verification and generative artificial intelligence\nREFERENCES:\n1)\tCohen, L. E., & Felson, M. (1979). Social change and crime rate trends: A routine activity approach. American Sociological Review, 44(4), 588–608. https://doi.org/10.2307/2094589\n2)\tChesney, R., & Citron, D. K. (2019). Deep fakes: A looming challenge for privacy, democracy, and national security. California Law Review, 107(6), 1753–1820. https://doi.org/10.15779/Z38RV0D15J\n3)\tCybersecurity and Infrastructure Security Agency, Federal Bureau of Investigation, & National Security Agency. (2023). Contextualizing deepfake threats to organizations. https://www.cisa.gov/resources-tools/resources/contextualizing-deepfake-threats-organizations\n4)\tde Rancourt-Raymond, A., & Smaili, N. (2023). The unethical use of deepfakes. Journal of Financial Crime, 30(4), 1066–1077. https://doi.org/10.1108/JFC-04-2022-0090\n5)\tEuropean Union Agency for Cybersecurity. (2022). ENISA threat landscape 2022. https://www.enisa.europa.eu/publications/enisa-threat-landscape-2022\n6)\tFederal Bureau of Investigation. (2022). 2021 Internet Crime Report. Internet Crime Complaint Center. https://www.ic3.gov/AnnualReport/Reports/2021_IC3Report.pdf\n7)\tFederal Bureau of Investigation. (2023). 2022 Internet Crime Report. Internet Crime Complaint Center. https://www.ic3.gov/AnnualReport/Reports/2022_IC3Report.pdf\n8)\tFederal Bureau of Investigation. (2024). 2023 Internet Crime Report. Internet Crime Complaint Center. https://www.ic3.gov/AnnualReport/Reports/2023_IC3Report.pdf\n9)\tFederal Bureau of Investigation. (2025). 2024 IC3 annual report. Internet Crime Complaint Center. https://www.ic3.gov/AnnualReport/Reports/2024_IC3Report.pdf\n10)\tFederal Reserve Board. (2025, April 17). Deepfakes and the AI arms race in bank cybersecurity. https://www.federalreserve.gov/newsevents/speech/files/barr20250417a.pdf\n11)\tFinancial Action Task Force. (2023). Illicit financial flows from cyber-enabled fraud. https://www.fatf-gafi.org/en/publications/Methodsandtrends/illicit-financial-flows-cyber-enabled-fraud.html\n12)\tFinancial Crimes Enforcement Network. (2024a, November 13). FinCEN alert on fraud schemes involving deepfake media targeting financial institutions (FIN-2024-Alert004). https://www.fincen.gov/system/files/shared/FinCEN-Alert-DeepFakes-Alert508FINAL.pdf\n13)\tFinancial Crimes Enforcement Network. (2024b, January 9). Identity-related suspicious activity: 2021 threats and trends. https://www.fincen.gov/sites/default/files/shared/FTA_Identity_Final508.pdf\n14)\tFinancial Stability Board. (2024). The financial stability implications of artificial intelligence. https://www.fsb.org/2024/11/the-financial-stability-implications-of-artificial-intelligence/\n15)\tFederal Trade Commission. (2025). Consumer Sentinel Network data book 2024. https://www.ftc.gov/reports/consumer-sentinel-network-data-book-2024\n16)\tInternational Organization for Standardization. (2023). ISO/IEC 42001:2023 information technology—Artificial intelligence—Management system. https://www.iso.org/standard/81230.html\n17)\tLee, J. D., & See, K. A. (2004). Trust in automation: Designing for appropriate reliance. Human Factors, 46(1), 50–80. https://doi.org/10.1518/hfes.46.1.50_30392\n18)\tMcKnight, D. H., Choudhury, V., & Kacmar, C. (2002). Developing and validating trust measures for e-commerce: An integrative typology. Information Systems Research, 13(3), 334–359. https://doi.org/10.1287/isre.13.3.334.81\n19)\tMuzatko, S., & Bansal, G. (2024). It pays to be forthcoming: Timing of data breach announcement, trust violation, and trust restoration. Internet Research, 34(5), 1629–1663. https://doi.org/10.1108/INTR-12-2021-0939\n20)\tNational Institute of Standards and Technology. (2023). Artificial intelligence risk management framework (AI RMF 1.0) (NIST AI 100-1). https://doi.org/10.6028/NIST.AI.100-1\n21)\tNational Institute of Standards and Technology. (2024a). Artificial intelligence risk management framework: Generative artificial intelligence profile (NIST AI 600-1). https://doi.org/10.6028/NIST.AI.600-1\n22)\tNational Institute of Standards and Technology. (2024b). Reducing risks posed by synthetic content: An overview of technical approaches to digital content transparency (NIST AI 100-4). https://doi.org/10.6028/NIST.AI.100-4\n23)\tRogers, R. W. (1975). A protection motivation theory of fear appeals and attitude change. The Journal of Psychology, 91(1), 93–114. https://doi.org/10.1080/00223980.1975.9915803\n24)\tU.S. Department of the Treasury. (2024a). Managing artificial intelligence-specific cybersecurity risks in the financial services sector. https://home.treasury.gov/system/files/136/Managing-Artificial-Intelligence-Specific-Cybersecurity-Risks-In-The-Financial-Services-Sector.pdf\n25)\tU.S. Department of the Treasury. (2024b). Artificial intelligence in financial services. \r\nhttps://home.treasury.gov/system/files/136/Artificial-Intelligence-in-Financial-Services.pdf\nCite this Article:\nNenbee, Simeon Gbimoiye (PhD), Golley, Israel Tega, & Mgbataogu, Ifeanyi Sunday (PhD). (2026). Deepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can Vulnerability–Trust–Resilience Framework Be Applied in the United States of America?. Journal of Economics, Finance And Management Studies, 09(09), 4998–5011.\nhttps://doi.org/10.47191/jefms/v9-i9-42\nThere is an Open Access article, distributed under the term of the\nCreative Commons Attribution–NonCommercial 4.0 International (CC BY-NC 4.0)\n, which permits remixing, adapting and building upon the work for\r\n    non-commercial use, provided the original work is properly cited.\nReseacrh Gate\nSubmit Article\nSubmit Article\nSJIF Impact Factor\nScilit\nContent Aggregators\nCrossref = DOI Registration Agency\nGoogle Scholar = Scholarly Search Engine\nScilit = Content Aggregator\nSemantic Scholar = Scholarly Discovery\nPlatform\nAuthor's Desk\nAuthor's Guidelines\nCall For Paper\nOnline Submission\nPublication Ethics\nReviewer Policy\nReviewer Guidelines\nPlagiarism Policies\nWithdrawal Policies\nDownloads\nManuscript Template\nCopyRight Form\nCover Pages\nLatest News\nSubmission Open\nVolume 09 Issue 11 (November 2026)\nLast Date : 26 November 2026\nJoin Our Editor Board\nSend your CV to board@ijefm.co.in",
+            "text_complete": true,
+            "document_type": "unverified",
+            "fragment": "",
+            "resource_unavailable": false,
+            "text_sha256": "11540a23c4f89e51b0692667bb0c290667fab616db70426b42fcd63e0f752bfb"
+          },
+          {
+            "requested_url": "https://ijefm.co.in/v9i9/Doc/42.pdf",
+            "final_url": "https://ijefm.co.in/v9i9/Doc/42.pdf",
+            "http_status": 200,
+            "headers": {
+              "last-modified": "Tue, 29 Sep 2026 08:41:39 GMT",
+              "content-type": "application/pdf"
+            },
+            "redirects": [
+              {
+                "url": "https://ijefm.co.in/v9i9/Doc/42.pdf",
+                "http_status": 200
+              }
+            ],
+            "body_sha256": "1f4d69674a9672dcade86949c471b6ae9c594b1bfb623b35e7e66585af19ec19",
+            "retrieved_at": "2026-11-26T05:22:21.337939+00:00",
+            "byte_count": 521421,
+            "container_type": "pdf",
+            "page_count": 14,
+            "pages_inspected": 6,
+            "pdf_metadata": {
+              "/Title": "Deepfake-Enabled Financial Fraud and Consumer Trust in Digital Finance: A Structured Evidence Review and Vulnerability–Trust–Resilience Framework",
+              "/Author": "[Author name]",
+              "/Subject": "Deepfake-enabled financial fraud and consumer trust in digital finance",
+              "/Keywords": "deepfake fraud; consumer trust; digital finance; identity verification; financial technology",
+              "/Creator": "Microsoft® Word 2016",
+              "/CreationDate": "D:20260929135713+05'30'",
+              "/ModDate": "D:20260929135713+05'30'",
+              "/Producer": "Microsoft® Word 2016"
+            },
+            "text": "Journal of Economics, Finance and Management Studies \nISSN (print): 2644-0490, ISSN (online): 2644-0504 \nVolume 09 Issue 09 September 2026 \nArticle DOI: 10.47191/jefms/v9-i9-42, Impact Factor: 8.735 \nPage No: 4998-5011 \nJEFMS, Volume 09 Issue 09 September 2026                                       www.ijefm.co.in                                                Page 4998 \nDeepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can \nVulnerability–Trust–Resilience Framework Be Applied in the United States of \nAmerica? \n \nNenbee, Simeon Gbimoiye (PhD)1, Golley, Israel Tega2, Mgbataogu, Ifeanyi Sunday (PhD)3 \n1Department of Economics, University of Port Harcourt \n2Graduate School of Economics and Management University of Port Harcourt, https://orcid.org/0009-0008-2609-8612 \n3Department of Finance and Banking, University of Port Harcourt \n    \nABSTRACT: Generative artificial intelligence has made convincing synthetic identities, voices, images, and video cheaper and easier to \nproduce. Financial institutions now face attacks directed not only at technical authentication, but also at the social cues through which \ncustomers and employees decide whom to trust. This study combines descriptive analysis of public United States fraud statistics with \ndirected qualitative content analysis of 18 (eighteen) authoritative regulatory, law-enforcement, standards, and policy documents \npublished between 2019 and 2025. Eight response mechanisms were coded: accountable ownership, identity verification, deepfake \ndetection and provenance, transaction monitoring, human authentication and escalation, customer information, incident response \nand information sharing, and third-party governance. Incident response appeared in about 94% of the corpus while identity \nverification stood at 89%. Human authentication and transaction monitoring were present in 83% and 72%, respectively. Half of the \ndocuments addressed provenance or deepfake detection, whereas only 39% connected counter-fraud controls with customer \ncommunication. Public loss data confirm a rapidly worsening fraud environment but do not identify losses caused specifically by \ndeepfakes, producing an attribution-denominator problem. The proposed Vulnerability–Trust–Resilience (VTR) framework shows how \nsynthetic media can turn weaknesses in authentication and judgment into financial loss and wider distrust. Resilience therefore \ndepends on layered verification, transaction-context controls, empowered human escalation, rapid recovery, and carefully calibrated \ncommunication—not on a single detector. It is therefore recommend that there is need to urgently develop testable propositions, a \nmanagerial scorecard, and a reproducible engagement agenda by the government to forestall the growing incidence of deekfake \nenabled financial fraud in the financial sector of the economy. \nKEYWORDS: Deepfake fraud; consumer trust; digital finance; identity verification and generative artificial intelligence \n \n1. INTRODUCTION \nDigital finance rests on trust that must function at scale to various categories of customers. Customers often times open accounts \nremotely, authorize payments on mobile devices, obtain advice through electronic channels, and increasingly communicate with \nautomated agents. Most customers are employees in the digital finance space and make consequential decisions using video meetings, \ntelephone calls, emailed instructions, identity documents, and digital signatures. In each instance, the institution converts incomplete \nidentity and behavioral signals into judgments about access, credit, payment, and responsibility. In recent years, generative Artificial \nIntelligence (AI) alters the economics of attacking those judgments. Faces, voices, documents, and persuasive dialogue can now be \nsynthesized or manipulated cheaply, across languages, and at operational scale thereby posing threat to consumption patterns and \nhabits. \nThe threat extends well beyond conspicuous fabricated video. FinCEN (2024a) reported increasing suspicious activity involving \nsuspected deepfake media in schemes directed at institutions and their customers, including altered or fabricated identity documents \nintended to defeat verification and authentication. Synthetic voices can even make impersonation more credible in such senerios. \nDeepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can Vulnerability–Trust–Resilience \nFramework Be Applied in the United States of America? \nJEFMS, Volume 09 Issue 09 September 2026                                       www.ijefm.co.in                                                Page 4999 \nManipulated faces may target onboarding or liveness controls. Generated documents can facilitate account takeover, mule-account \ncreation, and payment fraud, while personalized messages make social engineering harder to recognize. The appropriate unit of \nanalysis is therefore the fraud process—not the media artifact in isolation—from reconnaissance and persuasion through identity \ncompromise, transaction execution, and concealment. \nThe Federal Bureau of Investigation’s Internet Crime Complaint Center (IC3, 2025) did received 859,532 complaints for the year 2024 \nand $16.6 billion in losses—33% above the 2023 total. Those figures are not a measure of deepfake losses; incident reports do not \nconsistently record whether synthetic media played a role. They do, however, describe the environment into which scalable \nimpersonation technology has entered.  \nOne sense about the IC3( 2025) report is that the aggregate fraud statistics establish urgency and exposure, but they cannot estimate \nthe marginal causal contribution of deepfakes. The damage can extend beyond direct victimization. Once customers believe that \nvoices, faces, documents, or institutional messages can be fabricated at will, legitimate interactions become harder and more \nexpensive to verify. Some may delay valid transfers or retreat from remote channels; others may encounter a “liar’s dividend”, the \nterm Chesney & Citron (2019) use for the way public awareness of synthetic media lets wrongdoers dismiss genuine, incriminating \nevidence as fake. More specifically, institutional responses can create their own harms if added friction excludes customers without \nadvanced devices, stable connectivity, conventional identity records, or accessible biometric options. Governance must therefore \npursue two objectives at once: prevent successful fraud and preserve justified confidence and equitable access. \nArising from the above, latitudes of research on deepfakes are dispersed across various disciplines like computer science, \ncybersecurity, criminology, psychology, information systems, and sorts. These fields frequently examine different parts of the same \nproblem. Detection studies tend to report benchmark accuracy under controlled conditions, whereas fraud advisories concentrate on \noperational red flags. Trust research on the hand explores reliance on technology but seldom follows the consumer through post-\nincident recovery while financial-risk documents acknowledge cyber and model risk without always separating synthetic-media \ncontrols from conventional anti-fraud practice. This fragmentation leaves three gaps: First, detection alone cannot carry the control \nburden. A classifier may perform strongly on familiar generation methods and then deteriorate after compression, adversarial \nalteration, model change, or deployment in a different population. Losses also arise when a customer or employee follows a persuasive \ninstruction that no detector ever evaluates. Effective defense must span identity, device, behavior, transaction context, human \nchallenge, and recovery. Second, consumer trust is often treated as an attitude rather than an outcome shaped by governance. \nConfidence may be damaged by the original fraud, but also by the institution’s response, unclear warnings, mistaken account \nrestrictions, or a burdensome reimbursement process. Proportionate and understandable controls can reinforce trust. Repeated false \npositives and unequal exclusion can erode it. Third, the empirical denominator is missing. Public systems record complaint categories \nand losses, while institutions apply heterogeneous internal labels. “Deepfake-enabled” may mean that synthetic media was essential \nto the scheme, that it merely strengthened persuasion, or that its use was suspected but unconfirmed. Without a stable taxonomy, \nprevalence, institutional comparison, and control effectiveness remain difficult to estimate.  \nAccordingly, this paper sets to provide answers to the following questions and more: (a) Which organizational and technical response \nmechanisms recur in authoritative guidance on synthetic-media and digitally enabled financial fraud? (b)  Where should the current \nframeworks under-specify consumer trust, content provenance, and outcome be measured?  and (c)Through what pathways do \ndeepfake-enabled attacks and institutional responses affect adoption, confidence, inclusion, and resilience in digital finance? These \nquestions and more are interrogated in this study. The rest of the paper addresses literature review, methodology, results and \ndiscussion and concluding remarks. \n \n2. LITERATURE REVIEW \n2.1 Survey of Theoretical Literature \nRoutine activity theory explains predatory events as a convergence of motivated offenders, suitable targets, and insufficient \nguardianship (Cohen & Felson, 1979). Digital finance broadens the reach of potential targets and permits remote contact; generative \nAI adds credibility and scale. Guardianship, however, is distributed across the system. A customer may question an unusual request, a \nbank may detect anomalous device behavior, a telecommunications provider may restrict spoofing, and law enforcement may \ncombine reports across victims. This perspective directs analysis away from the artifact alone and toward the opportunity structure \nsurrounding it. \nDeepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can Vulnerability–Trust–Resilience \nFramework Be Applied in the United States of America? \nJEFMS, Volume 09 Issue 09 September 2026                                       www.ijefm.co.in                                                Page 5000 \nProtection motivation theory helps explain why some warnings prompt useful action and others do not. People assess both the \nseriousness of a threat and whether an effective, manageable response is available (Rogers, 1975). Deepfake warnings may improve \nbehavior when customers recognize a credible risk and know how to respond. Alarm without a practical verification step may instead \ncreate helplessness or generalized distrust. Customer education should therefore strengthen response efficacy and self-efficacy. \nTelling people to distrust everything is unworkable; instructing them to verify unusual payment requests through a known, \nindependent channel is actionable. \nTrust in automation research distinguishes appropriate reliance from maximal reliance. Lee and See (2004) define trust as an attitude \nthat an agent will help achieve goals under uncertainty and show that calibration matters. Under-trust wastes useful automation; \nover-trust creates misuse. Deepfake fraud produces a related calibration problem across channels: consumers and employees must \nneither accept every audiovisual cue nor reject all legitimate remote interaction. Institutions support calibration by displaying \nmeaningful signals, explaining protective processes, and providing recovery when signals fail. \nOrganizational resilience concerns the capacity to anticipate, absorb, recover from, and adapt after disruption. Synthetic-media fraud \nis adaptive: controls alter offender behavior, new generation tools appear, and attacks migrate between channels. Resilience therefore \nrequires feedback from complaints, confirmed cases, false positives, customer outcomes, and external intelligence. A static annual \npolicy is insufficient when attack signatures change weekly. \nInstitution-based trust adds the rules, safeguards, and structural assurances surrounding a transaction (McKnight et al., 2002). \nCustomers need not understand a detection model to judge whether a bank provides credible safeguards, understandable notices, \naccessible escalation, and fair remediation. This perspective makes trust an outcome of governance design rather than merely \ncommunication or brand reputation. \nThe Vulnerability–Trust–Resilience (VTR) framework developed in this article joins these perspectives. Vulnerability occurs when \nsynthetic content exploits dependence on familiar signals, procedural gaps, urgency, or authority. Trust is shaped by the attack and \nby what the institution visibly does afterward. Resilience appears when controls break the fraud chain, contain loss, restore legitimate \naccess, and turn incidents into learning. The proposed routes to value are therefore interruption, calibration, recovery, and adaptation. \nInferencing the expressed views in literature, a joint advisory from the Cybersecurity and Infrastructure Security Agency, the Federal \nBureau of Investigation, and the National Security Agency (2023) framed deepfakes as a cross-sector organizational risk rather than a \npurely technical curiosity, recommending governance, detection, and incident-response measures in combination. It is pertinent to \nascertain the Case-based scholarship which reinforces this organizational framing. In de Rancourt-Raymond & Smaili’s (2023) work \nthat examined publicly reported corporate deepfake-fraud incidents, it argued that the ethical and governance failures exposed by \nthese cases extend well beyond any single technical detection gap. Early deepfake research concentrated on generation and detection. \nThe technical literature describes an arms race: artifacts that reveal one generation method can disappear in later models, while \ndistribution through platforms alters resolution and strips metadata. NIST (2024b) accordingly treats provenance, watermarking, \ndetection, testing, and incident disclosure as complementary controls rather than promising a definitive classifier. Accuracy measured \non a balanced laboratory dataset also does not translate directly into positive predictive value when attacks are rare. Even a strong \ndetector may overwhelm reviewers when genuine interactions vastly outnumber fraudulent ones. \nIdentity research emphasizes document authenticity, biometrics, presentation-attack detection, and liveness. These controls address \nremote onboarding and account access, but each has boundary conditions. Biometric systems may perform differently across \ndemographic groups, accessibility conditions, devices, and environments. Active liveness challenges add friction and may be imitated \nor socially engineered. Document checks can fail when synthetic identities combine real and fabricated elements. Layering is therefore \nessential: identity evidence should be connected to device reputation, behavioral patterns, account history, and transaction purpose. \nThe scale of the underlying problem is already substantial: FinCEN's (2024b) analysis of Bank Secrecy Act filings found that identity-\nrelated concerns accounted for 42% of suspicious activity reports in 2021, representing $212 billion in suspicious activity, most \ncommonly involving impersonation intended to defeat verification. \nFraud management adds transaction monitoring and case investigation. An authenticated person can still be manipulated into \nauthorizing a payment, and a deepfake can target an employee outside customer-login controls. Contextual signals—new beneficiary, \nunusual amount, time pressure, channel switching, device change, atypical location, or inconsistent narrative—may remain \ninformative even when audiovisual content looks authentic. FinCEN’s (2024a) red flags reflect this system view by combining media \nanomalies, identity inconsistencies, device indicators, and transaction behavior. \nDeepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can Vulnerability–Trust–Resilience \nFramework Be Applied in the United States of America? \nJEFMS, Volume 09 Issue 09 September 2026                                       www.ijefm.co.in                                                Page 5001 \nCybersecurity guidance emphasizes preparation and information sharing. The U.S. Department of the Treasury (2024a) identified data \nsupply-chain, third-party, and capability gaps affecting financial-sector management of AI-specific cyber risks, while a companion \nreport on broader AI adoption in financial services documented similar concerns around data quality, third-party dependence, and \nworkforce capability (U.S. Department of the Treasury, 2024b). NIST’s AI Risk Management Framework organizes activity around \ngovern, map, measure, and manage (NIST, 2023), while the generative-AI profile applies those functions to risks including \nconfabulation, information integrity, privacy, and security (NIST, 2024a). These frameworks support lifecycle governance but are not \nspecialized fraud-loss measurement standards. The International Organization for Standardization's (2023) AI management-system \nstandard complements this lifecycle view by specifying organizational processes for risk assessment and continual improvement, while \nthe European Union Agency for Cybersecurity's (2022) threat-landscape analysis situates deepfake-enabled fraud within a broader \npattern of AI-enabled cybercrime observed across European institutions. Reflecting similar concerns domestically, the Federal Reserve \nBoard (2025) has highlighted deepfakes as an emerging element of the bank cybersecurity arms race, requiring institutions to treat \nsynthetic-media risk as a standing agenda item rather than a periodic review topic. \nFinancial-stability analysis broadens the scope. The FSB (2024) identifies AI-related vulnerabilities involving third-party dependencies, \ncyber risks, market correlations, and model risk, data quality, and governance. It also recognizes that generative AI can increase fraud \nand disinformation. The systemic concern is not simply that one customer is deceived, but that common providers, shared \nauthentication assumptions, or synchronized misinformation could produce correlated losses and runs on confidence. The Financial \nAction Task Force (2023) situates this concern within the broader landscape of cyber-enabled fraud, noting that illicit proceeds \nincreasingly move through layered digital channels that blend social engineering, compromised credentials, and rapid fund transfers, \ncomplicating both detection and recovery. \nConsumer trust scholarship suggests that competence, benevolence, integrity, predictability, and structural assurance matter. After \nfraud, customers observe whether an institution responds promptly, communicates respectfully, explains decisions, restores access, \nand allocates loss fairly. A technically successful control that repeatedly locks out legitimate customers can lower trust, especially \namong vulnerable groups. Conversely, transparent verification can signal competence. Security and customer experience are not \nseparate workstreams; they jointly determine perceived reliability. Experimental evidence from adjacent digital-trust research \nsupports this pattern: Muzatko & Bansal (2024) find that prompt, transparent breach disclosure combined with concrete protective \nmeasures restores consumer trust more effectively than delayed or vague communication, reinforcing that the manner and speed of \ninstitutional response, not only the incident itself, shapes post-incident trust. \nPublic fraud statistics establish scale but offer weak attribution to a specific mechanism. IC3 reports losses across cyber-enabled crime, \nand the Federal Trade Commission (2025) aggregates consumer reports across fraud categories. Underreporting, awareness, duplicate \nor incomplete records, and classification decisions all affect these systems. Their proper interpretation is as indicators of reported loss, \nnot estimates of population prevalence. Most importantly, historical records do not contain a consistent deepfake field. A precise \nnational estimate of deepfake-caused losses is therefore not credible without case-level classification. \nThe literature seemingly reveals five gaps. They are: (i) technical detection is weakly integrated with transaction and organizational \ncontrols. (ii), trust is rarely measured before and after an incident using comparable instruments. (iii), deepfake involvement lacks \nstandardized reporting levels. (iv), false-positive, accessibility, and inclusion costs are underdeveloped. (v), few studies connect control \nmaturity to verified loss reduction using longitudinal or quasi-experimental designs. The present review organizes convergent \nmechanisms and makes these missing quantities explicit. \n \n3. METHODOLOGY \nThis paper uses a structured integrative review with directed qualitative content analysis and descriptive statistics secondary-data \nanalysis. This approach is appropriate because the research question concerns institutional convergence and conceptual integration \nacross heterogeneous authoritative sources. It does not estimate causal effects or population prevalence. The unit of analysis for \nqualitative coding is one public document. The quantitative component consists of code frequencies and reported-loss trends \nreproduced from official sources. \nThe analysis followed five stages: problem formulation; transparent source identification; eligibility screening; deductive coding with \ndocumented decision rules; and synthesis through frequencies, co-occurrence, negative cases, and theory building. The review is \nDeepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can Vulnerability–Trust–Resilience \nFramework Be Applied in the United States of America? \nJEFMS, Volume 09 Issue 09 September 2026                                       www.ijefm.co.in                                                Page 5002 \nstructured rather than claimed as a systematic review of all academic literature. Its corpus intentionally prioritizes documents with \ndirect authority over financial, cybersecurity, identity, fraud, or consumer-protection practice. \n3.2 Population and Sampling \nThe conceptual population comprises English-language public guidance, standards, reports, alerts, and strategy documents addressing \nsynthetic media, generative-AI security, digital identity, cyber-enabled fraud, or financial-sector AI risk. Purposive maximum-variation \nsampling was used across issuer type and jurisdiction. Sources were eligible if they (a) were issued by a regulator, law-enforcement \nbody, standards institution, intergovernmental body, or financial authority; (b) contained operational recommendations or \ndocumented threat evidence; (c) were available in full; and (d) were published from 2019 through 2025, with foundational identity or \ncybersecurity guidance retained when necessary. \nDocuments were excluded when they were promotional vendor material, duplicated another source, offered commentary without \ntraceable evidence, or mentioned AI without a relevant fraud, identity, cyber, or trust mechanism. Eighteen documents were retained. \nU.S. sources were emphasized because the intended contribution concerns U.S. financial practice, while international sources were \nincluded to test convergence and improve transferability. \nThe sampling strategy creates clear boundaries. It does not measure the whole scholarly literature, confidential bank practice, or \ncriminal prevalence. Authoritative documents may reproduce one another and may privilege institutional perspectives. Those \nlimitations are handled through explicit claims: frequency indicates documentary emphasis, not real-world effectiveness. \n3.3 Data Collection and Variables \nBibliographic fields included document identifier, issuer, title, year, jurisdiction, issuer type, and URL. Eight binary mechanism variables \nwere defined before final coding: \n• OW—Accountable ownership: named governance responsibility, executive oversight, defined decision rights, or formal \naccountability. \n• IV—Identity verification: identity proofing, authentication, biometrics, liveness, document validation, or independent \nidentity corroboration. \n• DD—Deepfake detection and provenance: synthetic-content detection, watermarking, provenance, authenticity metadata, \nor media forensics. \n• TM—Transaction monitoring: behavioral analytics, device intelligence, payment anomaly detection, holds, or risk-based \ntransaction review. \n• HA—Human authentication and escalation: call-back procedures, challenge protocols, dual authorization, employee \nescalation, or authority to pause. \n• CI—Customer information and trust: warnings, consumer education, understandable communication, complaint access, \ninclusion, or trust restoration. \n• IR—Incident response and information sharing: case reporting, suspicious activity reporting, recovery, law-enforcement \nreferral, threat intelligence, or post-incident learning. \n• TP—Third-party and platform governance: vendor controls, cloud/model dependencies, telecommunications or platform \ncoordination, contractual assurance, or supply-chain risk. \nA code was assigned 1 only where the document contained a substantive recommendation, control, risk discussion, or implementation \nexpectation. Passing mention was coded 0. Coding was conservative to reduce interpretive inflation. A document could receive \nmultiple codes because layered controls are not mutually exclusive. \nPublic trend data were transcribed from annual IC3 reports. The measures are complaint counts, reported dollar losses, loss per \ncomplaint, year-over-year loss growth, and compound annual growth. The series is contextual rather than a deepfake-specific \noutcome. Dollar values are nominal. No imputation was used. \n3.4 Data Analysis \nFor mechanism j across N documents, prevalence was calculated as: \nPrevalence(j) = Σ code(ij) / N × 100. \nThereafter, the pairwise co-occurrence was examined to identify control bundles. A co-occurrence means only that two mechanisms \nappear in the same document; it does not prove complementarity or effectiveness. Temporal comparisons separated 2019–2022 and \nDeepfake Enabled Financial Fraud and Consumer Trust in Digital Finance: Can Vulnerability–Trust–Resilience \nFramework Be Applied in the United States of America? \nJEFMS, Volume 09 Issue 09 September 2026                                       www.ijefm.co.in                                                Page 5003 \n2023–2025 sources to explore changes after rapid generative-AI diffusion. Because the sample is purposive and small, no null-\nhypothesis significance tests were applied. Inferential p values would imply a probability sample that does not exist. \nFor the IC3 series, annual loss growth was calculated as  \n(Loss_t / Loss_t−1 − 1) × 100.  \nCompound annual growth from 2021 through 2024 was calculated as  \n(Loss_2024 / Loss_2021)^(1/3) − 1.  \nRatios were rounded after calculation. These transformations are descriptive. \nTheory development used pattern matching. Codes were mapped to four VTR functions: interruption (IV, DD, TM, HA), calibration (CI \nand explainable verification), recovery (IR), and adaptation (OW, IR, TP). Negative-case analysis examined documents that discussed \nadvanced detection without consumer recovery, or customer awareness without operational controls. These cases prevented the \nsynthesis from equating any single mechanism with resilience. \n3.5 Validity, Reliability, and Research Integrity \nConstruct validity was supported by operational definitions and a binary coding rule. Source triangulation covered law enforcement, \nregulation, standards, and international coordination. An audit trail is provided in Appendix A and the accompanying CSV. Quantitative \ncalculations can be reproduced from Table 1. \nReliability is constrained by single-author coding. To reduce drift, coding was conducted in two passes separated by a full review of \ndefinitions. Ambiguous cases were resolved toward 0. A future study should use at least two independent coders, report Cohen’s \nkappa or Krippendorff’s alpha, and publish passage-level evidence. The current matrix should be treated as a transparent, revisable \nresearch instrument. \nInternal validity is limited because document prevalence cannot demonstrate that mechanisms reduce losses or increase trust. The \npaper uses terms such as “supports,” “is consistent with,” and “plausibly contributes” rather than causal language. External validity is \nbounded by English-language public sources and institutional contexts. Public statistics understate unreported events and may include \nchanging reporting practices. \nResearch integrity required a strict non-fabrication rule. No interviews, survey participants, bank-level incidents, or effect sizes were \ninvented. Aggregate fraud figures are not relabeled as deepfake losses. The article is an original synthesis, but no author or software \ncan promise a particular similarity-check percentage because databases and algorithms vary. Proper attribution, quotation avoidance, \nand independent phrasing were used throughout. \n \n4. RESULTS \n4.1 Public Fraud-Loss Context \nTable 1: Reported Internet-Crime Complaints and Losses in the United States, 2021–2024 \nYear Complaints Reported losses (US$ billions) Loss per complaint (US$) \n2021 847,376 6.9 8,143 \n2022 800,944 10.3 12,860 \n2023 880,418 12.5 14,198 \n2024 859,532 16.6 19,313 \nAverage  847,067.5 11.58 13,628.5 \n \nNote. (i) Complaint and loss data are from the FBI Internet Crime Complaint Center's annual reports covering 2021 through 2024 \n(Federal Bureau of Investigation, 2022, 2023, 2024, 2025). (ii) Values describe all reported internet crime, not deepfake-attributable \nloss. Loss-per-complaint ratios use rounded loss totals and therefore differ slightly from calculations using unrounded agency data. ",
+            "text_complete": false,
+            "document_type": "unverified",
+            "text_sha256": "822fb6a6a7f299897915af82d6f505a84970ada81bb36febf7b7107eb6184c4a"
+          }
+        ],
+        "next_action": "Inspect actual content and identity; evidence retrieval alone passes no gate."
+      },
+      {
+        "collection": "weekly",
+        "candidate_id": "weekly-c93b221f1bbf39ef09fa7d61",
+        "content_sha256": "cdea4cfed6ecbfca215a697b1f9e4015e1682e0918f72ee0316a17c226b72e5d",
+        "status": "held",
+        "evidence": [],
+        "reason": "source_http_403",
+        "next_action": "Respect access/backoff; inspect retained partial evidence or repair the specific capability. Do not repeat completed retrieval."
+      }
+    ],
+    "requests": 20,
+    "read_only": true,
+    "provenance": {
+      "GITHUB_SHA": "11b0586c2f9634a04ff042acf85107a3358752e9",
+      "GITHUB_RUN_ID": "45761005838",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_REF": "refs/heads/codex/soups-corpus-review",
+      "GITHUB_WORKFLOW_REF": "RISEInfoSec/Alex/.github/workflows/content_review_sources.yml@refs/heads/codex/soups-corpus-review"
+    },
+    "request_log": [
+      {
+        "url": "https://doi.org/robots.txt",
+        "started_at": "2026-11-26T05:21:56.314720+00:00",
+        "http_status": 301,
+        "redirect_location": "https://www.doi.org/robots.txt",
+        "retry_not_before": null,
+        "bytes": 0
+      },
+      {
+        "url": "https://www.doi.org/robots.txt",
+        "started_at": "2026-11-26T05:21:56.359781+00:00",
+        "http_status": 404,
+        "retry_not_before": null,
+        "bytes": 7633
+      },
+      {
+        "url": "https://doi.org/10.1016/j.chb.2026.109203",
+        "started_at": "2026-11-26T05:21:58.352452+00:00",
+        "http_status": 302,
+        "redirect_location": "https://linkinghub.elsevier.com/retrieve/pii/S0747563226003006",
+        "retry_not_before": null,
+        "bytes": 209
+      },
+      {
+        "url": "https://linkinghub.elsevier.com/robots.txt",
+        "started_at": "2026-11-26T05:21:58.483992+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 110
+      },
+      {
+        "url": "https://linkinghub.elsevier.com/retrieve/pii/S0747563226003006",
+        "started_at": "2026-11-26T05:22:00.505846+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 2703
+      },
+      {
+        "url": "https://doi.org/10.37284/eajle.9.4.6056",
+        "started_at": "2026-11-26T05:22:00.600790+00:00",
+        "http_status": 302,
+        "redirect_location": "https://journals.eanso.org/index.php/eajle/article/view/6056",
+        "retry_not_before": null,
+        "bytes": 205
+      },
+      {
+        "url": "https://journals.eanso.org/robots.txt",
+        "started_at": "2026-11-26T05:22:00.655016+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 2708
+      },
+      {
+        "url": "https://journals.eanso.org/index.php/eajle/article/view/6056",
+        "started_at": "2026-11-26T05:22:02.701086+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 72934
+      },
+      {
+        "url": "https://journals.eanso.org/index.php/eajle/article/download/6056/6367",
+        "started_at": "2026-11-26T05:22:06.123487+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 480837
+      },
+      {
+        "url": "https://doi.org/10.64388/irev10i1-1719396",
+        "started_at": "2026-11-26T05:22:08.732948+00:00",
+        "http_status": 302,
+        "redirect_location": "https://www.irejournals.com/paper-details/1719396",
+        "retry_not_before": null,
+        "bytes": 183
+      },
+      {
+        "url": "https://www.irejournals.com/robots.txt",
+        "started_at": "2026-11-26T05:22:08.760452+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 683
+      },
+      {
+        "url": "https://www.irejournals.com/paper-details/1719396",
+        "started_at": "2026-11-26T05:22:10.807402+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 44719
+      },
+      {
+        "url": "https://www.irejournals.com/formatedpaper/1719396.pdf",
+        "started_at": "2026-11-26T05:22:13.445946+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 402351
+      },
+      {
+        "url": "https://doi.org/10.47191/jefms/v9-i9-42",
+        "started_at": "2026-11-26T05:22:15.219353+00:00",
+        "http_status": 302,
+        "redirect_location": "https://ijefm.co.in/v9i9/42.php",
+        "retry_not_before": null,
+        "bytes": 147
+      },
+      {
+        "url": "https://ijefm.co.in/robots.txt",
+        "started_at": "2026-11-26T05:22:15.341648+00:00",
+        "http_status": 404,
+        "retry_not_before": null,
+        "bytes": 583
+      },
+      {
+        "url": "https://ijefm.co.in/v9i9/42.php",
+        "started_at": "2026-11-26T05:22:17.904204+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 28216
+      },
+      {
+        "url": "https://ijefm.co.in/v9i9/Doc/42.pdf",
+        "started_at": "2026-11-26T05:22:20.565194+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 521421
+      },
+      {
+        "url": "https://doi.org/10.1002/mma.70903",
+        "started_at": "2026-11-26T05:22:21.589593+00:00",
+        "http_status": 302,
+        "redirect_location": "https://onlinelibrary.wiley.com/doi/10.1002/mma.70903",
+        "retry_not_before": null,
+        "bytes": 191
+      },
+      {
+        "url": "https://onlinelibrary.wiley.com/robots.txt",
+        "started_at": "2026-11-26T05:22:21.613371+00:00",
+        "http_status": 200,
+        "retry_not_before": null,
+        "bytes": 970
+      },
+      {
+        "url": "https://onlinelibrary.wiley.com/doi/10.1002/mma.70903",
+        "started_at": "2026-11-26T05:22:23.745063+00:00",
+        "http_status": 403,
+        "retry_not_before": null,
+        "bytes": 5679
+      }
+    ],
+    "origin_backoff": {},
+    "updated_at": "2026-11-26T05:22:23.757431+00:00"
+  }
+}
