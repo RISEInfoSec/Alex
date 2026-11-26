@@ -5,6 +5,7 @@ No network, provider calls, GitHub writes, or publication occur in this module.
 """
 from collections import Counter
 from datetime import datetime, timezone
+from itertools import groupby
 import json
 import re
 import sys
@@ -142,7 +143,22 @@ def plan(snapshot, confirmed_snapshot, manifests, ledger, registry, state,
             values=groups[collection];start=(len(history)*INITIAL_LIMIT)%len(values)
             groups[collection]=values[start:]+values[:start]
             if weekly_source_order is not None:
-                groups[collection].sort(key=lambda item: priorities[item['candidate_id']])
+                def rank(item):
+                    return priorities[item['candidate_id']]
+                groups[collection].sort(key=rank)
+                # Gate selection already chooses one retained artifact. Limit this
+                # ordering to fresh-source planning and its independent replay.
+                if tuple(stages) == ('source',):
+                    from tools.content_review.weekly_publication_priority import for_run, prioritize_peers
+                    flags = for_run(run_id)
+                    if flags:
+                        def identity(item):
+                            cid = item['candidate_id']
+                            return cid, index[(collection, cid)]['content_sha256']
+                        groups[collection] = [
+                            item for _, peers in groupby(groups[collection], key=rank)
+                            for item in prioritize_peers(list(peers), identity, flags, preferred_per_turn=INITIAL_LIMIT-1)
+                        ]
     # Rotate within each collection, then take one from each before repeating.
     # This avoids a large collection's trailing items consuming the full window.
     rotated=[]

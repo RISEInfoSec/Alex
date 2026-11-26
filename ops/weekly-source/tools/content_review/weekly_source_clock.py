@@ -11,6 +11,7 @@ from urllib.error import HTTPError
 
 from tools.content_review.coordinator_source_pilot import run as run_source
 from tools.content_review.weekly_source_gates import weekly_pass
+from tools.content_review.weekly_publication_priority import priority_window, read_priorities
 from tools.content_review.lifecycle import instant
 from tools.content_review.operations import find_automation, hourly_anchor
 from tools.content_review.site_reconcile_client import NoRedirect
@@ -106,8 +107,8 @@ def run(repo, token, native):
     # The original source cycle reconciles its one outstanding reservation before
     # preparing another. Every write uses the real Site writer and Git/D1 fence.
     journal(record,run_id,'armed')
-    result=run_source(repo, token, native, OWNER, run_id,
-                      source=weekly_pass)
+    with priority_window(run_id, read_priorities(token)):
+        result=run_source(repo, token, native, OWNER, run_id, source=weekly_pass)
     if result.get('status') in ('application_complete','deferred') and result.get('lease_release_confirmed') is True:
         check=inspect(repo,run_id)
         if check['receipt'] and not check['lease_run'] and check['current_application']!='running':

@@ -20,6 +20,7 @@ from tools.content_review.site_reconcile_client import read_snapshot
 from tools.content_review.source_gate_rules import audit
 from tools.content_review.verified_inputs import _path_blob
 from tools.content_review.weekly_source_checks import editorial_guard
+from tools.content_review.weekly_publication_priority import for_run, prioritize_peers
 
 
 OWNER = 'weekly-source-processing'
@@ -37,13 +38,41 @@ def artifact_metadata(run_id, artifact_id):
         return None
 
 
+def count_retained_checkpoints(rows):
+    completed = 0
+    for row in rows.values():
+        preflight = row.get('preflight')
+        checks = preflight.get('checks') if isinstance(preflight, dict) else None
+        if not isinstance(checks, dict):
+            continue
+        for gate in GATES:
+            check = checks.get(gate)
+            if not isinstance(check, dict) or check.get('status') != 'passed':
+                continue
+            evidence = check.get('evidence')
+            if (check.get('content_sha256') == row.get('content_sha256') and isinstance(evidence, dict)
+                    and RECEIPT.fullmatch(str(evidence.get('source_receipt', '')))
+                    and re.fullmatch(r'[0-9a-f]{40}', str(evidence.get('source_receipt_blob', '')))):
+                completed += 1
+    return completed
+
+
 def available_gate(candidates, receipts, rows, run_id, rotation, at, *, reader=artifact_metadata):
     if not candidates:
         return {}
     ids=list(candidates)
     start=rotation % len(ids)
+    ordered = ids[start:] + ids[:start]
+    flags = for_run(run_id)
+    if flags:
+        # Count checkpoints already present in the current manifest. Each normal
+        # successful retained gate adds one receipt-backed check. Counting actual
+        # gate progress keeps ordinary turns independent of source/retention slots.
+        completed = count_retained_checkpoints(rows)
+        ordered = prioritize_peers(ordered, lambda cid: (cid, rows[cid]['content_sha256']), flags,
+                                   preferred_per_turn=1, ordinary_first=completed % 4 == 3)
     due=monotonic()+12
-    for cid in ids[start:]+ids[:start]:
+    for cid in ordered:
         if monotonic()>=due:
             break
         saved=receipts[rows[cid]['source_processing']['receipt']]
