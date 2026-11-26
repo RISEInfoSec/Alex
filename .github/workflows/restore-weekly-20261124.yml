@@ -1,0 +1,61 @@
+name: Restore November 24 discovery state
+on:
+  push:
+    branches: ['maintenance/restore-weekly-20261124-96e9ab0d46fe']
+permissions:
+  contents: read
+jobs:
+  restore:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: 96e9ab0d46fe954ba3873f672b4fbd5002477d11
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Verify every restored Git blob and compressed file
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = 96e9ab0d46fe954ba3873f672b4fbd5002477d11
+          test "$(git rev-parse 'HEAD^{tree}')" = 3a4f7b028b1a4b7ec3055d3a01cb4d521381e575
+          for f in discovery_checkpoint.json.gz discovery_candidates.csv.gz discovery_run_receipt.json.gz series_window.json.gz; do
+            test "$(git hash-object "$f")" = "$(git rev-parse "HEAD:$f")"
+            gzip -t "$f"
+          done
+          tar -cf - discovery_checkpoint.json.gz discovery_candidates.csv.gz discovery_run_receipt.json.gz series_window.json.gz | split -b 24M -d --additional-suffix=.bin - part-
+          sha256sum part-*.bin
+          test "$(ls part-*.bin | wc -l)" -le 4
+      - uses: actions/upload-artifact@v7.0.2
+        if: ${{ hashFiles('part-00.bin') != '' }}
+        with:
+          name: restored-96e9ab0d46fe-00
+          path: part-00.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7.0.2
+        if: ${{ hashFiles('part-01.bin') != '' }}
+        with:
+          name: restored-96e9ab0d46fe-01
+          path: part-01.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7.0.2
+        if: ${{ hashFiles('part-02.bin') != '' }}
+        with:
+          name: restored-96e9ab0d46fe-02
+          path: part-02.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7.0.2
+        if: ${{ hashFiles('part-03.bin') != '' }}
+        with:
+          name: restored-96e9ab0d46fe-03
+          path: part-03.bin
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
