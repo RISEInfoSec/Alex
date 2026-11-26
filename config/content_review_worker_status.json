@@ -8,7 +8,12 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "reconciliation_hold",
-  "lease": null,
+  "lease": {
+    "owner": "weekly-source-processing",
+    "run_id": "a7a72115-c998-8323-9d66-3e563cff5bb0",
+    "acquired_at": "2026-11-26T16:21:05.374704+00:00",
+    "expires_at": "2026-11-26T16:51:05.374704+00:00"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "weekly": 3,
@@ -99,7 +104,7 @@
     "source_release_holds": 6
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-11-26T14:15:28.263314Z",
+  "last_started_at": "2026-11-26T16:16:47.758554Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
@@ -728,11 +733,11 @@
     "additional_removed_record_corrected": 1
   },
   "current_run": {
-    "run_id": "1632637d-b9b0-8323-b70c-eb1d10317201",
-    "application_status": "complete",
-    "started_at": "2026-11-26T14:15:28.263314+00:00",
-    "scheduled_for": "2026-11-26T14:17:00+00:00",
-    "observed_at": "2026-11-26T14:19:49.089888+00:00",
+    "run_id": "a7a72115-c998-8323-9d66-3e563cff5bb0",
+    "application_status": "running",
+    "started_at": "2026-11-26T16:16:47.758554+00:00",
+    "scheduled_for": "2026-11-26T16:17:00+00:00",
+    "observed_at": "2026-11-26T16:21:05.374704+00:00",
     "request_counts": {
       "source": 0,
       "paid": 0,
@@ -740,21 +745,19 @@
     },
     "scheduler": {
       "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
-      "observed_at": "2026-11-26T14:19:49.089888+00:00",
+      "observed_at": "2026-11-26T16:21:05.374704+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261123T201700\nRRULE:FREQ=HOURLY;INTERVAL=1\nEND:VEVENT",
       "last_run": {
-        "id": "1632637d-b9b0-8323-b70c-eb1d10317201",
+        "id": "a7a72115-c998-8323-9d66-3e563cff5bb0",
         "recorded_status": "in_progress",
-        "scheduled_for": "2026-11-26T14:17:00Z",
-        "started_at": "2026-11-26T14:15:28.263314Z",
+        "scheduled_for": "2026-11-26T16:17:00Z",
+        "started_at": "2026-11-26T16:16:47.758554Z",
         "completed_at": null
       }
-    },
-    "application_completed_at": "2026-11-26T14:22:49.814187+00:00",
-    "receipt": "config/content_review_run_receipts/1632637d-b9b0-8323-b70c-eb1d10317201.json"
+    }
   },
-  "last_heartbeat_at": "2026-11-26T14:19:49.089888+00:00",
+  "last_heartbeat_at": "2026-11-26T16:21:05.374704+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
@@ -2919,6 +2922,33 @@
       ],
       "application_completed_at": "2026-11-26T13:25:00.290841+00:00",
       "receipt": "config/content_review_run_receipts/b80b5289-f140-8323-84b7-1d8543fd517a.json"
+    },
+    {
+      "run_id": "1632637d-b9b0-8323-b70c-eb1d10317201",
+      "application_status": "complete",
+      "started_at": "2026-11-26T14:15:28.263314+00:00",
+      "scheduled_for": "2026-11-26T14:17:00+00:00",
+      "observed_at": "2026-11-26T14:19:49.089888+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "scheduler": {
+        "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+        "observed_at": "2026-11-26T14:19:49.089888+00:00",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261123T201700\nRRULE:FREQ=HOURLY;INTERVAL=1\nEND:VEVENT",
+        "last_run": {
+          "id": "1632637d-b9b0-8323-b70c-eb1d10317201",
+          "recorded_status": "in_progress",
+          "scheduled_for": "2026-11-26T14:17:00Z",
+          "started_at": "2026-11-26T14:15:28.263314Z",
+          "completed_at": null
+        }
+      },
+      "application_completed_at": "2026-11-26T14:22:49.814187+00:00",
+      "receipt": "config/content_review_run_receipts/1632637d-b9b0-8323-b70c-eb1d10317201.json"
     }
   ],
   "source_attempts": {
