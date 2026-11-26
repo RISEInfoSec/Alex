@@ -2632,7 +2632,14 @@ def test_weekly_doi_reconciliation_preserves_unresolved_receipt_and_window():
     series = {'series': 'weekly-series-v1', 'window': {'until_date': '2026-11-24'},
               'publication_authorized': False}
     policy = for_series(series, config)
-    assert len(set(policy['authorized_new_dois'])) == 107
+    assert len(set(policy['authorized_new_dois'])) == 106
+    assert not set(policy['unresolved']).intersection(policy['authorized_new_dois'])
+    assert policy['unresolved']['10.5281/zenodo.24244352'] == {
+        'status': 'provider_response_unresolved',
+        'request_id': 'fd80dffaff01b1976b06a7813f88240f61bd88f35d41e201a44da8e04d3e1385',
+        'evidence_sha256': 'e594db777935bf15cb96b7b8e4a6b07b3515a9d615809f97b198ff70a6342c23',
+        'origin_run': '45726101664',
+    }
     assert '10.5281/zenodo.23179613' not in policy['authorized_new_dois']
     assert policy['unresolved']['10.5281/zenodo.23179613']['evidence_sha256'] == '0e84df4ceb034f0d5d3d0f34f7d403f56ab25e2c1bb3b69d55f2e101262a041e'
     assert for_series({**series, 'window': {'until_date': '2026-11-29'}}, config) is None
