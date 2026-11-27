@@ -77,6 +77,8 @@ Each stage has a `<stage>.yml` workflow with `workflow_dispatch` only. None auto
 
 ## Standing responsibility for recovery
 
+The owner gives standing permission to investigate and close stale operational records, including heartbeat write guards and expired worker leases, once the original operation’s outcome is verified. When you spot one, follow [the record reconciliation procedure](docs/weekly_discovery_protocol.md#closing-stale-operational-records), close the verified record, and continue authorized work without asking for repeat approval. This authority applies to operational bookkeeping across ALEX. Editorial decisions, publications and provider restrictions retain their existing controls.
+
 The owner authorizes routine reversible repairs to ALEX tools and processes. On an error, identify the actual cause, make the bounded repair within existing authority, rerun the failing check, verify the intended downstream effect, and continue retained work. Do not stop at the first command failure, repeat unchanged failed actions, or ask again for the same already-authorized repair. Report remaining restrictions precisely.
 
 Preserve source/paid artifacts and inspect independently verified matching results before sending more provider requests. Install declared dependencies in a workspace-local environment when missing; use the same interpreter and verify imports. Refresh expired credentials only through supported credential tools. An auth, quota, robots or permission denial remains binding. An ambiguous write/paid outcome requires reconciliation before retry. Never fabricate missing evidence, relax quality rules or change editorial decisions to obtain a green result.

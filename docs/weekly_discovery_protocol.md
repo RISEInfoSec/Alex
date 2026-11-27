@@ -382,3 +382,14 @@ seven-day publication date range, November 17 through November 24. It has a
 separate dated branch. The normal Monday 03:23 UTC collection continues.
 Both cron entries use GitHub's native schedule event. Manual resumption of a
 window retains its own checkpoint and provider evidence.
+
+## Closing stale operational records
+
+Operators have standing owner approval to reconcile stale worker leases, heartbeat write guards and unfinished maintenance records across ALEX. Apply this procedure when routine work or monitoring uncovers one.
+
+1. Identify the operation, run, expected branch head or database revision, and the writer that owned it. Check the native job, authoritative branch or database and durable receipts. Establish whether the write landed, failed, or stopped before making a durable change. An expired timer or a missing receipt alone leaves the outcome unknown.
+2. Before changing production state, verify a restorable preimage, pause the affected automated writers and confirm in-flight work has stopped or drained. Reread the record and its expected revision. If the original writer is still active, let it finish.
+3. Use the normal reconciliation path and an operation-specific conditional change. Record the actual outcome, preserve the original evidence and release only the matching guard or lease. If another writer has advanced the state, reconcile the new evidence. If the outcome remains ambiguous, keep the hold and continue independent work.
+4. Read back the closure and the resulting queue or worker state. Restore the previous scheduler and worker settings, then resume the work already authorized. Record the operation ID, before and after references, restore check and result in the GitHub maintenance report or pull request. Use private evidence references for confidential records.
+
+Closing an operational record grants no additional authority to replay a provider request, waive a cooldown, publish a paper, alter an editorial decision, or discard recoverable data. Escalate only the specific unresolved decision or access requirement.
