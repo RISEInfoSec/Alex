@@ -2632,7 +2632,13 @@ def test_weekly_doi_reconciliation_preserves_unresolved_receipt_and_window():
     series = {'series': 'weekly-series-v1', 'window': {'until_date': '2026-11-24'},
               'publication_authorized': False}
     policy = for_series(series, config)
-    assert len(set(policy['authorized_new_dois'])) == 106
+    assert len(set(policy['authorized_new_dois'])) == 105
+    assert policy['unresolved']['10.5281/zenodo.24244940'] == {
+        'status': 'provider_response_unresolved',
+        'request_id': '1197cef28942aafa238a63505ddea6a140b9e3a5d8ff167cb2184da3a1cd00d6',
+        'evidence_sha256': '7d7e91b2bc895bb9d9bfaa9de360fd80e700007ac358b86519ed136d7e4019b0',
+        'origin_run': '45915625114',
+    }
     assert not set(policy['unresolved']).intersection(policy['authorized_new_dois'])
     assert policy['unresolved']['10.5281/zenodo.24244352'] == {
         'status': 'provider_response_unresolved',
