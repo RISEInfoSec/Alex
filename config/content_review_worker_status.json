@@ -8,7 +8,12 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "reconciliation_hold",
-  "lease": null,
+  "lease": {
+    "owner": "weekly-source-processing",
+    "run_id": "9d308e9b-a694-8333-865a-d1e27a4f65ac",
+    "acquired_at": "2026-11-27T02:22:13.448044+00:00",
+    "expires_at": "2026-11-27T02:52:13.448044+00:00"
+  },
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "weekly": 3,
@@ -99,7 +104,7 @@
     "source_release_holds": 6
   },
   "priority": "Protect human review time; complete mechanical preflight before manual relevance review.",
-  "last_started_at": "2026-11-27T01:15:58.383581Z",
+  "last_started_at": "2026-11-27T02:16:14.106140Z",
   "upstream_weekly_inventory": {
     "records": 4041,
     "preserved_initial_identities": 4041,
@@ -728,11 +733,11 @@
     "additional_removed_record_corrected": 1
   },
   "current_run": {
-    "run_id": "72cd55c2-5a9c-8333-bf02-3b482944804a",
-    "application_status": "complete",
-    "started_at": "2026-11-27T01:15:58.383581+00:00",
-    "scheduled_for": "2026-11-27T01:17:00+00:00",
-    "observed_at": "2026-11-27T01:23:14.094068+00:00",
+    "run_id": "9d308e9b-a694-8333-865a-d1e27a4f65ac",
+    "application_status": "running",
+    "started_at": "2026-11-27T02:16:14.106140+00:00",
+    "scheduled_for": "2026-11-27T02:17:00+00:00",
+    "observed_at": "2026-11-27T02:22:13.448044+00:00",
     "request_counts": {
       "source": 0,
       "paid": 0,
@@ -740,21 +745,19 @@
     },
     "scheduler": {
       "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
-      "observed_at": "2026-11-27T01:23:14.094068+00:00",
+      "observed_at": "2026-11-27T02:22:13.448044+00:00",
       "is_enabled": true,
       "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261123T201700\nRRULE:FREQ=HOURLY;INTERVAL=1\nEND:VEVENT",
       "last_run": {
-        "id": "72cd55c2-5a9c-8333-bf02-3b482944804a",
+        "id": "9d308e9b-a694-8333-865a-d1e27a4f65ac",
         "recorded_status": "in_progress",
-        "scheduled_for": "2026-11-27T01:17:00Z",
-        "started_at": "2026-11-27T01:15:58.383581Z",
+        "scheduled_for": "2026-11-27T02:17:00Z",
+        "started_at": "2026-11-27T02:16:14.106140Z",
         "completed_at": null
       }
-    },
-    "application_completed_at": "2026-11-27T01:25:55.961953+00:00",
-    "receipt": "config/content_review_run_receipts/72cd55c2-5a9c-8333-bf02-3b482944804a.json"
+    }
   },
-  "last_heartbeat_at": "2026-11-27T01:23:14.094068+00:00",
+  "last_heartbeat_at": "2026-11-27T02:22:13.448044+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
   "openalex_owner_hold": {
     "retry_not_before": null,
@@ -2989,6 +2992,33 @@
       },
       "application_completed_at": "2026-11-27T00:12:16.306233+00:00",
       "failure_code": "reconciliation_hold"
+    },
+    {
+      "run_id": "72cd55c2-5a9c-8333-bf02-3b482944804a",
+      "application_status": "complete",
+      "started_at": "2026-11-27T01:15:58.383581+00:00",
+      "scheduled_for": "2026-11-27T01:17:00+00:00",
+      "observed_at": "2026-11-27T01:23:14.094068+00:00",
+      "request_counts": {
+        "source": 0,
+        "paid": 0,
+        "openalex": 0
+      },
+      "scheduler": {
+        "id": "Automation_cf4416f7ec8881919355fc7406f9fc40",
+        "observed_at": "2026-11-27T01:23:14.094068+00:00",
+        "is_enabled": true,
+        "schedule": "BEGIN:VEVENT\nDTSTART;TZID=America/Toronto:20261123T201700\nRRULE:FREQ=HOURLY;INTERVAL=1\nEND:VEVENT",
+        "last_run": {
+          "id": "72cd55c2-5a9c-8333-bf02-3b482944804a",
+          "recorded_status": "in_progress",
+          "scheduled_for": "2026-11-27T01:17:00Z",
+          "started_at": "2026-11-27T01:15:58.383581Z",
+          "completed_at": null
+        }
+      },
+      "application_completed_at": "2026-11-27T01:25:55.961953+00:00",
+      "receipt": "config/content_review_run_receipts/72cd55c2-5a9c-8333-bf02-3b482944804a.json"
     }
   ],
   "source_attempts": {
