@@ -8,12 +8,7 @@
   "global_low_watermark": 100,
   "soups_min_ready_batches": 0,
   "last_error": "reconciliation_hold",
-  "lease": {
-    "owner": "weekly-source-processing",
-    "run_id": "9d308e9b-a694-8333-865a-d1e27a4f65ac",
-    "acquired_at": "2026-11-27T02:22:13.448044+00:00",
-    "expires_at": "2026-11-27T02:52:13.448044+00:00"
-  },
+  "lease": null,
   "instructions": "docs/content_review_background_worker.md",
   "source_counts": {
     "weekly": 3,
@@ -734,7 +729,7 @@
   },
   "current_run": {
     "run_id": "9d308e9b-a694-8333-865a-d1e27a4f65ac",
-    "application_status": "running",
+    "application_status": "deferred",
     "started_at": "2026-11-27T02:16:14.106140+00:00",
     "scheduled_for": "2026-11-27T02:17:00+00:00",
     "observed_at": "2026-11-27T02:22:13.448044+00:00",
@@ -755,7 +750,9 @@
         "started_at": "2026-11-27T02:16:14.106140Z",
         "completed_at": null
       }
-    }
+    },
+    "application_completed_at": "2026-11-27T02:24:55.673239+00:00",
+    "receipt": "config/content_review_run_receipts/9d308e9b-a694-8333-865a-d1e27a4f65ac.json"
   },
   "last_heartbeat_at": "2026-11-27T02:22:13.448044+00:00",
   "latest_publication_reconciliation": "config/content_review_publication_reconciliation/fcbcca29-9450-8326-8498-14d4caf66f3e.json",
@@ -1391,6 +1388,14 @@
       "expires_at": "2026-11-27T01:53:14.094068+00:00",
       "status": "released",
       "released_at": "2026-11-27T01:25:55.961953+00:00"
+    },
+    {
+      "owner": "weekly-source-processing",
+      "run_id": "9d308e9b-a694-8333-865a-d1e27a4f65ac",
+      "acquired_at": "2026-11-27T02:22:13.448044+00:00",
+      "expires_at": "2026-11-27T02:52:13.448044+00:00",
+      "status": "released",
+      "released_at": "2026-11-27T02:24:55.673239+00:00"
     }
   ],
   "run_history": [
